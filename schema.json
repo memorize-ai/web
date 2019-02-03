@@ -6,7 +6,7 @@
 			"decks (sub-collection)": {
 				"jkl012": {
 					"name": "GRE Vocabulary",
-					"public": true
+					"public": true,
 					"count": 700,
 					"mastered": 699,
 					"cards (sub-collection)" : {
