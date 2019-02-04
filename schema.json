@@ -31,6 +31,7 @@
 	"decks": {
 		"jkl012": {
 			"name": "GRE Vocabulary",
+			"description": "Practice for the GRE Exam",
 			"public": true,
 			"count": 700,
 			"creator": {
