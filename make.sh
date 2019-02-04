@@ -1,0 +1,1 @@
+node_modules/.bin/elm make src/Page/$1.elm --output public/elm/$1.js
