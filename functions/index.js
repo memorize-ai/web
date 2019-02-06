@@ -24,5 +24,8 @@ exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(up
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
 
 exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
-	// create history
+	// test code
+	let card = firestore.collection('users').document(context.params.uid).collection('decks').document(context.params.deckId).collection('cards').document(context.params.cardId)
+	let history = card.collection('history').document(context.params.historyId)
+	history.next = history.correct ? history.date : history.date
 })
