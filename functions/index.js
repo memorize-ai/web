@@ -4,7 +4,6 @@ const env = functions.config()
 const ALGOLIA_ID = env.algolia.app_id
 const ALGOLIA_ADMIN_KEY = env.algolia.api_key
 //const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key
-
 const ALGOLIA_INDEX_NAME = 'decks'
 const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY)
 const index = client.initIndex(ALGOLIA_INDEX_NAME)
@@ -23,3 +22,7 @@ const deleteDeckInAngolia = snapshot =>
 exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate(updateDeckInAngolia)
 exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(updateDeckInAngolia)
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
+
+exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
+	// create history
+})
