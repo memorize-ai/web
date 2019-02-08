@@ -42,16 +42,15 @@
 			"owner": "abc123",
 			"permissions (sub-collection)": {
 				"def456": {
-					"role": "viewer",
-					"name": "Scott Mueller"
+					"name": "Scott Mueller",
+					"email": "scott@sup.ai",
+					"role": "viewer"
 				}
 			},
 			"cards (sub-collection)": {
 				"ghi789": {
-					"type": "self",
-					"content": "precipitate",
-					"answer": "to cause (something) to happen quickly or suddenly",
-					"latex": false
+					"front": "precipitate",
+					"back": "to cause (something) to happen quickly or suddenly"
 				}
 			}
 		}
