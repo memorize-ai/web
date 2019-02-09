@@ -1,46 +1,78 @@
 service cloud.firestore {
 	match /databases/{database}/documents {
 		match /users/{uid} {
+			allow read, write: if signedInWith(uid)
 			match /name {
-				allow read, write: if signedInWith(uid);
+				allow read, write: if signedInWith(uid) && newData().isString() && newData() != ""
 			}
 			match /email {
-				allow read, write: if signedInWith(uid);
+				allow read, write: if signedInWith(uid) && newData().isString() && newData() != ""
 			}
 			match /decks/{deckId} {
-				allow read, write: if signedInWith(uid);
+				allow read, write: if signedInWith(uid)
+				match /name {
+					allow read, write: if signedInWith(uid) && newData().isString() && newData() != ""
+				}
 				match /count {
-					allow create;
+					allow create: if signedInWith(uid) && newData() === 0
 				}
 				match /mastered {
-					allow write: if false;
+					allow create: if signedInWith(uid) && newData() === 0
 				}
 				match /cards/{cardId} {
 					match /count {
-						allow write: if false;
+						allow create: if signedInWith(uid) && newData() === 0
 					}
 					match /correct {
-						allow write: if false;
+						allow create: if signedInWith(uid) && newData() === 0
 					}
 					match /streak {
-						allow write: if false;
+						allow create: if signedInWith(uid) && newData() === 0
 					}
 					match /last {
-						allow write: if false;
+						allow create: if signedInWith(uid)
 					}
 					match /next {
-						allow write: if false;
+						allow create: if signedInWith(uid)
+					}
+					match /history/{historyId} {
+						allow create: if signedInWith(uid)
+						match /date {
+							allow create: if signedInWith(uid)
+						}
+						match /next {
+							allow create: if signedInWith(uid)
+						}
+						match /correct {
+							allow create: if signedInWith(uid) && newData().isBoolean()
+						}
+						match /elapsed {
+							allow create: if signedInWith(uid) && newData().isNumber()
+						}
 					}
 				}
+			}
+		}
+		match /decks/{deckId} {
+			match /name {
+				
 			}
 		}
 
 		function signedIn() {
-			return request.auth != null;
+			return request.auth != null
 		}
 
 		function signedInWith(uid) {
-			return request.auth.uid == uid;
+			return request.auth.uid === uid
+		}
+
+		function oldData() {
+			return resource.data
+		}
+
+		function newData() {
+			return request.resource.data
 		}
 	}
 }
