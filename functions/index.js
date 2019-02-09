@@ -1,5 +1,5 @@
 const functions = require('firebase-functions')
-const gcs = require('@google-cloud/storage')()
+const gcs = require('@google-cloud/storage')
 const spawn = require('child-process-promise').spawn
 const path = require('path')
 const os = require('os')
@@ -40,7 +40,7 @@ exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards
 	card.next.setValue(history.next)
 })
 
-exports.generateThumbnail = functions.storage.object().onFinalize((object) => {
+exports.generateThumbnail = functions.storage.bucket('decks').object().onFinalize((object) => {
 	const bucket = gcs.bucket(fileBucket)
 	const tempFilePath = path.join(os.tmpdir(), fileName)
 	const metadata = { contentType: contentType }
