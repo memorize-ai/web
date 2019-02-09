@@ -1,41 +1,46 @@
 service cloud.firestore {
 	match /databases/{database}/documents {
 		match /users/{uid} {
-			allow read, write: if signedIn(uid)
+			match /name {
+				allow read, write: if signedInWith(uid);
+			}
+			match /email {
+				allow read, write: if signedInWith(uid);
+			}
 			match /decks/{deckId} {
+				allow read, write: if signedInWith(uid);
 				match /count {
-					allow write: if false
+					allow create;
 				}
 				match /mastered {
-					allow write: if false
+					allow write: if false;
 				}
 				match /cards/{cardId} {
 					match /count {
-						allow write: if false
+						allow write: if false;
 					}
 					match /correct {
-						allow write: if false
+						allow write: if false;
 					}
 					match /streak {
-						allow write: if false
+						allow write: if false;
 					}
 					match /last {
-						allow write: if false
+						allow write: if false;
 					}
 					match /next {
-						allow write: if false
+						allow write: if false;
 					}
-					match /history
 				}
 			}
 		}
 
 		function signedIn() {
-			return request.auth != null
+			return request.auth != null;
 		}
 
-		function signedIn(uid) {
-			return request.auth.uid === uid
+		function signedInWith(uid) {
+			return request.auth.uid == uid;
 		}
 	}
 }
