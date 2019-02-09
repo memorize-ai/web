@@ -34,10 +34,12 @@ exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(de
 exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
 	let card = admin.firestore().collection('users').document(context.params.uid).collection('decks').document(context.params.deckId).collection('cards').document(context.params.cardId)
 	let history = card.collection('history').document(context.params.historyId)
-	history.elapsed.setValue(history.date - card.last.getTime())
-	history.next.setValue(addToDate(history.date, history.correct ? history.elapsed * 2 : 14400000))
-	card.last.setValue(history.date)
-	card.next.setValue(history.next)
+	return Promise.all([
+		history.elapsed.setValue(history.date - card.last.getTime()),
+		history.next.setValue(addToDate(history.date, history.correct ? history.elapsed * 2 : 14400000)),
+		card.last.setValue(history.date),
+		card.next.setValue(history.next)
+	])
 })
 
 exports.generateThumbnail = functions.storage.bucket('decks').object().onFinalize((object) => {
