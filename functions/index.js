@@ -1,4 +1,9 @@
 const functions = require('firebase-functions')
+const gcs = require('@google-cloud/storage')()
+const spawn = require('child-process-promise').spawn
+const path = require('path')
+const os = require('os')
+const fs = require('fs')
 const algoliasearch = require('algoliasearch')
 const env = functions.config()
 const ALGOLIA_ID = env.algolia.app_id
@@ -14,7 +19,7 @@ const addKeyVal = obj => key => val => {
 }
 
 const updateDeckInAngolia = (snapshot, context) =>
-    index.saveObject(addKeyVal(snapshot.data())('objectID')(context.params.deckId))
+	index.saveObject(addKeyVal(snapshot.data())('objectID')(context.params.deckId))
 
 const deleteDeckInAngolia = snapshot =>
 	index.deleteObject(snapshot.id)
@@ -33,4 +38,20 @@ exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards
 	history.next.setValue(addToDate(history.date, history.correct ? history.elapsed * 2 : 14400000))
 	card.last.setValue(history.date)
 	card.next.setValue(history.next)
+})
+
+exports.generateThumbnail = functions.storage.object().onFinalize((object) => {
+	const bucket = gcs.bucket(fileBucket)
+	const tempFilePath = path.join(os.tmpdir(), fileName)
+	const metadata = { contentType: contentType }
+	return bucket.file(filePath).download({ destination: tempFilePath }).then(() => {
+		return spawn('convert', [tempFilePath, '-thumbnail', '300x300>', tempFilePath])
+	}).then(() => {
+		const thumbFileName = `thumb_${fileName}`
+		const thumbFilePath = path.join(path.dirname(filePath), thumbFileName)
+		return bucket.upload(tempFilePath, {
+			destination: thumbFilePath,
+			metadata: metadata
+		})
+	}).then(() => fs.unlinkSync(tempFilePath))
 })
