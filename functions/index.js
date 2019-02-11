@@ -68,3 +68,7 @@ exports.userCreated = functions.firestore.document('users/{uid}').onCreate((snap
 		admin.firestore().collection('links').document(snapshot.link).setValue(context.params.uid)
 	])
 })
+
+exports.linkUpdated = functions.firestore.document('users/{uid}/link').onUpdate((snapshot, context) => {
+	// admin.firestore().collection('links').document(snapshot.val()).setValue(context.params.uid)
+})
