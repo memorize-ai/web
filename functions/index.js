@@ -32,7 +32,7 @@ exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(up
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
 
 exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((snapshot, context) => {
-	return admin.firestore().collection('decks').document(context.params.deckId).
+	// return admin.firestore().collection('decks').document(context.params.deckId).
 })
 
 exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
@@ -60,4 +60,11 @@ exports.generateThumbnail = functions.storage.bucket('decks').object().onFinaliz
 			metadata: metadata
 		})
 	}).then(() => fs.unlinkSync(tempFilePath))
+})
+
+exports.userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) => {
+	return Promise.all([
+		admin.firestore().collection('emails').document(snapshot.email.replace('@', '%2e')).setValue(context.params.uid),
+		admin.firestore().collection('links').document(snapshot.link).setValue(context.params.uid)
+	])
 })

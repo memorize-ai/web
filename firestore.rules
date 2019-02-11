@@ -8,6 +8,9 @@ service cloud.firestore {
 			match /email {
 				allow read, write: if signedInWith(uid) && newData().isString() && newData() != ''
 			}
+			match /link {
+				allow read, write: if signedInWith(uid) && newData().isString() && newData() != ''
+			}
 			match /decks/{deckId} {
 				allow read, write: if signedInWith(uid)
 				match /name {
@@ -52,6 +55,12 @@ service cloud.firestore {
 					}
 				}
 			}
+		}
+		match /emails/{email} {
+			allow read: if signedInWith(oldData())
+		}
+		match /links/{link} {
+			allow read
 		}
 		match /decks/{deckId} {
 			allow read: if authId() === deckId.owner || !deckId.permissions.authId().isEmpty() || deckId.public
