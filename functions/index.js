@@ -64,11 +64,7 @@ exports.generateThumbnail = functions.storage.bucket('decks').object().onFinaliz
 
 exports.userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) => {
 	return Promise.all([
-		admin.firestore().collection('emails').document(snapshot.email.replace('@', '%2e')).setValue(context.params.uid),
-		admin.firestore().collection('links').document(snapshot.link).setValue(context.params.uid)
+		admin.firestore().collection('emails').document(snapshot.email.replace('@', '%2e')).setData({ id: context.params.uid }),
+		admin.firestore().collection('links').document(snapshot.link).setData({ id: context.params.uid })
 	])
-})
-
-exports.linkUpdated = functions.firestore.document('users/{uid}/link').onUpdate((snapshot, context) => {
-	// admin.firestore().collection('links').document(snapshot.val()).setValue(context.params.uid)
 })
