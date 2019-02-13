@@ -8,7 +8,8 @@ service firebase.storage {
 			}
 		}
 		match /decks/{deckId} {
-			
+			allow read: if signedInWith(firestore.collection('decks').document(deckId).owner) || !firestore.collection('decks').document(deckId).permissions.authId().isEmpty() || firestore.collection('decks').document(deckId).public
+			allow write: if signedInWith(firestore.collection('decks').document(deckId).owner) || firestore.collection('decks').document(deckId).permissions.authId().role == 'editor'
 		}
 
 		function authId() {
