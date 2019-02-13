@@ -7,11 +7,11 @@ service cloud.firestore {
 				allow write: if signedInWith(uid) && newData().isString() && newData() != ''
 			}
 			match /email {
-				allow read, write: if signedInWith(uid) && newData().isString() && newData() != ''
+				allow read, write: if signedInWith(uid) && newData().isString() && checkEmail(newData()) && firestore.collection('emails').document(newData()).isEmpty()
 			}
 			match /link {
 				allow read
-				allow write: if signedInWith(uid) && newData().isString() && newData() != ''
+				allow write: if signedInWith(uid) && newData().isString() && newData() != '' && firestore.collection('links').document(newData()).isEmpty()
 			}
 			match /decks/{deckId} {
 				allow read, write: if signedInWith(uid)
@@ -84,7 +84,7 @@ service cloud.firestore {
 			}
 			match /description {
 				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
-				allow write: if (signedInWith(deckId.owner) || deckId.permissions.authId().role == 'editor') && newData().isString() && newData() != ''
+				allow write: if (signedInWith(deckId.owner) || deckId.permissions.authId().role == 'editor') && newData().isString()
 			}
 			match /public {
 				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
@@ -96,10 +96,10 @@ service cloud.firestore {
 			}
 			match /creator {
 				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
-				allow create: if signedIn()
+				allow create: if signedInWith(newData().id)
 				match /id {
 					allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
-					allow create: if signedIn() && newData().isString() && newData() != ''
+					allow create: if signedInWith(newData()) && newData().isString() && newData() != ''
 				}
 				match /name {
 					allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
@@ -158,6 +158,10 @@ service cloud.firestore {
 
 		function newData() {
 			return request.resource.data
+		}
+
+		function checkEmail(email) {
+			return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
 		}
 	}
 }
