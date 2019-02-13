@@ -58,7 +58,7 @@ service cloud.firestore {
 			}
 		}
 		match /emails/{email} {
-			allow read: if signedInWith(oldData())
+			allow read: if signedInWith(email.id)
 			match /id {
 				allow read: if signedInWith(oldData())
 			}
