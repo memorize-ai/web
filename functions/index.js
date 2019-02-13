@@ -46,21 +46,21 @@ exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards
 	])
 })
 
-exports.generateThumbnail = functions.storage.bucket('decks').object().onFinalize((object) => {
-	const bucket = gcs.bucket(fileBucket)
-	const tempFilePath = path.join(os.tmpdir(), fileName)
-	const metadata = { contentType: contentType }
-	return bucket.file(filePath).download({ destination: tempFilePath }).then(() => {
-		return spawn('convert', [tempFilePath, '-thumbnail', '300x300>', tempFilePath])
-	}).then(() => {
-		const thumbFileName = `thumb_${fileName}`
-		const thumbFilePath = path.join(path.dirname(filePath), thumbFileName)
-		return bucket.upload(tempFilePath, {
-			destination: thumbFilePath,
-			metadata: metadata
-		})
-	}).then(() => fs.unlinkSync(tempFilePath))
-})
+// exports.generateThumbnail = functions.storage.bucket('decks').object().onFinalize((object) => {
+// 	const bucket = gcs.bucket(fileBucket)
+// 	const tempFilePath = path.join(os.tmpdir(), fileName)
+// 	const metadata = { contentType: contentType }
+// 	return bucket.file(filePath).download({ destination: tempFilePath }).then(() => {
+// 		return spawn('convert', [tempFilePath, '-thumbnail', '300x300>', tempFilePath])
+// 	}).then(() => {
+// 		const thumbFileName = `thumb_${fileName}`
+// 		const thumbFilePath = path.join(path.dirname(filePath), thumbFileName)
+// 		return bucket.upload(tempFilePath, {
+// 			destination: thumbFilePath,
+// 			metadata: metadata
+// 		})
+// 	}).then(() => fs.unlinkSync(tempFilePath))
+// })
 
 exports.userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) => {
 	return Promise.all([
