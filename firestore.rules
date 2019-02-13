@@ -3,13 +3,15 @@ service cloud.firestore {
 		match /users/{uid} {
 			allow read, write: if signedInWith(uid)
 			match /name {
-				allow read, write: if signedInWith(uid) && newData().isString() && newData() != ''
+				allow read
+				allow write: if signedInWith(uid) && newData().isString() && newData() != ''
 			}
 			match /email {
 				allow read, write: if signedInWith(uid) && newData().isString() && newData() != ''
 			}
 			match /link {
-				allow read, write: if signedInWith(uid) && newData().isString() && newData() != ''
+				allow read
+				allow write: if signedInWith(uid) && newData().isString() && newData() != ''
 			}
 			match /decks/{deckId} {
 				allow read, write: if signedInWith(uid)
@@ -69,7 +71,7 @@ service cloud.firestore {
 				allow read
 				match /id {
 					allow read
-					allow write: if signedInWith(oldData())
+					allow write: if signedInWith(oldData()) && signedInWith(newData()) && newData().isString() && newData() != ''
 				}
 			}
 		}
