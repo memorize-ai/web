@@ -32,11 +32,11 @@ exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(up
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
 
 exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((snapshot, context) => {
-	// return admin.firestore().collection('decks').document(context.params.deckId).
+	// return firestore.collection('decks').document(context.params.deckId).
 })
 
 exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
-	let card = admin.firestore().collection('users').document(context.params.uid).collection('decks').document(context.params.deckId).collection('cards').document(context.params.cardId)
+	let card = firestore.collection('users').document(context.params.uid).collection('decks').document(context.params.deckId).collection('cards').document(context.params.cardId)
 	let history = card.collection('history').document(context.params.historyId)
 	return Promise.all([
 		history.elapsed.setValue(history.date - card.last.getTime()),
@@ -64,7 +64,7 @@ exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards
 
 exports.userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) => {
 	return Promise.all([
-		admin.firestore().collection('emails').document(snapshot.email.replace('@', '%2e')).setData({ id: context.params.uid }),
-		admin.firestore().collection('links').document(snapshot.link).setData({ id: context.params.uid })
+		firestore.collection('emails').document(snapshot.email.replace('@', '%2e')).setData({ id: context.params.uid }),
+		firestore.collection('links').document(snapshot.link).setData({ id: context.params.uid })
 	])
 })
