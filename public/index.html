@@ -6,7 +6,7 @@
 	<title>memorize.ai</title>
 	<script defer src="/__/firebase/5.8.2/firebase-app.js"></script>
 	<script defer src="/__/firebase/5.8.2/firebase-auth.js"></script>
-	<script defer src="/__/firebase/5.8.2/firebase-database.js"></script>
+	<script defer src="/__/firebase/5.8.2/firebase-firestore.js"></script>
 	<script defer src="/__/firebase/5.8.2/firebase-messaging.js"></script>
 	<script defer src="/__/firebase/5.8.2/firebase-storage.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
@@ -36,10 +36,21 @@
 	<p id="load">Firebase SDK Loading&hellip;</p>
 
 	<script>
-	document.addEventListener('DOMContentLoaded', function() {
-		firebase.auth().onAuthStateChanged(user => {})
-		document.getElementById('load').innerHTML = 'Copyright 2019 Ken Mueller';
-	});
+		firebase.initializeApp({
+			apiKey: '### FIREBASE API KEY ###',
+			authDomain: '### FIREBASE AUTH DOMAIN ###',
+			projectId: '### CLOUD FIRESTORE PROJECT ID ###'
+		});
+
+var db = firebase.firestore();
+		let id;
+		document.addEventListener('DOMContentLoaded', function() {
+			firebase.auth().onAuthStateChanged(user => {
+				id = user.id
+				firebase.firestore().collection('users').document(id).addEventListener
+			})
+			document.getElementById('load').innerHTML = 'Copyright 2019 Ken Mueller';
+		});
 	</script>
 </body>
 </html>
