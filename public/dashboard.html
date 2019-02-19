@@ -17,11 +17,7 @@
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		const app = Elm.Page.Dashboard.init()
-		firebase.auth().onAuthStateChanged(user =>
-			user
-				? app.updateUser(user)
-				: window.location.href = '/login.html'
-		)
+		firebase.auth().onAuthStateChanged(user => user ? app.updateUser(user) : window.location.href = '/login.html')
 	})
 	</script>
 </body>
