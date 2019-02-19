@@ -1,14 +1,14 @@
 const functions = require('firebase-functions')
-const gcs = require('@google-cloud/storage')
-const spawn = require('child-process-promise').spawn
-const path = require('path')
-const os = require('os')
-const fs = require('fs')
+// const gcs = require('@google-cloud/storage')
+// const spawn = require('child-process-promise').spawn
+// const path = require('path')
+// const os = require('os')
+// const fs = require('fs')
 const algoliasearch = require('algoliasearch')
 const env = functions.config()
 const ALGOLIA_ID = env.algolia.app_id
 const ALGOLIA_ADMIN_KEY = env.algolia.api_key
-//const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key
+// const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key
 const ALGOLIA_INDEX_NAME = 'decks'
 const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY)
 const index = client.initIndex(ALGOLIA_INDEX_NAME)
@@ -31,19 +31,21 @@ exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate(up
 exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(updateDeckInAngolia)
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
 
-exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((snapshot, context) => {
-	// return firestore.collection('decks').document(context.params.deckId).
-})
+exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_, context) =>
+	admin.firestore().collection('decks').doc(context.params.deckId).get().then(deck =>
+		admin.firestore().collection('decks').doc(context.params.deckId).update({ count: deck.data().count + 1 })
+	)
+)
 
-exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
-	let card = firestore.collection('users').document(context.params.uid).collection('decks').document(context.params.deckId).collection('cards').document(context.params.cardId)
-	let history = card.collection('history').document(context.params.historyId)
-	return Promise.all([
-		history.elapsed.setValue(history.date - card.last.getTime()),
-		history.next.setValue(addToDate(history.date, history.correct ? history.elapsed * 2 : 14400000)),
-		card.last.setValue(history.date),
-		card.next.setValue(history.next)
-	])
+exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
+	return admin.firestore().collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).get().then(card => {
+		const elapsed = snapshot.date - card.data().last.getTime()
+		const next = addToDate(snapshot.date, snapshot.correct ? elapsed * 2 : 14400000)
+		return Promise.all([
+			admin.firestore().collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).collection('history').doc(context.params.historyId).update({ elapsed: elapsed, next: next }),
+			admin.firestore().collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).update({ last: snapshot.date, next: next })
+		])
+	})
 })
 
 // exports.generateThumbnail = functions.storage.bucket('decks').object().onFinalize((object) => {
@@ -64,7 +66,7 @@ exports.history = functions.firestore.document('users/{uid}/decks/{deckId}/cards
 
 exports.userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) => {
 	return Promise.all([
-		firestore.collection('emails').document(snapshot.email.replace('@', '%2e')).setData({ id: context.params.uid }),
-		firestore.collection('links').document(snapshot.link).setData({ id: context.params.uid })
+		admin.firestore().collection('emails').doc(snapshot.email.replace('@', '%2e')).setData({ id: context.params.uid }),
+		admin.firestore().collection('links').doc(snapshot.link).setData({ id: context.params.uid })
 	])
 })
