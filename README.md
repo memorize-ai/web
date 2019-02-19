@@ -1,2 +1,2 @@
 # memorize.ai-web
-memorize.ai website
+https://memorize.ai

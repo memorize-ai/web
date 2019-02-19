@@ -1,0 +1,57 @@
+{
+	"users": {
+		"abc123": {
+			"name": "Ken Mueller",
+			"email": "kenmueller0@gmail.com",
+			"decks (sub-collection)": {
+				"jkl012": {
+					"name": "GRE Vocabulary",
+					"count": 700,
+					"mastered": 699,
+					"cards (sub-collection)" : {
+						"ghi789": {
+							"count": 4,
+							"correct": 3,
+							"streak": 2,
+							"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)",
+							"history (sub-collection)": {
+								"mno345": {
+									"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)",
+									"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)",
+									"correct": true,
+									"elapsed": 12394874
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"decks": {
+		"jkl012": {
+			"name": "GRE Vocabulary",
+			"public": true,
+			"count": 700,
+			"creator": {
+				"id": "abc123",
+				"name": "Ken Mueller"
+			},
+			"owner": "abc123",
+			"permissions (sub-collection)": {
+				"def456": {
+					"role": "viewer",
+					"name": "Scott Mueller"
+				}
+			},
+			"cards (sub-collection)": {
+				"ghi789": {
+					"type": "self",
+					"content": "precipitate",
+					"answer": "to cause (something) to happen quickly or suddenly",
+					"latex": false
+				}
+			}
+		}
+	}
+}
