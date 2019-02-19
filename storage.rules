@@ -1,0 +1,35 @@
+service firebase.storage {
+	match /b/{bucket}/o {
+		match /users {
+			allow read
+			match /{uid} {
+				allow read
+				allow write: if signedInWith(uid)
+			}
+		}
+		match /decks/{deckId} {
+			allow read: if signedInWith(firestore.collection('decks').document(deckId).owner) || !firestore.collection('decks').document(deckId).permissions.authId().isEmpty() || firestore.collection('decks').document(deckId).public
+			allow write: if signedInWith(firestore.collection('decks').document(deckId).owner) || firestore.collection('decks').document(deckId).permissions.authId().role == 'editor'
+		}
+
+		function authId() {
+			return request.auth.uid
+		}
+
+		function signedIn() {
+			return request.auth != null
+		}
+
+		function signedInWith(uid) {
+			return authId() == uid
+		}
+
+		function oldData() {
+			return resource.data
+		}
+
+		function newData() {
+			return request.resource.data
+		}
+	}
+}

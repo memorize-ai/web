@@ -1,0 +1,167 @@
+service cloud.firestore {
+	match /databases/{database}/documents {
+		match /users/{uid} {
+			allow read, write: if signedInWith(uid)
+			match /name {
+				allow read
+				allow write: if signedInWith(uid) && newData().isString() && newData() != ''
+			}
+			match /email {
+				allow read, write: if signedInWith(uid) && newData().isString() && checkEmail(newData()) && firestore.collection('emails').document(newData()).isEmpty()
+			}
+			match /link {
+				allow read
+				allow write: if signedInWith(uid) && newData().isString() && newData() != '' && firestore.collection('links').document(newData()).isEmpty()
+			}
+			match /decks/{deckId} {
+				allow read, write: if signedInWith(uid)
+				match /name {
+					allow read, write: if signedInWith(uid) && newData().isString() && newData() != ''
+				}
+				match /count {
+					allow read, create: if signedInWith(uid) && newData() == 0
+				}
+				match /mastered {
+					allow read, create: if signedInWith(uid) && newData() == 0
+				}
+				match /cards/{cardId} {
+					allow read, write: if signedInWith(uid)
+					match /count {
+						allow read, create: if signedInWith(uid) && newData() == 0
+					}
+					match /correct {
+						allow read, create: if signedInWith(uid) && newData() == 0
+					}
+					match /streak {
+						allow read, create: if signedInWith(uid) && newData() == 0
+					}
+					match /last {
+						allow read, create: if signedInWith(uid)
+					}
+					match /next {
+						allow read, create: if signedInWith(uid)
+					}
+					match /history/{historyId} {
+						allow read, create: if signedInWith(uid)
+						match /date {
+							allow read, create: if signedInWith(uid)
+						}
+						match /next {
+							allow read, create: if signedInWith(uid)
+						}
+						match /correct {
+							allow read, create: if signedInWith(uid) && newData().isBoolean()
+						}
+						match /elapsed {
+							allow read, create: if signedInWith(uid) && newData().isNumber()
+						}
+					}
+				}
+			}
+		}
+		match /emails/{email} {
+			allow read: if signedInWith(email.id)
+			match /id {
+				allow read: if signedInWith(oldData())
+			}
+		}
+		match /links {
+			allow read
+			match /{link} {
+				allow read
+				match /id {
+					allow read
+					allow write: if signedInWith(oldData()) && signedInWith(newData()) && newData().isString() && newData() != ''
+				}
+			}
+		}
+		match /decks/{deckId} {
+			allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+			allow write: if signedInWith(deckId.owner) || deckId.permissions.authId().role == 'editor'
+			match /name {
+				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+				allow write: if (signedInWith(deckId.owner) || deckId.permissions.authId().role == 'editor') && newData().isString() && newData() != ''
+			}
+			match /description {
+				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+				allow write: if (signedInWith(deckId.owner) || deckId.permissions.authId().role == 'editor') && newData().isString()
+			}
+			match /public {
+				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+				allow write: if signedInWith(deckId.owner) && newData().isBoolean()
+			}
+			match /count {
+				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+				allow create: if signedIn() && newData() == 0
+			}
+			match /creator {
+				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+				allow create: if signedInWith(newData().id)
+				match /id {
+					allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+					allow create: if signedInWith(newData()) && newData().isString() && newData() != ''
+				}
+				match /name {
+					allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+					allow create: if signedIn() && newData().isString() && newData() != ''
+				}
+			}
+			match /owner {
+				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+				allow write: if authId() == oldData() && newData().isString() && newData() != ''
+			}
+			match /permissions/{userId} {
+				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty()
+				allow write: if signedInWith(deckId.owner)
+				match /name {
+					allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty()
+					allow write: if signedInWith(deckId.owner) && newData().isString() && newData() != ''
+				}
+				match /email {
+					allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty()
+					allow write: if signedInWith(deckId.owner) && newData().isString() && newData() != ''
+				}
+				match /role {
+					allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty()
+					allow write: if signedInWith(deckId.owner) && (newData() == 'viewer' || newData() == 'editor')
+				}
+			}
+			match /cards/{cardId} {
+				allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+				allow write: if signedInWith(deckId.owner) || deckId.permissions.authId().role == 'editor'
+				match /front {
+					allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+					allow write: if (signedInWith(deckId.owner) || deckId.permissions.authId().role == 'editor') && newData().isString() && newData() != ''
+				}
+				match /back {
+					allow read: if signedInWith(deckId.owner) || !deckId.permissions.authId().isEmpty() || deckId.public
+					allow write: if (signedInWith(deckId.owner) || deckId.permissions.authId().role == 'editor') && newData().isString() && newData() != ''
+				}
+			}
+		}
+
+		function authId() {
+			return request.auth.uid
+		}
+
+		function signedIn() {
+			return request.auth != null
+		}
+
+		function signedInWith(uid) {
+			return authId() == uid
+		}
+
+		function oldData() {
+			return resource.data
+		}
+
+		function newData() {
+			return request.resource.data
+		}
+
+		function checkEmail(email) {
+			return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
+		}
+	}
+}
