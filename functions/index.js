@@ -31,11 +31,11 @@ exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate(up
 exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(updateDeckInAngolia)
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
 
-exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_, context) =>
-	admin.firestore().collection('decks').doc(context.params.deckId).get().then(deck =>
-		admin.firestore().collection('decks').doc(context.params.deckId).update({ count: deck.data().count + 1 })
-	)
-)
+exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_, context) => {
+	return admin.firestore().collection('decks').doc(context.params.deckId).get().then(deck => {
+		return admin.firestore().collection('decks').doc(context.params.deckId).update({ count: deck.data().count + 1 })
+	})
+})
 
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
 	return admin.firestore().collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).get().then(card => {

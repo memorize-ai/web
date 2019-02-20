@@ -2,19 +2,19 @@ service firebase.storage {
 	match /b/{bucket}/o {
 		match /users/{uid} {
 			allow read
-			allow write: if signedInWith(uid) && isPng()
+			allow write: if signedInWith(uid) && isImage()
 		}
 		match /decks/{deckId} {
 			allow read: if isDeckOwner(deckId) || canViewDeck(deckId) || isDeckPublic(deckId)
-			allow write: if (isDeckOwner(deckId) || canEditDeck(deckId)) && isPng()
+			allow write: if (isDeckOwner(deckId) || canEditDeck(deckId)) && isImage()
 		}
 
 		function signedInWith(uid) {
 			return request.auth.uid == uid
 		}
 
-		function isPng() {
-			return request.resource.contentType == 'image/png'
+		function isImage() {
+			return request.resource.contentType.matches('image/.*')
 		}
 
 		function canViewDeck(deckId) {
