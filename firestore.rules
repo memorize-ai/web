@@ -1,6 +1,7 @@
 service cloud.firestore {
 	match /databases/{database}/documents {
 		match /users/{uid} {
+			allow read, write: if signedInWith(uid)
 			match /name {
 				allow read
 				allow write: if signedInWith(uid) && isValidString(newData())
@@ -13,10 +14,12 @@ service cloud.firestore {
 				allow write: if signedInWith(uid) && isValidString(newData())
 			}
 			match /decks/{deckId} {
+				allow read, write: if signedInWith(uid)
 				match /mastered {
 					allow read, create: if signedInWith(uid) && newData() == 0
 				}
 				match /cards/{cardId} {
+					allow read, write: if signedInWith(uid)
 					match /count {
 						allow read, create: if signedInWith(uid) && newData() == 0
 					}
@@ -33,6 +36,7 @@ service cloud.firestore {
 						allow read, create: if signedInWith(uid)
 					}
 					match /history/{historyId} {
+						allow read, write: if signedInWith(uid)
 						match /date {
 							allow read, create: if signedInWith(uid)
 						}
@@ -49,15 +53,27 @@ service cloud.firestore {
 				}
 			}
 		}
-		match /emails/{email}/id {
-			allow read: if signedInWith(oldData())
+		match /emails/{email} {
+			allow read, delete: if signedInWith(oldData().id)
+			allow create: if signedInWith(newData().id)
+			match /id {
+				allow read, delete: if signedInWith(oldData().id)
+				allow create: if signedInWith(newData().id)
+			}
 		}
-		match /links/{link}/id {
+		match /links/{link} {
 			allow read
-			allow create: if signedInWith(newData())
-			allow delete: if signedInWith(oldData())
+			allow create: if signedInWith(newData().id)
+			allow delete: if signedInWith(oldData().id)
+			match /id {
+				allow read
+				allow create: if signedInWith(newData())
+				allow delete: if signedInWith(oldData())
+			}
 		}
 		match /decks/{deckId} {
+			allow read: if isDeckOwner(deckId) || canViewDeck(deckId) || isDeckPublic(deckId)
+			allow write: if isDeckOwner(deckId) || canEditDeck(deckId)
 			match /name {
 				allow read: if isDeckOwner(deckId) || canViewDeck(deckId) || isDeckPublic(deckId)
 				allow write: if (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
@@ -82,11 +98,17 @@ service cloud.firestore {
 				allow read: if isDeckOwner(deckId) || canViewDeck(deckId) || isDeckPublic(deckId)
 				allow write: if signedInWith(oldData()) && userExists(newData()) && isValidString(newData())
 			}
-			match /permissions/{userId}/role {
+			match /permissions/{userId} {
 				allow read: if isDeckOwner(deckId) || canViewDeck(deckId)
-				allow write: if isDeckOwner(deckId) && (newData() == 'viewer' || newData() == 'editor')
+				allow write: if isDeckOwner(deckId)
+				match /role {
+					allow read: if isDeckOwner(deckId) || canViewDeck(deckId)
+					allow write: if isDeckOwner(deckId) && (newData() == 'viewer' || newData() == 'editor')
+				}
 			}
 			match /cards/{cardId} {
+				allow read: if isDeckOwner(deckId) || canViewDeck(deckId) || isDeckPublic(deckId)
+				allow write: if isDeckOwner(deckId) || canEditDeck(deckId)
 				match /front {
 					allow read: if isDeckOwner(deckId) || canViewDeck(deckId) || isDeckPublic(deckId)
 					allow write: if (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
