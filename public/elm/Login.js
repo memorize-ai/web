@@ -5271,9 +5271,11 @@ var author$project$Page$Template$viewHeader = F2(
 	});
 var elm$core$Basics$not = _Basics_not;
 var elm$html$Html$button = _VirtualDom_node('button');
+var elm$html$Html$div = _VirtualDom_node('div');
 var elm$html$Html$fieldset = _VirtualDom_node('fieldset');
 var elm$html$Html$form = _VirtualDom_node('form');
 var elm$html$Html$legend = _VirtualDom_node('legend');
+var elm$html$Html$section = _VirtualDom_node('section');
 var elm$html$Html$Attributes$disabled = elm$html$Html$Attributes$boolProperty('disabled');
 var elm$html$Html$Events$alwaysPreventDefault = function (msg) {
 	return _Utils_Tuple2(msg, true);
@@ -5301,59 +5303,77 @@ var author$project$Page$Login$viewSigningIn = function (model) {
 	return {
 		body: _List_fromArray(
 			[
-				A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Login$SignOut),
 				A2(
-				elm$html$Html$h1,
-				_List_Nil,
+				elm$html$Html$section,
 				_List_fromArray(
 					[
-						elm$html$Html$text('Sign in')
-					])),
-				author$project$Page$Login$errorHtml(model.error),
-				A2(
-				elm$html$Html$form,
-				_List_fromArray(
-					[
-						elm$html$Html$Events$onSubmit(author$project$Page$Login$SignIn)
+						elm$html$Html$Attributes$class('section')
 					]),
 				_List_fromArray(
 					[
 						A2(
-						elm$html$Html$fieldset,
-						_List_Nil,
+						elm$html$Html$div,
 						_List_fromArray(
 							[
+								elm$html$Html$Attributes$class('container')
+							]),
+						_List_fromArray(
+							[
+								A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Login$SignOut),
 								A2(
-								elm$html$Html$legend,
+								elm$html$Html$h1,
 								_List_Nil,
 								_List_fromArray(
 									[
-										elm$html$Html$text('Enter email and password')
+										elm$html$Html$text('Sign in')
 									])),
-								A5(author$project$Page$Login$viewInput, 'email', 'email', 'Email address', model.email, author$project$Page$Login$InputEmail),
-								A5(author$project$Page$Login$viewInput, 'password', 'password', 'Password', model.password, author$project$Page$Login$InputPassword),
+								author$project$Page$Login$errorHtml(model.error),
 								A2(
-								elm$html$Html$button,
+								elm$html$Html$form,
 								_List_fromArray(
 									[
-										elm$html$Html$Attributes$disabled(!model.valid)
+										elm$html$Html$Events$onSubmit(author$project$Page$Login$SignIn)
 									]),
 								_List_fromArray(
 									[
-										elm$html$Html$text('Login')
+										A2(
+										elm$html$Html$fieldset,
+										_List_Nil,
+										_List_fromArray(
+											[
+												A2(
+												elm$html$Html$legend,
+												_List_Nil,
+												_List_fromArray(
+													[
+														elm$html$Html$text('Enter email and password')
+													])),
+												A5(author$project$Page$Login$viewInput, 'email', 'email', 'Email address', model.email, author$project$Page$Login$InputEmail),
+												A5(author$project$Page$Login$viewInput, 'password', 'password', 'Password', model.password, author$project$Page$Login$InputPassword),
+												A2(
+												elm$html$Html$button,
+												_List_fromArray(
+													[
+														elm$html$Html$Attributes$disabled(!model.valid)
+													]),
+												_List_fromArray(
+													[
+														elm$html$Html$text('Login')
+													]))
+											]))
+									])),
+								A2(
+								elm$html$Html$a,
+								_List_fromArray(
+									[
+										elm$html$Html$Events$onClick(author$project$Page$Login$SignUpClicked),
+										elm$html$Html$Attributes$href('#')
+									]),
+								_List_fromArray(
+									[
+										elm$html$Html$text('Sign up instead')
 									]))
 							]))
-					])),
-				A2(
-				elm$html$Html$a,
-				_List_fromArray(
-					[
-						elm$html$Html$Events$onClick(author$project$Page$Login$SignUpClicked),
-						elm$html$Html$Attributes$href('#')
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text('Sign up instead')
 					]))
 			]),
 		title: 'Login - memorize.ai'
@@ -5371,61 +5391,82 @@ var author$project$Page$Login$viewSigningUp = function (model) {
 	return {
 		body: _List_fromArray(
 			[
-				A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Login$SignOut),
 				A2(
-				elm$html$Html$h1,
-				_List_Nil,
+				elm$html$Html$section,
 				_List_fromArray(
 					[
-						elm$html$Html$text('Sign up')
-					])),
-				author$project$Page$Login$errorHtml(model.error),
-				A2(
-				elm$html$Html$form,
-				_List_fromArray(
-					[
-						elm$html$Html$Events$onSubmit(author$project$Page$Login$SignUp)
+						elm$html$Html$Attributes$class('section')
 					]),
 				_List_fromArray(
 					[
 						A2(
-						elm$html$Html$fieldset,
-						_List_Nil,
+						elm$html$Html$div,
 						_List_fromArray(
 							[
+								elm$html$Html$Attributes$class('container')
+							]),
+						_List_fromArray(
+							[
+								A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Login$SignOut),
 								A2(
-								elm$html$Html$legend,
-								_List_Nil,
+								elm$html$Html$h1,
 								_List_fromArray(
 									[
-										elm$html$Html$text('Enter account information')
-									])),
-								A5(author$project$Page$Login$viewInput, 'text', 'name', 'Name', model.name, author$project$Page$Login$InputName),
-								A5(author$project$Page$Login$viewInput, 'email', 'email', 'Email address', model.email, author$project$Page$Login$InputEmail),
-								A5(author$project$Page$Login$viewInput, 'password', 'password', 'Password', model.password, author$project$Page$Login$InputPassword),
-								A5(author$project$Page$Login$viewInput, 'password', 'password_again', 'Password again', model.passwordConfirmation, author$project$Page$Login$InputPasswordConfirmation),
-								A2(
-								elm$html$Html$button,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$disabled(!model.valid)
+										elm$html$Html$Attributes$class('title')
 									]),
 								_List_fromArray(
 									[
-										elm$html$Html$text('Create account')
+										elm$html$Html$text('Sign up')
+									])),
+								author$project$Page$Login$errorHtml(model.error),
+								A2(
+								elm$html$Html$form,
+								_List_fromArray(
+									[
+										elm$html$Html$Events$onSubmit(author$project$Page$Login$SignUp)
+									]),
+								_List_fromArray(
+									[
+										A2(
+										elm$html$Html$fieldset,
+										_List_Nil,
+										_List_fromArray(
+											[
+												A2(
+												elm$html$Html$legend,
+												_List_Nil,
+												_List_fromArray(
+													[
+														elm$html$Html$text('Enter account information')
+													])),
+												A5(author$project$Page$Login$viewInput, 'text', 'name', 'Name', model.name, author$project$Page$Login$InputName),
+												A5(author$project$Page$Login$viewInput, 'email', 'email', 'Email address', model.email, author$project$Page$Login$InputEmail),
+												A5(author$project$Page$Login$viewInput, 'password', 'password', 'Password', model.password, author$project$Page$Login$InputPassword),
+												A5(author$project$Page$Login$viewInput, 'password', 'password_again', 'Password again', model.passwordConfirmation, author$project$Page$Login$InputPasswordConfirmation),
+												A2(
+												elm$html$Html$button,
+												_List_fromArray(
+													[
+														elm$html$Html$Attributes$disabled(!model.valid)
+													]),
+												_List_fromArray(
+													[
+														elm$html$Html$text('Create account')
+													]))
+											]))
+									])),
+								A2(
+								elm$html$Html$a,
+								_List_fromArray(
+									[
+										elm$html$Html$Events$onClick(author$project$Page$Login$SignInClicked),
+										elm$html$Html$Attributes$href('#')
+									]),
+								_List_fromArray(
+									[
+										elm$html$Html$text('Sign in instead')
 									]))
 							]))
-					])),
-				A2(
-				elm$html$Html$a,
-				_List_fromArray(
-					[
-						elm$html$Html$Events$onClick(author$project$Page$Login$SignInClicked),
-						elm$html$Html$Attributes$href('#')
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text('Sign in instead')
 					]))
 			]),
 		title: 'Login - memorize.ai'
@@ -5445,31 +5486,52 @@ var author$project$Page$Login$viewWithUser = F2(
 		return {
 			body: _List_fromArray(
 				[
-					A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Login$SignOut),
 					A2(
-					elm$html$Html$h1,
-					_List_Nil,
+					elm$html$Html$section,
 					_List_fromArray(
 						[
-							elm$html$Html$text('Logged In')
-						])),
-					A2(
-					elm$html$Html$p,
-					_List_Nil,
+							elm$html$Html$Attributes$class('section')
+						]),
 					_List_fromArray(
 						[
-							elm$html$Html$text('You\'re already logged in, want to go to your '),
 							A2(
-							elm$html$Html$a,
+							elm$html$Html$div,
 							_List_fromArray(
 								[
-									elm$html$Html$Attributes$href('/dashboard.html')
+									elm$html$Html$Attributes$class('container')
 								]),
 							_List_fromArray(
 								[
-									elm$html$Html$text('dashboard')
-								])),
-							elm$html$Html$text('?')
+									A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Login$SignOut),
+									A2(
+									elm$html$Html$h1,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$class('title')
+										]),
+									_List_fromArray(
+										[
+											elm$html$Html$text('Logged In')
+										])),
+									A2(
+									elm$html$Html$p,
+									_List_Nil,
+									_List_fromArray(
+										[
+											elm$html$Html$text('You\'re already logged in, want to go to your '),
+											A2(
+											elm$html$Html$a,
+											_List_fromArray(
+												[
+													elm$html$Html$Attributes$href('/dashboard.html')
+												]),
+											_List_fromArray(
+												[
+													elm$html$Html$text('dashboard')
+												])),
+											elm$html$Html$text('?')
+										]))
+								]))
 						]))
 				]),
 			title: 'Logged in as ' + (A2(elm$core$Maybe$withDefault, 'unknown', user.displayName) + ' - memorize.ai')

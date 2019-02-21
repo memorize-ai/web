@@ -11,15 +11,67 @@
 	<script defer src='/__/firebase/5.8.3/firebase-storage.js'></script>
 	<script defer src='/__/firebase/init.js'></script>
 	<script src='https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js'></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
 </head>
 <body>
-	<h2>Welcome</h2>
-	<h1>memorize.ai</h1>
-	<a href="https://itunes.apple.com/us/app/memorize-ai/id1438596749?mt=8">memorize.ai on the App Store</a>
-
-	<a href="dashboard.html">Login</a> to your dashboard
+	<nav class="navbar" role="navigation" aria-label="main navigation">
+	<div class="navbar-brand">
+		<a class="navbar-item" href="/">memorize.ai</a>
+		<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar-index">
+		<span aria-hidden="true"></span>
+		<span aria-hidden="true"></span>
+		<span aria-hidden="true"></span>
+		</a>
+	</div>
+	
+	<div id="navbar-index" class="navbar-menu">
+		<div class="navbar-start">	
+		<a class="navbar-item" href="https://itunes.apple.com/us/app/memorize-ai/id1438596749?mt=8">iOS App</a>
+	
+		<div class="navbar-item has-dropdown is-hoverable">
+			<a class="navbar-link">
+			More
+			</a>
+	
+			<div class="navbar-dropdown">
+			<a class="navbar-item" href="/about.html">
+				About
+			</a>
+			<a class="navbar-item" href="/contact.html">
+				Contact
+			</a>
+			<hr class="navbar-divider">
+			<a class="navbar-item" href="/contact.html">
+				Report an issue
+			</a>
+			</div>
+		</div>
+		</div>
+	
+		<div class="navbar-end">
+		<div class="navbar-item">
+			<div class="buttons">
+			<a class="button is-primary" href="login.html">
+				<strong>Sign up</strong>
+			</a>
+			<a class="button is-light" href="login.html">
+				Log in
+			</a>
+			</div>
+		</div>
+		</div>
+	</div>
+	</nav>
+	<section class="section">
+	<div class="container">
+	<h1 class="title">Memorize Everything</h1>
+	<p class="subtitle">Flashcards utilizing AI for the most effective and efficient long-term memory recall</p>
+	<a href="dashboard.html">Sign up or sign in</a> or download our <a href="https://itunes.apple.com/us/app/memorize-ai/id1438596749?mt=8">iOS app</a>
 	<script>
 	firebase.auth().onAuthStateChanged(user => {})
 	</script>
+	</div>
+	</section>
 </body>
 </html>
