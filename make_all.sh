@@ -1,1 +1,3 @@
-./make.sh Dashboard --optimize
+./make.sh Template
+./make.sh Dashboard
+./make.sh Login

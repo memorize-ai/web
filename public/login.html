@@ -10,17 +10,41 @@
 	<script defer src='/__/firebase/5.8.3/firebase-messaging.js'></script>
 	<script defer src='/__/firebase/5.8.3/firebase-storage.js'></script>
 	<script defer src='/__/firebase/init.js'></script>
-    <script src="elm/Login.js"></script>
+	<script src="elm/Login.js"></script>
+	<script src="js/main.js"></script>
 </head>
 <body>
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
-		const app = Elm.Page.Login.init()
+		const from = new URLSearchParams(window.location.search).get('f') || 'dashboard.html'
+		const app = Elm.Page.Login.init({flags: from})
+		const updateNameFromCredential = app => displayName => userCredential =>
+			userCredential.user.updateProfile({ displayName })
+				.then(() => app.ports.userUpdated.send(userCredential.user))
+		const sendAppInvalidSignUpMessage = app => error =>
+			error && app.ports.invalidSignUp.send(error.message)
+		const sendAppInvalidSignInMessage = app => error =>
+			error && app.ports.invalidSignIn.send(error.message)
+		const redirectToFrom = () =>
+			window.location.href = `/${from}`
+
 		firebase.auth().onAuthStateChanged(user =>
 			user
-				? app.updateUser(user)
-				: app.removeUser()
+				? app.ports.userUpdated.send(user)
+				: app.ports.signedOut.send(null)
 		)
+		app.ports.signUp.subscribe(account =>
+			firebase.auth().createUserWithEmailAndPassword(account.email, account.password)
+				.then(updateNameFromCredential(app)(account.displayName))
+				.then(redirectToFrom)
+				.catch(sendAppInvalidSignUpMessage(app))
+		)
+		app.ports.signIn.subscribe(login =>
+			firebase.auth().signInWithEmailAndPassword(login.email, login.password)
+				.then(redirectToFrom)
+				.catch(sendAppInvalidSignInMessage(app))
+		)
+		listenSignOut(app)
 	})
 	</script>
 </body>

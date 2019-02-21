@@ -4310,12 +4310,20 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$Page$Dashboard$Model = function (user) {
-	return {user: user};
+var author$project$Page$Login$Model = F9(
+	function (user, from, signingInOrUp, error, name, email, password, passwordConfirmation, valid) {
+		return {email: email, error: error, from: from, name: name, password: password, passwordConfirmation: passwordConfirmation, signingInOrUp: signingInOrUp, user: user, valid: valid};
+	});
+var author$project$Page$Login$SigningUp = {$: 'SigningUp'};
+var author$project$Page$Login$InvalidSignIn = function (a) {
+	return {$: 'InvalidSignIn', a: a};
 };
-var author$project$Page$Dashboard$SignedOut = {$: 'SignedOut'};
-var author$project$Page$Dashboard$UpdatedUser = function (a) {
-	return {$: 'UpdatedUser', a: a};
+var author$project$Page$Login$InvalidSignUp = function (a) {
+	return {$: 'InvalidSignUp', a: a};
+};
+var author$project$Page$Login$SignedOut = {$: 'SignedOut'};
+var author$project$Page$Login$UserUpdated = function (a) {
+	return {$: 'UserUpdated', a: a};
 };
 var elm$core$Array$branchFactor = 32;
 var elm$core$Array$Array_elm_builtin = F4(
@@ -4792,16 +4800,20 @@ var elm$json$Json$Decode$errorToStringHelp = F2(
 			}
 		}
 	});
+var elm$json$Json$Decode$string = _Json_decodeString;
+var author$project$Page$Login$invalidSignIn = _Platform_incomingPort('invalidSignIn', elm$json$Json$Decode$string);
+var author$project$Page$Login$invalidSignUp = _Platform_incomingPort('invalidSignUp', elm$json$Json$Decode$string);
 var elm$json$Json$Decode$null = _Json_decodeNull;
-var author$project$Page$Dashboard$signedOut = _Platform_incomingPort(
+var author$project$Page$Login$signedOut = _Platform_incomingPort(
 	'signedOut',
 	elm$json$Json$Decode$null(_Utils_Tuple0));
 var elm$json$Json$Decode$andThen = _Json_andThen;
 var elm$json$Json$Decode$field = _Json_decodeField;
-var elm$json$Json$Decode$string = _Json_decodeString;
+var elm$json$Json$Decode$map = _Json_map1;
+var elm$json$Json$Decode$oneOf = _Json_oneOf;
 var elm$json$Json$Decode$succeed = _Json_succeed;
-var author$project$Page$Dashboard$updateUser = _Platform_incomingPort(
-	'updateUser',
+var author$project$Page$Login$userUpdated = _Platform_incomingPort(
+	'userUpdated',
 	A2(
 		elm$json$Json$Decode$andThen,
 		function (uid) {
@@ -4811,7 +4823,15 @@ var author$project$Page$Dashboard$updateUser = _Platform_incomingPort(
 					return elm$json$Json$Decode$succeed(
 						{displayName: displayName, uid: uid});
 				},
-				A2(elm$json$Json$Decode$field, 'displayName', elm$json$Json$Decode$string));
+				A2(
+					elm$json$Json$Decode$field,
+					'displayName',
+					elm$json$Json$Decode$oneOf(
+						_List_fromArray(
+							[
+								elm$json$Json$Decode$null(elm$core$Maybe$Nothing),
+								A2(elm$json$Json$Decode$map, elm$core$Maybe$Just, elm$json$Json$Decode$string)
+							]))));
 		},
 		A2(elm$json$Json$Decode$field, 'uid', elm$json$Json$Decode$string)));
 var elm$core$Basics$always = F2(
@@ -4819,27 +4839,100 @@ var elm$core$Basics$always = F2(
 		return a;
 	});
 var elm$core$Platform$Sub$batch = _Platform_batch;
-var author$project$Page$Dashboard$subscriptions = function (model) {
+var author$project$Page$Login$subscriptions = function (model) {
 	return elm$core$Platform$Sub$batch(
 		_List_fromArray(
 			[
-				author$project$Page$Dashboard$updateUser(author$project$Page$Dashboard$UpdatedUser),
-				author$project$Page$Dashboard$signedOut(
-				elm$core$Basics$always(author$project$Page$Dashboard$SignedOut))
+				author$project$Page$Login$userUpdated(author$project$Page$Login$UserUpdated),
+				author$project$Page$Login$signedOut(
+				elm$core$Basics$always(author$project$Page$Login$SignedOut)),
+				author$project$Page$Login$invalidSignUp(author$project$Page$Login$InvalidSignUp),
+				author$project$Page$Login$invalidSignIn(author$project$Page$Login$InvalidSignIn)
 			]));
 };
+var author$project$Page$Login$Account = F3(
+	function (displayName, email, password) {
+		return {displayName: displayName, email: email, password: password};
+	});
+var author$project$Page$Login$Login = F2(
+	function (email, password) {
+		return {email: email, password: password};
+	});
+var author$project$Page$Login$SigningIn = {$: 'SigningIn'};
+var elm$json$Json$Encode$object = function (pairs) {
+	return _Json_wrap(
+		A3(
+			elm$core$List$foldl,
+			F2(
+				function (_n0, obj) {
+					var k = _n0.a;
+					var v = _n0.b;
+					return A3(_Json_addField, k, v, obj);
+				}),
+			_Json_emptyObject(_Utils_Tuple0),
+			pairs));
+};
+var elm$json$Json$Encode$string = _Json_wrap;
+var author$project$Page$Login$signIn = _Platform_outgoingPort(
+	'signIn',
+	function ($) {
+		return elm$json$Json$Encode$object(
+			_List_fromArray(
+				[
+					_Utils_Tuple2(
+					'email',
+					elm$json$Json$Encode$string($.email)),
+					_Utils_Tuple2(
+					'password',
+					elm$json$Json$Encode$string($.password))
+				]));
+	});
 var elm$json$Json$Encode$null = _Json_encodeNull;
-var author$project$Page$Dashboard$signOut = _Platform_outgoingPort(
+var author$project$Page$Login$signOut = _Platform_outgoingPort(
 	'signOut',
 	function ($) {
 		return elm$json$Json$Encode$null;
 	});
+var author$project$Page$Login$signUp = _Platform_outgoingPort(
+	'signUp',
+	function ($) {
+		return elm$json$Json$Encode$object(
+			_List_fromArray(
+				[
+					_Utils_Tuple2(
+					'displayName',
+					elm$json$Json$Encode$string($.displayName)),
+					_Utils_Tuple2(
+					'email',
+					elm$json$Json$Encode$string($.email)),
+					_Utils_Tuple2(
+					'password',
+					elm$json$Json$Encode$string($.password))
+				]));
+	});
+var elm$core$Basics$ge = _Utils_ge;
+var elm$core$String$length = _String_length;
+var author$project$Page$Login$validateSignUp = function (model) {
+	return _Utils_update(
+		model,
+		{
+			valid: _Utils_eq(model.password, model.passwordConfirmation) && (elm$core$String$length(model.password) >= 6)
+		});
+};
+var author$project$Page$Login$validate = function (model) {
+	var _n0 = model.signingInOrUp;
+	if (_n0.$ === 'SigningIn') {
+		return model;
+	} else {
+		return author$project$Page$Login$validateSignUp(model);
+	}
+};
 var elm$core$Platform$Cmd$batch = _Platform_batch;
 var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
-var author$project$Page$Dashboard$update = F2(
+var author$project$Page$Login$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
-			case 'UpdatedUser':
+			case 'UserUpdated':
 				var user = msg.a;
 				return _Utils_Tuple2(
 					_Utils_update(
@@ -4848,23 +4941,104 @@ var author$project$Page$Dashboard$update = F2(
 							user: elm$core$Maybe$Just(user)
 						}),
 					elm$core$Platform$Cmd$none);
-			case 'SignOut':
-				return _Utils_Tuple2(
-					model,
-					author$project$Page$Dashboard$signOut(_Utils_Tuple0));
-			default:
+			case 'SignedOut':
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{user: elm$core$Maybe$Nothing}),
 					elm$core$Platform$Cmd$none);
+			case 'InvalidSignUp':
+				var message = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							error: elm$core$Maybe$Just(message)
+						}),
+					elm$core$Platform$Cmd$none);
+			case 'InvalidSignIn':
+				var message = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							error: elm$core$Maybe$Just(message)
+						}),
+					elm$core$Platform$Cmd$none);
+			case 'SignUpClicked':
+				return _Utils_Tuple2(
+					author$project$Page$Login$validate(
+						_Utils_update(
+							model,
+							{signingInOrUp: author$project$Page$Login$SigningUp})),
+					elm$core$Platform$Cmd$none);
+			case 'SignInClicked':
+				return _Utils_Tuple2(
+					author$project$Page$Login$validate(
+						_Utils_update(
+							model,
+							{signingInOrUp: author$project$Page$Login$SigningIn})),
+					elm$core$Platform$Cmd$none);
+			case 'SignUp':
+				return _Utils_Tuple2(
+					model,
+					author$project$Page$Login$signUp(
+						A3(author$project$Page$Login$Account, model.name, model.email, model.password)));
+			case 'SignIn':
+				return _Utils_Tuple2(
+					model,
+					author$project$Page$Login$signIn(
+						A2(author$project$Page$Login$Login, model.email, model.password)));
+			case 'SignOut':
+				return _Utils_Tuple2(
+					model,
+					author$project$Page$Login$signOut(_Utils_Tuple0));
+			case 'InputName':
+				var name = msg.a;
+				return _Utils_Tuple2(
+					author$project$Page$Login$validate(
+						_Utils_update(
+							model,
+							{name: name})),
+					elm$core$Platform$Cmd$none);
+			case 'InputEmail':
+				var email = msg.a;
+				return _Utils_Tuple2(
+					author$project$Page$Login$validate(
+						_Utils_update(
+							model,
+							{email: email})),
+					elm$core$Platform$Cmd$none);
+			case 'InputPassword':
+				var password = msg.a;
+				return _Utils_Tuple2(
+					author$project$Page$Login$validate(
+						_Utils_update(
+							model,
+							{password: password})),
+					elm$core$Platform$Cmd$none);
+			default:
+				var passwordConfirmation = msg.a;
+				return _Utils_Tuple2(
+					author$project$Page$Login$validate(
+						_Utils_update(
+							model,
+							{passwordConfirmation: passwordConfirmation})),
+					elm$core$Platform$Cmd$none);
 		}
 	});
-var author$project$Page$Dashboard$SignOut = {$: 'SignOut'};
+var author$project$Page$Login$InputEmail = function (a) {
+	return {$: 'InputEmail', a: a};
+};
+var author$project$Page$Login$InputPassword = function (a) {
+	return {$: 'InputPassword', a: a};
+};
+var author$project$Page$Login$SignIn = {$: 'SignIn'};
+var author$project$Page$Login$SignOut = {$: 'SignOut'};
+var author$project$Page$Login$SignUpClicked = {$: 'SignUpClicked'};
 var elm$core$Basics$identity = function (x) {
 	return x;
 };
-var elm$json$Json$Decode$map = _Json_map1;
 var elm$json$Json$Decode$map2 = _Json_map2;
 var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 	switch (handler.$) {
@@ -4878,14 +5052,10 @@ var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 			return 3;
 	}
 };
-var elm$html$Html$a = _VirtualDom_node('a');
-var elm$html$Html$h1 = _VirtualDom_node('h1');
-var elm$html$Html$header = _VirtualDom_node('header');
-var elm$html$Html$li = _VirtualDom_node('li');
+var elm$html$Html$br = _VirtualDom_node('br');
+var elm$html$Html$p = _VirtualDom_node('p');
 var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
-var elm$html$Html$ul = _VirtualDom_node('ul');
-var elm$json$Json$Encode$string = _Json_wrap;
 var elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -4893,6 +5063,145 @@ var elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			elm$json$Json$Encode$string(string));
 	});
+var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
+var author$project$Page$Login$errorHtml = function (maybeError) {
+	if (maybeError.$ === 'Nothing') {
+		return A2(elm$html$Html$br, _List_Nil, _List_Nil);
+	} else {
+		var error = maybeError.a;
+		return A2(
+			elm$html$Html$p,
+			_List_fromArray(
+				[
+					elm$html$Html$Attributes$class('error')
+				]),
+			_List_fromArray(
+				[
+					elm$html$Html$text(error)
+				]));
+	}
+};
+var elm$html$Html$input = _VirtualDom_node('input');
+var elm$html$Html$Attributes$id = elm$html$Html$Attributes$stringProperty('id');
+var elm$html$Html$Attributes$placeholder = elm$html$Html$Attributes$stringProperty('placeholder');
+var elm$json$Json$Encode$bool = _Json_wrap;
+var elm$html$Html$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			elm$json$Json$Encode$bool(bool));
+	});
+var elm$html$Html$Attributes$required = elm$html$Html$Attributes$boolProperty('required');
+var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
+var elm$html$Html$Attributes$value = elm$html$Html$Attributes$stringProperty('value');
+var elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
+};
+var elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			elm$virtual_dom$VirtualDom$on,
+			event,
+			elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var elm$core$List$foldrHelper = F4(
+	function (fn, acc, ctr, ls) {
+		if (!ls.b) {
+			return acc;
+		} else {
+			var a = ls.a;
+			var r1 = ls.b;
+			if (!r1.b) {
+				return A2(fn, a, acc);
+			} else {
+				var b = r1.a;
+				var r2 = r1.b;
+				if (!r2.b) {
+					return A2(
+						fn,
+						a,
+						A2(fn, b, acc));
+				} else {
+					var c = r2.a;
+					var r3 = r2.b;
+					if (!r3.b) {
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(fn, c, acc)));
+					} else {
+						var d = r3.a;
+						var r4 = r3.b;
+						var res = (ctr > 500) ? A3(
+							elm$core$List$foldl,
+							fn,
+							acc,
+							elm$core$List$reverse(r4)) : A4(elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(
+									fn,
+									c,
+									A2(fn, d, res))));
+					}
+				}
+			}
+		}
+	});
+var elm$core$List$foldr = F3(
+	function (fn, acc, ls) {
+		return A4(elm$core$List$foldrHelper, fn, acc, 0, ls);
+	});
+var elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3(elm$core$List$foldr, elm$json$Json$Decode$field, decoder, fields);
+	});
+var elm$html$Html$Events$targetValue = A2(
+	elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	elm$json$Json$Decode$string);
+var elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			elm$json$Json$Decode$map,
+			elm$html$Html$Events$alwaysStop,
+			A2(elm$json$Json$Decode$map, tagger, elm$html$Html$Events$targetValue)));
+};
+var author$project$Page$Login$viewInput = F5(
+	function (inputType, inputId, inputPlaceholder, inputValue, inputMsg) {
+		return A2(
+			elm$html$Html$input,
+			_List_fromArray(
+				[
+					elm$html$Html$Attributes$type_(inputType),
+					elm$html$Html$Attributes$id(inputId),
+					elm$html$Html$Attributes$placeholder(inputPlaceholder),
+					elm$html$Html$Attributes$required(true),
+					elm$html$Html$Attributes$value(inputValue),
+					elm$html$Html$Events$onInput(inputMsg)
+				]),
+			_List_Nil);
+	});
+var elm$html$Html$a = _VirtualDom_node('a');
+var elm$html$Html$h1 = _VirtualDom_node('h1');
+var elm$html$Html$header = _VirtualDom_node('header');
+var elm$html$Html$li = _VirtualDom_node('li');
+var elm$html$Html$ul = _VirtualDom_node('ul');
 var elm$html$Html$Attributes$href = function (url) {
 	return A2(
 		elm$html$Html$Attributes$stringProperty,
@@ -4902,7 +5211,6 @@ var elm$html$Html$Attributes$href = function (url) {
 var elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
-var elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
 var elm$html$Html$Events$on = F2(
 	function (event, decoder) {
 		return A2(
@@ -4961,60 +5269,224 @@ var author$project$Page$Template$viewHeader = F2(
 						]))
 				]));
 	});
-var author$project$Page$Dashboard$viewWithUser = F2(
-	function (model, user) {
-		return {
-			body: _List_fromArray(
-				[
-					A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Dashboard$SignOut),
-					A2(
-					elm$html$Html$h1,
-					_List_Nil,
-					_List_fromArray(
-						[
-							elm$html$Html$text('Logged in as ' + (user.displayName + (' with id ' + user.uid)))
-						]))
-				]),
-			title: 'Dashboard for ' + (user.displayName + ' - memorize.ai')
-		};
-	});
-var elm$html$Html$img = _VirtualDom_node('img');
-var elm$html$Html$Attributes$src = function (url) {
-	return A2(
-		elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
+var elm$core$Basics$not = _Basics_not;
+var elm$html$Html$button = _VirtualDom_node('button');
+var elm$html$Html$fieldset = _VirtualDom_node('fieldset');
+var elm$html$Html$form = _VirtualDom_node('form');
+var elm$html$Html$legend = _VirtualDom_node('legend');
+var elm$html$Html$Attributes$disabled = elm$html$Html$Attributes$boolProperty('disabled');
+var elm$html$Html$Events$alwaysPreventDefault = function (msg) {
+	return _Utils_Tuple2(msg, true);
 };
-var author$project$Page$Dashboard$viewWithoutUser = function (model) {
+var elm$virtual_dom$VirtualDom$MayPreventDefault = function (a) {
+	return {$: 'MayPreventDefault', a: a};
+};
+var elm$html$Html$Events$preventDefaultOn = F2(
+	function (event, decoder) {
+		return A2(
+			elm$virtual_dom$VirtualDom$on,
+			event,
+			elm$virtual_dom$VirtualDom$MayPreventDefault(decoder));
+	});
+var elm$html$Html$Events$onSubmit = function (msg) {
+	return A2(
+		elm$html$Html$Events$preventDefaultOn,
+		'submit',
+		A2(
+			elm$json$Json$Decode$map,
+			elm$html$Html$Events$alwaysPreventDefault,
+			elm$json$Json$Decode$succeed(msg)));
+};
+var author$project$Page$Login$viewSigningIn = function (model) {
 	return {
 		body: _List_fromArray(
 			[
-				A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Dashboard$SignOut),
+				A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Login$SignOut),
 				A2(
 				elm$html$Html$h1,
 				_List_Nil,
 				_List_fromArray(
 					[
-						elm$html$Html$text('Dashboard')
+						elm$html$Html$text('Sign in')
 					])),
+				author$project$Page$Login$errorHtml(model.error),
 				A2(
-				elm$html$Html$img,
+				elm$html$Html$form,
 				_List_fromArray(
 					[
-						elm$html$Html$Attributes$src('images/infinity.gif')
+						elm$html$Html$Events$onSubmit(author$project$Page$Login$SignIn)
 					]),
-				_List_Nil)
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$fieldset,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$legend,
+								_List_Nil,
+								_List_fromArray(
+									[
+										elm$html$Html$text('Enter email and password')
+									])),
+								A5(author$project$Page$Login$viewInput, 'email', 'email', 'Email address', model.email, author$project$Page$Login$InputEmail),
+								A5(author$project$Page$Login$viewInput, 'password', 'password', 'Password', model.password, author$project$Page$Login$InputPassword),
+								A2(
+								elm$html$Html$button,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$disabled(!model.valid)
+									]),
+								_List_fromArray(
+									[
+										elm$html$Html$text('Login')
+									]))
+							]))
+					])),
+				A2(
+				elm$html$Html$a,
+				_List_fromArray(
+					[
+						elm$html$Html$Events$onClick(author$project$Page$Login$SignUpClicked),
+						elm$html$Html$Attributes$href('#')
+					]),
+				_List_fromArray(
+					[
+						elm$html$Html$text('Sign up instead')
+					]))
 			]),
-		title: 'Dashboard - memorize.ai'
+		title: 'Login - memorize.ai'
 	};
 };
-var author$project$Page$Dashboard$view = function (model) {
+var author$project$Page$Login$InputName = function (a) {
+	return {$: 'InputName', a: a};
+};
+var author$project$Page$Login$InputPasswordConfirmation = function (a) {
+	return {$: 'InputPasswordConfirmation', a: a};
+};
+var author$project$Page$Login$SignInClicked = {$: 'SignInClicked'};
+var author$project$Page$Login$SignUp = {$: 'SignUp'};
+var author$project$Page$Login$viewSigningUp = function (model) {
+	return {
+		body: _List_fromArray(
+			[
+				A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Login$SignOut),
+				A2(
+				elm$html$Html$h1,
+				_List_Nil,
+				_List_fromArray(
+					[
+						elm$html$Html$text('Sign up')
+					])),
+				author$project$Page$Login$errorHtml(model.error),
+				A2(
+				elm$html$Html$form,
+				_List_fromArray(
+					[
+						elm$html$Html$Events$onSubmit(author$project$Page$Login$SignUp)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$fieldset,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$legend,
+								_List_Nil,
+								_List_fromArray(
+									[
+										elm$html$Html$text('Enter account information')
+									])),
+								A5(author$project$Page$Login$viewInput, 'text', 'name', 'Name', model.name, author$project$Page$Login$InputName),
+								A5(author$project$Page$Login$viewInput, 'email', 'email', 'Email address', model.email, author$project$Page$Login$InputEmail),
+								A5(author$project$Page$Login$viewInput, 'password', 'password', 'Password', model.password, author$project$Page$Login$InputPassword),
+								A5(author$project$Page$Login$viewInput, 'password', 'password_again', 'Password again', model.passwordConfirmation, author$project$Page$Login$InputPasswordConfirmation),
+								A2(
+								elm$html$Html$button,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$disabled(!model.valid)
+									]),
+								_List_fromArray(
+									[
+										elm$html$Html$text('Create account')
+									]))
+							]))
+					])),
+				A2(
+				elm$html$Html$a,
+				_List_fromArray(
+					[
+						elm$html$Html$Events$onClick(author$project$Page$Login$SignInClicked),
+						elm$html$Html$Attributes$href('#')
+					]),
+				_List_fromArray(
+					[
+						elm$html$Html$text('Sign in instead')
+					]))
+			]),
+		title: 'Login - memorize.ai'
+	};
+};
+var elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var author$project$Page$Login$viewWithUser = F2(
+	function (model, user) {
+		return {
+			body: _List_fromArray(
+				[
+					A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Login$SignOut),
+					A2(
+					elm$html$Html$h1,
+					_List_Nil,
+					_List_fromArray(
+						[
+							elm$html$Html$text('Logged In')
+						])),
+					A2(
+					elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							elm$html$Html$text('You\'re already logged in, want to go to your '),
+							A2(
+							elm$html$Html$a,
+							_List_fromArray(
+								[
+									elm$html$Html$Attributes$href('/dashboard.html')
+								]),
+							_List_fromArray(
+								[
+									elm$html$Html$text('dashboard')
+								])),
+							elm$html$Html$text('?')
+						]))
+				]),
+			title: 'Logged in as ' + (A2(elm$core$Maybe$withDefault, 'unknown', user.displayName) + ' - memorize.ai')
+		};
+	});
+var author$project$Page$Login$view = function (model) {
 	var _n0 = model.user;
-	if (_n0.$ === 'Nothing') {
-		return author$project$Page$Dashboard$viewWithoutUser(model);
-	} else {
+	if (_n0.$ === 'Just') {
 		var user = _n0.a;
-		return A2(author$project$Page$Dashboard$viewWithUser, model, user);
+		return A2(author$project$Page$Login$viewWithUser, model, user);
+	} else {
+		var _n1 = model.signingInOrUp;
+		if (_n1.$ === 'SigningIn') {
+			return author$project$Page$Login$viewSigningIn(model);
+		} else {
+			return author$project$Page$Login$viewSigningUp(model);
+		}
 	}
 };
 var elm$browser$Browser$External = function (a) {
@@ -5040,61 +5512,6 @@ var elm$core$Task$Perform = function (a) {
 };
 var elm$core$Task$succeed = _Scheduler_succeed;
 var elm$core$Task$init = elm$core$Task$succeed(_Utils_Tuple0);
-var elm$core$List$foldrHelper = F4(
-	function (fn, acc, ctr, ls) {
-		if (!ls.b) {
-			return acc;
-		} else {
-			var a = ls.a;
-			var r1 = ls.b;
-			if (!r1.b) {
-				return A2(fn, a, acc);
-			} else {
-				var b = r1.a;
-				var r2 = r1.b;
-				if (!r2.b) {
-					return A2(
-						fn,
-						a,
-						A2(fn, b, acc));
-				} else {
-					var c = r2.a;
-					var r3 = r2.b;
-					if (!r3.b) {
-						return A2(
-							fn,
-							a,
-							A2(
-								fn,
-								b,
-								A2(fn, c, acc)));
-					} else {
-						var d = r3.a;
-						var r4 = r3.b;
-						var res = (ctr > 500) ? A3(
-							elm$core$List$foldl,
-							fn,
-							acc,
-							elm$core$List$reverse(r4)) : A4(elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
-						return A2(
-							fn,
-							a,
-							A2(
-								fn,
-								b,
-								A2(
-									fn,
-									c,
-									A2(fn, d, res))));
-					}
-				}
-			}
-		}
-	});
-var elm$core$List$foldr = F3(
-	function (fn, acc, ls) {
-		return A4(elm$core$List$foldrHelper, fn, acc, 0, ls);
-	});
 var elm$core$List$map = F2(
 	function (f, xs) {
 		return A3(
@@ -5183,7 +5600,6 @@ var elm$core$Task$perform = F2(
 			elm$core$Task$Perform(
 				A2(elm$core$Task$map, toMessage, task)));
 	});
-var elm$core$String$length = _String_length;
 var elm$core$String$slice = _String_slice;
 var elm$core$String$dropLeft = F2(
 	function (n, string) {
@@ -5313,16 +5729,15 @@ var elm$url$Url$fromString = function (str) {
 		A2(elm$core$String$dropLeft, 8, str)) : elm$core$Maybe$Nothing);
 };
 var elm$browser$Browser$document = _Browser_document;
-var author$project$Page$Dashboard$main = elm$browser$Browser$document(
+var author$project$Page$Login$main = elm$browser$Browser$document(
 	{
-		init: function (_n0) {
+		init: function (from) {
 			return _Utils_Tuple2(
-				author$project$Page$Dashboard$Model(elm$core$Maybe$Nothing),
+				A9(author$project$Page$Login$Model, elm$core$Maybe$Nothing, from, author$project$Page$Login$SigningUp, elm$core$Maybe$Nothing, 'SAM', 'scott@sup.ai', 'abcdef', 'abcdef', true),
 				elm$core$Platform$Cmd$none);
 		},
-		subscriptions: author$project$Page$Dashboard$subscriptions,
-		update: author$project$Page$Dashboard$update,
-		view: author$project$Page$Dashboard$view
+		subscriptions: author$project$Page$Login$subscriptions,
+		update: author$project$Page$Login$update,
+		view: author$project$Page$Login$view
 	});
-_Platform_export({'Page':{'Dashboard':{'init':author$project$Page$Dashboard$main(
-	elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}}});}(this));
+_Platform_export({'Page':{'Login':{'init':author$project$Page$Login$main(elm$json$Json$Decode$string)(0)}}});}(this));

@@ -12,6 +12,7 @@
 	<script defer src='/__/firebase/init.js'></script>
     <script src='https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js'></script>
     <script src="elm/Dashboard.js"></script>
+	<script src="js/main.js"></script>
 </head>
 <body>
 	<script>
@@ -19,9 +20,10 @@
 		const app = Elm.Page.Dashboard.init()
 		firebase.auth().onAuthStateChanged(user =>
 			user
-				? app.updateUser(user)
-				: window.location.href = '/login.html'
+				? app.ports.updateUser.send(user)
+				: window.location.href = `/login.html?f=dashboard.html`
 		)
+		listenSignOut(app)
 	})
 	</script>
 </body>
