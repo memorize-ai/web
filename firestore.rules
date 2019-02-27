@@ -30,24 +30,21 @@ service cloud.firestore {
 						allow read, create: if signedInWith(uid) && newData() == 0
 					}
 					match /last {
-						allow read, create: if signedInWith(uid)
-					}
-					match /next {
-						allow read, create: if signedInWith(uid)
+						allow read: if signedInWith(uid)
 					}
 					match /history/{historyId} {
 						allow read, create: if signedInWith(uid)
 						match /date {
-							allow read, create: if signedInWith(uid)
+							allow read: if signedInWith(uid)
 						}
 						match /next {
-							allow read, create: if signedInWith(uid)
+							allow read: if signedInWith(uid)
 						}
 						match /correct {
 							allow read, create: if signedInWith(uid) && newData().isBoolean()
 						}
 						match /elapsed {
-							allow read, create: if signedInWith(uid) && newData().isNumber()
+							allow read: if signedInWith(uid)
 						}
 					}
 				}
