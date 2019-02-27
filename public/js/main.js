@@ -1,8 +1,10 @@
-const log = message => object => {
-    console.log(message, object)
-    return object
-}
-const listenSignOut = app =>
-    app.ports.signOut.subscribe(() => firebase.auth().signOut()
-        .then(() => app.ports.signedOut.send(null))
+document.addEventListener('DOMContentLoaded', () =>
+    document.querySelectorAll('.navbar-burger').forEach(el =>
+        el.addEventListener('click', () => {
+            const target = el.dataset.target
+            const $target = document.getElementById(target)
+            el.classList.toggle('is-active')
+            $target.classList.toggle('is-active')
+        })
     )
+)

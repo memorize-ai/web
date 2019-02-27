@@ -18,14 +18,14 @@
 	<nav class="navbar" role="navigation" aria-label="main navigation">
 	<div class="navbar-brand">
 		<a class="navbar-item" href="/">memorize.ai</a>
-		<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar-index">
+		<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar-main">
 		<span aria-hidden="true"></span>
 		<span aria-hidden="true"></span>
 		<span aria-hidden="true"></span>
 		</a>
 	</div>
 	
-	<div id="navbar-index" class="navbar-menu">
+	<div id="navbar-main" class="navbar-menu">
 		<div class="navbar-start">	
 		<a class="navbar-item" href="https://itunes.apple.com/us/app/memorize-ai/id1438596749?mt=8">iOS App</a>
 	
@@ -69,9 +69,12 @@
 	<p class="subtitle">Flashcards utilizing AI for the most effective and efficient long-term memory recall</p>
 	<a href="dashboard.html">Sign up or sign in</a> or download our <a href="https://itunes.apple.com/us/app/memorize-ai/id1438596749?mt=8">iOS app</a>
 	<script>
-	firebase.auth().onAuthStateChanged(user => {})
+	document.addEventListener('DOMContentLoaded', function() {
+		firebase.auth().onAuthStateChanged(user => {})
+	})
 	</script>
 	</div>
 	</section>
+	<script src="js/main.js"></script>
 </body>
 </html>

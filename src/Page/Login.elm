@@ -78,23 +78,20 @@ viewSigningIn : Model -> Browser.Document Msg
 viewSigningIn model =
     { title = "Login - memorize.ai"
     , body =
-        [ section [ class "section" ]
-            [ div [ class "container" ]
-                [ Template.viewHeader model.user SignOut
-                , h1 [] [ text "Sign in" ]
-                , errorHtml model.error
-                , form [ onSubmit SignIn ]
-                    [ fieldset []
-                        [ legend [] [ text "Enter email and password" ]
-                        , viewInput "email" "email" "Email address" model.email InputEmail
-                        , viewInput "password" "password" "Password" model.password InputPassword
-                        , button [ disabled (not model.valid) ] [ text "Login" ]
-                        ]
+        Template.viewApp
+            [ h1 [ class "title" ] [ text "Sign in" ]
+            , errorHtml model.error
+            , form [ onSubmit SignIn ]
+                [ fieldset []
+                    [ legend [] [ text "Enter email and password" ]
+                    , viewInput "email" "email" "Email address" model.email InputEmail
+                    , viewInput "password" "password" "Password" model.password InputPassword
+                    , button [ disabled (not model.valid) ] [ text "Login" ]
                     ]
-                , a [ onClick SignUpClicked, href "#" ] [ text "Sign up instead" ]
                 ]
+            , a [ onClick SignUpClicked, href "#" ] [ text "Sign up instead" ]
             ]
-        ]
+            model.user SignOut
     }
 
 validate : Model -> Model
@@ -114,43 +111,37 @@ viewSigningUp : Model -> Browser.Document Msg
 viewSigningUp model =
     { title = "Login - memorize.ai"
     , body =
-        [ section [ class "section" ]
-            [ div [ class "container" ]
-                [ Template.viewHeader model.user SignOut
-                , h1 [ class "title" ] [ text "Sign up" ]
-                , errorHtml model.error
-                , form [ onSubmit SignUp ]
-                    [ fieldset []
-                        [ legend [] [ text "Enter account information" ]
-                        , viewInput "text" "name" "Name" model.name InputName
-                        , viewInput "email" "email" "Email address" model.email InputEmail
-                        , viewInput "password" "password" "Password" model.password InputPassword
-                        , viewInput "password" "password_again" "Password again" model.passwordConfirmation InputPasswordConfirmation
-                        , button [ disabled (not model.valid) ] [ text "Create account" ]
-                        ]
+        Template.viewApp
+            [ h1 [ class "title" ] [ text "Sign up" ]
+            , errorHtml model.error
+            , form [ onSubmit SignUp ]
+                [ fieldset []
+                    [ legend [] [ text "Enter account information" ]
+                    , viewInput "text" "name" "Name" model.name InputName
+                    , viewInput "email" "email" "Email address" model.email InputEmail
+                    , viewInput "password" "password" "Password" model.password InputPassword
+                    , viewInput "password" "password_again" "Password again" model.passwordConfirmation InputPasswordConfirmation
+                    , button [ disabled (not model.valid) ] [ text "Create account" ]
                     ]
-                , a [ onClick SignInClicked, href "#" ] [ text "Sign in instead" ]
                 ]
+            , a [ onClick SignInClicked, href "#" ] [ text "Sign in instead" ]
             ]
-        ]
+            model.user SignOut
     }
 
 viewWithUser : Model -> User -> Browser.Document Msg
 viewWithUser model user =
     { title = "Logged in as " ++ (Maybe.withDefault "unknown" user.displayName) ++ " - memorize.ai"
     , body =
-        [ section [ class "section" ]
-            [ div [ class "container" ]
-                [ Template.viewHeader model.user SignOut
-                , h1 [ class "title" ] [ text "Logged In" ]
-                , p []
-                    [ text "You're already logged in, want to go to your "
-                    , a [ href "/dashboard.html" ] [ text "dashboard" ]
-                    , text "?"
-                    ]
+        Template.viewApp
+            [ h1 [ class "title" ] [ text "Logged In" ]
+            , p []
+                [ text "You're already logged in, want to go to your "
+                , a [ href "/dashboard.html" ] [ text "dashboard" ]
+                , text "?"
                 ]
             ]
-        ]
+            model.user SignOut
     }
 
 update : Msg -> Model -> ( Model, Cmd Msg )

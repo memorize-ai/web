@@ -40,19 +40,21 @@ viewWithoutUser : Model -> Browser.Document Msg
 viewWithoutUser model =
     { title = "Dashboard - memorize.ai"
     , body =
-        [ Template.viewHeader model.user SignOut
-        , h1 [] [ text "Dashboard" ]
-        , img [ src "images/infinity.gif" ] []
-        ]
+        Template.viewApp
+            [ h1 [] [ text "Dashboard" ]
+            , img [ src "images/infinity.gif" ] []
+            ]
+            model.user SignOut
     }
 
 viewWithUser : Model -> User -> Browser.Document Msg
 viewWithUser model user =
     { title = "Dashboard for " ++ user.displayName ++ " - memorize.ai"
     , body =
-        [ Template.viewHeader model.user SignOut
-        , h1 [] [ text <| "Logged in as " ++ user.displayName  ++ " with id " ++ user.uid ]
-        ]
+        Template.viewApp
+            [ h1 [] [ text <| "Logged in as " ++ user.displayName  ++ " with id " ++ user.uid ]
+            ]
+            model.user SignOut
     }
 
 update : Msg -> Model -> ( Model, Cmd Msg )

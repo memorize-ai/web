@@ -4879,12 +4879,21 @@ var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 	}
 };
 var elm$html$Html$a = _VirtualDom_node('a');
-var elm$html$Html$h1 = _VirtualDom_node('h1');
+var elm$html$Html$div = _VirtualDom_node('div');
 var elm$html$Html$header = _VirtualDom_node('header');
-var elm$html$Html$li = _VirtualDom_node('li');
+var elm$html$Html$nav = _VirtualDom_node('nav');
+var elm$html$Html$section = _VirtualDom_node('section');
+var elm$html$Html$span = _VirtualDom_node('span');
 var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
-var elm$html$Html$ul = _VirtualDom_node('ul');
+var elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var elm$html$Html$Attributes$attribute = elm$virtual_dom$VirtualDom$attribute;
 var elm$json$Json$Encode$string = _Json_wrap;
 var elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -4893,12 +4902,14 @@ var elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			elm$json$Json$Encode$string(string));
 	});
+var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
 var elm$html$Html$Attributes$href = function (url) {
 	return A2(
 		elm$html$Html$Attributes$stringProperty,
 		'href',
 		_VirtualDom_noJavaScriptUri(url));
 };
+var elm$html$Html$Attributes$id = elm$html$Html$Attributes$stringProperty('id');
 var elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -4916,65 +4927,187 @@ var elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		elm$json$Json$Decode$succeed(msg));
 };
-var author$project$Page$Template$viewHeader = F2(
-	function (user, msg) {
-		return A2(
-			elm$html$Html$header,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					elm$html$Html$h1,
-					_List_Nil,
-					_List_fromArray(
-						[
-							elm$html$Html$text('memorize.ai')
-						])),
-					A2(
-					elm$html$Html$ul,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							elm$html$Html$li,
-							_List_Nil,
-							_List_fromArray(
-								[
-									function () {
-									if (user.$ === 'Nothing') {
-										return elm$html$Html$text('');
-									} else {
-										return A2(
-											elm$html$Html$a,
-											_List_fromArray(
-												[
-													elm$html$Html$Events$onClick(msg),
-													elm$html$Html$Attributes$href('#')
-												]),
-											_List_fromArray(
-												[
-													elm$html$Html$text('Sign out')
-												]));
-									}
-								}()
-								]))
-						]))
-				]));
+var author$project$Page$Template$viewApp = F3(
+	function (content, user, msg) {
+		return _List_fromArray(
+			[
+				A2(
+				elm$html$Html$header,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$nav,
+						_List_fromArray(
+							[
+								elm$html$Html$Attributes$class('navbar'),
+								A2(elm$html$Html$Attributes$attribute, 'role', 'navigation'),
+								A2(elm$html$Html$Attributes$attribute, 'aria-label', 'main navigation')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$div,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$class('navbar-brand')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										elm$html$Html$a,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$href('/'),
+												elm$html$Html$Attributes$class('navbar-item')
+											]),
+										_List_fromArray(
+											[
+												elm$html$Html$text('memorize.ai')
+											])),
+										A2(
+										elm$html$Html$a,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$class('navbar-burger burger'),
+												A2(elm$html$Html$Attributes$attribute, 'role', 'button'),
+												A2(elm$html$Html$Attributes$attribute, 'aria-label', 'menu'),
+												A2(elm$html$Html$Attributes$attribute, 'aria-expanded', 'false'),
+												A2(elm$html$Html$Attributes$attribute, 'aria-target', 'navbar-main')
+											]),
+										_List_Nil),
+										A2(
+										elm$html$Html$span,
+										_List_fromArray(
+											[
+												A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+											]),
+										_List_Nil),
+										A2(
+										elm$html$Html$span,
+										_List_fromArray(
+											[
+												A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+											]),
+										_List_Nil),
+										A2(
+										elm$html$Html$span,
+										_List_fromArray(
+											[
+												A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+											]),
+										_List_Nil)
+									])),
+								A2(
+								elm$html$Html$div,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$id('navbar-main'),
+										elm$html$Html$Attributes$class('navbar-menu')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										elm$html$Html$div,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$class('navbar-start')
+											]),
+										_List_Nil),
+										A2(
+										elm$html$Html$div,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$class('navbar-end')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												elm$html$Html$div,
+												_List_fromArray(
+													[
+														elm$html$Html$Attributes$class('navbar-item')
+													]),
+												_List_fromArray(
+													[
+														A2(
+														elm$html$Html$div,
+														_List_fromArray(
+															[
+																elm$html$Html$Attributes$class('buttons')
+															]),
+														_List_fromArray(
+															[
+																function () {
+																if (user.$ === 'Nothing') {
+																	return A2(
+																		elm$html$Html$a,
+																		_List_fromArray(
+																			[
+																				elm$html$Html$Attributes$class('button is-light'),
+																				elm$html$Html$Attributes$href('/login.html')
+																			]),
+																		_List_fromArray(
+																			[
+																				elm$html$Html$text('Login')
+																			]));
+																} else {
+																	return A2(
+																		elm$html$Html$a,
+																		_List_fromArray(
+																			[
+																				elm$html$Html$Attributes$class('button is-light'),
+																				elm$html$Html$Attributes$href('#'),
+																				elm$html$Html$Events$onClick(msg)
+																			]),
+																		_List_fromArray(
+																			[
+																				elm$html$Html$text('Sign out')
+																			]));
+																}
+															}()
+															]))
+													]))
+											]))
+									]))
+							]))
+					])),
+				A2(
+				elm$html$Html$section,
+				_List_fromArray(
+					[
+						elm$html$Html$Attributes$class('section')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$div,
+						_List_fromArray(
+							[
+								elm$html$Html$Attributes$class('container')
+							]),
+						content)
+					]))
+			]);
 	});
+var elm$html$Html$h1 = _VirtualDom_node('h1');
 var author$project$Page$Dashboard$viewWithUser = F2(
 	function (model, user) {
 		return {
-			body: _List_fromArray(
-				[
-					A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Dashboard$SignOut),
-					A2(
-					elm$html$Html$h1,
-					_List_Nil,
-					_List_fromArray(
-						[
-							elm$html$Html$text('Logged in as ' + (user.displayName + (' with id ' + user.uid)))
-						]))
-				]),
+			body: A3(
+				author$project$Page$Template$viewApp,
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$h1,
+						_List_Nil,
+						_List_fromArray(
+							[
+								elm$html$Html$text('Logged in as ' + (user.displayName + (' with id ' + user.uid)))
+							]))
+					]),
+				model.user,
+				author$project$Page$Dashboard$SignOut),
 			title: 'Dashboard for ' + (user.displayName + ' - memorize.ai')
 		};
 	});
@@ -4987,24 +5120,27 @@ var elm$html$Html$Attributes$src = function (url) {
 };
 var author$project$Page$Dashboard$viewWithoutUser = function (model) {
 	return {
-		body: _List_fromArray(
-			[
-				A2(author$project$Page$Template$viewHeader, model.user, author$project$Page$Dashboard$SignOut),
-				A2(
-				elm$html$Html$h1,
-				_List_Nil,
-				_List_fromArray(
-					[
-						elm$html$Html$text('Dashboard')
-					])),
-				A2(
-				elm$html$Html$img,
-				_List_fromArray(
-					[
-						elm$html$Html$Attributes$src('images/infinity.gif')
-					]),
-				_List_Nil)
-			]),
+		body: A3(
+			author$project$Page$Template$viewApp,
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$h1,
+					_List_Nil,
+					_List_fromArray(
+						[
+							elm$html$Html$text('Dashboard')
+						])),
+					A2(
+					elm$html$Html$img,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$src('images/infinity.gif')
+						]),
+					_List_Nil)
+				]),
+			model.user,
+			author$project$Page$Dashboard$SignOut),
 		title: 'Dashboard - memorize.ai'
 	};
 };

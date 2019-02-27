@@ -10,13 +10,12 @@
 	<script defer src='/__/firebase/5.8.3/firebase-messaging.js'></script>
 	<script defer src='/__/firebase/5.8.3/firebase-storage.js'></script>
 	<script defer src='/__/firebase/init.js'></script>
-    <script src='https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
     <script src="elm/Dashboard.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/elm.js"></script>
+	<!--script src="js/main.js"></script-->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
-</head>
-<body>
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		const app = Elm.Page.Dashboard.init()
@@ -28,5 +27,7 @@
 		listenSignOut(app)
 	})
 	</script>
+</head>
+<body>
 </body>
 </html>
