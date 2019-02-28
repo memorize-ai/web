@@ -5081,9 +5081,9 @@ var author$project$Page$Login$errorHtml = function (maybeError) {
 				]));
 	}
 };
-var elm$html$Html$input = _VirtualDom_node('input');
-var elm$html$Html$Attributes$id = elm$html$Html$Attributes$stringProperty('id');
-var elm$html$Html$Attributes$placeholder = elm$html$Html$Attributes$stringProperty('placeholder');
+var elm$core$Basics$not = _Basics_not;
+var elm$html$Html$button = _VirtualDom_node('button');
+var elm$html$Html$div = _VirtualDom_node('div');
 var elm$json$Json$Encode$bool = _Json_wrap;
 var elm$html$Html$Attributes$boolProperty = F2(
 	function (key, bool) {
@@ -5092,6 +5092,68 @@ var elm$html$Html$Attributes$boolProperty = F2(
 			key,
 			elm$json$Json$Encode$bool(bool));
 	});
+var elm$html$Html$Attributes$disabled = elm$html$Html$Attributes$boolProperty('disabled');
+var author$project$Page$Login$viewButton = F2(
+	function (valid, buttonText) {
+		return A2(
+			elm$html$Html$div,
+			_List_fromArray(
+				[
+					elm$html$Html$Attributes$class('field is-horizontal')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$class('field-label')
+						]),
+					_List_Nil),
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$class('field-body')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$div,
+							_List_fromArray(
+								[
+									elm$html$Html$Attributes$class('field')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									elm$html$Html$div,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$class('control')
+										]),
+									_List_fromArray(
+										[
+											A2(
+											elm$html$Html$button,
+											_List_fromArray(
+												[
+													elm$html$Html$Attributes$disabled(!valid),
+													elm$html$Html$Attributes$class('button is-primary')
+												]),
+											_List_fromArray(
+												[
+													elm$html$Html$text(buttonText)
+												]))
+										]))
+								]))
+						]))
+				]));
+	});
+var elm$html$Html$input = _VirtualDom_node('input');
+var elm$html$Html$label = _VirtualDom_node('label');
+var elm$html$Html$Attributes$id = elm$html$Html$Attributes$stringProperty('id');
+var elm$html$Html$Attributes$placeholder = elm$html$Html$Attributes$stringProperty('placeholder');
 var elm$html$Html$Attributes$required = elm$html$Html$Attributes$boolProperty('required');
 var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
 var elm$html$Html$Attributes$value = elm$html$Html$Attributes$stringProperty('value');
@@ -5182,23 +5244,78 @@ var elm$html$Html$Events$onInput = function (tagger) {
 			elm$html$Html$Events$alwaysStop,
 			A2(elm$json$Json$Decode$map, tagger, elm$html$Html$Events$targetValue)));
 };
-var author$project$Page$Login$viewInput = F5(
-	function (inputType, inputId, inputPlaceholder, inputValue, inputMsg) {
+var author$project$Page$Login$viewInput = F6(
+	function (inputLabel, inputType, inputId, inputPlaceholder, inputValue, inputMsg) {
 		return A2(
-			elm$html$Html$input,
+			elm$html$Html$div,
 			_List_fromArray(
 				[
-					elm$html$Html$Attributes$type_(inputType),
-					elm$html$Html$Attributes$id(inputId),
-					elm$html$Html$Attributes$placeholder(inputPlaceholder),
-					elm$html$Html$Attributes$required(true),
-					elm$html$Html$Attributes$value(inputValue),
-					elm$html$Html$Events$onInput(inputMsg)
+					elm$html$Html$Attributes$class('field is-horizontal')
 				]),
-			_List_Nil);
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$class('field-label is-normal')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$label,
+							_List_fromArray(
+								[
+									elm$html$Html$Attributes$class('label')
+								]),
+							_List_fromArray(
+								[
+									elm$html$Html$text(inputLabel)
+								]))
+						])),
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$class('field-body')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$div,
+							_List_fromArray(
+								[
+									elm$html$Html$Attributes$class('field is-narrow')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									elm$html$Html$div,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$class('control')
+										]),
+									_List_fromArray(
+										[
+											A2(
+											elm$html$Html$input,
+											_List_fromArray(
+												[
+													elm$html$Html$Attributes$class('input'),
+													elm$html$Html$Attributes$type_(inputType),
+													elm$html$Html$Attributes$id(inputId),
+													elm$html$Html$Attributes$placeholder(inputPlaceholder),
+													elm$html$Html$Attributes$required(true),
+													elm$html$Html$Attributes$value(inputValue),
+													elm$html$Html$Events$onInput(inputMsg)
+												]),
+											_List_Nil)
+										]))
+								]))
+						]))
+				]));
 	});
 var elm$html$Html$a = _VirtualDom_node('a');
-var elm$html$Html$div = _VirtualDom_node('div');
 var elm$html$Html$header = _VirtualDom_node('header');
 var elm$html$Html$nav = _VirtualDom_node('nav');
 var elm$html$Html$section = _VirtualDom_node('section');
@@ -5396,13 +5513,9 @@ var author$project$Page$Template$viewApp = F3(
 					]))
 			]);
 	});
-var elm$core$Basics$not = _Basics_not;
-var elm$html$Html$button = _VirtualDom_node('button');
 var elm$html$Html$fieldset = _VirtualDom_node('fieldset');
 var elm$html$Html$form = _VirtualDom_node('form');
 var elm$html$Html$h1 = _VirtualDom_node('h1');
-var elm$html$Html$legend = _VirtualDom_node('legend');
-var elm$html$Html$Attributes$disabled = elm$html$Html$Attributes$boolProperty('disabled');
 var elm$html$Html$Events$alwaysPreventDefault = function (msg) {
 	return _Utils_Tuple2(msg, true);
 };
@@ -5455,25 +5568,9 @@ var author$project$Page$Login$viewSigningIn = function (model) {
 							_List_Nil,
 							_List_fromArray(
 								[
-									A2(
-									elm$html$Html$legend,
-									_List_Nil,
-									_List_fromArray(
-										[
-											elm$html$Html$text('Enter email and password')
-										])),
-									A5(author$project$Page$Login$viewInput, 'email', 'email', 'Email address', model.email, author$project$Page$Login$InputEmail),
-									A5(author$project$Page$Login$viewInput, 'password', 'password', 'Password', model.password, author$project$Page$Login$InputPassword),
-									A2(
-									elm$html$Html$button,
-									_List_fromArray(
-										[
-											elm$html$Html$Attributes$disabled(!model.valid)
-										]),
-									_List_fromArray(
-										[
-											elm$html$Html$text('Login')
-										]))
+									A6(author$project$Page$Login$viewInput, 'Email', 'email', 'email', 'Enter email address', model.email, author$project$Page$Login$InputEmail),
+									A6(author$project$Page$Login$viewInput, 'Password', 'password', 'password', 'Enter password', model.password, author$project$Page$Login$InputPassword),
+									A2(author$project$Page$Login$viewButton, model.valid, 'Login')
 								]))
 						])),
 					A2(
@@ -5531,27 +5628,11 @@ var author$project$Page$Login$viewSigningUp = function (model) {
 							_List_Nil,
 							_List_fromArray(
 								[
-									A2(
-									elm$html$Html$legend,
-									_List_Nil,
-									_List_fromArray(
-										[
-											elm$html$Html$text('Enter account information')
-										])),
-									A5(author$project$Page$Login$viewInput, 'text', 'name', 'Name', model.name, author$project$Page$Login$InputName),
-									A5(author$project$Page$Login$viewInput, 'email', 'email', 'Email address', model.email, author$project$Page$Login$InputEmail),
-									A5(author$project$Page$Login$viewInput, 'password', 'password', 'Password', model.password, author$project$Page$Login$InputPassword),
-									A5(author$project$Page$Login$viewInput, 'password', 'password_again', 'Password again', model.passwordConfirmation, author$project$Page$Login$InputPasswordConfirmation),
-									A2(
-									elm$html$Html$button,
-									_List_fromArray(
-										[
-											elm$html$Html$Attributes$disabled(!model.valid)
-										]),
-									_List_fromArray(
-										[
-											elm$html$Html$text('Create account')
-										]))
+									A6(author$project$Page$Login$viewInput, 'Name', 'text', 'name', 'Enter name', model.name, author$project$Page$Login$InputName),
+									A6(author$project$Page$Login$viewInput, 'Email address', 'email', 'email', 'Enter email address', model.email, author$project$Page$Login$InputEmail),
+									A6(author$project$Page$Login$viewInput, 'Password', 'password', 'password', 'Enter password', model.password, author$project$Page$Login$InputPassword),
+									A6(author$project$Page$Login$viewInput, 'Password again', 'password', 'password_again', 'Enter password again', model.passwordConfirmation, author$project$Page$Login$InputPasswordConfirmation),
+									A2(author$project$Page$Login$viewButton, model.valid, 'Create account')
 								]))
 						])),
 					A2(

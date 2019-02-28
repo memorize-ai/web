@@ -11,9 +11,17 @@ port signedOut : (() -> msg) -> Sub msg
 port updateUser : (User -> msg) -> Sub msg
 
 type alias User = { displayName : String, uid : String }
+type alias Deck =
+    { id : String
+    , mastered : Int
+    , count : Maybe Int
+    , photoUrl : Maybe String
+    , name : Maybe String
+    }
 
 type alias Model =
     { user : Maybe User
+    , myDecks : List Deck
     }
 
 type Msg
@@ -24,7 +32,7 @@ type Msg
 main : Program () Model Msg
 main =
     Browser.document
-        { init = \_ -> (Model Nothing, Cmd.none)
+        { init = \_ -> (Model Nothing [], Cmd.none)
         , view = view
         , update = update
         , subscriptions = subscriptions

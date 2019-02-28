@@ -4310,9 +4310,10 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$Page$Dashboard$Model = function (user) {
-	return {user: user};
-};
+var author$project$Page$Dashboard$Model = F2(
+	function (user, myDecks) {
+		return {myDecks: myDecks, user: user};
+	});
 var author$project$Page$Dashboard$SignedOut = {$: 'SignedOut'};
 var author$project$Page$Dashboard$UpdatedUser = function (a) {
 	return {$: 'UpdatedUser', a: a};
@@ -5453,7 +5454,7 @@ var author$project$Page$Dashboard$main = elm$browser$Browser$document(
 	{
 		init: function (_n0) {
 			return _Utils_Tuple2(
-				author$project$Page$Dashboard$Model(elm$core$Maybe$Nothing),
+				A2(author$project$Page$Dashboard$Model, elm$core$Maybe$Nothing, _List_Nil),
 				elm$core$Platform$Cmd$none);
 		},
 		subscriptions: author$project$Page$Dashboard$subscriptions,

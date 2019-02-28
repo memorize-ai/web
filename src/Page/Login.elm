@@ -70,9 +70,33 @@ errorHtml maybeError =
         Nothing -> br [] []
         Just error -> p [ class "error" ] [ text error ]
 
-viewInput : String -> String -> String -> String -> (String -> Msg) -> Html Msg
-viewInput inputType inputId inputPlaceholder inputValue inputMsg =
-    input [ type_ inputType, id inputId, placeholder inputPlaceholder, required True, value inputValue, onInput inputMsg ] []
+viewInput : String -> String -> String -> String -> String -> (String -> Msg) -> Html Msg
+viewInput inputLabel inputType inputId inputPlaceholder inputValue inputMsg =
+    div [ class "field is-horizontal" ]
+        [ div [ class "field-label is-normal" ]
+            [ label [ class "label" ] [ text inputLabel ] ]
+        , div [ class "field-body" ]
+            [ div [ class "field is-narrow" ]
+                [ div [ class "control" ]
+                    [ input [ class "input", type_ inputType, id inputId, placeholder inputPlaceholder, required True, value inputValue, onInput inputMsg ] []
+                    ]
+                ]
+            ]
+        ]
+
+viewButton : Bool -> String -> Html Msg
+viewButton valid buttonText =
+    div [ class "field is-horizontal" ]
+        [ div [ class "field-label" ] []
+        , div [ class "field-body" ]
+            [ div [ class "field" ]
+                [ div [ class "control" ]
+                    [ button [ disabled (not valid), class "button is-primary" ]
+                        [ text buttonText ]
+                    ]
+                ]
+            ]
+        ]
 
 viewSigningIn : Model -> Browser.Document Msg
 viewSigningIn model =
@@ -83,10 +107,10 @@ viewSigningIn model =
             , errorHtml model.error
             , form [ onSubmit SignIn ]
                 [ fieldset []
-                    [ legend [] [ text "Enter email and password" ]
-                    , viewInput "email" "email" "Email address" model.email InputEmail
-                    , viewInput "password" "password" "Password" model.password InputPassword
-                    , button [ disabled (not model.valid) ] [ text "Login" ]
+                    [ {-legend [] [ text "Enter email and password" ]
+                    , -}viewInput "Email" "email" "email" "Enter email address" model.email InputEmail
+                    , viewInput "Password" "password" "password" "Enter password" model.password InputPassword
+                    , viewButton model.valid "Login"
                     ]
                 ]
             , a [ onClick SignUpClicked, href "#" ] [ text "Sign up instead" ]
@@ -116,12 +140,12 @@ viewSigningUp model =
             , errorHtml model.error
             , form [ onSubmit SignUp ]
                 [ fieldset []
-                    [ legend [] [ text "Enter account information" ]
-                    , viewInput "text" "name" "Name" model.name InputName
-                    , viewInput "email" "email" "Email address" model.email InputEmail
-                    , viewInput "password" "password" "Password" model.password InputPassword
-                    , viewInput "password" "password_again" "Password again" model.passwordConfirmation InputPasswordConfirmation
-                    , button [ disabled (not model.valid) ] [ text "Create account" ]
+                    [ {-legend [] [ text "Enter account information" ]
+                    , -}viewInput "Name" "text" "name" "Enter name" model.name InputName
+                    , viewInput "Email address" "email" "email" "Enter email address" model.email InputEmail
+                    , viewInput "Password" "password" "password" "Enter password" model.password InputPassword
+                    , viewInput "Password again" "password" "password_again" "Enter password again" model.passwordConfirmation InputPasswordConfirmation
+                    , viewButton model.valid "Create account"
                     ]
                 ]
             , a [ onClick SignInClicked, href "#" ] [ text "Sign in instead" ]
