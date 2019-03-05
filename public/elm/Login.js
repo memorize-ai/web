@@ -6049,7 +6049,7 @@ var author$project$Page$Login$main = elm$browser$Browser$document(
 	{
 		init: function (from) {
 			return _Utils_Tuple2(
-				A9(author$project$Page$Login$Model, elm$core$Maybe$Nothing, from, author$project$Page$Login$SigningUp, elm$core$Maybe$Nothing, 'SAM', 'scott@sup.ai', 'abcdef', 'abcdef', true),
+				A9(author$project$Page$Login$Model, elm$core$Maybe$Nothing, from, author$project$Page$Login$SigningUp, elm$core$Maybe$Nothing, '', '', '', '', true),
 				elm$core$Platform$Cmd$none);
 		},
 		subscriptions: author$project$Page$Login$subscriptions,

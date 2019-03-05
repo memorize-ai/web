@@ -50,7 +50,7 @@ type Msg
 main : Program String Model Msg
 main =
     Browser.document
-        { init = \from -> (Model Nothing from SigningUp Nothing "SAM" "scott@sup.ai" "abcdef" "abcdef" True, Cmd.none)
+        { init = \from -> (Model Nothing from SigningUp Nothing "" "" "" "" True, Cmd.none)
         , view = view
         , update = update
         , subscriptions = subscriptions
