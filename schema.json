@@ -3,7 +3,7 @@
 		"abc123": {
 			"name": "Ken Mueller",
 			"email": "kenmueller0@gmail.com",
-			"link": "kenmueller",
+			"slug": "kenmueller",
 			"decks (sub-collection)": {
 				"jkl012": {
 					"mastered": 699,

@@ -4,15 +4,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Login - memorize.ai</title>
-	<script defer src='/__/firebase/5.8.3/firebase-app.js'></script>
-	<script defer src='/__/firebase/5.8.3/firebase-auth.js'></script>
-	<script defer src='/__/firebase/5.8.3/firebase-firestore.js'></script>
-	<script defer src='/__/firebase/5.8.3/firebase-messaging.js'></script>
-	<script defer src='/__/firebase/5.8.3/firebase-storage.js'></script>
-	<script defer src='/__/firebase/init.js'></script>
+	<script defer src="/__/firebase/5.8.4/firebase-app.js"></script>
+	<script defer src="/__/firebase/5.8.4/firebase-auth.js"></script>
+	<script defer src="/__/firebase/5.8.4/firebase-firestore.js"></script>
+	<script defer src="/__/firebase/5.8.4/firebase-messaging.js"></script>
+	<script defer src="/__/firebase/5.8.4/firebase-storage.js"></script>
+	<script defer src="/__/firebase/init.js"></script>
 	<script src="elm/Login.js"></script>
 	<script src="js/elm.js"></script>
-	<!--script src="js/main.js"></script-->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 </head>
@@ -29,7 +28,7 @@
 		const sendAppInvalidSignInMessage = app => error =>
 			error && app.ports.invalidSignIn.send(error.message)
 		const redirectToFrom = () =>
-			window.location.href = `/${from}`
+			window.location.href = from
 
 		firebase.auth().onAuthStateChanged(user =>
 			user
@@ -50,5 +49,6 @@
 		listenSignOut(app)
 	})
 	</script>
+	<script src="js/main.js"></script>
 </body>
 </html>

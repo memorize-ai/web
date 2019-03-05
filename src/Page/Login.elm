@@ -68,7 +68,7 @@ errorHtml : Maybe String -> Html Msg
 errorHtml maybeError =
     case maybeError of
         Nothing -> br [] []
-        Just error -> p [ class "error" ] [ text error ]
+        Just error -> p [ class "content error" ] [ text error ]
 
 viewInput : String -> String -> String -> String -> String -> (String -> Msg) -> Html Msg
 viewInput inputLabel inputType inputId inputPlaceholder inputValue inputMsg =
@@ -103,17 +103,19 @@ viewSigningIn model =
     { title = "Login - memorize.ai"
     , body =
         Template.viewApp
-            [ h1 [ class "title" ] [ text "Sign in" ]
-            , errorHtml model.error
-            , form [ onSubmit SignIn ]
-                [ fieldset []
-                    [ {-legend [] [ text "Enter email and password" ]
-                    , -}viewInput "Email" "email" "email" "Enter email address" model.email InputEmail
-                    , viewInput "Password" "password" "password" "Enter password" model.password InputPassword
-                    , viewButton model.valid "Login"
+            [ Template.viewSection (Just "sign_in") Nothing
+                [ h1 [ class "title" ] [ text "Sign in" ]
+                , errorHtml model.error
+                , form [ onSubmit SignIn ]
+                    [ fieldset []
+                        [ {-legend [] [ text "Enter email and password" ]
+                        , -}viewInput "Email" "email" "email" "Enter email address" model.email InputEmail
+                        , viewInput "Password" "password" "password" "Enter password" model.password InputPassword
+                        , viewButton model.valid "Login"
+                        ]
                     ]
+                , a [ onClick SignUpClicked, href "#" ] [ text "Sign up instead" ]
                 ]
-            , a [ onClick SignUpClicked, href "#" ] [ text "Sign up instead" ]
             ]
             model.user SignOut
     }
@@ -136,19 +138,21 @@ viewSigningUp model =
     { title = "Login - memorize.ai"
     , body =
         Template.viewApp
-            [ h1 [ class "title" ] [ text "Sign up" ]
-            , errorHtml model.error
-            , form [ onSubmit SignUp ]
-                [ fieldset []
-                    [ {-legend [] [ text "Enter account information" ]
-                    , -}viewInput "Name" "text" "name" "Enter name" model.name InputName
-                    , viewInput "Email address" "email" "email" "Enter email address" model.email InputEmail
-                    , viewInput "Password" "password" "password" "Enter password" model.password InputPassword
-                    , viewInput "Password again" "password" "password_again" "Enter password again" model.passwordConfirmation InputPasswordConfirmation
-                    , viewButton model.valid "Create account"
+            [ Template.viewSection (Just "sign_up") Nothing
+                [ h1 [ class "title" ] [ text "Sign up" ]
+                , errorHtml model.error
+                , form [ onSubmit SignUp ]
+                    [ fieldset []
+                        [ {-legend [] [ text "Enter account information" ]
+                        , -}viewInput "Name" "text" "name" "Enter name" model.name InputName
+                        , viewInput "Email address" "email" "email" "Enter email address" model.email InputEmail
+                        , viewInput "Password" "password" "password" "Enter password" model.password InputPassword
+                        , viewInput "Password again" "password" "password_again" "Enter password again" model.passwordConfirmation InputPasswordConfirmation
+                        , viewButton model.valid "Create account"
+                        ]
                     ]
+                , a [ onClick SignInClicked, href "#" ] [ text "Sign in instead" ]
                 ]
-            , a [ onClick SignInClicked, href "#" ] [ text "Sign in instead" ]
             ]
             model.user SignOut
     }
@@ -158,11 +162,13 @@ viewWithUser model user =
     { title = "Logged in as " ++ (Maybe.withDefault "unknown" user.displayName) ++ " - memorize.ai"
     , body =
         Template.viewApp
-            [ h1 [ class "title" ] [ text "Logged In" ]
-            , p []
-                [ text "You're already logged in, want to go to your "
-                , a [ href "/dashboard.html" ] [ text "dashboard" ]
-                , text "?"
+            [ Template.viewSection (Just "signed_in") Nothing
+                [ h1 [ class "title" ] [ text "Logged In" ]
+                , p [ class "content" ]
+                    [ text "You're already logged in, want to go to your "
+                    , a [ href "/dashboard.html" ] [ text "dashboard" ]
+                    , text "?"
+                    ]
                 ]
             ]
             model.user SignOut

@@ -4314,10 +4314,17 @@ var author$project$Page$Dashboard$Model = F2(
 	function (user, myDecks) {
 		return {myDecks: myDecks, user: user};
 	});
+var author$project$Page$Dashboard$AddedMyDeck = function (a) {
+	return {$: 'AddedMyDeck', a: a};
+};
 var author$project$Page$Dashboard$SignedOut = {$: 'SignedOut'};
 var author$project$Page$Dashboard$UpdatedUser = function (a) {
 	return {$: 'UpdatedUser', a: a};
 };
+var elm$core$Maybe$Just = function (a) {
+	return {$: 'Just', a: a};
+};
+var elm$core$Maybe$Nothing = {$: 'Nothing'};
 var elm$core$Array$branchFactor = 32;
 var elm$core$Array$Array_elm_builtin = F4(
 	function (a, b, c, d) {
@@ -4570,10 +4577,6 @@ var elm$core$Array$initialize = F2(
 			return A5(elm$core$Array$initializeHelp, fn, initialFromIndex, len, _List_Nil, tail);
 		}
 	});
-var elm$core$Maybe$Just = function (a) {
-	return {$: 'Just', a: a};
-};
-var elm$core$Maybe$Nothing = {$: 'Nothing'};
 var elm$core$Result$Err = function (a) {
 	return {$: 'Err', a: a};
 };
@@ -4793,14 +4796,83 @@ var elm$json$Json$Decode$errorToStringHelp = F2(
 			}
 		}
 	});
+var elm$json$Json$Decode$andThen = _Json_andThen;
+var elm$json$Json$Decode$field = _Json_decodeField;
+var elm$json$Json$Decode$int = _Json_decodeInt;
+var elm$json$Json$Decode$map = _Json_map1;
 var elm$json$Json$Decode$null = _Json_decodeNull;
+var elm$json$Json$Decode$oneOf = _Json_oneOf;
+var elm$json$Json$Decode$string = _Json_decodeString;
+var elm$json$Json$Decode$succeed = _Json_succeed;
+var author$project$Page$Dashboard$addMyDeck = _Platform_incomingPort(
+	'addMyDeck',
+	A2(
+		elm$json$Json$Decode$andThen,
+		function (photoUrl) {
+			return A2(
+				elm$json$Json$Decode$andThen,
+				function (name) {
+					return A2(
+						elm$json$Json$Decode$andThen,
+						function (mastered) {
+							return A2(
+								elm$json$Json$Decode$andThen,
+								function (id) {
+									return A2(
+										elm$json$Json$Decode$andThen,
+										function (count) {
+											return A2(
+												elm$json$Json$Decode$andThen,
+												function (author) {
+													return elm$json$Json$Decode$succeed(
+														{author: author, count: count, id: id, mastered: mastered, name: name, photoUrl: photoUrl});
+												},
+												A2(
+													elm$json$Json$Decode$field,
+													'author',
+													elm$json$Json$Decode$oneOf(
+														_List_fromArray(
+															[
+																elm$json$Json$Decode$null(elm$core$Maybe$Nothing),
+																A2(elm$json$Json$Decode$map, elm$core$Maybe$Just, elm$json$Json$Decode$string)
+															]))));
+										},
+										A2(
+											elm$json$Json$Decode$field,
+											'count',
+											elm$json$Json$Decode$oneOf(
+												_List_fromArray(
+													[
+														elm$json$Json$Decode$null(elm$core$Maybe$Nothing),
+														A2(elm$json$Json$Decode$map, elm$core$Maybe$Just, elm$json$Json$Decode$int)
+													]))));
+								},
+								A2(elm$json$Json$Decode$field, 'id', elm$json$Json$Decode$string));
+						},
+						A2(elm$json$Json$Decode$field, 'mastered', elm$json$Json$Decode$int));
+				},
+				A2(
+					elm$json$Json$Decode$field,
+					'name',
+					elm$json$Json$Decode$oneOf(
+						_List_fromArray(
+							[
+								elm$json$Json$Decode$null(elm$core$Maybe$Nothing),
+								A2(elm$json$Json$Decode$map, elm$core$Maybe$Just, elm$json$Json$Decode$string)
+							]))));
+		},
+		A2(
+			elm$json$Json$Decode$field,
+			'photoUrl',
+			elm$json$Json$Decode$oneOf(
+				_List_fromArray(
+					[
+						elm$json$Json$Decode$null(elm$core$Maybe$Nothing),
+						A2(elm$json$Json$Decode$map, elm$core$Maybe$Just, elm$json$Json$Decode$string)
+					])))));
 var author$project$Page$Dashboard$signedOut = _Platform_incomingPort(
 	'signedOut',
 	elm$json$Json$Decode$null(_Utils_Tuple0));
-var elm$json$Json$Decode$andThen = _Json_andThen;
-var elm$json$Json$Decode$field = _Json_decodeField;
-var elm$json$Json$Decode$string = _Json_decodeString;
-var elm$json$Json$Decode$succeed = _Json_succeed;
 var author$project$Page$Dashboard$updateUser = _Platform_incomingPort(
 	'updateUser',
 	A2(
@@ -4825,6 +4897,7 @@ var author$project$Page$Dashboard$subscriptions = function (model) {
 		_List_fromArray(
 			[
 				author$project$Page$Dashboard$updateUser(author$project$Page$Dashboard$UpdatedUser),
+				author$project$Page$Dashboard$addMyDeck(author$project$Page$Dashboard$AddedMyDeck),
 				author$project$Page$Dashboard$signedOut(
 				elm$core$Basics$always(author$project$Page$Dashboard$SignedOut))
 			]));
@@ -4849,6 +4922,15 @@ var author$project$Page$Dashboard$update = F2(
 							user: elm$core$Maybe$Just(user)
 						}),
 					elm$core$Platform$Cmd$none);
+			case 'AddedMyDeck':
+				var deck = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							myDecks: A2(elm$core$List$cons, deck, model.myDecks)
+						}),
+					elm$core$Platform$Cmd$none);
 			case 'SignOut':
 				return _Utils_Tuple2(
 					model,
@@ -4862,10 +4944,28 @@ var author$project$Page$Dashboard$update = F2(
 		}
 	});
 var author$project$Page$Dashboard$SignOut = {$: 'SignOut'};
+var elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return elm$core$Maybe$Nothing;
+		}
+	});
+var elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
 var elm$core$Basics$identity = function (x) {
 	return x;
 };
-var elm$json$Json$Decode$map = _Json_map1;
 var elm$json$Json$Decode$map2 = _Json_map2;
 var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 	switch (handler.$) {
@@ -4879,22 +4979,28 @@ var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 			return 3;
 	}
 };
-var elm$html$Html$a = _VirtualDom_node('a');
-var elm$html$Html$div = _VirtualDom_node('div');
-var elm$html$Html$header = _VirtualDom_node('header');
-var elm$html$Html$nav = _VirtualDom_node('nav');
-var elm$html$Html$section = _VirtualDom_node('section');
-var elm$html$Html$span = _VirtualDom_node('span');
+var elm$html$Html$i = _VirtualDom_node('i');
 var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
-var elm$virtual_dom$VirtualDom$attribute = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_attribute,
-			_VirtualDom_noOnOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
-var elm$html$Html$Attributes$attribute = elm$virtual_dom$VirtualDom$attribute;
+var author$project$Page$Dashboard$loadingOrText = function (textMaybe) {
+	return A2(
+		elm$core$Maybe$withDefault,
+		A2(
+			elm$html$Html$i,
+			_List_Nil,
+			_List_fromArray(
+				[
+					elm$html$Html$text('Loading...')
+				])),
+		A2(elm$core$Maybe$map, elm$html$Html$text, textMaybe));
+};
+var elm$html$Html$article = _VirtualDom_node('article');
+var elm$html$Html$div = _VirtualDom_node('div');
+var elm$html$Html$figure = _VirtualDom_node('figure');
+var elm$html$Html$img = _VirtualDom_node('img');
+var elm$html$Html$p = _VirtualDom_node('p');
+var elm$html$Html$small = _VirtualDom_node('small');
+var elm$html$Html$strong = _VirtualDom_node('strong');
 var elm$json$Json$Encode$string = _Json_wrap;
 var elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -4903,7 +5009,122 @@ var elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			elm$json$Json$Encode$string(string));
 	});
+var elm$html$Html$Attributes$alt = elm$html$Html$Attributes$stringProperty('alt');
 var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
+var elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var author$project$Page$Dashboard$viewDeckThumbnail = function (deck) {
+	return A2(
+		elm$html$Html$div,
+		_List_fromArray(
+			[
+				elm$html$Html$Attributes$class('box')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				elm$html$Html$article,
+				_List_fromArray(
+					[
+						elm$html$Html$Attributes$class('media')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$div,
+						_List_fromArray(
+							[
+								elm$html$Html$Attributes$class('media-left')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$figure,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$class('image is-64x64')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										elm$html$Html$img,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$src(
+												A2(elm$core$Maybe$withDefault, 'images/infinity.gif', deck.photoUrl)),
+												elm$html$Html$Attributes$alt('Image')
+											]),
+										_List_Nil)
+									]))
+							])),
+						A2(
+						elm$html$Html$div,
+						_List_fromArray(
+							[
+								elm$html$Html$Attributes$class('media-content')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$div,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$class('content')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										elm$html$Html$p,
+										_List_Nil,
+										_List_fromArray(
+											[
+												A2(
+												elm$html$Html$strong,
+												_List_Nil,
+												_List_fromArray(
+													[
+														author$project$Page$Dashboard$loadingOrText(deck.name)
+													])),
+												elm$html$Html$text(' '),
+												A2(
+												elm$html$Html$small,
+												_List_Nil,
+												_List_fromArray(
+													[
+														author$project$Page$Dashboard$loadingOrText(deck.author)
+													])),
+												elm$html$Html$text(' '),
+												A2(
+												elm$html$Html$small,
+												_List_Nil,
+												_List_fromArray(
+													[
+														author$project$Page$Dashboard$loadingOrText(
+														A2(elm$core$Maybe$map, elm$core$String$fromInt, deck.count))
+													]))
+											]))
+									]))
+							]))
+					]))
+			]));
+};
+var elm$html$Html$a = _VirtualDom_node('a');
+var elm$html$Html$footer = _VirtualDom_node('footer');
+var elm$html$Html$header = _VirtualDom_node('header');
+var elm$html$Html$nav = _VirtualDom_node('nav');
+var elm$html$Html$span = _VirtualDom_node('span');
+var elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var elm$html$Html$Attributes$attribute = elm$virtual_dom$VirtualDom$attribute;
 var elm$html$Html$Attributes$href = function (url) {
 	return A2(
 		elm$html$Html$Attributes$stringProperty,
@@ -4929,10 +5150,10 @@ var elm$html$Html$Events$onClick = function (msg) {
 		elm$json$Json$Decode$succeed(msg));
 };
 var author$project$Page$Template$viewApp = F3(
-	function (content, user, msg) {
-		return _List_fromArray(
-			[
-				A2(
+	function (sections, user, msg) {
+		return A2(
+			elm$core$List$cons,
+			A2(
 				elm$html$Html$header,
 				_List_Nil,
 				_List_fromArray(
@@ -4974,30 +5195,32 @@ var author$project$Page$Template$viewApp = F3(
 												A2(elm$html$Html$Attributes$attribute, 'role', 'button'),
 												A2(elm$html$Html$Attributes$attribute, 'aria-label', 'menu'),
 												A2(elm$html$Html$Attributes$attribute, 'aria-expanded', 'false'),
-												A2(elm$html$Html$Attributes$attribute, 'aria-target', 'navbar-main')
+												A2(elm$html$Html$Attributes$attribute, 'data-target', 'navbar-main')
 											]),
-										_List_Nil),
-										A2(
-										elm$html$Html$span,
 										_List_fromArray(
 											[
-												A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-											]),
-										_List_Nil),
-										A2(
-										elm$html$Html$span,
-										_List_fromArray(
-											[
-												A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-											]),
-										_List_Nil),
-										A2(
-										elm$html$Html$span,
-										_List_fromArray(
-											[
-												A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-											]),
-										_List_Nil)
+												A2(
+												elm$html$Html$span,
+												_List_fromArray(
+													[
+														A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+													]),
+												_List_Nil),
+												A2(
+												elm$html$Html$span,
+												_List_fromArray(
+													[
+														A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+													]),
+												_List_Nil),
+												A2(
+												elm$html$Html$span,
+												_List_fromArray(
+													[
+														A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+													]),
+												_List_Nil)
+											]))
 									])),
 								A2(
 								elm$html$Html$div,
@@ -5073,110 +5296,86 @@ var author$project$Page$Template$viewApp = F3(
 									]))
 							]))
 					])),
-				A2(
-				elm$html$Html$section,
-				_List_fromArray(
-					[
-						elm$html$Html$Attributes$class('section')
-					]),
+			_Utils_ap(
+				sections,
 				_List_fromArray(
 					[
 						A2(
-						elm$html$Html$div,
+						elm$html$Html$footer,
 						_List_fromArray(
 							[
-								elm$html$Html$Attributes$class('container')
+								elm$html$Html$Attributes$class('footer')
 							]),
-						content)
-					]))
-			]);
-	});
-var elm$html$Html$h1 = _VirtualDom_node('h1');
-var author$project$Page$Dashboard$viewWithUser = F2(
-	function (model, user) {
-		return {
-			body: A3(
-				author$project$Page$Template$viewApp,
-				_List_fromArray(
-					[
-						A2(
-						elm$html$Html$h1,
-						_List_Nil,
 						_List_fromArray(
 							[
-								elm$html$Html$text('Logged in as ' + (user.displayName + (' with id ' + user.uid)))
+								A2(
+								elm$html$Html$div,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$class('content has-text-centered')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										elm$html$Html$p,
+										_List_Nil,
+										_List_fromArray(
+											[
+												A2(
+												elm$html$Html$strong,
+												_List_Nil,
+												_List_fromArray(
+													[
+														elm$html$Html$text('memorize.ai')
+													])),
+												elm$html$Html$text(' by Ken Mueller')
+											]))
+									]))
 							]))
-					]),
-				model.user,
-				author$project$Page$Dashboard$SignOut),
-			title: 'Dashboard for ' + (user.displayName + ' - memorize.ai')
-		};
+					])));
 	});
-var elm$html$Html$img = _VirtualDom_node('img');
-var elm$html$Html$Attributes$src = function (url) {
-	return A2(
-		elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
-};
-var author$project$Page$Dashboard$viewWithoutUser = function (model) {
-	return {
-		body: A3(
-			author$project$Page$Template$viewApp,
+var author$project$Page$Template$appendMaybe = F2(
+	function (base, moreMaybe) {
+		if (moreMaybe.$ === 'Nothing') {
+			return base;
+		} else {
+			var more = moreMaybe.a;
+			return base + (' ' + more);
+		}
+	});
+var elm$html$Html$section = _VirtualDom_node('section');
+var author$project$Page$Template$viewSection = F3(
+	function (idAttrMaybe, classAttrMaybe, contents) {
+		return A2(
+			elm$html$Html$section,
+			function () {
+				if (idAttrMaybe.$ === 'Nothing') {
+					return _List_fromArray(
+						[
+							elm$html$Html$Attributes$class(
+							A2(author$project$Page$Template$appendMaybe, 'section', classAttrMaybe))
+						]);
+				} else {
+					var idAttr = idAttrMaybe.a;
+					return _List_fromArray(
+						[
+							elm$html$Html$Attributes$id(idAttr),
+							elm$html$Html$Attributes$class(
+							A2(author$project$Page$Template$appendMaybe, 'section', classAttrMaybe))
+						]);
+				}
+			}(),
 			_List_fromArray(
 				[
 					A2(
-					elm$html$Html$h1,
-					_List_Nil,
+					elm$html$Html$div,
 					_List_fromArray(
 						[
-							elm$html$Html$text('Dashboard')
-						])),
-					A2(
-					elm$html$Html$img,
-					_List_fromArray(
-						[
-							elm$html$Html$Attributes$src('images/infinity.gif')
+							elm$html$Html$Attributes$class('container')
 						]),
-					_List_Nil)
-				]),
-			model.user,
-			author$project$Page$Dashboard$SignOut),
-		title: 'Dashboard - memorize.ai'
-	};
-};
-var author$project$Page$Dashboard$view = function (model) {
-	var _n0 = model.user;
-	if (_n0.$ === 'Nothing') {
-		return author$project$Page$Dashboard$viewWithoutUser(model);
-	} else {
-		var user = _n0.a;
-		return A2(author$project$Page$Dashboard$viewWithUser, model, user);
-	}
-};
-var elm$browser$Browser$External = function (a) {
-	return {$: 'External', a: a};
-};
-var elm$browser$Browser$Internal = function (a) {
-	return {$: 'Internal', a: a};
-};
-var elm$browser$Browser$Dom$NotFound = function (a) {
-	return {$: 'NotFound', a: a};
-};
-var elm$core$Basics$never = function (_n0) {
-	never:
-	while (true) {
-		var nvr = _n0.a;
-		var $temp$_n0 = nvr;
-		_n0 = $temp$_n0;
-		continue never;
-	}
-};
-var elm$core$Task$Perform = function (a) {
-	return {$: 'Perform', a: a};
-};
-var elm$core$Task$succeed = _Scheduler_succeed;
-var elm$core$Task$init = elm$core$Task$succeed(_Utils_Tuple0);
+					contents)
+				]));
+	});
 var elm$core$List$foldrHelper = F4(
 	function (fn, acc, ctr, ls) {
 		if (!ls.b) {
@@ -5246,6 +5445,102 @@ var elm$core$List$map = F2(
 			_List_Nil,
 			xs);
 	});
+var elm$html$Html$h1 = _VirtualDom_node('h1');
+var author$project$Page$Dashboard$viewWithUser = F2(
+	function (model, user) {
+		return {
+			body: A3(
+				author$project$Page$Template$viewApp,
+				_List_fromArray(
+					[
+						A3(
+						author$project$Page$Template$viewSection,
+						elm$core$Maybe$Just('my_decks'),
+						elm$core$Maybe$Just('decks'),
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$h1,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$class('title')
+									]),
+								_List_fromArray(
+									[
+										elm$html$Html$text('My decks')
+									])),
+								A2(
+								elm$html$Html$div,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$class('decks')
+									]),
+								A2(elm$core$List$map, author$project$Page$Dashboard$viewDeckThumbnail, model.myDecks))
+							]))
+					]),
+				model.user,
+				author$project$Page$Dashboard$SignOut),
+			title: 'Dashboard for ' + (user.displayName + ' - memorize.ai')
+		};
+	});
+var author$project$Page$Dashboard$viewWithoutUser = function (model) {
+	return {
+		body: A3(
+			author$project$Page$Template$viewApp,
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$h1,
+					_List_Nil,
+					_List_fromArray(
+						[
+							elm$html$Html$text('Dashboard')
+						])),
+					A2(
+					elm$html$Html$img,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$src('images/infinity.gif')
+						]),
+					_List_Nil)
+				]),
+			model.user,
+			author$project$Page$Dashboard$SignOut),
+		title: 'Dashboard - memorize.ai'
+	};
+};
+var author$project$Page$Dashboard$view = function (model) {
+	var _n0 = model.user;
+	if (_n0.$ === 'Nothing') {
+		return author$project$Page$Dashboard$viewWithoutUser(model);
+	} else {
+		var user = _n0.a;
+		return A2(author$project$Page$Dashboard$viewWithUser, model, user);
+	}
+};
+var elm$browser$Browser$External = function (a) {
+	return {$: 'External', a: a};
+};
+var elm$browser$Browser$Internal = function (a) {
+	return {$: 'Internal', a: a};
+};
+var elm$browser$Browser$Dom$NotFound = function (a) {
+	return {$: 'NotFound', a: a};
+};
+var elm$core$Basics$never = function (_n0) {
+	never:
+	while (true) {
+		var nvr = _n0.a;
+		var $temp$_n0 = nvr;
+		_n0 = $temp$_n0;
+		continue never;
+	}
+};
+var elm$core$Task$Perform = function (a) {
+	return {$: 'Perform', a: a};
+};
+var elm$core$Task$succeed = _Scheduler_succeed;
+var elm$core$Task$init = elm$core$Task$succeed(_Utils_Tuple0);
 var elm$core$Task$andThen = _Scheduler_andThen;
 var elm$core$Task$map = F2(
 	function (func, taskA) {

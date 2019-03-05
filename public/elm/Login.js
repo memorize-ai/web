@@ -5073,7 +5073,7 @@ var author$project$Page$Login$errorHtml = function (maybeError) {
 			elm$html$Html$p,
 			_List_fromArray(
 				[
-					elm$html$Html$Attributes$class('error')
+					elm$html$Html$Attributes$class('content error')
 				]),
 			_List_fromArray(
 				[
@@ -5316,10 +5316,11 @@ var author$project$Page$Login$viewInput = F6(
 				]));
 	});
 var elm$html$Html$a = _VirtualDom_node('a');
+var elm$html$Html$footer = _VirtualDom_node('footer');
 var elm$html$Html$header = _VirtualDom_node('header');
 var elm$html$Html$nav = _VirtualDom_node('nav');
-var elm$html$Html$section = _VirtualDom_node('section');
 var elm$html$Html$span = _VirtualDom_node('span');
+var elm$html$Html$strong = _VirtualDom_node('strong');
 var elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
 		return A2(
@@ -5351,10 +5352,10 @@ var elm$html$Html$Events$onClick = function (msg) {
 		elm$json$Json$Decode$succeed(msg));
 };
 var author$project$Page$Template$viewApp = F3(
-	function (content, user, msg) {
-		return _List_fromArray(
-			[
-				A2(
+	function (sections, user, msg) {
+		return A2(
+			elm$core$List$cons,
+			A2(
 				elm$html$Html$header,
 				_List_Nil,
 				_List_fromArray(
@@ -5396,30 +5397,32 @@ var author$project$Page$Template$viewApp = F3(
 												A2(elm$html$Html$Attributes$attribute, 'role', 'button'),
 												A2(elm$html$Html$Attributes$attribute, 'aria-label', 'menu'),
 												A2(elm$html$Html$Attributes$attribute, 'aria-expanded', 'false'),
-												A2(elm$html$Html$Attributes$attribute, 'aria-target', 'navbar-main')
+												A2(elm$html$Html$Attributes$attribute, 'data-target', 'navbar-main')
 											]),
-										_List_Nil),
-										A2(
-										elm$html$Html$span,
 										_List_fromArray(
 											[
-												A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-											]),
-										_List_Nil),
-										A2(
-										elm$html$Html$span,
-										_List_fromArray(
-											[
-												A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-											]),
-										_List_Nil),
-										A2(
-										elm$html$Html$span,
-										_List_fromArray(
-											[
-												A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-											]),
-										_List_Nil)
+												A2(
+												elm$html$Html$span,
+												_List_fromArray(
+													[
+														A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+													]),
+												_List_Nil),
+												A2(
+												elm$html$Html$span,
+												_List_fromArray(
+													[
+														A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+													]),
+												_List_Nil),
+												A2(
+												elm$html$Html$span,
+												_List_fromArray(
+													[
+														A2(elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+													]),
+												_List_Nil)
+											]))
 									])),
 								A2(
 								elm$html$Html$div,
@@ -5495,23 +5498,85 @@ var author$project$Page$Template$viewApp = F3(
 									]))
 							]))
 					])),
-				A2(
-				elm$html$Html$section,
-				_List_fromArray(
-					[
-						elm$html$Html$Attributes$class('section')
-					]),
+			_Utils_ap(
+				sections,
 				_List_fromArray(
 					[
 						A2(
-						elm$html$Html$div,
+						elm$html$Html$footer,
 						_List_fromArray(
 							[
-								elm$html$Html$Attributes$class('container')
+								elm$html$Html$Attributes$class('footer')
 							]),
-						content)
-					]))
-			]);
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$div,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$class('content has-text-centered')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										elm$html$Html$p,
+										_List_Nil,
+										_List_fromArray(
+											[
+												A2(
+												elm$html$Html$strong,
+												_List_Nil,
+												_List_fromArray(
+													[
+														elm$html$Html$text('memorize.ai')
+													])),
+												elm$html$Html$text(' by Ken Mueller')
+											]))
+									]))
+							]))
+					])));
+	});
+var author$project$Page$Template$appendMaybe = F2(
+	function (base, moreMaybe) {
+		if (moreMaybe.$ === 'Nothing') {
+			return base;
+		} else {
+			var more = moreMaybe.a;
+			return base + (' ' + more);
+		}
+	});
+var elm$html$Html$section = _VirtualDom_node('section');
+var author$project$Page$Template$viewSection = F3(
+	function (idAttrMaybe, classAttrMaybe, contents) {
+		return A2(
+			elm$html$Html$section,
+			function () {
+				if (idAttrMaybe.$ === 'Nothing') {
+					return _List_fromArray(
+						[
+							elm$html$Html$Attributes$class(
+							A2(author$project$Page$Template$appendMaybe, 'section', classAttrMaybe))
+						]);
+				} else {
+					var idAttr = idAttrMaybe.a;
+					return _List_fromArray(
+						[
+							elm$html$Html$Attributes$id(idAttr),
+							elm$html$Html$Attributes$class(
+							A2(author$project$Page$Template$appendMaybe, 'section', classAttrMaybe))
+						]);
+				}
+			}(),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$class('container')
+						]),
+					contents)
+				]));
 	});
 var elm$html$Html$fieldset = _VirtualDom_node('fieldset');
 var elm$html$Html$form = _VirtualDom_node('form');
@@ -5544,45 +5609,52 @@ var author$project$Page$Login$viewSigningIn = function (model) {
 			author$project$Page$Template$viewApp,
 			_List_fromArray(
 				[
-					A2(
-					elm$html$Html$h1,
-					_List_fromArray(
-						[
-							elm$html$Html$Attributes$class('title')
-						]),
-					_List_fromArray(
-						[
-							elm$html$Html$text('Sign in')
-						])),
-					author$project$Page$Login$errorHtml(model.error),
-					A2(
-					elm$html$Html$form,
-					_List_fromArray(
-						[
-							elm$html$Html$Events$onSubmit(author$project$Page$Login$SignIn)
-						]),
+					A3(
+					author$project$Page$Template$viewSection,
+					elm$core$Maybe$Just('sign_in'),
+					elm$core$Maybe$Nothing,
 					_List_fromArray(
 						[
 							A2(
-							elm$html$Html$fieldset,
-							_List_Nil,
+							elm$html$Html$h1,
 							_List_fromArray(
 								[
-									A6(author$project$Page$Login$viewInput, 'Email', 'email', 'email', 'Enter email address', model.email, author$project$Page$Login$InputEmail),
-									A6(author$project$Page$Login$viewInput, 'Password', 'password', 'password', 'Enter password', model.password, author$project$Page$Login$InputPassword),
-									A2(author$project$Page$Login$viewButton, model.valid, 'Login')
+									elm$html$Html$Attributes$class('title')
+								]),
+							_List_fromArray(
+								[
+									elm$html$Html$text('Sign in')
+								])),
+							author$project$Page$Login$errorHtml(model.error),
+							A2(
+							elm$html$Html$form,
+							_List_fromArray(
+								[
+									elm$html$Html$Events$onSubmit(author$project$Page$Login$SignIn)
+								]),
+							_List_fromArray(
+								[
+									A2(
+									elm$html$Html$fieldset,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A6(author$project$Page$Login$viewInput, 'Email', 'email', 'email', 'Enter email address', model.email, author$project$Page$Login$InputEmail),
+											A6(author$project$Page$Login$viewInput, 'Password', 'password', 'password', 'Enter password', model.password, author$project$Page$Login$InputPassword),
+											A2(author$project$Page$Login$viewButton, model.valid, 'Login')
+										]))
+								])),
+							A2(
+							elm$html$Html$a,
+							_List_fromArray(
+								[
+									elm$html$Html$Events$onClick(author$project$Page$Login$SignUpClicked),
+									elm$html$Html$Attributes$href('#')
+								]),
+							_List_fromArray(
+								[
+									elm$html$Html$text('Sign up instead')
 								]))
-						])),
-					A2(
-					elm$html$Html$a,
-					_List_fromArray(
-						[
-							elm$html$Html$Events$onClick(author$project$Page$Login$SignUpClicked),
-							elm$html$Html$Attributes$href('#')
-						]),
-					_List_fromArray(
-						[
-							elm$html$Html$text('Sign up instead')
 						]))
 				]),
 			model.user,
@@ -5604,47 +5676,54 @@ var author$project$Page$Login$viewSigningUp = function (model) {
 			author$project$Page$Template$viewApp,
 			_List_fromArray(
 				[
-					A2(
-					elm$html$Html$h1,
-					_List_fromArray(
-						[
-							elm$html$Html$Attributes$class('title')
-						]),
-					_List_fromArray(
-						[
-							elm$html$Html$text('Sign up')
-						])),
-					author$project$Page$Login$errorHtml(model.error),
-					A2(
-					elm$html$Html$form,
-					_List_fromArray(
-						[
-							elm$html$Html$Events$onSubmit(author$project$Page$Login$SignUp)
-						]),
+					A3(
+					author$project$Page$Template$viewSection,
+					elm$core$Maybe$Just('sign_up'),
+					elm$core$Maybe$Nothing,
 					_List_fromArray(
 						[
 							A2(
-							elm$html$Html$fieldset,
-							_List_Nil,
+							elm$html$Html$h1,
 							_List_fromArray(
 								[
-									A6(author$project$Page$Login$viewInput, 'Name', 'text', 'name', 'Enter name', model.name, author$project$Page$Login$InputName),
-									A6(author$project$Page$Login$viewInput, 'Email address', 'email', 'email', 'Enter email address', model.email, author$project$Page$Login$InputEmail),
-									A6(author$project$Page$Login$viewInput, 'Password', 'password', 'password', 'Enter password', model.password, author$project$Page$Login$InputPassword),
-									A6(author$project$Page$Login$viewInput, 'Password again', 'password', 'password_again', 'Enter password again', model.passwordConfirmation, author$project$Page$Login$InputPasswordConfirmation),
-									A2(author$project$Page$Login$viewButton, model.valid, 'Create account')
+									elm$html$Html$Attributes$class('title')
+								]),
+							_List_fromArray(
+								[
+									elm$html$Html$text('Sign up')
+								])),
+							author$project$Page$Login$errorHtml(model.error),
+							A2(
+							elm$html$Html$form,
+							_List_fromArray(
+								[
+									elm$html$Html$Events$onSubmit(author$project$Page$Login$SignUp)
+								]),
+							_List_fromArray(
+								[
+									A2(
+									elm$html$Html$fieldset,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A6(author$project$Page$Login$viewInput, 'Name', 'text', 'name', 'Enter name', model.name, author$project$Page$Login$InputName),
+											A6(author$project$Page$Login$viewInput, 'Email address', 'email', 'email', 'Enter email address', model.email, author$project$Page$Login$InputEmail),
+											A6(author$project$Page$Login$viewInput, 'Password', 'password', 'password', 'Enter password', model.password, author$project$Page$Login$InputPassword),
+											A6(author$project$Page$Login$viewInput, 'Password again', 'password', 'password_again', 'Enter password again', model.passwordConfirmation, author$project$Page$Login$InputPasswordConfirmation),
+											A2(author$project$Page$Login$viewButton, model.valid, 'Create account')
+										]))
+								])),
+							A2(
+							elm$html$Html$a,
+							_List_fromArray(
+								[
+									elm$html$Html$Events$onClick(author$project$Page$Login$SignInClicked),
+									elm$html$Html$Attributes$href('#')
+								]),
+							_List_fromArray(
+								[
+									elm$html$Html$text('Sign in instead')
 								]))
-						])),
-					A2(
-					elm$html$Html$a,
-					_List_fromArray(
-						[
-							elm$html$Html$Events$onClick(author$project$Page$Login$SignInClicked),
-							elm$html$Html$Attributes$href('#')
-						]),
-					_List_fromArray(
-						[
-							elm$html$Html$text('Sign in instead')
 						]))
 				]),
 			model.user,
@@ -5668,33 +5747,43 @@ var author$project$Page$Login$viewWithUser = F2(
 				author$project$Page$Template$viewApp,
 				_List_fromArray(
 					[
-						A2(
-						elm$html$Html$h1,
+						A3(
+						author$project$Page$Template$viewSection,
+						elm$core$Maybe$Just('signed_in'),
+						elm$core$Maybe$Nothing,
 						_List_fromArray(
 							[
-								elm$html$Html$Attributes$class('title')
-							]),
-						_List_fromArray(
-							[
-								elm$html$Html$text('Logged In')
-							])),
-						A2(
-						elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								elm$html$Html$text('You\'re already logged in, want to go to your '),
 								A2(
-								elm$html$Html$a,
+								elm$html$Html$h1,
 								_List_fromArray(
 									[
-										elm$html$Html$Attributes$href('/dashboard.html')
+										elm$html$Html$Attributes$class('title')
 									]),
 								_List_fromArray(
 									[
-										elm$html$Html$text('dashboard')
+										elm$html$Html$text('Logged In')
 									])),
-								elm$html$Html$text('?')
+								A2(
+								elm$html$Html$p,
+								_List_fromArray(
+									[
+										elm$html$Html$Attributes$class('content')
+									]),
+								_List_fromArray(
+									[
+										elm$html$Html$text('You\'re already logged in, want to go to your '),
+										A2(
+										elm$html$Html$a,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$href('/dashboard.html')
+											]),
+										_List_fromArray(
+											[
+												elm$html$Html$text('dashboard')
+											])),
+										elm$html$Html$text('?')
+									]))
 							]))
 					]),
 				model.user,

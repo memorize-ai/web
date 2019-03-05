@@ -1,12 +1,28 @@
-module Page.Template exposing (viewApp)
+module Page.Template exposing (viewApp, viewSection)
 
-import Html exposing (Html, header, section, h1, ul, li, text, img, a, br, nav, div, span)
+import Html exposing (Html, header, footer, section, h1, ul, li, p, strong, text, img, a, br, nav, div, span)
 import Html.Attributes exposing (id, src, href, class, attribute)
 import Html.Events exposing (onClick)
 
+appendMaybe : String -> Maybe String -> String
+appendMaybe base moreMaybe =
+    case moreMaybe of
+        Nothing -> base
+        Just more -> base ++ " " ++ more
+
+viewSection : Maybe String -> Maybe String -> List (Html msg) -> Html msg
+viewSection idAttrMaybe classAttrMaybe contents =
+    section
+        ( case idAttrMaybe of
+            Nothing -> [ class ( appendMaybe "section" classAttrMaybe ) ]
+            Just idAttr -> [ id idAttr, class ( appendMaybe "section" classAttrMaybe ) ])
+        [ div [ class "container" ]
+            contents
+        ]
+
 viewApp : List (Html msg) -> Maybe a -> msg -> List (Html msg)
-viewApp content user msg =
-    [ header []
+viewApp sections user msg =
+    header []
         [ nav
             [ class "navbar"
             , attribute "role" "navigation"
@@ -20,11 +36,12 @@ viewApp content user msg =
                     , attribute "role" "button"
                     , attribute "aria-label" "menu"
                     , attribute "aria-expanded" "false"
-                    , attribute "aria-target" "navbar-main"
-                    ] []
-                , span [ attribute "aria-hidden" "true" ] []
-                , span [ attribute "aria-hidden" "true" ] []
-                , span [ attribute "aria-hidden" "true" ] []
+                    , attribute "data-target" "navbar-main"
+                    ]
+                    [ span [ attribute "aria-hidden" "true" ] []
+                    , span [ attribute "aria-hidden" "true" ] []
+                    , span [ attribute "aria-hidden" "true" ] []
+                    ]
                 ]
             , div
                 [ id "navbar-main"
@@ -56,8 +73,12 @@ viewApp content user msg =
                 ]
             ]
         ]
-    , section [ class "section" ]
-        [ div [ class "container" ]
-            content
-        ]
-    ]
+    :: ( sections ++ [ footer [ class "footer" ]
+        [ div [ class "content has-text-centered" ]
+            [ p []
+                [ strong [] [ text "memorize.ai" ]
+                , text " by Ken Mueller"
+                ]
+            ]
+        ]]
+    )

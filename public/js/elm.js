@@ -6,3 +6,5 @@ const listenSignOut = app =>
     app.ports.signOut.subscribe(() => firebase.auth().signOut()
         .then(() => app.ports.signedOut.send(null))
     )
+const redirectToLogin = from =>
+    window.location.href = `/login.html?f=${from}.html`

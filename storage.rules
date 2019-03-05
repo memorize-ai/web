@@ -1,36 +1,5 @@
 service firebase.storage {
 	match /b/{bucket}/o {
-		match /users/{uid} {
-			allow read
-			allow write: if signedInWith(uid) && isImage()
-		}
-		match /decks/{deckId} {
-			allow read: if isDeckOwner(deckId) || canViewDeck(deckId) || isDeckPublic(deckId)
-			allow write: if (isDeckOwner(deckId) || canEditDeck(deckId)) && isImage()
-		}
-
-		function signedInWith(uid) {
-			return request.auth.uid == uid
-		}
-
-		function isImage() {
-			return request.resource.contentType.matches('image/.*')
-		}
-
-		function canViewDeck(deckId) {
-			return exists(/databases/$(database)/documents/decks/$(deckId)/permissions/$(authId()))
-		}
-
-		function canEditDeck(deckId) {
-			return get(/databases/$(database)/documents/decks/$(deckId)/permissions/$(authId())).data.role == 'editor'
-		}
-
-		function isDeckOwner(deckId) {
-			return signedInWith(get(/databases/$(database)/documents/decks/$(deckId)).data.owner)
-		}
-
-		function isDeckPublic(deckId) {
-			return get(/databases/$(database)/documents/decks/$(deckId)).data.public
-		}
+		allow read, write
 	}
 }
