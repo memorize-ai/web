@@ -107,9 +107,10 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 // 	}).then(() => fs.unlinkSync(tempFilePath))
 // })
 
+exports.slugCreated = functions.firestore.document('users/{uid}/slug').onCreate((snapshot, context) =>
+	db.collection('slugs').doc(snapshot.val()).set(context.params.uid)
+)
+
 exports.userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) =>
-	Promise.all([
-		db.collection('emails').doc(snapshot.email.replace('@', '%2e')).setData({ id: context.params.uid }),
-		db.collection('links').doc(snapshot.link).setData({ id: context.params.uid })
-	])
+	db.collection('emails').doc(snapshot.email.replace('.', '%2e')).set(context.params.uid)
 )
