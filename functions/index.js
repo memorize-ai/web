@@ -16,13 +16,15 @@ const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY)
 const index = client.initIndex(ALGOLIA_INDEX_NAME)
 const db = admin.firestore()
 
-function addKeyVal(obj, key, val) {
+const addKeyVal = obj => key => val => {
 	obj[key] = val
 	return obj
 }
 
+const id = x => x
+
 const updateDeckInAngolia = (snapshot, context) =>
-	index.saveObject(addKeyVal(snapshot.data(), 'objectID', context.params.deckId))
+	index.saveObject(addKeyVal(snapshot.data())('objectID')(context.params.deckId))
 
 const deleteDeckInAngolia = snapshot =>
 	index.deleteObject(snapshot.id)
@@ -42,29 +44,40 @@ const findSlug = slug =>
 		.then(doc => doc.exists ? findSlug(nextSlug(slug)) : slug)
 
 const newSlug = user =>
-	findSlug(user.displayName.trim().replace(/ +/g, '_').toLowerCase())
+	findSlug(user.name.trim().replace(/ +/g, '_').toLowerCase())
 
-exports.newUser = functions.auth.user().onCreate(user =>
-	user.displayName
-		? newSlug(user).then(slug =>
-			db.collection('users').doc(user.uid).set({
-				name: user.displayName,
-				email: user.email,
-				slug
-			})
-		) : db.collection('users').doc(user.uid).set({
-				name: user.displayName,
-				email: user.email
-			})
-)
+const emailKey = email =>
+	email.replace('@', '%2E')
+
+// We want to create user nodes with displayNames, so will do that from client app
+// exports.newUser = functions.auth.user().onCreate(user =>
+// 	user.displayName
+// 		? newSlug(user).then(slug =>
+// 			db.collection('users').doc(user.uid).set({
+// 				name: user.displayName,
+// 				email: user.email,
+// 				slug
+// 			})
+// 		) : db.collection('users').doc(user.uid).set({
+// 				email: user.email
+// 			})
+// )
 
 exports.deleteUser = functions.auth.user().onDelete(user =>
 	db.collection('users').doc(user.uid).delete()
 )
 
-function addToDate(date, elapsed) {
-	return new Date(date.getTime() + elapsed)
-}
+exports.userDeleted = functions.firestore.document('users/{uid}').onDelete((snapshot, _) =>
+	Promise.all([
+		snapshot.data().slug
+			? db.collection('slugs').doc(snapshot.data().slug).delete()
+			: null,
+		db.collection('emails').doc(emailKey(snapshot.data().email)).delete()
+	].filter(id))
+)
+
+const addToDate = date => elapsed =>
+	new Date(date.getTime() + elapsed)
 
 exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate(updateDeckInAngolia)
 exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(updateDeckInAngolia)
@@ -83,7 +96,7 @@ exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permis
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) =>
 	db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).get().then(card => {
 		const elapsed = snapshot.date - card.data().last.getTime()
-		const next = addToDate(snapshot.date, snapshot.correct ? elapsed * 2 : 14400000)
+		const next = addToDate(snapshot.date)(snapshot.correct ? elapsed * 2 : 14400000)
 		return Promise.all([
 			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).collection('history').doc(context.params.historyId).update({ elapsed: elapsed, next: next }),
 			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).update({ last: snapshot.date, next: next })
@@ -109,7 +122,15 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 
 exports.userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) =>
 	Promise.all([
-		db.collection('emails').doc(snapshot.email.replace('@', '%2e')).setData({ id: context.params.uid }),
-		db.collection('links').doc(snapshot.link).setData({ id: context.params.uid })
+		db.collection('emails').doc(emailKey(snapshot.data().email)).set({ id: context.params.uid }),
+		snapshot.data().slug
+			? db.collection('slugs').doc(snapshot.data().slug).set({ id: context.params.uid })
+			: newSlug(snapshot.data())
+				.then(slug =>
+					Promise.all([
+						db.collection('users').doc(context.params.uid).update({ slug }),
+						db.collection('slugs').doc(slug).set({ id: context.params.uid })
+					])
+				)
 	])
 )

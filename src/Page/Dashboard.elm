@@ -52,8 +52,10 @@ viewWithoutUser model =
     { title = "Dashboard - memorize.ai"
     , body =
         Template.viewApp
-            [ h1 [] [ text "Dashboard" ]
-            , img [ src "images/infinity.gif" ] []
+            [ Template.viewSection (Just "loading") (Just "loading")
+                [ h1 [] [ text "Dashboard" ]
+                , img [ src "images/infinity.gif" ] []
+                ]
             ]
             model.user SignOut
     }

@@ -23,6 +23,11 @@
 		const updateNameFromCredential = app => displayName => userCredential =>
 			userCredential.user.updateProfile({ displayName })
 				.then(() => app.ports.userUpdated.send(userCredential.user))
+		const createUserNode = account => userCredential =>
+			firebase.firestore().collection('users').doc(log('uid')(userCredential.user.uid)).set({
+				name: account.displayName,
+				email: account.email
+			}).then(() => userCredential)
 		const sendAppInvalidSignUpMessage = app => error =>
 			error && app.ports.invalidSignUp.send(error.message)
 		const sendAppInvalidSignInMessage = app => error =>
@@ -37,6 +42,7 @@
 		)
 		app.ports.signUp.subscribe(account =>
 			firebase.auth().createUserWithEmailAndPassword(account.email, account.password)
+				.then(createUserNode(account))
 				.then(updateNameFromCredential(app)(account.displayName))
 				.then(redirectToFrom)
 				.catch(sendAppInvalidSignUpMessage(app))

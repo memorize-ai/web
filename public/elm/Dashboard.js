@@ -5489,20 +5489,27 @@ var author$project$Page$Dashboard$viewWithoutUser = function (model) {
 			author$project$Page$Template$viewApp,
 			_List_fromArray(
 				[
-					A2(
-					elm$html$Html$h1,
-					_List_Nil,
+					A3(
+					author$project$Page$Template$viewSection,
+					elm$core$Maybe$Just('loading'),
+					elm$core$Maybe$Just('loading'),
 					_List_fromArray(
 						[
-							elm$html$Html$text('Dashboard')
-						])),
-					A2(
-					elm$html$Html$img,
-					_List_fromArray(
-						[
-							elm$html$Html$Attributes$src('images/infinity.gif')
-						]),
-					_List_Nil)
+							A2(
+							elm$html$Html$h1,
+							_List_Nil,
+							_List_fromArray(
+								[
+									elm$html$Html$text('Dashboard')
+								])),
+							A2(
+							elm$html$Html$img,
+							_List_fromArray(
+								[
+									elm$html$Html$Attributes$src('images/infinity.gif')
+								]),
+							_List_Nil)
+						]))
 				]),
 			model.user,
 			author$project$Page$Dashboard$SignOut),
