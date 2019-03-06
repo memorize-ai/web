@@ -46,9 +46,6 @@ const findSlug = slug =>
 const newSlug = user =>
 	findSlug(user.name.trim().replace(/ +/g, '_').toLowerCase())
 
-const emailKey = email =>
-	email.replace('@', '%2E')
-
 // We want to create user nodes with displayNames, so will do that from client app
 // exports.newUser = functions.auth.user().onCreate(user =>
 // 	user.displayName
@@ -67,18 +64,6 @@ exports.deleteUser = functions.auth.user().onDelete(user =>
 	db.collection('users').doc(user.uid).delete()
 )
 
-exports.userDeleted = functions.firestore.document('users/{uid}').onDelete((snapshot, _) =>
-	Promise.all([
-		snapshot.data().slug
-			? db.collection('slugs').doc(snapshot.data().slug).delete()
-			: null,
-		db.collection('emails').doc(emailKey(snapshot.data().email)).delete()
-	].filter(id))
-)
-
-const addToDate = date => elapsed =>
-	new Date(date.getTime() + elapsed)
-
 exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate(updateDeckInAngolia)
 exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(updateDeckInAngolia)
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
@@ -92,14 +77,14 @@ exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId
 exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onCreate((_, context) =>
 	db.collection('users').doc(context.params.permissionId).collection('decks').doc(context.params.deckId).set({ mastered: 0 })
 )
-
+// Update date as timestamp as well
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) =>
 	db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).get().then(card => {
 		const elapsed = snapshot.date - card.data().last.getTime()
-		const next = addToDate(snapshot.date)(snapshot.correct ? elapsed * 2 : 14400000)
+		const next = new Date(snapshot.date.getTime() + snapshot.correct ? elapsed * 2 : 14400000)
 		return Promise.all([
 			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).collection('history').doc(context.params.historyId).update({ elapsed: elapsed, next: next }),
-			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).update({ last: snapshot.date, next: next })
+			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).update({ last: context.params.historyId })
 		])
 	})
 )
