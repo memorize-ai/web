@@ -36,15 +36,13 @@ const nextSlug = slug =>
 	assembleNextSlug(slug)(slug.match(/^(.*)_(\d+)$/))
 
 const findSlug = slug =>
-	db.collection('users')
-		.where('slug', '==', slug)
-		.get()
-		.then(doc => doc.exists ? findSlug(nextSlug(slug)) : slug)
+	db.collection('users').where('slug', '==', slug).get().then(doc => doc.exists ? findSlug(nextSlug(slug)) : slug)
 
 const newSlug = user =>
 	findSlug(user.name.trim().replace(/ +/g, '_').toLowerCase())
 
 exports.deleteUser = functions.auth.user().onDelete(user =>
+	// Also delete permissions for all decks
 	db.collection('users').doc(user.uid).delete()
 )
 
@@ -60,6 +58,10 @@ exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId
 
 exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onCreate((_, context) =>
 	db.collection('users').doc(context.params.permissionId).collection('decks').doc(context.params.deckId).set({ mastered: 0 })
+)
+
+exports.permissionsDeleted = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onDelete((_, context) =>
+	db.collection('users').doc(context.params.permissionId).collection('decks').doc(context.params.deckId).delete()
 )
 
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) =>
