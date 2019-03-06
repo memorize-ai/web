@@ -120,21 +120,8 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 // 	}).then(() => fs.unlinkSync(tempFilePath))
 // })
 
-exports.slugCreated = functions.firestore.document('users/{uid}/slug').onCreate((snapshot, context) =>
-	db.collection('slugs').doc(snapshot.val()).set(context.params.uid)
-)
-
 exports.userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) =>
-	Promise.all([
-		db.collection('emails').doc(emailKey(snapshot.data().email)).set({ id: context.params.uid }),
-		snapshot.data().slug
-			? db.collection('slugs').doc(snapshot.data().slug).set({ id: context.params.uid })
-			: newSlug(snapshot.data())
-				.then(slug =>
-					Promise.all([
-						db.collection('users').doc(context.params.uid).update({ slug }),
-						db.collection('slugs').doc(slug).set({ id: context.params.uid })
-					])
-				)
-	])
+	newSlug(snapshot.data()).then(slug =>
+		db.collection('users').doc(context.params.uid).update({ slug: slug })
+	)
 )
