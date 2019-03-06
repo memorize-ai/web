@@ -70,20 +70,6 @@ errorHtml maybeError =
         Nothing -> br [] []
         Just error -> p [ class "content error" ] [ text error ]
 
-viewInput : String -> String -> String -> String -> String -> (String -> Msg) -> Html Msg
-viewInput inputLabel inputType inputId inputPlaceholder inputValue inputMsg =
-    div [ class "field is-horizontal" ]
-        [ div [ class "field-label is-normal" ]
-            [ label [ class "label" ] [ text inputLabel ] ]
-        , div [ class "field-body" ]
-            [ div [ class "field is-narrow" ]
-                [ div [ class "control" ]
-                    [ input [ class "input", type_ inputType, id inputId, placeholder inputPlaceholder, required True, value inputValue, onInput inputMsg ] []
-                    ]
-                ]
-            ]
-        ]
-
 viewButton : Bool -> String -> Html Msg
 viewButton valid buttonText =
     div [ class "field is-horizontal" ]
@@ -109,8 +95,8 @@ viewSigningIn model =
                 , form [ onSubmit SignIn ]
                     [ fieldset []
                         [ {-legend [] [ text "Enter email and password" ]
-                        , -}viewInput "Email" "email" "email" "Enter email address" model.email InputEmail
-                        , viewInput "Password" "password" "password" "Enter password" model.password InputPassword
+                        , -}Template.viewInput "Email" "email" "email" "Enter email address" model.email InputEmail
+                        , Template.viewInput "Password" "password" "password" "Enter password" model.password InputPassword
                         , viewButton model.valid "Login"
                         ]
                     ]
@@ -144,10 +130,10 @@ viewSigningUp model =
                 , form [ onSubmit SignUp ]
                     [ fieldset []
                         [ {-legend [] [ text "Enter account information" ]
-                        , -}viewInput "Name" "text" "name" "Enter name" model.name InputName
-                        , viewInput "Email address" "email" "email" "Enter email address" model.email InputEmail
-                        , viewInput "Password" "password" "password" "Enter password" model.password InputPassword
-                        , viewInput "Password again" "password" "password_again" "Enter password again" model.passwordConfirmation InputPasswordConfirmation
+                        , -}Template.viewInput "Name" "text" "name" "Enter name" model.name InputName
+                        , Template.viewInput "Email address" "email" "email" "Enter email address" model.email InputEmail
+                        , Template.viewInput "Password" "password" "password" "Enter password" model.password InputPassword
+                        , Template.viewInput "Password again" "password" "password_again" "Enter password again" model.passwordConfirmation InputPasswordConfirmation
                         , viewButton model.valid "Create account"
                         ]
                     ]

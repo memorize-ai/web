@@ -1,8 +1,8 @@
 port module Page.Dashboard exposing (main)
 
 import Browser
-import Html exposing (Html, section, article, h1, figure, button, div, text, img, strong, p, small, br, i, nav, span)
-import Html.Attributes exposing (src, id, class, alt)
+import Html exposing (Html, node, section, article, h1, div, p, figure, button, label, input, div, text, img, strong, p, small, br, i, nav, span)
+import Html.Attributes exposing (attribute, src, id, class, alt, placeholder, type_)
 import Html.Events exposing (onClick)
 import Page.Template as Template
 
@@ -100,6 +100,20 @@ viewWithUser model user =
             [ Template.viewSection (Just "my_decks") (Just "decks")
                 [ h1 [ class "title" ] [ text "My decks" ]
                 , div [ class "decks" ] (List.map viewDeckThumbnail model.myDecks)
+                ]
+            , Template.viewSection (Just "search_decks") (Just "decks")
+                [ h1 [ class "title" ] [ text "Search decks" ]
+                , div [ id "search-input" ] []
+                , div [ id "hits" ] []
+                , div [ id "pagination" ] []
+                -- , node "script" [ attribute "type" "text/html", attribute "id" "hit-template" ]
+                --     [ div [ class "hit" ]
+                --         [ p [ class "hit-name" ]
+                --             [ text "{{#helpers.highlight}}{ \"attribute\": \"firstname\" }{{/helpers.highlight}}"
+                --             , text "{{#helpers.highlight}}{ \"attribute\": \"lastname\" }{{/helpers.highlight}}"
+                --             ]
+                --         ]
+                --     ]
                 ]
             ]
             model.user SignOut

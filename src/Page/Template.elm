@@ -1,14 +1,28 @@
-module Page.Template exposing (viewApp, viewSection)
+module Page.Template exposing (viewApp, viewSection, viewInput)
 
-import Html exposing (Html, header, footer, section, h1, ul, li, p, strong, text, img, a, br, nav, div, span)
-import Html.Attributes exposing (id, src, href, class, attribute)
-import Html.Events exposing (onClick)
+import Html exposing (Html, header, footer, section, h1, ul, li, p, strong, text, label, input, img, a, br, nav, div, span)
+import Html.Attributes exposing (id, src, href, class, attribute, placeholder, type_, required, value)
+import Html.Events exposing (onClick, onInput)
 
 appendMaybe : String -> Maybe String -> String
 appendMaybe base moreMaybe =
     case moreMaybe of
         Nothing -> base
         Just more -> base ++ " " ++ more
+
+viewInput : String -> String -> String -> String -> String -> (String -> msg) -> Html msg
+viewInput inputLabel inputType inputId inputPlaceholder inputValue inputMsg =
+    div [ class "field is-horizontal" ]
+        [ div [ class "field-label is-normal" ]
+            [ label [ class "label" ] [ text inputLabel ] ]
+        , div [ class "field-body" ]
+            [ div [ class "field is-narrow" ]
+                [ div [ class "control" ]
+                    [ input [ class "input", type_ inputType, id inputId, placeholder inputPlaceholder, required True, value inputValue, onInput inputMsg ] []
+                    ]
+                ]
+            ]
+        ]
 
 viewSection : Maybe String -> Maybe String -> List (Html msg) -> Html msg
 viewSection idAttrMaybe classAttrMaybe contents =

@@ -5150,171 +5150,6 @@ var author$project$Page$Login$viewButton = F2(
 						]))
 				]));
 	});
-var elm$html$Html$input = _VirtualDom_node('input');
-var elm$html$Html$label = _VirtualDom_node('label');
-var elm$html$Html$Attributes$id = elm$html$Html$Attributes$stringProperty('id');
-var elm$html$Html$Attributes$placeholder = elm$html$Html$Attributes$stringProperty('placeholder');
-var elm$html$Html$Attributes$required = elm$html$Html$Attributes$boolProperty('required');
-var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
-var elm$html$Html$Attributes$value = elm$html$Html$Attributes$stringProperty('value');
-var elm$html$Html$Events$alwaysStop = function (x) {
-	return _Utils_Tuple2(x, true);
-};
-var elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
-	return {$: 'MayStopPropagation', a: a};
-};
-var elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
-var elm$html$Html$Events$stopPropagationOn = F2(
-	function (event, decoder) {
-		return A2(
-			elm$virtual_dom$VirtualDom$on,
-			event,
-			elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
-	});
-var elm$core$List$foldrHelper = F4(
-	function (fn, acc, ctr, ls) {
-		if (!ls.b) {
-			return acc;
-		} else {
-			var a = ls.a;
-			var r1 = ls.b;
-			if (!r1.b) {
-				return A2(fn, a, acc);
-			} else {
-				var b = r1.a;
-				var r2 = r1.b;
-				if (!r2.b) {
-					return A2(
-						fn,
-						a,
-						A2(fn, b, acc));
-				} else {
-					var c = r2.a;
-					var r3 = r2.b;
-					if (!r3.b) {
-						return A2(
-							fn,
-							a,
-							A2(
-								fn,
-								b,
-								A2(fn, c, acc)));
-					} else {
-						var d = r3.a;
-						var r4 = r3.b;
-						var res = (ctr > 500) ? A3(
-							elm$core$List$foldl,
-							fn,
-							acc,
-							elm$core$List$reverse(r4)) : A4(elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
-						return A2(
-							fn,
-							a,
-							A2(
-								fn,
-								b,
-								A2(
-									fn,
-									c,
-									A2(fn, d, res))));
-					}
-				}
-			}
-		}
-	});
-var elm$core$List$foldr = F3(
-	function (fn, acc, ls) {
-		return A4(elm$core$List$foldrHelper, fn, acc, 0, ls);
-	});
-var elm$json$Json$Decode$at = F2(
-	function (fields, decoder) {
-		return A3(elm$core$List$foldr, elm$json$Json$Decode$field, decoder, fields);
-	});
-var elm$html$Html$Events$targetValue = A2(
-	elm$json$Json$Decode$at,
-	_List_fromArray(
-		['target', 'value']),
-	elm$json$Json$Decode$string);
-var elm$html$Html$Events$onInput = function (tagger) {
-	return A2(
-		elm$html$Html$Events$stopPropagationOn,
-		'input',
-		A2(
-			elm$json$Json$Decode$map,
-			elm$html$Html$Events$alwaysStop,
-			A2(elm$json$Json$Decode$map, tagger, elm$html$Html$Events$targetValue)));
-};
-var author$project$Page$Login$viewInput = F6(
-	function (inputLabel, inputType, inputId, inputPlaceholder, inputValue, inputMsg) {
-		return A2(
-			elm$html$Html$div,
-			_List_fromArray(
-				[
-					elm$html$Html$Attributes$class('field is-horizontal')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					elm$html$Html$div,
-					_List_fromArray(
-						[
-							elm$html$Html$Attributes$class('field-label is-normal')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							elm$html$Html$label,
-							_List_fromArray(
-								[
-									elm$html$Html$Attributes$class('label')
-								]),
-							_List_fromArray(
-								[
-									elm$html$Html$text(inputLabel)
-								]))
-						])),
-					A2(
-					elm$html$Html$div,
-					_List_fromArray(
-						[
-							elm$html$Html$Attributes$class('field-body')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							elm$html$Html$div,
-							_List_fromArray(
-								[
-									elm$html$Html$Attributes$class('field is-narrow')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									elm$html$Html$div,
-									_List_fromArray(
-										[
-											elm$html$Html$Attributes$class('control')
-										]),
-									_List_fromArray(
-										[
-											A2(
-											elm$html$Html$input,
-											_List_fromArray(
-												[
-													elm$html$Html$Attributes$class('input'),
-													elm$html$Html$Attributes$type_(inputType),
-													elm$html$Html$Attributes$id(inputId),
-													elm$html$Html$Attributes$placeholder(inputPlaceholder),
-													elm$html$Html$Attributes$required(true),
-													elm$html$Html$Attributes$value(inputValue),
-													elm$html$Html$Events$onInput(inputMsg)
-												]),
-											_List_Nil)
-										]))
-								]))
-						]))
-				]));
-	});
 var elm$html$Html$a = _VirtualDom_node('a');
 var elm$html$Html$footer = _VirtualDom_node('footer');
 var elm$html$Html$header = _VirtualDom_node('header');
@@ -5335,9 +5170,11 @@ var elm$html$Html$Attributes$href = function (url) {
 		'href',
 		_VirtualDom_noJavaScriptUri(url));
 };
+var elm$html$Html$Attributes$id = elm$html$Html$Attributes$stringProperty('id');
 var elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
+var elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
 var elm$html$Html$Events$on = F2(
 	function (event, decoder) {
 		return A2(
@@ -5536,6 +5373,169 @@ var author$project$Page$Template$viewApp = F3(
 							]))
 					])));
 	});
+var elm$html$Html$input = _VirtualDom_node('input');
+var elm$html$Html$label = _VirtualDom_node('label');
+var elm$html$Html$Attributes$placeholder = elm$html$Html$Attributes$stringProperty('placeholder');
+var elm$html$Html$Attributes$required = elm$html$Html$Attributes$boolProperty('required');
+var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
+var elm$html$Html$Attributes$value = elm$html$Html$Attributes$stringProperty('value');
+var elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
+};
+var elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			elm$virtual_dom$VirtualDom$on,
+			event,
+			elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var elm$core$List$foldrHelper = F4(
+	function (fn, acc, ctr, ls) {
+		if (!ls.b) {
+			return acc;
+		} else {
+			var a = ls.a;
+			var r1 = ls.b;
+			if (!r1.b) {
+				return A2(fn, a, acc);
+			} else {
+				var b = r1.a;
+				var r2 = r1.b;
+				if (!r2.b) {
+					return A2(
+						fn,
+						a,
+						A2(fn, b, acc));
+				} else {
+					var c = r2.a;
+					var r3 = r2.b;
+					if (!r3.b) {
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(fn, c, acc)));
+					} else {
+						var d = r3.a;
+						var r4 = r3.b;
+						var res = (ctr > 500) ? A3(
+							elm$core$List$foldl,
+							fn,
+							acc,
+							elm$core$List$reverse(r4)) : A4(elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(
+									fn,
+									c,
+									A2(fn, d, res))));
+					}
+				}
+			}
+		}
+	});
+var elm$core$List$foldr = F3(
+	function (fn, acc, ls) {
+		return A4(elm$core$List$foldrHelper, fn, acc, 0, ls);
+	});
+var elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3(elm$core$List$foldr, elm$json$Json$Decode$field, decoder, fields);
+	});
+var elm$html$Html$Events$targetValue = A2(
+	elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	elm$json$Json$Decode$string);
+var elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			elm$json$Json$Decode$map,
+			elm$html$Html$Events$alwaysStop,
+			A2(elm$json$Json$Decode$map, tagger, elm$html$Html$Events$targetValue)));
+};
+var author$project$Page$Template$viewInput = F6(
+	function (inputLabel, inputType, inputId, inputPlaceholder, inputValue, inputMsg) {
+		return A2(
+			elm$html$Html$div,
+			_List_fromArray(
+				[
+					elm$html$Html$Attributes$class('field is-horizontal')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$class('field-label is-normal')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$label,
+							_List_fromArray(
+								[
+									elm$html$Html$Attributes$class('label')
+								]),
+							_List_fromArray(
+								[
+									elm$html$Html$text(inputLabel)
+								]))
+						])),
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$class('field-body')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$div,
+							_List_fromArray(
+								[
+									elm$html$Html$Attributes$class('field is-narrow')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									elm$html$Html$div,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$class('control')
+										]),
+									_List_fromArray(
+										[
+											A2(
+											elm$html$Html$input,
+											_List_fromArray(
+												[
+													elm$html$Html$Attributes$class('input'),
+													elm$html$Html$Attributes$type_(inputType),
+													elm$html$Html$Attributes$id(inputId),
+													elm$html$Html$Attributes$placeholder(inputPlaceholder),
+													elm$html$Html$Attributes$required(true),
+													elm$html$Html$Attributes$value(inputValue),
+													elm$html$Html$Events$onInput(inputMsg)
+												]),
+											_List_Nil)
+										]))
+								]))
+						]))
+				]));
+	});
 var author$project$Page$Template$appendMaybe = F2(
 	function (base, moreMaybe) {
 		if (moreMaybe.$ === 'Nothing') {
@@ -5639,8 +5639,8 @@ var author$project$Page$Login$viewSigningIn = function (model) {
 									_List_Nil,
 									_List_fromArray(
 										[
-											A6(author$project$Page$Login$viewInput, 'Email', 'email', 'email', 'Enter email address', model.email, author$project$Page$Login$InputEmail),
-											A6(author$project$Page$Login$viewInput, 'Password', 'password', 'password', 'Enter password', model.password, author$project$Page$Login$InputPassword),
+											A6(author$project$Page$Template$viewInput, 'Email', 'email', 'email', 'Enter email address', model.email, author$project$Page$Login$InputEmail),
+											A6(author$project$Page$Template$viewInput, 'Password', 'password', 'password', 'Enter password', model.password, author$project$Page$Login$InputPassword),
 											A2(author$project$Page$Login$viewButton, model.valid, 'Login')
 										]))
 								])),
@@ -5706,10 +5706,10 @@ var author$project$Page$Login$viewSigningUp = function (model) {
 									_List_Nil,
 									_List_fromArray(
 										[
-											A6(author$project$Page$Login$viewInput, 'Name', 'text', 'name', 'Enter name', model.name, author$project$Page$Login$InputName),
-											A6(author$project$Page$Login$viewInput, 'Email address', 'email', 'email', 'Enter email address', model.email, author$project$Page$Login$InputEmail),
-											A6(author$project$Page$Login$viewInput, 'Password', 'password', 'password', 'Enter password', model.password, author$project$Page$Login$InputPassword),
-											A6(author$project$Page$Login$viewInput, 'Password again', 'password', 'password_again', 'Enter password again', model.passwordConfirmation, author$project$Page$Login$InputPasswordConfirmation),
+											A6(author$project$Page$Template$viewInput, 'Name', 'text', 'name', 'Enter name', model.name, author$project$Page$Login$InputName),
+											A6(author$project$Page$Template$viewInput, 'Email address', 'email', 'email', 'Enter email address', model.email, author$project$Page$Login$InputEmail),
+											A6(author$project$Page$Template$viewInput, 'Password', 'password', 'password', 'Enter password', model.password, author$project$Page$Login$InputPassword),
+											A6(author$project$Page$Template$viewInput, 'Password again', 'password', 'password_again', 'Enter password again', model.passwordConfirmation, author$project$Page$Login$InputPasswordConfirmation),
 											A2(author$project$Page$Login$viewButton, model.valid, 'Create account')
 										]))
 								])),

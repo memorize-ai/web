@@ -10,11 +10,11 @@
 	<script defer src="/__/firebase/5.8.4/firebase-messaging.js"></script>
 	<script defer src="/__/firebase/5.8.4/firebase-storage.js"></script>
 	<script defer src="/__/firebase/init.js"></script>
-    <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
     <script src="elm/Dashboard.js"></script>
 	<script src="js/elm.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.0/themes/algolia.css" rel="stylesheet">
 	<script>
 	const fbListenMyDecks = app => user =>
 		firebase.firestore().collection('users').doc(user.uid).collection('decks')
@@ -27,6 +27,7 @@
 	const updateUser = app => user => {
 		app.ports.updateUser.send(user)
 		fbListenMyDecks(app)(user)
+		setTimeout(startSearch, 100)
 	}
 
 	document.addEventListener('DOMContentLoaded', function() {
@@ -40,6 +41,15 @@
 	})
 	</script>
 	<script src="js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+	<script type="text/html" id="hit-template">
+		<div class="hit">
+			<h6 class="title is-6">{{#helpers.highlight}}{ "attribute": "name" }{{/helpers.highlight}}</h6>
+			{{#helpers.highlight}}{ "attribute": "description" }{{/helpers.highlight}}
+		</div>
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@3.0.0"></script>
+	<script src="js/search.js"></script>
 </head>
 <body>
 </body>
