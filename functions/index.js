@@ -61,13 +61,12 @@ exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId
 exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onCreate((_, context) =>
 	db.collection('users').doc(context.params.permissionId).collection('decks').doc(context.params.deckId).set({ mastered: 0 })
 )
-// Update date as timestamp as well
+
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) =>
 	db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).get().then(card => {
 		const elapsed = snapshot.date - card.data().last.getTime()
-		const next = new Date(snapshot.date.getTime() + snapshot.correct ? elapsed * 2 : 14400000)
 		return Promise.all([
-			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).collection('history').doc(context.params.historyId).update({ elapsed: elapsed, next: next }),
+			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).collection('history').doc(context.params.historyId).update({ date: new Date(), next: new Date(snapshot.date.getTime() + snapshot.correct ? elapsed * 2 : 14400000), elapsed: elapsed }),
 			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).update({ last: context.params.historyId })
 		])
 	})
