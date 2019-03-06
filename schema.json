@@ -27,16 +27,6 @@
 			}
 		}
 	},
-	"emails": {
-		"kenmueller0%2egmail.com": {
-			"id": "abc123"
-		}
-	},
-	"slugs": {
-		"kenmueller": {
-			"id": "abc123"
-		}
-	},
 	"decks": {
 		"jkl012": {
 			"name": "GRE Vocabulary",
@@ -46,9 +36,7 @@
 			"creator": "abc123",
 			"owner": "abc123",
 			"permissions (sub-collection)": {
-				"def456": {
-					"role": "viewer"
-				}
+				"def456": "viewer"
 			},
 			"cards (sub-collection)": {
 				"ghi789": {
