@@ -18,5 +18,6 @@ const startSearch = () => {
             }
         })
     )
+    search.addWidget(instantsearch.widgets.pagination({ container: '#pagination' }))
     search.start()
 }
