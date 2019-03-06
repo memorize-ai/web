@@ -21,8 +21,6 @@ const addKeyVal = obj => key => val => {
 	return obj
 }
 
-const id = x => x
-
 const updateDeckInAngolia = (snapshot, context) =>
 	index.saveObject(addKeyVal(snapshot.data())('objectID')(context.params.deckId))
 
@@ -45,20 +43,6 @@ const findSlug = slug =>
 
 const newSlug = user =>
 	findSlug(user.name.trim().replace(/ +/g, '_').toLowerCase())
-
-// We want to create user nodes with displayNames, so will do that from client app
-// exports.newUser = functions.auth.user().onCreate(user =>
-// 	user.displayName
-// 		? newSlug(user).then(slug =>
-// 			db.collection('users').doc(user.uid).set({
-// 				name: user.displayName,
-// 				email: user.email,
-// 				slug
-// 			})
-// 		) : db.collection('users').doc(user.uid).set({
-// 				email: user.email
-// 			})
-// )
 
 exports.deleteUser = functions.auth.user().onDelete(user =>
 	db.collection('users').doc(user.uid).delete()
