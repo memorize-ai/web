@@ -112,19 +112,20 @@ const updateDisplayName = uid => displayName =>
 
 const setupSlug = uid => user =>
 	user.slug
-		? db.collection('slugs').doc(user.slug).set({ uid })
+		? Promise.resolve()//db.collection('slugs').doc(user.slug).set({ uid })
 		: newSlug(user.name).then(slug =>
-			Promise.all([
-				db.collection('users').doc(uid).update({ slug }),
-				db.collection('slugs').doc(slug).set({ uid })
-			]))
+			db.collection('users').doc(uid).update({ slug }))
+			// Promise.all([
+			// 	db.collection('users').doc(uid).update({ slug }),
+			// 	db.collection('slugs').doc(slug).set({ uid })
+			// ]))
 
-const setupEmail = uid => email =>
-	db.collection('emails').doc(emailKey(email)).set({ uid })
+// const setupEmail = uid => email =>
+// 	db.collection('emails').doc(emailKey(email)).set({ uid })
 
 const setupUser = uid => user =>
 	Promise.all([
-		setupEmail(uid)(user.email),
+		//setupEmail(uid)(user.email),
 		updateDisplayName(uid)(user.name),
 		setupSlug(uid)(user)
 	])
