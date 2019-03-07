@@ -11,7 +11,7 @@ port signedOut : (() -> msg) -> Sub msg
 port updateUser : (User -> msg) -> Sub msg
 port addMyDeck : (Deck -> msg) -> Sub msg
 
-type alias User = { displayName : String, uid : String }
+type alias User = { name : String, uid : String }
 type alias Deck =
     { id : String
     , mastered : Int
@@ -94,7 +94,7 @@ viewDeckThumbnail deck =
 
 viewWithUser : Model -> User -> Browser.Document Msg
 viewWithUser model user =
-    { title = "Dashboard for " ++ user.displayName ++ " - memorize.ai"
+    { title = "Dashboard for " ++ user.name ++ " - memorize.ai"
     , body =
         Template.viewApp
             [ Template.viewSection (Just "my_decks") (Just "decks")

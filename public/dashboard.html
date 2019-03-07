@@ -25,8 +25,13 @@
 				)
 			)
 
+	const userFromFirebase = fbUser =>
+		({ name: fbUser.displayName || 'Temporarily Unknown'
+		 , uid: fbUser.uid
+		 })
+
 	const updateUser = app => user => {
-		app.ports.updateUser.send(user)
+		app.ports.updateUser.send(userFromFirebase(user))
 		fbListenMyDecks(app)(user)
 		setTimeout(startSearch, 100)
 	}

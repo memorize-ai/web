@@ -4880,11 +4880,11 @@ var author$project$Page$Dashboard$updateUser = _Platform_incomingPort(
 		function (uid) {
 			return A2(
 				elm$json$Json$Decode$andThen,
-				function (displayName) {
+				function (name) {
 					return elm$json$Json$Decode$succeed(
-						{displayName: displayName, uid: uid});
+						{name: name, uid: uid});
 				},
-				A2(elm$json$Json$Decode$field, 'displayName', elm$json$Json$Decode$string));
+				A2(elm$json$Json$Decode$field, 'name', elm$json$Json$Decode$string));
 		},
 		A2(elm$json$Json$Decode$field, 'uid', elm$json$Json$Decode$string)));
 var elm$core$Basics$always = F2(
@@ -5518,7 +5518,7 @@ var author$project$Page$Dashboard$viewWithUser = F2(
 					]),
 				model.user,
 				author$project$Page$Dashboard$SignOut),
-			title: 'Dashboard for ' + (user.displayName + ' - memorize.ai')
+			title: 'Dashboard for ' + (user.name + ' - memorize.ai')
 		};
 	});
 var author$project$Page$Dashboard$viewWithoutUser = function (model) {

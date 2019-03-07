@@ -10,18 +10,17 @@ const algoliasearch = require('algoliasearch')
 const env = functions.config()
 const ALGOLIA_ID = env.algolia.app_id
 const ALGOLIA_ADMIN_KEY = env.algolia.api_key
-// const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key
+// const ALGOLIA_SEARCH_KEY = env.algolia.search_key
 const ALGOLIA_INDEX_NAME = 'decks'
 const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY)
 const index = client.initIndex(ALGOLIA_INDEX_NAME)
 const db = admin.firestore()
+const auth = admin.auth()
 
 const addKeyVal = obj => key => val => {
 	obj[key] = val
 	return obj
 }
-
-const id = x => x
 
 const updateDeckInAngolia = (snapshot, context) =>
 	index.saveObject(addKeyVal(snapshot.data())('objectID')(context.params.deckId))
@@ -43,25 +42,11 @@ const findSlug = slug =>
 		.get()
 		.then(doc => doc.exists ? findSlug(nextSlug(slug)) : slug)
 
-const newSlug = user =>
-	findSlug(user.name.trim().replace(/ +/g, '_').toLowerCase())
+const newSlug = name =>
+	findSlug(name.trim().replace(/ +/g, '_').toLowerCase())
 
 const emailKey = email =>
 	email.replace('@', '%2E')
-
-// We want to create user nodes with displayNames, so will do that from client app
-// exports.newUser = functions.auth.user().onCreate(user =>
-// 	user.displayName
-// 		? newSlug(user).then(slug =>
-// 			db.collection('users').doc(user.uid).set({
-// 				name: user.displayName,
-// 				email: user.email,
-// 				slug
-// 			})
-// 		) : db.collection('users').doc(user.uid).set({
-// 				email: user.email
-// 			})
-// )
 
 exports.deleteUser = functions.auth.user().onDelete(user =>
 	db.collection('users').doc(user.uid).delete()
@@ -71,9 +56,9 @@ exports.userDeleted = functions.firestore.document('users/{uid}').onDelete((snap
 	Promise.all([
 		snapshot.data().slug
 			? db.collection('slugs').doc(snapshot.data().slug).delete()
-			: null,
+			: Promise.resolve(),
 		db.collection('emails').doc(emailKey(snapshot.data().email)).delete()
-	].filter(id))
+	])
 )
 
 const addToDate = date => elapsed =>
@@ -120,21 +105,43 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 // 	}).then(() => fs.unlinkSync(tempFilePath))
 // })
 
-exports.slugCreated = functions.firestore.document('users/{uid}/slug').onCreate((snapshot, context) =>
-	db.collection('slugs').doc(snapshot.val()).set(context.params.uid)
-)
+const updateDisplayName = uid => displayName =>
+	displayName
+		? auth.updateUser(uid, { displayName })
+		: Promise.resolve()
 
-exports.userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) =>
+const setupSlug = uid => user =>
+	user.slug
+		? db.collection('slugs').doc(user.slug).set({ uid })
+		: newSlug(user.name).then(slug =>
+			Promise.all([
+				db.collection('users').doc(uid).update({ slug }),
+				db.collection('slugs').doc(slug).set({ uid })
+			]))
+
+const setupEmail = uid => email =>
+	db.collection('emails').doc(emailKey(email)).set({ uid })
+
+const setupUser = uid => user =>
 	Promise.all([
-		db.collection('emails').doc(emailKey(snapshot.data().email)).set({ id: context.params.uid }),
-		snapshot.data().slug
-			? db.collection('slugs').doc(snapshot.data().slug).set({ id: context.params.uid })
-			: newSlug(snapshot.data())
-				.then(slug =>
-					Promise.all([
-						db.collection('users').doc(context.params.uid).update({ slug }),
-						db.collection('slugs').doc(slug).set({ id: context.params.uid })
-					])
-				)
+		setupEmail(uid)(user.email),
+		updateDisplayName(uid)(user.name),
+		setupSlug(uid)(user)
 	])
-)
+
+const uidAndData = f => (snapshot, context) =>
+	f(context.params.uid)(snapshot.data())
+
+const uidAndField = f => field => (snapshot, context) =>
+	f(context.params.uid)(snapshot.data()[field])
+
+const uidAndFieldUpdated = f => field => (change, context) =>
+	change.after.data()[field] === change.before.data()[field]
+		? Promise.resolve()
+		: f(context.params.uid)(change.after.data()[field])
+
+exports.userCreated = functions.firestore.document('users/{uid}')
+	.onCreate(uidAndData(setupUser))
+
+exports.userUpdated = functions.firestore.document('users/{uid}')
+	.onUpdate(uidAndFieldUpdated(updateDisplayName)('name'))
