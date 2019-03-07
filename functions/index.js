@@ -46,7 +46,6 @@ const emailKey = email =>
 	email.replace('@', '%2E')
 
 exports.deleteUser = functions.auth.user().onDelete(user =>
-	// Also delete permissions for all decks
 	db.collection('users').doc(user.uid).delete()
 )
 
@@ -59,8 +58,8 @@ exports.userDeleted = functions.firestore.document('users/{uid}').onDelete((snap
 	])
 )
 
-const addToDate = date => elapsed =>
-	new Date(date.getTime() + elapsed)
+// const addToDate = date => elapsed =>
+// 	new Date(date.getTime() + elapsed)
 
 exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate(updateDeckInAngolia)
 exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(updateDeckInAngolia)

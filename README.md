@@ -9,9 +9,8 @@ When creating a user with email and password:
     1. Create `users` node in Firestore
         1. `name` is required
         1. `email` is required
-    1. Called `updateProfile` on `userCredential` to set `displayName`
 
-The `slug` will automatically be created from Firebase Functions
+The `slug` will automatically be created in the Firestore `users` node and the `displayName` will automatically be updated in Firebase Auth from Firebase Functions.
 
 ## History creation
 When creating a history node in `users/abc123/decks/def456/cards/ghi789/history`:
