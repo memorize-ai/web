@@ -97,23 +97,31 @@ viewWithUser model user =
     { title = "Dashboard for " ++ user.name ++ " - memorize.ai"
     , body =
         Template.viewApp
-            [ Template.viewSection (Just "my_decks") (Just "decks")
-                [ h1 [ class "title" ] [ text "My decks" ]
-                , div [ class "decks" ] (List.map viewDeckThumbnail model.myDecks)
-                ]
-            , Template.viewSection (Just "search_decks") (Just "decks")
-                [ h1 [ class "title" ] [ text "Search decks" ]
-                , div [ id "search-input" ] []
-                , div [ id "hits" ] []
-                , div [ id "pagination" ] []
-                -- , node "script" [ attribute "type" "text/html", attribute "id" "hit-template" ]
-                --     [ div [ class "hit" ]
-                --         [ p [ class "hit-name" ]
-                --             [ text "{{#helpers.highlight}}{ \"attribute\": \"firstname\" }{{/helpers.highlight}}"
-                --             , text "{{#helpers.highlight}}{ \"attribute\": \"lastname\" }{{/helpers.highlight}}"
-                --             ]
-                --         ]
-                --     ]
+            [ Template.viewSection (Just "decks") (Just "decks")
+                [ div [ class "tile is-ancestor" ]
+                    [ div [ class "tile is-parent" ]
+                        [ div [ class "tile is-child box" ]
+                            [ h1 [ class "title" ] [ text "My decks" ]
+                            , div [ class "decks" ] (List.map viewDeckThumbnail model.myDecks)
+                            ]
+                        ]
+                    , div [ class "tile is-parent" ]
+                        [ div [ class "tile is-child box" ]
+                            [ h1 [ class "title" ] [ text "Search decks" ]
+                            , div [ id "search-input" ] []
+                            , div [ id "hits" ] []
+                            , div [ id "pagination" ] []
+                            -- , node "script" [ attribute "type" "text/html", attribute "id" "hit-template" ]
+                            --     [ div [ class "hit" ]
+                            --         [ p [ class "hit-name" ]
+                            --             [ text "{{#helpers.highlight}}{ \"attribute\": \"firstname\" }{{/helpers.highlight}}"
+                            --             , text "{{#helpers.highlight}}{ \"attribute\": \"lastname\" }{{/helpers.highlight}}"
+                            --             ]
+                            --         ]
+                            --     ]
+                            ]
+                        ]
+                    ]
                 ]
             ]
             model.user SignOut

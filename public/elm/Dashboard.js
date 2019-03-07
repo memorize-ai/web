@@ -5455,65 +5455,103 @@ var author$project$Page$Dashboard$viewWithUser = F2(
 					[
 						A3(
 						author$project$Page$Template$viewSection,
-						elm$core$Maybe$Just('my_decks'),
+						elm$core$Maybe$Just('decks'),
 						elm$core$Maybe$Just('decks'),
 						_List_fromArray(
 							[
 								A2(
-								elm$html$Html$h1,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$class('title')
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('My decks')
-									])),
-								A2(
 								elm$html$Html$div,
 								_List_fromArray(
 									[
-										elm$html$Html$Attributes$class('decks')
-									]),
-								A2(elm$core$List$map, author$project$Page$Dashboard$viewDeckThumbnail, model.myDecks))
-							])),
-						A3(
-						author$project$Page$Template$viewSection,
-						elm$core$Maybe$Just('search_decks'),
-						elm$core$Maybe$Just('decks'),
-						_List_fromArray(
-							[
-								A2(
-								elm$html$Html$h1,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$class('title')
+										elm$html$Html$Attributes$class('tile is-ancestor')
 									]),
 								_List_fromArray(
 									[
-										elm$html$Html$text('Search decks')
-									])),
-								A2(
-								elm$html$Html$div,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$id('search-input')
-									]),
-								_List_Nil),
-								A2(
-								elm$html$Html$div,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$id('hits')
-									]),
-								_List_Nil),
-								A2(
-								elm$html$Html$div,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$id('pagination')
-									]),
-								_List_Nil)
+										A2(
+										elm$html$Html$div,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$class('tile is-parent')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												elm$html$Html$div,
+												_List_fromArray(
+													[
+														elm$html$Html$Attributes$class('tile is-child box')
+													]),
+												_List_fromArray(
+													[
+														A2(
+														elm$html$Html$h1,
+														_List_fromArray(
+															[
+																elm$html$Html$Attributes$class('title')
+															]),
+														_List_fromArray(
+															[
+																elm$html$Html$text('My decks')
+															])),
+														A2(
+														elm$html$Html$div,
+														_List_fromArray(
+															[
+																elm$html$Html$Attributes$class('decks')
+															]),
+														A2(elm$core$List$map, author$project$Page$Dashboard$viewDeckThumbnail, model.myDecks))
+													]))
+											])),
+										A2(
+										elm$html$Html$div,
+										_List_fromArray(
+											[
+												elm$html$Html$Attributes$class('tile is-parent')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												elm$html$Html$div,
+												_List_fromArray(
+													[
+														elm$html$Html$Attributes$class('tile is-child box')
+													]),
+												_List_fromArray(
+													[
+														A2(
+														elm$html$Html$h1,
+														_List_fromArray(
+															[
+																elm$html$Html$Attributes$class('title')
+															]),
+														_List_fromArray(
+															[
+																elm$html$Html$text('Search decks')
+															])),
+														A2(
+														elm$html$Html$div,
+														_List_fromArray(
+															[
+																elm$html$Html$Attributes$id('search-input')
+															]),
+														_List_Nil),
+														A2(
+														elm$html$Html$div,
+														_List_fromArray(
+															[
+																elm$html$Html$Attributes$id('hits')
+															]),
+														_List_Nil),
+														A2(
+														elm$html$Html$div,
+														_List_fromArray(
+															[
+																elm$html$Html$Attributes$id('pagination')
+															]),
+														_List_Nil)
+													]))
+											]))
+									]))
 							]))
 					]),
 				model.user,
