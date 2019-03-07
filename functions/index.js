@@ -37,10 +37,7 @@ const nextSlug = slug =>
 	assembleNextSlug(slug)(slug.match(/^(.*)_(\d+)$/))
 
 const findSlug = slug =>
-	db.collection('users')
-		.where('slug', '==', slug)
-		.get()
-		.then(doc => doc.exists ? findSlug(nextSlug(slug)) : slug)
+	db.collection('users').where('slug', '==', slug).get().then(doc => doc.exists ? findSlug(nextSlug(slug)) : slug)
 
 const newSlug = name =>
 	findSlug(name.trim().replace(/ +/g, '_').toLowerCase())
@@ -49,6 +46,7 @@ const emailKey = email =>
 	email.replace('@', '%2E')
 
 exports.deleteUser = functions.auth.user().onDelete(user =>
+	// Also delete permissions for all decks
 	db.collection('users').doc(user.uid).delete()
 )
 
@@ -78,13 +76,16 @@ exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permis
 	db.collection('users').doc(context.params.permissionId).collection('decks').doc(context.params.deckId).set({ mastered: 0 })
 )
 
+exports.permissionsDeleted = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onDelete((_, context) =>
+	db.collection('users').doc(context.params.permissionId).collection('decks').doc(context.params.deckId).delete()
+)
+
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) =>
 	db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).get().then(card => {
 		const elapsed = snapshot.date - card.data().last.getTime()
-		const next = addToDate(snapshot.date)(snapshot.correct ? elapsed * 2 : 14400000)
 		return Promise.all([
-			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).collection('history').doc(context.params.historyId).update({ elapsed: elapsed, next: next }),
-			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).update({ last: snapshot.date, next: next })
+			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).collection('history').doc(context.params.historyId).update({ date: new Date(), next: new Date(snapshot.date.getTime() + snapshot.correct ? elapsed * 2 : 14400000), elapsed: elapsed }),
+			db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId).update({ last: context.params.historyId })
 		])
 	})
 )
