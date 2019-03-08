@@ -1,6 +1,8 @@
 # memorize.ai-web
 https://memorize.ai
 
+# Users
+
 ## User creation
 When creating a user with email and password:
 1. Call Firebase Auth's `createUserWithEmailAndPassword` function
@@ -11,6 +13,9 @@ When creating a user with email and password:
         1. `email` is required
 
 The `slug` will automatically be created in the Firestore `users` node and the `displayName` will automatically be updated in Firebase Auth from Firebase Functions.
+
+## User deletion
+When deleting a user, delete their Firebase Auth account. The related Firestore and Storage entries will be deleted or archived automatically.
 
 ## History creation
 When creating a history node in `users/abc123/decks/def456/cards/ghi789/history`:
