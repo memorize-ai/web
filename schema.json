@@ -12,6 +12,7 @@
 							"count": 4,
 							"correct": 3,
 							"streak": 2,
+							"mastered": false,
 							"last": "mno345",
 							"history (sub-collection)": {
 								"mno345": {
@@ -36,7 +37,9 @@
 			"creator": "abc123",
 			"owner": "abc123",
 			"permissions (sub-collection)": {
-				"def456": "viewer"
+				"def456": {
+					"role": "viewer"
+				}
 			},
 			"cards (sub-collection)": {
 				"ghi789": {
