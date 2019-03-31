@@ -45,6 +45,7 @@
 		"promise/catch-or-return": 2,
 		"promise/no-nesting": 1,
 		"no-trailing-spaces": 1,
-		"comma-dangle": 2
+		"comma-dangle": 2,
+		"semi": [2, "never"]
 	}
 }
