@@ -5432,7 +5432,7 @@ var author$project$Page$Deck$view = function (model) {
 									elm$html$Html$div,
 									_List_fromArray(
 										[
-											elm$html$Html$Attributes$class('tile is-parent')
+											elm$html$Html$Attributes$class('tile is-parent is-4')
 										]),
 									_List_fromArray(
 										[

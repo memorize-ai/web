@@ -6,7 +6,19 @@ const startSearch = () => {
         indexName: 'decks',
         searchClient,
         routing: true,
-        searchParameters: { hitsPerPage: 10 }
+        searchParameters: { hitsPerPage: 10 },
+        searchFunction(helper) {
+            console.log('hi')
+            const hits = document.querySelector('#hits')
+            const pagination = document.querySelector('#pagination')
+            
+            if (log('helper.state.query')(helper.state.query) === '')
+                hits.style.display = pagination.style.display = 'none'
+            else
+                hits.style.display = pagination.style.display = 'block'
+        
+            helper.search();
+        }
     })
     search.addWidget(instantsearch.widgets.searchBox({ container: '#search-input' }))
     search.addWidget(

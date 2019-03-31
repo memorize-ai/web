@@ -71,7 +71,7 @@ view model =
                             , loadingOrHtml viewDeck model.deck
                             ]
                         ]
-                    , div [ class "tile is-parent" ]
+                    , div [ class "tile is-parent is-4" ]
                         [ div [ class "tile is-child box" ]
                             [ h1 [ class "title" ] [ text "Search decks" ]
                             , div [ id "search-input" ] []
