@@ -48,9 +48,7 @@ exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(up
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
 
 exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_, context) =>
-	db.collection('decks').doc(context.params.deckId).get().then(deck =>
-		db.collection('decks').doc(context.params.deckId).update({ count: deck.data().count + 1 })
-	)
+	db.collection('decks').doc(context.params.deckId).update({ count: FieldValue.increment(1) })
 )
 
 exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onCreate((_, context) =>
