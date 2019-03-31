@@ -1,7 +1,146 @@
 service cloud.firestore {
 	match /databases/{database}/documents {
-		match /{document=**} {
-			allow read, write: if request.auth.uid != null;
+		match /users/{uid} {
+			allow read, write: if signedInWith(uid)
+			match /name {
+				allow read
+				allow create, update: if signedInWith(uid) && isValidString(newData())
+				allow delete: if false
+			}
+			match /email {
+				allow create, update: if checkEmail(newData()) && !exists(/databases/$(database)/documents/users/{allUsers=**}/email/$(newData()))
+				allow delete: if false
+			}
+			match /slug {
+				allow read
+				allow delete: if false
+			}
+			match /decks/{deckId} {
+				allow read: if signedInWith(uid) || canViewDeck(deckId) || isDeckPublic(deckId)
+				allow write: if signedInWith(uid)
+				match /mastered {
+					allow read: if signedInWith(uid)
+					allow create: if signedInWith(uid) && (newData() is int) && newData() == 0
+					allow update, delete: if false
+				}
+				match /cards/{cardId} {
+					allow read: if signedInWith(uid)
+					allow write: if false
+					match /history/{historyId} {
+						allow create: if signedInWith(uid)
+						match /date {
+							allow create: if false
+						}
+						match /next {
+							allow create: if false
+						}
+						match /correct {
+							allow create: if signedInWith(uid) && newData.isBoolean() && !newData()
+						}
+						match /elapsed {
+							allow create: if false
+						}
+					}
+				}
+			}
+		}
+		match /decks/{deckId} {
+			allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)
+			allow create: if signedIn()
+			allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId))
+			allow delete: if isDeckOwner(deckId)
+			match /name {
+				allow create: if signedIn() && isValidString(newData())
+				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
+				allow delete: if false
+			}
+			match /description {
+				allow create: if signedIn() && (newData() is string)
+				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && (newData() is string)
+				allow delete: if false
+			}
+			match /public {
+				allow create: if signedIn() && (newData() is bool)
+				allow update: if isDeckOwner(deckId) && (newData() is bool)
+				allow delete: if false
+			}
+			match /count {
+				allow create: if signedIn() && (newData() is int) && newData() == 0
+				allow update, delete: if false
+			}
+			match /creator {
+				allow create: if isValidString(newData()) && signedInWith(newData())
+				allow update, delete: if false
+			}
+			match /owner {
+				allow create: if isValidString(newData()) && signedInWith(newData())
+				allow update: if isDeckOwner(deckId) && isValidString(newData()) && !signedInWith(newData()) && exists(/databases/$(database)/documents/users/$(newData()))
+				allow delete: if false
+			}
+			match /permissions/{permissionId} {
+				allow read, write: if isDeckOwner(deckId)
+				match /role {
+					allow write: if isDeckOwner(deckId) && (newData() is string) && (newData() == 'viewer' || newData() == 'editor')
+				}
+			}
+			match /cards/{cardId} {
+				allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)
+				allow write: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId))
+				match /front {
+					allow write: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
+				}
+				match /back {
+					allow write: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
+				}
+			}
+		}
+
+		function authId() {
+			return request.auth.uid
+		}
+
+		function signedIn() {
+			return request.auth != null
+		}
+
+		function signedInWith(uid) {
+			return signedIn() && authId() == uid
+		}
+
+		function oldData() {
+			return resource.data
+		}
+
+		function newData() {
+			return request.resource.data
+		}
+
+		function isValidString(data) {
+			return (data is string) && data != ''
+		}
+
+		function checkEmail(data) {
+			return isValidString(data) // Use regex as well to check if is valid email
+		}
+
+		function canViewDeck(deckId) {
+			return exists(/databases/$(database)/documents/decks/$(deckId)/permissions/$(authId()))
+		}
+
+		function canEditDeck(deckId) {
+			return get(/databases/$(database)/documents/decks/$(deckId)/permissions/$(authId())).data.role == 'editor'
+		}
+
+		function isDeckOwner(deckId) {
+			return signedInWith(get(/databases/$(database)/documents/decks/$(deckId)).data.owner)
+		}
+
+		function isDeckPublic(deckId) {
+			return get(/databases/$(database)/documents/decks/$(deckId)).data.public
+		}
+
+		function userExists(userId) {
+			return exists(/databases/$(database)/documents/users/$(userId))
 		}
 	}
 }

@@ -3,7 +3,7 @@
 		"abc123": {
 			"name": "Ken Mueller",
 			"email": "kenmueller0@gmail.com",
-			"slug": "kenmueller",
+			"slug": "ken_mueller",
 			"decks (sub-collection)": {
 				"jkl012": {
 					"mastered": 699,
@@ -12,7 +12,9 @@
 							"count": 4,
 							"correct": 3,
 							"streak": 2,
+							"mastered": false,
 							"last": "mno345",
+							"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)",
 							"history (sub-collection)": {
 								"mno345": {
 									"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)",
@@ -36,7 +38,9 @@
 			"creator": "abc123",
 			"owner": "abc123",
 			"permissions (sub-collection)": {
-				"def456": "viewer"
+				"def456": {
+					"role": "viewer"
+				}
 			},
 			"cards (sub-collection)": {
 				"ghi789": {
