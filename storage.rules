@@ -1,14 +1,5 @@
 service firebase.storage {
 	match /b/{bucket}/o {
-		{
-	"users": {
-		"abc123": "IMAGE_DATA",
-		"def456": "IMAGE_DATA"
-	},
-	"decks": {
-		"ghi789": "IMAGE_DATA",
-		"jkl10112": "IMAGE_DATA"
-	}
-}
+		allow read, write
 	}
 }
