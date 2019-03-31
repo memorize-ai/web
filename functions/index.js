@@ -38,12 +38,7 @@ exports.deleteUser = functions.auth.user().onDelete(user =>
 	db.collection('users').doc(user.uid).delete()
 )
 
-exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate((snapshot, context) =>
-	Promise.all([
-		db.collection('users').doc(snapshot.creator).collection('decks').doc(context.params.deckId).set({ mastered: 0 }),
-		updateDeckInAngolia(snapshot, context)
-	])
-)
+exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate(updateDeckInAngolia)
 exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(updateDeckInAngolia)
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
 
