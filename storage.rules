@@ -1,5 +1,9 @@
 service firebase.storage {
 	match /b/{bucket}/o {
 		allow read, write
+		// match /users/{uid} {
+		// 	allow read
+		// 	allow create, update: if 
+		// }
 	}
 }

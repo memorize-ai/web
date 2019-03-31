@@ -18,10 +18,10 @@ service cloud.firestore {
 			match /decks/{deckId} {
 				allow read: if signedInWith(uid) || canViewDeck(deckId) || isDeckPublic(deckId)
 				allow write: if signedInWith(uid)
-				allow update, delete: if false
 				match /mastered {
 					allow read: if signedInWith(uid)
-					allow create: if signedInWith(uid) && newData().isNumber() && newData() == 0
+					allow create: if signedInWith(uid) && (newData() is int) && newData() == 0
+					allow update, delete: if false
 				}
 				match /cards/{cardId} {
 					allow read: if signedInWith(uid)
@@ -46,24 +46,26 @@ service cloud.firestore {
 		}
 		match /decks/{deckId} {
 			allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)
-			allow write: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId))
+			allow create: if signedIn()
+			allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId))
+			allow delete: if isDeckOwner(deckId)
 			match /name {
 				allow create: if signedIn() && isValidString(newData())
 				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
 				allow delete: if false
 			}
 			match /description {
-				allow create: if signedIn() && newData().isString()
-				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && newData().isString()
+				allow create: if signedIn() && (newData() is string)
+				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && (newData() is string)
 				allow delete: if false
 			}
 			match /public {
-				allow create: if signedIn() && newData().isBoolean()
-				allow update: if isDeckOwner(deckId) && newData().isBoolean()
+				allow create: if signedIn() && (newData() is bool)
+				allow update: if isDeckOwner(deckId) && (newData() is bool)
 				allow delete: if false
 			}
 			match /count {
-				allow create: if signedIn() && newData().isNumber() && newData() == 0
+				allow create: if signedIn() && (newData() is int) && newData() == 0
 				allow update, delete: if false
 			}
 			match /creator {
@@ -78,7 +80,7 @@ service cloud.firestore {
 			match /permissions/{permissionId} {
 				allow read, write: if isDeckOwner(deckId)
 				match /role {
-					allow write: if isDeckOwner(deckId) && newData().isString() && (newData() == 'viewer' || newData() == 'editor')
+					allow write: if isDeckOwner(deckId) && (newData() is string) && (newData() == 'viewer' || newData() == 'editor')
 				}
 			}
 			match /cards/{cardId} {
@@ -114,7 +116,7 @@ service cloud.firestore {
 		}
 
 		function isValidString(data) {
-			return data.isString() && data != ''
+			return (data is string) && data != ''
 		}
 
 		function checkEmail(data) {
