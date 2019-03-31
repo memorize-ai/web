@@ -8,7 +8,7 @@ service cloud.firestore {
 				allow delete: if false
 			}
 			match /email {
-				allow create, update: if checkEmail(newData()) && !exists(/databases/$(database)/documents/users/{userId=**}/email/$(newData()))
+				allow create, update: if checkEmail(newData()) && !exists(/databases/$(database)/documents/users/{allUsers=**}/email/$(newData()))
 				allow delete: if false
 			}
 			match /slug {
