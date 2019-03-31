@@ -21,7 +21,7 @@
 	const fbListenDeck = app => user =>
 		firebase.firestore().collection('decks').doc(deckId)
 			.onSnapshot(doc =>
-				app.ports.updateDeck.send(Object.assign({photoURL: null}, doc.data()))
+				app.ports.updateDeck.send(Object.assign({photoUrl: null}, doc.data()))
 			)
 
 	const userFromFirebase = fbUser =>

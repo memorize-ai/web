@@ -1,3 +1,6 @@
 #hits, #pagination {
     margin-top: 11px;
 }
+li.ais-Hits-item {
+    width: 100%;
+}
