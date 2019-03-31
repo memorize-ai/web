@@ -17,6 +17,7 @@ service cloud.firestore {
 			}
 			match /decks/{deckId} {
 				allow read: if signedInWith(uid) || canViewDeck(deckId) || isDeckPublic(deckId)
+				allow write: if signedInWith(uid)
 				allow update, delete: if false
 				match /mastered {
 					allow read: if signedInWith(uid)
@@ -81,6 +82,8 @@ service cloud.firestore {
 				}
 			}
 			match /cards/{cardId} {
+				allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)
+				allow write: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId))
 				match /front {
 					allow write: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
 				}
