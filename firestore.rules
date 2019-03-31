@@ -115,7 +115,7 @@ service cloud.firestore {
 		}
 
 		function checkEmail(data) {
-			return isValidString(data) // Use regex as well to check if is valid email
+			return isValidString(data) && data.matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$/i)
 		}
 
 		function canViewDeck(deckId) {
