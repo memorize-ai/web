@@ -54,24 +54,18 @@ When deleting a user, delete their Firebase Auth account. The related Firestore 
 1. Create a new card in `decks/DECK_ID/cards`
    1. `front` (Required)
    2. `back` (Required)
-2. Do not create a new card in `users/USER_ID/decks/DECK_ID/cards`, only create that node the first time you review a card.
+2. Do not create a new card in `users/USER_ID/decks/DECK_ID/cards`, firebase functions will create that for you the first time you review a card.
 
 ## History creation
 
 When creating a history node in `users/abc123/decks/def456/cards/ghi789/history`:
 
 1. Set an ID for the key
-2. Pass in `date` as a `Timestamp`, `correct` as a `Bool`
+2. Pass in `correct` as a `Bool`
 3. Upon completion
-    1. Firebase functions will update the parent card's `last` and `next` nodes, and set the `elapsed`, and `next` nodes of the history node just created
-    2. Observe `elapsed` and `next` and update as needed
+    1. Firebase functions will update the parent card's `last` and `next` nodes, and set the `date`, `elapsed`, and `next` nodes of the history node just created
+    2. Observe `date`, `elapsed` and `next` and update as needed
 
 ## First time reviewing card
 
-1. Create new card in `users/USER_ID/decks/DECK_ID/cards` (History for that card should already have 1 node)
-   1. `count` = 1
-   2. `correct` = 1 if got the card correct, 0 if not
-   3. `streak` = 1 if got the card correct, 0 if not
-   4. `mastered` = false
-   5. `last` = Only history node id (Refers back to the history node id and should be stored as a String)
-   6. `next` = Mirror the history node's `next` (Cache for last history node's `next` value, should be stored as a `Timestamp`)
+Create the first history inside of `users/abc123/decks/def456/cards/ghi789/history`, the card node shouldn't exist yet. Firebase functions will automatically create the card node for you the first time.
