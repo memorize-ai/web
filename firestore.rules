@@ -27,7 +27,8 @@ service cloud.firestore {
 					allow read: if signedInWith(uid)
 					allow write: if false
 					match /history/{historyId} {
-						allow create: if signedInWith(uid)
+						allow read, create: if signedInWith(uid)
+						allow update, delete: if false
 						match /date {
 							allow create: if false
 						}
