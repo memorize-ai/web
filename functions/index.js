@@ -11,6 +11,11 @@ const index = client.initIndex(ALGOLIA_INDEX_NAME)
 const db = admin.firestore()
 const auth = admin.auth()
 
+const log = message => obj => {
+	console.log(message, obj)
+	return obj
+}
+
 const addKeyVal = obj => key => val => {
 	obj[key] = val
 	return obj
@@ -32,7 +37,7 @@ const findSlug = slug =>
 	db.collection('users').where('slug', '==', slug).get().then(doc => doc.exists ? findSlug(nextSlug(slug)) : slug)
 
 const newSlug = name =>
-	findSlug(name.trim().replace(/ +/g, '_').toLowerCase())
+	findSlug(name.trim().replace(/\s+/g, '_').toLowerCase())
 
 exports.deleteUser = functions.auth.user().onDelete(user =>
 	db.collection('users').doc(user.uid).delete()
@@ -58,24 +63,26 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 	const cardRef = db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId)
 	return cardRef.get().then(card => {
 		const cardData = card.data()
-		const newCard = !cardData.last
+		const newCard = !cardData
 		const currentDate = new Date()
 		const elapsed = currentDate - (newCard ? currentDate : cardData.last.getTime())
 		const nextDate = new Date(currentDate.getTime() + (newCard ? 14400000 : (snapshot.correct ? elapsed * 2 : 14400000)))
+		const increment = snapshot.correct ? 1 : 0
+		const cardDoc = {
+			count: newCard ? 1 : FieldValue.increment(1),
+			correct: newCard ? increment : FieldValue.increment(increment),
+			streak: newCard ? increment : (snapshot.correct ? FieldValue.increment(1) : 0),
+			mastered: newCard ? false : (snapshot.correct && cardData.streak >= 19),
+			last: context.params.historyId,
+			next: nextDate
+		}
 		return Promise.all([
 			cardRef.collection('history').doc(context.params.historyId).update({
 				date: currentDate,
 				next: nextDate,
 				elapsed: elapsed
 			}),
-			cardRef.update({
-				count: newCard ? 1 : FieldValue.increment(1),
-				correct: newCard ? (snapshot.correct ? 1 : 0) : FieldValue.increment(snapshot.correct ? 1 : 0),
-				streak: newCard ? (snapshot.correct ? 1 : 0) : (snapshot.correct ? FieldValue.increment(1) : 0),
-				mastered: newCard ? false : (snapshot.correct && cardData.streak >= 19),
-				last: context.params.historyId,
-				next: nextDate
-			})
+			newCard ? cardRef.set(cardDoc) : cardRef.update(cardDoc)
 		])
 	})
 })
