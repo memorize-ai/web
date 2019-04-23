@@ -61,13 +61,14 @@ exports.permissionsDeleted = functions.firestore.document('decks/{deckId}/permis
 
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
 	const current = new Date()
+	const now = Date.now()
 	const cardRef = db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId)
 	return cardRef.get().then(card => {
 		const cardData = card.data()
 		const newCard = !cardData
 		const increment = snapshot.correct ? 1 : 0
 		if (newCard) {
-			const next = new Date(current.getTime() + 14400000)
+			const next = new Date(now + 14400000)
 			return Promise.all([
 				cardRef.collection('history').doc(context.params.historyId).update({
 					date: current,
@@ -85,8 +86,8 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 			])
 		} else {
 			return cardRef.collection('history').doc(cardData.last).get().then(history => {
-				const elapsed = current - history.data().date.getTime()
-				const next = new Date(current.getTime() + (snapshot.correct ? elapsed * 2 : 14400000))
+				const elapsed = now - history.data().date._seconds
+				const next = new Date(now + (snapshot.correct ? elapsed * 2 : 14400000))
 				return Promise.all([
 					cardRef.collection('history').doc(context.params.historyId).update({
 						date: current,
