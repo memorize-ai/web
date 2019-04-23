@@ -60,32 +60,50 @@ exports.permissionsDeleted = functions.firestore.document('decks/{deckId}/permis
 )
 
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
-	const currentDate = new Date()
+	const current = new Date()
 	const cardRef = db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId)
 	return cardRef.get().then(card => {
 		const cardData = card.data()
-		return cardRef.collection('history').doc(cardData.last).get().then(history => {
-			const newCard = !cardData
-			const elapsed = currentDate - (newCard ? currentDate : history.data().date.getTime())
-			const nextDate = new Date(currentDate.getTime() + (newCard ? 14400000 : (snapshot.correct ? elapsed * 2 : 14400000)))
-			const increment = snapshot.correct ? 1 : 0
-			const cardDoc = {
-				count: newCard ? 1 : FieldValue.increment(1),
-				correct: newCard ? increment : FieldValue.increment(increment),
-				streak: newCard ? increment : (snapshot.correct ? FieldValue.increment(1) : 0),
-				mastered: newCard ? false : (snapshot.correct && cardData.streak >= 19),
-				last: context.params.historyId,
-				next: nextDate
-			}
+		const newCard = !cardData
+		const increment = snapshot.correct ? 1 : 0
+		if (newCard) {
+			const next = new Date(current.getTime() + 14400000)
 			return Promise.all([
 				cardRef.collection('history').doc(context.params.historyId).update({
-					date: currentDate,
-					next: nextDate,
-					elapsed: elapsed
+					date: current,
+					next: next,
+					elapsed: 0
 				}),
-				newCard ? cardRef.set(cardDoc) : cardRef.update(cardDoc)
+				cardRef.set({
+					count: 1,
+					correct: increment,
+					streak: increment,
+					mastered: false,
+					last: context.params.historyId,
+					next: next
+				})
 			])
-		})
+		} else {
+			return cardRef.collection('history').doc(cardData.last).get().then(history => {
+				const elapsed = current - history.data().date.getTime()
+				const next = new Date(current.getTime() + (snapshot.correct ? elapsed * 2 : 14400000))
+				return Promise.all([
+					cardRef.collection('history').doc(context.params.historyId).update({
+						date: current,
+						next: next,
+						elapsed: elapsed
+					}),
+					cardRef.update({
+						count: FieldValue.increment(1),
+						correct: FieldValue.increment(increment),
+						streak: snapshot.correct ? FieldValue.increment(1) : 0,
+						mastered: snapshot.correct && cardData.streak >= 19,
+						last: context.params.historyId,
+						next: next
+					})
+				])
+			})
+		}
 	})
 })
 
