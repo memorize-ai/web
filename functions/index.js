@@ -1,7 +1,7 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 admin.initializeApp()
-const FieldValue = require('firebase-admin').firestore.FieldValue
+const FieldValue = admin.firestore.FieldValue
 const algoliasearch = require('algoliasearch')
 const env = functions.config()
 const ALGOLIA_ID = env.algolia.app_id
