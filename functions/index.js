@@ -67,7 +67,8 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 	return cardRef.get().then(card => {
 		const cardData = card.data()
 		const newCard = !cardData
-		const increment = snapshot.correct ? 1 : 0
+		const correct = snapshot.data().correct
+		const increment = correct ? 1 : 0
 		if (newCard) {
 			const next = new Date(now + 14400000)
 			return Promise.all([
@@ -88,7 +89,7 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 		} else {
 			return cardRef.collection('history').doc(cardData.last).get().then(history => {
 				const elapsed = now - history.data().date._seconds
-				const next = new Date(now + (snapshot.correct ? elapsed * 2 : 14400000))
+				const next = new Date(now + (correct ? elapsed * 2 : 14400000))
 				return Promise.all([
 					cardRef.collection('history').doc(context.params.historyId).update({
 						date: current,
@@ -98,8 +99,8 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 					cardRef.update({
 						count: FieldValue.increment(1),
 						correct: FieldValue.increment(increment),
-						streak: snapshot.correct ? FieldValue.increment(1) : 0,
-						mastered: snapshot.correct && cardData.streak >= 19,
+						streak: correct ? FieldValue.increment(1) : 0,
+						mastered: correct && cardData.streak >= 19,
 						last: context.params.historyId,
 						next: next
 					})
