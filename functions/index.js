@@ -60,6 +60,37 @@ exports.permissionsDeleted = functions.firestore.document('decks/{deckId}/permis
 	db.collection('users').doc(context.params.permissionId).collection('decks').doc(context.params.deckId).delete()
 )
 
+const updateDisplayName = uid => displayName =>
+	displayName ? auth.updateUser(uid, { displayName }) : Promise.resolve()
+
+const setupSlug = uid => user =>
+	user.slug ? Promise.resolve() : newSlug(user.name).then(slug =>
+		db.collection('users').doc(uid).update({ slug })
+	)
+
+const setupUser = uid => user =>
+	Promise.all([
+		updateDisplayName(uid)(user.name),
+		setupSlug(uid)(user)
+	])
+
+const uidAndData = f => (snapshot, context) =>
+	f(context.params.uid)(snapshot.data())
+
+const uidAndFieldUpdated = f => field => (change, context) =>
+	change.after.data()[field] === change.before.data()[field] ? Promise.resolve() : f(context.params.uid)(change.after.data()[field])
+
+exports.userCreated = functions.firestore.document('users/{uid}').onCreate(uidAndData(setupUser))
+exports.userUpdated = functions.firestore.document('users/{uid}').onUpdate(uidAndFieldUpdated(updateDisplayName)('name'))
+
+// SM2 Algorithm
+
+const interval = eFactor => streak =>
+	streak > 2 ? Math.round(6 * eFactor ** (streak - 1)) : streak === 2 ? 6 : streak
+
+const updateCard = eFactor => quality =>
+	Math.max([1.3, eFactor - 0.8 + 0.28 * quality - 0.02 * quality ** 2])
+
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
 	const current = new Date()
 	const now = Date.now()
@@ -109,26 +140,3 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 		}
 	})
 })
-
-const updateDisplayName = uid => displayName =>
-	displayName ? auth.updateUser(uid, { displayName }) : Promise.resolve()
-
-const setupSlug = uid => user =>
-	user.slug ? Promise.resolve() : newSlug(user.name).then(slug =>
-		db.collection('users').doc(uid).update({ slug })
-	)
-
-const setupUser = uid => user =>
-	Promise.all([
-		updateDisplayName(uid)(user.name),
-		setupSlug(uid)(user)
-	])
-
-const uidAndData = f => (snapshot, context) =>
-	f(context.params.uid)(snapshot.data())
-
-const uidAndFieldUpdated = f => field => (change, context) =>
-	change.after.data()[field] === change.before.data()[field] ? Promise.resolve() : f(context.params.uid)(change.after.data()[field])
-
-exports.userCreated = functions.firestore.document('users/{uid}').onCreate(uidAndData(setupUser))
-exports.userUpdated = functions.firestore.document('users/{uid}').onUpdate(uidAndFieldUpdated(updateDisplayName)('name'))
