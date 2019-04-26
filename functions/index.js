@@ -133,6 +133,7 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 					cardRef.update({
 						count: FieldValue.increment(1),
 						correct: FieldValue.increment(increment),
+						easiness: easiness,
 						streak: streak,
 						mastered: rating === 5 && streak >= 20,
 						last: context.params.historyId,
