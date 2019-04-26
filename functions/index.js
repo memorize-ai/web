@@ -41,7 +41,7 @@ const newSlug = name =>
 	findSlug(name.trim().replace(/\s+/g, '_').toLowerCase())
 
 exports.deleteUser = functions.auth.user().onDelete(user =>
-	db.collection('users').doc(user.uid).delete()
+	db.doc(`users/${user.uid}`).delete()
 )
 
 exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate(updateDeckInAngolia)
@@ -49,15 +49,15 @@ exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(up
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
 
 exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_, context) =>
-	db.collection('decks').doc(context.params.deckId).update({ count: FieldValue.increment(1) })
+	db.doc(`decks/${context.params.deckId}`).update({ count: FieldValue.increment(1) })
 )
 
 exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onCreate((_, context) =>
-	db.collection('users').doc(context.params.permissionId).collection('decks').doc(context.params.deckId).set({ mastered: 0 })
+	db.doc(`users/${context.params.permissionId}/decks/${context.params.deckId}`).set({ mastered: 0 })
 )
 
 exports.permissionsDeleted = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onDelete((_, context) =>
-	db.collection('users').doc(context.params.permissionId).collection('decks').doc(context.params.deckId).delete()
+	db.doc(`users/${context.params.permissionId}/decks/${context.params.deckId}`).delete()
 )
 
 const updateDisplayName = uid => displayName =>
@@ -65,7 +65,7 @@ const updateDisplayName = uid => displayName =>
 
 const setupSlug = uid => user =>
 	user.slug ? Promise.resolve() : newSlug(user.name).then(slug =>
-		db.collection('users').doc(uid).update({ slug })
+		db.doc(`users/${uid}`).update({ slug })
 	)
 
 const setupUser = uid => user =>
@@ -85,20 +85,21 @@ exports.userUpdated = functions.firestore.document('users/{uid}').onUpdate(uidAn
 
 // SM2 Algorithm
 
-const interval = eFactor => streak =>
-	streak > 2 ? Math.round(6 * eFactor ** (streak - 1)) : streak === 2 ? 6 : streak
+const interval = easiness => streak =>
+	streak > 2 ? Math.round(6 * easiness ** (streak - 1)) : streak === 2 ? 6 : streak
 
-const updateCard = eFactor => quality =>
-	Math.max([1.3, eFactor - 0.8 + 0.28 * quality - 0.02 * quality ** 2])
+const updateEasiness = easiness => rating =>
+	Math.max([1.3, easiness - 0.8 + 0.28 * rating - 0.02 * rating ** 2])
 
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
 	const current = new Date()
 	const now = Date.now()
-	const cardRef = db.collection('users').doc(context.params.uid).collection('decks').doc(context.params.deckId).collection('cards').doc(context.params.cardId)
+	const cardRef = db.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
 	return cardRef.get().then(card => {
 		const cardData = card.data()
 		const newCard = !cardData
-		const correct = snapshot.data().correct
+		const rating = snapshot.data().rating
+		const correct = rating > 2
 		const increment = correct ? 1 : 0
 		if (newCard) {
 			const next = new Date(now + 14400000)
@@ -111,6 +112,7 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 				cardRef.set({
 					count: 1,
 					correct: increment,
+					easiness: 2.5,
 					streak: increment,
 					mastered: false,
 					last: context.params.historyId,
@@ -119,19 +121,20 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 			])
 		} else {
 			return cardRef.collection('history').doc(cardData.last).get().then(history => {
-				const elapsed = now - history.data().date._seconds
-				const next = new Date(now + (correct ? elapsed * 2 : 14400000))
+				const easiness = updateEasiness(cardData.easiness)(rating)
+				const streak = correct ? cardData.streak + 1 : 0
+				const next = new Date(now + interval(easiness)(streak))
 				return Promise.all([
 					cardRef.collection('history').doc(context.params.historyId).update({
 						date: current,
 						next: next,
-						elapsed: elapsed
+						elapsed: now - history.data().date._seconds
 					}),
 					cardRef.update({
 						count: FieldValue.increment(1),
 						correct: FieldValue.increment(increment),
-						streak: correct ? FieldValue.increment(1) : 0,
-						mastered: correct && cardData.streak >= 19,
+						streak: streak,
+						mastered: rating === 5 && streak >= 20,
 						last: context.params.historyId,
 						next: next
 					})
