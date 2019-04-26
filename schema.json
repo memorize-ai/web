@@ -11,6 +11,7 @@
 						"ghi789": {
 							"count": 4,
 							"correct": 3,
+							"easiness": 2.4,
 							"streak": 2,
 							"mastered": false,
 							"last": "mno345",
@@ -19,7 +20,7 @@
 								"mno345": {
 									"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)",
 									"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)",
-									"correct": true,
+									"rating": 5,
 									"elapsed": 12394874
 								}
 							}
