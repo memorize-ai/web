@@ -97,11 +97,10 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 	const cardRef = db.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
 	return cardRef.get().then(card => {
 		const cardData = card.data()
-		const newCard = !cardData
 		const rating = snapshot.data().rating
 		const correct = rating > 2
 		const increment = correct ? 1 : 0
-		if (newCard) {
+		if (!cardData) {
 			const next = new Date(now + 14400000)
 			return Promise.all([
 				cardRef.collection('history').doc(context.params.historyId).update({
