@@ -83,21 +83,19 @@ const uidAndFieldUpdated = f => field => (change, context) =>
 exports.userCreated = functions.firestore.document('users/{uid}').onCreate(uidAndData(setupUser))
 exports.userUpdated = functions.firestore.document('users/{uid}').onUpdate(uidAndFieldUpdated(updateDisplayName)('name'))
 
-// SM2 Algorithm
+const intervalSm2 = e => streak =>
+	streak > 2 ? Math.round(6 * e ** (streak - 1)) : streak === 2 ? 6 : streak
 
-const interval = easiness => streak =>
-	streak > 2 ? Math.round(6 * easiness ** (streak - 1)) : streak === 2 ? 6 : streak
-
-const updateEasiness = easiness => rating =>
-	Math.max([1.3, easiness - 0.8 + 0.28 * rating - 0.02 * rating ** 2])
+const updateESm2 = e => rating =>
+	Math.max(1.3, e - 0.8 + 0.28 * rating - 0.02 * rating ** 2)
 
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
 	const current = new Date()
 	const now = Date.now()
 	const cardRef = db.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
 	return cardRef.get().then(card => {
-		const cardData = card.data()
-		const rating = snapshot.data().rating
+		const cardData = log('card data')(card.data())
+		const rating = log('rating')(snapshot.data().rating)
 		const correct = rating > 2
 		const increment = correct ? 1 : 0
 		if (!cardData) {
@@ -111,7 +109,7 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 				cardRef.set({
 					count: 1,
 					correct: increment,
-					easiness: 2.5,
+					e: 2.5,
 					streak: increment,
 					mastered: false,
 					last: context.params.historyId,
@@ -120,23 +118,23 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 			])
 		} else {
 			return cardRef.collection('history').doc(cardData.last).get().then(history => {
-				const easiness = updateEasiness(cardData.easiness)(rating)
-				const streak = correct ? cardData.streak + 1 : 0
-				const next = new Date(now + interval(easiness)(streak))
+				const e = updateESm2(log('original e')(cardData.e))(rating)
+				const streak = correct ? log('old streak')(cardData.streak) + 1 : 0
+				const next = log('next date')(new Date(now + intervalSm2(log('new e')(e))(streak)))
 				return Promise.all([
 					cardRef.collection('history').doc(context.params.historyId).update({
 						date: current,
-						next: next,
+						next,
 						elapsed: now - history.data().date._seconds
 					}),
 					cardRef.update({
 						count: FieldValue.increment(1),
 						correct: FieldValue.increment(increment),
-						easiness: easiness,
-						streak: streak,
+						e,
+						streak,
 						mastered: rating === 5 && streak >= 20,
 						last: context.params.historyId,
-						next: next
+						next
 					})
 				])
 			})

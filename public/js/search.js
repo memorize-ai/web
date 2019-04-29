@@ -8,11 +8,10 @@ const startSearch = () => {
         routing: true,
         searchParameters: { hitsPerPage: 10 },
         searchFunction(helper) {
-            console.log('hi')
             const hits = document.querySelector('#hits')
             const pagination = document.querySelector('#pagination')
             
-            if (log('helper.state.query')(helper.state.query) === '')
+            if (helper.state.query === '')
                 hits.style.display = pagination.style.display = 'none'
             else
                 hits.style.display = pagination.style.display = 'block'

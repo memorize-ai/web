@@ -7,4 +7,4 @@ const listenSignOut = app =>
         .then(() => app.ports.signedOut.send(null))
     )
 const redirectToLogin = from =>
-    window.location.href = `/login.html?f=${from}.html`
+    window.location.href = `login.html?f=${from}.html`

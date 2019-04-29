@@ -70,8 +70,8 @@ viewApp sections user msg =
                             [ case user of
                                 Nothing ->
                                     a
-                                        [ class "button is-light"
-                                        , href "/login.html"
+                                        [ class "button is-highlighted"
+                                        , href "login.html"
                                         ]
                                         [ text "Login" ]
                                 Just _ ->

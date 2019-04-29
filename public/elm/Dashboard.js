@@ -5268,8 +5268,8 @@ var author$project$Page$Template$viewApp = F3(
 																		elm$html$Html$a,
 																		_List_fromArray(
 																			[
-																				elm$html$Html$Attributes$class('button is-light'),
-																				elm$html$Html$Attributes$href('/login.html')
+																				elm$html$Html$Attributes$class('button is-highlighted'),
+																				elm$html$Html$Attributes$href('login.html')
 																			]),
 																		_List_fromArray(
 																			[
@@ -5506,7 +5506,7 @@ var author$project$Page$Dashboard$viewWithUser = F2(
 										elm$html$Html$div,
 										_List_fromArray(
 											[
-												elm$html$Html$Attributes$class('tile is-parent')
+												elm$html$Html$Attributes$class('tile is-parent is-4')
 											]),
 										_List_fromArray(
 											[

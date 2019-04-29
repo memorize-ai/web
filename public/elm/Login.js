@@ -5307,8 +5307,8 @@ var author$project$Page$Template$viewApp = F3(
 																		elm$html$Html$a,
 																		_List_fromArray(
 																			[
-																				elm$html$Html$Attributes$class('button is-light'),
-																				elm$html$Html$Attributes$href('/login.html')
+																				elm$html$Html$Attributes$class('button is-highlighted'),
+																				elm$html$Html$Attributes$href('login.html')
 																			]),
 																		_List_fromArray(
 																			[

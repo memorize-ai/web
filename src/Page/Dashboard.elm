@@ -1,8 +1,8 @@
 port module Page.Dashboard exposing (main)
 
 import Browser
-import Html exposing (Html, node, section, article, h1, div, p, figure, button, label, input, div, text, img, strong, p, small, br, i, nav, span)
-import Html.Attributes exposing (attribute, src, id, class, alt, placeholder, type_)
+import Html exposing (Html, node, section, article, h1, div, a, p, figure, button, label, input, div, text, img, strong, p, small, br, i, nav, span)
+import Html.Attributes exposing (attribute, src, href, id, class, alt, placeholder, type_)
 import Html.Events exposing (onClick)
 import Page.Template as Template
 
@@ -101,11 +101,16 @@ viewWithUser model user =
                 [ div [ class "tile is-ancestor" ]
                     [ div [ class "tile is-parent" ]
                         [ div [ class "tile is-child box" ]
-                            [ h1 [ class "title" ] [ text "My decks" ]
+                            [ h1 [ class "title" ]
+                                [ text "My decks "
+                                , a
+                                    [ href "new_deck.html", class "button is-link is-rounded" ]
+                                    [ text "＋" ]
+                                ]
                             , div [ class "decks" ] (List.map viewDeckThumbnail model.myDecks)
                             ]
                         ]
-                    , div [ class "tile is-parent" ]
+                    , div [ class "tile is-parent is-4" ]
                         [ div [ class "tile is-child box" ]
                             [ h1 [ class "title" ] [ text "Search decks" ]
                             , div [ id "search-input" ] []

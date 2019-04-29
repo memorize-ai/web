@@ -18,7 +18,7 @@
 	<link href="css/search.css" rel="stylesheet">
 	<script>
 	const deckId = new URLSearchParams(window.location.search).get('id') || 'abc'
-	const fbListenDeck = app => user =>
+	const fbListenDeck = app =>
 		firebase.firestore().collection('decks').doc(deckId)
 			.onSnapshot(doc =>
 				app.ports.updateDeck.send(Object.assign({photoUrl: null}, doc.data()))
@@ -29,18 +29,15 @@
 		 , uid: fbUser.uid
 		 })
 
-	const updateUser = app => user => {
-		app.ports.updateUser.send(userFromFirebase(user))
-		fbListenDeck(app)(user)
-		setTimeout(startSearch, 100)
-	}
+	const updateUser = app => user =>
+		user && app.ports.updateUser.send(userFromFirebase(user))
 
 	document.addEventListener('DOMContentLoaded', function() {
 		const app = Elm.Page.Deck.init({flags: deckId})
-		firebase.auth().onAuthStateChanged(user =>
-			user && updateUser(app)(user)
-		)
+		firebase.auth().onAuthStateChanged(updateUser(app))
 		listenSignOut(app)
+		fbListenDeck(app)
+		setTimeout(startSearch, 100)
 	})
 	</script>
 	<script src="js/main.js"></script>
