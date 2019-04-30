@@ -26,7 +26,7 @@ const deleteDeckInAngolia = snapshot =>
 	index.deleteObject(snapshot.id)
 
 const assembleNextSlug = slug => slugParts =>
-	slugParts ? `${slugParts[1]}_${parseInt(slugParts[2]) + 1}` : slug + '_1'
+	slugParts ? `${slugParts[1]}_${parseInt(slugParts[2]) + 1}` : `${slug}_1`
 
 const nextSlug = slug =>
 	assembleNextSlug(slug)(slug.match(/^(.*)_(\d+)$/))
@@ -45,15 +45,15 @@ exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate(up
 exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(updateDeckInAngolia)
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(deleteDeckInAngolia)
 
-exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_, context) =>
+exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_snapshot, context) =>
 	db.doc(`decks/${context.params.deckId}`).update({ count: FieldValue.increment(1) })
 )
 
-exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onCreate((_, context) =>
+exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onCreate((_snapshot, context) =>
 	db.doc(`users/${context.params.permissionId}/decks/${context.params.deckId}`).set({ mastered: 0 })
 )
 
-exports.permissionsDeleted = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onDelete((_, context) =>
+exports.permissionsDeleted = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onDelete((_snapshot, context) =>
 	db.doc(`users/${context.params.permissionId}/decks/${context.params.deckId}`).delete()
 )
 
@@ -91,12 +91,12 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 	const now = Date.now()
 	const cardRef = db.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
 	return cardRef.get().then(card => {
-		const cardData = log('card data')(card.data())
-		const rating = log('rating')(snapshot.data().rating)
+		const cardData = card.data()
+		const rating = snapshot.data().rating
 		const correct = rating > 2
 		const increment = correct ? 1 : 0
 		if (!cardData) {
-			const next = new Date(now + 14400000)
+			const next = new Date(now + 86400000)
 			return Promise.all([
 				cardRef.collection('history').doc(context.params.historyId).update({
 					date: current,
@@ -115,14 +115,14 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 			])
 		} else {
 			return cardRef.collection('history').doc(cardData.last).get().then(history => {
-				const e = updateESm2(log('original e')(cardData.e))(rating)
-				const streak = correct ? log('old streak')(cardData.streak) + 1 : 0
-				const next = log('next date')(new Date(now + intervalSm2(log('new e')(e))(streak)))
+				const e = updateESm2(cardData.e)(rating)
+				const streak = correct ? cardData.streak + 1 : 0
+				const next = new Date(now + intervalSm2(e)(streak))
 				return Promise.all([
 					cardRef.collection('history').doc(context.params.historyId).update({
 						date: current,
 						next,
-						elapsed: now - history.data().date._seconds * 1000
+						elapsed: now - history.data().date.seconds
 					}),
 					cardRef.update({
 						count: FieldValue.increment(1),
