@@ -4,11 +4,8 @@ admin.initializeApp()
 const FieldValue = admin.firestore.FieldValue
 const algoliasearch = require('algoliasearch')
 const env = functions.config()
-const ALGOLIA_ID = env.algolia.app_id
-const ALGOLIA_ADMIN_KEY = env.algolia.api_key
-const ALGOLIA_INDEX_NAME = 'decks'
-const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY)
-const index = client.initIndex(ALGOLIA_INDEX_NAME)
+const client = algoliasearch(env.algolia.app_id, env.algolia.api_key)
+const index = client.initIndex('decks')
 const db = admin.firestore()
 const auth = admin.auth()
 
@@ -103,7 +100,7 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 			return Promise.all([
 				cardRef.collection('history').doc(context.params.historyId).update({
 					date: current,
-					next: next,
+					next,
 					elapsed: 0
 				}),
 				cardRef.set({
@@ -113,7 +110,7 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 					streak: increment,
 					mastered: false,
 					last: context.params.historyId,
-					next: next
+					next
 				})
 			])
 		} else {
@@ -125,7 +122,7 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 					cardRef.collection('history').doc(context.params.historyId).update({
 						date: current,
 						next,
-						elapsed: now - history.data().date._seconds
+						elapsed: now - history.data().date._seconds * 1000
 					}),
 					cardRef.update({
 						count: FieldValue.increment(1),
