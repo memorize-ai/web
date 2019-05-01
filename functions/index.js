@@ -81,7 +81,7 @@ exports.userCreated = functions.firestore.document('users/{uid}').onCreate(uidAn
 exports.userUpdated = functions.firestore.document('users/{uid}').onUpdate(uidAndFieldUpdated(updateDisplayName)('name'))
 
 const intervalSm2 = e => streak =>
-	streak > 2 ? Math.round(6 * e ** (streak - 1)) : streak === 2 ? 6 : streak
+	streak > 2 ? Math.round(6 * e ** (streak - 2)) : streak === 2 ? 6 : streak
 
 const updateESm2 = e => rating =>
 	Math.max(1.3, e - 0.8 + 0.28 * rating - 0.02 * rating ** 2)
@@ -115,14 +115,14 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 			])
 		} else {
 			return cardRef.collection('history').doc(cardData.last).get().then(history => {
-				const e = updateESm2(cardData.e)(rating)
-				const streak = correct ? cardData.streak + 1 : 0
-				const next = new Date(now + intervalSm2(e)(streak))
+				const e = log('new e')(updateESm2(cardData.e)(rating))
+				const streak = log('streak')(correct ? cardData.streak + 1 : 0)
+				const next = log('date')(new Date(now + log('new interval')(intervalSm2(e)(streak) * 86400000)))
 				return Promise.all([
 					cardRef.collection('history').doc(context.params.historyId).update({
 						date: current,
 						next,
-						elapsed: now - history.data().date.seconds
+						elapsed: log('elapsed')(now - history.data().date.seconds)
 					}),
 					cardRef.update({
 						count: FieldValue.increment(1),
