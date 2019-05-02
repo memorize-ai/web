@@ -1,7 +1,8 @@
 service cloud.firestore {
 	match /databases/{database}/documents {
 		match /users/{uid} {
-			allow read, write: if signedInWith(uid)
+			allow read: if signedIn()
+			allow write: if signedInWith(uid)
 			match /name {
 				allow read
 				allow create, update: if signedInWith(uid) && isValidString(newData())
