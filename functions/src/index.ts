@@ -145,7 +145,7 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 	})
 })
 
-exports.sendCardNotification = functions.pubsub.schedule('every 1 minutes').onRun(_context =>
+exports.checkCards = functions.pubsub.schedule('every 1 minutes').onRun(_context =>
 	firestore.collection('users').get().then(users =>
 		users.forEach(user =>
 			Date.now() - user.data().lastNotification < 86400000
@@ -153,8 +153,14 @@ exports.sendCardNotification = functions.pubsub.schedule('every 1 minutes').onRu
 				: firestore.collection(`users/${user.id}/decks`).get().then(decks =>
 					decks.forEach(deck =>
 						firestore.collection(`users/${user.id}/decks/${deck.id}/cards`).get().then(cards =>
-							cards.docs.map(card =>
-								Date.now() <= card.data().next.toMillis()
+							Promise.all(cards.docs.filter(card => Date.now() <= card.data().next.toMillis()).length
+								? [
+									sendCardNotification(user.id),
+									firestore.doc(`users/${user.id}`).update({ lastNotification: Date.now() })
+								]
+								: [
+									Promise.resolve()
+								]
 							)
 						)
 					)
@@ -162,6 +168,11 @@ exports.sendCardNotification = functions.pubsub.schedule('every 1 minutes').onRu
 		)
 	)
 )
+
+function sendCardNotification(uid: string): Promise<any> {
+	// TODO: Complete function
+	return Promise.resolve()
+}
 
 // exports.cardNotification = functions.database.ref('/followers/{followedUid}/{followerUid}')
 // .onWrite(async (change, context) => {
