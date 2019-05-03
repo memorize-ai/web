@@ -3,12 +3,12 @@ import * as admin from 'firebase-admin'
 import * as algoliasearch from 'algoliasearch'
 admin.initializeApp()
 
-const FieldValue = admin.firestore.FieldValue
 const env = functions.config()
 const client = algoliasearch(env.algolia.app_id, env.algolia.api_key)
 const index = client.initIndex('decks')
-const db = admin.firestore()
 const auth = admin.auth()
+const firestore = admin.firestore()
+// const messaging = admin.messaging()
 
 class Algolia {
 	static createDeck(snapshot: FirebaseFirestore.DocumentSnapshot, context: functions.EventContext): Promise<any> {
@@ -38,7 +38,7 @@ class Slug {
 	}
 	
 	static find(slug: string): Promise<any> {
-		return db.collection('users').where('slug', '==', slug).get().then(snapshot => snapshot.docs[0].exists ? Slug.find(Slug.next(slug)) : slug)
+		return firestore.collection('users').where('slug', '==', slug).get().then(snapshot => snapshot.docs[0].exists ? Slug.find(Slug.next(slug)) : slug)
 	}
 }
 
@@ -48,7 +48,7 @@ exports.userCreated = functions.firestore.document('users/{uid}').onCreate((chan
 	return Promise.all([
 		updateDisplayName(uid, data.name),
 		data.slug ? Promise.resolve() : Slug.find(data.name.trim().replace(/\s+/g, '_').toLowerCase()).then(slug =>
-			db.doc(`users/${uid}`).update({ slug })
+			firestore.doc(`users/${uid}`).update({ slug, lastNotification: 0 })
 		)
 	])
 })
@@ -59,7 +59,7 @@ exports.userUpdated = functions.firestore.document('users/{uid}').onUpdate((chan
 })
 
 exports.deleteUser = functions.auth.user().onDelete(user =>
-	db.doc(`users/${user.uid}`).delete()
+	firestore.doc(`users/${user.uid}`).delete()
 )
 
 exports.deckCreated = functions.firestore.document('decks/{deckId}').onCreate(Algolia.createDeck)
@@ -67,15 +67,15 @@ exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(Al
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(Algolia.deleteDeck)
 
 exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_snapshot, context) =>
-	db.doc(`decks/${context.params.deckId}`).update({ count: FieldValue.increment(1) })
+	firestore.doc(`decks/${context.params.deckId}`).update({ count: FirebaseFirestore.FieldValue.increment(1) })
 )
 
 exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onCreate((_snapshot, context) =>
-	db.doc(`users/${context.params.permissionId}/decks/${context.params.deckId}`).set({ mastered: 0 })
+	firestore.doc(`users/${context.params.permissionId}/decks/${context.params.deckId}`).set({ mastered: 0 })
 )
 
 exports.permissionsDeleted = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onDelete((_snapshot, context) =>
-	db.doc(`users/${context.params.permissionId}/decks/${context.params.deckId}`).delete()
+	firestore.doc(`users/${context.params.permissionId}/decks/${context.params.deckId}`).delete()
 )
 
 function updateDisplayName(uid: string, displayName: string): Promise<any> {
@@ -95,7 +95,7 @@ class SM2 {
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
 	const current = new Date()
 	const now = Date.now()
-	const cardRef = db.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
+	const cardRef = firestore.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
 	return cardRef.get().then(card => {
 		const cardData = card.data()
 		const rating = snapshot.data()!.rating
@@ -131,8 +131,8 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 						elapsed: now - history.data()!.date.seconds
 					}),
 					cardRef.update({
-						count: FieldValue.increment(1),
-						correct: FieldValue.increment(increment),
+						count: FirebaseFirestore.FieldValue.increment(1),
+						correct: FirebaseFirestore.FieldValue.increment(increment),
 						e,
 						streak,
 						mastered: rating === 5 && streak >= 20,
@@ -144,3 +144,84 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 		}
 	})
 })
+
+exports.sendCardNotification = functions.pubsub.schedule('every 1 minutes').onRun(_context =>
+	firestore.collection('users').get().then(users =>
+		users.forEach(user =>
+			Date.now() - user.data().lastNotification < 86400000
+				? Promise.resolve()
+				: firestore.collection(`users/${user.id}/decks`).get().then(decks =>
+					decks.forEach(deck =>
+						firestore.collection(`users/${user.id}/decks/${deck.id}/cards`).get().then(cards =>
+							cards.docs.map(card =>
+								Date.now() <= card.data().next.toMillis()
+							)
+						)
+					)
+				)
+		)
+	)
+)
+
+// exports.cardNotification = functions.database.ref('/followers/{followedUid}/{followerUid}')
+// .onWrite(async (change, context) => {
+// const followerUid = context.params.followerUid;
+// const followedUid = context.params.followedUid;
+// // If un-follow we exit the function.
+// if (!change.after.val()) {
+// return console.log('User ', followerUid, 'un-followed user', followedUid);
+// }
+// console.log('We have a new follower UID:', followerUid, 'for user:', followedUid);
+
+// // Get the list of device notification tokens.
+// const getDeviceTokensPromise = admin.database()
+// .ref(`/users/${followedUid}/notificationTokens`).once('value');
+
+// // Get the follower profile.
+// const getFollowerProfilePromise = admin.auth().getUser(followerUid);
+
+// // The snapshot to the user's tokens.
+// let tokensSnapshot;
+
+// // The array containing all the user's tokens.
+// let tokens;
+
+// const results = await Promise.all([getDeviceTokensPromise, getFollowerProfilePromise]);
+// tokensSnapshot = results[0];
+// const follower = results[1];
+
+// // Check if there are any device tokens.
+// if (!tokensSnapshot.hasChildren()) {
+// return console.log('There are no notification tokens to send to.');
+// }
+// console.log('There are', tokensSnapshot.numChildren(), 'tokens to send notifications to.');
+// console.log('Fetched follower profile', follower);
+
+// // Notification details.
+// const payload = {
+// notification: {
+// title: 'You have a new follower!',
+// body: `${follower.displayName} is now following you.`,
+// icon: follower.photoURL
+// }
+// };
+
+// // Listing all tokens as an array.
+// tokens = Object.keys(tokensSnapshot.val());
+// // Send notifications to all tokens.
+// const response = await admin.messaging().sendToDevice(tokens, payload);
+// // For each message check if there was an error.
+// const tokensToRemove = [];
+// response.results.forEach((result, index) => {
+// const error = result.error;
+// if (error) {
+// console.error('Failure sending notification to', tokens[index], error);
+// // Cleanup the tokens who are not registered anymore.
+// if (error.code === 'messaging/invalid-registration-token' ||
+// error.code === 'messaging/registration-token-not-registered') {
+// tokensToRemove.push(tokensSnapshot.ref.child(tokens[index]).remove());
+// }
+// }
+// });
+// return Promise.all(tokensToRemove);
+// });
