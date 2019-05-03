@@ -8,7 +8,7 @@ const client = algoliasearch(env.algolia.app_id, env.algolia.api_key)
 const index = client.initIndex('decks')
 const auth = admin.auth()
 const firestore = admin.firestore()
-// const messaging = admin.messaging()
+const messaging = admin.messaging()
 
 class Algolia {
 	static createDeck(snapshot: FirebaseFirestore.DocumentSnapshot, context: functions.EventContext): Promise<any> {
@@ -155,8 +155,8 @@ exports.checkCards = functions.pubsub.schedule('every 1 minutes').onRun(_context
 						firestore.collection(`users/${user.id}/decks/${deck.id}/cards`).get().then(cards =>
 							Promise.all(cards.docs.filter(card => Date.now() <= card.data().next.toMillis()).length
 								? [
-									sendCardNotification(user.id),
-									firestore.doc(`users/${user.id}`).update({ lastNotification: Date.now() })
+									firestore.doc(`users/${user.id}`).update({ lastNotification: Date.now() }),
+									sendCardNotification(user.id)
 								]
 								: [
 									Promise.resolve()
@@ -170,69 +170,13 @@ exports.checkCards = functions.pubsub.schedule('every 1 minutes').onRun(_context
 )
 
 function sendCardNotification(uid: string): Promise<any> {
-	// TODO: Complete function
-	return Promise.resolve()
+	return firestore.collection(`users/${uid}/tokens`).get().then(tokens =>
+		messaging.sendToDevice(tokens.docs.filter(element => element.data().enabled).map(element => element.id), {
+			notification: {
+				title: 'Review time!',
+				body: 'You have new cards to review',
+				icon: 'https://memorize.ai/images/logo.png'
+			}
+		})
+	)
 }
-
-// exports.cardNotification = functions.database.ref('/followers/{followedUid}/{followerUid}')
-// .onWrite(async (change, context) => {
-// const followerUid = context.params.followerUid;
-// const followedUid = context.params.followedUid;
-// // If un-follow we exit the function.
-// if (!change.after.val()) {
-// return console.log('User ', followerUid, 'un-followed user', followedUid);
-// }
-// console.log('We have a new follower UID:', followerUid, 'for user:', followedUid);
-
-// // Get the list of device notification tokens.
-// const getDeviceTokensPromise = admin.database()
-// .ref(`/users/${followedUid}/notificationTokens`).once('value');
-
-// // Get the follower profile.
-// const getFollowerProfilePromise = admin.auth().getUser(followerUid);
-
-// // The snapshot to the user's tokens.
-// let tokensSnapshot;
-
-// // The array containing all the user's tokens.
-// let tokens;
-
-// const results = await Promise.all([getDeviceTokensPromise, getFollowerProfilePromise]);
-// tokensSnapshot = results[0];
-// const follower = results[1];
-
-// // Check if there are any device tokens.
-// if (!tokensSnapshot.hasChildren()) {
-// return console.log('There are no notification tokens to send to.');
-// }
-// console.log('There are', tokensSnapshot.numChildren(), 'tokens to send notifications to.');
-// console.log('Fetched follower profile', follower);
-
-// // Notification details.
-// const payload = {
-// notification: {
-// title: 'You have a new follower!',
-// body: `${follower.displayName} is now following you.`,
-// icon: follower.photoURL
-// }
-// };
-
-// // Listing all tokens as an array.
-// tokens = Object.keys(tokensSnapshot.val());
-// // Send notifications to all tokens.
-// const response = await admin.messaging().sendToDevice(tokens, payload);
-// // For each message check if there was an error.
-// const tokensToRemove = [];
-// response.results.forEach((result, index) => {
-// const error = result.error;
-// if (error) {
-// console.error('Failure sending notification to', tokens[index], error);
-// // Cleanup the tokens who are not registered anymore.
-// if (error.code === 'messaging/invalid-registration-token' ||
-// error.code === 'messaging/registration-token-not-registered') {
-// tokensToRemove.push(tokensSnapshot.ref.child(tokens[index]).remove());
-// }
-// }
-// });
-// return Promise.all(tokensToRemove);
-// });
