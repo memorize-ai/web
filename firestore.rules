@@ -16,6 +16,9 @@ service cloud.firestore {
 				allow read
 				allow delete: if false
 			}
+			match /tokens/{token} {
+				allow read, write: if signedInWith(uid)
+			}
 			match /decks/{deckId} {
 				allow read: if signedInWith(uid) || canViewDeck(deckId) || isDeckPublic(deckId)
 				allow write: if signedInWith(uid)
