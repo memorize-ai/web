@@ -115,12 +115,13 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 					e: 2.5,
 					streak: increment,
 					mastered: false,
-					last: context.params.historyId,
-					next
+					last: current,
+					next,
+					lastHistory: context.params.historyId,
 				})
 			])
 		} else {
-			return cardRef.collection('history').doc(cardData.last).get().then(history => {
+			return cardRef.collection('history').doc(cardData.lastHistory).get().then(history => {
 				const e = SM2.e(cardData.e, rating)
 				const streak = correct ? cardData.streak + 1 : 0
 				const next = new Date(now + SM2.interval(e, streak) * 86400000)
@@ -136,8 +137,9 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 						e,
 						streak,
 						mastered: rating === 5 && streak >= 20,
-						last: context.params.historyId,
-						next
+						last: current,
+						next,
+						lastHistory: context.params.historyId,
 					})
 				])
 			})
@@ -147,36 +149,44 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 
 exports.checkCards = functions.pubsub.schedule('every 1 minutes').onRun(_context =>
 	firestore.collection('users').get().then(users =>
-		users.forEach(user =>
-			Date.now() - user.data().lastNotification < 86400000
-				? Promise.resolve()
+		Promise.all(users.docs.map(user =>
+			Date.now() - user.data().lastNotification < 21600000
+				? Promise.resolve([])
 				: firestore.collection(`users/${user.id}/decks`).get().then(decks =>
-					decks.forEach(deck =>
+					Promise.all(decks.docs.map(deck =>
 						firestore.collection(`users/${user.id}/decks/${deck.id}/cards`).get().then(cards =>
-							Promise.all(cards.docs.filter(card => Date.now() <= card.data().next.toMillis()).length
-								? [
-									firestore.doc(`users/${user.id}`).update({ lastNotification: Date.now() }),
-									sendCardNotification(user.id)
-								]
-								: [
-									Promise.resolve()
-								]
-							)
+							Promise.resolve(cards.docs.filter(card => Date.now() <= card.data().next.toMillis()).length)
 						)
+					))
+				).then(results => {
+					const count = results.reduce((acc, element) => acc + element)
+					console.log(count)
+					return Promise.all(count
+						? [
+							firestore.doc(`users/${user.id}`).update({ lastNotification: Date.now() }),
+							sendCardNotification(user.id, count)
+						]
+						: [
+							Promise.resolve()
+						]
 					)
-				)
+				})
+			)
 		)
 	)
 )
 
-function sendCardNotification(uid: string): Promise<any> {
-	return firestore.collection(`users/${uid}/tokens`).get().then(tokens =>
-		messaging.sendToDevice(tokens.docs.filter(element => element.data().enabled).map(element => element.id), {
-			notification: {
-				title: 'Review time!',
-				body: 'You have new cards to review',
-				icon: 'https://memorize.ai/images/logo.png'
-			}
-		})
-	)
+function sendCardNotification(uid: string, count: number): Promise<any> {
+	return firestore.collection(`users/${uid}/tokens`).get().then(tokens => {
+		const validTokens = tokens.docs.filter(element => element.data().enabled).map(element => element.id)
+		return validTokens.length === 0
+			? Promise.resolve(null)
+			: messaging.sendToDevice(validTokens, {
+				notification: {
+					title: 'Review time!',
+					body: `You have ${count} card${count === 1 ? '' : 's'} to review`,
+					icon: 'https://memorize.ai/images/logo.png'
+				}
+			})
+	})
 }
