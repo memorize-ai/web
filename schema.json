@@ -15,9 +15,13 @@
 							"streak": 2,
 							"mastered": false,
 							"algorithm": 0,
-							"last": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)",
+							"last": {
+								"id": "mno345",
+								"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)",
+								"rating": 5,
+								"elapsed": 12394874
+							},
 							"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)",
-							"lastHistory": "mno345",
 							"history (sub-collection)": {
 								"mno345": {
 									"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)",

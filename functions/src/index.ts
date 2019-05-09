@@ -115,21 +115,26 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 					e: 2.5,
 					streak: increment,
 					mastered: false,
-					last: current,
-					next,
-					lastHistory: context.params.historyId,
+					last: {
+						id: context.params.historyId,
+						date: current,
+						rating,
+						elapsed: 0
+					},
+					next
 				})
 			])
 		} else {
-			return cardRef.collection('history').doc(cardData.lastHistory).get().then(history => {
+			return cardRef.collection('history').doc(cardData.last.id).get().then(history => {
 				const e = SM2.e(cardData.e, rating)
 				const streak = correct ? cardData.streak + 1 : 0
 				const next = new Date(now + SM2.interval(e, streak) * 86400000)
+				const elapsed = now - history.data()!.date.seconds
 				return Promise.all([
 					cardRef.collection('history').doc(context.params.historyId).update({
 						date: current,
 						next,
-						elapsed: now - history.data()!.date.seconds
+						elapsed
 					}),
 					cardRef.update({
 						count: FirebaseFirestore.FieldValue.increment(1),
@@ -137,9 +142,13 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 						e,
 						streak,
 						mastered: rating === 5 && streak >= 20,
-						last: current,
-						next,
-						lastHistory: context.params.historyId,
+						last: {
+							id: context.params.historyId,
+							date: current,
+							rating,
+							elapsed
+						},
+						next
 					})
 				])
 			})
