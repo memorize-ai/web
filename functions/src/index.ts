@@ -1,53 +1,19 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import * as algoliasearch from 'algoliasearch'
+import Algolia from './Algolia'
+import Slug from './Slug'
+import SM2 from './SM2'
 admin.initializeApp()
 
-const env = functions.config()
-const client = algoliasearch(env.algolia.app_id, env.algolia.api_key)
-const index = client.initIndex('decks')
 const auth = admin.auth()
 const firestore = admin.firestore()
-const messaging = admin.messaging()
-
-class Algolia {
-	static createDeck(snapshot: FirebaseFirestore.DocumentSnapshot, context: functions.EventContext): Promise<any> {
-		const data = snapshot.data()!
-		data['objectID'] = context.params.deckId
-		return index.saveObject(data)
-	}
-	
-	static updateDeck(change: functions.Change<FirebaseFirestore.DocumentSnapshot>, context: functions.EventContext): Promise<any> {
-		const data = change.after.data()!
-		data['objectID'] = context.params.deckId
-		return index.saveObject(data)
-	}
-	
-	static deleteDeck(snapshot: FirebaseFirestore.DocumentSnapshot) {
-		return index.deleteObject(snapshot.id)
-	}
-}
-
-class Slug {
-	static assemble(slug: string, slugParts: RegExpMatchArray) {
-		return slugParts ? `${slugParts[1]}_${parseInt(slugParts[2]) + 1}` : `${slug}_1`
-	}
-	
-	static next(slug: string): string {
-		return Slug.assemble(slug, slug.match(/^(.*)_(\d+)$/)!)
-	}
-	
-	static find(slug: string): Promise<any> {
-		return firestore.collection('users').where('slug', '==', slug).get().then(snapshot => snapshot.docs[0].exists ? Slug.find(Slug.next(slug)) : slug)
-	}
-}
 
 exports.userCreated = functions.firestore.document('users/{uid}').onCreate((change, context) => {
 	const uid = context.params.uid
 	const data = change.data()!
 	return Promise.all([
 		updateDisplayName(uid, data.name),
-		data.slug ? Promise.resolve() : Slug.find(data.name.trim().replace(/\s+/g, '_').toLowerCase()).then(slug =>
+		data.slug ? Promise.resolve() : Slug.find(data.name).then(slug =>
 			firestore.doc(`users/${uid}`).update({ slug, lastNotification: 0 })
 		)
 	])
@@ -58,7 +24,7 @@ exports.userUpdated = functions.firestore.document('users/{uid}').onUpdate((chan
 	return afterName === change.before.data()!.name ? Promise.resolve() : updateDisplayName(context.params.uid, afterName)
 })
 
-exports.deleteUser = functions.auth.user().onDelete(user =>
+exports.userDeleted = functions.auth.user().onDelete(user =>
 	firestore.doc(`users/${user.uid}`).delete()
 )
 
@@ -80,16 +46,6 @@ exports.permissionsDeleted = functions.firestore.document('decks/{deckId}/permis
 
 function updateDisplayName(uid: string, displayName: string): Promise<any> {
 	return displayName ? auth.updateUser(uid, { displayName }) : Promise.resolve()
-}
-
-class SM2 {
-	static interval(e: number, streak: number): number {
-		return streak > 2 ? Math.round(6 * e ** (streak - 2)) : streak === 2 ? 6 : streak
-	}
-
-	static e(e: number, rating: number): number {
-		return Math.max(1.3, e - 0.8 + 0.28 * rating - 0.02 * rating ** 2)
-	}
 }
 
 exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
@@ -155,47 +111,3 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 		}
 	})
 })
-
-exports.checkCards = functions.pubsub.schedule('every 1 minutes').onRun(_context =>
-	firestore.collection('users').get().then(users =>
-		Promise.all(users.docs.map(user =>
-			Date.now() - user.data().lastNotification < 21600000
-				? Promise.resolve([])
-				: firestore.collection(`users/${user.id}/decks`).get().then(decks =>
-					Promise.all(decks.docs.map(deck =>
-						firestore.collection(`users/${user.id}/decks/${deck.id}/cards`).get().then(cards =>
-							Promise.resolve(cards.docs.filter(card => Date.now() <= card.data().next.toMillis()).length)
-						)
-					))
-				).then(results => {
-					const count = results.reduce((acc, element) => acc + element)
-					console.log(count)
-					return Promise.all(count
-						? [
-							firestore.doc(`users/${user.id}`).update({ lastNotification: Date.now() }),
-							sendCardNotification(user.id, count)
-						]
-						: [
-							Promise.resolve()
-						]
-					)
-				})
-			)
-		)
-	)
-)
-
-function sendCardNotification(uid: string, count: number): Promise<any> {
-	return firestore.collection(`users/${uid}/tokens`).get().then(tokens => {
-		const validTokens = tokens.docs.filter(element => element.data().enabled).map(element => element.id)
-		return validTokens.length === 0
-			? Promise.resolve(null)
-			: messaging.sendToDevice(validTokens, {
-				notification: {
-					title: 'Review time!',
-					body: `You have ${count} card${count === 1 ? '' : 's'} to review`,
-					icon: 'https://memorize.ai/images/logo.png'
-				}
-			})
-	})
-}
