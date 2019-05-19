@@ -1,9 +1,10 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+admin.initializeApp()
+
 import Algolia from './Algolia'
 import Slug from './Slug'
 import SM2 from './SM2'
-admin.initializeApp()
 
 const auth = admin.auth()
 const firestore = admin.firestore()
@@ -33,7 +34,7 @@ exports.deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(Al
 exports.deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(Algolia.deleteDeck)
 
 exports.cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_snapshot, context) =>
-	firestore.doc(`decks/${context.params.deckId}`).update({ count: FirebaseFirestore.FieldValue.increment(1) })
+	firestore.doc(`decks/${context.params.deckId}`).update({ count: admin.firestore.FieldValue.increment(1) })
 )
 
 exports.permissionsCreated = functions.firestore.document('decks/{deckId}/permissions/{permissionId}').onCreate((_snapshot, context) =>
@@ -93,8 +94,8 @@ exports.historyCreated = functions.firestore.document('users/{uid}/decks/{deckId
 						elapsed
 					}),
 					cardRef.update({
-						count: FirebaseFirestore.FieldValue.increment(1),
-						correct: FirebaseFirestore.FieldValue.increment(increment),
+						count: admin.firestore.FieldValue.increment(1),
+						correct: admin.firestore.FieldValue.increment(increment),
 						e,
 						streak,
 						mastered: rating === 5 && streak >= 20,
