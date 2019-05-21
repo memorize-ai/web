@@ -1,6 +1,9 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+
+import Setting from './Setting'
 import Algorithm from './Algorithm'
+import SM2 from './SM2'
 
 const firestore = admin.firestore()
 
@@ -40,11 +43,37 @@ const historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/
 		const correct = rating > 2
 		const increment = correct ? 1 : 0
 		if (cardData)
-			return firestore.doc(`users/${context.params.uid}`).get().then(user =>
-				allCards(context.params.uid).then(cards => {
-					const next = new Date(Algorithm.predict(context.params.cardId, cards))
-					const elapsed = now - user.data()!.last.elapsed
-					const streak = correct ? cardData.streak + 1 : 0
+			return Setting.get('algorithm', context.params.uid).then((algorithm: boolean) => {
+				const elapsed = now - cardData.last.date.toMillis()
+				const streak = correct ? cardData.streak + 1 : 0
+				const e = SM2.e(cardData.e, rating)
+				if (algorithm)
+					return allCards(context.params.uid).then(cards => {
+						const next = new Date(Algorithm.predict(context.params.cardId, cards))
+						return Promise.all([
+							cardRef.collection('history').doc(context.params.historyId).update({
+								date: current,
+								next,
+								elapsed
+							}),
+							cardRef.update({
+								count: admin.firestore.FieldValue.increment(1),
+								correct: admin.firestore.FieldValue.increment(increment),
+								e,
+								streak,
+								mastered: rating === 5 && streak >= 20,
+								last: {
+									id: context.params.historyId,
+									date: current,
+									rating,
+									elapsed
+								},
+								next
+							})
+						])
+					})
+				else {
+					const next = new Date(now + SM2.interval(e, streak) * 86400000)
 					return Promise.all([
 						cardRef.collection('history').doc(context.params.historyId).update({
 							date: current,
@@ -54,6 +83,7 @@ const historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/
 						cardRef.update({
 							count: admin.firestore.FieldValue.increment(1),
 							correct: admin.firestore.FieldValue.increment(increment),
+							e,
 							streak,
 							mastered: rating === 5 && streak >= 20,
 							last: {
@@ -65,8 +95,8 @@ const historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/
 							next
 						})
 					])
-				})
-			)
+				}
+			})
 		else {
 			const next = new Date(now + rating < 3 ? 0 : 86400000)
 			return Promise.all([
