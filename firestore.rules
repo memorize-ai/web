@@ -16,6 +16,9 @@ service cloud.firestore {
 				allow read
 				allow delete: if false
 			}
+			match /settings/{setting} {
+				allow read, write: if signedInWith(uid)
+			}
 			match /tokens/{token} {
 				allow read, write: if signedInWith(uid)
 			}
@@ -48,6 +51,9 @@ service cloud.firestore {
 					}
 				}
 			}
+		}
+		match /settings/{setting} {
+			allow read
 		}
 		match /decks/{deckId} {
 			allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)

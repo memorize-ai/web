@@ -3,7 +3,17 @@
 		"abc123": {
 			"name": "Ken Mueller",
 			"email": "kenmueller0@gmail.com",
-			"slug": "ken_mueller",
+			"slug": "ken-mueller",
+			"settings": {
+				"abc123": {
+					"value": true
+				}
+			},
+			"tokens": {
+				"abc123": {
+					"enabled": true
+				}
+			},
 			"decks (sub-collection)": {
 				"jkl012": {
 					"mastered": 699,
@@ -34,6 +44,15 @@
 					}
 				}
 			}
+		}
+	},
+	"settings": {
+		"abc123": {
+			"slug": "dark-mode",
+			"title": "Dark mode",
+			"description": "",
+			"default": false,
+			"order": 0
 		}
 	},
 	"decks": {
