@@ -52,8 +52,8 @@ export const deckCreated = functions.firestore.document('decks/{deckId}').onCrea
 export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(Algolia.updateDeck)
 export const deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(Algolia.deleteDeck)
 
-export const viewDeck = functions.https.onCall((data, _context) =>
-	Deck.user(data.uid, data.deckId).then(user =>
+export const viewDeck = functions.https.onCall((data, context) =>
+	Deck.user(context.auth!.uid, data.deckId).then(user =>
 		Promise.all([
 			firestore.doc(`decks/${data.deckId}`).update({ views: {
 				total: admin.firestore.FieldValue.increment(1),
@@ -61,7 +61,7 @@ export const viewDeck = functions.https.onCall((data, _context) =>
 			} })
 		].concat(user
 			? []
-			: firestore.doc(`decks/${data.deckId}/users/${data.uid}`).set({
+			: firestore.doc(`decks/${data.deckId}/users/${context.auth!.uid}`).set({
 				past: false,
 				current: false,
 				rating: 0
@@ -70,11 +70,11 @@ export const viewDeck = functions.https.onCall((data, _context) =>
 	)
 )
 
-export const rateDeck = functions.https.onCall((data, _context) => {
+export const rateDeck = functions.https.onCall((data, context) => {
 	const rating = data.newRating
 	return Promise.all([
-		firestore.doc(`users/${data.uid}/ratings/${data.deckId}`).set({ rating }),
-		firestore.doc(`decks/${data.deckId}/users/${data.uid}`).update({ rating }),
+		firestore.doc(`users/${context.auth!.uid}/ratings/${data.deckId}`).set({ rating }),
+		firestore.doc(`decks/${data.deckId}/users/${context.auth!.uid}`).update({ rating }),
 		updateRating(data.deckId, Deck.rating(data.oldRating), Deck.rating(rating))
 	])
 })
