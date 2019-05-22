@@ -1,0 +1,89 @@
+{
+	"users": {
+		"abc123": {
+			"name": "Ken Mueller", // Cannot be empty
+			"email": "kenmueller0@gmail.com", // Cannot be empty
+			"slug": "ken-mueller", // Automatically calculated
+			"settings (sub-collection)": {
+				"abc123": {
+					"value": true // Any type
+				}
+			},
+			"tokens (sub-collection)": {
+				"abc123": {
+					"enabled": true // Boolean
+				}
+			},
+			"decks (sub-collection)": {
+				"jkl012": {
+					"mastered": 699, // Total number of cards the user has mastered in the deck
+					"cards (sub-collection)": {
+						"ghi789": {
+							"count": 4, // Total amount of recall attempts (history nodes) for this card
+							"correct": 3, // Total amount of correct recall attempts (ratings 3, 4, 5)
+							"e": 2.5, // Easiness-Factor for SM2
+							"streak": 2, // Streak of correct recall attempts, reset if rating is 0, 1, or 2
+							"mastered": false, // If this card has been mastered
+							"last": {
+								"id": "mno345", // Last history node ID
+								"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last history node Date (Timestamp)
+								"rating": 5, // Last history node rating
+								"elapsed": 12394874 // Last history node elapsed
+							},
+							"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last history node next (Timestamp)
+							"history (sub-collection)": {
+								"mno345": {
+									"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date created (Timestamp)
+									"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Next date to review (Timestamp)
+									"rating": 5, // Performance rating (0, 1, 2, 3, 4, 5) sent in by client
+									"elapsed": 12394874 // Milliseconds since last recall attempt
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"settings": {
+		"abc123": {
+			"slug": "dark-mode", // Unique
+			"title": "Dark mode", // Cannot be empty
+			"description": "", // Can be empty
+			"default": false, // Any type
+			"order": 0 // Should not be the same as any other setting: used to determine the order in which the settings show up starting from 0
+		}
+	},
+	"decks": {
+		"jkl012": {
+			"name": "GRE Vocabulary", // Cannot be empty
+			"description": "Study for the GRE", // Can be empty
+			"public": true, // Bool
+			"count": 700, // Number of cards
+			"views": 1000, // Only counting unique viewers
+			"downloads": 40, // Total number of downloads (unique) including users that have deleted the deck (including creator)
+			"likes": 8, // Unique likes (creator cannot like)
+			"dislikes": 2, // Unique dislikes (creator cannot dislike, cannot like & dislike at the same time)
+			"users (sub-collection)": {
+				"def456": {
+					"past": true, // Has downloaded deck in the past
+					"current": true, // Currently has deck in their library
+					"rating": 0 // -1: dislike, 0 (default): no rating, 1: like
+				}
+			},
+			"creator": "abc123", // Cannot be changed (user ID)
+			"owner": "abc123", // Can be granted owner by current owner (user ID, default is the creator)
+			"permissions (sub-collection)": {
+				"def456": {
+					"role": "viewer" // Can be 'viewer' or 'editor'
+				}
+			},
+			"cards (sub-collection)": {
+				"ghi789": {
+					"front": "precipitate", // Cannot be empty
+					"back": "to cause (something) to happen quickly or suddenly" // Cannot be empty
+				}
+			}
+		}
+	}
+}

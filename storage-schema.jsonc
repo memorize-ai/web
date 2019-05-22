@@ -1,0 +1,8 @@
+{
+	"users (folder)": {
+		"abc123": "IMAGE_DATA" // JPEG with compression quality 0.5
+	},
+	"decks (folder)": {
+		"def456": "IMAGE_DATA" // JPEG with compression quality 0.5
+	}
+}
