@@ -1,10 +1,11 @@
 import * as functions from 'firebase-functions'
-import * as admin from 'firebase-admin'
 
-const firestore = admin.firestore()
+import Deck from './Deck'
 
-const cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_snapshot, context) =>
-	firestore.doc(`decks/${context.params.deckId}`).update({ count: admin.firestore.FieldValue.increment(1) })
+export const cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_snapshot, context) =>
+	Deck.updateCount(context.params.deckId, true)
 )
 
-export { cardCreated }
+export const cardDeleted = functions.firestore.document('decks/{deckId}/cards/{cardId}').onDelete((_snapshot, context) =>
+	Deck.updateCount(context.params.deckId, false)
+)

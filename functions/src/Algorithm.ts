@@ -2,6 +2,17 @@ import { NeuralNetwork } from 'brain.js'
 
 const HISTORY_COUNT = 10
 
+export default class Algorithm {
+	static predict(id: string, cards: { id: string, intervals: number[], front: string }[]): number {
+		const wordsArray = unique(cards.flatMap(card => firstWords(card.front)))
+		const inputSize = HISTORY_COUNT + wordsArray.length
+		const net = new NeuralNetwork()
+		net.train(formatTrainingData(cards, wordsArray), trainingOptions(0.0001, inputSize, 1, [inputSize, inputSize], 'tanh'))
+		const current = cards.find(card => card.id === id)
+		return current === undefined ? 0 : denormalize(net.run(zeroFillLast(normalize(current.intervals), HISTORY_COUNT).concat(multiHot(firstWords(current.front), wordsArray))))[0]
+	}
+}
+
 function firstWords(sentence: string): string[] {
 	return sentence.split(/\W/).filter(a => a.length).slice(0, 2)
 }
@@ -46,15 +57,4 @@ interface INeuralNetworkTrainingOptions {
 
 function trainingOptions(errorThresh: number, inputSize: number, outputSize: number, hiddenLayers: number[], activation: string): INeuralNetworkTrainingOptions {
 	return { errorThresh, inputSize, outputSize, hiddenLayers, activation }
-}
-
-export default class Algorithm {
-	static predict(id: string, cards: { id: string, intervals: number[], front: string }[]): number {
-		const wordsArray = unique(cards.flatMap(card => firstWords(card.front)))
-		const inputSize = HISTORY_COUNT + wordsArray.length
-		const net = new NeuralNetwork()
-		net.train(formatTrainingData(cards, wordsArray), trainingOptions(0.0001, inputSize, 1, [inputSize, inputSize], 'tanh'))
-		const current = cards.find(card => card.id === id)
-		return current === undefined ? 0 : denormalize(net.run(zeroFillLast(normalize(current.intervals), HISTORY_COUNT).concat(multiHot(firstWords(current.front), wordsArray))))[0]
-	}
 }

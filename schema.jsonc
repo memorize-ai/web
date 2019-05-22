@@ -4,21 +4,27 @@
 			"name": "Ken Mueller", // Cannot be empty
 			"email": "kenmueller0@gmail.com", // Cannot be empty
 			"slug": "ken-mueller", // Automatically calculated
+			"lastNotification": 143002300, // Milliseconds from 1970 (epoch) of the last notification sent to the user
 			"settings (sub-collection)": {
-				"abc123": {
+				"abc123": { // Setting ID
 					"value": true // Any type
 				}
 			},
 			"tokens (sub-collection)": {
-				"abc123": {
+				"abc123": { // Notification token
 					"enabled": true // Boolean
 				}
 			},
+			"ratings (sub-collection)": {
+				"abc123": { // Deck ID that the user rated
+					"rating": 1 // -1: dislike, 1: like, document is removed if rating changes to 0. Can only change rating from here
+				}
+			},
 			"decks (sub-collection)": {
-				"jkl012": {
+				"jkl012": { // Deck ID
 					"mastered": 699, // Total number of cards the user has mastered in the deck
 					"cards (sub-collection)": {
-						"ghi789": {
+						"ghi789": { // Card ID
 							"count": 4, // Total amount of recall attempts (history nodes) for this card
 							"correct": 3, // Total amount of correct recall attempts (ratings 3, 4, 5)
 							"e": 2.5, // Easiness-Factor for SM2
@@ -26,13 +32,13 @@
 							"mastered": false, // If this card has been mastered
 							"last": {
 								"id": "mno345", // Last history node ID
-								"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last history node Date (Timestamp)
-								"rating": 5, // Last history node rating
-								"elapsed": 12394874 // Last history node elapsed
+								"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last history Date (Timestamp)
+								"rating": 5, // Last history rating
+								"elapsed": 12394874 // Last history elapsed (milliseconds)
 							},
 							"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last history node next (Timestamp)
 							"history (sub-collection)": {
-								"mno345": {
+								"mno345": { // History ID
 									"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date created (Timestamp)
 									"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Next date to review (Timestamp)
 									"rating": 5, // Performance rating (0, 1, 2, 3, 4, 5) sent in by client
@@ -46,7 +52,7 @@
 		}
 	},
 	"settings": {
-		"abc123": {
+		"abc123": { // Setting ID
 			"slug": "dark-mode", // Unique
 			"title": "Dark mode", // Cannot be empty
 			"description": "", // Can be empty
@@ -55,31 +61,37 @@
 		}
 	},
 	"decks": {
-		"jkl012": {
+		"jkl012": { // Deck ID
 			"name": "GRE Vocabulary", // Cannot be empty
 			"description": "Study for the GRE", // Can be empty
 			"public": true, // Boolean
 			"count": 700, // Number of cards
-			"views": 1000, // Only counting unique viewers
-			"downloads": 40, // Total number of downloads (unique) including users that have deleted the deck (including creator)
+			"views": { // Object
+				"total": 10000, // Total amount of views
+				"unique": 500 // Only counting unique viewers
+			},
+			"downloads": { // Object
+				"total": 40, // Total number of downloads (unique) including users that have deleted the deck (including creator)
+				"current": 30 // Amount of users that currently have the deck in their library
+			},
 			"likes": 8, // Unique likes (creator cannot like)
 			"dislikes": 2, // Unique dislikes (creator cannot dislike, cannot like & dislike at the same time)
 			"users (sub-collection)": {
-				"def456": {
+				"def456": { // User ID (uid)
 					"past": true, // Has downloaded deck in the past
 					"current": true, // Currently has deck in their library
-					"rating": 0 // -1: dislike, 0 (default): no rating, 1: like
+					"rating": 1 // -1: dislike, 0 (default): none, 1: like (user does not have write access to this document, must change rating from user document)
 				}
 			},
 			"creator": "abc123", // Cannot be changed (user ID)
 			"owner": "abc123", // Can be granted owner by current owner (user ID, default is the creator)
 			"permissions (sub-collection)": {
-				"def456": {
+				"def456": { // User ID (uid)
 					"role": "viewer" // Can be 'viewer' or 'editor'
 				}
 			},
 			"cards (sub-collection)": {
-				"ghi789": {
+				"ghi789": { // Card ID
 					"front": "precipitate", // Cannot be empty
 					"back": "to cause (something) to happen quickly or suddenly" // Cannot be empty
 				}

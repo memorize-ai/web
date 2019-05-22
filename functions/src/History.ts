@@ -7,33 +7,7 @@ import SM2 from './SM2'
 
 const firestore = admin.firestore()
 
-function allCards(uid: string): Promise<{ id: string, intervals: number[], front: string }[]> {
-	return firestore.collection(`users/${uid}/decks`).get().then(decks =>
-		Promise.all(decks.docs.map(deck =>
-			allCardsForDeck(uid, deck.id)
-		)).then(lists => lists.flat())
-	)
-}
-
-function allCardsForDeck(uid: string, deckId: string): Promise<{ id: string, intervals: number[], front: string }[]> {
-	return firestore.collection(`users/${uid}/decks/${deckId}/cards`).get().then(cards =>
-		Promise.all(cards.docs.map(card =>
-			allHistory(uid, deckId, card.id)
-		))
-	)
-}
-
-function allHistory(uid: string, deckId: string, cardId: string): Promise<{ id: string, intervals: number[], front: string }> {
-	return firestore.collection(`users/${uid}/decks/${deckId}/cards/${cardId}/history`).get().then(historyDocs =>
-		Promise.all(historyDocs.docs.map(history => history.data().elapsed as number))
-	).then(intervals =>
-		firestore.doc(`decks/${deckId}/cards/${cardId}`).get().then(cardDoc =>
-			({ id: cardId, intervals, front: cardDoc.data()!.front })
-		)
-	)
-}
-
-const historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
+export const historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
 	const current = new Date()
 	const now = Date.now()
 	const cardRef = firestore.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
@@ -124,4 +98,28 @@ const historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/
 	})
 })
 
-export { historyCreated }
+function allCards(uid: string): Promise<{ id: string, intervals: number[], front: string }[]> {
+	return firestore.collection(`users/${uid}/decks`).get().then(decks =>
+		Promise.all(decks.docs.map(deck =>
+			allCardsForDeck(uid, deck.id)
+		)).then(lists => lists.flat())
+	)
+}
+
+function allCardsForDeck(uid: string, deckId: string): Promise<{ id: string, intervals: number[], front: string }[]> {
+	return firestore.collection(`users/${uid}/decks/${deckId}/cards`).get().then(cards =>
+		Promise.all(cards.docs.map(card =>
+			allHistory(uid, deckId, card.id)
+		))
+	)
+}
+
+function allHistory(uid: string, deckId: string, cardId: string): Promise<{ id: string, intervals: number[], front: string }> {
+	return firestore.collection(`users/${uid}/decks/${deckId}/cards/${cardId}/history`).get().then(historyDocs =>
+		Promise.all(historyDocs.docs.map(history => history.data().elapsed as number))
+	).then(intervals =>
+		firestore.doc(`decks/${deckId}/cards/${cardId}`).get().then(cardDoc =>
+			({ id: cardId, intervals, front: cardDoc.data()!.front })
+		)
+	)
+}
