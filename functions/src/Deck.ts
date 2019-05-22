@@ -72,10 +72,12 @@ export const viewDeck = functions.https.onCall((data, context) =>
 
 export const rateDeck = functions.https.onCall((data, context) => {
 	const rating = data.newRating
+	const newRating = Deck.rating(rating)
+	const ratingDoc = firestore.doc(`users/${context.auth!.uid}/ratings/${data.deckId}`)
 	return Promise.all([
-		firestore.doc(`users/${context.auth!.uid}/ratings/${data.deckId}`).set({ rating }),
+		newRating === DeckRating.none ? ratingDoc.delete() : ratingDoc.set({ rating }),
 		firestore.doc(`decks/${data.deckId}/users/${context.auth!.uid}`).update({ rating }),
-		updateRating(data.deckId, Deck.rating(data.oldRating), Deck.rating(rating))
+		updateRating(data.deckId, Deck.rating(data.oldRating), newRating)
 	])
 })
 
