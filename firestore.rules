@@ -22,6 +22,9 @@ service cloud.firestore {
 			match /tokens/{token} {
 				allow read, write: if signedInWith(uid)
 			}
+			match /ratings/{deckId} {
+				allow read: if signedInWith(uid)
+			}
 			match /decks/{deckId} {
 				allow read: if signedInWith(uid) || canViewDeck(deckId) || isDeckPublic(deckId)
 				allow write: if signedInWith(uid)
@@ -76,6 +79,22 @@ service cloud.firestore {
 				allow delete: if false
 			}
 			match /count {
+				allow create: if signedIn() && (newData() is int) && newData() == 0
+				allow update, delete: if false
+			}
+			match /views {
+				allow create: if signedIn() && (newData().total is int) && newData().total == 0 && (newData().unique is int) && newData().unique == 0
+				allow update, delete: if false
+			}
+			match /downloads {
+				allow create: if signedIn() && (newData().total is int) && newData().total == 0 && (newData().current is int) && newData().current == 0
+				allow update, delete: if false
+			}
+			match /likes {
+				allow create: if signedIn() && (newData() is int) && newData() == 0
+				allow update, delete: if false
+			}
+			match /dislikes {
 				allow create: if signedIn() && (newData() is int) && newData() == 0
 				allow update, delete: if false
 			}
