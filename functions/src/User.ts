@@ -27,7 +27,7 @@ export const userDeleted = functions.auth.user().onDelete(user =>
 	firestore.doc(`users/${user.uid}`).delete()
 )
 
-export const deckDownloaded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((snapshot, context) =>
+export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((_snapshot, context) =>
 	Deck.user(context.params.uid, context.params.deckId).then(user =>
 		firestore.doc(`decks/${context.params.deckId}`).update({ downloads: {
 			total: admin.firestore.FieldValue.increment(user!.past ? 0 : 1),
@@ -35,6 +35,15 @@ export const deckDownloaded = functions.firestore.document('users/{uid}/decks/{d
 		} }).then(() =>
 			firestore.doc(`decks/${context.params.deckId}/users/${context.params.uid}`).update({ past: true, current: true })
 		)
+	)
+)
+
+export const deckRemoved = functions.firestore.document('users/{uid}/decks/{deckId}').onDelete((_snapshot, context) =>
+	firestore.doc(`decks/${context.params.deckId}`).update({ downloads: {
+		total: admin.firestore.FieldValue.increment(0),
+		current: admin.firestore.FieldValue.increment(-1)
+	} }).then(() =>
+		firestore.doc(`decks/${context.params.deckId}/users/${context.params.uid}`).update({ current: false })
 	)
 )
 
