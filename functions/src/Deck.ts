@@ -43,6 +43,30 @@ export default class Deck {
 		return new Deck(id).updateCount(increment)
 	}
 
+	static updateViews(id: string, { total, unique }: { total: number, unique: number }): Promise<any> {
+		return firestore.doc(`decks/${id}`).get().then(deck => {
+			const views = deck.data()!.views
+			return firestore.doc(`decks/${id}`).update({
+				views: {
+					total: views.total + total,
+					unique: views.unique + unique
+				}
+			})
+		})
+	}
+
+	static updateDownloads(id: string, { total, current }: { total: number, current: number }): Promise<any> {
+		return firestore.doc(`decks/${id}`).get().then(deck => {
+			const downloads = deck.data()!.downloads
+			return firestore.doc(`decks/${id}`).update({
+				downloads: {
+					total: downloads.total + total,
+					current: downloads.current + current
+				}
+			})
+		})
+	}
+
 	updateCount(increment: boolean): Promise<any> {
 		return firestore.doc(`decks/${this.id}`).update({ count: admin.firestore.FieldValue.increment(increment ? 1 : -1) })
 	}
@@ -55,10 +79,7 @@ export const deckDeleted = functions.firestore.document('decks/{deckId}').onDele
 export const viewDeck = functions.https.onCall((data, context) =>
 	Deck.user(context.auth!.uid, data.deckId).then(user =>
 		Promise.all([
-			firestore.doc(`decks/${data.deckId}`).update({ views: {
-				total: admin.firestore.FieldValue.increment(1),
-				unique: admin.firestore.FieldValue.increment(user ? 0 : 1)
-			} })
+			Deck.updateViews(data.deckId, { total: 1, unique: user ? 0 : 1 })
 		].concat(user
 			? []
 			: firestore.doc(`decks/${data.deckId}/users/${context.auth!.uid}`).set({

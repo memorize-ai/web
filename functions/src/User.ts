@@ -30,12 +30,7 @@ export const userDeleted = functions.auth.user().onDelete(user =>
 export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((_snapshot, context) =>
 	Deck.user(context.params.uid, context.params.deckId).then(user =>
 		Promise.all([
-			firestore.doc(`decks/${context.params.deckId}`).update({
-				downloads: {
-					total: admin.firestore.FieldValue.increment(user!.past ? 0 : 1),
-					current: admin.firestore.FieldValue.increment(1)
-				}
-			}),
+			Deck.updateDownloads(context.params.deckId, { total: user!.past ? 0 : 1, current: 1 }),
 			firestore.doc(`decks/${context.params.deckId}/users/${context.params.uid}`).update({ past: true, current: true })
 		])
 	)
@@ -43,12 +38,7 @@ export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId
 
 export const deckRemoved = functions.firestore.document('users/{uid}/decks/{deckId}').onDelete((_snapshot, context) =>
 	Promise.all([
-		firestore.doc(`decks/${context.params.deckId}`).update({
-			downloads: {
-				total: admin.firestore.FieldValue.increment(0),
-				current: admin.firestore.FieldValue.increment(-1)
-			}
-		}),
+		Deck.updateDownloads(context.params.deckId, { total: 0, current: -1 }),
 		firestore.doc(`decks/${context.params.deckId}/users/${context.params.uid}`).update({ current: false })
 	])
 )
