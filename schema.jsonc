@@ -53,11 +53,12 @@
 	},
 	"settings": {
 		"abc123": { // Setting ID
+			"section": "general", // Section slug (unique string)
 			"slug": "dark-mode", // Unique
 			"title": "Dark mode", // Cannot be empty
-			"description": "", // Can be empty
+			"description": "Better suited for nighttime review sessions", // Can be empty
 			"default": false, // Any type
-			"order": 0 // Should not be the same as any other setting: used to determine the order in which the settings show up starting from 0
+			"order": 0 // Should not be the same as any other setting in the same section: used to determine the order in which the settings show up starting from 0 in the same section
 		}
 	},
 	"decks": {
@@ -66,11 +67,11 @@
 			"description": "Study for the GRE", // Can be empty
 			"public": true, // Boolean
 			"count": 700, // Number of cards
-			"views": { // Object
+			"views": { // Object (map)
 				"total": 10000, // Total amount of views
 				"unique": 500 // Only counting unique viewers
 			},
-			"downloads": { // Object
+			"downloads": { // Object (map)
 				"total": 40, // Total number of downloads (unique) including users that have deleted the deck (including creator)
 				"current": 30 // Amount of users that currently have the deck in their library
 			},

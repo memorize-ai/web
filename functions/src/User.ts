@@ -29,22 +29,28 @@ export const userDeleted = functions.auth.user().onDelete(user =>
 
 export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((_snapshot, context) =>
 	Deck.user(context.params.uid, context.params.deckId).then(user =>
-		firestore.doc(`decks/${context.params.deckId}`).update({ downloads: {
-			total: admin.firestore.FieldValue.increment(user!.past ? 0 : 1),
-			current: admin.firestore.FieldValue.increment(1)
-		} }).then(() =>
+		Promise.all([
+			firestore.doc(`decks/${context.params.deckId}`).update({
+				downloads: {
+					total: admin.firestore.FieldValue.increment(user!.past ? 0 : 1),
+					current: admin.firestore.FieldValue.increment(1)
+				}
+			}),
 			firestore.doc(`decks/${context.params.deckId}/users/${context.params.uid}`).update({ past: true, current: true })
-		)
+		])
 	)
 )
 
 export const deckRemoved = functions.firestore.document('users/{uid}/decks/{deckId}').onDelete((_snapshot, context) =>
-	firestore.doc(`decks/${context.params.deckId}`).update({ downloads: {
-		total: admin.firestore.FieldValue.increment(0),
-		current: admin.firestore.FieldValue.increment(-1)
-	} }).then(() =>
+	Promise.all([
+		firestore.doc(`decks/${context.params.deckId}`).update({
+			downloads: {
+				total: admin.firestore.FieldValue.increment(0),
+				current: admin.firestore.FieldValue.increment(-1)
+			}
+		}),
 		firestore.doc(`decks/${context.params.deckId}/users/${context.params.uid}`).update({ current: false })
-	)
+	])
 )
 
 function updateDisplayName(uid: string, displayName: string): Promise<any> {
