@@ -12,20 +12,46 @@ export enum CardRating {
 }
 
 export default class Card {
-	static updateRating(id: string, { from, to }: { from: CardRating, to: CardRating }): Promise<any> {
-		
+	static updateRating({ deckId, cardId }: { deckId: string, cardId: string }, { from, to }: { from: CardRating | undefined, to: CardRating }): Promise<any> {
+		const promises: Promise<any>[] = []
+		const update = (obj: any) => promises.push(Deck.doc(deckId, `cards/${cardId}`).update(obj))
+		const decrement = admin.firestore.FieldValue.increment(-1)
+		const increment = admin.firestore.FieldValue.increment(1)
+		switch (from) {
+		case CardRating.like:
+			update({ likes: decrement })
+		case CardRating.dislike:
+			update({ dislikes: decrement })
+		}
+		switch (to) {
+		case CardRating.like:
+			update({ likes: increment })
+		case CardRating.dislike:
+			update({ dislikes: increment })
+		}
+		return Promise.all(promises)
+	}
+
+	static updateUserRating({ deckId, cardId }: { deckId: string, cardId: string }, { uid, rating }: { uid: string, rating: CardRating }): Promise<any[]> {
+		const value = rating.valueOf()
+		const set = (doc: FirebaseFirestore.DocumentReference) => value ? doc.set({ rating: value }) : doc.delete()
+		return Promise.all([
+			set(firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`)),
+			set(Deck.doc(deckId, `users/${uid}/cards/${cardId}`))
+		])
 	}
 }
 
 export const rateCard = functions.https.onCall((data, context) => {
+	const deckId = data.deckId
+	const cardId = data.cardId
+	const id = { deckId, cardId }
+	const uid = context.auth!.uid
 	const rating = data.rating
-	const ratingData = { rating, review: data.review }
-	const ratingDoc = firestore.doc(`users/${context.auth!.uid}/ratings/${data.deckId}`)
-	return ratingDoc.get().then(oldRating =>
+	return firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`).get().then(oldRating =>
 		Promise.all([
-			ratingDoc.set(ratingData),
-			Deck.doc(data.deckId, `users/${context.auth!.uid}`).update(ratingData),
-			Deck.updateRating(data.deckId, { from: oldRating.get('rating'), to: rating })
+			Card.updateUserRating(id, { uid, rating }),
+			Card.updateRating(id, { from: oldRating.get('rating'), to: rating })
 		])
 	)
 })

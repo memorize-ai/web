@@ -74,7 +74,7 @@ export default class Deck {
 		const doc = firestore.doc(`users/${uid}/ratings/${id}`)
 		return rating
 			? doc.set({ rating, review })
-			: firestore.collection(`users/${uid}/ratings/${id}/cards`).get().then(cards => {
+			: doc.collection('cards').get().then(cards => {
 				const deleteField = admin.firestore.FieldValue.delete()
 				return cards.empty ? doc.delete() : doc.set({ rating: deleteField, review: deleteField })
 			})
@@ -108,8 +108,7 @@ export const rateDeck = functions.https.onCall((data, context) => {
 	const rating = data.rating
 	const review = rating && data.review ? data.review : ''
 	const setField = (value: any) => rating ? value : admin.firestore.FieldValue.delete()
-	const ratingDoc = firestore.doc(`users/${uid}/ratings/${data.deckId}`)
-	return ratingDoc.get().then(oldRating =>
+	return firestore.doc(`users/${uid}/ratings/${data.deckId}`).get().then(oldRating =>
 		Promise.all([
 			Deck.updateUserRating(data.deckId, { uid, rating, review }),
 			Deck.doc(data.deckId, `users/${uid}`).update({
