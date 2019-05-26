@@ -111,8 +111,8 @@
 			},
 			"creator": "abc123", // Cannot be changed (user ID)
 			"owner": "abc123", // Can be granted owner by current owner (user ID, default is the creator)
-			"dateCreated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of deck creation (Timestamp)
-			"lastUpdated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last updated (includes card edits, initially dateCreated)
+			"created": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of deck creation (Timestamp)
+			"updated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last updated (includes card edits, initially created)
 			"permissions (sub-collection)": {
 				"def456": { // User ID (uid)
 					"role": "viewer" // Can be 'viewer' or 'editor'
@@ -122,8 +122,8 @@
 				"ghi789": { // Card ID
 					"front": "precipitate", // Cannot be empty
 					"back": "to cause (something) to happen quickly or suddenly", // Cannot be empty
-					"dateCreated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of card creation (Timestamp)
-					"lastUpdated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last updated (Timestamp)
+					"created": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of card creation (Timestamp)
+					"updated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last updated, initially created (Timestamp)
 					"likes": 10, // Unique likes for card
 					"dislikes": 2 // Unique dislikes for card
 				}

@@ -16,6 +16,21 @@ service cloud.firestore {
 				allow read
 				allow delete: if false
 			}
+			match /joined {
+				allow read
+				allow create: if signedInWith(uid)
+				allow update, delete: if false
+			}
+			match /lastOnline {
+				allow read
+				allow create: if signedInWith(uid)
+				allow update, delete: if false
+			}
+			match /lastActivity {
+				allow read
+				allow create: if signedInWith(uid)
+				allow update, delete: if false
+			}
 			match /settings/{setting} {
 				allow read, write: if signedInWith(uid)
 			}
@@ -24,6 +39,9 @@ service cloud.firestore {
 			}
 			match /ratings/{deckId} {
 				allow read: if signedInWith(uid)
+				match /cards/{cardId} {
+					allow read: if signedInWith(uid)
+				}
 			}
 			match /decks/{deckId} {
 				allow read: if signedInWith(uid) || canViewDeck(deckId) || isDeckPublic(deckId)
@@ -45,8 +63,8 @@ service cloud.firestore {
 						match /next {
 							allow create: if false
 						}
-						match /correct {
-							allow create: if signedInWith(uid) && newData.isBoolean() && !newData()
+						match /rating {
+							allow create: if signedInWith(uid) && (newData() is int) && (newData() == 0 || newData() == 1 || newData() == 2 || newData() == 3 || newData() == 4 || newData() == 5)
 						}
 						match /elapsed {
 							allow create: if false
@@ -90,13 +108,14 @@ service cloud.firestore {
 				allow create: if signedIn() && (newData().total is int) && newData().total == 0 && (newData().current is int) && newData().current == 0
 				allow update, delete: if false
 			}
-			match /likes {
-				allow create: if signedIn() && (newData() is int) && newData() == 0
-				allow update, delete: if false
+			match /ratings {
+				allow create: if signedIn() && (newData().average is int) && newData().average == 0 && (newData()[1] is int) && newData()[1] == 0 && (newData()[2] is int) && newData()[2] == 0 && (newData()[3] is int) && newData()[3] == 0 && (newData()[4] is int) && newData()[4] == 0 && (newData()[5] is int) && newData()[5] == 0
 			}
-			match /dislikes {
-				allow create: if signedIn() && (newData() is int) && newData() == 0
-				allow update, delete: if false
+			match /users/{uid} {
+				allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)
+				match /cards/{cardId} {
+					allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)
+				}
 			}
 			match /creator {
 				allow create: if isValidString(newData()) && signedInWith(newData())
@@ -106,6 +125,14 @@ service cloud.firestore {
 				allow create: if isValidString(newData()) && signedInWith(newData())
 				allow update: if isDeckOwner(deckId) && isValidString(newData()) && !signedInWith(newData()) && exists(/databases/$(database)/documents/users/$(newData()))
 				allow delete: if false
+			}
+			match /created {
+				allow create: if signedIn()
+				allow update, delete: if false
+			}
+			match /updated {
+				allow create: if signedIn()
+				allow update, delete: if false
 			}
 			match /permissions/{permissionId} {
 				allow read, write: if isDeckOwner(deckId)
@@ -121,6 +148,20 @@ service cloud.firestore {
 				}
 				match /back {
 					allow write: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
+				}
+				match /created {
+					allow update, delete: if false
+				}
+				match /updated {
+					allow update, delete: if false
+				}
+				match /likes {
+					allow create: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && (newData() is int) && newData() == 0
+					allow update, delete: if false
+				}
+				match /dislikes {
+					allow create: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && (newData() is int) && newData() == 0
+					allow update, delete: if false
 				}
 			}
 		}
@@ -150,7 +191,7 @@ service cloud.firestore {
 		}
 
 		function checkEmail(data) {
-			return isValidString(data) // Use regex as well to check if is valid email
+			return isValidString(data)
 		}
 
 		function canViewDeck(deckId) {
