@@ -41,6 +41,14 @@ export default class Card {
 			set(Deck.doc(deckId, `users/${uid}/cards/${cardId}`))
 		])
 	}
+
+	static updateLastUpdated({ deckId, cardId }: { deckId: string, cardId: string }): Promise<any> {
+		const updated = new Date()
+		return Promise.all([
+			Deck.doc(deckId, `cards/${cardId}`).update({ updated }),
+			Deck.doc(deckId).update({ updated })
+		])
+	}
 }
 
 export const rateCard = functions.https.onCall((data, context) => {
@@ -60,9 +68,22 @@ export const rateCard = functions.https.onCall((data, context) => {
 })
 
 export const cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_snapshot, context) =>
-	Deck.updateCount(context.params.deckId, true)
+	Promise.all([
+		Deck.updateCount(context.params.deckId, true),
+		User.updateLastActivity(context.auth!.uid)
+	])
+)
+
+export const cardUpdated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onUpdate((_change, context) =>
+	Promise.all([
+		Card.updateLastUpdated({ deckId: context.params.deckId, cardId: context.params.cardId }),
+		User.updateLastActivity(context.auth!.uid)
+	])
 )
 
 export const cardDeleted = functions.firestore.document('decks/{deckId}/cards/{cardId}').onDelete((_snapshot, context) =>
-	Deck.updateCount(context.params.deckId, false)
+	Promise.all([
+		Deck.updateCount(context.params.deckId, false),
+		User.updateLastActivity(context.auth!.uid)
+	])
 )

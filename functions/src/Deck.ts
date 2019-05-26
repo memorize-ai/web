@@ -81,28 +81,45 @@ export default class Deck {
 			})
 	}
 
+	static updateLastUpdated(id: string): Promise<any> {
+		return Deck.doc(id).update({ updated: new Date() })
+	}
+
 	updateCount(increment: boolean): Promise<any> {
 		return Deck.doc(this.id).update({ count: admin.firestore.FieldValue.increment(increment ? 1 : -1) })
 	}
 }
 
-export const deckCreated = functions.firestore.document('decks/{deckId}').onCreate(Algolia.createDeck)
-export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(Algolia.updateDeck)
-export const deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(Algolia.deleteDeck)
+export const deckCreated = functions.firestore.document('decks/{deckId}').onCreate((snapshot, context) =>
+	Promise.all([
+		Algolia.createDeck(snapshot, context),
+		User.updateLastActivity(context.auth!.uid)
+	])
+)
+
+export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate((change, context) =>
+	Promise.all([
+		Algolia.updateDeck(change, context),
+		Deck.updateLastUpdated(context.params.deckId),
+		User.updateLastActivity(context.auth!.uid)
+	])
+)
+
+export const deckDeleted = functions.firestore.document('decks/{deckId}').onDelete((snapshot, context) =>
+	Promise.all([
+		Algolia.deleteDeck(snapshot),
+		User.updateLastActivity(context.auth!.uid)
+	])
+)
 
 export const viewDeck = functions.https.onCall((data, context) => {
 	const uid = context.auth!.uid
 	return Deck.user(uid, data.deckId).then(user =>
 		Promise.all([
 			Deck.updateViews(data.deckId, { total: 1, unique: user ? 0 : 1 }),
+			user ? Promise.resolve() : Deck.doc(data.deckId, `users/${uid}`).set({ past: false, current: false }),
 			User.updateLastActivity(uid)
-		].concat(user
-			? []
-			: Deck.doc(data.deckId, `users/${uid}`).set({
-				past: false,
-				current: false
-			})
-		))
+		])
 	)
 })
 
