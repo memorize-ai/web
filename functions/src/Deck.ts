@@ -64,10 +64,20 @@ export default class Deck {
 		return doc.get().then(deck => {
 			const rating = deck.get('rating')
 			if (from) rating[from]--
-			rating[to]++
+			if (to) rating[to]++
 			rating.average = Deck.averageRating(rating)
 			return doc.update({ rating })
 		})
+	}
+
+	static updateUserRating(id: string, { uid, rating, review }: { uid: string, rating: number, review: string }): Promise<any> {
+		const doc = firestore.doc(`users/${uid}/ratings/${id}`)
+		return rating === 0
+			? firestore.collection(`users/${uid}/ratings/${id}/cards`).get().then(cards => {
+				const deleteField = admin.firestore.FieldValue.delete()
+				return cards.empty ? doc.delete() : doc.set({ rating: deleteField, review: deleteField })
+			})
+			: doc.set({ rating, review })
 	}
 
 	updateCount(increment: boolean): Promise<any> {
@@ -87,21 +97,21 @@ export const viewDeck = functions.https.onCall((data, context) =>
 			? []
 			: Deck.doc(data.deckId, `users/${context.auth!.uid}`).set({
 				past: false,
-				current: false,
-				rating: 0
+				current: false
 			})
 		))
 	)
 )
 
 export const rateDeck = functions.https.onCall((data, context) => {
+	const uid = context.auth!.uid
 	const rating = data.rating
-	const ratingData = { rating, review: data.review }
-	const ratingDoc = firestore.doc(`users/${context.auth!.uid}/ratings/${data.deckId}`)
+	const review = rating && data.review ? data.review : ''
+	const ratingDoc = firestore.doc(`users/${uid}/ratings/${data.deckId}`)
 	return ratingDoc.get().then(oldRating =>
 		Promise.all([
-			ratingDoc.set(ratingData),
-			Deck.doc(data.deckId, `users/${context.auth!.uid}`).update(ratingData),
+			Deck.updateUserRating(data.deckId, { uid, rating, review }),
+			Deck.doc(data.deckId, `users/${uid}`).update({ rating, review }),
 			Deck.updateRating(data.deckId, { from: oldRating.get('rating'), to: rating })
 		])
 	)
