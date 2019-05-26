@@ -33,9 +33,9 @@ export default class Card {
 		return Promise.all(promises)
 	}
 
-	static updateUserRating({ deckId, cardId }: { deckId: string, cardId: string }, { uid, rating }: { uid: string, rating: CardRating }): Promise<any[]> {
+	static updateUserRating({ deckId, cardId }: { deckId: string, cardId: string }, { uid, rating, date }: { uid: string, rating: CardRating, date: Date }): Promise<any[]> {
 		const value = rating.valueOf()
-		const set = (doc: FirebaseFirestore.DocumentReference) => value ? doc.set({ rating: value }) : doc.delete()
+		const set = (doc: FirebaseFirestore.DocumentReference) => value ? doc.set({ rating: value, date }) : doc.delete()
 		return Promise.all([
 			set(firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`)),
 			set(Deck.doc(deckId, `users/${uid}/cards/${cardId}`))
@@ -44,6 +44,7 @@ export default class Card {
 }
 
 export const rateCard = functions.https.onCall((data, context) => {
+	const date = new Date()
 	const deckId = data.deckId
 	const cardId = data.cardId
 	const id = { deckId, cardId }
@@ -51,7 +52,7 @@ export const rateCard = functions.https.onCall((data, context) => {
 	const rating = data.rating
 	return firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`).get().then(oldRating =>
 		Promise.all([
-			Card.updateUserRating(id, { uid, rating }),
+			Card.updateUserRating(id, { uid, rating, date }),
 			Card.updateRating(id, { from: oldRating.get('rating'), to: rating }),
 			User.updateLastActivity(uid)
 		])

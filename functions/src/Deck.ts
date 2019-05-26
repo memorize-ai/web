@@ -71,13 +71,13 @@ export default class Deck {
 		})
 	}
 
-	static updateUserRating(id: string, { uid, rating, review }: { uid: string, rating: number, review: string }): Promise<any> {
+	static updateUserRating(id: string, { uid, rating, review, date }: { uid: string, rating: number, review: string, date: Date }): Promise<any> {
 		const doc = firestore.doc(`users/${uid}/ratings/${id}`)
 		return rating
-			? doc.set({ rating, review })
+			? doc.set({ rating, review, date })
 			: doc.collection('cards').get().then(cards => {
 				const deleteField = admin.firestore.FieldValue.delete()
-				return cards.empty ? doc.delete() : doc.set({ rating: deleteField, review: deleteField })
+				return cards.empty ? doc.delete() : doc.set({ rating: deleteField, review: deleteField, date: deleteField })
 			})
 	}
 
@@ -107,16 +107,18 @@ export const viewDeck = functions.https.onCall((data, context) => {
 })
 
 export const rateDeck = functions.https.onCall((data, context) => {
+	const date = new Date()
 	const uid = context.auth!.uid
 	const rating = data.rating
 	const review = rating && data.review ? data.review : ''
 	const setField = (value: any) => rating ? value : admin.firestore.FieldValue.delete()
 	return firestore.doc(`users/${uid}/ratings/${data.deckId}`).get().then(oldRating =>
 		Promise.all([
-			Deck.updateUserRating(data.deckId, { uid, rating, review }),
+			Deck.updateUserRating(data.deckId, { uid, rating, review, date }),
 			Deck.doc(data.deckId, `users/${uid}`).update({
 				rating: setField(rating),
-				review: setField(review)
+				review: setField(review),
+				date: setField(date)
 			}),
 			Deck.updateRating(data.deckId, { from: oldRating.get('rating'), to: rating }),
 			User.updateLastActivity(uid)
