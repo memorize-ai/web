@@ -1,8 +1,8 @@
 import * as functions from 'firebase-functions'
-import * as nodemailer from 'nodemailer'
+import { createTransport } from 'nodemailer'
 
 const config = functions.config().gmail
-const transport = nodemailer.createTransport({
+const transport = createTransport({
 	service: 'gmail',
 	auth: {
 		user: config.email,
