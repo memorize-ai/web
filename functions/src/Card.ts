@@ -68,22 +68,15 @@ export const rateCard = functions.https.onCall((data, context) => {
 })
 
 export const cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_snapshot, context) =>
-	Promise.all([
-		Deck.updateCount(context.params.deckId, true),
-		User.updateLastActivity(context.auth!.uid)
-	])
+	Deck.updateCount(context.params.deckId, true)
 )
 
-export const cardUpdated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onUpdate((_change, context) =>
-	Promise.all([
-		Card.updateLastUpdated({ deckId: context.params.deckId, cardId: context.params.cardId }),
-		User.updateLastActivity(context.auth!.uid)
-	])
+export const cardUpdated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onUpdate((change, context) =>
+	change.before.get('updated') === change.after.get('updated')
+		? Card.updateLastUpdated({ deckId: context.params.deckId, cardId: context.params.cardId })
+		: Promise.resolve()
 )
 
 export const cardDeleted = functions.firestore.document('decks/{deckId}/cards/{cardId}').onDelete((_snapshot, context) =>
-	Promise.all([
-		Deck.updateCount(context.params.deckId, false),
-		User.updateLastActivity(context.auth!.uid)
-	])
+	Deck.updateCount(context.params.deckId, false)
 )

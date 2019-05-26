@@ -98,11 +98,13 @@ export const deckCreated = functions.firestore.document('decks/{deckId}').onCrea
 )
 
 export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate((change, context) =>
-	Promise.all([
-		Algolia.updateDeck(change, context),
-		Deck.updateLastUpdated(context.params.deckId),
-		User.updateLastActivity(context.auth!.uid)
-	])
+	change.before.get('updated') === change.after.get('updated')
+		? Promise.all([
+			Algolia.updateDeck(change, context),
+			Deck.updateLastUpdated(context.params.deckId),
+			User.updateLastActivity(context.auth!.uid)
+		])
+		: Promise.resolve()
 )
 
 export const deckDeleted = functions.firestore.document('decks/{deckId}').onDelete((snapshot, context) =>
