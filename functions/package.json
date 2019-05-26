@@ -16,10 +16,12 @@
 	"main": "lib/index.js",
 	"dependencies": {
 		"@types/algoliasearch": "^3.30.11",
+		"@types/nodemailer": "^6.1.1",
 		"algoliasearch": "^3.33.0",
 		"brain.js": "^1.6.1",
 		"firebase-admin": "^7.3.0",
-		"firebase-functions": "^2.3.1"
+		"firebase-functions": "^2.3.1",
+		"nodemailer": "^6.2.1"
 	},
 	"devDependencies": {
 		"tslint": "^5.16.0",
