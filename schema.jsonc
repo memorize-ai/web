@@ -5,6 +5,9 @@
 			"email": "kenmueller0@gmail.com", // Cannot be empty
 			"slug": "ken-mueller", // Automatically calculated
 			"lastNotification": 143002300, // Milliseconds from 1970 (epoch) of the last notification sent to the user
+			"joined": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date joined (Timestamp)
+			"lastOnline": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last online (Timestamp)
+			"lastActivity": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last activity: review sessions, editing and downloading decks and cards (Timestamp)
 			"settings (sub-collection)": {
 				"abc123": { // Setting ID
 					"value": true // Any type
@@ -19,9 +22,11 @@
 				"abc123": { // Deck ID that the user rated
 					"rating": 1, // 1, 2, 3, 4, 5, 0: (default)
 					"review": "This deck is terrible", // String (can be empty)
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of review (Timestamp), updates when edited
 					"cards (sub-collection)": {
 						"ghi789": { // Card ID
-							"rating": -1 // -1: dislike, 1: like, if set to 0 then delete document
+							"rating": -1, // -1: dislike, 1: like, if set to 0 then delete document
+							"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // Date of rating (Timestamp), updates when edited
 						}
 					}
 				}
@@ -35,7 +40,7 @@
 							"correct": 3, // Total amount of correct recall attempts (ratings 3, 4, 5)
 							"e": 2.5, // Easiness-Factor for SM2
 							"streak": 2, // Streak of correct recall attempts, reset if rating is 0, 1, or 2
-							"mastered": false, // If this card has been mastered
+							"mastered": false, // If this card has been mastered by the user
 							"last": {
 								"id": "mno345", // Last history node ID
 								"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last history Date (Timestamp)
@@ -95,15 +100,19 @@
 					"current": true, // Currently has deck in their library
 					"rating": 1, // 0 (default): none, ratings: (1, 2, 3, 4, 5)
 					"review": "This deck is terrible", // String (can be empty)
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of review (Timestamp), updates when edited
 					"cards (sub-collection)": {
 						"ghi789": { // Card ID
-							"rating": -1 // -1: dislike, 1: like, if set to 0 then delete document
+							"rating": -1, // -1: dislike, 1: like, if set to 0 then delete document
+							"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // Date of rating (Timestamp), updates when edited
 						}
 					}
 				}
 			},
 			"creator": "abc123", // Cannot be changed (user ID)
 			"owner": "abc123", // Can be granted owner by current owner (user ID, default is the creator)
+			"dateCreated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of deck creation (Timestamp)
+			"lastUpdated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last updated (includes card edits, initially dateCreated)
 			"permissions (sub-collection)": {
 				"def456": { // User ID (uid)
 					"role": "viewer" // Can be 'viewer' or 'editor'
@@ -113,6 +122,8 @@
 				"ghi789": { // Card ID
 					"front": "precipitate", // Cannot be empty
 					"back": "to cause (something) to happen quickly or suddenly", // Cannot be empty
+					"dateCreated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of card creation (Timestamp)
+					"lastUpdated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last updated (Timestamp)
 					"likes": 10, // Unique likes for card
 					"dislikes": 2 // Unique dislikes for card
 				}
