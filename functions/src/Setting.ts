@@ -10,7 +10,7 @@ export default class Setting {
 			else {
 				const defaultSetting = settings.docs[0]
 				return firestore.doc(`users/${uid}/settings/${defaultSetting.id}`).get().then(userSetting =>
-					userSetting.exists ? userSetting.data()!.value : defaultSetting.data().default
+					userSetting.exists ? userSetting.get('value') : defaultSetting.get('default')
 				)
 			}
 		})

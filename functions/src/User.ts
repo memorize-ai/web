@@ -9,18 +9,18 @@ const auth = admin.auth()
 
 export const userCreated = functions.firestore.document('users/{uid}').onCreate((change, context) => {
 	const uid = context.params.uid
-	const data = change.data()!
+	const name = change.get('name')
 	return Promise.all([
-		updateDisplayName(uid, data.name),
-		data.slug ? Promise.resolve() : Slug.find(data.name).then(slug =>
+		updateDisplayName(uid, name),
+		change.get('slug') ? Promise.resolve() : Slug.find(name).then(slug =>
 			firestore.doc(`users/${uid}`).update({ slug, lastNotification: 0 })
 		)
 	])
 })
 
 export const userUpdated = functions.firestore.document('users/{uid}').onUpdate((change, context) => {
-	const afterName = change.after.data()!.name
-	return afterName === change.before.data()!.name ? Promise.resolve() : updateDisplayName(context.params.uid, afterName)
+	const after = change.after.get('name')
+	return after === change.before.get('name') ? Promise.resolve() : updateDisplayName(context.params.uid, after)
 })
 
 export const userDeleted = functions.auth.user().onDelete(user =>
@@ -31,7 +31,7 @@ export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId
 	Deck.user(context.params.uid, context.params.deckId).then(user =>
 		Promise.all([
 			Deck.updateDownloads(context.params.deckId, { total: user!.past ? 0 : 1, current: 1 }),
-			firestore.doc(`decks/${context.params.deckId}/users/${context.params.uid}`).update({ past: true, current: true })
+			Deck.doc(context.params.deckId, `users/${context.params.uid}`).update({ past: true, current: true })
 		])
 	)
 )
@@ -39,7 +39,7 @@ export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId
 export const deckRemoved = functions.firestore.document('users/{uid}/decks/{deckId}').onDelete((_snapshot, context) =>
 	Promise.all([
 		Deck.updateDownloads(context.params.deckId, { total: 0, current: -1 }),
-		firestore.doc(`decks/${context.params.deckId}/users/${context.params.uid}`).update({ current: false })
+		Deck.doc(context.params.deckId, `users/${context.params.uid}`).update({ current: false })
 	])
 )
 

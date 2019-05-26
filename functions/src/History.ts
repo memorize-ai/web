@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
+import Deck from './Deck'
 import Setting from './Setting'
 import Algorithm from './Algorithm'
 import SM2 from './SM2'
@@ -12,15 +13,14 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 	const now = Date.now()
 	const cardRef = firestore.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
 	return cardRef.get().then(card => {
-		const cardData = card.data()
-		const rating = snapshot.data()!.rating
+		const rating = snapshot.get('rating')
 		const correct = rating > 2
 		const increment = correct ? 1 : 0
-		if (cardData)
+		if (card.data())
 			return Setting.get('algorithm', context.params.uid).then((algorithm: boolean) => {
-				const elapsed = now - cardData.last.date.toMillis()
-				const streak = correct ? cardData.streak + 1 : 0
-				const e = SM2.e(cardData.e, rating)
+				const elapsed = now - card.get('last').date.toMillis()
+				const streak = correct ? card.get('streak') + 1 : 0
+				const e = SM2.e(card.get('e'), rating)
 				if (algorithm)
 					return allCards(context.params.uid).then(cards => {
 						const next = new Date(Algorithm.predict(context.params.cardId, cards))
@@ -116,10 +116,10 @@ function allCardsForDeck(uid: string, deckId: string): Promise<{ id: string, int
 
 function allHistory(uid: string, deckId: string, cardId: string): Promise<{ id: string, intervals: number[], front: string }> {
 	return firestore.collection(`users/${uid}/decks/${deckId}/cards/${cardId}/history`).get().then(historyDocs =>
-		Promise.all(historyDocs.docs.map(history => history.data().elapsed as number))
+		Promise.all(historyDocs.docs.map(history => history.get('elapsed')))
 	).then(intervals =>
-		firestore.doc(`decks/${deckId}/cards/${cardId}`).get().then(cardDoc =>
-			({ id: cardId, intervals, front: cardDoc.data()!.front })
+		Deck.doc(deckId, `cards/${cardId}`).get().then(cardDoc =>
+			({ id: cardId, intervals, front: cardDoc.get('front') })
 		)
 	)
 }

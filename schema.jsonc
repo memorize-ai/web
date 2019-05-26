@@ -17,7 +17,13 @@
 			},
 			"ratings (sub-collection)": {
 				"abc123": { // Deck ID that the user rated
-					"rating": 1 // -1: dislike, 1: like, document is removed if rating changes to 0. Can only change rating from here
+					"rating": 1, // 1, 2, 3, 4, 5, 0: (default)
+					"review": "This deck is terrible", // String (can be empty)
+					"cards (sub-collection)": {
+						"ghi789": { // Card ID
+							"rating": -1 // -1: dislike, 1: like, if set to 0 then delete document
+						}
+					}
 				}
 			},
 			"decks (sub-collection)": {
@@ -67,21 +73,33 @@
 			"description": "Study for the GRE", // Can be empty
 			"public": true, // Boolean
 			"count": 700, // Number of cards
-			"views": { // Object (map)
+			"views (map)": {
 				"total": 10000, // Total amount of views
 				"unique": 500 // Only counting unique viewers
 			},
-			"downloads": { // Object (map)
+			"downloads (map)": {
 				"total": 40, // Total number of downloads (unique) including users that have deleted the deck (including creator)
 				"current": 30 // Amount of users that currently have the deck in their library
 			},
-			"likes": 8, // Unique likes (creator cannot like)
-			"dislikes": 2, // Unique dislikes (creator cannot dislike, cannot like & dislike at the same time)
+			"ratings (map)": {
+				"average": 4.5, // Average review (1-5)
+				"1": 11, // Amount of 1 star reviews
+				"2": 53, // Amount of 2 star reviews
+				"3": 32, // Amount of 3 star reviews
+				"4": 44, // Amount of 4 star reviews
+				"5": 215 // Amount of 5 star reviews
+			},
 			"users (sub-collection)": {
 				"def456": { // User ID (uid)
 					"past": true, // Has downloaded deck in the past
 					"current": true, // Currently has deck in their library
-					"rating": 1 // -1: dislike, 0 (default): none, 1: like (user does not have write access to this document, must change rating from user document)
+					"rating": 1, // 0 (default): none, ratings: (1, 2, 3, 4, 5)
+					"review": "This deck is terrible", // String (can be empty)
+					"cards (sub-collection)": {
+						"ghi789": { // Card ID
+							"rating": -1 // -1: dislike, 1: like, if set to 0 then delete document
+						}
+					}
 				}
 			},
 			"creator": "abc123", // Cannot be changed (user ID)
@@ -94,7 +112,9 @@
 			"cards (sub-collection)": {
 				"ghi789": { // Card ID
 					"front": "precipitate", // Cannot be empty
-					"back": "to cause (something) to happen quickly or suddenly" // Cannot be empty
+					"back": "to cause (something) to happen quickly or suddenly", // Cannot be empty
+					"likes": 10, // Unique likes for card
+					"dislikes": 2 // Unique dislikes for card
 				}
 			}
 		}
