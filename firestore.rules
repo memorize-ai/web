@@ -86,6 +86,11 @@ service cloud.firestore {
 				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
 				allow delete: if false
 			}
+			match /subtitle {
+				allow create: if signedIn() && isValidString(newData())
+				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
+				allow delete: if false
+			}
 			match /description {
 				allow create: if signedIn() && (newData() is string)
 				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && (newData() is string)
