@@ -1,8 +1,8 @@
 import * as functions from 'firebase-functions'
 import * as algoliasearch from 'algoliasearch'
 
-const config = functions.config()
-const client = algoliasearch(config.algolia.app_id, config.algolia.api_key)
+const config = functions.config().algolia
+const client = algoliasearch(config.app_id, config.api_key)
 const index = client.initIndex('decks')
 
 export default class Algolia {
