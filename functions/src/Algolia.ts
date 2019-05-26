@@ -1,14 +1,14 @@
 import * as functions from 'firebase-functions'
 import * as algoliasearch from 'algoliasearch'
 
-export default class Algolia {
-	private static env = functions.config()
-	private static client = algoliasearch(Algolia.env.algolia.app_id, Algolia.env.algolia.api_key)
-	private static index = Algolia.client.initIndex('decks')
+const config = functions.config()
+const client = algoliasearch(config.algolia.app_id, config.algolia.api_key)
+const index = client.initIndex('decks')
 
+export default class Algolia {
 	private static save(data: FirebaseFirestore.DocumentData, context: functions.EventContext): Promise<any> {
 		data.objectID = context.params.deckId
-		return Algolia.index.saveObject(data)
+		return index.saveObject(data)
 	}
 
 	static createDeck(snapshot: FirebaseFirestore.DocumentSnapshot, context: functions.EventContext): Promise<any> {
@@ -20,6 +20,6 @@ export default class Algolia {
 	}
 	
 	static deleteDeck(snapshot: FirebaseFirestore.DocumentSnapshot) {
-		return Algolia.index.deleteObject(snapshot.id)
+		return index.deleteObject(snapshot.id)
 	}
 }
