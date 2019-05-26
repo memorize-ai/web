@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
 import Algolia from './Algolia'
+import User from './User'
 
 const firestore = admin.firestore()
 
@@ -89,19 +90,21 @@ export const deckCreated = functions.firestore.document('decks/{deckId}').onCrea
 export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate(Algolia.updateDeck)
 export const deckDeleted = functions.firestore.document('decks/{deckId}').onDelete(Algolia.deleteDeck)
 
-export const viewDeck = functions.https.onCall((data, context) =>
-	Deck.user(context.auth!.uid, data.deckId).then(user =>
+export const viewDeck = functions.https.onCall((data, context) => {
+	const uid = context.auth!.uid
+	return Deck.user(uid, data.deckId).then(user =>
 		Promise.all([
-			Deck.updateViews(data.deckId, { total: 1, unique: user ? 0 : 1 })
+			Deck.updateViews(data.deckId, { total: 1, unique: user ? 0 : 1 }),
+			User.updateLastActivity(uid)
 		].concat(user
 			? []
-			: Deck.doc(data.deckId, `users/${context.auth!.uid}`).set({
+			: Deck.doc(data.deckId, `users/${uid}`).set({
 				past: false,
 				current: false
 			})
 		))
 	)
-)
+})
 
 export const rateDeck = functions.https.onCall((data, context) => {
 	const uid = context.auth!.uid
@@ -115,7 +118,8 @@ export const rateDeck = functions.https.onCall((data, context) => {
 				rating: setField(rating),
 				review: setField(review)
 			}),
-			Deck.updateRating(data.deckId, { from: oldRating.get('rating'), to: rating })
+			Deck.updateRating(data.deckId, { from: oldRating.get('rating'), to: rating }),
+			User.updateLastActivity(uid)
 		])
 	)
 })

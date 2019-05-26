@@ -1,4 +1,7 @@
+import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+
+import User from './User'
 
 const firestore = admin.firestore()
 
@@ -16,3 +19,7 @@ export default class Setting {
 		})
 	}
 }
+
+export const settingChanged = functions.firestore.document('users/{uid}/settings/{settingId}').onWrite((_change, context) =>
+	User.updateLastActivity(context.params.uid)
+)

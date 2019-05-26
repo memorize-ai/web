@@ -7,6 +7,12 @@ import Deck from './Deck'
 const firestore = admin.firestore()
 const auth = admin.auth()
 
+export default class User {
+	static updateLastActivity(uid: string): Promise<any> {
+		return firestore.doc(`users/${uid}`).update({ lastActivity: new Date() })
+	}
+}
+
 export const userCreated = functions.firestore.document('users/{uid}').onCreate((change, context) => {
 	const uid = context.params.uid
 	const name = change.get('name')
@@ -20,18 +26,26 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 
 export const userUpdated = functions.firestore.document('users/{uid}').onUpdate((change, context) => {
 	const after = change.after.get('name')
-	return after === change.before.get('name') ? Promise.resolve() : updateDisplayName(context.params.uid, after)
+	return Promise.all([
+		after === change.before.get('name') ? Promise.resolve() : updateDisplayName(context.params.uid, after),
+		User.updateLastActivity(context.params.uid)
+	])
 })
 
 export const userDeleted = functions.auth.user().onDelete(user =>
 	firestore.doc(`users/${user.uid}`).delete()
 )
 
+export const updateLastOnline = functions.https.onCall((_data, context) =>
+	firestore.doc(`users/${context.auth!.uid}`).update({ lastOnline: new Date() })
+)
+
 export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((_snapshot, context) =>
 	Deck.user(context.params.uid, context.params.deckId).then(user =>
 		Promise.all([
 			Deck.updateDownloads(context.params.deckId, { total: user!.past ? 0 : 1, current: 1 }),
-			Deck.doc(context.params.deckId, `users/${context.params.uid}`).update({ past: true, current: true })
+			Deck.doc(context.params.deckId, `users/${context.params.uid}`).update({ past: true, current: true }),
+			User.updateLastActivity(context.params.uid)
 		])
 	)
 )
@@ -39,7 +53,8 @@ export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId
 export const deckRemoved = functions.firestore.document('users/{uid}/decks/{deckId}').onDelete((_snapshot, context) =>
 	Promise.all([
 		Deck.updateDownloads(context.params.deckId, { total: 0, current: -1 }),
-		Deck.doc(context.params.deckId, `users/${context.params.uid}`).update({ current: false })
+		Deck.doc(context.params.deckId, `users/${context.params.uid}`).update({ current: false }),
+		User.updateLastActivity(context.params.uid)
 	])
 )
 

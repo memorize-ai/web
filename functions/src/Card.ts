@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
 import Deck from './Deck'
+import User from './User'
 
 const firestore = admin.firestore()
 
@@ -51,7 +52,8 @@ export const rateCard = functions.https.onCall((data, context) => {
 	return firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`).get().then(oldRating =>
 		Promise.all([
 			Card.updateUserRating(id, { uid, rating }),
-			Card.updateRating(id, { from: oldRating.get('rating'), to: rating })
+			Card.updateRating(id, { from: oldRating.get('rating'), to: rating }),
+			User.updateLastActivity(uid)
 		])
 	)
 })

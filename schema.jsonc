@@ -7,7 +7,7 @@
 			"lastNotification": 143002300, // Milliseconds from 1970 (epoch) of the last notification sent to the user
 			"joined": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date joined (Timestamp)
 			"lastOnline": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last online (Timestamp)
-			"lastActivity": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last activity: review sessions, editing and downloading decks and cards (Timestamp)
+			"lastActivity": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last activity: review sessions, editing & downloading decks & cards (Timestamp)
 			"settings (sub-collection)": {
 				"abc123": { // Setting ID
 					"value": true // Any type
