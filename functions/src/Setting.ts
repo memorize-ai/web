@@ -20,6 +20,19 @@ export default class Setting {
 	}
 }
 
-export const settingChanged = functions.firestore.document('users/{uid}/settings/{settingId}').onWrite((_change, context) =>
-	User.updateLastActivity(context.params.uid)
+export const settingCreated = functions.firestore.document('users/{uid}/settings/{settingId}').onCreate(updateLastActivity)
+
+export const settingUpdated = functions.firestore.document('users/{uid}/settings/{settingId}').onUpdate((change, context) =>
+	firestore.doc(`settings/${context.params.settingId}`).get().then(setting =>
+		Promise.all([
+			change.after.get('value') === setting.get('default') ? change.after.ref.delete() : Promise.resolve(),
+			updateLastActivity(change, context)
+		])
+	)
 )
+
+export const settingDeleted = functions.firestore.document('users/{uid}/settings/{settingId}').onDelete(updateLastActivity)
+
+function updateLastActivity(_snapshot: any, context: functions.EventContext): Promise<any> {
+	return User.updateLastActivity(context.params.uid)
+}
