@@ -84,6 +84,11 @@ export default class Permission {
 		return Permission.status(status === undefined ? 0 : status) === PermissionStatus.pending
 	}
 
+	static isDeclined(snapshot: FirebaseFirestore.DocumentSnapshot): boolean {
+		const status = snapshot.get('status')
+		return Permission.status(status === undefined ? -1 : status) === PermissionStatus.declined
+	}
+
 	static invitationUrl(uid: string, deckId: string): string {
 		return `https://memorize.ai/invites/${uid}/${deckId}`
 	}
@@ -119,7 +124,7 @@ export const permissionUpdated = functions.firestore.document('decks/{deckId}/pe
 		? Promise.all([
 			User.updateLastActivity(context.auth!.uid),
 			Permission.isPending(change.after)
-				? firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).update({ role: change.after.get('role') })
+				? firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).update({ role: change.after.get('role') }) as Promise<any>
 				: firestore.doc(`users/${context.auth!.uid}`).get().then(user =>
 					firestore.doc(`decks/${context.params.deckId}`).get().then(deck =>
 						Deck.image(context.params.deckId).then(image => {
@@ -135,7 +140,7 @@ export const permissionUpdated = functions.firestore.document('decks/{deckId}/pe
 							})
 						})
 					)
-				) as Promise<FirebaseFirestore.WriteResult>
+				)
 		])
 		: Promise.resolve()
 )
@@ -145,27 +150,29 @@ export const permissionDeleted = functions.firestore.document('decks/{deckId}/pe
 		User.updateLastActivity(context.auth!.uid),
 		Permission.isPending(snapshot)
 			? firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).delete()
-			: firestore.doc(`users/${context.auth!.uid}`).get().then(user =>
-				firestore.doc(`decks/${context.params.deckId}`).get().then(deck => {
-					const userName = user.get('name')
-					const deckName = deck.get('name')
-					const role = Permission.role(snapshot.get('role'))
-					const text = `${userName} removed you as a${role === PermissionRole.viewer ? '' : 'n'} ${Permission.stringify(role)} to ${deckName}`
-					return deck.get('public')
-						? Deck.image(context.params.deckId).then(image =>
-							Email.send(EmailType.uninvited, { to: context.params.uid, subject: text }, {
-								deck_image: image,
-								deck_name: deckName,
-								deck_subtitle: deck.get('subtitle'),
+			: Permission.isDeclined(snapshot)
+				? Promise.resolve() as Promise<any>
+				: firestore.doc(`users/${context.auth!.uid}`).get().then(user =>
+					firestore.doc(`decks/${context.params.deckId}`).get().then(deck => {
+						const userName = user.get('name')
+						const deckName = deck.get('name')
+						const role = Permission.role(snapshot.get('role'))
+						const text = `${userName} removed you as a${role === PermissionRole.viewer ? '' : 'n'} ${Permission.stringify(role)} to ${deckName}`
+						return deck.get('public')
+							? Deck.image(context.params.deckId).then(image =>
+								Email.send(EmailType.uninvited, { to: context.params.uid, subject: text }, {
+									deck_image: image,
+									deck_name: deckName,
+									deck_subtitle: deck.get('subtitle'),
+									text,
+									deck_url: Deck.url(context.params.deckId)
+								})
+							)
+							: Email.send(EmailType.accessRemoved, { to: context.params.uid, subject: `${userName} removed your access to ${deckName}` }, {
 								text,
-								deck_url: Deck.url(context.params.deckId)
+								deck_name: deckName
 							})
-						)
-						: Email.send(EmailType.accessRemoved, { to: context.params.uid, subject: `${userName} removed your access to ${deckName}` }, {
-							text,
-							deck_name: deckName
-						})
-				})
-			) as Promise<FirebaseFirestore.WriteResult>
+					})
+				)
 	])
 )
