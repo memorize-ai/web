@@ -11,7 +11,7 @@ const transport = createTransport({
 })
 
 export default class Email {
-	static send({ to, subject, body }: { to: string, subject: string, body: string }): Promise<any> {
+	static send(to: string, { subject, body }: { subject: string, body: string }): Promise<any> {
 		return transport.sendMail({ from: config.email, to, subject, text: body })
 	}
 }
