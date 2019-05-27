@@ -26,7 +26,7 @@ export enum EmailType {
 
 export default class Email {
 	static send(type: EmailType, { to, subject }: { to: string, subject: string }, context: any): Promise<void> {
-		return Setting.get('email-notifications', to).then((value: boolean) => value
+		return Setting.get<boolean>('email-notifications', to).then(value => value
 			? firestore.doc(`users/${to}`).get().then(user =>
 				Email.read(type).then(email =>
 					transport.sendMail({ from: config.email, to: user.get('email'), subject, text: Email.replace(email, context) })

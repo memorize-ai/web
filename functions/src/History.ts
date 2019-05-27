@@ -19,7 +19,7 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 			const correct = rating > 2
 			const increment = correct ? 1 : 0
 			if (card.data())
-				return Setting.get('algorithm', context.params.uid).then((algorithm: boolean) => {
+				return Setting.get<boolean>('algorithm', context.params.uid).then(algorithm => {
 					const elapsed = now - card.get('last').date.toMillis()
 					const streak = correct ? card.get('streak') + 1 : 0
 					const e = SM2.e(card.get('e'), rating)

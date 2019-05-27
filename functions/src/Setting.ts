@@ -6,7 +6,7 @@ import User from './User'
 const firestore = admin.firestore()
 
 export default class Setting {
-	static get(setting: string, uid: string): Promise<any> {
+	static get<T>(setting: string, uid: string): Promise<T> {
 		return firestore.collection('settings').where('slug', '==', setting).get().then(settings => {
 			if (settings.empty)
 				return undefined
