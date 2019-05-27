@@ -8,10 +8,11 @@
 			"joined": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date joined (Timestamp)
 			"lastOnline": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last online (Timestamp)
 			"lastActivity": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last activity: review sessions, editing & downloading decks & cards (Timestamp)
-			"invites (sub-collection)": { // Open invites to decks (once accepted or declined, document is deleted)
+			"invites (sub-collection)": { // Invites to decks
 				"abc123": { // Deck ID
 					"role": "viewer", // The role that the user is being invited to, can be 'viewer', 'editor', or 'admin' (can change permissions)
-					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // Date of invitation (Timestamp)
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of invitation (Timestamp)
+					"status": 1 // (Number) Default: 0 (waiting for accept/decline), 1: accepted, -1: declined
 				}
 			},
 			"settings (sub-collection)": {
@@ -123,8 +124,7 @@
 			"permissions (sub-collection)": {
 				"def456": { // User ID (uid)
 					"role": "viewer", // Can be 'viewer', 'editor', or 'admin' (can change permissions)
-					"response": true, // (Boolean) Default: false, set to true when the user accepts or declines the invitation
-					"accepted": true // (Boolean) Default: false, set to true if the user accepted the invitation
+					"status": 1 // (Number) Default: 0 (waiting for accept/decline), 1: accepted, -1: declined
 				}
 			},
 			"cards (sub-collection)": {

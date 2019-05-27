@@ -141,15 +141,14 @@ service cloud.firestore {
 				allow update, delete: if false
 			}
 			match /permissions/{uid} {
-				allow read, write: if isDeckOwner(deckId) || isDeckAdmin(deckId)
+				allow read, write: if signedIn() && (isDeckOwner(deckId) || isDeckAdmin(deckId))
 				match /role {
-					allow write: if isDeckOwner(deckId) && (newData() is string) && (newData() == 'viewer' || newData() == 'editor')
+					allow create, update: if signedIn() && (isDeckOwner(deckId) || isDeckAdmin(deckId)) && (newData() is string) && (newData() == 'viewer' || newData() == 'editor' || newData() == 'admin')
+					allow delete: if false
 				}
-				match /response {
-					allow write: if false
-				}
-				match /accepted {
-					allow write: if false
+				match /status {
+					allow create: if signedIn() && (isDeckOwner(deckId) || isDeckAdmin(deckId)) && (newData() is int) && newData() == 0
+					allow update, delete: if false
 				}
 			}
 			match /cards/{cardId} {
