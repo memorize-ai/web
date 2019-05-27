@@ -10,7 +10,8 @@
 			"lastActivity": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last activity: review sessions, editing & downloading decks & cards (Timestamp)
 			"invites (sub-collection)": { // Open invites to decks (once accepted or declined, document is deleted)
 				"abc123": { // Deck ID
-					"role": "viewer" // The role that the user is being invited to, can be 'viewer', 'editor', or 'admin' (can change permissions)
+					"role": "viewer", // The role that the user is being invited to, can be 'viewer', 'editor', or 'admin' (can change permissions)
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // Date of invitation (Timestamp)
 				}
 			},
 			"settings (sub-collection)": {

@@ -5,6 +5,7 @@ import Algolia from './Algolia'
 import User from './User'
 
 const firestore = admin.firestore()
+const storage = admin.storage().bucket()
 
 export default class Deck {
 	id: string
@@ -85,6 +86,14 @@ export default class Deck {
 		return Deck.doc(id).update({ updated: new Date() })
 	}
 
+	static image(id: string): Promise<string> {
+		return storage.file(`decks/${id}`).getSignedUrl({ action: 'read', expires: '03-09-2491' }).then(signedUrls => signedUrls[0])
+	}
+
+	static url(id: string): string {
+		return `https://memorize.ai/decks/${id}`
+	}
+
 	updateCount(increment: boolean): Promise<FirebaseFirestore.WriteResult> {
 		return Deck.doc(this.id).update({ count: admin.firestore.FieldValue.increment(increment ? 1 : -1) })
 	}
@@ -119,7 +128,7 @@ export const viewDeck = functions.https.onCall((data, context) => {
 	return Deck.user(uid, data.deckId).then(user =>
 		Promise.all([
 			Deck.updateViews(data.deckId, { total: 1, unique: user ? 0 : 1 }),
-			user ? Promise.resolve() : Deck.doc(data.deckId, `users/${uid}`).set({ past: false, current: false }),
+			user ? Promise.resolve() as Promise<any> : Deck.doc(data.deckId, `users/${uid}`).set({ past: false, current: false }),
 			User.updateLastActivity(uid)
 		])
 	)
