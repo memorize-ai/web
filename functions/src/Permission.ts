@@ -110,7 +110,7 @@ export const permissionCreated = functions.firestore.document('decks/{deckId}/pe
 					})
 				})
 			)
-		) // TODO: Also send notification
+		)
 	])
 })
 
