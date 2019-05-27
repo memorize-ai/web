@@ -8,10 +8,16 @@ import Email, { EmailType } from './Email'
 const firestore = admin.firestore()
 
 export enum PermissionRole {
-	none = 'none',
-	viewer = 'viewer',
-	editor = 'editor',
-	admin = 'admin'
+	none = -1,
+	viewer = 0,
+	editor = 1,
+	admin = 2
+}
+
+export enum PermissionStatus {
+	declined = -1,
+	pending = 0,
+	accepted = 1
 }
 
 export default class Permission {
@@ -32,16 +38,44 @@ export default class Permission {
 		}
 	}
 
+	static status(num: number): PermissionStatus {
+		switch (num) {
+		case -1:
+			return PermissionStatus.declined
+		case 1:
+			return PermissionStatus.accepted
+		default:
+			return PermissionStatus.pending
+		}
+	}
+
+	static didUpgradeRole(from: PermissionRole, to: PermissionRole): boolean {
+		return from.valueOf() < to.valueOf()
+	}
+
+	static stringify(role: PermissionRole): string {
+		switch (role) {
+		case PermissionRole.none:
+			return 'none'
+		case PermissionRole.viewer:
+			return 'viewer'
+		case PermissionRole.editor:
+			return 'editor'
+		case PermissionRole.admin:
+			return 'admin'
+		}
+	}
+
 	static verbify(role: PermissionRole): string {
 		switch (role) {
+		case PermissionRole.none:
+			return 'none'
 		case PermissionRole.viewer:
 			return 'view'
 		case PermissionRole.editor:
 			return 'edit'
 		case PermissionRole.admin:
 			return 'administer'
-		default:
-			return role.valueOf()
 		}
 	}
 
@@ -54,7 +88,7 @@ export const permissionCreated = functions.firestore.document('decks/{deckId}/pe
 	const date = new Date()
 	const role = snapshot.get('role')
 	return Promise.all([
-		firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).set({ role, date }),
+		firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).set({ role, date, status: 0 }),
 		User.updateLastActivity(context.auth!.uid),
 		firestore.doc(`users/${context.auth!.uid}`).get().then(user =>
 			firestore.doc(`decks/${context.params.deckId}`).get().then(deck =>
@@ -75,17 +109,39 @@ export const permissionCreated = functions.firestore.document('decks/{deckId}/pe
 	])
 })
 
-export const permissionUpdated = functions.firestore.document('decks/{deckId}/permissions/{uid}').onUpdate((_change, context) =>
-	Promise.all([
-		User.updateLastActivity(context.auth!.uid),
-		Email.send()
-	])
-)
+export const permissionUpdated = functions.firestore.document('decks/{deckId}/permissions/{uid}').onUpdate((change, context) => {
+	const doc = firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`)
+	return change.before.get('status') === change.after.get('status')
+		? Promise.all([
+			User.updateLastActivity(context.auth!.uid),
+			doc.get().then(invite => 
+				Permission.status(invite.get('status')) === PermissionStatus.pending
+					? doc.update({ role: change.after.get('role') })
+					: firestore.doc(`users/${context.auth!.uid}`).get().then(user =>
+						firestore.doc(`decks/${context.params.deckId}`).get().then(deck =>
+							Deck.image(context.params.deckId).then(image => {
+								const after = Permission.role(change.after.get('role'))
+								const deckName = deck.get('name')
+								const subject = `${user.get('name')} ${Permission.didUpgradeRole(Permission.role(change.before.get('role')), after) ? 'promoted' : 'demoted'} you to a${after === PermissionRole.viewer ? '' : 'n'} ${Permission.stringify(after)} in ${deckName}`
+								return Email.send(EmailType.roleChanged, { to: context.params.uid, subject }, {
+									deck_image: image,
+									deck_name: deckName,
+									deck_subtitle: deck.get('subtitle'),
+									text: subject,
+									deck_url: Deck.url(context.params.deckId)
+								})
+							})
+						)
+					) as Promise<FirebaseFirestore.WriteResult>
+			)
+		])
+		: Promise.resolve()
+})
 
 export const permissionDeleted = functions.firestore.document('decks/{deckId}/permissions/{uid}').onDelete((_snapshot, context) =>
 	Promise.all([
 		firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).delete(),
 		User.updateLastActivity(context.auth!.uid),
-		Email.send()
+		// Email.send()
 	])
 )
