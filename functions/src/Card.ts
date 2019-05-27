@@ -13,8 +13,8 @@ export enum CardRating {
 }
 
 export default class Card {
-	static updateRating({ deckId, cardId }: { deckId: string, cardId: string }, { from, to }: { from: CardRating | undefined, to: CardRating }): Promise<any> {
-		const promises: Promise<any>[] = []
+	static updateRating({ deckId, cardId }: { deckId: string, cardId: string }, { from, to }: { from: CardRating | undefined, to: CardRating }): Promise<FirebaseFirestore.WriteResult[]> {
+		const promises: Promise<FirebaseFirestore.WriteResult>[] = []
 		const update = (obj: any) => promises.push(Deck.doc(deckId, `cards/${cardId}`).update(obj))
 		const decrement = admin.firestore.FieldValue.increment(-1)
 		const increment = admin.firestore.FieldValue.increment(1)
@@ -33,7 +33,7 @@ export default class Card {
 		return Promise.all(promises)
 	}
 
-	static updateUserRating({ deckId, cardId }: { deckId: string, cardId: string }, { uid, rating, date }: { uid: string, rating: CardRating, date: Date }): Promise<any[]> {
+	static updateUserRating({ deckId, cardId }: { deckId: string, cardId: string }, { uid, rating, date }: { uid: string, rating: CardRating, date: Date }): Promise<FirebaseFirestore.WriteResult[]> {
 		const value = rating.valueOf()
 		const set = (doc: FirebaseFirestore.DocumentReference) => value ? doc.set({ rating: value, date }) : doc.delete()
 		return Promise.all([
@@ -42,7 +42,7 @@ export default class Card {
 		])
 	}
 
-	static updateLastUpdated({ deckId, cardId }: { deckId: string, cardId: string }): Promise<any> {
+	static updateLastUpdated({ deckId, cardId }: { deckId: string, cardId: string }): Promise<FirebaseFirestore.WriteResult[]> {
 		const updated = new Date()
 		return Promise.all([
 			Deck.doc(deckId, `cards/${cardId}`).update({ updated }),

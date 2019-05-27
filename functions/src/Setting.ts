@@ -26,13 +26,13 @@ export const settingUpdated = functions.firestore.document('users/{uid}/settings
 	firestore.doc(`settings/${context.params.settingId}`).get().then(setting =>
 		Promise.all([
 			change.after.get('value') === setting.get('default') ? change.after.ref.delete() : Promise.resolve(),
-			updateLastActivity(change, context)
+			updateLastActivity(change, context) as Promise<any>
 		])
 	)
 )
 
 export const settingDeleted = functions.firestore.document('users/{uid}/settings/{settingId}').onDelete(updateLastActivity)
 
-function updateLastActivity(_snapshot: any, context: functions.EventContext): Promise<any> {
+function updateLastActivity(_snapshot: any, context: functions.EventContext): Promise<FirebaseFirestore.WriteResult> {
 	return User.updateLastActivity(context.params.uid)
 }

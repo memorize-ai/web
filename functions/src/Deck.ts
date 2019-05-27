@@ -23,11 +23,11 @@ export default class Deck {
 		)
 	}
 
-	static updateCount(id: string, increment: boolean): Promise<any> {
+	static updateCount(id: string, increment: boolean): Promise<FirebaseFirestore.WriteResult> {
 		return new Deck(id).updateCount(increment)
 	}
 
-	static updateViews(id: string, { total, unique }: { total: number, unique: number }): Promise<any> {
+	static updateViews(id: string, { total, unique }: { total: number, unique: number }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = Deck.doc(id)
 		return doc.get().then(deck => {
 			const views = deck.get('views')
@@ -40,7 +40,7 @@ export default class Deck {
 		})
 	}
 
-	static updateDownloads(id: string, { total, current }: { total: number, current: number }): Promise<any> {
+	static updateDownloads(id: string, { total, current }: { total: number, current: number }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = Deck.doc(id)
 		return doc.get().then(deck => {
 			const downloads = deck.get('downloads')
@@ -60,7 +60,7 @@ export default class Deck {
 		return sum / 5
 	}
 
-	static updateRating(id: string, { from, to }: { from: number | undefined, to: number }): Promise<any> {
+	static updateRating(id: string, { from, to }: { from: number | undefined, to: number }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = Deck.doc(id)
 		return doc.get().then(deck => {
 			const rating = deck.get('rating')
@@ -71,7 +71,7 @@ export default class Deck {
 		})
 	}
 
-	static updateUserRating(id: string, { uid, rating, review, date }: { uid: string, rating: number, review: string, date: Date }): Promise<any> {
+	static updateUserRating(id: string, { uid, rating, review, date }: { uid: string, rating: number, review: string, date: Date }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = firestore.doc(`users/${uid}/ratings/${id}`)
 		return rating
 			? doc.set({ rating, review, date })
@@ -81,11 +81,11 @@ export default class Deck {
 			})
 	}
 
-	static updateLastUpdated(id: string): Promise<any> {
+	static updateLastUpdated(id: string): Promise<FirebaseFirestore.WriteResult> {
 		return Deck.doc(id).update({ updated: new Date() })
 	}
 
-	updateCount(increment: boolean): Promise<any> {
+	updateCount(increment: boolean): Promise<FirebaseFirestore.WriteResult> {
 		return Deck.doc(this.id).update({ count: admin.firestore.FieldValue.increment(increment ? 1 : -1) })
 	}
 }

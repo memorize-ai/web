@@ -8,7 +8,7 @@ const firestore = admin.firestore()
 const auth = admin.auth()
 
 export default class User {
-	static updateLastActivity(uid: string): Promise<any> {
+	static updateLastActivity(uid: string): Promise<FirebaseFirestore.WriteResult> {
 		return firestore.doc(`users/${uid}`).update({ lastActivity: new Date() })
 	}
 }
@@ -19,7 +19,7 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 	return Promise.all([
 		updateDisplayName(uid, name),
 		change.get('slug') ? Promise.resolve() : Slug.find(name).then(slug =>
-			firestore.doc(`users/${uid}`).update({ slug, lastNotification: 0 })
+			firestore.doc(`users/${uid}`).update({ slug, lastNotification: 0 }) as Promise<any>
 		)
 	])
 })
@@ -58,6 +58,6 @@ export const deckRemoved = functions.firestore.document('users/{uid}/decks/{deck
 	])
 )
 
-function updateDisplayName(uid: string, displayName: string): Promise<any> {
+function updateDisplayName(uid: string, displayName: string): Promise<void | admin.auth.UserRecord> {
 	return displayName ? auth.updateUser(uid, { displayName }) : Promise.resolve()
 }

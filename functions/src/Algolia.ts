@@ -6,20 +6,20 @@ const client = algoliasearch(config.app_id, config.api_key)
 const index = client.initIndex('decks')
 
 export default class Algolia {
-	private static save(data: FirebaseFirestore.DocumentData, context: functions.EventContext): Promise<any> {
+	private static save(data: FirebaseFirestore.DocumentData, context: functions.EventContext): Promise<algoliasearch.Task> {
 		data.objectID = context.params.deckId
 		return index.saveObject(data)
 	}
 
-	static createDeck(snapshot: FirebaseFirestore.DocumentSnapshot, context: functions.EventContext): Promise<any> {
+	static createDeck(snapshot: FirebaseFirestore.DocumentSnapshot, context: functions.EventContext): Promise<algoliasearch.Task> {
 		return Algolia.save(snapshot.data()!, context)
 	}
 	
-	static updateDeck(change: functions.Change<FirebaseFirestore.DocumentSnapshot>, context: functions.EventContext): Promise<any> {
+	static updateDeck(change: functions.Change<FirebaseFirestore.DocumentSnapshot>, context: functions.EventContext): Promise<algoliasearch.Task> {
 		return Algolia.save(change.after.data()!, context)
 	}
 	
-	static deleteDeck(snapshot: FirebaseFirestore.DocumentSnapshot) {
+	static deleteDeck(snapshot: FirebaseFirestore.DocumentSnapshot): Promise<algoliasearch.Task> {
 		return index.deleteObject(snapshot.id)
 	}
 }
