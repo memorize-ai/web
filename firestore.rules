@@ -129,7 +129,7 @@ service cloud.firestore {
 			}
 			match /owner {
 				allow create: if isValidString(newData()) && signedInWith(newData())
-				allow update: if isDeckOwner(deckId) && isValidString(newData()) && !signedInWith(newData()) && exists(/databases/$(database)/documents/users/$(newData()))
+				allow update: if isDeckOwner(deckId) && isValidString(newData()) && !signedInWith(newData()) && userExists(newData())
 				allow delete: if false
 			}
 			match /created {
@@ -229,8 +229,8 @@ service cloud.firestore {
 			return get(/databases/$(database)/documents/decks/$(deckId)).data.public
 		}
 
-		function userExists(userId) {
-			return exists(/databases/$(database)/documents/users/$(userId))
+		function userExists(uid) {
+			return exists(/databases/$(database)/documents/users/$(uid))
 		}
 	}
 }
