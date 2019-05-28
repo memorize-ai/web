@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+		<title>{{ title }}</title>
+		<style>
+			.main {
+				margin-top: 100px;
+				text-align: center;
+			}
+			{% if has_404_banner %}
+			.banner {
+				font-size: 120px;
+			}
+			{% endif %}
+			.large-text {
+				font-size: 60px;
+				padding: 20px;
+			}
+			{% if has_text %}
+			.text {
+				padding-bottom: 20px;
+			}
+			{% endif %}
+			.main-button {
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="main">
+			{% if has_404_banner %}
+			<h1 class="title banner">404</h1>
+			{% endif %}
+			<h1 class="title is-large large-text">{{ large_text }}</h1>
+			{% if has_text %}
+			<h1 class="title is-medium text">{{ text }}</h1>
+			{% endif %}
+			<a class="button is-large is-info main-button" href="{{ button_href }}"><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;{{ button_text }}</a>
+		</div>
+	</body>
+</html>

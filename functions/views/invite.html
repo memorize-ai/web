@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+		<title>Invalid invite URL</title>
+		<style>
+			{% if has_404_banner %}
+			.banner {
+				font-size: 120px;
+			}
+			{% endif %}
+			.large-text {
+				font-size: 60px;
+				padding: 20px;
+			}
+			.main-button {
+				font-weight: bold;
+			}
+			.main {
+				margin-top: 100px;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="main">
+			{% if has_404_banner %}
+			<h1 class="title banner">404</h1>
+			{% endif %}
+			<h1 class="title large-text is-large">{{ large_text }}</h1>
+			<a class="button is-info is-large main-button" href="{{ button_href }}">{% if is_back_button %}<i class="fas fa-arrow-left"></i>&nbsp;&nbsp;{% endif %}{{ button_text }}</a>
+		</div>
+	</body>
+</html>
