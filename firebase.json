@@ -18,6 +18,26 @@
 		],
 		"rewrites": [
 			{
+				"source": "/deck",
+				"destination": "/deck.html"
+			},
+			{
+				"source": "/new-deck",
+				"destination": "/new-deck.html"
+			},
+			{
+				"source": "/about",
+				"destination": "/about.html"
+			},
+			{
+				"source": "/contact",
+				"destination": "/contact.html"
+			},
+			{
+				"source": "/login",
+				"destination": "/login.html"
+			},
+			{
 				"source": "/dashboard",
 				"destination": "/dashboard.html"
 			},
@@ -31,7 +51,7 @@
 			},
 			{
 				"source": "**",
-				"destination": "app"
+				"function": "app"
 			}
 		],
 		"redirects": [
