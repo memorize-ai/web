@@ -5,7 +5,7 @@ import Algolia from './Algolia'
 import User from './User'
 
 const firestore = admin.firestore()
-const storage = admin.storage().bucket()
+const storage = admin.storage().bucket('us')
 
 export default class Deck {
 	id: string
