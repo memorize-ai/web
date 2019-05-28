@@ -26,10 +26,12 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 
 export const userUpdated = functions.firestore.document('users/{uid}').onUpdate((change, context) => {
 	const after = change.after.get('name')
-	return Promise.all([
-		change.before.get('name') === after ? Promise.resolve() : updateDisplayName(context.params.uid, after),
-		User.updateLastActivity(context.params.uid)
-	])
+	return change.before.get('lastActivity') === change.after.get('lastActivity')
+		? Promise.all([
+			change.before.get('name') === after ? Promise.resolve() : updateDisplayName(context.params.uid, after),
+			User.updateLastActivity(context.params.uid)
+		])
+		: Promise.resolve()
 })
 
 export const userDeleted = functions.auth.user().onDelete(user =>
