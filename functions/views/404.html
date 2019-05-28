@@ -5,8 +5,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
 		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+		<link rel="icon" type="image/png" href="https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Ffavicon.png?alt=media&token=b070c06a-b02c-44be-80d0-9924416f5c4d">
 		<title>{{ title }}</title>
 		<style>
+			.dashboard-button {
+				font-weight: bold;
+			}
+			.bar {
+				height: 1px;
+				background-color: lightgray;
+			}
 			.main {
 				margin-top: 100px;
 				text-align: center;
@@ -31,6 +39,19 @@
 		</style>
 	</head>
 	<body>
+		<nav class="navbar" role="navigation" aria-label="main navigation">
+			<div class="navbar-brand">
+				<a class="navbar-item" href="/">
+					<img src="https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Ftransparent-light-logo-arrows.png?alt=media&token=f04285ba-1738-4a46-b659-4498f26b4ba3">
+				</a>
+			</div>
+			<div class="navbar-menu">
+				<div class="navbar-start">
+					<a class="navbar-item dashboard-button" href="/dashboard">Dashboard</a>
+				</div>
+			</div>
+		</nav>
+		<div class="bar"></div>
 		<div class="main">
 			{% if has_404_banner %}
 			<h1 class="title banner">404</h1>
