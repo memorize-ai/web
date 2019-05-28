@@ -1,3 +1,5 @@
+.runtimeconfig.json
+
 ## Compiled JavaScript files
 **/*.js
 **/*.js.map
