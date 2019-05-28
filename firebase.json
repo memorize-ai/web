@@ -18,6 +18,10 @@
 		],
 		"rewrites": [
 			{
+				"source": "/dashboard",
+				"destination": "/dashboard.html"
+			},
+			{
 				"source": "/privacy",
 				"destination": "/privacy.html"
 			},
@@ -27,10 +31,14 @@
 			},
 			{
 				"source": "**",
-				"destination": "/index.html"
+				"destination": "app"
 			}
 		],
 		"redirects": [
+			{
+				"source": "/dashboard.html",
+				"destination": "/dashboard"
+			},
 			{
 				"source": "/privacy.html",
 				"destination": "/privacy"
