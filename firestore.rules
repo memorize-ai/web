@@ -146,8 +146,18 @@ service cloud.firestore {
 					allow create, update: if signedIn() && (isDeckOwner(deckId) || isDeckAdmin(deckId)) && (newData() is string) && (newData() == 'viewer' || newData() == 'editor' || newData() == 'admin')
 					allow delete: if false
 				}
+				match /date {
+					allow update, delete: if false
+				}
+				match /confirmed {
+					allow write: if false
+				}
 				match /status {
 					allow create: if signedIn() && (isDeckOwner(deckId) || isDeckAdmin(deckId)) && (newData() is int) && newData() == 0
+					allow update, delete: if false
+				}
+				match /sender {
+					allow create: if signedInWith(newData()) && (isDeckOwner(deckId) || isDeckAdmin(deckId))
 					allow update, delete: if false
 				}
 			}

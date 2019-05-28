@@ -12,7 +12,9 @@
 				"abc123": { // Deck ID
 					"role": "viewer", // The role that the user is being invited to, can be 'viewer', 'editor', or 'admin' (can change permissions)
 					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of invitation (Timestamp)
-					"status": 1 // (Number) Default: 0 (waiting for accept/decline), 1: accepted, -1: declined
+					"confirmed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of confirmation (accept/decline), default: nonexistent
+					"status": 1, // (Number) Default: 0 (waiting for accept/decline), 1: accepted, -1: declined
+					"sender": "abc123" // (User ID) User that sent the invitation
 				}
 			},
 			"settings (sub-collection)": {
@@ -124,7 +126,10 @@
 			"permissions (sub-collection)": {
 				"def456": { // User ID (uid)
 					"role": "viewer", // Can be 'viewer', 'editor', or 'admin' (can change permissions)
-					"status": 1 // (Number) Default: 0 (waiting for accept/decline), 1: accepted, -1: declined
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of invitation (Timestamp)
+					"confirmed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of confirmation (accept/decline), default: nonexistent
+					"status": 1, // (Number) Default: 0 (waiting for accept/decline), 1: accepted, -1: declined
+					"sender": "abc123" // (User ID) User that sent the invitation
 				}
 			},
 			"cards (sub-collection)": {
