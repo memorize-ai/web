@@ -71,7 +71,7 @@ viewApp sections user msg =
                                 Nothing ->
                                     a
                                         [ class "button is-highlighted"
-                                        , href "login.html"
+                                        , href "login"
                                         ]
                                         [ text "Login" ]
                                 Just _ ->
