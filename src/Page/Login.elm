@@ -170,7 +170,7 @@ viewWithUser model user =
                 [ h1 [ class "title" ] [ text "Logged In" ]
                 , p [ class "content" ]
                     [ text "You're already logged in, want to go to your "
-                    , a [ href "/dashboard.html" ] [ text "dashboard" ]
+                    , a [ href "/dashboard" ] [ text "dashboard" ]
                     , text "?"
                     ]
                 ]

@@ -104,7 +104,7 @@ viewWithUser model user =
                             [ h1 [ class "title" ]
                                 [ text "My decks "
                                 , a
-                                    [ href "new_deck.html", class "button is-link is-rounded" ]
+                                    [ href "new-deck", class "button is-link is-rounded" ]
                                     [ text "＋" ]
                                 ]
                             , div [ class "decks" ] (List.map viewDeckThumbnail model.myDecks)

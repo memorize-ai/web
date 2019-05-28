@@ -50,7 +50,7 @@
 	<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 	<script type="text/html" id="hit-template">
 		<div class="hit">
-			<a href="deck.html?id={{ objectID }}"><h6 class="title is-6">{{#helpers.highlight}}{ "attribute": "name" }{{/helpers.highlight}}</h6>
+			<a href="deck?id={{ objectID }}"><h6 class="title is-6">{{#helpers.highlight}}{ "attribute": "name" }{{/helpers.highlight}}</h6>
 			{{#helpers.highlight}}{ "attribute": "description" }{{/helpers.highlight}}</a>
 		</div>
 	</script>

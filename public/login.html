@@ -18,7 +18,7 @@
 <body>
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
-		const from = urlParam('f') || 'dashboard.html'
+		const from = urlParam('f') || 'dashboard'
 		const signingUp = urlParamExists('sign_up')
 		const app = Elm.Page.Login.init({flags: {from, signingUp}})
 		// const updateNameFromCredential = app => displayName => userCredential =>
