@@ -47,10 +47,21 @@ type Msg
     | InputPassword String
     | InputPasswordConfirmation String
 
-main : Program String Model Msg
+type alias Flags =
+    { from : String
+    , signingUp : Bool
+    }
+
+init : Flags -> ( Model, Cmd Msg )
+init { from, signingUp } =
+    ( Model Nothing from (if signingUp then SigningUp else SigningIn) Nothing "" "" "" "" True
+    , Cmd.none
+    )
+
+main : Program Flags Model Msg
 main =
     Browser.document
-        { init = \from -> (Model Nothing from SigningUp Nothing "" "" "" "" True, Cmd.none)
+        { init = init
         , view = view
         , update = update
         , subscriptions = subscriptions
@@ -109,8 +120,15 @@ viewSigningIn model =
 validate : Model -> Model
 validate model =
     case model.signingInOrUp of
-        SigningIn -> model
+        SigningIn -> validateSignIn model
         SigningUp -> validateSignUp model
+
+validateSignIn : Model -> Model
+validateSignIn model =
+    { model | valid
+        = String.length model.email >= 6
+        && String.length model.password >= 6
+    }
 
 validateSignUp : Model -> Model
 validateSignUp model =

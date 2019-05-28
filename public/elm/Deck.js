@@ -5109,6 +5109,7 @@ var author$project$Page$Deck$viewDeck = function (deck) {
 			]));
 };
 var elm$html$Html$a = _VirtualDom_node('a');
+var elm$html$Html$button = _VirtualDom_node('button');
 var elm$html$Html$footer = _VirtualDom_node('footer');
 var elm$html$Html$header = _VirtualDom_node('header');
 var elm$html$Html$nav = _VirtualDom_node('nav');
@@ -5273,11 +5274,10 @@ var author$project$Page$Template$viewApp = F3(
 																			]));
 																} else {
 																	return A2(
-																		elm$html$Html$a,
+																		elm$html$Html$button,
 																		_List_fromArray(
 																			[
 																				elm$html$Html$Attributes$class('button is-light'),
-																				elm$html$Html$Attributes$href('#'),
 																				elm$html$Html$Events$onClick(msg)
 																			]),
 																		_List_fromArray(

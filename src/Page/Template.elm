@@ -1,6 +1,6 @@
 module Page.Template exposing (viewApp, viewSection, viewInput)
 
-import Html exposing (Html, header, footer, section, h1, ul, li, p, strong, text, label, input, img, a, br, nav, div, span)
+import Html exposing (Html, header, footer, section, h1, ul, li, p, strong, text, label, input, img, a, br, nav, div, span, button)
 import Html.Attributes exposing (id, src, href, class, attribute, placeholder, type_, required, value)
 import Html.Events exposing (onClick, onInput)
 
@@ -75,9 +75,8 @@ viewApp sections user msg =
                                         ]
                                         [ text "Login" ]
                                 Just _ ->
-                                    a
+                                    button
                                         [ class "button is-light"
-                                        , href "#"
                                         , onClick msg
                                         ]
                                         [ text "Sign out" ]

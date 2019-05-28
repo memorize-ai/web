@@ -18,8 +18,9 @@
 <body>
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
-		const from = new URLSearchParams(window.location.search).get('f') || 'dashboard.html'
-		const app = Elm.Page.Login.init({flags: from})
+		const from = urlParam('f') || 'dashboard.html'
+		const signingUp = urlParamExists('sign_up')
+		const app = Elm.Page.Login.init({flags: {from, signingUp}})
 		// const updateNameFromCredential = app => displayName => userCredential =>
 		// 	userCredential.user.updateProfile({ displayName })
 		// 		.then(() => app.ports.userUpdated.send(userCredential.user))

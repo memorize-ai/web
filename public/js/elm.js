@@ -8,3 +8,7 @@ const listenSignOut = app =>
     )
 const redirectToLogin = from =>
     window.location.href = `login.html?f=${from}.html`
+const urlParam = param =>
+    new URLSearchParams(window.location.search).get(param)
+const urlParamExists = param =>
+    typeof urlParam(param) == 'string'

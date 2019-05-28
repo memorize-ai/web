@@ -4314,22 +4314,18 @@ var author$project$Page$Login$Model = F9(
 	function (user, from, signingInOrUp, error, name, email, password, passwordConfirmation, valid) {
 		return {email: email, error: error, from: from, name: name, password: password, passwordConfirmation: passwordConfirmation, signingInOrUp: signingInOrUp, user: user, valid: valid};
 	});
+var author$project$Page$Login$SigningIn = {$: 'SigningIn'};
 var author$project$Page$Login$SigningUp = {$: 'SigningUp'};
-var author$project$Page$Login$InvalidSignIn = function (a) {
-	return {$: 'InvalidSignIn', a: a};
+var elm$core$Basics$True = {$: 'True'};
+var elm$core$Maybe$Nothing = {$: 'Nothing'};
+var elm$core$Basics$False = {$: 'False'};
+var elm$core$Result$isOk = function (result) {
+	if (result.$ === 'Ok') {
+		return true;
+	} else {
+		return false;
+	}
 };
-var author$project$Page$Login$InvalidSignUp = function (a) {
-	return {$: 'InvalidSignUp', a: a};
-};
-var author$project$Page$Login$SignedOut = {$: 'SignedOut'};
-var author$project$Page$Login$UserUpdated = function (a) {
-	return {$: 'UserUpdated', a: a};
-};
-var elm$core$Array$branchFactor = 32;
-var elm$core$Array$Array_elm_builtin = F4(
-	function (a, b, c, d) {
-		return {$: 'Array_elm_builtin', a: a, b: b, c: c, d: d};
-	});
 var elm$core$Basics$EQ = {$: 'EQ'};
 var elm$core$Basics$GT = {$: 'GT'};
 var elm$core$Basics$LT = {$: 'LT'};
@@ -4410,6 +4406,11 @@ var elm$core$Array$foldr = F3(
 var elm$core$Array$toList = function (array) {
 	return A3(elm$core$Array$foldr, elm$core$List$cons, _List_Nil, array);
 };
+var elm$core$Array$branchFactor = 32;
+var elm$core$Array$Array_elm_builtin = F4(
+	function (a, b, c, d) {
+		return {$: 'Array_elm_builtin', a: a, b: b, c: c, d: d};
+	});
 var elm$core$Basics$ceiling = _Basics_ceiling;
 var elm$core$Basics$fdiv = _Basics_fdiv;
 var elm$core$Basics$logBase = F2(
@@ -4534,7 +4535,6 @@ var elm$core$Array$builderToArray = F2(
 				builder.tail);
 		}
 	});
-var elm$core$Basics$False = {$: 'False'};
 var elm$core$Basics$idiv = _Basics_idiv;
 var elm$core$Basics$lt = _Utils_lt;
 var elm$core$Elm$JsArray$initialize = _JsArray_initialize;
@@ -4580,20 +4580,11 @@ var elm$core$Array$initialize = F2(
 var elm$core$Maybe$Just = function (a) {
 	return {$: 'Just', a: a};
 };
-var elm$core$Maybe$Nothing = {$: 'Nothing'};
 var elm$core$Result$Err = function (a) {
 	return {$: 'Err', a: a};
 };
 var elm$core$Result$Ok = function (a) {
 	return {$: 'Ok', a: a};
-};
-var elm$core$Basics$True = {$: 'True'};
-var elm$core$Result$isOk = function (result) {
-	if (result.$ === 'Ok') {
-		return true;
-	} else {
-		return false;
-	}
 };
 var elm$json$Json$Decode$Failure = F2(
 	function (a, b) {
@@ -4800,6 +4791,35 @@ var elm$json$Json$Decode$errorToStringHelp = F2(
 			}
 		}
 	});
+var elm$core$Platform$Cmd$batch = _Platform_batch;
+var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
+var author$project$Page$Login$init = function (_n0) {
+	var from = _n0.from;
+	var signingUp = _n0.signingUp;
+	return _Utils_Tuple2(
+		A9(
+			author$project$Page$Login$Model,
+			elm$core$Maybe$Nothing,
+			from,
+			signingUp ? author$project$Page$Login$SigningUp : author$project$Page$Login$SigningIn,
+			elm$core$Maybe$Nothing,
+			'',
+			'',
+			'',
+			'',
+			true),
+		elm$core$Platform$Cmd$none);
+};
+var author$project$Page$Login$InvalidSignIn = function (a) {
+	return {$: 'InvalidSignIn', a: a};
+};
+var author$project$Page$Login$InvalidSignUp = function (a) {
+	return {$: 'InvalidSignUp', a: a};
+};
+var author$project$Page$Login$SignedOut = {$: 'SignedOut'};
+var author$project$Page$Login$UserUpdated = function (a) {
+	return {$: 'UserUpdated', a: a};
+};
 var elm$json$Json$Decode$string = _Json_decodeString;
 var author$project$Page$Login$invalidSignIn = _Platform_incomingPort('invalidSignIn', elm$json$Json$Decode$string);
 var author$project$Page$Login$invalidSignUp = _Platform_incomingPort('invalidSignUp', elm$json$Json$Decode$string);
@@ -4858,7 +4878,6 @@ var author$project$Page$Login$Login = F2(
 	function (email, password) {
 		return {email: email, password: password};
 	});
-var author$project$Page$Login$SigningIn = {$: 'SigningIn'};
 var elm$json$Json$Encode$object = function (pairs) {
 	return _Json_wrap(
 		A3(
@@ -4912,6 +4931,13 @@ var author$project$Page$Login$signUp = _Platform_outgoingPort(
 	});
 var elm$core$Basics$ge = _Utils_ge;
 var elm$core$String$length = _String_length;
+var author$project$Page$Login$validateSignIn = function (model) {
+	return _Utils_update(
+		model,
+		{
+			valid: (elm$core$String$length(model.email) >= 6) && (elm$core$String$length(model.password) >= 6)
+		});
+};
 var author$project$Page$Login$validateSignUp = function (model) {
 	return _Utils_update(
 		model,
@@ -4922,13 +4948,11 @@ var author$project$Page$Login$validateSignUp = function (model) {
 var author$project$Page$Login$validate = function (model) {
 	var _n0 = model.signingInOrUp;
 	if (_n0.$ === 'SigningIn') {
-		return model;
+		return author$project$Page$Login$validateSignIn(model);
 	} else {
 		return author$project$Page$Login$validateSignUp(model);
 	}
 };
-var elm$core$Platform$Cmd$batch = _Platform_batch;
-var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
 var author$project$Page$Login$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -5316,11 +5340,10 @@ var author$project$Page$Template$viewApp = F3(
 																			]));
 																} else {
 																	return A2(
-																		elm$html$Html$a,
+																		elm$html$Html$button,
 																		_List_fromArray(
 																			[
 																				elm$html$Html$Attributes$class('button is-light'),
-																				elm$html$Html$Attributes$href('#'),
 																				elm$html$Html$Events$onClick(msg)
 																			]),
 																		_List_fromArray(
@@ -6045,15 +6068,19 @@ var elm$url$Url$fromString = function (str) {
 		A2(elm$core$String$dropLeft, 8, str)) : elm$core$Maybe$Nothing);
 };
 var elm$browser$Browser$document = _Browser_document;
+var elm$json$Json$Decode$bool = _Json_decodeBool;
 var author$project$Page$Login$main = elm$browser$Browser$document(
-	{
-		init: function (from) {
-			return _Utils_Tuple2(
-				A9(author$project$Page$Login$Model, elm$core$Maybe$Nothing, from, author$project$Page$Login$SigningUp, elm$core$Maybe$Nothing, '', '', '', '', true),
-				elm$core$Platform$Cmd$none);
+	{init: author$project$Page$Login$init, subscriptions: author$project$Page$Login$subscriptions, update: author$project$Page$Login$update, view: author$project$Page$Login$view});
+_Platform_export({'Page':{'Login':{'init':author$project$Page$Login$main(
+	A2(
+		elm$json$Json$Decode$andThen,
+		function (signingUp) {
+			return A2(
+				elm$json$Json$Decode$andThen,
+				function (from) {
+					return elm$json$Json$Decode$succeed(
+						{from: from, signingUp: signingUp});
+				},
+				A2(elm$json$Json$Decode$field, 'from', elm$json$Json$Decode$string));
 		},
-		subscriptions: author$project$Page$Login$subscriptions,
-		update: author$project$Page$Login$update,
-		view: author$project$Page$Login$view
-	});
-_Platform_export({'Page':{'Login':{'init':author$project$Page$Login$main(elm$json$Json$Decode$string)(0)}}});}(this));
+		A2(elm$json$Json$Decode$field, 'signingUp', elm$json$Json$Decode$bool)))(0)}}});}(this));
