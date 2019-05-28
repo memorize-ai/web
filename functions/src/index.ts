@@ -1,8 +1,9 @@
 import * as admin from 'firebase-admin'
 admin.initializeApp()
 
-export { userCreated, userUpdated, userDeleted, deckAdded, deckRemoved } from './User'
+export { rateCard, cardCreated, cardUpdated, cardDeleted } from './Card'
 export { deckCreated, deckUpdated, deckDeleted, viewDeck, rateDeck } from './Deck'
-export { cardCreated, cardDeleted } from './Card'
-export { permissionCreated, permissionDeleted } from './Permission'
 export { historyCreated } from './History'
+export { confirmInvite, permissionCreated, permissionUpdated, permissionDeleted } from './Permission'
+export { settingCreated, settingUpdated, settingDeleted } from './Setting'
+export { userCreated, userUpdated, userDeleted, updateLastOnline, deckAdded, deckRemoved } from './User'
