@@ -19,9 +19,11 @@ const transport = createTransport({
 
 export enum EmailType {
 	accessRemoved = 'accessRemoved',
-	invitation = 'invitation',
+	inviteConfirmed = 'inviteConfirmed',
+	invited = 'invited',
 	roleChanged = 'roleChanged',
-	uninvited = 'uninvited'
+	uninvited = 'uninvited',
+	youConfirmedInvite = 'youConfirmedInvite'
 }
 
 export default class Email {

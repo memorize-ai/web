@@ -1,0 +1,28 @@
+<mjml>
+	<mj-body background-color="#fff">
+		<mj-section>
+			<mj-column>
+				<mj-image width="162px" src="https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Ftransparent-light-logo.png?alt=media&token=1a17f4fc-dcf7-4a02-a74e-1c64e068d9c0"></mj-image>
+			</mj-column>
+		</mj-section>
+		<mj-section background-color="#f3f3f3" border-radius="15px">
+			<mj-column>
+				<mj-image width="170px" src="{{ deck_image }}"></mj-image>
+			</mj-column>
+			<mj-column>
+				<mj-text font-weight="bold" font-size="24px" color="#000" font-family="helvetica">{{ deck_name }}</mj-text>
+				<mj-text font-size="16px" color="#000" font-family="helvetica">{{ deck_subtitle }}</mj-text>
+			</mj-column>
+		</mj-section>
+		<mj-section>
+			<mj-column>
+				<mj-text font-size="30px" color="#000" font-family="helvetica" font-weight="bold">You {{ confirmation_type }} {{ user_name }}'s invite to {{ role }} {{ deck_name }}</mj-text>
+			</mj-column>
+		</mj-section>
+		<mj-section>
+			<mj-column>
+				<mj-button width="100%" background-color="#007aff" border-radius="40px" font-family="helvetica" font-size="14px" text-transform="uppercase" font-weight="bold" href="{{ deck_url }}">view deck</mj-button>
+			</mj-column>
+		</mj-section>
+	</mj-body>
+</mjml>

@@ -89,28 +89,79 @@ export default class Permission {
 		return Permission.status(status === undefined ? -1 : status) === PermissionStatus.declined
 	}
 
-	static invitationUrl(uid: string, deckId: string): string {
-		return `https://memorize.ai/invites/${uid}/${deckId}`
+	static invitationUrl(deckId: string): string {
+		return `https://memorize.ai/invites/${deckId}`
 	}
 }
 
+export const confirmInvite = functions.https.onCall((data, context) => {
+	if (context.auth && data.deckId && data.accept !== undefined) {
+		const uid = context.auth.uid
+		const doc = firestore.doc(`users/${uid}/invites/${data.deckId}`)
+		const statusUpdate = { status: data.accept ? 1 : -1, confirmed: new Date() }
+		return doc.get().then(invite =>
+			invite.exists && Permission.isPending(invite)
+				? Promise.all([
+					doc.update(statusUpdate),
+					Deck.doc(data.deckId, `permissions/${uid}`).update(statusUpdate),
+					User.updateLastActivity(uid),
+					firestore.doc(`users/${uid}`).get().then(user =>
+						firestore.doc(`users/${invite.get('sender')}`).get().then(sender =>
+							Deck.doc(data.deckId).get().then(deck =>
+								Deck.image(data.deckId).then(image => {
+									const confirmationType = data.accept ? 'accepted' : 'declined'
+									const role = Permission.verbify(Permission.role(invite.get('role')))
+									const userName = user.get('name')
+									const senderName = sender.get('name')
+									const deckName = deck.get('name')
+									const deckSubtitle = deck.get('subtitle')
+									const deckUrl = Deck.url(data.deckId)
+									return Promise.all([
+										Email.send(EmailType.youConfirmedInvite, { to: uid, subject: `You ${confirmationType} ${senderName}'s invite to ${role} ${deckName}` }, {
+											deck_image: image,
+											deck_name: deckName,
+											deck_subtitle: deckSubtitle,
+											confirmation_type: confirmationType,
+											user_name: senderName,
+											role,
+											deck_url: deckUrl
+										}),
+										Email.send(EmailType.inviteConfirmed, { to: sender.id, subject: `${userName} ${confirmationType} your invite to ${role} ${deckName}` }, {
+											deck_image: image,
+											deck_name: deckName,
+											deck_subtitle: deckSubtitle,
+											user_name: userName,
+											confirmation_type: confirmationType,
+											role,
+											deck_url: deckUrl
+										})
+									])
+								})
+							)
+						)
+					)
+				])
+				: Promise.resolve() as Promise<any>
+		)
+	} else return Promise.resolve()
+})
+
 export const permissionCreated = functions.firestore.document('decks/{deckId}/permissions/{uid}').onCreate((snapshot, context) => {
-	const date = new Date()
 	const role = snapshot.get('role')
 	return Promise.all([
-		firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).set({ role, date, status: 0 }),
+		firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).set({ role, date: snapshot.get('date'), status: 0, sent: snapshot.get('sent') }),
 		User.updateLastActivity(context.auth!.uid),
 		firestore.doc(`users/${context.auth!.uid}`).get().then(user =>
 			firestore.doc(`decks/${context.params.deckId}`).get().then(deck =>
 				Deck.image(context.params.deckId).then(image => {
 					const deckName = deck.get('name')
 					const subject = `${user.get('name')} invited you to ${Permission.verbify(role)} ${deckName}`
-					return Email.send(EmailType.invitation, { to: context.params.uid, subject }, {
+					return Email.send(EmailType.invited, { to: context.params.uid, subject }, {
 						deck_image: image,
 						deck_name: deckName,
 						deck_subtitle: deck.get('subtitle'),
 						text: subject,
-						action_url: Permission.invitationUrl(context.params.uid, context.params.deckId),
+						action_url: Permission.invitationUrl(context.params.deckId),
 						deck_url: Deck.url(context.params.deckId)
 					})
 				})
@@ -120,7 +171,7 @@ export const permissionCreated = functions.firestore.document('decks/{deckId}/pe
 })
 
 export const permissionUpdated = functions.firestore.document('decks/{deckId}/permissions/{uid}').onUpdate((change, context) =>
-	change.before.get('status') === change.after.get('status')
+	change.before.get('status') === change.after.get('status') && change.before.get('confirmed') === change.after.get('confirmed')
 		? Promise.all([
 			User.updateLastActivity(context.auth!.uid),
 			Permission.isPending(change.after)
@@ -130,7 +181,7 @@ export const permissionUpdated = functions.firestore.document('decks/{deckId}/pe
 						Deck.image(context.params.deckId).then(image => {
 							const after = Permission.role(change.after.get('role'))
 							const deckName = deck.get('name')
-							const subject = `${user.get('name')} ${Permission.didUpgradeRole(Permission.role(change.before.get('role')), after) ? 'promoted' : 'demoted'} you to a${after === PermissionRole.viewer ? '' : 'n'} ${Permission.stringify(after)} in ${deckName}`
+							const subject = `${user.get('name')} ${Permission.didUpgradeRole(Permission.role(change.before.get('role')), after) ? 'promoted' : 'demoted'} you to a${after === PermissionRole.viewer ? '' : 'n'} ${Permission.stringify(after)} of ${deckName}`
 							return Email.send(EmailType.roleChanged, { to: context.params.uid, subject }, {
 								deck_image: image,
 								deck_name: deckName,
@@ -157,7 +208,7 @@ export const permissionDeleted = functions.firestore.document('decks/{deckId}/pe
 						const userName = user.get('name')
 						const deckName = deck.get('name')
 						const role = Permission.role(snapshot.get('role'))
-						const text = `${userName} removed you as a${role === PermissionRole.viewer ? '' : 'n'} ${Permission.stringify(role)} to ${deckName}`
+						const text = `${userName} removed you as a${role === PermissionRole.viewer ? '' : 'n'} ${Permission.stringify(role)} of ${deckName}`
 						return deck.get('public')
 							? Deck.image(context.params.deckId).then(image =>
 								Email.send(EmailType.uninvited, { to: context.params.uid, subject: text }, {
