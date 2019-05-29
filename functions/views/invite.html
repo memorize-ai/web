@@ -3,10 +3,24 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script defer src="/__/firebase/6.1.0/firebase-app.js"></script>
+		<script defer src="/__/firebase/6.1.0/firebase-functions.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
 		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-		<title>Invalid invite URL</title>
+		<link rel="icon" type="image/png" href="https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Ffavicon.png?alt=media&token=b070c06a-b02c-44be-80d0-9924416f5c4d">
+		<title>{{ title }}</title>
 		<style>
+			.dashboard-button {
+				font-weight: bold;
+			}
+			.bar {
+				height: 1px;
+				background-color: lightgray;
+			}
+			.main {
+				margin-top: 100px;
+				text-align: center;
+			}
 			{% if has_404_banner %}
 			.banner {
 				font-size: 120px;
@@ -16,22 +30,122 @@
 				font-size: 60px;
 				padding: 20px;
 			}
+			{% if has_text %}
+			.text {
+				padding-bottom: 20px;
+			}
+			{% endif %}
 			.main-button {
 				font-weight: bold;
-			}
-			.main {
-				margin-top: 100px;
-				text-align: center;
 			}
 		</style>
 	</head>
 	<body>
+		<nav class="navbar" role="navigation" aria-label="main navigation">
+			<div class="navbar-brand">
+				<a class="navbar-item" href="/">
+					<img src="https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Ftransparent-light-logo-arrows.png?alt=media&token=f04285ba-1738-4a46-b659-4498f26b4ba3">
+				</a>
+			</div>
+			<div class="navbar-menu">
+				<div class="navbar-start">
+					<a class="navbar-item dashboard-button" href="/dashboard">Dashboard</a>
+				</div>
+			</div>
+		</nav>
+		<div class="bar"></div>
 		<div class="main">
 			{% if has_404_banner %}
 			<h1 class="title banner">404</h1>
 			{% endif %}
-			<h1 class="title large-text is-large">{{ large_text }}</h1>
-			<a class="button is-info is-large main-button" href="{{ button_href }}">{% if is_back_button %}<i class="fas fa-arrow-left"></i>&nbsp;&nbsp;{% endif %}{{ button_text }}</a>
+			<h1 class="title is-large large-text">{{ large_text }}</h1>
+			{% if has_text %}
+			<h1 class="title is-medium text">{{ text }}</h1>
+			{% endif %}
+			<a class="button is-large is-info main-button" href="{{ button_href }}"><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;{{ button_text }}</a>
 		</div>
+		<div class="modal confirm">
+			<div class="modal-background close-confirm"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title confirmation-type"></p>
+					<button class="delete close-confirm" aria-label="close"></button>
+				</header>
+				<section class="modal-card-body">
+					<div class="field">
+						<label class="label">Image (optional)</label>
+						<div class="file has-name is-fullwidth is-info new-company image-chooser">
+							<label class="file-label">
+								<input class="file-input new-company image" type="file">
+								<span class="file-cta">
+									<span class="file-icon"><i class="fas fa-upload"></i></span>
+									<span class="file-label">Upload an image</span>
+								</span>
+								<span class="file-name new-company image-name"></span>
+							</label>
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Name</label>
+						<div class="control has-icons-left">
+							<input class="input new-company name" placeholder="Enter the company's name">
+							<span class="icon is-small is-left"><i class="fas fa-address-card"></i></span>
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Description (optional)</label>
+						<div class="control has-icons-left">
+							<input class="input new-company description" placeholder="Enter the company's description">
+							<span class="icon is-small is-left"><i class="fas fa-quote-right"></i></span>
+						</div>
+					</div>
+				</section>
+				<footer class="modal-card-foot">
+					<button class="button is-success complete complete-new-company" disabled>Create</button>
+					<button class="button close-new-company">Cancel</button>
+				</footer>
+			</div>
+		</div>
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+				firebase.initializeApp({
+					apiKey: "AIzaSyDfSkXDJ4kQCrRGfyauprPKPPoGZFEhySU",
+					authDomain: "memorize-ai.firebaseapp.com",
+					databaseURL: "https://memorize-ai.firebaseio.com",
+					projectId: "memorize-ai",
+					storageBucket: "memorize-ai.appspot.com",
+					messagingSenderId: "629763488334",
+					appId: "1:629763488334:web:9199305a713b3634"
+				})
+
+				const functions = firebase.functions()
+				let accept
+
+				switch (new URLSearchParams(location.search).get('accept')) {
+				case 'true':
+					showConfirmModal(true)
+				case 'false':
+					showConfirmModal(false)
+				}
+
+				function showConfirmModal(newAccept) {
+					accept = newAccept
+
+				}
+
+				function confirmInvite() {
+					functions.httpsCallable('confirmInvite').then(() => stopLoading()).catch(error => {
+						stopLoading()
+						alert(error)
+					})
+				}
+
+				function stopLoading() {
+					document.querySelector('.modal .button.confirm').classList.remove('is-loading')
+				}
+
+				document.querySelector('.modal .button.confirm').addEventListener('click', confirmInvite)
+			})
+		</script>
 	</body>
 </html>
