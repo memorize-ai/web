@@ -4,5 +4,8 @@
 	},
 	"decks (folder)": {
 		"def456": "IMAGE_DATA" // JPEG with compression quality 0.5
+	},
+	"static (folder)": {
+		"ghi789": "IMAGE_DATA" // Can only be changed from firebase console (Full size PNG)
 	}
 }
