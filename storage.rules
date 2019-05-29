@@ -1,7 +1,27 @@
 service firebase.storage {
 	match /b/{bucket}/o {
-		match /{allPaths=**} {
-			allow read, write
+		match /users/{uid} {
+			allow read
+			allow write: if signedInWith(uid)
+		}
+		match /decks/{deckId} {
+			allow read
+			allow write: if signedIn()
+		}
+		match /static/{file} {
+			allow read
+		}
+
+		function authId() {
+			return request.auth.uid
+		}
+
+		function signedIn() {
+			return request.auth != null
+		}
+
+		function signedInWith(uid) {
+			return signedIn() && authId() == uid
 		}
 	}
 }
