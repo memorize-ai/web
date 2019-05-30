@@ -19,38 +19,43 @@ configure(join(__dirname, '../views'), {
 	express: app
 })
 
-app.get('/invites/:deckId', (req, res) => {
-	const token = req.cookies.__session
-	return token
-		? auth.verifyIdToken(token).then(decodedToken => {
-			const uid = decodedToken.uid
-			return firestore.doc(`users/${uid}/invites/${req.params.deckId}`).get().then(invite =>
-				invite.exists
-					? Permission.isPending(invite)
-						? res.render('invite.html', {
-							
-						})
-						: res.render('404.html', {
-							title: 'Expired invite',
-							has_404_banner: false,
-							large_text: 'Expired invite',
-							has_text: true,
-							text: `You ${Permission.isDeclined(invite) ? 'declined' : 'accepted'} this invite on ${moment(invite.get('confirmed')).format('LL')}`,
-							button_text: 'Your invites',
-							button_href: 'https://memorize.ai/dashboard?menu=invites'
-						})
+function getUid(req: functions.Request): Promise<string> {
+	const session = req.cookies ? req.cookies.__session : undefined
+	return session
+		? auth.verifyIdToken(session).then(token => token.uid)
+		: Promise.reject()
+}
+
+app.get('/invites/:deckId', (req, res) =>
+	getUid(req).then(uid =>
+		firestore.doc(`users/${uid}/invites/${req.params.deckId}`).get().then(invite =>
+			invite.exists
+				? Permission.isPending(invite)
+					? res.render('invite.html', {
+						
+					})
 					: res.render('404.html', {
-						title: 'Invalid invite URL',
+						title: 'Expired invite',
 						has_404_banner: false,
-						large_text: 'Invalid invite URL',
-						has_text: false,
+						large_text: 'Expired invite',
+						has_text: true,
+						text: `You ${Permission.isDeclined(invite) ? 'declined' : 'accepted'} this invite on ${moment(invite.get('confirmed')).format('LL')}`,
 						button_text: 'Your invites',
 						button_href: 'https://memorize.ai/dashboard?menu=invites'
 					})
-			)
-		})
-		: res.redirect('https://memorize.ai/login')
-})
+				: res.render('404.html', {
+					title: 'Invalid invite URL',
+					has_404_banner: false,
+					large_text: 'Invalid invite URL',
+					has_text: false,
+					button_text: 'Your invites',
+					button_href: 'https://memorize.ai/dashboard?menu=invites'
+				})
+		)
+	).catch(() =>
+		res.redirect('https://memorize.ai/login')
+	)
+)
 
 app.get('*', (_req, res) =>
 	res.render('404.html', {
