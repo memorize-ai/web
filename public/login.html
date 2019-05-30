@@ -36,15 +36,11 @@
 		const redirectToFrom = () =>
 			window.location.href = from
 
-		firebase.auth().onAuthStateChanged(user => {
-			if (user) {
-				document.cookie = `__session=${user.uid}; expires=Thu, 01 Jan 3000 00:00:00 GMT`
-				app.ports.userUpdated.send(user)
-			} else {
-				document.cookie = '__session=; expires=Thu, 01 Jan 1970 00:00:00 GMT'
-				app.ports.signedOut.send(null)
-			}
-		})
+		firebase.auth().onAuthStateChanged(user =>
+			user
+				? app.ports.userUpdated.send(user)
+				: app.ports.signedOut.send(null)
+		)
 		app.ports.signUp.subscribe(account =>
 			firebase.auth().createUserWithEmailAndPassword(account.email, account.password)
 				.then(createUserNode(account))
