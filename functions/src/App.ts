@@ -3,16 +3,18 @@ import * as admin from 'firebase-admin'
 import * as express from 'express'
 import * as moment from 'moment'
 import { configure } from 'nunjucks'
+import { join } from 'path'
 
 import Permission from './Permission'
 
 const app = express()
+const _app = functions.https.onRequest(app)
+export { _app as app }
+
 const firestore = admin.firestore()
 const auth = admin.auth()
 
-export default functions.https.onRequest(app)
-
-configure('../views', {
+configure(join(__dirname, '../views'), {
 	autoescape: true,
 	express: app
 })
@@ -35,7 +37,7 @@ app.get('/invites/:deckId', (req, res) => {
 							has_text: true,
 							text: `You ${Permission.isDeclined(invite) ? 'declined' : 'accepted'} this invite on ${moment(invite.get('confirmed')).format('LL')}`,
 							button_text: 'Your invites',
-							button_href: '/dashboard?menu=invites'
+							button_href: 'https://memorize.ai/dashboard?menu=invites'
 						})
 					: res.render('404.html', {
 						title: 'Invalid invite URL',
@@ -43,11 +45,11 @@ app.get('/invites/:deckId', (req, res) => {
 						large_text: 'Invalid invite URL',
 						has_text: false,
 						button_text: 'Your invites',
-						button_href: '/dashboard?menu=invites'
+						button_href: 'https://memorize.ai/dashboard?menu=invites'
 					})
 			)
 		})
-		: res.status(403).redirect('/login')
+		: res.redirect('https://memorize.ai/login')
 })
 
 app.get('*', (_req, res) =>
@@ -57,6 +59,6 @@ app.get('*', (_req, res) =>
 		large_text: 'Check the URL and try again',
 		has_text: false,
 		button_text: 'Your dashboard',
-		button_href: '/dashboard'
+		button_href: 'https://memorize.ai/dashboard'
 	})
 )
