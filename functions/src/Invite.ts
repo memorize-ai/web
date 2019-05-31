@@ -32,6 +32,10 @@ export default class Invite {
 	}
 
 	static newId(): string {
-		
+		return [...Array(32)].map(_i => (~~(Math.random() * 36)).toString(36)).join('')
+	}
+
+	static url(id: string): string {
+		return `https://memorize.ai/invites/${id}`
 	}
 }

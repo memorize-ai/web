@@ -89,10 +89,6 @@ export default class Permission {
 		const status = snapshot.get('status')
 		return Permission.status(status === undefined ? -1 : status) === PermissionStatus.declined
 	}
-
-	static invitationUrl(deckId: string): string {
-		return `https://memorize.ai/invites/${deckId}`
-	}
 }
 
 export const confirmInvite = functions.https.onCall((data, context) => {
@@ -149,8 +145,9 @@ export const confirmInvite = functions.https.onCall((data, context) => {
 
 export const permissionCreated = functions.firestore.document('decks/{deckId}/permissions/{uid}').onCreate((snapshot, context) => {
 	const role = snapshot.get('role')
+	const inviteId = Invite.newId()
 	return Promise.all([
-		firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).set({ id: Invite.newId(), role, date: snapshot.get('date'), status: 0, sent: snapshot.get('sent') }),
+		firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).set({ id: inviteId, role, date: snapshot.get('date'), status: 0, sent: snapshot.get('sent') }),
 		User.updateLastActivity(context.auth!.uid),
 		firestore.doc(`users/${context.auth!.uid}`).get().then(user =>
 			firestore.doc(`decks/${context.params.deckId}`).get().then(deck =>
@@ -162,7 +159,7 @@ export const permissionCreated = functions.firestore.document('decks/{deckId}/pe
 						deck_name: deckName,
 						deck_subtitle: deck.get('subtitle'),
 						text: subject,
-						action_url: Permission.invitationUrl(context.params.deckId),
+						action_url: Invite.url(inviteId),
 						deck_url: Deck.url(context.params.deckId)
 					})
 				})
