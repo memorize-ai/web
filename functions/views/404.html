@@ -4,7 +4,6 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
-		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 		<link rel="icon" type="image/png" href="https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Ffavicon.png?alt=media&token=b070c06a-b02c-44be-80d0-9924416f5c4d">
 		<title>{{ title }}</title>
 		<style>
@@ -60,7 +59,7 @@
 			{% if has_text %}
 			<h1 class="title is-medium text">{{ text }}</h1>
 			{% endif %}
-			<a class="button is-large is-info main-button" href="{{ button_href }}"><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;{{ button_text }}</a>
+			<a class="button is-large is-info main-button" href="{{ button_href }}">{{ button_text }}</a>
 		</div>
 	</body>
 </html>
