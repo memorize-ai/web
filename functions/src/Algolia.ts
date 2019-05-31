@@ -3,23 +3,28 @@ import * as algoliasearch from 'algoliasearch'
 
 const config = functions.config().algolia
 const client = algoliasearch(config.app_id, config.api_key)
-const index = client.initIndex('decks')
 
 export default class Algolia {
-	private static save(data: FirebaseFirestore.DocumentData, context: functions.EventContext): Promise<algoliasearch.Task> {
-		data.objectID = context.params.deckId
+	static indices = {
+		decks: client.initIndex('decks'),
+		users: client.initIndex('users')
+	}
+
+	private static save({ index, data, id }: { index: algoliasearch.Index, data: FirebaseFirestore.DocumentData, id: string }): Promise<algoliasearch.Task> {
+		data.objectID = id
 		return index.saveObject(data)
 	}
 
-	static createDeck(snapshot: FirebaseFirestore.DocumentSnapshot, context: functions.EventContext): Promise<algoliasearch.Task> {
-		return Algolia.save(snapshot.data()!, context)
+	static create({ index, snapshot }: { index: algoliasearch.Index, snapshot: FirebaseFirestore.DocumentSnapshot }): Promise<algoliasearch.Task> {
+		return Algolia.save({ index, data: snapshot.data()!, id: snapshot.id })
 	}
 	
-	static updateDeck(change: functions.Change<FirebaseFirestore.DocumentSnapshot>, context: functions.EventContext): Promise<algoliasearch.Task> {
-		return Algolia.save(change.after.data()!, context)
+	static update({ index, change }: { index: algoliasearch.Index, change: functions.Change<FirebaseFirestore.DocumentSnapshot> }): Promise<algoliasearch.Task> {
+		const after = change.after
+		return Algolia.save({ index, data: after.data()!, id: after.id })
 	}
 	
-	static deleteDeck(snapshot: FirebaseFirestore.DocumentSnapshot): Promise<algoliasearch.Task> {
-		return index.deleteObject(snapshot.id)
+	static delete({ index, id }: { index: algoliasearch.Index, id: string }): Promise<algoliasearch.Task> {
+		return index.deleteObject(id)
 	}
 }

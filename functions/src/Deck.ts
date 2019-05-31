@@ -101,7 +101,7 @@ export default class Deck {
 
 export const deckCreated = functions.firestore.document('decks/{deckId}').onCreate((snapshot, context) =>
 	Promise.all([
-		Algolia.createDeck(snapshot, context),
+		Algolia.create({ index: Algolia.indices.decks, snapshot }),
 		User.updateLastActivity(context.auth!.uid)
 	])
 )
@@ -109,7 +109,7 @@ export const deckCreated = functions.firestore.document('decks/{deckId}').onCrea
 export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate((change, context) =>
 	change.before.get('updated') === change.after.get('updated')
 		? Promise.all([
-			Algolia.updateDeck(change, context),
+			Algolia.update({ index: Algolia.indices.decks, change }),
 			Deck.updateLastUpdated(context.params.deckId),
 			User.updateLastActivity(context.auth!.uid)
 		])
@@ -118,7 +118,7 @@ export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpda
 
 export const deckDeleted = functions.firestore.document('decks/{deckId}').onDelete((snapshot, context) =>
 	Promise.all([
-		Algolia.deleteDeck(snapshot),
+		Algolia.delete({ index: Algolia.indices.decks, id: snapshot.id }),
 		User.updateLastActivity(context.auth!.uid)
 	])
 )
