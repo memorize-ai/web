@@ -9,7 +9,7 @@ const auth = admin.auth()
 
 export default class User {
 	static updateLastActivity(uid: string): Promise<FirebaseFirestore.WriteResult> {
-		return firestore.doc(`users/${uid}`).update({ lastActivity: new Date() })
+		return firestore.doc(`users/${uid}`).update({ lastActivity: new Date })
 	}
 }
 
@@ -39,7 +39,7 @@ export const userDeleted = functions.auth.user().onDelete(user =>
 )
 
 export const updateLastOnline = functions.https.onCall((_data, context) =>
-	firestore.doc(`users/${context.auth!.uid}`).update({ lastOnline: new Date() })
+	firestore.doc(`users/${context.auth!.uid}`).update({ lastOnline: new Date })
 )
 
 export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((_snapshot, context) =>

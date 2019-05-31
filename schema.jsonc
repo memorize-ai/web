@@ -10,6 +10,7 @@
 			"lastActivity": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last activity: review sessions, editing & downloading decks & cards (Timestamp)
 			"invites (sub-collection)": { // Invites to decks
 				"abc123": { // Deck ID
+					"id": "3adfne", // The Invite ID (for urls, has to be secure, NOT in decks node)
 					"role": "viewer", // The role that the user is being invited to, can be 'viewer', 'editor', or 'admin' (can change permissions)
 					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of invitation (Timestamp)
 					"confirmed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of confirmation (accept/decline), default: nonexistent
@@ -69,6 +70,12 @@
 					}
 				}
 			}
+		}
+	},
+	"invites": {
+		"3adfne": { // The Invite ID (for urls, has to be secure, NOT in decks node)
+			"uid": "abc123", // The user ID of the recipient of the invite
+			"deckId": "jkl012" // The deck ID of the invite
 		}
 	},
 	"settings": {

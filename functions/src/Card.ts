@@ -43,7 +43,7 @@ export default class Card {
 	}
 
 	static updateLastUpdated({ deckId, cardId }: { deckId: string, cardId: string }): Promise<FirebaseFirestore.WriteResult[]> {
-		const updated = new Date()
+		const updated = new Date
 		return Promise.all([
 			Deck.doc(deckId, `cards/${cardId}`).update({ updated }),
 			Deck.doc(deckId).update({ updated })
@@ -52,7 +52,7 @@ export default class Card {
 }
 
 export const rateCard = functions.https.onCall((data, context) => {
-	const date = new Date()
+	const date = new Date
 	const deckId = data.deckId
 	const cardId = data.cardId
 	const id = { deckId, cardId }

@@ -10,7 +10,7 @@ import User from './User'
 const firestore = admin.firestore()
 
 export const historyCreated = functions.firestore.document('users/{uid}/decks/{deckId}/cards/{cardId}/history/{historyId}').onCreate((snapshot, context) => {
-	const current = new Date()
+	const current = new Date
 	const now = Date.now()
 	const cardRef = firestore.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
 	return Promise.all([

@@ -98,7 +98,7 @@ export const confirmInvite = functions.https.onCall((data, context) => {
 	if (context.auth && data.deckId && data.accept !== undefined) {
 		const uid = context.auth.uid
 		const doc = firestore.doc(`users/${uid}/invites/${data.deckId}`)
-		const statusUpdate = { status: data.accept ? 1 : -1, confirmed: new Date() }
+		const statusUpdate = { status: data.accept ? 1 : -1, confirmed: new Date }
 		return doc.get().then(invite =>
 			invite.exists && Permission.isPending(invite)
 				? Promise.all([

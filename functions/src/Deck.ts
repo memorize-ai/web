@@ -83,7 +83,7 @@ export default class Deck {
 	}
 
 	static updateLastUpdated(id: string): Promise<FirebaseFirestore.WriteResult> {
-		return Deck.doc(id).update({ updated: new Date() })
+		return Deck.doc(id).update({ updated: new Date })
 	}
 
 	static image(id: string): Promise<string> {
@@ -135,7 +135,7 @@ export const viewDeck = functions.https.onCall((data, context) => {
 })
 
 export const rateDeck = functions.https.onCall((data, context) => {
-	const date = new Date()
+	const date = new Date
 	const uid = context.auth!.uid
 	const rating = data.rating
 	const review = rating && data.review ? data.review : ''
