@@ -30,4 +30,8 @@ export default class Invite {
 				: Promise.reject()
 		)
 	}
+
+	static newId(): string {
+		
+	}
 }

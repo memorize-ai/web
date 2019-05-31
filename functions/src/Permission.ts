@@ -4,6 +4,7 @@ import * as admin from 'firebase-admin'
 import User from './User'
 import Deck from './Deck'
 import Email, { EmailType } from './Email'
+import Invite from './Invite'
 
 const firestore = admin.firestore()
 
@@ -149,7 +150,7 @@ export const confirmInvite = functions.https.onCall((data, context) => {
 export const permissionCreated = functions.firestore.document('decks/{deckId}/permissions/{uid}').onCreate((snapshot, context) => {
 	const role = snapshot.get('role')
 	return Promise.all([
-		firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).set({ role, date: snapshot.get('date'), status: 0, sent: snapshot.get('sent') }),
+		firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).set({ id: Invite.newId(), role, date: snapshot.get('date'), status: 0, sent: snapshot.get('sent') }),
 		User.updateLastActivity(context.auth!.uid),
 		firestore.doc(`users/${context.auth!.uid}`).get().then(user =>
 			firestore.doc(`decks/${context.params.deckId}`).get().then(deck =>
