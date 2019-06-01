@@ -93,7 +93,7 @@
 			"name": "GRE Vocabulary", // Cannot be empty
 			"subtitle": "The best GRE deck", // One-line subtitle for the deck (Cannot be empty)
 			"description": "Study for the GRE", // Can be empty
-			"tags": [ // List
+			"tags": [ // List of strings
 				"gre",
 				"vocab",
 				"test prep"

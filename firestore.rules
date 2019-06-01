@@ -97,6 +97,11 @@ service cloud.firestore {
 				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && (newData() is string)
 				allow delete: if false
 			}
+			match /tags {
+				allow create: if signedIn() && (newData() is list)
+				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && (newData() is list)
+				allow delete: if false
+			}
 			match /public {
 				allow create: if signedIn() && (newData() is bool)
 				allow update: if isDeckOwner(deckId) && (newData() is bool)
