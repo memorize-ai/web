@@ -77,7 +77,14 @@
 			}
 		]
 	},
-	"storage": {
-		"rules": "storage.rules"
-	}
+	"storage": [
+		{
+			"bucket": "memorize-ai.appspot.com",
+			"rules": "storage/memorize-ai.appspot.com.rules"
+		},
+		{
+			"bucket": "uploads.memorize.ai",
+			"rules": "storage/uploads.memorize.ai.rules"
+		}
+	]
 }
