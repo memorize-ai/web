@@ -100,7 +100,7 @@ export const permissionCreated = functions.firestore.document('decks/{deckId}/pe
 			? Promise.all([
 				User.updateLastActivity(context.auth.uid),
 				firestore.doc(`users/${context.auth.uid}`).get().then(user =>
-					firestore.doc(`decks/${context.params.deckId}`).get().then(deck =>
+					Deck.doc(context.params.deckId).get().then(deck =>
 						Deck.image(context.params.deckId).then(image => {
 							const deckName = deck.get('name')
 							const subject = `${user.get('name')} invited you to ${Permission.verbify(role)} ${deckName}`
@@ -128,7 +128,7 @@ export const permissionUpdated = functions.firestore.document('decks/{deckId}/pe
 				? firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).update({ role: change.after.get('role') }) as Promise<any>
 				: context.auth
 					? firestore.doc(`users/${context.auth.uid}`).get().then(user =>
-						firestore.doc(`decks/${context.params.deckId}`).get().then(deck =>
+						Deck.doc(context.params.deckId).get().then(deck =>
 							Deck.image(context.params.deckId).then(image => {
 								const after = Permission.role(change.after.get('role'))
 								const deckName = deck.get('name')
@@ -157,7 +157,7 @@ export const permissionDeleted = functions.firestore.document('decks/{deckId}/pe
 				? Promise.resolve() as Promise<any>
 				: context.auth
 					? firestore.doc(`users/${context.auth.uid}`).get().then(user =>
-						firestore.doc(`decks/${context.params.deckId}`).get().then(deck => {
+						Deck.doc(context.params.deckId).get().then(deck => {
 							const userName = user.get('name')
 							const deckName = deck.get('name')
 							const role = Permission.role(snapshot.get('role'))

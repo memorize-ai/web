@@ -8,14 +8,12 @@ const firestore = admin.firestore()
 const storage = admin.storage().bucket('us')
 
 export default class Deck {
-	id: string
-
-	constructor(id: string) {
-		this.id = id
-	}
-
 	static doc(id: string, path?: string): FirebaseFirestore.DocumentReference {
 		return firestore.doc(`decks/${id}${path ? `/${path}` : ''}`)
+	}
+
+	static collection(id: string, path: string): FirebaseFirestore.CollectionReference {
+		return Deck.doc(id).collection(path)
 	}
 
 	static user(uid: string, deckId: string): Promise<{ past: boolean, current: boolean, rating: number } | null> {
@@ -25,7 +23,7 @@ export default class Deck {
 	}
 
 	static updateCount(id: string, increment: boolean): Promise<FirebaseFirestore.WriteResult> {
-		return new Deck(id).updateCount(increment)
+		return Deck.doc(id).update({ count: admin.firestore.FieldValue.increment(increment ? 1 : -1) })
 	}
 
 	static updateViews(id: string, { total, unique }: { total: number, unique: number }): Promise<FirebaseFirestore.WriteResult> {
@@ -94,8 +92,17 @@ export default class Deck {
 		return `https://memorize.ai/decks/${id}`
 	}
 
-	updateCount(increment: boolean): Promise<FirebaseFirestore.WriteResult> {
-		return Deck.doc(this.id).update({ count: admin.firestore.FieldValue.increment(increment ? 1 : -1) })
+	static export(id: string): Promise<string> {
+		const json: any = {}
+		return Deck.doc(id).get().then(deck => {
+			if (!deck.exists) return Promise.resolve()
+			json[id] = deck.data()
+			return Deck.collection(id, 'cards').get().then(cards =>
+				cards.forEach(card =>
+					json[id].cards[card.id] = card.data()
+				)
+			)
+		}).then(() => JSON.stringify(json))
 	}
 }
 
