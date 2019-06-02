@@ -41,6 +41,11 @@
 					}
 				}
 			},
+			"uploads (sub-collection)": {
+				"gray-cat": { // Filename (unique for user)
+					"type": "image" // Type of the file (can be 'image', 'video', or 'audio')
+				}
+			},
 			"decks (sub-collection)": {
 				"jkl012": { // Deck ID
 					"mastered": 699, // Total number of cards the user has mastered in the deck
