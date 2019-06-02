@@ -12,7 +12,7 @@
 	},
 	"uploads.memorize.ai (bucket)": {
 		"abc123 (folder)": { // uid
-			"gray-cat": "IMAGE_DATA" // JPEG with compression quality 0.5
+			"gray-cat": "IMAGE_DATA or VIDEO_DATA or AUDIO_DATA" // Each with compression quality 0.5
 		}
 	}
 }
