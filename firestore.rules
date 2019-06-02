@@ -47,7 +47,7 @@ service cloud.firestore {
 				}
 			}
 			match /decks/{deckId} {
-				allow read, write: if signedInWith(uid)// && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
+				allow read, write: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
 				match /mastered {
 					allow create: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId)) && (newData() is int) && newData() == 0
 					allow update, delete: if false
