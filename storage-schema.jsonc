@@ -1,11 +1,18 @@
 {
-	"users (folder)": {
-		"abc123": "IMAGE_DATA" // JPEG with compression quality 0.5
+	"memorize-ai.appspot.com (bucket)": {
+		"users (folder)": {
+			"abc123": "IMAGE_DATA" // JPEG with compression quality 0.5
+		},
+		"decks (folder)": {
+			"def456": "IMAGE_DATA" // JPEG with compression quality 0.5
+		},
+		"static (folder)": {
+			"ghi789": "IMAGE_DATA" // Can only be changed from firebase console (Full size PNG)
+		}
 	},
-	"decks (folder)": {
-		"def456": "IMAGE_DATA" // JPEG with compression quality 0.5
-	},
-	"static (folder)": {
-		"ghi789": "IMAGE_DATA" // Can only be changed from firebase console (Full size PNG)
+	"uploads.memorize.ai (bucket)": {
+		"abc123 (folder)": { // uid
+			"gray-cat": "IMAGE_DATA" // JPEG with compression quality 0.5
+		}
 	}
 }
