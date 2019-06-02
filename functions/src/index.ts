@@ -4,6 +4,7 @@ admin.initializeApp()
 export { app } from './App'
 export { rateCard, cardCreated, cardUpdated, cardDeleted } from './Card'
 export { deckCreated, deckUpdated, deckDeleted, viewDeck, rateDeck } from './Deck'
+export { exportDeck } from './Export'
 export { historyCreated } from './History'
 export { confirmInvite } from './Invite'
 export { permissionCreated, permissionUpdated, permissionDeleted } from './Permission'
