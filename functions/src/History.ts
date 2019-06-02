@@ -74,7 +74,7 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 					}
 				})
 			else {
-				const next = new Date(now + rating < 3 ? 0 : 86400000)
+				const next = new Date(now + (rating < 3 ? 0 : 86400000))
 				return Promise.all([
 					cardRef.collection('history').doc(context.params.historyId).update({
 						date: current,
