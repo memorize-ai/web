@@ -6,8 +6,6 @@ export default class Slug {
 	string: string
 	parts: string[] | null
 
-	hasParts = this.parts !== null
-
 	constructor(str: string) {
 		const slug = str.trim().replace(/\s+/g, '-').replace(/\.+/g, '').toLowerCase()
 		this.string = slug
@@ -15,7 +13,7 @@ export default class Slug {
 	}
 
 	static assemble(slug: Slug): string {
-		return slug.hasParts ? `${slug.parts![1]}-${parseInt(slug.parts![2]) + 1}` : `${slug}-1`
+		return slug.parts ? `${slug.parts[1]}-${parseInt(slug.parts[2]) + 1}` : `${slug}-1`
 	}
 	
 	static next(slug: string): string {

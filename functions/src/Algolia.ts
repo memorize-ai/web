@@ -16,12 +16,18 @@ export default class Algolia {
 	}
 
 	static create({ index, snapshot }: { index: algoliasearch.Index, snapshot: FirebaseFirestore.DocumentSnapshot }): Promise<algoliasearch.Task> {
-		return Algolia.save({ index, data: snapshot.data()!, id: snapshot.id })
+		const data = snapshot.data()
+		return data
+			? Algolia.save({ index, data: data, id: snapshot.id })
+			: Promise.reject()
 	}
 	
 	static update({ index, change }: { index: algoliasearch.Index, change: functions.Change<FirebaseFirestore.DocumentSnapshot> }): Promise<algoliasearch.Task> {
 		const after = change.after
-		return Algolia.save({ index, data: after.data()!, id: after.id })
+		const data = after.data()
+		return data
+			? Algolia.save({ index, data, id: after.id })
+			: Promise.reject()
 	}
 	
 	static delete({ index, id }: { index: algoliasearch.Index, id: string }): Promise<algoliasearch.Task> {

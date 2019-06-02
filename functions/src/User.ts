@@ -46,13 +46,13 @@ export const userDeleted = functions.auth.user().onDelete(user => {
 })
 
 export const updateLastOnline = functions.https.onCall((_data, context) =>
-	firestore.doc(`users/${context.auth!.uid}`).update({ lastOnline: new Date })
+	context.auth ? firestore.doc(`users/${context.auth.uid}`).update({ lastOnline: new Date }) : Promise.resolve()
 )
 
 export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((_snapshot, context) =>
 	Deck.user(context.params.uid, context.params.deckId).then(user =>
 		Promise.all([
-			Deck.updateDownloads(context.params.deckId, { total: user!.past ? 0 : 1, current: 1 }),
+			Deck.updateDownloads(context.params.deckId, { total: user ? user.past ? 0 : 1 : 0, current: 1 }),
 			Deck.doc(context.params.deckId, `users/${context.params.uid}`).update({ past: true, current: true }),
 			User.updateLastActivity(context.params.uid)
 		])

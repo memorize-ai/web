@@ -52,11 +52,12 @@ export default class Card {
 }
 
 export const rateCard = functions.https.onCall((data, context) => {
+	if (!context.auth) return Promise.reject()
 	const date = new Date
 	const deckId = data.deckId
 	const cardId = data.cardId
 	const id = { deckId, cardId }
-	const uid = context.auth!.uid
+	const uid = context.auth.uid
 	const rating = data.rating
 	return firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`).get().then(oldRating =>
 		Promise.all([

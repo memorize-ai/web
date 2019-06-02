@@ -102,7 +102,7 @@ export default class Deck {
 export const deckCreated = functions.firestore.document('decks/{deckId}').onCreate((snapshot, context) =>
 	Promise.all([
 		Algolia.create({ index: Algolia.indices.decks, snapshot }),
-		User.updateLastActivity(context.auth!.uid)
+		context.auth ? User.updateLastActivity(context.auth.uid) : Promise.resolve() as Promise<any>
 	])
 )
 
@@ -111,7 +111,7 @@ export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpda
 		? Promise.all([
 			Algolia.update({ index: Algolia.indices.decks, change }),
 			Deck.updateLastUpdated(context.params.deckId),
-			User.updateLastActivity(context.auth!.uid)
+			context.auth ? User.updateLastActivity(context.auth.uid) : Promise.resolve() as Promise<any>
 		])
 		: Promise.resolve()
 )
@@ -119,12 +119,13 @@ export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpda
 export const deckDeleted = functions.firestore.document('decks/{deckId}').onDelete((snapshot, context) =>
 	Promise.all([
 		Algolia.delete({ index: Algolia.indices.decks, id: snapshot.id }),
-		User.updateLastActivity(context.auth!.uid)
+		context.auth ? User.updateLastActivity(context.auth.uid) : Promise.resolve() as Promise<any>
 	])
 )
 
 export const viewDeck = functions.https.onCall((data, context) => {
-	const uid = context.auth!.uid
+	if (!context.auth) return Promise.reject()
+	const uid = context.auth.uid
 	return Deck.user(uid, data.deckId).then(user =>
 		Promise.all([
 			Deck.updateViews(data.deckId, { total: 1, unique: user ? 0 : 1 }),
@@ -135,8 +136,9 @@ export const viewDeck = functions.https.onCall((data, context) => {
 })
 
 export const rateDeck = functions.https.onCall((data, context) => {
+	if (!context.auth) return Promise.reject()
 	const date = new Date
-	const uid = context.auth!.uid
+	const uid = context.auth.uid
 	const rating = data.rating
 	const review = rating && data.review ? data.review : ''
 	const setField = (value: any) => rating ? value : admin.firestore.FieldValue.delete()
