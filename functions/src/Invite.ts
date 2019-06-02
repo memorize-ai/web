@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+import * as secure from 'securejs'
 
 import Email, { EmailType } from './Email'
 import Deck from './Deck'
@@ -36,7 +37,7 @@ export default class Invite {
 	}
 
 	static newId(): string {
-		return [...Array(32)].map(_i => (~~(Math.random() * 36)).toString(36)).join('')
+		return secure.newId(32)
 	}
 
 	static url(id: string): string {
