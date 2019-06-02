@@ -42,7 +42,8 @@
 				}
 			},
 			"uploads (sub-collection)": {
-				"gray-cat": { // Filename (unique for user)
+				"abc123": { // File ID
+					"name": "Gray cat", // Filename
 					"type": "image" // Type of the file (can be 'image', 'video', or 'audio')
 				}
 			},

@@ -1,6 +1,6 @@
 service firebase.storage {
 	match /b/{bucket}/o {
-		match /{uid}/{file} {
+		match /{uid}/{fileId} {
 			allow read
 			allow write: if signedInWith(uid)
 		}
