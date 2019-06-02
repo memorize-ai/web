@@ -9,7 +9,7 @@ service cloud.firestore {
 				allow delete: if false
 			}
 			match /email {
-				allow create, update: if checkEmail(newData()) && !exists(/databases/$(database)/documents/users/{allUsers=**}/email/$(newData()))
+				allow create, update: if checkEmail(newData()) && isEmailUnique(newData())
 				allow delete: if false
 			}
 			match /slug {
@@ -47,16 +47,16 @@ service cloud.firestore {
 				}
 			}
 			match /decks/{deckId} {
-				allow read, write: if signedInWith(uid) && (canViewDeck(deckId) || isDeckPublic(deckId) || isDeckOwner(deckId))
+				allow read, write: if signedInWith(uid)// && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
 				match /mastered {
-					allow create: if signedInWith(uid) && (canViewDeck(deckId) || isDeckPublic(deckId) || isDeckOwner(deckId)) && (newData() is int) && newData() == 0
+					allow create: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId)) && (newData() is int) && newData() == 0
 					allow update, delete: if false
 				}
 				match /cards/{cardId} {
-					allow read: if signedInWith(uid) && (canViewDeck(deckId) || isDeckPublic(deckId) || isDeckOwner(deckId))
+					allow read: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
 					allow write: if false
 					match /history/{historyId} {
-						allow read, create: if signedInWith(uid) && (canViewDeck(deckId) || isDeckPublic(deckId) || isDeckOwner(deckId))
+						allow read, create: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
 						allow update, delete: if false
 						match /date {
 							allow create: if false
@@ -65,7 +65,7 @@ service cloud.firestore {
 							allow create: if false
 						}
 						match /rating {
-							allow create: if signedInWith(uid) && (canViewDeck(deckId) || isDeckPublic(deckId) || isDeckOwner(deckId)) && (newData() is int) && (newData() == 0 || newData() == 1 || newData() == 2 || newData() == 3 || newData() == 4 || newData() == 5)
+							allow create: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId)) && (newData() is int) && (newData() >= 0 && newData() <= 5)
 						}
 						match /elapsed {
 							allow create: if false
@@ -78,7 +78,7 @@ service cloud.firestore {
 			allow read
 		}
 		match /decks/{deckId} {
-			allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)
+			allow read: if isDeckPublic(deckId) || (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId)))
 			allow create: if signedIn()
 			allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId))
 			allow delete: if isDeckOwner(deckId)
@@ -123,9 +123,9 @@ service cloud.firestore {
 				allow create: if signedIn() && (newData().average is int) && newData().average == 0 && (newData()[1] is int) && newData()[1] == 0 && (newData()[2] is int) && newData()[2] == 0 && (newData()[3] is int) && newData()[3] == 0 && (newData()[4] is int) && newData()[4] == 0 && (newData()[5] is int) && newData()[5] == 0
 			}
 			match /users/{uid} {
-				allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)
+				allow read: if isDeckPublic(deckId) || (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId)))
 				match /cards/{cardId} {
-					allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)
+					allow read: if isDeckPublic(deckId) || (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId)))
 				}
 			}
 			match /creator {
@@ -167,7 +167,7 @@ service cloud.firestore {
 				}
 			}
 			match /cards/{cardId} {
-				allow read: if (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId))) || isDeckPublic(deckId)
+				allow read: if isDeckPublic(deckId) || (signedIn() && (isDeckOwner(deckId) || canViewDeck(deckId)))
 				allow write: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId))
 				match /front {
 					allow write: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
@@ -220,8 +220,16 @@ service cloud.firestore {
 			return isValidString(data)
 		}
 
+		function isEmailUnique(email) {
+			return !exists(/databases/$(database)/documents/users/{allUsers=**}/email/$(email))
+		}
+
 		function canViewDeck(deckId) {
-			return permission(deckId).accepted
+			return permissionExists(deckId) && permission(deckId).accepted
+		}
+
+		function permissionExists(deckId) {
+			return exists(/databases/$(database)/documents/decks/$(deckId)/permissions/$(authId()))
 		}
 
 		function permission(deckId) {
@@ -229,19 +237,27 @@ service cloud.firestore {
 		}
 
 		function canEditDeck(deckId) {
-			return (permission(deckId).role == 'editor' && permission(deckId).accepted) || isDeckAdmin(deckId)
+			return permissionExists(deckId) && ((permission(deckId).role == 'editor' && permission(deckId).accepted) || isDeckAdmin(deckId))
 		}
 
 		function isDeckOwner(deckId) {
-			return signedInWith(get(/databases/$(database)/documents/decks/$(deckId)).data.owner)
+			return deckExists(deckId) && signedInWith(deck(deckId).owner)
 		}
 
 		function isDeckAdmin(deckId) {
-			return permission(deckId).role == 'admin' && permission(deckId).accepted
+			return permissionExists(deckId) && (permission(deckId).role == 'admin' && permission(deckId).accepted)
+		}
+
+		function deckExists(deckId) {
+			return exists(/databases/$(database)/documents/decks/$(deckId))
+		}
+
+		function deck(deckId) {
+			return get(/databases/$(database)/documents/decks/$(deckId)).data
 		}
 
 		function isDeckPublic(deckId) {
-			return get(/databases/$(database)/documents/decks/$(deckId)).data.public
+			return deckExists(deckId) && deck(deckId).public
 		}
 
 		function userExists(uid) {
