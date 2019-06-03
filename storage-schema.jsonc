@@ -12,7 +12,7 @@
 	},
 	"uploads.memorize.ai (bucket)": {
 		"abc123 (folder)": { // uid
-			"abc123": "IMAGE_DATA or VIDEO_DATA or AUDIO_DATA" // Each with compression quality 0.5
+			"abc123": "IMAGE_DATA or AUDIO_DATA" // Each with compression quality 0.5
 		}
 	}
 }
