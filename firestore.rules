@@ -46,6 +46,9 @@ service cloud.firestore {
 					allow read: if signedInWith(uid)
 				}
 			}
+			match /uploads/{uploadId} {
+				allow read, write: if signedInWith(uid)
+			}
 			match /decks/{deckId} {
 				allow read, write: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
 				match /mastered {
