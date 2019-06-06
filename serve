@@ -1,0 +1,3 @@
+./clean
+./build
+firebase serve
