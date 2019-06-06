@@ -64,6 +64,14 @@
 			{% endif %}
 			<a class="button is-large is-info main-button" href="{{ button_href }}"><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;{{ button_text }}</a>
 		</div>
+		<section class="section">
+			<div class="container">
+				<h1 class="title">Section</h1>
+				<h2 class="subtitle">
+					A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+				</h2>
+			</div>
+		</section>		
 		<div class="modal confirm">
 			<div class="modal-background close-confirm"></div>
 			<div class="modal-card">
@@ -128,8 +136,8 @@
 					showConfirmModal(false)
 				}
 
-				function showConfirmModal(newAccept) {
-					accept = newAccept
+				function showConfirmModal(accept_) {
+					accept = accept_
 
 				}
 
@@ -146,7 +154,6 @@
 				function stopLoading() {
 					document.querySelector('.modal .button.confirm').classList.remove('is-loading')
 				}
-
 
 				document.querySelector('').addEventListener('click', confirmInvite)
 				document.querySelector('.modal .button.confirm').addEventListener('click', confirmInvite)
