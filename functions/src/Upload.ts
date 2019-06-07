@@ -7,7 +7,7 @@ import Algolia from './Algolia'
 const firestore = admin.firestore()
 
 export default class Upload {
-	static bucket = 'gs://uploads.memorize.ai'
+	static bucket = 'uploads.memorize.ai'
 	static storage = admin.storage().bucket(Upload.bucket)
 
 	static updateLastUpdated(uid: string, uploadId: string): Promise<FirebaseFirestore.WriteResult> {
