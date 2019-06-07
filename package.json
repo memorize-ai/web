@@ -1,0 +1,8 @@
+{
+	"name": "memorize.ai",
+	"description": "memorize.ai website",
+	"dependencies": {
+		"elm": "^0.19.0-no-deps"
+	},
+	"private": true
+}
