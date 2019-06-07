@@ -8,7 +8,7 @@
 			"joined": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date joined (Timestamp)
 			"lastOnline": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last online (Timestamp)
 			"lastActivity": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last activity: review sessions, editing & downloading decks & cards (Timestamp)
-			"savedCards (sub-collection)": { // Saved cards (haven't published them yet)
+			"cardDrafts (sub-collection)": { // Saved cards (haven't published them yet)
 				"abc123": { // Random ID
 					"deck": "jkl012", // Deck ID of the saved card
 					"card": "def456", // Card ID (Nonexistent if it's a new card)
