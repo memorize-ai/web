@@ -24,4 +24,4 @@ node_modules/
 .yarn-integrity
 .env
 elm-stuff/
-# public/elm/
+public/elm/
