@@ -1,3 +1,5 @@
 rm -rf .firebase
+rm -rf node_modules
+rm -rf public/elm
 rm -rf functions/node_modules
 rm -rf functions/lib

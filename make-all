@@ -1,0 +1,4 @@
+./make Template
+./make Dashboard
+./make Login
+./make Deck
