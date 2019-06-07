@@ -31,6 +31,9 @@ service cloud.firestore {
 				allow create: if signedInWith(uid)
 				allow update, delete: if false
 			}
+			match /savedCards/{saveId} {
+				allow read, write: if signedInWith(uid)
+			}
 			match /invites/{deckId} {
 				allow read: if signedInWith(uid)
 			}
