@@ -1,0 +1,1 @@
+./node_modules/.bin/mjml --config.minify -r emails/$1.mjml -o emails/$1.html

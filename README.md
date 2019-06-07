@@ -1,17 +1,16 @@
 # **memorize.ai**
 
-[**memorize.ai-web**](https://github.com/kenmueller/memorize.ai-web)
+**[memorize.ai-web](https://github.com/kenmueller/memorize.ai-web)**
 
-[**memorize.ai-ios**](https://github.com/kenmueller/memorize.ai-ios)
+**[memorize.ai-ios](https://github.com/kenmueller/memorize.ai-ios)**
 
-[**memorize.ai-android**](https://github.com/kenmueller/memorize.ai-android)
+**[memorize.ai-android](https://github.com/kenmueller/memorize.ai-android)**
 
 ## Initialization
 
 ```bash
-cd functions
-npm i
-firebase functions:config:set gmail.email="GMAIL_EMAIL" gmail.password="GMAIL_PASSWORD"
-firebase functions:config:set algolia.app_id="ALGOLIA_APP_ID" algolia.api_key="ALGOLIA_API_KEY"
-tsc
+npm i -g firebase-tools
+firebase functions:config:set gmail.email="GMAIL_EMAIL" gmail.password="GMAIL_PASSWORD" algolia.app_id="ALGOLIA_APP_ID" algolia.api_key="ALGOLIA_API_KEY"
+./build
+./clean
 ```

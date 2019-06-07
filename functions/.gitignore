@@ -1,6 +1,5 @@
 .runtimeconfig.json
-**/*.js
-**/*.js.map
+lib/
 typings/
 node_modules/
 emails/*.html

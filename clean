@@ -1,7 +1,19 @@
-rm -rf .firebase
-rm -rf elm-stuff
-rm -rf node_modules
-rm -rf public/elm
-rm -rf functions/node_modules
-rm -rf functions/lib
-rm -rf functions/emails/*.html
+case $1 in
+	('')
+		eval rm -rf .firebase
+		eval rm -rf elm-stuff
+		eval rm -rf functions/lib
+		eval cd functions
+		eval ./remove-all
+		eval cd ..
+	;;
+	('-f'|'--force')
+		eval ./clean
+		eval rm -rf node_modules
+		eval rm -rf functions/node_modules
+		eval rm -rf public/elm
+	;;
+	(*)
+		echo Invalid option $1
+	;;
+esac

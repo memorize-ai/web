@@ -1,3 +1,4 @@
-./clean
+./clean -f
 ./build
 firebase serve
+./clean

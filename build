@@ -2,5 +2,6 @@ npm i
 ./make-all
 cd functions
 npm i
+./make-all
 tsc
 cd ..
