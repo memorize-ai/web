@@ -7,8 +7,10 @@
 			"subtitle": "String", // Subtitle of the deck
 			"desc": "String", // Description of the deck
 			"public": "Bool", // If the deck is public or not
+			"count": "Int32", // Number of cards in deck
 			"creator": "String", // The creator ID of the deck
-			"owner": "String" // The owner ID of the deck
+			"owner": "String", // The owner ID of the deck
+			"mastered": "Int32" // Number of mastered cards in deck
 		}
 	],
 	"ManagedCard": [
