@@ -10,14 +10,13 @@ case $1 in
 	;;
 	('-m'|'--minify')
 		./build
-		npm i -g cssnano
 		for path in $(find . -name '*.html')
 		do
 			node_modules/.bin/html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-style-link-type-attributes --minify-css true --minify-js true "$path" -o "$path"
 		done
 		for path in $(find . -name '*.css')
 		do
-			cssnano "$path" "$path"
+			node_modules/.bin/cssnano "$path" "$path"
 		done
 		for path in $(find . -name '*.js')
 		do
