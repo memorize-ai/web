@@ -1,4 +1,7 @@
 ./clean -f
+git stash
 ./build -m
 firebase deploy $1
+git reset --hard
+git stash pop
 ./clean

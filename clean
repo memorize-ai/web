@@ -1,17 +1,17 @@
 case $1 in
 	('')
-		eval rm -rf .firebase
-		eval rm -rf elm-stuff
-		eval rm -rf functions/lib
-		eval cd functions
-		eval ./remove-all
-		eval cd ..
+		rm -rf .firebase
+		rm -rf elm-stuff
+		rm -rf functions/lib
+		cd functions
+		./remove-all
+		cd ..
 	;;
 	('-f'|'--force')
-		eval ./clean
-		eval rm -rf node_modules
-		eval rm -rf functions/node_modules
-		eval rm -rf public/elm
+		./clean
+		rm -rf node_modules
+		rm -rf functions/node_modules
+		rm -rf public/elm
 	;;
 	(*)
 		echo Invalid option $1
