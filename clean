@@ -3,10 +3,8 @@ case $1 in
 		rm -rf .firebase
 		rm -rf elm-stuff
 		rm -rf functions/lib
+		rm -rf functions/emails/*.html
 		rm -rf public/elm
-		cd functions
-		./remove-all
-		cd ..
 	;;
 	('-f'|'--force')
 		./clean
