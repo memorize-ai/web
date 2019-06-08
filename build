@@ -10,17 +10,18 @@ case $1 in
 	;;
 	('-m'|'--minify')
 		./build
-		for path in $(find . -name '*.js')
-		do
-			uglifyjs "$path" -o "$path"
-		done
+		npm i -g cssnano
 		for path in $(find . -name '*.html')
 		do
-			html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-style-link-type-attributes --minify-css true --minify-js true "$path" -o "$path"
+			node_modules/.bin/html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-style-link-type-attributes --minify-css true --minify-js true "$path" -o "$path"
 		done
 		for path in $(find . -name '*.css')
 		do
 			cssnano "$path" "$path"
+		done
+		for path in $(find . -name '*.js')
+		do
+			node_modules/.bin/uglifyjs "$path" -o "$path"
 		done
 	;;
 	(*)
