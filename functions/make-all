@@ -1,6 +1,0 @@
-./make access-removed
-./make invite-confirmed
-./make invited
-./make role-changed
-./make uninvited
-./make you-confirmed-invite
