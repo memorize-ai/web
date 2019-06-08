@@ -1,4 +1,4 @@
 ./clean -f
 ./build
-firebase serve
+firebase serve $1
 ./clean

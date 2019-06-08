@@ -1,4 +1,4 @@
 ./clean -f
-./build
-firebase deploy
+./build -m
+firebase deploy $1
 ./clean
