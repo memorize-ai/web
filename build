@@ -1,12 +1,17 @@
 case $1 in
 	('')
 		npm i
-		./make-all
-		cd functions
+		cd src
+		for path in $(find . -name '*.elm')
+		do
+			base=${path##*/}
+			../node_modules/.bin/elm make "src/${path#*/}" --optimize --output="public/elm/${base%.*}.js"
+		done
+		cd ../functions
 		npm i
 		for path in $(find . -not \( -path ./node_modules -prune \) -name '*.mjml')
 		do
-			node_modules/.bin/mjml -r "$path" -o "${path%.*}.html"
+			node_modules/.bin/mjml --config.minify -r "$path" -o "${path%.*}.html"
 		done
 		tsc
 		cd ..
