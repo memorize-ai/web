@@ -1,0 +1,24 @@
+.dashboard-button {
+	font-weight: bold;
+}
+.bar {
+	height: 1px;
+	background-color: lightgray;
+}
+.main {
+	margin-top: 100px;
+	text-align: center;
+}
+.banner {
+	font-size: 120px;
+}
+.large-text {
+	font-size: 60px;
+	padding: 20px;
+}
+.text {
+	padding-bottom: 20px;
+}
+.main-button {
+	font-weight: bold;
+}
