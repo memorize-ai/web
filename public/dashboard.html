@@ -16,36 +16,7 @@
 	<link href="css/main.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.0/themes/algolia.css" rel="stylesheet">
 	<link href="css/search.css" rel="stylesheet">
-	<script>
-	const fbListenMyDecks = app => user =>
-		firebase.firestore().collection('users').doc(user.uid).collection('decks')
-			.onSnapshot(snapshot =>
-				snapshot.forEach(doc =>
-					app.ports.addMyDeck.send(doc.data())
-				)
-			)
-
-	const userFromFirebase = fbUser =>
-		({ name: fbUser.displayName || 'Temporarily Unknown'
-		 , uid: fbUser.uid
-		 })
-
-	const updateUser = app => user => {
-		app.ports.updateUser.send(userFromFirebase(user))
-		fbListenMyDecks(app)(user)
-		setTimeout(startSearch, 100)
-	}
-
-	document.addEventListener('DOMContentLoaded', function() {
-		const app = Elm.Page.Dashboard.init()
-		firebase.auth().onAuthStateChanged(user =>
-			user
-				? updateUser(app)(user)
-				: redirectToLogin('dashboard')
-		)
-		listenSignOut(app)
-	})
-	</script>
+	<script src="js/dashboard.js"></script>
 	<script src="js/main.js"></script>
 	<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 	<script type="text/html" id="hit-template">
