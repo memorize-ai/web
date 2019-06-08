@@ -3,6 +3,7 @@ case $1 in
 		rm -rf .firebase
 		rm -rf elm-stuff
 		rm -rf functions/lib
+		rm -rf public/elm
 		cd functions
 		./remove-all
 		cd ..
@@ -11,7 +12,6 @@ case $1 in
 		./clean
 		rm -rf node_modules
 		rm -rf functions/node_modules
-		rm -rf public/elm
 	;;
 	(*)
 		echo Invalid option $1
