@@ -22,10 +22,12 @@ export enum PermissionStatus {
 }
 
 export default class Permission {
-	static get(uid: string, deckId: string): Promise<PermissionRole> {
-		return Deck.doc(deckId, `permissions/${uid}`).get().then(permission =>
-			Permission.role(permission.get('role') || 'none')
-		)
+	static get(uid: string, deckId: string): Promise<{ role: PermissionRole, confirmed: boolean, status: PermissionStatus }> {
+		return Deck.doc(deckId, `permissions/${uid}`).get().then(permission => ({
+			role: Permission.role(permission.get('role') || 'none'),
+			confirmed: permission.get('confirmed') !== undefined,
+			status: Permission.status(permission.get('status') || 0)
+		}))
 	}
 
 	static role(str: string): PermissionRole {

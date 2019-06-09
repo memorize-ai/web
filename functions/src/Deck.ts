@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin'
 
 import Algolia from './Algolia'
 import User from './User'
+import Permission, { PermissionRole, PermissionStatus } from './Permission'
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket('us')
@@ -161,4 +162,19 @@ export const rateDeck = functions.https.onCall((data, context) => {
 			User.updateLastActivity(uid)
 		])
 	)
+})
+
+export const canEditDeck = functions.https.onCall((data, context) => {
+	const deckId = data.deckId
+	if (context.auth && deckId) {
+		const uid = context.auth.uid
+		return Deck.doc(deckId).get().then(deck =>
+			deck.get('owner') === uid
+				? true
+				: Permission.get(uid, deckId).then(permission =>
+					(permission.role === PermissionRole.editor || permission.role === PermissionRole.admin) && permission.status === PermissionStatus.accepted
+				)
+		)
+	} else
+		return false
 })

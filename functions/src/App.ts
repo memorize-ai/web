@@ -29,7 +29,7 @@ app.get('/invites/:inviteId', (req, res) =>
 				has_text: true,
 				text: `You ${invite.status === PermissionStatus.accepted ? 'accepted' : 'declined'} this invite on ${moment(invite.confirmed || new Date).format('LL')}`,
 				button_text: 'Your invites',
-				button_href: 'https://memorize.ai/dashboard?menu=invites'
+				button_href: '/dashboard?menu=invites'
 			})
 	).catch(_error =>
 		res.render('404.html', {
@@ -38,7 +38,7 @@ app.get('/invites/:inviteId', (req, res) =>
 			large_text: 'Invalid invite URL',
 			has_text: false,
 			button_text: 'Your invites',
-			button_href: 'https://memorize.ai/dashboard?menu=invites'
+			button_href: '/dashboard?menu=invites'
 		})
 	)
 )
@@ -50,6 +50,6 @@ app.get('*', (_req, res) =>
 		large_text: 'Check the URL and try again',
 		has_text: false,
 		button_text: 'Your dashboard',
-		button_href: 'https://memorize.ai/dashboard'
+		button_href: '/dashboard'
 	})
 )
