@@ -2,7 +2,7 @@ case $1 in
 	'')
 		npm update
 		npm i
-		git add package.json
+		git add package.json package-lock.json
 		cd src
 		for path in $(find . -name '*.elm')
 		do
@@ -12,7 +12,7 @@ case $1 in
 		cd ../functions
 		npm update
 		npm i
-		git add package.json
+		git add package.json package-lock.json
 		for path in $(find . -not \( -path ./node_modules -prune \) -name '*.mjml')
 		do
 			node_modules/.bin/mjml --config.minify -r "$path" -o "${path%.*}.html"
