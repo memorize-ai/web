@@ -1,6 +1,8 @@
 case $1 in
 	'')
+		npm update
 		npm i
+		git add package.json
 		cd src
 		for path in $(find . -name '*.elm')
 		do
@@ -8,13 +10,17 @@ case $1 in
 			../node_modules/.bin/elm make "src/${path#*/}" --optimize --output="public/elm/${base%.*}.js"
 		done
 		cd ../functions
+		npm update
 		npm i
+		git add package.json
 		for path in $(find . -not \( -path ./node_modules -prune \) -name '*.mjml')
 		do
 			node_modules/.bin/mjml --config.minify -r "$path" -o "${path%.*}.html"
 		done
 		tsc
 		cd ..
+		git commit -m "Updated dependencies"
+		git push
 	;;
 	'-m'|'--minify')
 		./build
