@@ -1,17 +1,17 @@
 case $1 in
-	('')
+	'')
 		rm -rf .firebase
 		rm -rf elm-stuff
 		rm -rf functions/lib
 		rm -rf functions/emails/*.html
 		rm -rf public/elm
 	;;
-	('-f'|'--force')
+	'-f'|'--force')
 		./clean
 		rm -rf node_modules
 		rm -rf functions/node_modules
 	;;
-	(*)
+	*)
 		echo Invalid option $1
 	;;
 esac

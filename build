@@ -1,5 +1,5 @@
 case $1 in
-	('')
+	'')
 		npm i
 		cd src
 		for path in $(find . -name '*.elm')
@@ -16,7 +16,7 @@ case $1 in
 		tsc
 		cd ..
 	;;
-	('-m'|'--minify')
+	'-m'|'--minify')
 		./build
 		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./functions/node_modules -prune \) -name '*.html')
 		do
@@ -31,7 +31,11 @@ case $1 in
 			node_modules/.bin/uglifyjs "$path" -o "$path"
 		done
 	;;
-	(*)
+	'-c'|'--clean')
+		./build
+		./clean
+	;;
+	*)
 		echo Invalid option $1
 	;;
 esac
