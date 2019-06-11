@@ -53,10 +53,16 @@ service cloud.firestore {
 				allow read, write: if signedInWith(uid)
 			}
 			match /decks/{deckId} {
-				allow read, write: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
+				allow read, update, delete: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
 				match /mastered {
-					allow create: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId)) && (newData() is int) && newData() == 0
-					allow update, delete: if false
+					allow write: if false
+				}
+				match /role {
+					allow write: if false
+				}
+				match /hidden {
+					allow update: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId)) && (newData() is bool)
+					allow delete: if false
 				}
 				match /cards/{cardId} {
 					allow read: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))

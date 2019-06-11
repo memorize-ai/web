@@ -61,6 +61,8 @@
 			"decks (sub-collection)": {
 				"jkl012": { // Deck ID
 					"mastered": 699, // Total number of cards the user has mastered in the deck
+					"role": "admin", // ('viewer' or 'editor' or 'admin' or 'owner'), nonexistent if no permission node
+					"hidden": false, // Boolean, when user deletes deck this is set to true
 					"cards (sub-collection)": {
 						"ghi789": { // Card ID
 							"count": 4, // Total amount of recall attempts (history nodes) for this card
