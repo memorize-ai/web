@@ -12,7 +12,8 @@ export enum PermissionRole {
 	none = -1,
 	viewer = 0,
 	editor = 1,
-	admin = 2
+	admin = 2,
+	owner = 3
 }
 
 export enum PermissionStatus {
@@ -66,6 +67,8 @@ export default class Permission {
 			return 'editor'
 		case PermissionRole.admin:
 			return 'admin'
+		case PermissionRole.owner:
+			return 'owner'
 		}
 	}
 
@@ -79,6 +82,8 @@ export default class Permission {
 			return 'edit'
 		case PermissionRole.admin:
 			return 'administer'
+		case PermissionRole.owner:
+			return 'own'
 		}
 	}
 

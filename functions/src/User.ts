@@ -4,6 +4,7 @@ import * as admin from 'firebase-admin'
 import Slug from './Slug'
 import Deck from './Deck'
 import Algolia from './Algolia'
+import Permission, { PermissionRole } from './Permission'
 
 const firestore = admin.firestore()
 const auth = admin.auth()
@@ -11,6 +12,14 @@ const auth = admin.auth()
 export default class User {
 	static updateLastActivity(uid: string): Promise<FirebaseFirestore.WriteResult> {
 		return firestore.doc(`users/${uid}`).update({ lastActivity: new Date })
+	}
+
+	static addDeck(uid: string, deckId: string, role: PermissionRole): Promise<FirebaseFirestore.WriteResult> {
+		return firestore.doc(`users/${uid}/decks/${deckId}`).set({
+			mastered: 0,
+			role: Permission.stringify(role),
+			hidden: false
+		})
 	}
 }
 
