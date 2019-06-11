@@ -96,12 +96,12 @@ service cloud.firestore {
 			allow delete: if isDeckOwner(deckId)
 			match /name {
 				allow create: if signedIn() && isValidString(newData())
-				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
+				allow update: if signedIn() && (isDeckOwner(deckId) || isDeckAdmin(deckId)) && isValidString(newData())
 				allow delete: if false
 			}
 			match /subtitle {
 				allow create: if signedIn() && isValidString(newData())
-				allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && isValidString(newData())
+				allow update: if signedIn() && (isDeckOwner(deckId) || isDeckAdmin(deckId)) && isValidString(newData())
 				allow delete: if false
 			}
 			match /description {
@@ -116,7 +116,7 @@ service cloud.firestore {
 			}
 			match /public {
 				allow create: if signedIn() && (newData() is bool)
-				allow update: if isDeckOwner(deckId) && (newData() is bool)
+				allow update: if (isDeckOwner(deckId) || isDeckAdmin(deckId)) && (newData() is bool)
 				allow delete: if false
 			}
 			match /count {
