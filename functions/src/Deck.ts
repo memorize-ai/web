@@ -164,17 +164,20 @@ export const rateDeck = functions.https.onCall((data, context) => {
 	)
 })
 
-export const canEditDeck = functions.https.onCall((data, context) => {
+export const addDeck = functions.https.onCall((data, context) => {
 	const deckId = data.deckId
 	if (context.auth && deckId) {
 		const uid = context.auth.uid
+		const addDeckWithRole = (role: PermissionRole) => User.addDeck(uid, deckId, role)
 		return Deck.doc(deckId).get().then(deck =>
-			deck.get('owner') === uid
-				? true
-				: Permission.get(uid, deckId).then(permission =>
-					(permission.role === PermissionRole.editor || permission.role === PermissionRole.admin) && permission.status === PermissionStatus.accepted
-				)
+			deck.exists
+				? deck.get('owner') === uid
+					? addDeckWithRole(PermissionRole.owner)
+					: Permission.get(uid, deckId).then(permission =>
+						addDeckWithRole(permission.status === PermissionStatus.accepted ? permission.role : PermissionRole.none)
+					)
+				: new functions.https.HttpsError('not-found', 'Deck does not exist') as unknown
 		)
 	} else
-		return false
+		return new functions.https.HttpsError('permission-denied', 'You must be signed in and pass in a deckId')
 })

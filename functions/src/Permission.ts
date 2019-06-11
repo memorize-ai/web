@@ -25,18 +25,22 @@ export enum PermissionStatus {
 export default class Permission {
 	static get(uid: string, deckId: string): Promise<{ role: PermissionRole, confirmed: boolean, status: PermissionStatus }> {
 		return Deck.doc(deckId, `permissions/${uid}`).get().then(permission => ({
-			role: Permission.role(permission.get('role') || 'none'),
+			role: Permission.role(permission.get('role')),
 			confirmed: permission.get('confirmed') !== undefined,
 			status: Permission.status(permission.get('status') || 0)
 		}))
 	}
 
-	static role(str: string): PermissionRole {
+	static role(str: string | undefined): PermissionRole {
 		switch (str) {
 		case 'viewer':
 			return PermissionRole.viewer
 		case 'editor':
 			return PermissionRole.editor
+		case 'admin':
+			return PermissionRole.admin
+		case 'owner':
+			return PermissionRole.owner
 		default:
 			return PermissionRole.none
 		}
