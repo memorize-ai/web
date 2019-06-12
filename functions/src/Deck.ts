@@ -189,9 +189,7 @@ export const clearDeckData = functions.https.onCall((data, context) => {
 		return Promise.all([
 			doc.update({ mastered: 0 }),
 			doc.collection('cards').listDocuments().then(cards =>
-				cards.forEach(card =>
-					card.delete()
-				)
+				Promise.all(cards.map(card => card.delete()))
 			)
 		])
 	} else
