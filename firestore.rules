@@ -53,7 +53,7 @@ service cloud.firestore {
 				allow read, write: if signedInWith(uid)
 			}
 			match /decks/{deckId} {
-				allow read, update, delete: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
+				allow read, update, delete//: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
 				match /mastered {
 					allow write: if false
 				}
