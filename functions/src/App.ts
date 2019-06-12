@@ -4,6 +4,7 @@ import * as moment from 'moment'
 import { configure } from 'nunjucks'
 import { join } from 'path'
 
+import Deck from './Deck'
 import { PermissionStatus } from './Permission'
 import Invite from './Invite'
 
@@ -14,6 +15,31 @@ export { _app as app }
 configure(join(__dirname, '../views'), {
 	autoescape: true,
 	express: app
+})
+
+app.get('/decks/:deckId', (req, res) => {
+	const deckId = req.params.deckId
+	return Deck.doc(deckId).get().then(deck =>
+		deck.exists
+			? Deck.image(deckId).then(image => {
+				const name = deck.get('name')
+				res.render('deck.html', {
+					title: name,
+					image_url: image,
+					deck_name: name,
+					deck_subtitle: deck.get('subtitle'),
+					deck_tags: deck.get('tags')
+				})
+			})
+			: res.render('404.html', {
+				title: 'Invalid deck URL',
+				has_404_banner: false,
+				large_text: 'Invalid deck URL',
+				has_text: false,
+				button_text: 'Marketplace',
+				button_href: '/decks'
+			})
+	)
 })
 
 app.get('/invites/:inviteId', (req, res) =>
