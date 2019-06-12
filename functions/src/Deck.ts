@@ -144,7 +144,7 @@ export const viewDeck = functions.https.onCall((data, context) => {
 })
 
 export const rateDeck = functions.https.onCall((data, context) => {
-	if (!context.auth) return Promise.reject()
+	if (!context.auth) return new functions.https.HttpsError('permission-denied', 'You must be signed in')
 	const date = new Date
 	const uid = context.auth.uid
 	const rating = data.rating
@@ -178,6 +178,22 @@ export const addDeck = functions.https.onCall((data, context) => {
 					)
 				: new functions.https.HttpsError('not-found', 'Deck does not exist') as unknown
 		)
+	} else
+		return new functions.https.HttpsError('permission-denied', 'You must be signed in and pass in a deckId')
+})
+
+export const clearDeckData = functions.https.onCall((data, context) => {
+	const deckId = data.deckId
+	if (context.auth && deckId) {
+		const doc = firestore.doc(`users/${context.auth.uid}/decks/${deckId}`)
+		return Promise.all([
+			doc.update({ mastered: 0 }),
+			doc.collection('cards').listDocuments().then(cards =>
+				cards.forEach(card =>
+					card.delete()
+				)
+			)
+		])
 	} else
 		return new functions.https.HttpsError('permission-denied', 'You must be signed in and pass in a deckId')
 })
