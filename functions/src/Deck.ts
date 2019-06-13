@@ -54,10 +54,14 @@ export default class Deck {
 	}
 
 	private static averageRating(ratings: any): number {
-		let sum = 0
-		for (let i = 1; i <= 5; i++)
-			sum += ratings[i] * i
-		return sum / 5
+		let weighted = 0
+		let total = 0
+		for (let i = 1; i <= 5; i++) {
+			const amount = ratings[i]
+			weighted += amount * i
+			total += amount
+		}
+		return total ? weighted / total : 0
 	}
 
 	static updateRating(id: string, { from, to }: { from: number | undefined, to: number }): Promise<FirebaseFirestore.WriteResult> {
