@@ -34,6 +34,9 @@ service cloud.firestore {
 			match /cardDrafts/{draftId} {
 				allow read, write: if signedInWith(uid)
 			}
+			match /ratingDrafts/{deckId} {
+				allow read, write: if signedInWith(uid)
+			}
 			match /invites/{deckId} {
 				allow read: if signedInWith(uid)
 			}

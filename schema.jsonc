@@ -16,6 +16,12 @@
 					"back": "4" // Saved back of the card
 				}
 			},
+			"ratingDrafts (sub-collection)": {
+				"jkl012": { // Deck ID
+					"rating": 5, // (number) Rating from 1-5, if set to 0 then delete field
+					"review": "This deck is great" // (String) If blank, delete field. If both fields are blank, delete rating
+				}
+			},
 			"invites (sub-collection)": { // Invites to decks
 				"abc123": { // Deck ID
 					"id": "3adfne", // The Invite ID (for urls, has to be secure, NOT in decks node)
