@@ -171,7 +171,7 @@ export const addDeck = functions.https.onCall((data, context) => {
 					: Permission.get(uid, deckId).then(permission =>
 						addDeckWithRole(permission.status === PermissionStatus.accepted ? permission.role : PermissionRole.none)
 					)
-				: new functions.https.HttpsError('not-found', 'Deck does not exist') as unknown
+				: new functions.https.HttpsError('not-found', 'Deck does not exist') as any
 		)
 	} else
 		return new functions.https.HttpsError('permission-denied', 'You must be signed in and pass in a deckId')
@@ -184,7 +184,16 @@ export const clearDeckData = functions.https.onCall((data, context) => {
 		return Promise.all([
 			doc.update({ mastered: 0 }),
 			doc.collection('cards').listDocuments().then(cards =>
-				Promise.all(cards.map(card => card.delete()))
+				Promise.all(cards.map(card =>
+					Promise.all([
+						doc.collection(`cards/${card.id}/history`).listDocuments().then(histories =>
+							Promise.all(histories.map(history =>
+								history.delete()
+							))
+						),
+						card.delete()
+					])
+				))
 			)
 		])
 	} else
