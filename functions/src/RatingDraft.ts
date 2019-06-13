@@ -4,11 +4,11 @@ import * as admin from 'firebase-admin'
 import User from './User'
 import Deck from './Deck'
 
-export const ratingDraftCreated = functions.firestore.document('users/{uid}/ratingDrafts/{draftId}').onCreate((_snapshot, context) =>
+export const ratingDraftCreated = functions.firestore.document('users/{uid}/ratingDrafts/{deckId}').onCreate((_snapshot, context) =>
 	User.updateLastActivity(context.params.uid)
 )
 
-export const ratingDraftUpdated = functions.firestore.document('users/{uid}/ratingDrafts/{draftId}').onUpdate((change, context) => {
+export const ratingDraftUpdated = functions.firestore.document('users/{uid}/ratingDrafts/{deckId}').onUpdate((change, context) => {
 	const snapshot = change.after
 	const deleteSnapshot = snapshot.ref.delete
 	const handleField = (data_: FirebaseFirestore.DocumentData, field: string) =>
@@ -22,7 +22,7 @@ export const ratingDraftUpdated = functions.firestore.document('users/{uid}/rati
 				: Promise.all([
 					handleField(data, 'rating'),
 					handleField(data, 'review'),
-					Deck.doc(snapshot.id, `users/${context.params.uid}`).get().then(user =>
+					Deck.doc(context.params.deckId, `users/${context.params.uid}`).get().then(user =>
 						snapshot.get('rating') === user.get('rating') && snapshot.get('review') === user.get('review')
 							? deleteSnapshot()
 							: Promise.resolve() as Promise<any>
@@ -32,6 +32,6 @@ export const ratingDraftUpdated = functions.firestore.document('users/{uid}/rati
 	])
 })
 
-export const ratingDraftDeleted = functions.firestore.document('users/{uid}/ratingDrafts/{draftId}').onDelete((_snapshot, context) =>
+export const ratingDraftDeleted = functions.firestore.document('users/{uid}/ratingDrafts/{deckId}').onDelete((_snapshot, context) =>
 	User.updateLastActivity(context.params.uid)
 )
