@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import { createTransport } from 'nodemailer'
 import { render } from 'nunjucks'
+import { join } from 'path'
 
 import Setting from './Setting'
 
@@ -32,7 +33,7 @@ export default class Email {
 					from: config.email,
 					to: user.get('email'),
 					subject,
-					text: render(`../emails/${type.valueOf()}.html`, context)
+					text: render(join(__dirname, `../emails/${type.valueOf()}.html`), context)
 				})
 			)
 			: Promise.resolve()
