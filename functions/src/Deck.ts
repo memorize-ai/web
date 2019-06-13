@@ -132,7 +132,7 @@ export const deckDeleted = functions.firestore.document('decks/{deckId}').onDele
 )
 
 export const viewDeck = functions.https.onCall((data, context) => {
-	if (!context.auth) return Promise.reject()
+	if (!context.auth) return Deck.updateViews(data.deckId, { total: 1, unique: 0 })
 	const uid = context.auth.uid
 	return Deck.user(uid, data.deckId).then(user =>
 		Promise.all([
