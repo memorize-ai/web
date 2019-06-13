@@ -63,7 +63,7 @@ export default class Deck {
 	static updateRating(id: string, { from, to }: { from: number | undefined, to: number }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = Deck.doc(id)
 		return doc.get().then(deck => {
-			const rating = deck.get('rating')
+			const rating = deck.get('ratings')
 			if (from) rating[from]--
 			if (to) rating[to]++
 			rating.average = Deck.averageRating(rating)
