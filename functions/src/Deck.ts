@@ -73,12 +73,7 @@ export default class Deck {
 
 	static updateUserRating(id: string, { uid, rating, review, date }: { uid: string, rating: number, review: string, date: Date }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = firestore.doc(`users/${uid}/ratings/${id}`)
-		return rating
-			? doc.set({ rating, review, date })
-			: doc.collection('cards').get().then(cards => {
-				const deleteField = admin.firestore.FieldValue.delete()
-				return cards.empty ? doc.delete() : doc.set({ rating: deleteField, review: deleteField, date: deleteField })
-			})
+		return rating ? doc.set({ rating, review, date }) : doc.delete()
 	}
 
 	static updateLastUpdated(id: string): Promise<FirebaseFirestore.WriteResult> {
