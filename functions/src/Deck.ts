@@ -53,21 +53,21 @@ export default class Deck {
 		})
 	}
 
-	private static averageRating(rating: any): number {
+	private static averageRating(ratings: any): number {
 		let sum = 0
 		for (let i = 1; i <= 5; i++)
-			sum += rating[i] * i
+			sum += ratings[i] * i
 		return sum / 5
 	}
 
 	static updateRating(id: string, { from, to }: { from: number | undefined, to: number }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = Deck.doc(id)
 		return doc.get().then(deck => {
-			const rating = deck.get('ratings')
-			if (from) rating[from]--
-			if (to) rating[to]++
-			rating.average = Deck.averageRating(rating)
-			return doc.update({ rating })
+			const ratings = deck.get('ratings')
+			if (from) ratings[from]--
+			if (to) ratings[to]++
+			ratings.average = Deck.averageRating(ratings)
+			return doc.update({ ratings })
 		})
 	}
 
