@@ -71,9 +71,9 @@ export default class Deck {
 		})
 	}
 
-	static updateUserRating(id: string, { uid, rating, review, date }: { uid: string, rating: number, review: string, date: Date }): Promise<FirebaseFirestore.WriteResult> {
+	static updateUserRating(id: string, { uid, rating, title, review, date }: { uid: string, rating: number, title: string, review: string, date: Date }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = firestore.doc(`users/${uid}/ratings/${id}`)
-		return rating ? doc.set({ rating, review, date }) : doc.delete()
+		return rating ? doc.set({ rating, title, review, date }) : doc.delete()
 	}
 
 	static updateLastUpdated(id: string): Promise<FirebaseFirestore.WriteResult> {
@@ -143,13 +143,15 @@ export const rateDeck = functions.https.onCall((data, context) => {
 	const date = new Date
 	const uid = context.auth.uid
 	const rating = data.rating
+	const title = rating && data.title ? data.title : ''
 	const review = rating && data.review ? data.review : ''
 	const setField = (value: any) => rating ? value : admin.firestore.FieldValue.delete()
 	return firestore.doc(`users/${uid}/ratings/${data.deckId}`).get().then(oldRating =>
 		Promise.all([
-			Deck.updateUserRating(data.deckId, { uid, rating, review, date }),
+			Deck.updateUserRating(data.deckId, { uid, rating, title, review, date }),
 			Deck.doc(data.deckId, `users/${uid}`).update({
 				rating: setField(rating),
+				title: setField(title),
 				review: setField(review),
 				date: setField(date)
 			}),

@@ -19,7 +19,8 @@
 			"ratingDrafts (sub-collection)": {
 				"jkl012": { // Deck ID
 					"rating": 5, // (number) Rating from 1-5, if set to 0 then delete field
-					"review": "This deck is great" // (String) If blank, delete field. If both fields are blank, delete rating
+					"title": "Great", // (String) If blank, delete field. If all fields are blank, delete rating
+					"review": "This deck is great" // (String) If blank, delete field. If all fields are blank, delete rating
 				}
 			},
 			"invites (sub-collection)": { // Invites to decks
@@ -45,6 +46,7 @@
 			"ratings (sub-collection)": {
 				"abc123": { // Deck ID that the user rated
 					"rating": 1, // 1, 2, 3, 4, 5, 0: (default)
+					"title": "Don't buy", // String (can be empty)
 					"review": "This deck is terrible", // String (can be empty)
 					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of review (Timestamp), updates when edited
 					"cards (sub-collection)": {
@@ -146,6 +148,7 @@
 					"past": true, // Has downloaded deck in the past
 					"current": true, // Currently has deck in their library
 					"rating": 1, // 0 (default): none, ratings: (1, 2, 3, 4, 5)
+					"title": "Don't buy", // String (can be empty)
 					"review": "This deck is terrible", // String (can be empty)
 					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of review (Timestamp), updates when edited
 					"cards (sub-collection)": {

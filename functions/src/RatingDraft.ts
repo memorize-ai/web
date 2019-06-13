@@ -21,9 +21,10 @@ export const ratingDraftUpdated = functions.firestore.document('users/{uid}/rati
 				? deleteSnapshot()
 				: Promise.all([
 					handleField(data, 'rating'),
+					handleField(data, 'title'),
 					handleField(data, 'review'),
 					Deck.doc(context.params.deckId, `users/${context.params.uid}`).get().then(user =>
-						snapshot.get('rating') === user.get('rating') && snapshot.get('review') === user.get('review')
+						snapshot.get('rating') === user.get('rating') && snapshot.get('title') === user.get('title') && snapshot.get('review') === user.get('review')
 							? deleteSnapshot()
 							: Promise.resolve() as Promise<any>
 					)
