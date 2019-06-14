@@ -37,9 +37,11 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 	return Promise.all([
 		Algolia.create({ index: Algolia.indices.users, snapshot }),
 		updateDisplayName(uid, name),
-		snapshot.get('slug') ? Promise.resolve() : Slug.find(name).then(slug =>
-			firestore.doc(`users/${uid}`).update({ slug, lastNotification: 0 }) as Promise<any>
-		)
+		snapshot.get('slug')
+			? Promise.resolve()
+			: Slug.find(name).then(slug =>
+				firestore.doc(`users/${uid}`).update({ slug, lastNotification: 0 }) as Promise<any>
+			)
 	])
 })
 

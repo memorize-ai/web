@@ -6,5 +6,5 @@ export const exportDeck = functions.https.onCall((data, context) => {
 	const deckId = data.deckId
 	return context.auth && deckId
 		? Deck.export(deckId)
-		: Promise.resolve()
+		: new functions.https.HttpsError('permission-denied', 'You must be signed in and pass in a deckId')
 })

@@ -52,7 +52,7 @@ export default class Card {
 }
 
 export const rateCard = functions.https.onCall((data, context) => {
-	if (!context.auth) return Promise.reject()
+	if (!context.auth) return new functions.https.HttpsError('permission-denied', 'You must be signed in')
 	const date = new Date
 	const deckId = data.deckId
 	const cardId = data.cardId
