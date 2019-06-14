@@ -13,6 +13,17 @@ export enum CardRating {
 }
 
 export default class Card {
+	static rating(num: number): CardRating {
+		switch (num) {
+		case 1:
+			return CardRating.like
+		case -1:
+			return CardRating.dislike
+		default:
+			return CardRating.none
+		}
+	}
+
 	static updateRating({ deckId, cardId }: { deckId: string, cardId: string }, { from, to }: { from: CardRating | undefined, to: CardRating }): Promise<FirebaseFirestore.WriteResult[]> {
 		const promises: Promise<FirebaseFirestore.WriteResult>[] = []
 		const update = (obj: any) => promises.push(Deck.doc(deckId, `cards/${cardId}`).update(obj))
@@ -21,21 +32,26 @@ export default class Card {
 		switch (from) {
 		case CardRating.like:
 			update({ likes: decrement })
+			break
 		case CardRating.dislike:
 			update({ dislikes: decrement })
+			break
 		}
 		switch (to) {
 		case CardRating.like:
 			update({ likes: increment })
+			break
 		case CardRating.dislike:
 			update({ dislikes: increment })
+			break
 		}
 		return Promise.all(promises)
 	}
 
 	static updateUserRating({ deckId, cardId }: { deckId: string, cardId: string }, { uid, rating, date }: { uid: string, rating: CardRating, date: Date }): Promise<FirebaseFirestore.WriteResult[]> {
-		const value = rating.valueOf()
-		const set = (doc: FirebaseFirestore.DocumentReference) => value ? doc.set({ rating: value, date }) : doc.delete()
+		const ratingValue = rating.valueOf()
+		const set = (doc: FirebaseFirestore.DocumentReference) =>
+			rating === CardRating.none ? doc.delete() : doc.set({ rating: ratingValue, date })
 		return Promise.all([
 			set(firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`)),
 			set(Deck.doc(deckId, `users/${uid}/cards/${cardId}`))
@@ -58,11 +74,11 @@ export const rateCard = functions.https.onCall((data, context) => {
 	const cardId = data.cardId
 	const id = { deckId, cardId }
 	const uid = context.auth.uid
-	const rating = data.rating
+	const rating = Card.rating(data.rating)
 	return firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`).get().then(oldRating =>
 		Promise.all([
 			Card.updateUserRating(id, { uid, rating, date }),
-			Card.updateRating(id, { from: oldRating.get('rating'), to: rating }),
+			Card.updateRating(id, { from: Card.rating(oldRating.get('rating') || 0), to: rating }),
 			User.updateLastActivity(uid)
 		])
 	)
