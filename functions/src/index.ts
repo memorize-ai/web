@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin'
 admin.initializeApp()
 
-export { resetAdminKey } from './Admin'
+export { resetAdminKey, cleanData } from './Admin'
 export { app } from './App'
 export { rateCard, cardCreated, cardUpdated, cardDeleted } from './Card'
 export { cardDraftCreated, cardDraftUpdated, cardDraftDeleted } from './CardDraft'
