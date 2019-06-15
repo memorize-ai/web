@@ -17,7 +17,7 @@ export default class Admin {
 
 	static resetKey(): Promise<string> {
 		const value = secure.newId(100)
-		return firestore.doc('key').set({ value }).then(() => value)
+		return Admin.doc('key').set({ value }).then(() => value)
 	}
 }
 
@@ -26,8 +26,8 @@ export const resetAdminKey = functions.https.onRequest((req, res) => {
 	return key
 		? Admin.checkKey(key).then(isValid =>
 			isValid
-				? Admin.resetKey().then(res.status(200).send)
-				: new functions.https.HttpsError('permission-denied', 'Invalid admin key') as any
+				? Admin.resetKey().then(newKey => res.status(200).send(newKey))
+				: res.status(401).send('Invalid admin key')
 		)
-		: new functions.https.HttpsError('invalid-argument', 'You must specify the current admin key')
+		: res.status(400).send('You must specify the current admin key')
 })
