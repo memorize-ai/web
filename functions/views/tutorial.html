@@ -4,12 +4,16 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 		<link rel="stylesheet" href="/css/main.css">
-		<link rel="stylesheet" href="/css/404.css">
+		<link rel="stylesheet" href="/css/tutorial.css">
+		{% if not is_mobile %}
 		<link rel="icon" type="image/png" href="https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Ffavicon.png?alt=media&token=b070c06a-b02c-44be-80d0-9924416f5c4d">
+		{% endif %}
 		<title>{{ title }}</title>
 	</head>
 	<body>
+		{% if not is_mobile %}
 		<nav class="navbar" role="navigation" aria-label="main navigation">
 			<div class="navbar-brand">
 				<a class="navbar-item" href="/">
@@ -23,15 +27,17 @@
 			</div>
 		</nav>
 		<div class="bar"></div>
-		<div class="main">
-			{% if has_404_banner %}
-			<h1 class="title banner">404</h1>
-			{% endif %}
-			<h1 class="title is-large large-text">{{ large_text }}</h1>
-			{% if has_text %}
-			<h1 class="title is-medium text">{{ text }}</h1>
-			{% endif %}
-			<a class="button is-large is-info main-button" href="{{ button_href }}">{{ button_text }}</a>
-		</div>
+		<aside class="menu is-hidden-mobile sections">
+			{% for section in sections %}
+			<p class="menu-label">{{ section.name }}</p>
+			<ul class="menu-list pages">
+				{% for page in section.pages %}
+				<a href="/tutorials/{{ selected.section }}/{{ page.slug }}" class="{% if page.slug == selected.page %}is-active {% endif %}page">{{ page.name }}</a>
+				{% endfor %}
+			</ul>
+			{% endfor %}
+		</aside>
+		{% endif %}
+		{{ body }}
 	</body>
 </html>

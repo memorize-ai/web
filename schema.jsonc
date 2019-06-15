@@ -183,5 +183,17 @@
 				}
 			}
 		}
+	},
+	"tutorials": { // Cannot be read or written to by anyone, only served with express
+		"ios": { // Section slug
+			"name": "iOS App", // The full name of the section
+			"default": "getting-started", // The default page slug
+			"pages (sub-collection)": {
+				"getting-started": { // Slug
+					"name": "Getting Started", // The full name of the page
+					"html": "<p>First, download the app</p>" // The tutorial's html
+				}
+			}
+		}
 	}
 }

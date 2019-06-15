@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions'
+import * as admin from 'firebase-admin'
 import * as express from 'express'
 import * as moment from 'moment'
 import { configure } from 'nunjucks'
@@ -11,6 +12,8 @@ import Invite from './Invite'
 const app = express()
 const _app = functions.https.onRequest(app)
 export { _app as app }
+
+const firestore = admin.firestore()
 
 configure(join(__dirname, '../views'), {
 	autoescape: true,
@@ -59,7 +62,7 @@ app.get('/invites/:inviteId', (req, res) =>
 			})
 	).catch(_error =>
 		res.render('404.html', {
-			title: 'Invalid invite URL',
+			title: 'Invalid invite',
 			has_404_banner: false,
 			large_text: 'Invalid invite URL',
 			has_text: false,
@@ -67,6 +70,43 @@ app.get('/invites/:inviteId', (req, res) =>
 			button_href: '/dashboard?menu=invites'
 		})
 	)
+)
+
+app.get('/tutorials/:section/:page', (req, res) =>
+	firestore.collection('tutorials').get().then(sections => {
+		if (tutorial.exists) {
+			const page
+			res.render('tutorial.html', {
+				title: `memorize.ai - ${}`,
+				sections: 
+			})
+		} else 
+			res.render('404.html', {
+				title: 'Invalid tutorial',
+				large_text: 'Invalid tutorial URL',
+				has_text: false,
+				button_text: 'Tutorials',
+				button_href: '/tutorials'
+			})
+	)
+})
+
+app.get('/tutorials/:section', (req, res) =>
+	firestore.doc(`tutorials/${req.params.product}`).get().then(tutorial =>
+		tutorial.exists
+			? res.render('tutorial.html')
+			: res.render('404.html', {
+				title: 'Invalid tutorial',
+				large_text: 'Invalid tutorial URL',
+				has_text: false,
+				button_text: 'Tutorials',
+				button_href: '/tutorials'
+			})
+	)
+)
+
+app.get('/tutorials', (_req, res) =>
+	res.redirect('/tutorials/ios/getting-started')
 )
 
 app.get('*', (_req, res) =>
