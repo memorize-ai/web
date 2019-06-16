@@ -1,5 +1,6 @@
 case $1 in
 	'')
+		rm -rf **/*.log
 		rm -rf .firebase
 		rm -rf elm-stuff
 		rm -rf functions/lib
@@ -8,8 +9,7 @@ case $1 in
 	;;
 	'-f'|'--force')
 		./clean
-		rm -rf node_modules
-		rm -rf functions/node_modules
+		rm -rf **/node_modules
 	;;
 	*)
 		echo Invalid option $1
