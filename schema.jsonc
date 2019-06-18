@@ -63,7 +63,8 @@
 					"created": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of initial upload
 					"updated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of last update, includes data update
 					"type": "image", // Type of the file (can be 'image', 'gif', or 'audio')
-					"mime": "image/gif" // Mime type
+					"mime": "image/gif", // Mime type
+					"size": "24.9 MB" // String representation of the number of bytes
 				}
 			},
 			"decks (sub-collection)": {
