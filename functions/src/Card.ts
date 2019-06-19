@@ -59,7 +59,7 @@ export default class Card {
 			deckRating.get().then(deckRatingSnapshot =>
 				deckRatingSnapshot.exists
 					? Promise.resolve() as Promise<any>
-					: deckRating.set({ x: 'x' })
+					: deckRating.set({ x: '' })
 			)
 		])
 	}
