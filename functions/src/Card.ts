@@ -52,9 +52,15 @@ export default class Card {
 		const ratingValue = rating.valueOf()
 		const set = (doc: FirebaseFirestore.DocumentReference) =>
 			rating === CardRating.none ? doc.delete() : doc.set({ rating: ratingValue, date })
+		const deckRating = firestore.doc(`users/${uid}/ratings/${deckId}`)
 		return Promise.all([
 			set(firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`)),
-			set(Deck.doc(deckId, `users/${uid}/cards/${cardId}`))
+			set(Deck.doc(deckId, `users/${uid}/cards/${cardId}`)),
+			deckRating.get().then(deckRatingSnapshot =>
+				deckRatingSnapshot.exists
+					? Promise.resolve() as Promise<any>
+					: deckRating.set({ x: 'x' })
+			)
 		])
 	}
 

@@ -49,6 +49,7 @@
 					"title": "Don't buy", // String (can be empty)
 					"review": "This deck is terrible", // String (can be empty)
 					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of review (Timestamp), updates when edited
+					"x": "x", // Placeholder value for when you have card ratings but no deck rating
 					"cards (sub-collection)": {
 						"ghi789": { // Card ID
 							"rating": -1, // -1: dislike, 1: like, if set to 0 then delete document
