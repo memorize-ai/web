@@ -3,7 +3,7 @@ import * as express from 'express'
 import * as moment from 'moment'
 import { configure } from 'nunjucks'
 import { join } from 'path'
-import { readFile, fstat } from 'fs'
+import { readFile } from 'fs'
 
 import Deck from './Deck'
 import { PermissionStatus } from './Permission'
