@@ -3,6 +3,7 @@ import * as express from 'express'
 import * as moment from 'moment'
 import { configure } from 'nunjucks'
 import { join } from 'path'
+import { readFile, fstat } from 'fs'
 
 import Deck from './Deck'
 import { PermissionStatus } from './Permission'
@@ -70,7 +71,9 @@ app.get('/invites/:inviteId', (req, res) =>
 )
 
 app.get('/ios-tutorial', (_req, res) =>
-	res.render(join(__dirname, '../markdown/ios-tutorial.md'))
+	readFile(join(__dirname, '../markdown/ios-tutorial.md'), 'utf8', (error, data) =>
+		error ? res.sendStatus(500) : res.status(200).send(data)
+	)
 )
 
 app.get('*', (_req, res) =>
