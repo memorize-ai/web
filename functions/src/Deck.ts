@@ -118,7 +118,7 @@ export const deckCreated = functions.firestore.document('decks/{deckId}').onCrea
 )
 
 export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate((change, context) =>
-	change.before.get('updated') === change.after.get('updated')
+	change.before.get('updated').isEqual(change.after.get('updated'))
 		? Promise.all([
 			Algolia.update({ index: Algolia.indices.decks, change }),
 			Deck.updateLastUpdated(context.params.deckId),
