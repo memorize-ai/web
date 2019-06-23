@@ -1,6 +1,7 @@
 import { NeuralNetwork } from 'brain.js'
 
 const HISTORY_COUNT = 10
+const MILLISECONDS_IN_DAY = 86400000
 
 export default class Algorithm {
 	static predict(id: string, cards: { id: string, intervals: number[], front: string }[]): number {
@@ -9,7 +10,9 @@ export default class Algorithm {
 		const net = new NeuralNetwork()
 		net.train(formatTrainingData(cards, wordsArray), trainingOptions(0.0001, inputSize, 1, [inputSize, inputSize], 'tanh'))
 		const current = cards.find(card => card.id === id)
-		return current === undefined ? 0 : denormalize(net.run(zeroFillLast(normalize(current.intervals), HISTORY_COUNT).concat(multiHot(firstWords(current.front), wordsArray))))[0]
+		return current === undefined
+			? 0
+			: denormalize(net.run(zeroFillLast(normalize(current.intervals), HISTORY_COUNT).concat(multiHot(firstWords(current.front), wordsArray))))[0]
 	}
 }
 
@@ -31,16 +34,15 @@ function multiHot(words: string[], wordsArray: string[]): number[] {
 }
 
 function formatInputTrainingData(card: { id: string, intervals: number[], front: string }, words: string[]): number[] {
-	return zeroFillLast(normalize(card.intervals.slice(0, -1)), HISTORY_COUNT)
-		.concat(multiHot(firstWords(card.front), words))
+	return zeroFillLast(normalize(card.intervals.slice(0, -1)), HISTORY_COUNT).concat(multiHot(firstWords(card.front), words))
 }
 
 function normalize(vals: number[]): number[] {
-	return vals.map(val => val / 86400000000)
+	return vals.map(val => val / MILLISECONDS_IN_DAY)
 }
 
 function denormalize(vals: number[]): number[] {
-	return vals.map(val => val * 86400000000)
+	return vals.map(val => val * MILLISECONDS_IN_DAY)
 }
 
 function formatTrainingData(cards: { id: string, intervals: number[], front: string }[], words: string[]): { input: number[], output: number[] }[] {
