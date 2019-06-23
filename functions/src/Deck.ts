@@ -112,7 +112,14 @@ export default class Deck {
 
 export const deckCreated = functions.firestore.document('decks/{deckId}').onCreate((snapshot, context) =>
 	Promise.all([
-		Algolia.create({ index: Algolia.indices.decks, snapshot }),
+		firestore.doc(`users/${snapshot.get('creator')}`).get().then(creator => {
+			const creatorName = creator.get('name')
+			return Algolia.create({
+				index: Algolia.indices.decks,
+				snapshot,
+				excess: { creatorName, ownerName: creatorName }
+			})
+		}),
 		context.auth ? User.updateLastActivity(context.auth.uid) : Promise.resolve() as Promise<any>
 	])
 )
@@ -120,7 +127,15 @@ export const deckCreated = functions.firestore.document('decks/{deckId}').onCrea
 export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate((change, context) =>
 	change.before.get('updated').isEqual(change.after.get('updated'))
 		? Promise.all([
-			Algolia.update({ index: Algolia.indices.decks, change }),
+			firestore.doc(`users/${change.after.get('creator')}`).get().then(creator =>
+				firestore.doc(`users/${change.after.get('owner')}`).get().then(owner =>
+					Algolia.update({
+						index: Algolia.indices.decks,
+						change,
+						excess: { creatorName: creator.get('name'), ownerName: owner.get('name') }
+					})
+				)
+			),
 			Deck.updateLastUpdated(context.params.deckId),
 			context.auth ? User.updateLastActivity(context.auth.uid) : Promise.resolve() as Promise<any>
 		])
