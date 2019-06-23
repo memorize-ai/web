@@ -11,20 +11,20 @@ export default class Algolia {
 		uploads: client.initIndex('uploads')
 	}
 
-	private static save({ index, data, id }: { index: algoliasearch.Index, data: FirebaseFirestore.DocumentData, id: string }): Promise<algoliasearch.Task> {
+	private static save({ index, data, id, excess }: { index: algoliasearch.Index, data: FirebaseFirestore.DocumentData, id: string, excess?: any }): Promise<algoliasearch.Task> {
 		data.objectID = id
-		return index.saveObject(data)
+		return index.saveObject(Object.assign(data, excess))
 	}
 
-	static create({ index, snapshot }: { index: algoliasearch.Index, snapshot: FirebaseFirestore.DocumentSnapshot }): Promise<algoliasearch.Task> {
+	static create({ index, snapshot, excess }: { index: algoliasearch.Index, snapshot: FirebaseFirestore.DocumentSnapshot, excess?: any }): Promise<algoliasearch.Task> {
 		const data = snapshot.data()
 		return data
-			? Algolia.save({ index, data, id: snapshot.id })
+			? Algolia.save({ index, data, id: snapshot.id, excess })
 			: Promise.reject()
 	}
 	
-	static update({ index, change }: { index: algoliasearch.Index, change: functions.Change<FirebaseFirestore.DocumentSnapshot> }): Promise<algoliasearch.Task> {
-		return Algolia.create({ index, snapshot: change.after })
+	static update({ index, change, excess }: { index: algoliasearch.Index, change: functions.Change<FirebaseFirestore.DocumentSnapshot>, excess?: any }): Promise<algoliasearch.Task> {
+		return Algolia.create({ index, snapshot: change.after, excess })
 	}
 	
 	static delete({ index, id }: { index: algoliasearch.Index, id: string }): Promise<algoliasearch.Task> {
