@@ -169,11 +169,13 @@ export const rateDeck = functions.https.onCall((data, context) => {
 	const rating = data.rating
 	const title = rating && data.title ? data.title : ''
 	const review = rating && data.review ? data.review : ''
-	const setField = (value: any) => rating ? value : admin.firestore.FieldValue.delete()
+	const setField = (value: any) =>
+		rating ? value : admin.firestore.FieldValue.delete()
 	return firestore.doc(`users/${uid}/ratings/${data.deckId}`).get().then(oldRating =>
 		Promise.all([
 			Deck.updateUserRating(data.deckId, { uid, rating, title, review, date }),
 			Deck.doc(data.deckId, `users/${uid}`).update({
+				hasTitle: setField(title.length !== 0),
 				rating: setField(rating),
 				title: setField(title),
 				review: setField(review),
