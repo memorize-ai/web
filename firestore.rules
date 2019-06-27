@@ -211,6 +211,9 @@ service cloud.firestore {
 				}
 			}
 		}
+		match /markdown/{file} {
+			allow read
+		}
 
 		function authId() {
 			return request.auth.uid
