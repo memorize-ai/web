@@ -36,7 +36,7 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 	const name = snapshot.get('name')
 	return Promise.all([
 		Algolia.create({ index: Algolia.indices.users, snapshot }),
-		updateDisplayName(uid, name),
+		updateUser(uid, name),
 		snapshot.get('slug')
 			? Promise.resolve()
 			: Slug.find(name).then(slug =>
@@ -50,7 +50,9 @@ export const userUpdated = functions.firestore.document('users/{uid}').onUpdate(
 	return change.before.get('lastActivity').isEqual(change.after.get('lastActivity')) && change.before.get('lastOnline').isEqual(change.after.get('lastOnline'))
 		? Promise.all([
 			Algolia.update({ index: Algolia.indices.users, change }),
-			change.before.get('name') === afterName ? Promise.resolve() : updateDisplayName(context.params.uid, afterName),
+			change.before.get('name') === afterName
+				? Promise.resolve() as Promise<any>
+				: updateUser(context.params.uid, afterName),
 			User.updateLastActivity(context.params.uid)
 		])
 		: Promise.resolve()
@@ -85,7 +87,19 @@ export const deckRemoved = functions.firestore.document('users/{uid}/decks/{deck
 		User.updateLastActivity(context.params.uid)
 	])
 )
+function updateUser(uid: string, name: string): Promise<any[]> {
+	return Promise.all([
+		updateDisplayName(uid, name),
+		updateSlugForName(uid, name)
+	])
+}
 
 function updateDisplayName(uid: string, displayName: string): Promise<void | admin.auth.UserRecord> {
 	return displayName ? auth.updateUser(uid, { displayName }) : Promise.resolve()
+}
+
+function updateSlugForName(uid: string, name: string): Promise<FirebaseFirestore.WriteResult> {
+	return Slug.find(name).then(slug =>
+		firestore.doc(`users/${uid}`).update({ slug })
+	)
 }
