@@ -41,7 +41,7 @@ export default class Invite {
 	}
 
 	static url(id: string): string {
-		return `https://memorize.ai/invites/${id}`
+		return `https://memorize.ai/i/${id}`
 	}
 }
 

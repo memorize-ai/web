@@ -93,7 +93,7 @@ export default class Deck {
 	}
 
 	static url(id: string): string {
-		return `https://memorize.ai/decks/${id}`
+		return `https://memorize.ai/d/${id}`
 	}
 
 	static export(id: string): Promise<string> {
