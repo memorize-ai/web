@@ -142,10 +142,15 @@ export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpda
 		: Promise.resolve()
 )
 
-export const deckDeleted = functions.firestore.document('decks/{deckId}').onDelete((_snapshot, context) =>
+export const deckDeleted = functions.firestore.document('decks/{deckId}').onDelete((snapshot, context) =>
 	Promise.all([
-		Algolia.delete({ index: Algolia.indices.decks, id: context.params.deckId }),
+		Algolia.delete({ index: Algolia.indices.decks, id: snapshot.id }),
 		storage.file(`decks/${context.params.deckId}`).delete(),
+		snapshot.ref.collection('users').where('past', '==', true).get().then(users =>
+			Promise.all(users.docs.map(user =>
+				firestore.doc(`users/${user.id}/decks/${snapshot.id}`).delete()
+			))
+		),
 		context.auth ? User.updateLastActivity(context.auth.uid) : Promise.resolve() as Promise<any>
 	])
 )
