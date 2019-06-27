@@ -97,6 +97,11 @@ service cloud.firestore {
 			allow create: if signedIn()
 			allow update: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId))
 			allow delete: if isDeckOwner(deckId)
+			match /hasImage {
+				allow create: if signedIn() && (newData() is bool)
+				allow update: if signedIn() && (isDeckOwner(deckId) || isDeckAdmin(deckId)) && (newData() is bool)
+				allow delete: if false
+			}
 			match /name {
 				allow create: if signedIn() && isValidString(newData())
 				allow update: if signedIn() && (isDeckOwner(deckId) || isDeckAdmin(deckId)) && isValidString(newData())
