@@ -6,6 +6,12 @@
 
 **[memorize.ai-android](https://github.com/kenmueller/memorize.ai-android)**
 
+## **Download**
+
+```bash
+git clone https://github.com/kenmueller/memorize.ai-web.git
+```
+
 ## **Initialization**
 
 ```bash
