@@ -13,6 +13,7 @@ npm i -g firebase-tools
 firebase functions:config:set gmail.email="GMAIL_EMAIL" gmail.password="GMAIL_PASSWORD" algolia.app_id="ALGOLIA_APP_ID" algolia.api_key="ALGOLIA_API_KEY"
 ./build -c
 ```
+
 ## **LICENSE**
 
 CLOSED SOURCE SOFTWARE
