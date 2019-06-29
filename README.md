@@ -1,10 +1,18 @@
 # **[memorize.ai](https://memorize.ai)**
 
+## **Repositories**
+
 **[memorize.ai-web](https://github.com/kenmueller/memorize.ai-web)**
 
 **[memorize.ai-ios](https://github.com/kenmueller/memorize.ai-ios)**
 
 **[memorize.ai-android](https://github.com/kenmueller/memorize.ai-android)**
+
+## **Links**
+
+**[memorize.ai website](https://memorize.ai)**
+
+**[memorize.ai on the App Store](https://apps.apple.com/us/app/memorize-ai/id1462251805?ls=1)**
 
 ## **Download**
 
