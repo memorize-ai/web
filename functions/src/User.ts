@@ -34,14 +34,11 @@ export default class User {
 export const userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) => {
 	const uid = context.params.uid
 	const name = snapshot.get('name')
+	const now = new Date
 	return Promise.all([
 		Algolia.create({ index: Algolia.indices.users, snapshot }),
-		updateUser(uid, name),
-		snapshot.get('slug')
-			? Promise.resolve()
-			: Slug.find(name).then(slug =>
-				firestore.doc(`users/${uid}`).update({ slug, lastNotification: 0 }) as Promise<any>
-			)
+		firestore.doc(`users/${uid}`).update({ lastNotification: 0, joined: now, lastOnline: now, lastActivity: now }),
+		name ? updateUser(uid, name) : Promise.resolve() as Promise<any>
 	])
 })
 
@@ -94,8 +91,8 @@ function updateUser(uid: string, name: string): Promise<any[]> {
 	])
 }
 
-function updateDisplayName(uid: string, displayName: string): Promise<void | admin.auth.UserRecord> {
-	return displayName ? auth.updateUser(uid, { displayName }) : Promise.resolve()
+function updateDisplayName(uid: string, displayName: string): Promise<admin.auth.UserRecord> {
+	return auth.updateUser(uid, { displayName })
 }
 
 function updateSlugForName(uid: string, name: string): Promise<FirebaseFirestore.WriteResult> {
