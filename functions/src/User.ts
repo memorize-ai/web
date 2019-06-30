@@ -44,7 +44,7 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 
 export const userUpdated = functions.firestore.document('users/{uid}').onUpdate((change, context) => {
 	const afterName = change.after.get('name')
-	return change.before.get('lastActivity').isEqual(change.after.get('lastActivity')) && change.before.get('lastOnline').isEqual(change.after.get('lastOnline'))
+	return change.before.get('lastNotification') === change.after.get('lastNotification') && change.before.get('lastOnline').isEqual(change.after.get('lastOnline')) && change.before.get('lastActivity').isEqual(change.after.get('lastActivity'))
 		? Promise.all([
 			Algolia.update({ index: Algolia.indices.users, change }),
 			change.before.get('name') === afterName
