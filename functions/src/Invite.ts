@@ -94,5 +94,5 @@ export const confirmInvite = functions.https.onCall((data, context) => {
 				])
 				: new functions.https.HttpsError('not-found', 'Invalid invite') as any
 		)
-	} else return new functions.https.HttpsError('permission-denied', 'You must be signed in and pass in a deckId and accept')
+	} else return new functions.https.HttpsError('unauthenticated', 'You must be signed in and pass in a deckId and accept')
 })

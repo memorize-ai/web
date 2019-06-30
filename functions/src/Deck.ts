@@ -168,7 +168,7 @@ export const viewDeck = functions.https.onCall((data, context) => {
 })
 
 export const rateDeck = functions.https.onCall((data, context) => {
-	if (!context.auth) return new functions.https.HttpsError('permission-denied', 'You must be signed in')
+	if (!context.auth) return new functions.https.HttpsError('unauthenticated', 'You must be signed in')
 	const date = new Date
 	const uid = context.auth.uid
 	const rating = data.rating
@@ -207,7 +207,7 @@ export const addDeck = functions.https.onCall((data, context) => {
 				: new functions.https.HttpsError('not-found', 'Deck does not exist') as any
 		)
 	} else
-		return new functions.https.HttpsError('permission-denied', 'You must be signed in and pass in a deckId')
+		return new functions.https.HttpsError('unauthenticated', 'You must be signed in and pass in a deckId')
 })
 
 export const clearDeckData = functions.https.onCall((data, context) => {
@@ -230,5 +230,30 @@ export const clearDeckData = functions.https.onCall((data, context) => {
 			)
 		])
 	} else
-		return new functions.https.HttpsError('permission-denied', 'You must be signed in and pass in a deckId')
+		return new functions.https.HttpsError('unauthenticated', 'You must be signed in and pass in a deckId')
+})
+
+export const deleteDeck = functions.https.onCall((data, context) => {
+	const deckId = data.deckId
+	if (context.auth && deckId) {
+		const uid = context.auth.uid
+		const deckRef = Deck.doc(deckId)
+		return deckRef.get().then(deck =>
+			deck.get('owner') === uid
+				? Promise.all([
+					deckRef.delete(),
+					deckRef.collection('users').listDocuments().then(users =>
+						Promise.all(users.map(user => user.delete()))
+					),
+					deckRef.collection('permissions').listDocuments().then(permissions =>
+						Promise.all(permissions.map(permission => permission.delete()))
+					),
+					deckRef.collection('cards').listDocuments().then(cards =>
+						Promise.all(cards.map(card => card.delete()))
+					)
+				])
+				: new functions.https.HttpsError('permission-denied', 'You must be the owner of the deck to delete it') as any
+		)
+	} else
+		return new functions.https.HttpsError('unauthenticated', 'You must be signed in and pass in a deckId')
 })
