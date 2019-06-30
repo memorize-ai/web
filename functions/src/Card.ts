@@ -95,7 +95,7 @@ export const cardCreated = functions.firestore.document('decks/{deckId}/cards/{c
 )
 
 export const cardUpdated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onUpdate((change, context) =>
-	change.before.get('updated').isEqual(change.after.get('updated'))
+	change.before.get('updated').isEqual(change.after.get('updated')) && change.before.get('likes') === change.after.get('likes') && change.before.get('dislikes') === change.after.get('dislikes')
 		? Card.updateLastUpdated({ deckId: context.params.deckId, cardId: context.params.cardId })
 		: Promise.resolve()
 )
