@@ -125,7 +125,7 @@ export const deckCreated = functions.firestore.document('decks/{deckId}').onCrea
 )
 
 export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate((change, context) =>
-	change.before.get('updated').isEqual(change.after.get('updated'))
+	change.before.get('updated').isEqual(change.after.get('updated')) && change.before.get('views') === change.after.get('views') && change.before.get('downloads') === change.after.get('downloads') && change.before.get('ratings') === change.after.get('ratings')
 		? Promise.all([
 			firestore.doc(`users/${change.after.get('creator')}`).get().then(creator =>
 				firestore.doc(`users/${change.after.get('owner')}`).get().then(owner =>
