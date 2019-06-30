@@ -7,6 +7,7 @@ import Algolia from './Algolia'
 import Permission, { PermissionRole } from './Permission'
 
 const firestore = admin.firestore()
+const storage = admin.storage().bucket('us')
 const auth = admin.auth()
 
 export default class User {
@@ -57,9 +58,11 @@ export const userUpdated = functions.firestore.document('users/{uid}').onUpdate(
 
 export const userDeleted = functions.auth.user().onDelete(user => {
 	const id = user.uid
+	const path = `users/${id}`
 	return Promise.all([
 		Algolia.delete({ index: Algolia.indices.users, id }),
-		firestore.doc(`users/${id}`).delete()
+		firestore.doc(path).delete(),
+		storage.file(path).delete()
 	])
 })
 
