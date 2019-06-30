@@ -22,7 +22,7 @@
 		"brain.js": "^1.6.1",
 		"express": "^4.17.1",
 		"firebase-admin": "^8.2.0",
-		"firebase-functions": "^3.0.1",
+		"firebase-functions": "^3.0.2",
 		"mjml": "^4.4.0-beta.2",
 		"moment": "^2.24.0",
 		"nodemailer": "^6.2.1",
