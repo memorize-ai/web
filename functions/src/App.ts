@@ -42,7 +42,7 @@ app.get('/decks/:deckId', (req, res) => {
 	)
 })
 
-app.get('/invites/:inviteId', (req, res) =>
+app.get('/i/:inviteId', (req, res) =>
 	Invite.fromId(req.params.inviteId).then(invite =>
 		invite.status === PermissionStatus.pending
 			? res.render('invite.html', {

@@ -55,7 +55,7 @@
 		],
 		"redirects": [
 			{
-				"source": "/invites",
+				"source": "/i",
 				"destination": "/dashboard?menu=invites"
 			},
 			{
