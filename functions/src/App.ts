@@ -17,7 +17,7 @@ configure(join(__dirname, '../views'), {
 	express: app
 })
 
-app.get('/decks/:deckId', (req, res) => {
+app.get('/d/:deckId', (req, res) => {
 	const deckId = req.params.deckId
 	return Deck.doc(deckId).get().then(deck =>
 		deck.exists
