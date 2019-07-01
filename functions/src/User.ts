@@ -25,10 +25,15 @@ export default class User {
 	}
 
 	static addDeck(uid: string, deckId: string, role: PermissionRole): Promise<FirebaseFirestore.WriteResult> {
-		const updateObject: any = { mastered: 0, hidden: false }
-		if (role !== PermissionRole.none)
-			updateObject.role = Permission.stringify(role)
-		return firestore.doc(`users/${uid}/decks/${deckId}`).set(updateObject)
+		const doc = firestore.doc(`users/${uid}/decks/${deckId}`)
+		return doc.get().then(deck => {
+			if (deck.exists)
+				return doc.update({ hidden: false })
+			const updateObject: any = { mastered: 0, hidden: false }
+			if (role !== PermissionRole.none)
+				updateObject.role = Permission.stringify(role)
+			return doc.set(updateObject)
+		})
 	}
 }
 

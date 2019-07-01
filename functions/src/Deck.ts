@@ -196,7 +196,8 @@ export const addDeck = functions.https.onCall((data, context) => {
 	const deckId = data.deckId
 	if (context.auth && deckId) {
 		const uid = context.auth.uid
-		const addDeckWithRole = (role: PermissionRole) => User.addDeck(uid, deckId, role)
+		const addDeckWithRole = (role: PermissionRole) =>
+			User.addDeck(uid, deckId, role)
 		return Deck.doc(deckId).get().then(deck =>
 			deck.exists
 				? deck.get('owner') === uid
