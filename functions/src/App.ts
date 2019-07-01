@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions'
+import * as admin from 'firebase-admin'
 import * as express from 'express'
 import * as moment from 'moment'
 import { configure } from 'nunjucks'
@@ -17,19 +18,30 @@ configure(join(__dirname, '../views'), {
 	express: app
 })
 
-app.get('/d/:deckId', (req, res) => {
-	const deckId = req.params.deckId
-	return Deck.doc(deckId).get().then(deck =>
+const firestore = admin.firestore()
+
+app.get('/u/:uid', (req, res) =>
+	firestore.doc(`users/${req.params.uid}`).get().then(user =>
+		user.exists
+			? res.render('user.html', {
+				user_name: user.get('name')
+			})
+			: res.render('404.html', {
+				title: 'Invalid user URL',
+				has_404_banner: false,
+				large_text: 'Invalid user URL',
+				has_text: false,
+				button_text: 'Your dashboard',
+				button_href: '/dashboard'
+			})
+	)
+)
+
+app.get('/d/:deckId', (req, res) =>
+	Deck.doc(req.params.deckId).get().then(deck =>
 		deck.exists
-			? Deck.image(deckId).then(image => {
-				const name = deck.get('name')
-				res.render('deck.html', {
-					title: name,
-					image_url: image,
-					deck_name: name,
-					deck_subtitle: deck.get('subtitle'),
-					deck_tags: deck.get('tags')
-				})
+			? res.render('deck.html', {
+				deck_name: deck.get('name')
 			})
 			: res.render('404.html', {
 				title: 'Invalid deck URL',
@@ -37,10 +49,10 @@ app.get('/d/:deckId', (req, res) => {
 				large_text: 'Invalid deck URL',
 				has_text: false,
 				button_text: 'Marketplace',
-				button_href: '/decks'
+				button_href: '/d'
 			})
 	)
-})
+)
 
 app.get('/i/:inviteId', (req, res) =>
 	Invite.fromId(req.params.inviteId).then(invite =>
