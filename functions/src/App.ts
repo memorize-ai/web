@@ -20,13 +20,10 @@ configure(join(__dirname, '../views'), {
 
 const firestore = admin.firestore()
 
-app.get('/u/:uid', (req, res) =>
-	firestore.doc(`users/${req.params.uid}`).get().then(user =>
-		user.exists
-			? res.render('user.html', {
-				user_name: user.get('name')
-			})
-			: res.render('404.html', {
+app.get('/u/:slug', (req, res) =>
+	firestore.collection('users').where('slug', '==', req.params.slug).get().then(users => {
+		if (users.empty)
+			res.render('404.html', {
 				title: 'Invalid user URL',
 				has_404_banner: false,
 				large_text: 'Invalid user URL',
@@ -34,7 +31,13 @@ app.get('/u/:uid', (req, res) =>
 				button_text: 'Your dashboard',
 				button_href: '/dashboard'
 			})
-	)
+		else {
+			const user = users.docs[0]
+			res.render('user.html', {
+				user_name: user.get('name')
+			})
+		}
+	})
 )
 
 app.get('/d/:deckId', (req, res) =>
