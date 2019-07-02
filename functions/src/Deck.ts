@@ -78,7 +78,7 @@ export default class Deck {
 	static updateUserRating(id: string, { uid, rating, title, review, date }: { uid: string, rating: number, title: string, review: string, date: Date }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = firestore.doc(`users/${uid}/ratings/${id}`)
 		return rating
-			? doc.set({ rating, title, review, date })
+			? doc.set({ rating, title, review, date, dateMilliseconds: date.getTime() })
 			: doc.collection('cards').get().then(cards =>
 				cards.empty ? doc.delete() : doc.set({ x: '' })
 			)
@@ -184,7 +184,8 @@ export const rateDeck = functions.https.onCall((data, context) => {
 				rating: setField(rating),
 				title: setField(title),
 				review: setField(review),
-				date: setField(date)
+				date: setField(date),
+				dateMilliseconds: setField(date.getTime())
 			}),
 			Deck.updateRating(data.deckId, { from: oldRating.get('rating'), to: rating }),
 			User.updateLastActivity(uid)
