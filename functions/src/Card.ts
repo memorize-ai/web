@@ -51,7 +51,7 @@ export default class Card {
 	static updateUserRating({ deckId, cardId }: { deckId: string, cardId: string }, { uid, rating, date }: { uid: string, rating: CardRating, date: Date }): Promise<FirebaseFirestore.WriteResult[]> {
 		const ratingValue = rating.valueOf()
 		const set = (doc: FirebaseFirestore.DocumentReference) =>
-			rating === CardRating.none ? doc.delete() : doc.set({ rating: ratingValue, date })
+			rating === CardRating.none ? doc.delete() : doc.set({ rating: ratingValue, date, dateMilliseconds: date.getTime() })
 		const deckRating = firestore.doc(`users/${uid}/ratings/${deckId}`)
 		return Promise.all([
 			set(firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`)),
