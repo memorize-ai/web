@@ -2,7 +2,7 @@
 git stash
 git stash apply
 ./build -m
-firebase deploy $1
+firebase deploy $1 $2
 git reset --hard
 git stash pop
 ./clean
