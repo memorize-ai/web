@@ -2,6 +2,8 @@ This tutorial can also be found at **[memorize.ai/ios-tutorial](https://memorize
 
 # Creating and editing cards
 
+![Edit card view](https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Fios-tutorial%2Fedit-card-tutorial.png?alt=media&token=e5f3dd6c-7f13-450d-a3fd-cdb756b2542e)
+
 Click on **Decks** in the home screen. If you are unable to click it, that means you don't have any decks and you can either create on or search for one in the **Marketplace**.
 
 Once you have a deck that you've created, you can create a new card by going to your decks, selecting the deck, and clicking **new card** in the top menu.
