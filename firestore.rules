@@ -31,6 +31,21 @@ service cloud.firestore {
 				allow create: if signedInWith(uid)
 				allow update, delete: if false
 			}
+			match /followersCount {
+				allow read
+				allow create: if signedInWith(uid) && (newData() is int) && newData() == 0
+				allow update, delete: if false
+			}
+			match /followingCount {
+				allow read
+				allow create: if signedInWith(uid) && (newData() is int) && newData() == 0
+				allow update, delete: if false
+			}
+			match /views {
+				allow read
+				allow create: if signedInWith(uid) && (newData().total is int) && newData().total == 0 && (newData().unique is int) && newData().unique == 0
+				allow update, delete: if false
+			}
 			match /cardDrafts/{draftId} {
 				allow read, write: if signedInWith(uid)
 			}
@@ -54,6 +69,14 @@ service cloud.firestore {
 			}
 			match /uploads/{uploadId} {
 				allow read, write: if signedInWith(uid)
+			}
+			match /followers/{followerId} {
+				allow read
+				allow write: if false
+			}
+			match /following/{followingId} {
+				allow read
+				allow write: if false
 			}
 			match /decks/{deckId} {
 				allow read, update, delete//: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
