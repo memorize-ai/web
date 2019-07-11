@@ -91,3 +91,7 @@ svg.card-inline {
 	flex: 50%;
 	padding: 5px;
 }
+.ios-screenshot-header-text {
+	text-align: center;
+	padding: 0px 10px 20px 10px;
+}
