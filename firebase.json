@@ -17,28 +17,8 @@
 		],
 		"rewrites": [
 			{
-				"source": "/deck",
-				"destination": "/deck.html"
-			},
-			{
-				"source": "/new-deck",
-				"destination": "/new-deck.html"
-			},
-			{
-				"source": "/about",
-				"destination": "/about.html"
-			},
-			{
-				"source": "/contact",
-				"destination": "/contact.html"
-			},
-			{
-				"source": "/login",
-				"destination": "/login.html"
-			},
-			{
-				"source": "/dashboard",
-				"destination": "/dashboard.html"
+				"source": "/ios-tutorial",
+				"destination": "/ios-tutorial.html"
 			},
 			{
 				"source": "/privacy",
@@ -54,22 +34,6 @@
 			}
 		],
 		"redirects": [
-			{
-				"source": "/i",
-				"destination": "/dashboard?menu=invites"
-			},
-			{
-				"source": "/dashboard.html",
-				"destination": "/dashboard"
-			},
-			{
-				"source": "/privacy.html",
-				"destination": "/privacy"
-			},
-			{
-				"source": "/support.html",
-				"destination": "/support"
-			},
 			{
 				"source": "/index.html",
 				"destination": "/"
