@@ -1,99 +1,120 @@
 {
 	"users": {
 		"abc123": {
-			"name": "Ken Mueller", // Cannot be empty
-			"email": "kenmueller0@gmail.com", // Cannot be empty
-			"slug": "ken-mueller", // Automatically calculated
-			"lastNotification": 143002300, // Milliseconds from 1970 (epoch) of the last notification sent to the user
-			"joined": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date joined (Timestamp)
-			"lastOnline": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last online (Timestamp)
-			"lastActivity": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last activity: review sessions, editing & downloading decks & cards (Timestamp)
+			"name": "Ken Mueller", // (String) Cannot be empty
+			"email": "kenmueller0@gmail.com", // (String) Cannot be empty
+			"slug": "ken-mueller", // (String) Automatically calculated
+			"lastNotification": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of the last notification sent to the user
+			"joined": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date joined
+			"lastOnline": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last online
+			"lastActivity": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last activity: review sessions, editing & downloading decks & cards
+			"followersCount": 0, // (Int) Count of followers
+			"followingCount": 0, // (Int) Count of following
+			"views (map)": {
+				"total": 10000, // (Int) Total amount of views
+				"unique": 500 // (Int) Only counting unique viewers
+			},
 			"cardDrafts (sub-collection)": { // Saved cards (haven't published them yet)
 				"abc123": { // Random ID
-					"deck": "jkl012", // Deck ID of the saved card
-					"card": "def456", // Card ID (Nonexistent if it's a new card)
-					"front": "2+2", // Saved front of the card
-					"back": "4" // Saved back of the card
+					"deck": "jkl012", // (String) Deck ID of the saved card
+					"card": "def456", // (String?) Card ID (Nonexistent if it's a new card)
+					"front": "2+2", // (String) Saved front of the card
+					"back": "4" // (String) Saved back of the card
 				}
 			},
 			"ratingDrafts (sub-collection)": {
 				"jkl012": { // Deck ID
-					"rating": 5, // (number) Rating from 1-5, if set to 0 then delete field
-					"title": "Great", // (String) If blank, delete field. If all fields are blank, delete rating
-					"review": "This deck is great" // (String) If blank, delete field. If all fields are blank, delete rating
+					"rating": 5, // (Int) Rating from 1-5, if set to 0 then delete field
+					"title": "Great", // (String?) If blank, delete field. If all fields are blank, delete rating
+					"review": "This deck is great" // (String?) If blank, delete field. If all fields are blank, delete rating
 				}
 			},
 			"invites (sub-collection)": { // Invites to decks
 				"abc123": { // Deck ID
-					"id": "3adfne", // The Invite ID (for urls, has to be secure, NOT in decks node)
-					"role": "viewer", // The role that the user is being invited to, can be 'viewer', 'editor', or 'admin' (can change permissions)
-					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of invitation (Timestamp)
-					"confirmed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of confirmation (accept/decline), default: nonexistent
-					"status": 1, // (Number) Default: 0 (waiting for accept/decline), 1: accepted, -1: declined
-					"sender": "abc123" // (User ID) User that sent the invitation
+					"id": "3adfne", // (String) The Invite ID (for urls, has to be secure, not in decks node)
+					"role": "viewer", // (String) The role that the user is being invited to, can be 'viewer', 'editor', or 'admin' (can change permissions)
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of invitation
+					"confirmed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp?) Date of confirmation (accept/decline), default: nonexistent
+					"status": 1, // (Int) Default: 0 (waiting for accept/decline), 1: accepted, -1: declined
+					"sender": "abc123" // (String) User ID that sent the invitation
 				}
 			},
 			"settings (sub-collection)": {
 				"abc123": { // Setting ID
-					"value": true // Any type
+					"value": true // (Any)
 				}
 			},
 			"tokens (sub-collection)": {
 				"abc123": { // Notification token
-					"enabled": true // Boolean
+					"enabled": true // (Bool)
 				}
 			},
 			"ratings (sub-collection)": {
 				"abc123": { // Deck ID that the user rated
-					"rating": 1, // 1, 2, 3, 4, 5, 0: (default)
-					"title": "Don't buy", // String (can be empty)
-					"review": "This deck is terrible", // String (can be empty)
-					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of review (Timestamp), updates when edited
-					"x": "", // Placeholder value for when you have card ratings but no deck rating
+					"rating": 1, // (Int) 1, 2, 3, 4, 5, 0: (default)
+					"title": "Don't buy", // (String) Can be empty
+					"review": "This deck is terrible", // (String) Can be empty
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of review, updates when edited
+					"x": "", // (String?) Placeholder value for when you have card ratings but no deck rating
 					"cards (sub-collection)": {
 						"ghi789": { // Card ID
-							"rating": -1, // -1: dislike, 1: like, if set to 0 then delete document
-							"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // Date of rating (Timestamp), updates when edited
+							"rating": -1, // (Int) -1: dislike, 1: like, if set to 0 then delete document
+							"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // (Timestamp) Date of rating, updates when edited
 						}
 					}
 				}
 			},
 			"uploads (sub-collection)": {
 				"abc123": { // File ID
-					"name": "Gray cat", // Filename
+					"name": "Gray cat", // (String) Filename
 					"created": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of initial upload
 					"updated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of last update, includes data update
-					"type": "image", // Type of the file (can be 'image', 'gif', or 'audio')
-					"mime": "image/gif", // Mime type
-					"extension": "gif", // File extension
-					"size": "24.9 MB" // String representation of the number of bytes
+					"type": "image", // (String) Type of the file (can be 'image', 'gif', or 'audio')
+					"mime": "image/gif", // (String) Mime type
+					"extension": "gif", // (String) File extension
+					"size": "24.9 MB" // (String) Number of bytes
+				}
+			},
+			"followers (sub-collection)": {
+				"abc123": { // uid
+					"past": true, // (Bool) Has followed user in the past
+					"current": true, // (Bool) Currently following user
+					"dateFollowed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp?) Date followed, nonexistent if never followed
+					"dateUnfollowed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // (Timestamp?) Date unfollowed, nonexistent if currently following
+				}
+			},
+			"following (sub-collection)": {
+				"abc123": { // uid
+					"current": true, // (Bool) Currently following user, when unfollowed set to false
+					"dateFollowed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp?) Date followed, nonexistent if never followed
+					"dateUnfollowed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // (Timestamp?) Date unfollowed, nonexistent if currently following
 				}
 			},
 			"decks (sub-collection)": {
 				"jkl012": { // Deck ID
-					"mastered": 699, // Total number of cards the user has mastered in the deck
-					"role": "admin", // ('viewer' or 'editor' or 'admin' or 'owner'), nonexistent if no permission node
-					"hidden": false, // Boolean, when user deletes deck this is set to true
+					"mastered": 699, // (Int) Total number of cards the user has mastered in the deck
+					"role": "admin", // (String) ('viewer' or 'editor' or 'admin' or 'owner'), nonexistent if no permission node
+					"hidden": false, // (Bool), when user deletes deck this is set to true
 					"cards (sub-collection)": {
 						"ghi789": { // Card ID
-							"count": 4, // Total amount of recall attempts (history nodes) for this card
-							"correct": 3, // Total amount of correct recall attempts (ratings 3, 4, 5)
-							"e": 2.5, // Easiness-Factor for SM2
-							"streak": 2, // Streak of correct recall attempts, reset if rating is 0, 1, or 2
-							"mastered": false, // If this card has been mastered by the user
-							"last (map)": {
-								"id": "mno345", // Last history node ID
-								"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last history Date (Timestamp)
-								"rating": 5, // Last history rating
-								"elapsed": 12394874 // Last history elapsed (milliseconds)
+							"count": 4, // (Int) Total amount of recall attempts (history nodes) for this card
+							"correct": 3, // (Int) Total amount of correct recall attempts (ratings 3, 4, 5)
+							"e": 2.5, // (Double) Easiness-Factor for SM2
+							"streak": 2, // (Int) Streak of correct recall attempts, reset if rating is 0, 1, or 2
+							"mastered": false, // (Bool) If this card has been mastered by the user
+							"last (map)": { // (Map?)
+								"id": "mno345", // (String) Last history node ID
+								"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last history date
+								"rating": 5, // (Int) Last history rating
+								"elapsed": 12394874 // (Int) Last history elapsed (milliseconds)
 							},
-							"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last history node next (Timestamp)
+							"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last history node next
 							"history (sub-collection)": {
 								"mno345": { // History ID
-									"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date created (Timestamp)
-									"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Next date to review (Timestamp)
-									"rating": 5, // Performance rating (0, 1, 2, 3, 4, 5) sent in by client
-									"elapsed": 12394874 // Milliseconds since last recall attempt
+									"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date created
+									"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Next date to review
+									"rating": 5, // (Int) Performance rating (0, 1, 2, 3, 4, 5) sent in by client
+									"elapsed": 12394874 // (Int) Milliseconds since last recall attempt
 								}
 							}
 						}
@@ -104,98 +125,99 @@
 	},
 	"invites": {
 		"3adfne": { // The Invite ID (for urls, has to be secure, NOT in decks node)
-			"uid": "abc123", // The user ID of the recipient of the invite
-			"deckId": "jkl012" // The deck ID of the invite
+			"uid": "abc123", // (String) The user ID of the recipient of the invite
+			"deckId": "jkl012" // (String) The deck ID of the invite
 		}
 	},
 	"settings": {
 		"abc123": { // Setting ID
-			"section": "general", // Section slug (unique string)
-			"slug": "dark-mode", // Unique
-			"title": "Dark mode", // Cannot be empty
-			"description": "Better suited for nighttime review sessions", // Can be empty
-			"default": false, // Any type
-			"order": 0 // Should not be the same as any other setting in the same section: used to determine the order in which the settings show up starting from 0 in the same section
+			"section": "general", // (String) Section slug (unique)
+			"slug": "dark-mode", // (String) Unique
+			"title": "Dark mode", // (String) Cannot be empty
+			"description": "Better suited for nighttime review sessions", // (String) Can be empty
+			"default": false, // (Any)
+			"order": 0 // (Int) Should not be the same as any other setting in the same section: used to determine the order in which the settings show up starting from 0 in the same section
 		}
 	},
 	"decks": {
 		"jkl012": { // Deck ID
-			"hasImage": true, // true if has custom image, removed if default image
-			"name": "GRE Vocabulary", // Cannot be empty
-			"subtitle": "The best GRE deck", // One-line subtitle for the deck (Cannot be empty)
-			"description": "Study for the GRE", // Can be empty
-			"tags (list)": [ // List of strings
+			"hasImage": true, // (Bool?) true if has custom image, removed if default image
+			"name": "GRE Vocabulary", // (String) Cannot be empty
+			"subtitle": "The best GRE deck", // (String) One-line subtitle for the deck (Cannot be empty)
+			"description": "Study for the GRE", // (String) Can be empty
+			"tags (list)": [ // ([String])
 				"gre",
 				"vocab",
 				"test prep"
 			],
-			"public": true, // Boolean
-			"count": 700, // Number of cards
+			"public": true, // (Bool)
+			"count": 700, // (Int) Number of cards
 			"views (map)": {
-				"total": 10000, // Total amount of views
-				"unique": 500 // Only counting unique viewers
+				"total": 10000, // (Int) Total amount of views
+				"unique": 500 // (Int) Only counting unique viewers
 			},
 			"downloads (map)": {
-				"total": 40, // Total number of downloads (unique) including users that have deleted the deck (including creator)
-				"current": 30 // Amount of users that currently have the deck in their library
+				"total": 40, // (Int) Total number of downloads (unique) including users that have deleted the deck (including creator)
+				"current": 30 // (Int) Amount of users that currently have the deck in their library
 			},
 			"ratings (map)": {
-				"average": 4.5, // Average review (1-5)
-				"1": 11, // Amount of 1 star reviews
-				"2": 53, // Amount of 2 star reviews
-				"3": 32, // Amount of 3 star reviews
-				"4": 44, // Amount of 4 star reviews
-				"5": 215 // Amount of 5 star reviews
+				"average": 4.5, // (Double) Average review (1-5)
+				"1": 11, // (Int) Amount of 1 star reviews
+				"2": 53, // (Int) Amount of 2 star reviews
+				"3": 32, // (Int) Amount of 3 star reviews
+				"4": 44, // (Int) Amount of 4 star reviews
+				"5": 215 // (Int) Amount of 5 star reviews
 			},
 			"users (sub-collection)": {
 				"def456": { // User ID (uid)
-					"past": true, // Has downloaded deck in the past
-					"current": true, // Currently has deck in their library
-					"rating": 1, // 0 (default): none, ratings: (1, 2, 3, 4, 5)
-					"title": "Don't buy", // String (can be empty)
-					"review": "This deck is terrible", // String (can be empty)
-					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of review (Timestamp), updates when edited
+					"past": true, // (Bool) Has downloaded deck in the past
+					"current": true, // (Bool) Currently has deck in their library
+					"rating": 1, // (Int) 0 (default): none, ratings: (1, 2, 3, 4, 5)
+					"title": "Don't buy", // (String) Can be empty
+					"review": "This deck is terrible", // (String) Can be empty
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of review, updates when edited
+					"dateMilliseconds": 123124213, // (Int) "date" but in milliseconds
 					"cards (sub-collection)": {
 						"ghi789": { // Card ID
-							"rating": -1, // -1: dislike, 1: like, if set to 0 then delete document
-							"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // Date of rating (Timestamp), updates when edited
+							"rating": -1, // (Int) -1: dislike, 1: like, if set to 0 then delete document
+							"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // (Timestamp) Date of rating, updates when edited
 						}
 					}
 				}
 			},
-			"creator": "abc123", // Cannot be changed (user ID)
-			"owner": "abc123", // Can be granted owner by current owner (user ID, default is the creator)
-			"created": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of deck creation (Timestamp)
+			"creator": "abc123", // (String) Cannot be changed (user ID)
+			"owner": "abc123", // (String) Can be granted owner by current owner (user ID, default is the creator)
+			"created": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of deck creation
 			"updated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last updated (includes card edits, initially created)
 			"permissions (sub-collection)": {
 				"def456": { // User ID (uid)
-					"role": "viewer", // Can be 'viewer', 'editor', or 'admin' (can change permissions)
-					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of invitation (Timestamp)
-					"confirmed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of confirmation (accept/decline), default: nonexistent
-					"status": 1, // (Number) Default: 0 (waiting for accept/decline), 1: accepted, -1: declined
-					"sender": "abc123" // (User ID) User that sent the invitation
+					"role": "viewer", // (String) Can be 'viewer', 'editor', or 'admin' (can change permissions)
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of invitation
+					"confirmed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp?) Date of confirmation (accept/decline), default: nonexistent
+					"status": 1, // (Int) Default: 0 (waiting for accept/decline), 1: accepted, -1: declined
+					"sender": "abc123" // (String) User ID that sent the invitation
 				}
 			},
 			"cards (sub-collection)": {
 				"ghi789": { // Card ID
-					"front": "precipitate", // Cannot be empty
-					"back": "to cause (something) to happen quickly or suddenly", // Cannot be empty
-					"created": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Date of card creation (Timestamp)
-					"updated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // Last updated, initially created (Timestamp)
-					"likes": 10, // Unique likes for card
-					"dislikes": 2 // Unique dislikes for card
+					"front": "precipitate", // (String) Cannot be empty
+					"back": "to cause (something) to happen quickly or suddenly", // (String) Cannot be empty
+					"created": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of card creation
+					"updated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last updated, initially created
+					"likes": 10, // (Int) Unique likes for card
+					"dislikes": 2 // (Int) Unique dislikes for card
 				}
 			}
 		}
 	},
 	"tutorials": { // Cannot be read or written to by anyone, only served with express
 		"ios": { // Section slug
-			"name": "iOS App", // The full name of the section
-			"default": "getting-started", // The default page slug
+			"name": "iOS App", // (String) The full name of the section
+			"default": "getting-started", // (String) The default page slug
 			"pages (sub-collection)": {
 				"getting-started": { // Slug
-					"name": "Getting Started", // The full name of the page
-					"html": "<p>First, download the app</p>" // The tutorial's html
+					"name": "Getting Started", // (String) The full name of the page
+					"html": "<p>First, download the app</p>" // (String) The tutorial's html
 				}
 			}
 		}
