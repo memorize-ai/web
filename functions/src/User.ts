@@ -43,7 +43,7 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 	const now = new Date
 	return Promise.all([
 		Algolia.create({ index: Algolia.indices.users, snapshot }),
-		firestore.doc(`users/${uid}`).update({ lastNotification: 0, joined: now, lastOnline: now, lastActivity: now }),
+		firestore.doc(`users/${uid}`).update({ lastNotification: now, joined: now, lastOnline: now, lastActivity: now }),
 		name ? updateUser(uid, name) : Promise.resolve() as Promise<any>
 	])
 })
