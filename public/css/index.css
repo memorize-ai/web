@@ -84,3 +84,10 @@ svg.card-inline {
 	margin-right: 100px;
 	color: #209cee;
 }
+.ios-screenshot-row {
+	display: flex;
+}
+.ios-screenshot-column {
+	flex: 50%;
+	padding: 5px;
+}
