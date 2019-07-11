@@ -92,6 +92,7 @@ export const deckRemoved = functions.firestore.document('users/{uid}/decks/{deck
 		User.updateLastActivity(context.params.uid)
 	])
 )
+
 function updateUser(uid: string, name: string): Promise<any[]> {
 	return Promise.all([
 		updateDisplayName(uid, name),
