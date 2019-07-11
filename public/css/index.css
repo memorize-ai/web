@@ -72,3 +72,15 @@ footer li:before {
 	margin-left: -1.5em;
 	color: #147efb;
 }
+.subtitle.main-text {
+	font-weight: 900;
+}
+.download-ios-app.main-text img {
+	margin-top: 20px;
+}
+svg.card-inline {
+	margin-top: 40px;
+	margin-left: 100px;
+	margin-right: 100px;
+	color: #209cee;
+}
