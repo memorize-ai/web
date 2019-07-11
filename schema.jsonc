@@ -4,6 +4,7 @@
 			"name": "Ken Mueller", // (String) Cannot be empty
 			"email": "kenmueller0@gmail.com", // (String) Cannot be empty
 			"slug": "ken-mueller", // (String) Automatically calculated
+			"bio": "A smart person", // (String) Can be empty
 			"lastNotification": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of the last notification sent to the user
 			"joined": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date joined
 			"lastOnline": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last online
