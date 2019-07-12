@@ -6,6 +6,9 @@ body {
 .hero-body .container {
 	max-width: 700px;
 }
+.navbar-burger {
+	color: white;
+}
 .hero-body .title {
 	color: hsl(192, 17%, 99%) !important;
 }
