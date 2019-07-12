@@ -28,12 +28,6 @@ body {
 	border-left: none;
 	border-right: none;
 }
-.card-image > .fa {
-	font-size: 8rem;
-	padding-top: 2rem;
-	padding-bottom: 2rem;
-	color: #209cee;
-}
 .card-content .content {
 	font-size: 14px;
 	margin: 1rem 1rem;
@@ -78,26 +72,12 @@ footer li:before {
 	margin-left: -1.5em;
 	color: #147efb;
 }
-.subtitle.main-text {
-	font-weight: 900;
-}
 .download-ios-app.main-text img {
 	margin-top: 20px;
 }
-svg.card-inline {
-	margin-top: 40px;
-	margin-left: 100px;
-	margin-right: 100px;
-	color: #209cee;
+.ios-tutorial-card {
+	width: 100%;
 }
-.ios-screenshot-row {
-	display: flex;
-}
-.ios-screenshot-column {
-	flex: 50%;
-	padding: 5px;
-}
-.ios-screenshot-header-text {
-	text-align: center;
-	padding: 0px 10px 20px 10px;
+.ios-tutorial-text {
+	font-size: 17px;
 }
