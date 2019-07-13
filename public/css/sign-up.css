@@ -3,6 +3,22 @@ body {
 	background: #eff3f4;
 	font-family: 'Open Sans', serif;
 }
+.navbar-burger {
+	color: white;
+}
+.is-shady {
+	animation: flyintoright 0.4s backwards;
+	background: #fff;
+	box-shadow: rgba(0, 0, 0, 0.1) 0 1px 0;
+	border-radius: 4px;
+	display: inline-block;
+	margin: 10px;
+	position: relative;
+	transition: all 0.2s ease-in-out;
+}
+.is-shady:hover {
+	box-shadow: 0 10px 16px rgba(0, 0, 0, 0.13), 0 6px 6px rgba(0, 0, 0, 0.19);
+}
 .navbar-end-auth-buttons {
 	margin-left: 25px;
 }
@@ -15,4 +31,13 @@ body {
 }
 .navbar-auth-button:hover, .navbar-auth-button:focus {
 	color: rgb(72, 155, 231) !important;
+}
+section.container {
+	margin-top: 40px;
+}
+.card {
+	width: 100%;
+}
+.sign-up-button {
+	font-weight: 900 !important;
 }
