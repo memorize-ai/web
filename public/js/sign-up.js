@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	)
 
 	function inputsAreValid() {
-		return nameInput.value.length && emailInput.value.length && passwordInput.value.length
+		return nameInput.value.length && emailInput.value.length && passwordInput.value.length >= 6
 	}
 
 	function reloadSignUpButton() {

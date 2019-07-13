@@ -8,6 +8,10 @@
 		<meta name="description" content="memorize.ai - The ultimate memorization tool. This app is available on the iOS App Store">
 		<meta name="keywords" content="memorize.ai,memorize,ai,quizlet,duolingo,artificial intelligence,spaced repetition,sm2,supermemo2,supermemo,memorize.ai sign up,memorize.ai sign in,ios app,ios,app,app store">
 		<meta name="robots" content="index,follow">
+		<script defer src="/__/firebase/5.9.4/firebase-app.js"></script>
+		<script defer src="/__/firebase/5.9.4/firebase-auth.js"></script>
+		<script defer src="/__/firebase/init.js"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 		<link rel="stylesheet" href="https://unpkg.com/bulma@0.7.5/css/bulma.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
@@ -16,7 +20,74 @@
 		<title>memorize.ai - Sign in</title>
 	</head>
 	<body>
-		<h1 class="title">This page is still in progress</h1>
+		<section class="hero is-info is-medium is-bold">
+			<div class="hero-head">
+				<nav class="navbar">
+					<div class="container">
+						<div class="navbar-brand">
+							<a class="navbar-item" href="/">
+								<img src="https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Ftransparent-white-logo-arrows.png?alt=media&token=4217ef47-7c1c-44ff-8903-0eba29961ae1" alt="Logo">
+							</a>
+							<span class="navbar-burger">
+								<span></span>
+								<span></span>
+								<span></span>
+							</span>
+						</div>
+						<div class="navbar-menu">
+							<div class="navbar-end">
+								<div class="tabs is-right">
+									<ul>
+										<li><a href="/">Home</a></li>
+										<li><a href="/ios-tutorial">iOS Tutorial</a></li>
+										<li><a onclick="alert('Email support@memorize.ai')">Contact Us</a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="navbar-end navbar-end-auth-buttons">
+								<div class="is-right buttons">
+									<a class="button is-outlined is-white navbar-auth-button-left navbar-auth-button sign-up" href="/sign-up">Sign up</a>
+									<a class="button is-outlined is-white navbar-auth-button-right navbar-auth-button sign-in" href="/sign-in">Sign in</a>
+									<a class="button is-outlined is-white navbar-auth-button-right navbar-auth-button sign-out is-hidden">Sign out</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</section>
+		<section class="container">
+			<div class="columns">
+				<div class="column sign-up-column">
+					<div class="card is-shady">
+						<div class="card-content">
+							<div class="content">
+								<h1 class="title">Sign in</h1>
+								<div class="field">
+									<label class="label">Email</label>
+									<div class="control has-icons-left">
+										<input class="input email-input" type="email" placeholder="Enter email">
+										<span class="icon is-small is-left"><i class="fas fa-at"></i></span>
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Password</label>
+									<div class="control has-icons-left">
+										<input class="input password-input" type="password" placeholder="Enter password">
+										<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
+									</div>
+								</div>
+								<button class="button is-medium is-primary sign-in-button large-auth-button" disabled>Sign in</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<script src="/js/toggle-navbar-burger.js"></script>
+		<script src="/js/cookie.js"></script>
+		<script src="/js/navbar-auth-buttons.js"></script>
+		<script src="/js/sign-out.js"></script>
 		<script src="/js/sign-in.js"></script>
 	</body>
 </html>
