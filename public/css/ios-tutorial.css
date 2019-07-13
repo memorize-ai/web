@@ -81,3 +81,16 @@ footer li:before {
 .ios-tutorial-text {
 	font-size: 17px;
 }
+.navbar-end-auth-buttons {
+	margin-left: 25px;
+}
+.navbar-auth-button-left {
+	margin-right: 8px !important;
+}
+.navbar-auth-button {
+	font-weight: 600;
+	width: 90px;
+}
+.navbar-auth-button:hover, .navbar-auth-button:focus {
+	color: rgb(72, 155, 231) !important;
+}

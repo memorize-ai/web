@@ -8,6 +8,9 @@
 		<meta name="description" content="The iOS App tutorial for memorize.ai. Learn how to use memorize.ai on the App Store">
 		<meta name="keywords" content="memorize.ai,memorize,ai,quizlet,duolingo,artificial intelligence,spaced repetition,sm2,supermemo2,supermemo,ios app,ios,app,app store,tutorial,ios tutorial">
 		<meta name="robots" content="index,follow">
+		<script defer src="/__/firebase/5.9.4/firebase-app.js"></script>
+		<script defer src="/__/firebase/5.9.4/firebase-auth.js"></script>
+		<script defer src="/__/firebase/init.js"></script>
 		<link rel="stylesheet" href="https://unpkg.com/bulma@0.7.5/css/bulma.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
@@ -38,6 +41,12 @@
 										<li><a href="/ios-tutorial">iOS Tutorial</a></li>
 										<li><a onclick="alert('Email support@memorize.ai')">Contact Us</a></li>
 									</ul>
+								</div>
+							</div>
+							<div class="navbar-end navbar-end-auth-buttons">
+								<div class="is-right buttons">
+									<a class="button is-outlined is-white navbar-auth-button-left navbar-auth-button sign-up" href="/sign-up">Sign up</a>
+									<a class="button is-outlined is-white navbar-auth-button-right navbar-auth-button sign-in" href="/sign-in">Sign in</a>
 								</div>
 							</div>
 						</div>
@@ -129,5 +138,7 @@
 			</div>
 		</footer>
 		<script src="/js/toggle-navbar-burger.js"></script>
+		<script src="/js/check-auth-state.js"></script>
+		<script src="/js/ios-tutorial.js"></script>
 	</body>
 </html>
