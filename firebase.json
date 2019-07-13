@@ -17,6 +17,14 @@
 		],
 		"rewrites": [
 			{
+				"source": "/sign-up",
+				"destination": "/sign-up.html"
+			},
+			{
+				"source": "/sign-in",
+				"destination": "/sign-in.html"
+			},
+			{
 				"source": "/ios-tutorial",
 				"destination": "/ios-tutorial.html"
 			},
