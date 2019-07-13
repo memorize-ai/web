@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			removeCookie('uid')
 			location.reload()
 		}).catch(_error => {
-			console.log(_error)
 			setLoading(signOutButton, false)
 			alert('An error occurred. Please try again')
 		})
