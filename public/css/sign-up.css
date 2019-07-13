@@ -38,8 +38,10 @@ section.container {
 .card {
 	width: 100%;
 }
-.sign-up-button {
+.large-auth-button {
 	font-weight: bold;
+}
+.sign-up-button {
 	margin-top: 20px;
 	width: 110px;
 }

@@ -8,24 +8,24 @@ document.addEventListener('DOMContentLoaded', () => {
 	const isSignedIn = cookie('uid') !== undefined
 
 	if (isSignedIn)
-		document.querySelector('.card-content .content').innerHTML = `<h1 class="title">You're already signed in!</h1><button class="button is-medium is-primary sign-out-button">Sign out</button>`
+		document.querySelector('.card-content .content').innerHTML = `<h1 class="title">You're already signed in!</h1><button class="button is-medium is-primary sign-out-button large-auth-button">Sign out</button>`
 
 	auth.onAuthStateChanged(user =>
 		!isSignedIn && user
 			? firestore.doc(`users/${user.uid}`).get().then(doc => {
 				if (doc.exists) {
-					signUpButton.classList.remove('is-loading')
+					setLoading(signUpButton, false)
 					alert(`There is already a user with the email ${emailInput.value}`)
 				} else {
 					firestore.doc(`users/${user.uid}`).set({
 						name: nameInput.value,
 						email: emailInput.value
 					}).then(() => {
-						signUpButton.classList.remove('is-loading')
+						setLoading(signUpButton, false)
 						setCookie('uid', user.uid)
 						location.href = '/'
 					}).catch(_error => {
-						signUpButton.classList.remove('is-loading')
+						setLoading(signUpButton, false)
 						alert('There was a problem creating an account. Please try again')
 					})
 				}
@@ -43,9 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	function signUp() {
 		if (inputsAreValid()) {
-			signUpButton.classList.add('is-loading')
+			setLoading(signUpButton, true)
 			auth.createUserWithEmailAndPassword(emailInput.value, passwordInput.value).catch(_error => {
-				signUpButton.classList.remove('is-loading')
+				setLoading(signUpButton, false)
 				alert('There was a problem creating an account. Please try again')
 			})
 		} else
@@ -53,7 +53,25 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function signOut() {
-		
+		const signOutButton = document.querySelector('.sign-out-button')
+		if (!signOutButton) return
+		setLoading(signOutButton, true)
+		auth.signOut().then(() => {
+			setLoading(signOutButton, false)
+			removeCookie('uid')
+			location.reload()
+		}).catch(_error => {
+			console.log(_error)
+			setLoading(signOutButton, false)
+			alert('An error occurred. Please try again')
+		})
+	}
+
+	function setLoading(element, isLoading) {
+		if (isLoading)
+			element.classList.add('is-loading')
+		else
+			element.classList.remove('is-loading')
 	}
 
 	signUpButton.addEventListener('click', signUp)
