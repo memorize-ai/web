@@ -108,6 +108,6 @@ svg.card-inline {
 	font-weight: 600;
 	width: 90px;
 }
-.navbar-auth-button:hover {
+.navbar-auth-button:hover, .navbar-auth-button:focus {
 	color: rgb(72, 155, 231) !important;
 }
