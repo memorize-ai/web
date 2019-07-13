@@ -39,5 +39,7 @@ section.container {
 	width: 100%;
 }
 .sign-up-button {
-	font-weight: 900 !important;
+	font-weight: 900;
+	margin-top: 20px;
+	width: 110px;
 }
