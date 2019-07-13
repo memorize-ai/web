@@ -26,7 +26,7 @@ body {
 	margin-right: 8px !important;
 }
 .navbar-auth-button {
-	font-weight: 600;
+	font-weight: bold;
 	width: 90px;
 }
 .navbar-auth-button:hover, .navbar-auth-button:focus {
@@ -39,7 +39,7 @@ section.container {
 	width: 100%;
 }
 .sign-up-button {
-	font-weight: 900;
+	font-weight: bold;
 	margin-top: 20px;
 	width: 110px;
 }
