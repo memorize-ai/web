@@ -1,4 +1,3 @@
-isSignedInHandler = signedIn =>
-	signedIn
-		? document.querySelectorAll('.navbar-end-auth-buttons').forEach(element => element.classList.add('is-hidden'))
-		: null
+cookie('uid') === undefined
+	? null
+	: document.querySelectorAll('.navbar-end-auth-buttons').forEach(element => element.classList.add('is-hidden'))
