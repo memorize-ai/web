@@ -35,6 +35,19 @@ export default class User {
 			return doc.set(updateObject)
 		})
 	}
+
+	static updateViews(id: string, { total, unique }: { total: number, unique: number }): Promise<FirebaseFirestore.WriteResult> {
+		const doc = firestore.doc(`users/${id}`)
+		return doc.get().then(user => {
+			const views = user.get('views')
+			return doc.update({
+				views: {
+					total: views.total + total,
+					unique: views.unique + unique
+				}
+			})
+		})
+	}
 }
 
 export const userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) => {
@@ -74,6 +87,24 @@ export const userDeleted = functions.auth.user().onDelete(user => {
 export const updateLastOnline = functions.https.onCall((_data, context) =>
 	context.auth ? firestore.doc(`users/${context.auth.uid}`).update({ lastOnline: new Date }) : Promise.resolve()
 )
+
+export const viewUser = functions.https.onCall((data, context) => {
+	const otherUid = data.uid
+	if (!(otherUid && context.auth)) return new functions.https.HttpsError('unauthenticated', 'You need to be signed in and specify a uid')
+	const uid = context.auth.uid
+	const viewerDoc = firestore.doc(`users/${otherUid}/viewers/${uid}`)
+	return viewerDoc.get().then(viewer =>
+		Promise.all([
+			User.updateLastActivity(uid),
+			viewer.exists
+				? User.updateViews(otherUid, { total: 1, unique: 0 }) as Promise<any>
+				: Promise.all([
+					viewerDoc.set({ following: false }),
+					User.updateViews(otherUid, { total: 1, unique: 1 })
+				])
+		])
+	)
+})
 
 export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((_snapshot, context) =>
 	Deck.user(context.params.uid, context.params.deckId).then(user =>
