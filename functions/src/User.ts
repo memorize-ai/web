@@ -135,6 +135,21 @@ export const followerDeleted = functions.firestore.document('users/{uid}/followe
 	firestore.doc(`users/${context.params.uid}`).update({ followersCount: admin.firestore.FieldValue.increment(-1) })
 )
 
+export const followingCreated = functions.firestore.document('users/{uid}/following/{followingId}').onCreate((_snapshot, context) =>
+	firestore.doc(`users/${context.params.uid}`).update({ followingCount: admin.firestore.FieldValue.increment(1) })
+)
+
+export const followingUpdated = functions.firestore.document('users/{uid}/following/{followingId}').onUpdate((change, context) => {
+	const isFollowing = change.after.get('current')
+	return change.before.get('current') === isFollowing
+		? Promise.resolve()
+		: firestore.doc(`users/${context.params.uid}`).update({ followingCount: admin.firestore.FieldValue.increment(isFollowing ? 1 : -1) })
+})
+
+export const followingDeleted = functions.firestore.document('users/{uid}/following/{followingId}').onDelete((_snapshot, context) =>
+	firestore.doc(`users/${context.params.uid}`).update({ followingCount: admin.firestore.FieldValue.increment(-1) })
+)
+
 export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((_snapshot, context) =>
 	Deck.user(context.params.uid, context.params.deckId).then(user =>
 		Promise.all([
