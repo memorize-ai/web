@@ -1,0 +1,13 @@
+{
+	"id": "rMrwww32", // (String) Your UID
+	"name": "Ken Mueller", // (String) Your name
+	"email": "kenmueller0@gmail.com", // (String) Your email
+	"bio": "My name is Ken", // (String) Your biography
+	"slug": "ken-mueller", // (String?) Your slug
+	"profilePicture": "IMAGE_DATA", // (Data?) Your profile picture
+	"backgroundImage": "IMAGE_DATA", // (Data?) Your profile background image
+	"darkMode": false, // (Bool) Whether you have dark mode turned on or not
+	"selectedDeck": "abc123", // (String?) Selected Deck ID
+	"shouldShowViewProfileTip": false, // (Bool) Should show view profile tip
+	"shouldShowEditCardTip": false // (Bool) Should show edit card tip
+}
