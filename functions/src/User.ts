@@ -120,6 +120,21 @@ export const followUser = functions.https.onCall((data, context) => {
 	])
 })
 
+export const followerCreated = functions.firestore.document('users/{uid}/followers/{followerId}').onCreate((_snapshot, context) =>
+	firestore.doc(`users/${context.params.uid}`).update({ followersCount: admin.firestore.FieldValue.increment(1) })
+)
+
+export const followerUpdated = functions.firestore.document('users/{uid}/followers/{followerId}').onUpdate((change, context) => {
+	const isFollowing = change.after.get('current')
+	return change.before.get('current') === isFollowing
+		? Promise.resolve()
+		: firestore.doc(`users/${context.params.uid}`).update({ followersCount: admin.firestore.FieldValue.increment(isFollowing ? 1 : -1) })
+})
+
+export const followerDeleted = functions.firestore.document('users/{uid}/followers/{followerId}').onDelete((_snapshot, context) =>
+	firestore.doc(`users/${context.params.uid}`).update({ followersCount: admin.firestore.FieldValue.increment(-1) })
+)
+
 export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((_snapshot, context) =>
 	Deck.user(context.params.uid, context.params.deckId).then(user =>
 		Promise.all([
