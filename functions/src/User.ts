@@ -106,6 +106,20 @@ export const viewUser = functions.https.onCall((data, context) => {
 	)
 })
 
+export const followUser = functions.https.onCall((data, context) => {
+	const otherUid = data.uid
+	if (!(otherUid && context.auth)) return new functions.https.HttpsError('unauthenticated', 'You need to be signed in and specify a uid')
+	const uid = context.auth.uid
+	if (uid === otherUid) return new functions.https.HttpsError('failed-precondition', 'You cannot follow yourself')
+	const setObject = { current: true, dateFollowed: new Date }
+	const setDoc = (path: string) =>
+		firestore.doc(path).set(setObject)
+	return Promise.all([
+		setDoc(`users/${otherUid}/followers/${uid}`),
+		setDoc(`users/${uid}/following/${otherUid}`)
+	])
+})
+
 export const deckAdded = functions.firestore.document('users/{uid}/decks/{deckId}').onCreate((_snapshot, context) =>
 	Deck.user(context.params.uid, context.params.deckId).then(user =>
 		Promise.all([
