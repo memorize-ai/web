@@ -13,4 +13,4 @@ export { permissionCreated, permissionUpdated, permissionDeleted } from './Permi
 export { ratingDraftCreated, ratingDraftUpdated, ratingDraftDeleted } from './RatingDraft'
 export { settingCreated, settingUpdated, settingDeleted } from './Setting'
 export { uploadCreated, uploadUpdated, uploadDeleted, uploadStorageFinalized } from './Upload'
-export { userCreated, userUpdated, userDeleted, updateLastOnline, deckAdded, deckRemoved } from './User'
+export { userCreated, userUpdated, userDeleted, updateLastOnline, viewUser, followUser, unfollowUser, followerCreated, followerUpdated, followerDeleted, followingCreated, followingUpdated, followingDeleted, deckAdded, deckRemoved } from './User'
