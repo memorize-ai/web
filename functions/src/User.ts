@@ -116,7 +116,22 @@ export const followUser = functions.https.onCall((data, context) => {
 		firestore.doc(path).set(setObject)
 	return Promise.all([
 		setDoc(`users/${otherUid}/followers/${uid}`),
-		setDoc(`users/${uid}/following/${otherUid}`)
+		setDoc(`users/${uid}/following/${otherUid}`),
+		firestore.doc(`users/${otherUid}/viewers/${uid}`).set({ following: true })
+	])
+})
+
+export const unfollowUser = functions.https.onCall((data, context) => {
+	const otherUid = data.uid
+	if (!(otherUid && context.auth)) return new functions.https.HttpsError('unauthenticated', 'You need to be signed in and specify a uid')
+	const uid = context.auth.uid
+	const updateObject = { current: false, dateUnfollowed: new Date }
+	const updateDoc = (path: string) =>
+		firestore.doc(path).update(updateObject)
+	return Promise.all([
+		updateDoc(`users/${otherUid}/followers/${uid}`),
+		updateDoc(`users/${uid}/following/${otherUid}`),
+		firestore.doc(`users/${otherUid}/viewers/${uid}`).set({ following: false })
 	])
 })
 
