@@ -3,13 +3,7 @@ case $1 in
 		npm update
 		npm i
 		git add package.json package-lock.json
-		cd src
-		for path in $(find . -name '*.elm')
-		do
-			base=${path##*/}
-			../node_modules/.bin/elm make "src/${path#*/}" --optimize --output="public/elm/${base%.*}.js"
-		done
-		cd ../functions
+		cd functions
 		npm update
 		npm i
 		git add package.json package-lock.json
