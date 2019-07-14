@@ -78,10 +78,14 @@
 			},
 			"followers (sub-collection)": {
 				"abc123": { // uid
-					"past": true, // (Bool) Has followed user in the past
 					"current": true, // (Bool) Currently following user
 					"dateFollowed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp?) Date followed, nonexistent if never followed
 					"dateUnfollowed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // (Timestamp?) Date unfollowed, nonexistent if currently following
+				}
+			},
+			"viewers (sub-collection)": {
+				"abc123": { // uid
+					"following": true // (Bool) User is following this user
 				}
 			},
 			"following (sub-collection)": {

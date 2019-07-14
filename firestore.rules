@@ -78,6 +78,10 @@ service cloud.firestore {
 				allow read
 				allow write: if false
 			}
+			match /viewers/{viewerId} {
+				allow read
+				allow write: if false
+			}
 			match /following/{followingId} {
 				allow read
 				allow write: if false
