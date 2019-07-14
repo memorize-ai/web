@@ -1,7 +1,10 @@
 {
 	"memorize-ai.appspot.com (bucket)": {
 		"users (folder)": {
-			"abc123": "IMAGE_DATA" // JPEG with compression quality 0.5
+			"abc123 (folder)": { // uid
+				"profile": "IMAGE_DATA", // Profile picture, JPEG with compression quality 0.5
+				"background": "IMAGE_DATA" // Background image, JPEG with compression quality 0.5
+			}
 		},
 		"decks (folder)": {
 			"def456": "IMAGE_DATA" // JPEG with compression quality 0.5
