@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function inputsAreValid() {
-		return emailInput.value.length && passwordInput.value.length >= 6
+		return emailInput.value.length && passwordInput.value.length
 	}
 
 	function reloadSignInButton() {
