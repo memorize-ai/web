@@ -9,5 +9,6 @@
 	"darkMode": false, // (Bool) Whether you have dark mode turned on or not
 	"selectedDeck": "abc123", // (String?) Selected Deck ID
 	"shouldShowViewProfileTip": false, // (Bool) Should show view profile tip
-	"shouldShowEditCardTip": false // (Bool) Should show edit card tip
+	"shouldShowEditCardTip": false, // (Bool) Should show edit card tip
+	"sessionCount": 100 // (Int) How many times you've opened the app
 }
