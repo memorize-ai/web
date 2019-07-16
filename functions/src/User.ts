@@ -15,6 +15,10 @@ export default class User {
 		return firestore.doc(`users/${uid}`).update({ lastActivity: new Date })
 	}
 
+	static updateLastNotification(uid: string): Promise<FirebaseFirestore.WriteResult> {
+		return firestore.doc(`users/${uid}`).update({ lastNotification: new Date })
+	}
+
 	static updateRoleForDeck(uid: string, deckId: string, role: PermissionRole): Promise<FirebaseFirestore.WriteResult> {
 		const doc = firestore.doc(`users/${uid}/decks/${deckId}`)
 		return doc.get().then(deck =>
