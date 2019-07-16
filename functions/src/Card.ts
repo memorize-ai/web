@@ -71,6 +71,12 @@ export default class Card {
 			Deck.doc(deckId).update({ updated })
 		])
 	}
+
+	static isDue(card: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): boolean {
+		return card.exists
+			? date <= card.data().next.toMillis()
+			: true
+	}
 }
 
 export const rateCard = functions.https.onCall((data, context) => {
