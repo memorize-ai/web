@@ -22,6 +22,8 @@ export default class Slug {
 	
 	static find(str: string): Promise<string> {
 		const slug = new Slug(str).string
-		return firestore.collection('users').where('slug', '==', slug).get().then(snapshot => snapshot.empty ? slug : Slug.find(Slug.next(slug)))
+		return firestore.collection('users').where('slug', '==', slug).get().then(users =>
+			users.empty ? slug : Slug.find(Slug.next(slug))
+		)
 	}
 }
