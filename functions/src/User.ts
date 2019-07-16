@@ -48,6 +48,10 @@ export default class User {
 			})
 		})
 	}
+
+	static getLastNotificationDifference(snapshot: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): number {
+		return date - snapshot.get('lastNotification').toMillis()
+	}
 }
 
 export const userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) => {
