@@ -10,7 +10,7 @@ const LAST_NOTIFICATION_DIFFERENCE = 86400000
 
 const firestore = admin.firestore()
 
-export const sendDueCardNotifications = functions.pubsub.schedule('every 15 minutes').onRun(context => {
+export const sendDueCardNotifications = functions.pubsub.schedule('every 15 minutes').onRun(_context => {
 	const now = Date.now()
 	return firestore.collection('users').get().then(users =>
 		Promise.all(users.docs.map(user =>
