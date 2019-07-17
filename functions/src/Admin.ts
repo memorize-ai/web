@@ -39,6 +39,15 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 		switch (action) {
 		case 'reset-key':
 			return Admin.resetKey().then(res.status(200).send)
+		case 'reset-last-notifications':
+			const lastNotification = new Date(0)
+			return firestore.collection('users').listDocuments().then(users =>
+				Promise.all(users.map(user =>
+					user.update({ lastNotification })
+				))
+			).then(_writeResults =>
+				res.status(200).send('Complete')
+			)
 		default:
 			return res.status(400).send('Unknown action')
 		}
