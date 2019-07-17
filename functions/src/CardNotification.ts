@@ -4,6 +4,7 @@ import * as admin from 'firebase-admin'
 import User from './User'
 import Deck from './Deck'
 import Card from './Card'
+import Notification from './Notification'
 
 const LAST_NOTIFICATION_DIFFERENCE = 86400000
 
@@ -13,7 +14,13 @@ export const checkDueCards = functions.pubsub.schedule('every 15 minutes').onRun
 	const now = Date.now()
 	return firestore.collection('users').get().then(users =>
 		Promise.all(users.docs.map(user =>
-			getUser(user, now)
+			getUser(user, now).then(userDetails =>
+				userDetails.cardsDue
+					? User.updateLastNotification(user.id).then(_writeResult =>
+						userDetails
+					)
+					: userDetails
+			)
 		))
 	).then(sendNotifications)
 })
@@ -44,6 +51,6 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 	})))
 }
 
-function sendNotifications(users: { uid: string, tokens: string[], cardsDue: number }[]): Promise<any> {
-	return Notifi
+function sendNotifications(users: { uid: string, tokens: string[], cardsDue: number }[]): Promise<admin.messaging.BatchResponse> {
+	return Notification.sendAll(users.map())
 }
