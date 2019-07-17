@@ -32,73 +32,15 @@ export default class Admin {
 	}
 }
 
-export const resetAdminKey = functions.https.onRequest((req, res) =>
-	Admin.httpsCheckKey(req, res, () =>
-		Admin.resetKey().then(newKey =>
-			res.status(200).send(newKey)
-		)
-	)
-)
-
-export const cleanData = functions.https.onRequest((req, res) =>
+export const adminFunction = functions.https.onRequest((req, res) =>
 	Admin.httpsCheckKey(req, res, () => {
-		const now = new Date
-		return Promise.all([
-			firestore.collection('decks').listDocuments().then(decks =>
-				Promise.all(decks.map(deck =>
-					Promise.all([
-						deck.update({
-							subtitle: '',
-							tags: [],
-							views: {
-								total: 0,
-								unique: 0
-							},
-							downloads: {
-								total: 0,
-								current: 0
-							},
-							ratings: {
-								average: 0,
-								1: 0,
-								2: 0,
-								3: 0,
-								4: 0,
-								5: 0
-							},
-							created: now,
-							updated: now
-						}),
-						deck.collection('cards').listDocuments().then(cards =>
-							Promise.all(cards.map(card =>
-								card.update({
-									created: now,
-									updated: now,
-									likes: 0,
-									dislikes: 0
-								})
-							))
-						)
-					])
-				))
-			),
-			firestore.collection('users').listDocuments().then(users =>
-				Promise.all(users.map(user =>
-					Promise.all([
-						user.update({
-							lastNotification: 0,
-							joined: now,
-							lastOnline: now,
-							lastActivity: now
-						}),
-						user.collection('decks').listDocuments().then(decks =>
-							Promise.all(decks.map(deck =>
-								deck.delete()
-							))
-						)
-					])
-				))
-			)
-		])
+		const action = req.query.action
+		if (!action) return res.status(400).send('You must specify an action')
+		switch (action) {
+		case 'reset-key':
+			return Admin.resetKey().then(res.status(200).send)
+		default:
+			return res.status(400).send('Unknown action')
+		}
 	})
 )
