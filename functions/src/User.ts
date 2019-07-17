@@ -4,6 +4,7 @@ import * as admin from 'firebase-admin'
 import Slug from './Slug'
 import Deck from './Deck'
 import Algolia from './Algolia'
+import Notification from './Notification'
 import Permission, { PermissionRole } from './Permission'
 
 const firestore = admin.firestore()
@@ -55,6 +56,12 @@ export default class User {
 
 	static getLastNotificationDifference(snapshot: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): number {
 		return date - snapshot.get('lastNotification').toMillis()
+	}
+
+	static getTokens(uid: string): Promise<string[]> {
+		return firestore.collection(`users/${uid}/tokens`).get().then(tokens =>
+			tokens.docs.filter(token => token.get('enabled')).map(token => token.id)
+		)
 	}
 }
 
