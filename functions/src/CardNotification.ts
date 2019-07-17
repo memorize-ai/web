@@ -27,8 +27,8 @@ export const checkDueCards = functions.pubsub.schedule('every 15 minutes').onRun
 
 function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): Promise<{ uid: string, tokens: string[], decksDue: number, cardsDue: number }> {
 	const decksDue = new Set<string>()
-	return User.getTokens(user.id).then(tokens => (
-		tokens.length
+	return User.getTokens(user.id).then(tokens =>
+		(tokens.length
 			? User.getLastNotificationDifference(user, date) < LAST_NOTIFICATION_DIFFERENCE
 				? Promise.resolve(0)
 				: firestore.collection(`users/${user.id}/decks`).get().then(decks =>
@@ -47,12 +47,13 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 					values.flat().reduce((acc, element) => acc + element, 0)
 				)
 			: Promise.resolve(0)
-	).then(cardsDue => ({
-		uid: user.id,
-		tokens,
-		decksDue: decksDue.size,
-		cardsDue
-	})))
+		).then(cardsDue => ({
+			uid: user.id,
+			tokens,
+			decksDue: decksDue.size,
+			cardsDue
+		}))
+	)
 }
 
 function sendNotifications(users: { uid: string, tokens: string[], decksDue: number, cardsDue: number }[]): Promise<admin.messaging.BatchResponse> {
