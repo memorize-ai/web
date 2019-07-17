@@ -4,7 +4,6 @@ import * as admin from 'firebase-admin'
 import Slug from './Slug'
 import Deck from './Deck'
 import Algolia from './Algolia'
-import Notification from './Notification'
 import Permission, { PermissionRole } from './Permission'
 
 const firestore = admin.firestore()
