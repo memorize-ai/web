@@ -38,7 +38,9 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 		if (!action) return res.status(400).send('You must specify an action')
 		switch (action) {
 		case 'reset-key':
-			return Admin.resetKey().then(res.status(200).send)
+			return Admin.resetKey().then(newKey =>
+				res.status(200).send(newKey)
+			)
 		case 'reset-last-notifications':
 			const lastNotification = new Date(0)
 			return firestore.collection('users').listDocuments().then(users =>
