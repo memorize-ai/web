@@ -31,8 +31,8 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 		(tokens.length
 			? User.getLastNotificationDifference(user, date) < LAST_NOTIFICATION_DIFFERENCE
 				? Promise.resolve(0)
-				: firestore.collection(`users/${user.id}/decks`).get().then(decks =>
-					Promise.all(decks.docs.filter(deck => !deck.get('hidden')).map(deck =>
+				: firestore.collection(`users/${user.id}/decks`).where('hidden', '==', false).get().then(decks =>
+					Promise.all(decks.docs.map(deck =>
 						Deck.collection(deck.id, 'cards').listDocuments().then(cards =>
 							Promise.all(cards.map(emptyCard =>
 								firestore.doc(`users/${user.id}/decks/${deck.id}/cards/${emptyCard.id}`).get().then(card => {
