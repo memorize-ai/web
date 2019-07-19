@@ -20,6 +20,11 @@ service cloud.firestore {
 				allow read
 				allow delete: if false
 			}
+			match /reputation {
+				allow read
+				allow create: if signedInWith(uid) && (newData() is int) && newData() == 0
+				allow update, delete: if false
+			}
 			match /joined {
 				allow read
 				allow create: if signedInWith(uid)
