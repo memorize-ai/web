@@ -1,5 +1,7 @@
 case $1 in
 	'')
+		npm i -g npm
+		npm i -g firebase-tools
 		npm update
 		npm i
 		git add package.json package-lock.json
