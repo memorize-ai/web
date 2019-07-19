@@ -4,6 +4,7 @@ import * as admin from 'firebase-admin'
 import Slug from './Slug'
 import Deck from './Deck'
 import Algolia from './Algolia'
+import Email from './Email'
 import Permission, { PermissionRole } from './Permission'
 
 const firestore = admin.firestore()
@@ -147,6 +148,19 @@ export const unfollowUser = functions.https.onCall((data, context) => {
 		updateDoc(`users/${uid}/following/${otherUid}`),
 		firestore.doc(`users/${otherUid}/viewers/${uid}`).set({ following: false })
 	])
+})
+
+export const contactUser = functions.https.onCall((data, context) => {
+	const otherUid = data.uid
+	const subject = data.subject
+	const body = data.body
+	const shareLink = data.shareLink
+	if (!(otherUid && subject && body && shareLink && context.auth))
+		return new functions.https.HttpsError('unauthenticated', 'You need to be signed in and specify a uid, subject, body, and your shareLink')
+	const uid = context.auth.uid
+	return firestore.doc(`users/${uid}`).get().then(user =>
+		Email.sendEmail(otherUid, subject, `${body}\n\nSent by <a href="${shareLink}">${user.get('name')}</a> through <a href="https://memorize.ai">memorize.ai</a>`)
+	)
 })
 
 export const followerCreated = functions.firestore.document('users/{uid}/followers/{followerId}').onCreate((_snapshot, context) =>
