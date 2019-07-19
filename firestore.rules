@@ -31,6 +31,11 @@ service cloud.firestore {
 				allow create, update: if signedInWith(uid) && (newData() is bool)
 				allow delete: if false
 			}
+			match /allowContact {
+				allow read
+				allow create, update: if signedInWith(uid) && (newData() is bool)
+				allow delete: if false
+			}
 			match /joined {
 				allow read
 				allow create: if signedInWith(uid)
