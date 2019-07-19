@@ -26,6 +26,11 @@ service cloud.firestore {
 				allow create: if signedInWith(uid) && (newData() is int) && newData() == 0
 				allow update, delete: if false
 			}
+			match /publicEmail {
+				allow read
+				allow create, update: if signedInWith(uid) && (newData() is bool)
+				allow delete: if false
+			}
 			match /joined {
 				allow read
 				allow create: if signedInWith(uid)
