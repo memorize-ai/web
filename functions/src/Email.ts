@@ -26,7 +26,11 @@ export enum EmailType {
 }
 
 export default class Email {
-	static send(type: EmailType, { to, subject }: { to: string, subject: string }, context?: object): Promise<void> {
+	static send(type: EmailType, { to, subject }: { to: string, subject: string }, context?: object): Promise<boolean> {
+		return Email.sendEmail(to, subject, render(join(__dirname, `../emails/${type.valueOf()}.html`), context))
+	}
+
+	static sendEmail(to: string, subject: string, body: string): Promise<boolean> {
 		return Setting.get<boolean>('email-notifications', to).then(value =>
 			value
 				? firestore.doc(`users/${to}`).get().then(user =>
@@ -34,10 +38,10 @@ export default class Email {
 						from: config.email,
 						to: user.get('email'),
 						subject,
-						text: render(join(__dirname, `../emails/${type.valueOf()}.html`), context)
-					})
+						text: body
+					}).then(() => true).catch(() => false)
 				)
-				: Promise.resolve()
+				: false
 		)
 	}
 }
