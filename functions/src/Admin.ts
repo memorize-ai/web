@@ -50,6 +50,26 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 			).then(_writeResults =>
 				res.status(200).send('Complete')
 			)
+		case 'add-missing-fields-v2.4':
+			const updateObject = {
+				bio: '',
+				reputation: 0,
+				publicEmail: true,
+				allowContact: true,
+				followersCount: 0,
+				followingCount: 0,
+				views: {
+					total: 0,
+					unique: 0
+				}
+			}
+			return firestore.collection('users').listDocuments().then(users =>
+				Promise.all(users.map(user =>
+					user.update(updateObject)
+				))
+			).then(_writeResults =>
+				res.status(200).send('Complete')
+			)
 		default:
 			return res.status(400).send('Unknown action')
 		}
