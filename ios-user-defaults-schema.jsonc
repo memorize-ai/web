@@ -9,6 +9,8 @@
 	"allowContact": true, // (Bool) Allow users to contact you, default is true
 	"followers": 100, // (Int) Count of followers
 	"following": 23, // (Int) Count of following
+	"totalViews": 1000, // (Int) Total amount of profile views
+	"uniqueViews": 50, // (Int) Only counting unique viewers
 	"profilePicture": "IMAGE_DATA", // (Data?) Your profile picture
 	"backgroundImage": "IMAGE_DATA", // (Data?) Your profile background image
 	"darkMode": false, // (Bool) Whether you have dark mode turned on or not
