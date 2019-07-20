@@ -255,6 +255,19 @@ export const rateDeck = functions.https.onCall((data, context) => {
 										)
 										: Promise.resolve() as Promise<any>
 								})
+							),
+							Reputation.getAmountForAction(oldRatingAsReputationAction).then(firstAmount =>
+								Reputation.getAmountForAction(newRatingAsReputationAction).then(secondAmount => {
+									const total = firstAmount + secondAmount
+									return total
+										? Reputation.pushWithAmount(
+											ownerId,
+											total,
+											`${name} changed their ${oldRatingNumber} star r${didHaveReview ? 'eview' : 'ating'} to a ${rating} star r${didReview ? 'eview' : 'ating'} for ${deckName}`,
+											{ uid }
+										)
+										: Promise.resolve() as Promise<any>
+								})
 							)
 						])
 					}
