@@ -49,5 +49,9 @@ export enum ReputationAction {
 	didGet1StarDeckRating = 'did-get-1-star-deck-rating',
 	didGet2StarDeckRating = 'did-get-2-star-deck-rating',
 	didGet4StarDeckRating = 'did-get-4-star-deck-rating',
-	didGet5StarDeckRating = 'did-get-5-star-deck-rating'
+	didGet5StarDeckRating = 'did-get-5-star-deck-rating',
+	didGet1StarDeckRatingRemoved = 'did-get-1-star-deck-rating-removed',
+	didGet2StarDeckRatingRemoved = 'did-get-2-star-deck-rating-removed',
+	didGet4StarDeckRatingRemoved = 'did-get-4-star-deck-rating-removed',
+	didGet5StarDeckRatingRemoved = 'did-get-5-star-deck-rating-removed'
 }
