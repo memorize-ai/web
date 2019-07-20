@@ -180,8 +180,9 @@ export const rateDeck = functions.https.onCall((data, context) => {
 	const deckId = data.deckId
 	const setField = (value: any) =>
 		rating ? value : admin.firestore.FieldValue.delete()
-	return firestore.doc(`users/${uid}/ratings/${deckId}`).get().then(oldRating =>
-		Promise.all([
+	return firestore.doc(`users/${uid}/ratings/${deckId}`).get().then(oldRating => {
+		const oldRatingNumber = oldRating.get('rating')
+		return Promise.all([
 			Deck.updateUserRating(deckId, { uid, rating, title, review, date }),
 			Deck.doc(deckId, `users/${uid}`).update({
 				hasTitle: setField(title.length !== 0),
@@ -191,15 +192,59 @@ export const rateDeck = functions.https.onCall((data, context) => {
 				date: setField(date),
 				dateMilliseconds: setField(date.getTime())
 			}),
-			Deck.updateRating(deckId, { from: oldRating.get('rating'), to: rating }),
+			Deck.updateRating(deckId, { from: oldRatingNumber, to: rating }),
 			User.updateLastActivity(uid),
-			firestore.doc(`decks/${deckId}`).get().then(deck => {
-				const didUnrate = rating === 0
+			Deck.doc(deckId).get().then(deck => {
 				const didReview = review.length !== 0
-				return Reputation.push(uid, didUnrate ? (didReview ? ReputationAction.unrateDeckWithReview : ReputationAction.unrateDeck) : (didReview ? ReputationAction.rateDeckWithReview : ReputationAction.rateDeck), `You ${didUnrate ? `deleted your r${didReview ? 'eview' : 'ating'}` : (didReview ? 'reviewed' : 'rated')} for ${deck.get('name')}`, { deckId })
+				const deckName = deck.get('name')
+				const ownerId = deck.get('owner')
+				return firestore.doc(`users/${uid}`).get().then(user => {
+					const name = user.get('name')
+					if (oldRatingNumber === 0) {
+						const newRatingAsReputationAction = getReputationActionDeckRatingFromNumber(rating)
+						if (!newRatingAsReputationAction) return Promise.resolve()
+						return Promise.all([
+							Reputation.push(
+								uid,
+								didReview ? ReputationAction.rateDeckWithReview : ReputationAction.rateDeck,
+								`You gave ${deckName} a ${rating} star r${didReview ? 'eview' : 'ating'}`,
+								{ deckId }
+							),
+							Reputation.push(
+								ownerId,
+								newRatingAsReputationAction,
+								`${name} gave ${deckName} a ${rating} star r${didReview ? 'eview' : 'ating'}`,
+								{ uid }
+							)
+						])
+					} else if (rating === 0) {
+						const oldRatingAsReputationAction = getReputationActionDeckRatingRemovedFromNumber(rating)
+						if (!oldRatingAsReputationAction) return Promise.resolve()
+						const didRemoveReview = oldRating.get('review').length !== 0
+						return Promise.all([
+							Reputation.push(
+								uid,
+								didRemoveReview ? ReputationAction.unrateDeckWithReview : ReputationAction.unrateDeck,
+								`You removed your ${oldRatingNumber} star r${didRemoveReview ? 'eview' : 'ating'} for ${deckName}`,
+								{ deckId }
+							),
+							Reputation.push(
+								ownerId,
+								oldRatingAsReputationAction,
+								`${name} removed their ${oldRatingNumber} star r${didRemoveReview ? 'eview' : 'ating'} for ${deckName}`,
+								{ uid }
+							)
+						])
+					} else {
+						const oldRatingAsReputationAction = getReputationActionDeckRatingRemovedFromNumber(rating)
+						const newRatingAsReputationAction = getReputationActionDeckRatingFromNumber(rating)
+						if (!(oldRatingAsReputationAction && newRatingAsReputationAction)) return Promise.resolve()
+						
+					}
+				})
 			})
 		])
-	)
+	})
 })
 
 export const addDeck = functions.https.onCall((data, context) => {
@@ -268,3 +313,33 @@ export const deleteDeck = functions.https.onCall((data, context) => {
 	} else
 		return new functions.https.HttpsError('unauthenticated', 'You must be signed in and pass in a deckId')
 })
+
+function getReputationActionDeckRatingRemovedFromNumber(rating: number): ReputationAction | null {
+	switch (rating) {
+	case 1:
+		return ReputationAction.didGet1StarDeckRatingRemoved
+	case 2:
+		return ReputationAction.didGet2StarDeckRatingRemoved
+	case 4:
+		return ReputationAction.didGet4StarDeckRatingRemoved
+	case 5:
+		return ReputationAction.didGet1StarDeckRatingRemoved
+	default:
+		return null
+	}
+}
+
+function getReputationActionDeckRatingFromNumber(rating: number): ReputationAction | null {
+	switch (rating) {
+	case 1:
+		return ReputationAction.didGet1StarDeckRating
+	case 2:
+		return ReputationAction.didGet2StarDeckRating
+	case 4:
+		return ReputationAction.didGet4StarDeckRating
+	case 5:
+		return ReputationAction.didGet1StarDeckRating
+	default:
+		return null
+	}
+}
