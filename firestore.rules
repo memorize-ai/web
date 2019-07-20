@@ -90,17 +90,20 @@ service cloud.firestore {
 			match /uploads/{uploadId} {
 				allow read, write: if signedInWith(uid)
 			}
-			match /followers/{followerId} {
+			match /viewers/{viewerId} {
 				allow read
 				allow write: if false
 			}
-			match /viewers/{viewerId} {
+			match /followers/{followerId} {
 				allow read
 				allow write: if false
 			}
 			match /following/{followingId} {
 				allow read
 				allow write: if false
+			}
+			match /reputationHistory/{reputationHistoryId} {
+				allow read: if signedInWith(uid)
 			}
 			match /decks/{deckId} {
 				allow read, update, delete//: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId))
@@ -137,6 +140,9 @@ service cloud.firestore {
 			}
 		}
 		match /settings/{setting} {
+			allow read
+		}
+		match /reputation {
 			allow read
 		}
 		match /decks/{deckId} {
