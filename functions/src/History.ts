@@ -6,6 +6,7 @@ import Setting from './Setting'
 import Algorithm from './Algorithm'
 import SM2 from './SM2'
 import User from './User'
+import Reputation, { ReputationAction } from './Reputation'
 
 const firestore = admin.firestore()
 
@@ -98,7 +99,10 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 				])
 			}
 		}),
-		User.updateLastActivity(context.params.uid)
+		User.updateLastActivity(context.params.uid),
+		Deck.doc(context.params.deckId).get().then(deck =>
+			Reputation.push(context.params.uid, ReputationAction.everyCardReviewed, `You reviewed a card in ${deck.get('name')}`, { deckId: context.params.deckId })
+		)
 	])
 })
 
