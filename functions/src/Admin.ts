@@ -70,6 +70,22 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 			).then(_writeResults =>
 				res.status(200).send('Complete')
 			)
+		case 'add-reputation-documents':
+			const reputationDocuments = [
+				{
+					id: 'join',
+					description: 'Join memorize.ai',
+					amount: 1
+				}
+			]
+			return Promise.all(reputationDocuments.map(reputationDocument =>
+				firestore.doc(`reputation/${reputationDocument.id}`).set({
+					description: reputationDocument.description,
+					amount: reputationDocument.amount
+				})
+			)).then(_writeResults =>
+				res.status(200).send('Complete')
+			)
 		default:
 			return res.status(400).send('Unknown action')
 		}
