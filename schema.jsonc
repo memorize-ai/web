@@ -79,6 +79,11 @@
 					"size": "24.9 MB" // (String) Number of bytes
 				}
 			},
+			"viewers (sub-collection)": {
+				"abc123": { // uid
+					"following": true // (Bool) User is following this user
+				}
+			},
 			"followers (sub-collection)": {
 				"abc123": { // uid
 					"current": true, // (Bool) Currently following user
@@ -86,16 +91,19 @@
 					"dateUnfollowed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // (Timestamp?) Date unfollowed, nonexistent if currently following
 				}
 			},
-			"viewers (sub-collection)": {
-				"abc123": { // uid
-					"following": true // (Bool) User is following this user
-				}
-			},
 			"following (sub-collection)": {
 				"abc123": { // uid
 					"current": true, // (Bool) Currently following user, when unfollowed set to false
 					"dateFollowed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp?) Date followed, nonexistent if never followed
 					"dateUnfollowed": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // (Timestamp?) Date unfollowed, nonexistent if currently following
+				}
+			},
+			"reputationHistory (sub-collection)": {
+				"abc123": { // Random ID
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) The date that this reputation loss/gain occurred
+					"amount": 1, // (Int) How much reputation you gained
+					"description": "Joined memorize.ai", // (String) A description summarizing what you did to gain or lose this reputation
+					"after": 1 // (Int) How much reputation you were left with
 				}
 			},
 			"decks (sub-collection)": {
@@ -145,6 +153,13 @@
 			"description": "Better suited for nighttime review sessions", // (String) Can be empty
 			"default": false, // (Any)
 			"order": 0 // (Int) Should not be the same as any other setting in the same section: used to determine the order in which the settings show up starting from 0 in the same section
+		}
+	},
+	"reputation": {
+		"join": { // Reputation identifier
+			"description": "Join memorize.ai", // (String) The reputation action's description
+			"amount": 1, // (Int) How much reputation this action will give you
+			"order": 0 // (Int) Unique, index of the action to show in a table
 		}
 	},
 	"decks": {
