@@ -202,7 +202,7 @@ export const rateDeck = functions.https.onCall((data, context) => {
 					const name = user.get('name')
 					if (oldRatingNumber === 0) {
 						const newRatingAsReputationAction = getReputationActionDeckRatingFromNumber(rating)
-						if (!newRatingAsReputationAction) return Promise.resolve()
+						if (!newRatingAsReputationAction) return Promise.resolve() as Promise<any>
 						return Promise.all([
 							Reputation.push(
 								uid,
@@ -219,7 +219,7 @@ export const rateDeck = functions.https.onCall((data, context) => {
 						])
 					} else if (rating === 0) {
 						const oldRatingAsReputationAction = getReputationActionDeckRatingRemovedFromNumber(rating)
-						if (!oldRatingAsReputationAction) return Promise.resolve()
+						if (!oldRatingAsReputationAction) return Promise.resolve() as Promise<any>
 						const didRemoveReview = oldRating.get('review').length !== 0
 						return Promise.all([
 							Reputation.push(
@@ -238,8 +238,25 @@ export const rateDeck = functions.https.onCall((data, context) => {
 					} else {
 						const oldRatingAsReputationAction = getReputationActionDeckRatingRemovedFromNumber(rating)
 						const newRatingAsReputationAction = getReputationActionDeckRatingFromNumber(rating)
-						if (!(oldRatingAsReputationAction && newRatingAsReputationAction)) return Promise.resolve()
-						
+						if (!(oldRatingAsReputationAction && newRatingAsReputationAction)) return Promise.resolve() as Promise<any>
+						const didHaveReview = oldRating.get('review').length !== 0
+						const didRemoveReview = didHaveReview && !didReview
+						const didAddReview = !didHaveReview && didReview
+						return Promise.all([
+							Reputation.getAmountForAction(didRemoveReview ? ReputationAction.unrateDeckWithReview : ReputationAction.unrateDeck).then(firstAmount =>
+								Reputation.getAmountForAction(didRemoveReview ? ReputationAction.rateDeck : (didAddReview ? ReputationAction.rateDeckWithReview : ReputationAction.rateDeck)).then(secondAmount => {
+									const total = firstAmount + secondAmount
+									return total
+										? Reputation.pushWithAmount(
+											uid,
+											total,
+											`You changed your ${oldRatingNumber} star r${didHaveReview ? 'eview' : 'ating'} to a ${rating} star r${didReview ? 'eview' : 'ating'} for ${deckName}`,
+											{ deckId }
+										)
+										: Promise.resolve() as Promise<any>
+								})
+							)
+						])
 					}
 				})
 			})
