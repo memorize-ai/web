@@ -75,13 +75,111 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 				{
 					id: 'join',
 					description: 'Join memorize.ai',
-					amount: 1
+					amount: 1,
+					order: 0
+				},
+				{
+					id: 'rate-deck',
+					description: 'Rate a deck',
+					amount: 1,
+					order: 1
+				},
+				{
+					id: 'rate-deck-with-review',
+					description: 'Rate a deck with a review',
+					amount: 3,
+					order: 2
+				},
+				{
+					id: 'every-follower',
+					description: 'Every follower gained',
+					amount: 5,
+					order: 3
+				},
+				{
+					id: 'every-10-followers',
+					description: 'A bonus for every 10 followers gained',
+					amount: 20,
+					order: 4
+				},
+				{
+					id: 'every-50-followers',
+					description: 'A bonus for every 50 followers gained',
+					amount: 40,
+					order: 5
+				},
+				{
+					id: 'every-100-followers',
+					description: 'A bonus for every 100 followers gained',
+					amount: 100,
+					order: 6
+				},
+				{
+					id: 'every-card-reviewed',
+					description: 'Every card reviewed',
+					amount: 1,
+					order: 7
+				},
+				{
+					id: 'every-10-cards-reviewed',
+					description: 'Every 10 cards reviewed',
+					amount: 5,
+					order: 8
+				},
+				{
+					id: 'every-50-cards-reviewed',
+					description: 'Every 50 cards reviewed',
+					amount: 20,
+					order: 9
+				},
+				{
+					id: 'every-100-cards-reviewed',
+					description: 'Every 100 cards reviewed',
+					amount: 40,
+					order: 10
+				},
+				{
+					id: 'did-get-card-like',
+					description: 'A card you made was liked',
+					amount: 2,
+					order: 11
+				},
+				{
+					id: 'did-get-card-dislike',
+					description: 'A card you made was disliked',
+					amount: -2,
+					order: 12
+				},
+				{
+					id: 'did-get-1-star-deck-rating',
+					description: 'A deck you made was rated 1 star',
+					amount: -5,
+					order: 13
+				},
+				{
+					id: 'did-get-2-star-deck-rating',
+					description: 'A deck you made was rated 2 stars',
+					amount: -2,
+					order: 14
+				},
+				{
+					id: 'did-get-4-star-deck-rating',
+					description: 'A deck you made was rated 4 stars',
+					amount: 10,
+					order: 15
+				},
+				{
+					id: 'did-get-5-star-deck-rating',
+					description: 'A deck you made was rated 5 stars',
+					amount: 40,
+					order: 16
 				}
 			]
 			return Promise.all(reputationDocuments.map(reputationDocument =>
 				firestore.doc(`reputation/${reputationDocument.id}`).set({
 					description: reputationDocument.description,
-					amount: reputationDocument.amount
+					amount: reputationDocument.amount,
+					order: reputationDocument.order
 				})
 			)).then(_writeResults =>
 				res.status(200).send('Complete')
