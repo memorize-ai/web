@@ -4,6 +4,7 @@ import * as admin from 'firebase-admin'
 import Algolia from './Algolia'
 import User from './User'
 import Permission, { PermissionRole, PermissionStatus } from './Permission'
+import Reputation, { ReputationAction } from './Reputation'
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket('us')
@@ -174,12 +175,13 @@ export const rateDeck = functions.https.onCall((data, context) => {
 	const rating = data.rating
 	const title = rating && data.title ? data.title : ''
 	const review = rating && data.review ? data.review : ''
+	const deckId = data.deckId
 	const setField = (value: any) =>
 		rating ? value : admin.firestore.FieldValue.delete()
-	return firestore.doc(`users/${uid}/ratings/${data.deckId}`).get().then(oldRating =>
+	return firestore.doc(`users/${uid}/ratings/${deckId}`).get().then(oldRating =>
 		Promise.all([
-			Deck.updateUserRating(data.deckId, { uid, rating, title, review, date }),
-			Deck.doc(data.deckId, `users/${uid}`).update({
+			Deck.updateUserRating(deckId, { uid, rating, title, review, date }),
+			Deck.doc(deckId, `users/${uid}`).update({
 				hasTitle: setField(title.length !== 0),
 				rating: setField(rating),
 				title: setField(title),
@@ -187,8 +189,13 @@ export const rateDeck = functions.https.onCall((data, context) => {
 				date: setField(date),
 				dateMilliseconds: setField(date.getTime())
 			}),
-			Deck.updateRating(data.deckId, { from: oldRating.get('rating'), to: rating }),
-			User.updateLastActivity(uid)
+			Deck.updateRating(deckId, { from: oldRating.get('rating'), to: rating }),
+			User.updateLastActivity(uid),
+			firestore.doc(`decks/${deckId}`).get().then(deck => {
+				const didUnrate = rating === 0
+				const didReview = review.length !== 0
+				return Reputation.push(uid, didUnrate ? (didReview ? ReputationAction.unrateDeckWithReview : ReputationAction.unrateDeck) : (didReview ? ReputationAction.rateDeckWithReview : ReputationAction.rateDeck), `You ${didUnrate ? `deleted your r${didReview ? 'eview' : 'ating'}` : (didReview ? 'reviewed' : 'rated')} for ${deck.get('name')}`, { deckId })
+			})
 		])
 	)
 })
