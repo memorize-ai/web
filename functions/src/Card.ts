@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin'
 
 import Deck from './Deck'
 import User from './User'
+import Reputation, { ReputationAction } from './Reputation'
 
 const firestore = admin.firestore()
 
@@ -87,13 +88,19 @@ export const rateCard = functions.https.onCall((data, context) => {
 	const id = { deckId, cardId }
 	const uid = context.auth.uid
 	const rating = Card.rating(data.rating)
-	return firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`).get().then(oldRating =>
-		Promise.all([
+	return firestore.doc(`users/${uid}/ratings/${deckId}/cards/${cardId}`).get().then(oldRating => {
+		const oldRatingAsCardRating = Card.rating(oldRating.get('rating') || 0)
+		return Promise.all([
 			Card.updateUserRating(id, { uid, rating, date }),
-			Card.updateRating(id, { from: Card.rating(oldRating.get('rating') || 0), to: rating }),
-			User.updateLastActivity(uid)
+			Card.updateRating(id, { from: oldRatingAsCardRating, to: rating }),
+			User.updateLastActivity(uid),
+			Deck.doc(deckId).get().then(deck =>
+				firestore.doc(`users/${uid}`).get().then(user =>
+					Reputation.push(deck.get('owner'), rating === CardRating.none ? ReputationAction.didGetCardDislike : ReputationAction.didGetCardLike, `${user.get('name')} ${rating === CardRating.none ? `removed their ${oldRatingAsCardRating === CardRating.like ? '' : 'dis'}like on` : (rating === CardRating.like ? 'liked' : 'disliked')} a card in ${deck.get('name')}`)
+				)
+			)
 		])
-	)
+	})
 })
 
 export const cardCreated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onCreate((_snapshot, context) =>
