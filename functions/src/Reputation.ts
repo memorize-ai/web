@@ -37,6 +37,7 @@ export enum ReputationAction {
 	every10Followers = 'every-10-followers',
 	every50Followers = 'every-50-followers',
 	every100Followers = 'every-100-followers',
+	everyUnfollow = 'every-unfollow',
 	everyCardReviewed = 'every-card-reviewed',
 	every10CardsReviewed = 'every-10-cards-reviewed',
 	every50CardsReviewed = 'every-50-cards-reviewed',
