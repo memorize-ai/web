@@ -134,7 +134,8 @@ export const followUser = functions.https.onCall((data, context) => {
 	return Promise.all([
 		setDoc(`users/${otherUid}/followers/${uid}`),
 		setDoc(`users/${uid}/following/${otherUid}`),
-		firestore.doc(`users/${otherUid}/viewers/${uid}`).set({ following: true })
+		firestore.doc(`users/${otherUid}/viewers/${uid}`).set({ following: true }),
+		Reputation.push(otherUid, ReputationAction.everyFollower)
 	])
 })
 
@@ -165,15 +166,55 @@ export const contactUser = functions.https.onCall((data, context) => {
 	)
 })
 
-export const followerCreated = functions.firestore.document('users/{uid}/followers/{followerId}').onCreate((_snapshot, context) =>
-	firestore.doc(`users/${context.params.uid}`).update({ followersCount: admin.firestore.FieldValue.increment(1) })
-)
+export const followerCreated = functions.firestore.document('users/{uid}/followers/{followerId}').onCreate((_snapshot, context) => {
+	const uid = context.params.uid
+	const followerId = context.params.followerId
+	return firestore.doc(`users/${uid}`).update({ followersCount: admin.firestore.FieldValue.increment(1) }).then(_writeResult =>
+		firestore.doc(`users/${followerId}`).get().then(follower =>
+			Reputation.push(uid, ReputationAction.everyFollower, `${follower.get('name')} followed you`, { uid: followerId }).then(__writeResult =>
+				firestore.doc(`users/${uid}`).get().then(user => {
+					const followers = user.get('followersCount')
+					const addReputation = (action: ReputationAction) =>
+						Reputation.push(uid, action, `You hit ${followers} followers`)
+					if (followers % 10 === 0)
+						return addReputation(ReputationAction.every10Followers)
+					if (followers % 50 === 0)
+						return addReputation(ReputationAction.every50Followers)
+					if (followers % 100 === 0)
+						return addReputation(ReputationAction.every100Followers)
+					return Promise.resolve() as Promise<any>
+				})
+			)
+		)
+	)
+})
 
 export const followerUpdated = functions.firestore.document('users/{uid}/followers/{followerId}').onUpdate((change, context) => {
+	const uid = context.params.uid
+	const followerId = context.params.followerId
 	const isFollowing = change.after.get('current')
 	return change.before.get('current') === isFollowing
 		? Promise.resolve()
-		: firestore.doc(`users/${context.params.uid}`).update({ followersCount: admin.firestore.FieldValue.increment(isFollowing ? 1 : -1) })
+		: firestore.doc(`users/${uid}`).update({ followersCount: admin.firestore.FieldValue.increment(isFollowing ? 1 : -1) }).then(_writeResult =>
+			firestore.doc(`users/${followerId}`).get().then(follower =>
+				Reputation.push(uid, isFollowing ? ReputationAction.everyFollower : ReputationAction.everyUnfollow, `${follower.get('name')} ${isFollowing ? '' : 'un'}followed you`, { uid: followerId }).then(__writeResult =>
+					isFollowing
+						? firestore.doc(`users/${uid}`).get().then(user => {
+							const followers = user.get('followersCount')
+							const addReputation = (action: ReputationAction) =>
+								Reputation.push(uid, action, `You hit ${followers} followers`)
+							if (followers % 10 === 0)
+								return addReputation(ReputationAction.every10Followers)
+							if (followers % 50 === 0)
+								return addReputation(ReputationAction.every50Followers)
+							if (followers % 100 === 0)
+								return addReputation(ReputationAction.every100Followers)
+							return Promise.resolve() as Promise<any>
+						})
+						: null
+				)
+			)
+		)
 })
 
 export const followerDeleted = functions.firestore.document('users/{uid}/followers/{followerId}').onDelete((_snapshot, context) =>
