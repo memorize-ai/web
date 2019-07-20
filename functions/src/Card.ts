@@ -96,7 +96,7 @@ export const rateCard = functions.https.onCall((data, context) => {
 			User.updateLastActivity(uid),
 			Deck.doc(deckId).get().then(deck =>
 				firestore.doc(`users/${uid}`).get().then(user =>
-					Reputation.push(deck.get('owner'), rating === CardRating.none ? ReputationAction.didGetCardDislike : ReputationAction.didGetCardLike, `${user.get('name')} ${rating === CardRating.none ? `removed their ${oldRatingAsCardRating === CardRating.like ? '' : 'dis'}like on` : (rating === CardRating.like ? 'liked' : 'disliked')} a card in ${deck.get('name')}`)
+					Reputation.push(deck.get('owner'), rating === CardRating.none ? ReputationAction.didGetCardDislike : ReputationAction.didGetCardLike, `${user.get('name')} ${rating === CardRating.none ? `removed their ${oldRatingAsCardRating === CardRating.like ? '' : 'dis'}like on` : (rating === CardRating.like ? 'liked' : 'disliked')} a card in ${deck.get('name')}`, { deckId })
 				)
 			)
 		])
