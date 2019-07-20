@@ -95,9 +95,36 @@ export const rateCard = functions.https.onCall((data, context) => {
 			Card.updateRating(id, { from: oldRatingAsCardRating, to: rating }),
 			User.updateLastActivity(uid),
 			Deck.doc(deckId).get().then(deck =>
-				firestore.doc(`users/${uid}`).get().then(user =>
-					Reputation.push(deck.get('owner'), rating === CardRating.none ? ReputationAction.didGetCardDislike : ReputationAction.didGetCardLike, `${user.get('name')} ${rating === CardRating.none ? `removed their ${oldRatingAsCardRating === CardRating.like ? '' : 'dis'}like on` : (rating === CardRating.like ? 'liked' : 'disliked')} a card in ${deck.get('name')}`, { deckId })
-				)
+				firestore.doc(`users/${uid}`).get().then(user => {
+					const ownerId = deck.get('owner')
+					const name = user.get('name')
+					const deckName = deck.get('name')
+					if (oldRatingAsCardRating === CardRating.none)
+						return Reputation.push(
+							ownerId,
+							rating === CardRating.like ? ReputationAction.didGetCardLike : ReputationAction.didGetCardDislike,
+							`${name} ${rating === CardRating.like ? 'liked' : 'disliked'} a card in ${deckName}`,
+							{ uid }
+						)
+					else if (rating === CardRating.none)
+						return Reputation.push(
+							ownerId,
+							oldRatingAsCardRating === CardRating.like ? ReputationAction.didGetCardLikeRemoved : ReputationAction.didGetCardDislikeRemoved,
+							`${name} removed their ${oldRatingAsCardRating === CardRating.like ? '' : 'dis'}like on a card in ${deckName}`,
+							{ uid }
+						)
+					else
+						return Reputation.getAmountForAction(rating === CardRating.like ? ReputationAction.didGetCardLike : ReputationAction.didGetCardDislike).then(firstAmount =>
+							Reputation.getAmountForAction(oldRatingAsCardRating === CardRating.like ? ReputationAction.didGetCardLikeRemoved : ReputationAction.didGetCardDislikeRemoved).then(secondAmount =>
+								Reputation.pushWithAmount(
+									ownerId,
+									firstAmount + secondAmount,
+									`${name} changed their ${oldRatingAsCardRating === CardRating.like ? '' : 'dis'}like to a ${rating === CardRating.like ? '' : 'dis'}like on a card in ${deckName}`,
+									{ uid }
+								)
+							)
+						)
+				})
 			)
 		])
 	})
