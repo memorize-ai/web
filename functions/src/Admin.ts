@@ -139,64 +139,46 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 					order: 10
 				},
 				{
-					id: 'every-10-cards-reviewed',
-					description: 'Every 10 cards reviewed',
-					amount: 5,
-					order: 11
-				},
-				{
-					id: 'every-50-cards-reviewed',
-					description: 'Every 50 cards reviewed',
-					amount: 20,
-					order: 12
-				},
-				{
-					id: 'every-100-cards-reviewed',
-					description: 'Every 100 cards reviewed',
-					amount: 40,
-					order: 13
-				},
-				{
 					id: 'did-get-card-like',
 					description: 'A card you made was liked',
 					amount: 2,
-					order: 14
+					order: 11
 				},
 				{
 					id: 'did-get-card-dislike',
 					description: 'A card you made was disliked',
 					amount: -2,
-					order: 15
+					order: 12
 				},
 				{
 					id: 'create-deck',
 					description: 'Create a deck',
 					amount: 2,
-					order: 16
+					order: 13
 				},
 				{
 					id: 'did-get-1-star-deck-rating',
 					description: 'A deck you made was rated 1 star',
 					amount: -5,
-					order: 17
+					order: 14
 				},
 				{
 					id: 'did-get-2-star-deck-rating',
 					description: 'A deck you made was rated 2 stars',
 					amount: -2,
-					order: 18
+					order: 15
 				},
 				{
 					id: 'did-get-4-star-deck-rating',
 					description: 'A deck you made was rated 4 stars',
 					amount: 10,
-					order: 19
+					order: 16
 				},
 				{
 					id: 'did-get-5-star-deck-rating',
 					description: 'A deck you made was rated 5 stars',
 					amount: 40,
-					order: 20
+					order: 17
 				}
 			]
 			return Promise.all(reputationDocuments.map(reputationDocument =>
