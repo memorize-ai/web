@@ -4,15 +4,13 @@ const HISTORY_COUNT = 10
 const MILLISECONDS_IN_DAY = 86400000
 
 export default class Algorithm {
-	static predict(id: string, cards: { id: string, intervals: number[], front: string }[]): number {
+	static predict(id: string, cards: { id: string, intervals: number[], front: string }[]): Date {
 		const wordsArray = unique(cards.flatMap(card => firstWords(card.front)))
 		const inputSize = HISTORY_COUNT + wordsArray.length
 		const net = new NeuralNetwork()
 		net.train(formatTrainingData(cards, wordsArray), trainingOptions(0.0001, inputSize, 1, [inputSize, inputSize], 'tanh'))
 		const current = cards.find(card => card.id === id)
-		return current === undefined
-			? 0
-			: denormalize(net.run(zeroFillLast(normalize(current.intervals), HISTORY_COUNT).concat(multiHot(firstWords(current.front), wordsArray))))[0]
+		return new Date(current ? denormalize(net.run(zeroFillLast(normalize(current.intervals), HISTORY_COUNT).concat(multiHot(firstWords(current.front), wordsArray))))[0] : 0)
 	}
 }
 

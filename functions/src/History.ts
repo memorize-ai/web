@@ -25,7 +25,7 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 					const e = SM2.e(card.get('e'), rating)
 					if (algorithm)
 						return allCards(context.params.uid).then(cards => {
-							const next = new Date(Algorithm.predict(context.params.cardId, cards))
+							const next = Algorithm.predict(context.params.cardId, cards)
 							return Promise.all([
 								cardRef.collection('history').doc(context.params.historyId).update({
 									date: current,
