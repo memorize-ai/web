@@ -6,6 +6,7 @@ import Deck from './Deck'
 import Algolia from './Algolia'
 import Email from './Email'
 import Permission, { PermissionRole } from './Permission'
+import Reputation, { ReputationAction } from './Reputation'
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket('us')
@@ -72,7 +73,8 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 	return Promise.all([
 		Algolia.create({ index: Algolia.indices.users, snapshot }),
 		firestore.doc(`users/${uid}`).update({ lastNotification: now, joined: now, lastOnline: now, lastActivity: now }),
-		name ? updateUser(uid, name) : Promise.resolve() as Promise<any>
+		name ? updateUser(uid, name) : Promise.resolve() as Promise<any>,
+		Reputation.push(uid, ReputationAction.join, 'Joined memorize.ai', undefined, 0)
 	])
 })
 
