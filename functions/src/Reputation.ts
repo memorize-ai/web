@@ -10,7 +10,7 @@ export default class Reputation {
 		})
 	}
 
-	static push(uid: string, action: ReputationAction, description: string, extras?: { uid: string } | { deckId: string }, reputation?: number): Promise<FirebaseFirestore.DocumentReference> {
+	static push(uid: string, action: ReputationAction, description: string, extras?: { uid: string } | { deckId: string }, reputation?: number): Promise<FirebaseFirestore.WriteResult> {
 		const date = new Date
 		return Reputation.getAmountForAction(action).then(amount => {
 			const addDocument = (currentReputation: number) =>
@@ -19,7 +19,9 @@ export default class Reputation {
 					amount,
 					description,
 					after: currentReputation + amount
-				}, extras))
+				}, extras)).then(_documentReference =>
+					firestore.doc(`users/${uid}`).update({ reputation: admin.firestore.FieldValue.increment(amount) })
+				)
 			return reputation === undefined
 				? firestore.doc(`users/${uid}`).get().then(user =>
 					addDocument(user.get('reputation'))
