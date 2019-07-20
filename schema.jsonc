@@ -103,7 +103,9 @@
 					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) The date that this reputation loss/gain occurred
 					"amount": 1, // (Int) How much reputation you gained
 					"description": "Joined memorize.ai", // (String) A description summarizing what you did to gain or lose this reputation
-					"after": 1 // (Int) How much reputation you were left with
+					"after": 1, // (Int) How much reputation you were left with
+					"uid": "abc123", // (String?) If description contains a user, put the uid here
+					"deckId": "jkl012" // (String?) If the description contains a deck, put the deckId here
 				}
 			},
 			"decks (sub-collection)": {
