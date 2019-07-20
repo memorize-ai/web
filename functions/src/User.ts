@@ -134,8 +134,7 @@ export const followUser = functions.https.onCall((data, context) => {
 	return Promise.all([
 		setDoc(`users/${otherUid}/followers/${uid}`),
 		setDoc(`users/${uid}/following/${otherUid}`),
-		firestore.doc(`users/${otherUid}/viewers/${uid}`).set({ following: true }),
-		Reputation.push(otherUid, ReputationAction.everyFollower)
+		firestore.doc(`users/${otherUid}/viewers/${uid}`).set({ following: true })
 	])
 })
 
