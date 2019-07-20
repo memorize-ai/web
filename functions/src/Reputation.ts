@@ -33,6 +33,8 @@ export enum ReputationAction {
 	join = 'join',
 	rateDeck = 'rate-deck',
 	rateDeckWithReview = 'rate-deck-with-review',
+	unrateDeck = 'unrate-deck',
+	unrateDeckWithReview = 'unrate-deck-with-review',
 	everyFollower = 'every-follower',
 	every10Followers = 'every-10-followers',
 	every50Followers = 'every-50-followers',
