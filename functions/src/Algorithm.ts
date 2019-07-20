@@ -24,7 +24,7 @@ function unique(words: string[]): string[] {
 	return Array.from(new Set(words))
 }
 
-function zeroFillLast(arr: any[], count: number): any[] {
+function zeroFillLast<T>(arr: T[], count: number): T[] {
 	const last = arr.slice(-count)
 	return last.length === count ? last : Array(count - last.length).fill(0).concat(last)
 }
