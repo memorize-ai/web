@@ -157,28 +157,34 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 					order: 13
 				},
 				{
+					id: 'create-deck',
+					description: 'Create a deck',
+					amount: 2,
+					order: 14
+				},
+				{
 					id: 'did-get-1-star-deck-rating',
 					description: 'A deck you made was rated 1 star',
 					amount: -5,
-					order: 14
+					order: 15
 				},
 				{
 					id: 'did-get-2-star-deck-rating',
 					description: 'A deck you made was rated 2 stars',
 					amount: -2,
-					order: 15
+					order: 16
 				},
 				{
 					id: 'did-get-4-star-deck-rating',
 					description: 'A deck you made was rated 4 stars',
 					amount: 10,
-					order: 16
+					order: 17
 				},
 				{
 					id: 'did-get-5-star-deck-rating',
 					description: 'A deck you made was rated 5 stars',
 					amount: 40,
-					order: 17
+					order: 18
 				}
 			]
 			return Promise.all(reputationDocuments.map(reputationDocument =>
