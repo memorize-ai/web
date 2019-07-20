@@ -151,58 +151,70 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 					order: 12
 				},
 				{
+					id: 'did-get-card-like-removed',
+					description: 'A like on a card you made was removed',
+					amount: -2,
+					order: 13
+				},
+				{
+					id: 'did-get-card-dislike-removed',
+					description: 'A dislike on a card you made was removed',
+					amount: 2,
+					order: 14
+				},
+				{
 					id: 'create-deck',
 					description: 'Create a deck',
 					amount: 2,
-					order: 13
+					order: 15
 				},
 				{
 					id: 'did-get-1-star-deck-rating',
 					description: 'A deck you made was rated 1 star',
 					amount: -5,
-					order: 14
+					order: 16
 				},
 				{
 					id: 'did-get-2-star-deck-rating',
 					description: 'A deck you made was rated 2 stars',
 					amount: -2,
-					order: 15
+					order: 17
 				},
 				{
 					id: 'did-get-4-star-deck-rating',
 					description: 'A deck you made was rated 4 stars',
 					amount: 10,
-					order: 16
+					order: 18
 				},
 				{
 					id: 'did-get-5-star-deck-rating',
 					description: 'A deck you made was rated 5 stars',
 					amount: 40,
-					order: 17
+					order: 19
 				},
 				{
 					id: 'did-get-1-star-deck-rating-removed',
 					description: 'A 1 star rating on a deck you made was removed',
 					amount: 5,
-					order: 14
+					order: 20
 				},
 				{
 					id: 'did-get-2-star-deck-rating-removed',
 					description: 'A 2 star rating on a deck you made was removed',
 					amount: 2,
-					order: 15
+					order: 21
 				},
 				{
 					id: 'did-get-4-star-deck-rating-removed',
 					description: 'A 4 star rating on a deck you made was removed',
 					amount: -10,
-					order: 16
+					order: 22
 				},
 				{
 					id: 'did-get-5-star-deck-rating-removed',
 					description: 'A 5 star rating on a deck you made was removed',
 					amount: -40,
-					order: 17
+					order: 23
 				}
 			]
 			return Promise.all(reputationDocuments.map(reputationDocument =>

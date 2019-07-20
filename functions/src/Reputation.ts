@@ -49,6 +49,8 @@ export enum ReputationAction {
 	everyCardReviewed = 'every-card-reviewed',
 	didGetCardLike = 'did-get-card-like',
 	didGetCardDislike = 'did-get-card-dislike',
+	didGetCardLikeRemoved = 'did-get-card-like-removed',
+	didGetCardDislikeRemoved = 'did-get-card-dislike-removed',
 	createDeck = 'create-deck',
 	didGet1StarDeckRating = 'did-get-1-star-deck-rating',
 	didGet2StarDeckRating = 'did-get-2-star-deck-rating',
