@@ -111,9 +111,10 @@ export default class Deck {
 	}
 }
 
-export const deckCreated = functions.firestore.document('decks/{deckId}').onCreate((snapshot, context) =>
-	Promise.all([
-		firestore.doc(`users/${snapshot.get('creator')}`).get().then(creator => {
+export const deckCreated = functions.firestore.document('decks/{deckId}').onCreate((snapshot, context) => {
+	const uid = snapshot.get('creator')
+	return Promise.all([
+		firestore.doc(`users/${uid}`).get().then(creator => {
 			const creatorName = creator.get('name')
 			return Algolia.create({
 				index: Algolia.indices.decks,
@@ -121,9 +122,10 @@ export const deckCreated = functions.firestore.document('decks/{deckId}').onCrea
 				excess: { creatorName, ownerName: creatorName }
 			})
 		}),
-		context.auth ? User.updateLastActivity(context.auth.uid) : Promise.resolve() as Promise<any>
+		User.updateLastActivity(uid),
+		Reputation.push(uid, ReputationAction.createDeck, `You created ${snapshot.get('name')}`, { deckId: context.params.deckId })
 	])
-)
+})
 
 export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate((change, context) =>
 	change.before.get('updated').isEqual(change.after.get('updated')) && change.before.get('views') === change.after.get('views') && change.before.get('downloads') === change.after.get('downloads') && change.before.get('ratings') === change.after.get('ratings')
