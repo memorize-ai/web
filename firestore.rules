@@ -142,7 +142,7 @@ service cloud.firestore {
 		match /settings/{setting} {
 			allow read
 		}
-		match /reputation {
+		match /reputation/{reputationId} {
 			allow read
 		}
 		match /decks/{deckId} {
