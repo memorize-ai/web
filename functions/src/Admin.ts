@@ -217,13 +217,17 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 					order: 23
 				}
 			]
-			return Promise.all(reputationDocuments.map(reputationDocument =>
-				firestore.doc(`reputation/${reputationDocument.id}`).set({
-					description: reputationDocument.description,
-					amount: reputationDocument.amount,
-					order: reputationDocument.order
-				})
-			)).then(_writeResults =>
+			return firestore.collection('reputation').listDocuments().then(docs =>
+				docs.map(doc => doc.delete())
+			).then(_writeResults =>
+				Promise.all(reputationDocuments.map(reputationDocument =>
+					firestore.doc(`reputation/${reputationDocument.id}`).set({
+						description: reputationDocument.description,
+						amount: reputationDocument.amount,
+						order: reputationDocument.order
+					})
+				))
+			).then(_writeResults =>
 				res.status(200).send('Complete')
 			)
 		default:
