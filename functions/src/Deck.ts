@@ -220,7 +220,7 @@ export const rateDeck = functions.https.onCall((data, context) => {
 					} else if (rating === 0) {
 						const oldRatingAsReputationAction = getReputationActionDeckRatingRemovedFromNumber(rating)
 						if (!oldRatingAsReputationAction) return Promise.resolve() as Promise<any>
-						const didRemoveReview = oldRating.get('review').length !== 0
+						const didRemoveReview = (oldRating.get('review') || '').length !== 0
 						return Promise.all([
 							Reputation.push(
 								uid,
@@ -239,7 +239,7 @@ export const rateDeck = functions.https.onCall((data, context) => {
 						const oldRatingAsReputationAction = getReputationActionDeckRatingRemovedFromNumber(rating)
 						const newRatingAsReputationAction = getReputationActionDeckRatingFromNumber(rating)
 						if (!(oldRatingAsReputationAction && newRatingAsReputationAction)) return Promise.resolve() as Promise<any>
-						const didHaveReview = oldRating.get('review').length !== 0
+						const didHaveReview = (oldRating.get('review') || '').length !== 0
 						const didRemoveReview = didHaveReview && !didReview
 						const didAddReview = !didHaveReview && didReview
 						return Promise.all([
