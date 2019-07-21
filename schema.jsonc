@@ -159,8 +159,8 @@
 	},
 	"reputation": {
 		"join": { // Reputation identifier
-			"description": "Join memorize.ai", // (String) The reputation action's description
 			"amount": 1, // (Int) How much reputation this action will give you
+			"description": "Join memorize.ai", // (String) The reputation action's description
 			"order": 0 // (Int) Unique, index of the action to show in a table
 		}
 	},
