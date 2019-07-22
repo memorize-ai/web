@@ -20,6 +20,20 @@ export const getUserSignInToken = functions.https.onRequest((req, res) => {
 	)
 })
 
+export const checkUserSignInToken = functions.https.onRequest((req, res) => {
+	const uid = req.query.uid
+	const token = req.query.token
+	if (!(uid && token)) return res.status(400).send('Specify a uid and token')
+	const doc = firestore.doc(`users/${uid}/signInTokens/${token}`)
+	return doc.get().then(snapshot =>
+		snapshot.exists
+			? doc.update({ date: new Date }).then(_writeResult =>
+				res.status(200).send('Valid token')
+			)
+			: res.status(404).send('Invalid token')
+	)
+})
+
 function checkPasswordForUser(user: admin.auth.UserRecord, password: string): boolean {
 	return user.passwordHash === password
 }
