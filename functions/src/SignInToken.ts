@@ -28,7 +28,9 @@ export const checkUserSignInToken = functions.https.onRequest((req, res) => {
 	return doc.get().then(snapshot =>
 		snapshot.exists
 			? doc.update({ date: new Date }).then(_writeResult =>
-				res.status(200).send('Valid token')
+				firestore.doc(`users/${uid}`).get().then(user =>
+					res.status(200).send(user.data())
+				)
 			)
 			: res.status(404).send('Invalid token')
 	)
@@ -42,7 +44,7 @@ function sendNewSignInToken(uid: string, res: functions.Response): Promise<funct
 	const token = secure.newId(100)
 	return firestore.doc(`users/${uid}/signInTokens/${token}`).set({ date: new Date }).then(_writeResult =>
 		firestore.doc(`users/${uid}`).get().then(user =>
-			res.status(200).send({ token, user })
+			res.status(200).send({ token, user: user.data() })
 		)
 	)
 }
