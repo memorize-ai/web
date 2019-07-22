@@ -17,6 +17,10 @@
 		],
 		"rewrites": [
 			{
+				"source": "/api/highlight",
+				"destination": "/api/highlight.js"
+			},
+			{
 				"source": "/sign-up",
 				"destination": "/sign-up.html"
 			},
