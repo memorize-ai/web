@@ -53,6 +53,11 @@
 					"enabled": true // (Bool)
 				}
 			},
+			"signInTokens (sub-collection)": {
+				"abc123": { // Sign in token
+					"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)" // Last date signed in using this token
+				}
+			},
 			"ratings (sub-collection)": {
 				"abc123": { // Deck ID that the user rated
 					"rating": 1, // (Int) 1, 2, 3, 4, 5, 0: (default)
