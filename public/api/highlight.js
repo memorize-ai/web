@@ -1,4 +1,8 @@
 (() => {
+	const UID_COOKIE = '__memorize-ai-uid'
+	const NAME_COOKIE = '__memorize-ai-name'
+	const TOKEN_COOKIE = '__memorize-ai-token'
+
 	function mouseUp() {
 		
 	}
