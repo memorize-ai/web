@@ -41,6 +41,8 @@ function checkPasswordForUser(user: admin.auth.UserRecord, password: string): bo
 function sendNewSignInToken(uid: string, res: functions.Response): Promise<functions.Response> {
 	const token = secure.newId(100)
 	return firestore.doc(`users/${uid}/signInTokens/${token}`).set({ date: new Date }).then(_writeResult =>
-		res.status(200).send(token)
+		firestore.doc(`users/${uid}`).get().then(user =>
+			res.status(200).send({ token, user })
+		)
 	)
 }
