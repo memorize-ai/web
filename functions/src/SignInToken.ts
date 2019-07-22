@@ -9,7 +9,7 @@ export const getUserSignInToken = functions.https.onRequest((req, res) => {
 	const password = req.query.password
 	const email = req.query.email
 	const uid = req.query.uid
-	if (!(email || uid)) return res.status(400).send('Specify a uid or email')
+	if (!((email || uid) && password)) return res.status(400).send('Specify a uid or email')
 	const getUser = email ? auth.getUserByEmail(email) : auth.getUser(uid)
 	return getUser.then(user =>
 		checkPasswordForUser(user, password)
