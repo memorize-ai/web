@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin'
 import * as secure from 'securejs'
 
 import Deck from './Deck'
+import Card from './Card'
 import Permission, { PermissionRole } from './Permission'
 
 const firestore = admin.firestore()
@@ -76,29 +77,14 @@ export const createCardWithSignInToken = functions.https.onRequest((req, res) =>
 				? deckId
 					? firestore.doc(`users/${uid}/decks/${deckId}`).get().then(deck =>
 						Permission.role(deck.get('role')) === PermissionRole.owner
-							? Deck.collection(deckId, 'cards').add({ front, back, created: now, updated: now, likes: 0, dislikes: 0 }).then(_documentReference =>
+							? Deck.collection(deckId, 'cards').add(Card.data(front, back, now)).then(_documentReference =>
 								res.status(200).send('Successfully created card')
 							)
 							: res.status(403).send(`User is not the owner of deck ${deckId}`)
 					)
 					: newDeck
-						? createNewDeckWithCard(uid, newDeck, front, back, now)
-						? firestore.collection('decks').add({
-							name: newDeck.name,
-							subtitle: newDeck.subtitle,
-							description: '',
-							tags: [],
-							public: newDeck.public,
-							count: 0,
-							views: { total: 0, unique: 0 },
-							downloads: { total: 0, current: 0 },
-							ratings: { average: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-							creator: uid,
-							owner: uid,
-							created: now,
-							updated: now
-						}).then(documentReference =>
-							documentReference.
+						? createNewDeckWithCard(uid, newDeck, front, back, now).then(deckData =>
+							
 						)
 						: res.status(500).send('An error occurred creating a new deck. Please try again')
 				: res.status(404).send('Invalid token')
@@ -106,7 +92,7 @@ export const createCardWithSignInToken = functions.https.onRequest((req, res) =>
 		: res.status(400).send('Specify a uid, token, (deck or newDeckName), front, and back')
 })
 
-function createNewDeckWithCard(uid: string, data: NewDeckData, front: string, back: string, date: Date = new Date()): Promise<DeckData> {
+function createNewDeckWithCard(uid: string, data: NewDeckData, front: string, back: string, date: Date = new Date): Promise<DeckData> {
 	return firestore.collection('decks').add({
 		name: data.name,
 		subtitle: data.subtitle,
@@ -123,14 +109,17 @@ function createNewDeckWithCard(uid: string, data: NewDeckData, front: string, ba
 		updated: date
 	}).then(documentReference => {
 		const deckId = documentReference.id
-		return Deck.view(uid, deckId).then(_writeResults => {
-			const userData = { mastered: 0, hidden: false, role: Permission.stringify(PermissionRole.owner) }
-			return firestore.doc(`users/${uid}/decks/${deckId}`).set(userData).then(_writeResult =>
+		const userData = { mastered: 0, hidden: false, role: Permission.stringify(PermissionRole.owner) }
+		return Deck.view(uid, deckId).then(_writeResults =>
+			Promise.all([
+				firestore.doc(`users/${uid}/decks/${deckId}`).set(userData),
+				Deck.collection(deckId, 'cards').add(Card.data(front, back, date))
+			]).then(_results =>
 				documentReference.get().then(deckData =>
 					Object.assign(deckData, { image: Deck.defaultImageUrl, userData })
 				)
 			)
-		})
+		)
 	})
 }
 
