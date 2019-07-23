@@ -73,6 +73,17 @@ export default class Card {
 			? date <= ((card.get('next') as FirebaseFirestore.Timestamp | undefined) || new admin.firestore.Timestamp(0, 0)).toMillis()
 			: true
 	}
+
+	static data(front: string, back: string, date: Date = new Date): CardData {
+		return {
+			front,
+			back,
+			created: date,
+			updated: date,
+			likes: 0,
+			dislikes: 0
+		}
+	}
 }
 
 export enum CardRating {
@@ -82,6 +93,7 @@ export enum CardRating {
 }
 
 export type CardLast = { id: string, date: FirebaseFirestore.Timestamp, rating: number, elapsed: number }
+export type CardData = { front: string, back: string, created: Date, updated: Date, likes: number, dislikes: number }
 
 export const rateCard = functions.https.onCall((data, context) => {
 	if (!context.auth) return new functions.https.HttpsError('unauthenticated', 'You must be signed in')
