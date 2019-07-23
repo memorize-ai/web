@@ -3,9 +3,13 @@ import * as admin from 'firebase-admin'
 import * as secure from 'securejs'
 
 import Deck from './Deck'
+import Permission, { PermissionRole } from './Permission'
 
 const firestore = admin.firestore()
 const auth = admin.auth()
+
+type NewDeckData = { name: string, subtitle: string, public: string }
+type DeckData = FirebaseFirestore.DocumentData & { image: string, userData: FirebaseFirestore.DocumentData }
 
 export const getUserSignInToken = functions.https.onRequest((req, res) => {
 	const password: string | undefined = req.query.password
@@ -39,23 +43,90 @@ export const checkUserSignInToken = functions.https.onRequest((req, res) => {
 export const getUserDecks = functions.https.onRequest((req, res) => {
 	const uid: string | undefined = req.query.uid
 	const token: string | undefined = req.query.token
-	if (!(uid && token)) return res.status(400).send('Specify a uid and token')
-	return checkSignInToken(uid, token).then(valid =>
-		valid
-			? firestore.collection(`users/${uid}/decks`).where('hidden', '==', false).get().then(userDecks =>
-				Promise.all(userDecks.docs.map(userDeck =>
-					firestore.doc(`decks/${userDeck.id}`).get().then(deck =>
-						Deck.image(deck).then(image =>
-							Object.assign(deck.data() || {}, { image, userData: userDeck.data() })
+	return uid && token
+		? checkSignInToken(uid, token).then(valid =>
+			valid
+				? firestore.collection(`users/${uid}/decks`).where('hidden', '==', false).get().then(userDecks =>
+					Promise.all(userDecks.docs.map(userDeck =>
+						firestore.doc(`decks/${userDeck.id}`).get().then(deck =>
+							Deck.image(deck).then(image =>
+								Object.assign(deck.data() || {}, { image, userData: userDeck.data() }) as DeckData
+							)
 						)
+					)).then(decks =>
+						res.status(200).send(decks)
 					)
-				)).then(decks =>
-					res.status(200).send(decks)
 				)
-			)
-			: res.status(404).send('Invalid token')
-	)
+				: res.status(404).send('Invalid token')
+		)
+		: res.status(400).send('Specify a uid and token')
 })
+
+export const createCardWithSignInToken = functions.https.onRequest((req, res) => {
+	const now = Date.now()
+	const uid: string | undefined = req.query.uid
+	const token: string | undefined = req.query.token
+	const deckId: string | undefined = req.query.deck
+	const newDeck: NewDeckData | undefined = req.query.newDeck
+	const front: string | undefined = req.query.front
+	const back: string | undefined = req.query.back
+	return uid && token && (deckId || newDeck) && front && back
+		? checkSignInToken(uid, token).then(valid =>
+			valid
+				? deckId
+					? firestore.doc(`users/${uid}/decks/${deckId}`).get().then(deck =>
+						Permission.role(deck.get('role')) === PermissionRole.owner
+							? Deck.collection(deckId, 'cards').add({ front, back, created: now, updated: now, likes: 0, dislikes: 0 }).then(_documentReference =>
+								res.status(200).send('Successfully created card')
+							)
+							: res.status(403).send(`User is not the owner of deck ${deckId}`)
+					)
+					: newDeck
+						? createNewDeckWithCard(uid, newDeck, front, back, now)
+						? firestore.collection('decks').add({
+							name: newDeck.name,
+							subtitle: newDeck.subtitle,
+							description: '',
+							tags: [],
+							public: newDeck.public,
+							count: 0,
+							views: { total: 0, unique: 0 },
+							downloads: { total: 0, current: 0 },
+							ratings: { average: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+							creator: uid,
+							owner: uid,
+							created: now,
+							updated: now
+						}).then(documentReference =>
+							documentReference.
+						)
+						: res.status(500).send('An error occurred creating a new deck. Please try again')
+				: res.status(404).send('Invalid token')
+		)
+		: res.status(400).send('Specify a uid, token, (deck or newDeckName), front, and back')
+})
+
+function createNewDeckWithCard(uid: string, data: NewDeckData, front: string, back: string, date: number = Date.now()): Promise<DeckData> {
+	const deckData = {
+		name: data.name,
+		subtitle: data.subtitle,
+		description: '',
+		tags: [],
+		public: data.public,
+		count: 0,
+		views: { total: 0, unique: 0 },
+		downloads: { total: 0, current: 0 },
+		ratings: { average: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+		creator: uid,
+		owner: uid,
+		created: date,
+		updated: date
+	}
+	return firestore.collection('decks').add(deckData).then(documentReference =>
+		
+		firestore.doc(`users/${uid}/decks/${documentReference.id}`)
+	)
+}
 
 function checkSignInToken(uid: string, token: string): Promise<boolean> {
 	const doc = firestore.doc(`users/${uid}/signInTokens/${token}`)
