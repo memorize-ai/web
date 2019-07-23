@@ -8,7 +8,7 @@ import Permission, { PermissionRole } from './Permission'
 const firestore = admin.firestore()
 const auth = admin.auth()
 
-type NewDeckData = { name: string, subtitle: string, public: string }
+type NewDeckData = { name: string, subtitle: string, public: boolean }
 type DeckData = FirebaseFirestore.DocumentData & { image: string, userData: FirebaseFirestore.DocumentData }
 
 export const getUserSignInToken = functions.https.onRequest((req, res) => {
@@ -63,7 +63,7 @@ export const getUserDecks = functions.https.onRequest((req, res) => {
 })
 
 export const createCardWithSignInToken = functions.https.onRequest((req, res) => {
-	const now = Date.now()
+	const now = new Date
 	const uid: string | undefined = req.query.uid
 	const token: string | undefined = req.query.token
 	const deckId: string | undefined = req.query.deck
@@ -106,8 +106,8 @@ export const createCardWithSignInToken = functions.https.onRequest((req, res) =>
 		: res.status(400).send('Specify a uid, token, (deck or newDeckName), front, and back')
 })
 
-function createNewDeckWithCard(uid: string, data: NewDeckData, front: string, back: string, date: number = Date.now()): Promise<DeckData> {
-	const deckData = {
+function createNewDeckWithCard(uid: string, data: NewDeckData, front: string, back: string, date: Date = new Date()): Promise<DeckData> {
+	return firestore.collection('decks').add({
 		name: data.name,
 		subtitle: data.subtitle,
 		description: '',
@@ -121,11 +121,17 @@ function createNewDeckWithCard(uid: string, data: NewDeckData, front: string, ba
 		owner: uid,
 		created: date,
 		updated: date
-	}
-	return firestore.collection('decks').add(deckData).then(documentReference =>
-		
-		firestore.doc(`users/${uid}/decks/${documentReference.id}`)
-	)
+	}).then(documentReference => {
+		const deckId = documentReference.id
+		return Deck.view(uid, deckId).then(_writeResults => {
+			const userData = { mastered: 0, hidden: false, role: Permission.stringify(PermissionRole.owner) }
+			return firestore.doc(`users/${uid}/decks/${deckId}`).set(userData).then(_writeResult =>
+				documentReference.get().then(deckData =>
+					Object.assign(deckData, { image: Deck.defaultImageUrl, userData })
+				)
+			)
+		})
+	})
 }
 
 function checkSignInToken(uid: string, token: string): Promise<boolean> {
