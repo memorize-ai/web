@@ -84,7 +84,7 @@ export const createCardWithSignInToken = functions.https.onRequest((req, res) =>
 					)
 					: newDeck
 						? createNewDeckWithCard(uid, newDeck, front, back, now).then(deckData =>
-							
+							res.status(200).send(deckData)
 						)
 						: res.status(500).send('An error occurred creating a new deck. Please try again')
 				: res.status(404).send('Invalid token')
