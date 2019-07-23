@@ -6,7 +6,7 @@ export default class Tutorial {
 	static all(): Promise<TutorialSection[]> {
 		return firestore.collection('tutorials').get().then(sections =>
 			Promise.all(sections.docs.map(sectionDoc => {
-				const section = new TutorialSection(sectionDoc.id, sectionDoc.get('name'), sectionDoc.get('default'))
+				const section = new TutorialSection(sectionDoc.id, sectionDoc.get('name') || 'Unkown section', sectionDoc.get('default'))
 				return section.loadPages().then(() => section)
 			}))
 		)
@@ -29,7 +29,7 @@ export class TutorialSection {
 	loadPages(): Promise<void> {
 		return firestore.collection(`tutorials/${this.slug}/pages`).get().then(pages => {
 			this.pages = pages.docs.map(page =>
-				new TutorialPage(page.id, page.get('name'), page.get('html'))
+				new TutorialPage(page.id, page.get('name') || 'Unknown page', page.get('html') || '')
 			)
 		})
 	}

@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import * as secure from 'securejs'
 
+import { getDate } from './Helpers'
 import Email, { EmailType } from './Email'
 import Deck from './Deck'
 import User from './User'
@@ -18,18 +19,18 @@ export default class Invite {
 	sender: string
 
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
-		this.id = snapshot.get('id')
-		this.role = snapshot.get('role')
-		this.date = snapshot.get('date')
-		this.confirmed = snapshot.get('confirmed')
+		this.id = snapshot.get('id') || ''
+		this.role = Permission.role(snapshot.get('role'))
+		this.date = getDate(snapshot, 'date') || new Date
+		this.confirmed = getDate(snapshot, 'confirmed')
 		this.status = Permission.status(snapshot.get('status'))
-		this.sender = snapshot.get('sender')
+		this.sender = snapshot.get('sender') || ''
 	}
 
 	static fromId(id: string): Promise<Invite> {
 		return firestore.doc(`invites/${id}`).get().then(invite =>
 			invite.exists
-				? firestore.doc(`users/${invite.get('uid')}/invites/${invite.get('deckId')}`).get().then(inviteSnapshot =>
+				? firestore.doc(`users/${invite.get('uid') || ''}/invites/${invite.get('deckId') || ''}`).get().then(inviteSnapshot =>
 					new Invite(inviteSnapshot)
 				)
 				: Promise.reject()
@@ -57,7 +58,7 @@ export const confirmInvite = functions.https.onCall((data, context) => {
 					Deck.doc(data.deckId, `permissions/${uid}`).update(statusUpdate),
 					User.updateLastActivity(uid),
 					firestore.doc(`users/${uid}`).get().then(user =>
-						firestore.doc(`users/${invite.get('sender')}`).get().then(sender =>
+						firestore.doc(`users/${invite.get('sender') || ''}`).get().then(sender =>
 							Deck.doc(data.deckId).get().then(deck =>
 								Deck.image(data.deckId).then(image => {
 									const confirmationType = data.accept ? 'accepted' : 'declined'

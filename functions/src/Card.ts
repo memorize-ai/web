@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
+import { getDate } from './Helpers'
 import Deck from './Deck'
 import User from './User'
 import Reputation, { ReputationAction } from './Reputation'
@@ -70,7 +71,7 @@ export default class Card {
 
 	static isDue(card: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): boolean {
 		return card.exists
-			? date <= ((card.get('next') as FirebaseFirestore.Timestamp | undefined) || new admin.firestore.Timestamp(0, 0)).toMillis()
+			? date <= (getDate(card, 'next') || new Date).getTime()
 			: true
 	}
 

@@ -23,7 +23,7 @@ export const uploadCreated = functions.firestore.document('users/{uid}/uploads/{
 )
 
 export const uploadUpdated = functions.firestore.document('users/{uid}/uploads/{uploadId}').onUpdate((change, context) =>
-	change.before.get('updated').isEqual(change.after.get('updated'))
+	(change.before.get('updated') as FirebaseFirestore.Timestamp).isEqual(change.after.get('updated') as FirebaseFirestore.Timestamp)
 		? Promise.all([
 			updateLastActivity(context),
 			Algolia.update({ index: Algolia.indices.uploads, change }),

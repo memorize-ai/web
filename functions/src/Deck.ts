@@ -22,7 +22,7 @@ export default class Deck {
 
 	static user(uid: string, deckId: string): Promise<{ past: boolean, current: boolean, rating: number } | null> {
 		return Deck.doc(deckId, `users/${uid}`).get().then(user =>
-			user.exists ? { past: user.get('past'), current: user.get('current'), rating: user.get('rating') } : null
+			user.exists ? { past: user.get('past') || false, current: user.get('current') || false, rating: user.get('rating') || 0 } : null
 		)
 	}
 
@@ -139,7 +139,7 @@ export const deckCreated = functions.firestore.document('decks/{deckId}').onCrea
 	const uid: string = snapshot.get('creator') || ''
 	return Promise.all([
 		firestore.doc(`users/${uid}`).get().then(creator => {
-			const creatorName: string = creator.get('name')
+			const creatorName: string = creator.get('name') || 'Unknown user'
 			return Algolia.create({
 				index: Algolia.indices.decks,
 				snapshot,
@@ -147,19 +147,19 @@ export const deckCreated = functions.firestore.document('decks/{deckId}').onCrea
 			})
 		}),
 		User.updateLastActivity(uid),
-		Reputation.push(uid, ReputationAction.createDeck, `You created ${snapshot.get('name')}`, { deckId: context.params.deckId })
+		Reputation.push(uid, ReputationAction.createDeck, `You created ${snapshot.get('name') || 'Unknown deck'}`, { deckId: context.params.deckId })
 	])
 })
 
 export const deckUpdated = functions.firestore.document('decks/{deckId}').onUpdate((change, context) =>
-	change.before.get('updated').isEqual(change.after.get('updated')) && change.before.get('views') === change.after.get('views') && change.before.get('downloads') === change.after.get('downloads') && change.before.get('ratings') === change.after.get('ratings')
+	(change.before.get('updated') as FirebaseFirestore.Timestamp).isEqual(change.after.get('updated') as FirebaseFirestore.Timestamp) && change.before.get('views') === change.after.get('views') && change.before.get('downloads') === change.after.get('downloads') && change.before.get('ratings') === change.after.get('ratings')
 		? Promise.all([
-			firestore.doc(`users/${change.after.get('creator')}`).get().then(creator =>
-				firestore.doc(`users/${change.after.get('owner')}`).get().then(owner =>
+			firestore.doc(`users/${change.after.get('creator') || ''}`).get().then(creator =>
+				firestore.doc(`users/${change.after.get('owner') || ''}`).get().then(owner =>
 					Algolia.update({
 						index: Algolia.indices.decks,
 						change,
-						excess: { creatorName: creator.get('name'), ownerName: owner.get('name') }
+						excess: { creatorName: creator.get('name') || 'Unknown user', ownerName: owner.get('name') || 'Unknown user' }
 					})
 				)
 			),
@@ -201,7 +201,7 @@ export const rateDeck = functions.https.onCall((data, context) => {
 	const setField = (value: any) =>
 		rating ? value : admin.firestore.FieldValue.delete()
 	return firestore.doc(`users/${uid}/ratings/${deckId}`).get().then(oldRating => {
-		const oldRatingNumber = oldRating.get('rating')
+		const oldRatingNumber = oldRating.get('rating') || 0
 		return Promise.all([
 			Deck.updateUserRating(deckId, { uid, rating, title, review, date }),
 			Deck.doc(deckId, `users/${uid}`).update({

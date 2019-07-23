@@ -13,7 +13,7 @@ export const cardDraftUpdated = functions.firestore.document('users/{uid}/cardDr
 	return Promise.all([
 		User.updateLastActivity(context.params.uid),
 		cardId
-			? Deck.doc(snapshot.get('deck'), `cards/${cardId}`).get().then(card =>
+			? Deck.doc(snapshot.get('deck') || '', `cards/${cardId}`).get().then(card =>
 				snapshot.get('front') === card.get('front') && snapshot.get('back') === card.get('back')
 					? snapshot.ref.delete()
 					: Promise.resolve() as Promise<any>

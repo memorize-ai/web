@@ -24,8 +24,8 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 				return Setting.get<boolean>('algorithm', context.params.uid).then(algorithm => {
 					const last: CardLast | undefined = card.get('last')
 					const elapsed = now - (last ? last.date.toMillis() : now)
-					const streak = correct ? card.get('streak') + 1 : 0
-					const e = SM2.e(card.get('e'), rating)
+					const streak = correct ? (card.get('streak') || 0) + 1 : 0
+					const e = SM2.e(card.get('e') || 2.5, rating)
 					if (algorithm)
 						return allCards(context.params.uid).then(cards => {
 							const next = Algorithm.predict(context.params.cardId, cards)
@@ -103,7 +103,7 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 		}),
 		User.updateLastActivity(context.params.uid),
 		Deck.doc(context.params.deckId).get().then(deck =>
-			Reputation.push(context.params.uid, ReputationAction.everyCardReviewed, `You reviewed a card in ${deck.get('name')}`, { deckId: context.params.deckId })
+			Reputation.push(context.params.uid, ReputationAction.everyCardReviewed, `You reviewed a card in ${deck.get('name') || 'Unknown deck'}`, { deckId: context.params.deckId })
 		)
 	])
 })
@@ -126,10 +126,10 @@ function allCardsForDeck(uid: string, deckId: string): Promise<{ id: string, int
 
 function allHistory(uid: string, deckId: string, cardId: string): Promise<{ id: string, intervals: number[], front: string }> {
 	return firestore.collection(`users/${uid}/decks/${deckId}/cards/${cardId}/history`).get().then(historyDocs =>
-		Promise.all(historyDocs.docs.map(history => history.get('elapsed')))
+		Promise.all(historyDocs.docs.map(history => history.get('elapsed') as number || 0))
 	).then(intervals =>
 		Deck.doc(deckId, `cards/${cardId}`).get().then(cardDoc =>
-			({ id: cardId, intervals, front: cardDoc.get('front') })
+			({ id: cardId, intervals, front: cardDoc.get('front') || '' })
 		)
 	)
 }

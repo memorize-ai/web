@@ -114,11 +114,11 @@ export const permissionCreated = functions.firestore.document('decks/{deckId}/pe
 					Deck.doc(context.params.deckId).get().then(deck =>
 						Deck.image(context.params.deckId).then(image => {
 							const deckName: string | undefined = deck.get('name')
-							const subject = `${user.get('name')} invited you to ${Permission.verbify(Permission.role(role))} ${deckName}`
+							const subject = `${user.get('name') || 'Unknown user'} invited you to ${Permission.verbify(Permission.role(role))} ${deckName}`
 							return Email.send(EmailType.invited, { to: context.params.uid, subject }, {
 								deck_image: image,
 								deck_name: deckName,
-								deck_subtitle: deck.get('subtitle'),
+								deck_subtitle: deck.get('subtitle') || '',
 								text: subject,
 								action_url: Invite.url(inviteId),
 								deck_url: Deck.url(context.params.deckId)
@@ -133,7 +133,7 @@ export const permissionCreated = functions.firestore.document('decks/{deckId}/pe
 
 export const permissionUpdated = functions.firestore.document('decks/{deckId}/permissions/{uid}').onUpdate((change, context) => {
 	const role: string | undefined = change.after.get('role')
-	return change.before.get('status') === change.after.get('status') && change.before.get('confirmed').isEqual(change.after.get('confirmed'))
+	return change.before.get('status') === change.after.get('status') && (change.before.get('confirmed') as FirebaseFirestore.Timestamp).isEqual(change.after.get('confirmed') as FirebaseFirestore.Timestamp)
 		? Promise.all([
 			context.auth ? User.updateLastActivity(context.auth.uid) : Promise.resolve(),
 			User.updateRoleForDeck(context.params.uid, context.params.deckId, Permission.role(role)),
@@ -145,11 +145,11 @@ export const permissionUpdated = functions.firestore.document('decks/{deckId}/pe
 							Deck.image(context.params.deckId).then(image => {
 								const after = Permission.role(role)
 								const deckName: string | undefined = deck.get('name')
-								const subject = `${user.get('name')} ${Permission.didUpgradeRole(Permission.role(change.before.get('role')), after) ? 'promoted' : 'demoted'} you to a${after === PermissionRole.viewer ? '' : 'n'} ${Permission.stringify(after)} of ${deckName}`
+								const subject = `${user.get('name') || 'Unknown user'} ${Permission.didUpgradeRole(Permission.role(change.before.get('role')), after) ? 'promoted' : 'demoted'} you to a${after === PermissionRole.viewer ? '' : 'n'} ${Permission.stringify(after)} of ${deckName}`
 								return Email.send(EmailType.roleChanged, { to: context.params.uid, subject }, {
 									deck_image: image,
 									deck_name: deckName,
-									deck_subtitle: deck.get('subtitle'),
+									deck_subtitle: deck.get('subtitle') || '',
 									text: subject,
 									deck_url: Deck.url(context.params.deckId)
 								})
@@ -183,7 +183,7 @@ export const permissionDeleted = functions.firestore.document('decks/{deckId}/pe
 									Email.send(EmailType.uninvited, { to: context.params.uid, subject: text }, {
 										deck_image: image,
 										deck_name: deckName,
-										deck_subtitle: deck.get('subtitle'),
+										deck_subtitle: deck.get('subtitle') || '',
 										text,
 										deck_url: Deck.url(context.params.deckId)
 									})

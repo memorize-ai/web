@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
+import { getDate } from './Helpers'
 import Slug from './Slug'
 import Deck from './Deck'
 import Algolia from './Algolia'
@@ -57,7 +58,7 @@ export default class User {
 	}
 
 	static getLastNotificationDifference(snapshot: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): number {
-		return date - snapshot.get('lastNotification').toMillis()
+		return date - (getDate(snapshot, 'lastNotification') || new Date).getTime()
 	}
 
 	static getTokens(uid: string): Promise<string[]> {
@@ -84,7 +85,7 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 export const userUpdated = functions.firestore.document('users/{uid}').onUpdate((change, context) => {
 	const afterName: string | undefined = change.after.get('name')
 	if (!afterName) return Promise.resolve()
-	return change.before.get('lastNotification') === change.after.get('lastNotification') && change.before.get('lastOnline').isEqual(change.after.get('lastOnline')) && change.before.get('lastActivity').isEqual(change.after.get('lastActivity'))
+	return (change.before.get('lastNotification') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastNotification') as FirebaseFirestore.Timestamp) && (change.before.get('lastOnline') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastOnline') as FirebaseFirestore.Timestamp) && (change.before.get('lastActivity') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastActivity') as FirebaseFirestore.Timestamp)
 		? Promise.all([
 			Algolia.update({ index: Algolia.indices.users, change }),
 			change.before.get('name') === afterName
@@ -165,7 +166,7 @@ export const contactUser = functions.https.onCall((data, context) => {
 		return new functions.https.HttpsError('unauthenticated', 'You need to be signed in and specify a uid, subject, body, and your shareLink')
 	const uid = context.auth.uid
 	return firestore.doc(`users/${uid}`).get().then(user =>
-		Email.sendEmail(otherUid, subject, `${body}\n\nSent by <a href="${shareLink}">${user.get('name')}</a> through <a href="https://memorize.ai">memorize.ai</a>`)
+		Email.sendEmail(otherUid, subject, `${body}\n\nSent by <a href="${shareLink}">${user.get('name') || 'Unknown user'}</a> through <a href="https://memorize.ai">memorize.ai</a>`)
 	)
 })
 
@@ -174,7 +175,7 @@ export const followerCreated = functions.firestore.document('users/{uid}/followe
 	const followerId: string = context.params.followerId
 	return firestore.doc(`users/${uid}`).update({ followersCount: admin.firestore.FieldValue.increment(1) }).then(_writeResult =>
 		firestore.doc(`users/${followerId}`).get().then(follower =>
-			Reputation.push(uid, ReputationAction.everyFollower, `${follower.get('name')} followed you`, { uid: followerId }).then(__writeResult =>
+			Reputation.push(uid, ReputationAction.everyFollower, `${follower.get('name') || 'Unknown user'} followed you`, { uid: followerId }).then(__writeResult =>
 				firestore.doc(`users/${uid}`).get().then(user => {
 					const followers: number = user.get('followersCount') || 0
 					const addReputation = (action: ReputationAction) =>

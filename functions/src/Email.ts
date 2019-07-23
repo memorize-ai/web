@@ -33,14 +33,17 @@ export default class Email {
 	static sendEmail(to: string, subject: string, body: string): Promise<boolean> {
 		return Setting.get<boolean>('email-notifications', to).then(value =>
 			value
-				? firestore.doc(`users/${to}`).get().then(user =>
-					transport.sendMail({
-						from: config.email,
-						to: user.get('email'),
-						subject,
-						text: body
-					}).then(() => true).catch(() => false)
-				)
+				? firestore.doc(`users/${to}`).get().then(user => {
+					const email: string | undefined = user.get('email')
+					return email
+						? transport.sendMail({
+							from: config.email,
+							to: email,
+							subject,
+							text: body
+						}).then(() => true).catch(() => false)
+						: false
+				})
 				: false
 		)
 	}

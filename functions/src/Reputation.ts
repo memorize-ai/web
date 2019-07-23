@@ -29,7 +29,7 @@ export default class Reputation {
 			)
 		return reputation === undefined
 			? firestore.doc(`users/${uid}`).get().then(user =>
-				addDocument(user.get('reputation'))
+				addDocument(user.get('reputation') || 0)
 			)
 			: addDocument(reputation)
 	}

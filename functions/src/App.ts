@@ -34,7 +34,7 @@ app.get('/u/:slug', (req, res) =>
 		else {
 			const user = users.docs[0]
 			res.render('user.html', {
-				user_name: user.get('name')
+				user_name: user.get('name') || 'Unknown user'
 			})
 		}
 	})
