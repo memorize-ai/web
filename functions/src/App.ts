@@ -44,7 +44,7 @@ app.get('/d/:deckId', (req, res) =>
 	Deck.doc(req.params.deckId).get().then(deck =>
 		deck.exists
 			? res.render('deck.html', {
-				deck_name: deck.get('name')
+				deck_name: deck.get('name') || 'Unknown Deck'
 			})
 			: res.render('404.html', {
 				title: 'Invalid deck URL',

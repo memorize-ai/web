@@ -17,12 +17,13 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 	const cardRef = firestore.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
 	return Promise.all([
 		cardRef.get().then(card => {
-			const rating: number = snapshot.get('rating')
+			const rating: number = snapshot.get('rating') || 5
 			const correct = rating > 2
 			const increment = correct ? 1 : 0
 			if (card.data())
 				return Setting.get<boolean>('algorithm', context.params.uid).then(algorithm => {
-					const elapsed = now - (card.get('last') as CardLast).date.toMillis()
+					const last: CardLast | undefined = card.get('last')
+					const elapsed = now - (last ? last.date.toMillis() : now)
 					const streak = correct ? card.get('streak') + 1 : 0
 					const e = SM2.e(card.get('e'), rating)
 					if (algorithm)

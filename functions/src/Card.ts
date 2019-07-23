@@ -70,7 +70,7 @@ export default class Card {
 
 	static isDue(card: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): boolean {
 		return card.exists
-			? date <= card.get('next').toMillis()
+			? date <= ((card.get('next') as FirebaseFirestore.Timestamp | undefined) || new admin.firestore.Timestamp(0, 0)).toMillis()
 			: true
 	}
 }
@@ -86,8 +86,9 @@ export type CardLast = { id: string, date: FirebaseFirestore.Timestamp, rating: 
 export const rateCard = functions.https.onCall((data, context) => {
 	if (!context.auth) return new functions.https.HttpsError('unauthenticated', 'You must be signed in')
 	const date = new Date
-	const deckId: string = data.deckId
-	const cardId: string = data.cardId
+	const deckId: string | undefined = data.deckId
+	const cardId: string | undefined = data.cardId
+	if (!(deckId && cardId)) return new functions.https.HttpsError('invalid-argument', 'deckId and cardId required')
 	const id = { deckId, cardId }
 	const uid = context.auth.uid
 	const rating = Card.rating(data.rating)
@@ -99,9 +100,9 @@ export const rateCard = functions.https.onCall((data, context) => {
 			User.updateLastActivity(uid),
 			Deck.doc(deckId).get().then(deck =>
 				firestore.doc(`users/${uid}`).get().then(user => {
-					const ownerId: string = deck.get('owner')
-					const name: string = user.get('name')
-					const deckName: string = deck.get('name')
+					const ownerId: string = deck.get('owner') || ''
+					const name: string = user.get('name') || ''
+					const deckName: string = deck.get('name') || ''
 					if (oldRatingAsCardRating === CardRating.none)
 						return Reputation.push(
 							ownerId,
@@ -138,7 +139,7 @@ export const cardCreated = functions.firestore.document('decks/{deckId}/cards/{c
 )
 
 export const cardUpdated = functions.firestore.document('decks/{deckId}/cards/{cardId}').onUpdate((change, context) =>
-	change.before.get('updated').isEqual(change.after.get('updated')) && change.before.get('likes') === change.after.get('likes') && change.before.get('dislikes') === change.after.get('dislikes')
+	(change.before.get('updated') as FirebaseFirestore.Timestamp).isEqual(change.after.get('updated') as FirebaseFirestore.Timestamp) && change.before.get('likes') === change.after.get('likes') && change.before.get('dislikes') === change.after.get('dislikes')
 		? Card.updateLastUpdated({ deckId: context.params.deckId, cardId: context.params.cardId })
 		: Promise.resolve()
 )

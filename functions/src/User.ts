@@ -45,7 +45,8 @@ export default class User {
 	static updateViews(id: string, { total, unique }: { total: number, unique: number }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = firestore.doc(`users/${id}`)
 		return doc.get().then(user => {
-			const views: UserViews = user.get('views')
+			const views: UserViews | undefined = user.get('views')
+			if (!views) return Promise.resolve() as Promise<any>
 			return doc.update({
 				views: {
 					total: views.total + total,
@@ -70,7 +71,7 @@ export type UserViews = { total: number, unique: number }
 
 export const userCreated = functions.firestore.document('users/{uid}').onCreate((snapshot, context) => {
 	const uid = context.params.uid
-	const name: string = snapshot.get('name')
+	const name: string | undefined = snapshot.get('name')
 	const now = new Date
 	return Promise.all([
 		Algolia.create({ index: Algolia.indices.users, snapshot }),
@@ -81,7 +82,8 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 })
 
 export const userUpdated = functions.firestore.document('users/{uid}').onUpdate((change, context) => {
-	const afterName: string = change.after.get('name')
+	const afterName: string | undefined = change.after.get('name')
+	if (!afterName) return Promise.resolve()
 	return change.before.get('lastNotification') === change.after.get('lastNotification') && change.before.get('lastOnline').isEqual(change.after.get('lastOnline')) && change.before.get('lastActivity').isEqual(change.after.get('lastActivity'))
 		? Promise.all([
 			Algolia.update({ index: Algolia.indices.users, change }),
@@ -108,7 +110,7 @@ export const updateLastOnline = functions.https.onCall((_data, context) =>
 )
 
 export const viewUser = functions.https.onCall((data, context) => {
-	const otherUid: string = data.uid
+	const otherUid: string | undefined = data.uid
 	if (!(otherUid && context.auth)) return new functions.https.HttpsError('unauthenticated', 'You need to be signed in and specify a uid')
 	const uid = context.auth.uid
 	const viewerDoc = firestore.doc(`users/${otherUid}/viewers/${uid}`)
@@ -126,7 +128,7 @@ export const viewUser = functions.https.onCall((data, context) => {
 })
 
 export const followUser = functions.https.onCall((data, context) => {
-	const otherUid: string = data.uid
+	const otherUid: string | undefined = data.uid
 	if (!(otherUid && context.auth)) return new functions.https.HttpsError('unauthenticated', 'You need to be signed in and specify a uid')
 	const uid = context.auth.uid
 	if (uid === otherUid) return new functions.https.HttpsError('failed-precondition', 'You cannot follow yourself')
@@ -141,7 +143,7 @@ export const followUser = functions.https.onCall((data, context) => {
 })
 
 export const unfollowUser = functions.https.onCall((data, context) => {
-	const otherUid: string = data.uid
+	const otherUid: string | undefined = data.uid
 	if (!(otherUid && context.auth)) return new functions.https.HttpsError('unauthenticated', 'You need to be signed in and specify a uid')
 	const uid = context.auth.uid
 	const updateObject = { current: false, dateUnfollowed: new Date }
@@ -174,7 +176,7 @@ export const followerCreated = functions.firestore.document('users/{uid}/followe
 		firestore.doc(`users/${followerId}`).get().then(follower =>
 			Reputation.push(uid, ReputationAction.everyFollower, `${follower.get('name')} followed you`, { uid: followerId }).then(__writeResult =>
 				firestore.doc(`users/${uid}`).get().then(user => {
-					const followers: number = user.get('followersCount')
+					const followers: number = user.get('followersCount') || 0
 					const addReputation = (action: ReputationAction) =>
 						Reputation.push(uid, action, `You hit ${followers} followers`)
 					switch (0) {
@@ -196,7 +198,7 @@ export const followerCreated = functions.firestore.document('users/{uid}/followe
 export const followerUpdated = functions.firestore.document('users/{uid}/followers/{followerId}').onUpdate((change, context) => {
 	const uid = context.params.uid
 	const followerId: string = context.params.followerId
-	const isFollowing: boolean = change.after.get('current')
+	const isFollowing: boolean = change.after.get('current') || false
 	return change.before.get('current') === isFollowing
 		? Promise.resolve()
 		: firestore.doc(`users/${uid}`).update({ followersCount: admin.firestore.FieldValue.increment(isFollowing ? 1 : -1) }).then(_writeResult =>
@@ -204,7 +206,7 @@ export const followerUpdated = functions.firestore.document('users/{uid}/followe
 				Reputation.push(uid, isFollowing ? ReputationAction.everyFollower : ReputationAction.everyUnfollow, `${follower.get('name')} ${isFollowing ? '' : 'un'}followed you`, { uid: followerId }).then(__writeResult =>
 					isFollowing
 						? firestore.doc(`users/${uid}`).get().then(user => {
-							const followers: number = user.get('followersCount')
+							const followers: number = user.get('followersCount') || 0
 							const addReputation = (action: ReputationAction) =>
 								Reputation.push(uid, action, `You hit ${followers} followers`)
 							switch (0) {
@@ -233,7 +235,7 @@ export const followingCreated = functions.firestore.document('users/{uid}/follow
 )
 
 export const followingUpdated = functions.firestore.document('users/{uid}/following/{followingId}').onUpdate((change, context) => {
-	const isFollowing: boolean = change.after.get('current')
+	const isFollowing: boolean | undefined = change.after.get('current')
 	return change.before.get('current') === isFollowing
 		? Promise.resolve()
 		: firestore.doc(`users/${context.params.uid}`).update({ followingCount: admin.firestore.FieldValue.increment(isFollowing ? 1 : -1) })
