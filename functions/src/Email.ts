@@ -7,7 +7,7 @@ import { join } from 'path'
 import Setting from './Setting'
 
 const firestore = admin.firestore()
-const config = functions.config().gmail
+const config: { email: string, password: string } = functions.config().gmail
 const transport = createTransport({
 	service: 'gmail',
 	auth: {

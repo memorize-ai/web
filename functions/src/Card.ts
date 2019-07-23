@@ -7,12 +7,6 @@ import Reputation, { ReputationAction } from './Reputation'
 
 const firestore = admin.firestore()
 
-export enum CardRating {
-	like = 1,
-	none = 0,
-	dislike = -1
-}
-
 export default class Card {
 	static rating(num: number): CardRating {
 		switch (num) {
@@ -27,7 +21,8 @@ export default class Card {
 
 	static updateRating({ deckId, cardId }: { deckId: string, cardId: string }, { from, to }: { from: CardRating | undefined, to: CardRating }): Promise<FirebaseFirestore.WriteResult[]> {
 		const promises: Promise<FirebaseFirestore.WriteResult>[] = []
-		const update = (obj: any) => promises.push(Deck.doc(deckId, `cards/${cardId}`).update(obj))
+		const update = (obj: any) =>
+			promises.push(Deck.doc(deckId, `cards/${cardId}`).update(obj))
 		const decrement = admin.firestore.FieldValue.increment(-1)
 		const increment = admin.firestore.FieldValue.increment(1)
 		switch (from) {
@@ -80,11 +75,19 @@ export default class Card {
 	}
 }
 
+export enum CardRating {
+	like = 1,
+	none = 0,
+	dislike = -1
+}
+
+export type CardLast = { id: string, date: FirebaseFirestore.Timestamp, rating: number, elapsed: number }
+
 export const rateCard = functions.https.onCall((data, context) => {
 	if (!context.auth) return new functions.https.HttpsError('unauthenticated', 'You must be signed in')
 	const date = new Date
-	const deckId = data.deckId
-	const cardId = data.cardId
+	const deckId: string = data.deckId
+	const cardId: string = data.cardId
 	const id = { deckId, cardId }
 	const uid = context.auth.uid
 	const rating = Card.rating(data.rating)
@@ -96,9 +99,9 @@ export const rateCard = functions.https.onCall((data, context) => {
 			User.updateLastActivity(uid),
 			Deck.doc(deckId).get().then(deck =>
 				firestore.doc(`users/${uid}`).get().then(user => {
-					const ownerId = deck.get('owner')
-					const name = user.get('name')
-					const deckName = deck.get('name')
+					const ownerId: string = deck.get('owner')
+					const name: string = user.get('name')
+					const deckName: string = deck.get('name')
 					if (oldRatingAsCardRating === CardRating.none)
 						return Reputation.push(
 							ownerId,

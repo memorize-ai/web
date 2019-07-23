@@ -33,7 +33,7 @@ export default class Deck {
 	static updateViews(id: string, { total, unique }: { total: number, unique: number }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = Deck.doc(id)
 		return doc.get().then(deck => {
-			const views = deck.get('views')
+			const views: DeckViews = deck.get('views')
 			return doc.update({
 				views: {
 					total: views.total + total,
@@ -46,7 +46,7 @@ export default class Deck {
 	static updateDownloads(id: string, { total, current }: { total: number, current: number }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = Deck.doc(id)
 		return doc.get().then(deck => {
-			const downloads = deck.get('downloads')
+			const downloads: DeckDownloads = deck.get('downloads')
 			return doc.update({
 				downloads: {
 					total: downloads.total + total,
@@ -56,11 +56,11 @@ export default class Deck {
 		})
 	}
 
-	private static averageRating(ratings: any): number {
+	private static averageRating(ratings: DeckRatings): number {
 		let weighted = 0
 		let total = 0
 		for (let i = 1; i <= 5; i++) {
-			const amount = ratings[i]
+			const amount: number = (ratings as any)[i]
 			weighted += amount * i
 			total += amount
 		}
@@ -70,9 +70,9 @@ export default class Deck {
 	static updateRating(id: string, { from, to }: { from: number | undefined, to: number }): Promise<FirebaseFirestore.WriteResult> {
 		const doc = Deck.doc(id)
 		return doc.get().then(deck => {
-			const ratings = deck.get('ratings')
-			if (from) ratings[from]--
-			if (to) ratings[to]++
+			const ratings: DeckRatings = deck.get('ratings')
+			if (from) (ratings as any)[from]--
+			if (to) (ratings as any)[to]++
 			ratings.average = Deck.averageRating(ratings)
 			return doc.update({ ratings })
 		})
@@ -118,11 +118,15 @@ export default class Deck {
 	}
 }
 
+export type DeckViews = { total: number, unique: number }
+export type DeckDownloads = { total: number, current: number }
+export type DeckRatings = { average: number, 1: number, 2: number, 3: number, 4: number, 5: number }
+
 export const deckCreated = functions.firestore.document('decks/{deckId}').onCreate((snapshot, context) => {
 	const uid = snapshot.get('creator')
 	return Promise.all([
 		firestore.doc(`users/${uid}`).get().then(creator => {
-			const creatorName = creator.get('name')
+			const creatorName: string = creator.get('name')
 			return Algolia.create({
 				index: Algolia.indices.decks,
 				snapshot,
@@ -181,10 +185,10 @@ export const rateDeck = functions.https.onCall((data, context) => {
 	if (!context.auth) return new functions.https.HttpsError('unauthenticated', 'You must be signed in')
 	const date = new Date
 	const uid = context.auth.uid
-	const rating = data.rating
-	const title = rating && data.title ? data.title : ''
-	const review = rating && data.review ? data.review : ''
-	const deckId = data.deckId
+	const rating: number = data.rating
+	const title: string = rating && data.title ? data.title : ''
+	const review: string = rating && data.review ? data.review : ''
+	const deckId: string = data.deckId
 	const setField = (value: any) =>
 		rating ? value : admin.firestore.FieldValue.delete()
 	return firestore.doc(`users/${uid}/ratings/${deckId}`).get().then(oldRating => {
@@ -203,10 +207,10 @@ export const rateDeck = functions.https.onCall((data, context) => {
 			User.updateLastActivity(uid),
 			Deck.doc(deckId).get().then(deck => {
 				const didReview = review.length !== 0
-				const deckName = deck.get('name')
-				const ownerId = deck.get('owner')
+				const deckName: string = deck.get('name')
+				const ownerId: string = deck.get('owner')
 				return firestore.doc(`users/${uid}`).get().then(user => {
-					const name = user.get('name')
+					const name: string = user.get('name')
 					if (oldRatingNumber === 0) {
 						const newRatingAsReputationAction = getReputationActionDeckRatingFromNumber(rating)
 						if (!newRatingAsReputationAction) return Promise.resolve() as Promise<any>
@@ -285,7 +289,7 @@ export const rateDeck = functions.https.onCall((data, context) => {
 })
 
 export const addDeck = functions.https.onCall((data, context) => {
-	const deckId = data.deckId
+	const deckId: string = data.deckId
 	if (context.auth && deckId) {
 		const uid = context.auth.uid
 		const addDeckWithRole = (role: PermissionRole) =>
@@ -304,7 +308,7 @@ export const addDeck = functions.https.onCall((data, context) => {
 })
 
 export const clearDeckData = functions.https.onCall((data, context) => {
-	const deckId = data.deckId
+	const deckId: string = data.deckId
 	if (context.auth && deckId) {
 		const doc = firestore.doc(`users/${context.auth.uid}/decks/${deckId}`)
 		return Promise.all([
@@ -327,7 +331,7 @@ export const clearDeckData = functions.https.onCall((data, context) => {
 })
 
 export const deleteDeck = functions.https.onCall((data, context) => {
-	const deckId = data.deckId
+	const deckId: string = data.deckId
 	if (context.auth && deckId) {
 		const uid = context.auth.uid
 		const deckRef = Deck.doc(deckId)

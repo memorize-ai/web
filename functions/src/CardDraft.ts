@@ -9,7 +9,7 @@ export const cardDraftCreated = functions.firestore.document('users/{uid}/cardDr
 
 export const cardDraftUpdated = functions.firestore.document('users/{uid}/cardDrafts/{draftId}').onUpdate((change, context) => {
 	const snapshot = change.after
-	const cardId = snapshot.get('card')
+	const cardId: string | undefined = snapshot.get('card')
 	return Promise.all([
 		User.updateLastActivity(context.params.uid),
 		cardId

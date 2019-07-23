@@ -5,7 +5,7 @@ const firestore = admin.firestore()
 export default class Reputation {
 	static getAmountForAction(action: ReputationAction): Promise<number> {
 		return firestore.doc(`reputation/${action.valueOf()}`).get().then(doc => {
-			const amount = doc.get('amount')
+			const amount: number | undefined = doc.get('amount')
 			return amount === undefined ? Promise.reject() : amount
 		})
 	}

@@ -7,6 +7,7 @@ import Algorithm from './Algorithm'
 import SM2 from './SM2'
 import User from './User'
 import Reputation, { ReputationAction } from './Reputation'
+import { CardLast } from './Card'
 
 const firestore = admin.firestore()
 
@@ -16,12 +17,12 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 	const cardRef = firestore.doc(`users/${context.params.uid}/decks/${context.params.deckId}/cards/${context.params.cardId}`)
 	return Promise.all([
 		cardRef.get().then(card => {
-			const rating = snapshot.get('rating')
+			const rating: number = snapshot.get('rating')
 			const correct = rating > 2
 			const increment = correct ? 1 : 0
 			if (card.data())
 				return Setting.get<boolean>('algorithm', context.params.uid).then(algorithm => {
-					const elapsed = now - card.get('last').date.toMillis()
+					const elapsed = now - (card.get('last') as CardLast).date.toMillis()
 					const streak = correct ? card.get('streak') + 1 : 0
 					const e = SM2.e(card.get('e'), rating)
 					if (algorithm)

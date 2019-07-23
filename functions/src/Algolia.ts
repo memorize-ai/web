@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions'
 import * as algoliasearch from 'algoliasearch'
 
-const config = functions.config().algolia
+const config: { app_id: string, api_key: string } = functions.config().algolia
 const client = algoliasearch(config.app_id, config.api_key)
 
 export default class Algolia {

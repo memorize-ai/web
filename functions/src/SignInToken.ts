@@ -8,11 +8,11 @@ const firestore = admin.firestore()
 const auth = admin.auth()
 
 export const getUserSignInToken = functions.https.onRequest((req, res) => {
-	const password = req.query.password
-	const email = req.query.email
-	const uid = req.query.uid
+	const password: string | undefined = req.query.password
+	const email: string | undefined = req.query.email
+	const uid: string | undefined = req.query.uid
 	if (!((email || uid) && password)) return res.status(400).send('Specify a uid or email')
-	const getUser = email ? auth.getUserByEmail(email) : auth.getUser(uid)
+	const getUser = email ? auth.getUserByEmail(email) : auth.getUser(uid || '')
 	return getUser.then(user =>
 		checkPasswordForUser(user, password)
 			? sendNewSignInToken(user.uid, res)
@@ -23,8 +23,8 @@ export const getUserSignInToken = functions.https.onRequest((req, res) => {
 })
 
 export const checkUserSignInToken = functions.https.onRequest((req, res) => {
-	const uid = req.query.uid
-	const token = req.query.token
+	const uid: string | undefined = req.query.uid
+	const token: string | undefined = req.query.token
 	return uid && token
 		? checkSignInToken(uid, token).then(valid =>
 			valid
@@ -37,8 +37,8 @@ export const checkUserSignInToken = functions.https.onRequest((req, res) => {
 })
 
 export const getUserDecks = functions.https.onRequest((req, res) => {
-	const uid = req.query.uid
-	const token = req.query.token
+	const uid: string | undefined = req.query.uid
+	const token: string | undefined = req.query.token
 	if (!(uid && token)) return res.status(400).send('Specify a uid and token')
 	return checkSignInToken(uid, token).then(valid =>
 		valid

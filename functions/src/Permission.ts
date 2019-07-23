@@ -92,18 +92,18 @@ export default class Permission {
 	}
 
 	static isPending(snapshot: FirebaseFirestore.DocumentSnapshot): boolean {
-		const status = snapshot.get('status')
+		const status: number = snapshot.get('status')
 		return Permission.status(status === undefined ? 0 : status) === PermissionStatus.pending
 	}
 
 	static isDeclined(snapshot: FirebaseFirestore.DocumentSnapshot): boolean {
-		const status = snapshot.get('status')
+		const status: number = snapshot.get('status')
 		return Permission.status(status === undefined ? -1 : status) === PermissionStatus.declined
 	}
 }
 
 export const permissionCreated = functions.firestore.document('decks/{deckId}/permissions/{uid}').onCreate((snapshot, context) => {
-	const role = snapshot.get('role')
+	const role: string = snapshot.get('role')
 	const inviteId = Invite.newId()
 	return Promise.all([
 		firestore.doc(`users/${context.params.uid}/invites/${context.params.deckId}`).set({ id: inviteId, role, date: snapshot.get('date'), status: 0, sent: snapshot.get('sent') }),
@@ -113,8 +113,8 @@ export const permissionCreated = functions.firestore.document('decks/{deckId}/pe
 				firestore.doc(`users/${context.auth.uid}`).get().then(user =>
 					Deck.doc(context.params.deckId).get().then(deck =>
 						Deck.image(context.params.deckId).then(image => {
-							const deckName = deck.get('name')
-							const subject = `${user.get('name')} invited you to ${Permission.verbify(role)} ${deckName}`
+							const deckName: string = deck.get('name')
+							const subject = `${user.get('name')} invited you to ${Permission.verbify(Permission.role(role))} ${deckName}`
 							return Email.send(EmailType.invited, { to: context.params.uid, subject }, {
 								deck_image: image,
 								deck_name: deckName,
@@ -132,7 +132,7 @@ export const permissionCreated = functions.firestore.document('decks/{deckId}/pe
 })
 
 export const permissionUpdated = functions.firestore.document('decks/{deckId}/permissions/{uid}').onUpdate((change, context) => {
-	const role = change.after.get('role')
+	const role: string = change.after.get('role')
 	return change.before.get('status') === change.after.get('status') && change.before.get('confirmed').isEqual(change.after.get('confirmed'))
 		? Promise.all([
 			context.auth ? User.updateLastActivity(context.auth.uid) : Promise.resolve(),
@@ -174,8 +174,8 @@ export const permissionDeleted = functions.firestore.document('decks/{deckId}/pe
 				: context.auth
 					? firestore.doc(`users/${context.auth.uid}`).get().then(user =>
 						Deck.doc(context.params.deckId).get().then(deck => {
-							const userName = user.get('name')
-							const deckName = deck.get('name')
+							const userName: string = user.get('name')
+							const deckName: string = deck.get('name')
 							const role = Permission.role(snapshot.get('role'))
 							const text = `${userName} removed you as a${role === PermissionRole.viewer ? '' : 'n'} ${Permission.stringify(role)} of ${deckName}`
 							return deck.get('public')

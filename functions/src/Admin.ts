@@ -21,7 +21,7 @@ export default class Admin {
 	}
 
 	static httpsCheckKey(req: functions.https.Request, res: functions.Response, success: () => void) {
-		const key = req.query.key
+		const key: string = req.query.key
 		return key
 			? Admin.checkKey(key).then(isValid =>
 				isValid
@@ -34,7 +34,7 @@ export default class Admin {
 
 export const adminFunction = functions.https.onRequest((req, res) =>
 	Admin.httpsCheckKey(req, res, () => {
-		const action = req.query.action
+		const action: string = req.query.action
 		if (!action) return res.status(400).send('You must specify an action')
 		switch (action) {
 		case 'reset-key':

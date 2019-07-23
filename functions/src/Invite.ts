@@ -62,10 +62,10 @@ export const confirmInvite = functions.https.onCall((data, context) => {
 								Deck.image(data.deckId).then(image => {
 									const confirmationType = data.accept ? 'accepted' : 'declined'
 									const role = Permission.verbify(Permission.role(invite.get('role')))
-									const userName = user.get('name')
-									const senderName = sender.get('name')
-									const deckName = deck.get('name')
-									const deckSubtitle = deck.get('subtitle')
+									const userName: string = user.get('name')
+									const senderName: string = sender.get('name')
+									const deckName: string = deck.get('name')
+									const deckSubtitle: string = deck.get('subtitle')
 									const deckUrl = Deck.url(data.deckId)
 									return Promise.all([
 										Email.send(EmailType.youConfirmedInvite, { to: uid, subject: `You ${confirmationType} ${senderName}'s invite to ${role} ${deckName}` }, {

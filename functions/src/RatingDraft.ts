@@ -10,7 +10,8 @@ export const ratingDraftCreated = functions.firestore.document('users/{uid}/rati
 
 export const ratingDraftUpdated = functions.firestore.document('users/{uid}/ratingDrafts/{deckId}').onUpdate((change, context) => {
 	const snapshot = change.after
-	const deleteSnapshot = () => snapshot.ref.delete()
+	const deleteSnapshot = () =>
+		snapshot.ref.delete()
 	const handleField = (data_: FirebaseFirestore.DocumentData, field: string) =>
 		data_[field] ? Promise.resolve() as Promise<any> : snapshot.ref.update({ [field]: admin.firestore.FieldValue.delete() })
 	const data = snapshot.data()
