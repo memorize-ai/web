@@ -10,6 +10,8 @@ const firestore = admin.firestore()
 const storage = admin.storage().bucket('us')
 
 export default class Deck {
+	static defaultImageUrl = 'https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Fdefault-deck-image.png?alt=media&token=8329a28b-494c-4e1a-9b88-8ff614b2bb96'
+
 	static doc(id: string, path?: string): FirebaseFirestore.DocumentReference {
 		return firestore.doc(`decks/${id}${path ? `/${path}` : ''}`)
 	}
@@ -89,8 +91,13 @@ export default class Deck {
 		return Deck.doc(id).update({ updated: new Date })
 	}
 
-	static image(id: string): Promise<string> {
-		return storage.file(`decks/${id}`).getSignedUrl({ action: 'read', expires: '03-09-2491' }).then(signedUrls => signedUrls[0])
+	static image(snapshot: FirebaseFirestore.DocumentSnapshot): Promise<string> {
+		return snapshot.get('hasImage')
+			? storage.file(`decks/${snapshot.id}`).getSignedUrl({
+				action: 'read',
+				expires: '01-01-2999'
+			}).then(signedUrls => signedUrls[0])
+			: Promise.resolve(Deck.defaultImageUrl)
 	}
 
 	static url(id: string): string {
