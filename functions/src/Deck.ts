@@ -119,6 +119,16 @@ export default class Deck {
 			)
 		}).then(() => JSON.stringify(json))
 	}
+
+	static view(uid: string, deckId: string): Promise<FirebaseFirestore.WriteResult[]> {
+		return Deck.user(uid, deckId).then(user =>
+			Promise.all([
+				Deck.updateViews(deckId, { total: 1, unique: user ? 0 : 1 }),
+				user ? Promise.resolve() as Promise<any> : Deck.doc(deckId, `users/${uid}`).set({ past: false, current: false }),
+				User.updateLastActivity(uid)
+			])
+		)
+	}
 }
 
 export type DeckViews = { total: number, unique: number }
@@ -173,15 +183,11 @@ export const deckDeleted = functions.firestore.document('decks/{deckId}').onDele
 )
 
 export const viewDeck = functions.https.onCall((data, context) => {
-	if (!context.auth) return Deck.updateViews(data.deckId, { total: 1, unique: 0 })
-	const uid: string | undefined = context.auth.uid
-	return Deck.user(uid, data.deckId).then(user =>
-		Promise.all([
-			Deck.updateViews(data.deckId, { total: 1, unique: user ? 0 : 1 }),
-			user ? Promise.resolve() as Promise<any> : Deck.doc(data.deckId, `users/${uid}`).set({ past: false, current: false }),
-			User.updateLastActivity(uid)
-		])
-	)
+	const deckId: string | undefined = data.deckId
+	if (!deckId) return new functions.https.HttpsError('invalid-argument', 'You must specify a deckId')
+	return context.auth
+		? Deck.view(context.auth.uid, deckId)
+		: Deck.updateViews(deckId, { total: 1, unique: 0 })
 })
 
 export const rateDeck = functions.https.onCall((data, context) => {
