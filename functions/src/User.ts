@@ -193,33 +193,26 @@ export const followerCreated = functions.firestore.document('users/{uid}/followe
 })
 
 export const followerUpdated = functions.firestore.document('users/{uid}/followers/{followerId}').onUpdate((change, context) => {
-	const uid = context.params.uid
+	const uid: string = context.params.uid
 	const followerId: string = context.params.followerId
 	const isFollowing: boolean = change.after.get('current') || false
 	return change.before.get('current') === isFollowing
 		? Promise.resolve()
 		: firestore.doc(`users/${uid}`).update({ followersCount: admin.firestore.FieldValue.increment(isFollowing ? 1 : -1) }).then(_writeResult =>
-			firestore.doc(`users/${followerId}`).get().then(follower =>
-				Reputation.push(uid, isFollowing ? ReputationAction.everyFollower : ReputationAction.everyUnfollow, `${follower.get('name')} ${isFollowing ? '' : 'un'}followed you`, { uid: followerId }).then(__writeResult =>
-					isFollowing
-						? firestore.doc(`users/${uid}`).get().then(user => {
-							const followers: number = user.get('followersCount') || 0
-							const addReputation = (action: ReputationAction) =>
-								Reputation.push(uid, action, `You hit ${followers} followers`)
-							switch (0) {
-							case followers % 10:
-								return addReputation(ReputationAction.every10Followers)
-							case followers % 50:
-								return addReputation(ReputationAction.every50Followers)
-							case followers % 100:
-								return addReputation(ReputationAction.every100Followers)
-							default:
-								return Promise.resolve() as Promise<any>
-							}
-						})
-						: null
+			firestore.doc(`users/${followerId}`).get().then(follower => {
+				const followerName: string = follower.get('name') || 'Unknown user'
+				return Reputation.push(uid, isFollowing ? ReputationAction.everyFollower : ReputationAction.everyUnfollow, `${followerName} ${isFollowing ? '' : 'un'}followed you`, { uid: followerId }).then(__writeResult =>
+					firestore.doc(`users/${uid}`).get().then(user => {
+						const followers: number | undefined = user.get('followersCount')
+						return followers === undefined
+							? Promise.resolve() as Promise<any>
+							: Promise.all([
+								isFollowing ? addReputationForFollowers(followers, action => Reputation.push(uid, action, `You hit ${followers} followers`)) : Promise.resolve() as Promise<any>,
+								sendFollowerNotification(uid, followers, isFollowing, followerId, followerName)
+							])
+					})
 				)
-			)
+			})
 		)
 })
 
