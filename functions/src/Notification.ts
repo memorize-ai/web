@@ -59,5 +59,6 @@ export type NotificationData = { [key: string]: string }
 export enum NotificationType {
 	cardsDue = 'cards-due',
 	newFollower = 'new-follower',
-	unfollowed = 'unfollowed'
+	unfollowed = 'unfollowed',
+	reputationMilestone = 'reputation-milestone'
 }
