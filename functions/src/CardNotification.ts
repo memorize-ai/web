@@ -14,7 +14,7 @@ const firestore = admin.firestore()
 type UserNotificationData = { id: string, tokens: string[], decksDue: DeckNotificationData[], cardsDue: number }
 type DeckNotificationData = { id: string, name: string, cardsDue: number }
 
-export const sendDueCardNotifications = functions.pubsub.schedule('every 1 minutes').onRun(_context => {
+export const sendDueCardNotifications = functions.pubsub.schedule('every 5 minutes').onRun(_context => {
 	const now = Date.now()
 	return firestore.collection('users').get().then(users =>
 		Promise.all(users.docs.map(user =>
