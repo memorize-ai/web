@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const isSignedIn = cookie('uid') !== undefined
 
 	if (isSignedIn)
-		document.querySelector('.card-content .content').innerHTML = `<h1 class="title">You're already signed in!</h1><button class="button is-medium is-primary sign-out-button large-auth-button">Sign out</button>`
+		document.querySelector('.card-content .content').innerHTML = '<h1 class="title">You\'re already signed in!</h1><button class="button is-medium is-primary sign-out-button large-auth-button">Sign out</button>'
 
 	auth.onAuthStateChanged(user =>
 		!isSignedIn && user
