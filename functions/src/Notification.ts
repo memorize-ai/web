@@ -1,5 +1,7 @@
 import * as admin from 'firebase-admin'
 
+import User from './User'
+
 const messaging = admin.messaging()
 
 export default class Notification {
@@ -25,8 +27,20 @@ export default class Notification {
 			: Promise.resolve(null)
 	}
 
+	static sendToUser(uid: string, notification: Notification): Promise<admin.messaging.BatchResponse | null> {
+		return User.getTokens(uid).then(tokens =>
+			Notification.sendAll(tokens.map(token =>
+				new Notification(token, notification.title, notification.body, notification.data)
+			))
+		)
+	}
+
 	send(): Promise<string> {
 		return Notification.send(this)
+	}
+
+	sendToUser(uid: string): Promise<admin.messaging.BatchResponse | null> {
+		return Notification.sendToUser(uid, this)
 	}
 
 	setType(type: NotificationType): Notification {
