@@ -175,25 +175,20 @@ export const followerCreated = functions.firestore.document('users/{uid}/followe
 	const uid: string = context.params.uid
 	const followerId: string = context.params.followerId
 	return firestore.doc(`users/${uid}`).update({ followersCount: admin.firestore.FieldValue.increment(1) }).then(_writeResult =>
-		firestore.doc(`users/${followerId}`).get().then(follower =>
-			Reputation.push(uid, ReputationAction.everyFollower, `${follower.get('name') || 'Unknown user'} followed you`, { uid: followerId }).then(__writeResult =>
+		firestore.doc(`users/${followerId}`).get().then(follower => {
+			const followerName: string = follower.get('name') || 'Unknown user'
+			return Reputation.push(uid, ReputationAction.everyFollower, `${followerName} followed you`, { uid: followerId }).then(__writeResult =>
 				firestore.doc(`users/${uid}`).get().then(user => {
-					const followers: number = user.get('followersCount') || 0
-					const addReputation = (action: ReputationAction) =>
-						Reputation.push(uid, action, `You hit ${followers} followers`)
-					switch (0) {
-					case followers % 10:
-						return addReputation(ReputationAction.every10Followers)
-					case followers % 50:
-						return addReputation(ReputationAction.every50Followers)
-					case followers % 100:
-						return addReputation(ReputationAction.every100Followers)
-					default:
-						return Promise.resolve() as Promise<any>
-					}
+					const followers: number | undefined = user.get('followersCount')
+					return followers === undefined
+						? Promise.resolve() as Promise<any>
+						: Promise.all([
+							addReputationForFollowers(followers, action => Reputation.push(uid, action, `You hit ${followers} followers`)),
+							sendFollowerNotification(uid, followers, true, followerId, followerName)
+						])
 				})
 			)
-		)
+		})
 	)
 })
 
@@ -287,4 +282,17 @@ function sendFollowerNotification(uid: string, followers: number, following: boo
 		.setType(following ? NotificationType.newFollower : NotificationType.unfollowed)
 		.addData('uid', followerId)
 		.sendToUser(uid)
+}
+
+function addReputationForFollowers(followers: number, fn: (action: ReputationAction) => Promise<FirebaseFirestore.WriteResult>): Promise<FirebaseFirestore.WriteResult | null> {
+	switch (0) {
+	case followers % 10:
+		return fn(ReputationAction.every10Followers)
+	case followers % 50:
+		return fn(ReputationAction.every50Followers)
+	case followers % 100:
+		return fn(ReputationAction.every100Followers)
+	default:
+		return Promise.resolve(null)
+	}
 }
