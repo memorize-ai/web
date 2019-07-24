@@ -7,7 +7,7 @@ import Deck from './Deck'
 import Card from './Card'
 import Notification from './Notification'
 
-const LAST_NOTIFICATION_DIFFERENCE = 86400000
+const LAST_NOTIFICATION_DIFFERENCE = 14400000
 
 const firestore = admin.firestore()
 
