@@ -27,7 +27,7 @@ function zeroFillLast<T>(arr: T[], count: number): T[] {
 	return last.length === count ? last : Array(count - last.length).fill(0).concat(last)
 }
 
-function multiHot(words: string[], wordsArray: string[]): number[] {
+function multiHot(words: string[], wordsArray: string[]): (1 | 0)[] {
 	return wordsArray.map(word => words.includes(word) ? 1 : 0)
 }
 
