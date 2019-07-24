@@ -57,5 +57,7 @@ export default class Notification {
 export type NotificationData = { [key: string]: string }
 
 export enum NotificationType {
-	cardsDue = 'cards-due'
+	cardsDue = 'cards-due',
+	newFollower = 'new-follower',
+	unfollowed = 'unfollowed'
 }
