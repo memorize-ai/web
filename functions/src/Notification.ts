@@ -6,11 +6,13 @@ export default class Notification {
 	token: string
 	title: string
 	body: string
+	data?: NotificationData
 
-	constructor(token: string, title: string, body: string) {
+	constructor(token: string, title: string, body: string, data?: NotificationData) {
 		this.token = token
 		this.title = title
 		this.body = body
+		this.data = data
 	}
 
 	static send(notification: Notification): Promise<string> {
@@ -27,13 +29,24 @@ export default class Notification {
 		return Notification.send(this)
 	}
 
+	addData(key: string, value: string): Notification {
+		if (this.data)
+			this.data[key] = value
+		else
+			this.data = { [key]: value }
+		return this
+	}
+
 	private toMessage(): admin.messaging.Message {
 		return {
 			notification: {
 				title: this.title,
 				body: this.body
 			},
-			token: this.token
+			token: this.token,
+			data: this.data
 		}
 	}
 }
+
+export type NotificationData = { [key: string]: string }
