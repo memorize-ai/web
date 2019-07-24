@@ -11,49 +11,56 @@ const LAST_NOTIFICATION_DIFFERENCE = 14400000
 
 const firestore = admin.firestore()
 
-type UserNotificationData = { uid: string, tokens: string[], decksDue: number, cardsDue: number }
+type UserNotificationData = { id: string, tokens: string[], decksDue: DeckNotificationData[], cardsDue: number }
+type DeckNotificationData = { id: string, name: string, cardsDue: number }
 
-export const sendDueCardNotifications = functions.pubsub.schedule('every 15 minutes').onRun(_context => {
+export const sendDueCardNotifications = functions.pubsub.schedule('every 1 minutes').onRun(_context => {
 	const now = Date.now()
 	return firestore.collection('users').get().then(users =>
 		Promise.all(users.docs.map(user =>
-			getUser(user, now).then(userDetails =>
-				userDetails.cardsDue
+			getUser(user, now).then(userNotificationData =>
+				userNotificationData.cardsDue
 					? User.updateLastNotification(user.id).then(_writeResult =>
-						userDetails
+						userNotificationData
 					)
-					: userDetails
+					: userNotificationData
 			)
 		))
-	).then(sendNotifications)
+	).then(users => sendNotifications(users.filter(user => user.cardsDue)))
 })
 
 function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): Promise<UserNotificationData> {
-	const decksDue = new Set<string>()
+	const decksDue: DeckNotificationData[] = []
 	return User.getTokens(user.id).then(tokens =>
 		(tokens.length
 			? User.getLastNotificationDifference(user, date) < LAST_NOTIFICATION_DIFFERENCE
 				? Promise.resolve(0)
 				: firestore.collection(`users/${user.id}/decks`).where('hidden', '==', false).get().then(decks =>
 					Promise.all(decks.docs.map(deck =>
-						Deck.collection(deck.id, 'cards').listDocuments().then(cards =>
-							Promise.all(cards.map(emptyCard =>
+						Deck.collection(deck.id, 'cards').listDocuments().then(cards => {
+							const deckName: string | undefined = deck.get('name')
+							const deckData = deckName ? { id: deck.id, name: deckName, cardsDue: 0 } as DeckNotificationData : undefined
+							return Promise.all(cards.map(emptyCard =>
 								firestore.doc(`users/${user.id}/decks/${deck.id}/cards/${emptyCard.id}`).get().then(card => {
 									const isDue = Card.isDue(card, date)
-									if (isDue) decksDue.add(deck.id)
+									if (isDue && deckData) deckData.cardsDue++
 									return (isDue ? 1 : 0) as number
 								})
-							))
-						)
+							)).then(values => {
+								if (deckData && deckData.cardsDue)
+									decksDue.push(deckData)
+								return values
+							})
+						})
 					))
 				).then(values =>
 					addAllNumbers(flatten(values, 2))
 				)
 			: Promise.resolve(0)
 		).then(cardsDue => ({
-			uid: user.id,
+			id: user.id,
 			tokens,
-			decksDue: decksDue.size,
+			decksDue: decksDue.sort((a, b) => b.cardsDue - a.cardsDue),
 			cardsDue
 		}))
 	)
@@ -62,9 +69,21 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 function sendNotifications(users: UserNotificationData[]): Promise<admin.messaging.BatchResponse> {
 	return Notification.sendAll(flatten(users.map(user => 
 		user.tokens.map(token =>
-			new Notification(token, `You have ${user.cardsDue} card${user.cardsDue === 1 ? '' : 's'} to review`, `You have ${user.cardsDue} card${user.cardsDue === 1 ? '' : 's'} to review in ${user.decksDue} deck${user.decksDue === 1 ? '' : 's'}`)
+			new Notification(
+				token,
+				`You have ${user.cardsDue} card${user.cardsDue === 1 ? '' : 's'} to review`,
+				getNotificationMessage(user)
+			)
 		)
 	), 2))
+}
+
+function getNotificationMessage(user: UserNotificationData): string {
+	const numberOfDecksDue = user.decksDue.length
+	if (!numberOfDecksDue) return 'Click here to review'
+	const has1DeckDue = numberOfDecksDue === 1
+	const cardsDuePrefix = user.cardsDue === 1 ? '' : 's'
+	return `${user.decksDue[0].name} ${has1DeckDue ? 'has' : `and ${numberOfDecksDue - 1} other deck${numberOfDecksDue === 2 ? '' : 's'} have`} ${user.cardsDue} card${cardsDuePrefix} for you to review`
 }
 
 function addAllNumbers(array: number[]): number {
