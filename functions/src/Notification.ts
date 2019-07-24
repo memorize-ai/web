@@ -29,6 +29,11 @@ export default class Notification {
 		return Notification.send(this)
 	}
 
+	setType(type: NotificationType): Notification {
+		this.addData('type', type.valueOf())
+		return this
+	}
+
 	addData(key: string, value: string): Notification {
 		if (this.data)
 			this.data[key] = value
@@ -50,3 +55,7 @@ export default class Notification {
 }
 
 export type NotificationData = { [key: string]: string }
+
+export enum NotificationType {
+	cardsDue = 'cards-due'
+}

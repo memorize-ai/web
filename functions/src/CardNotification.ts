@@ -5,7 +5,7 @@ import { flatten } from './Helpers'
 import User from './User'
 import Deck from './Deck'
 import Card from './Card'
-import Notification from './Notification'
+import Notification, { NotificationType } from './Notification'
 
 const LAST_NOTIFICATION_DIFFERENCE = 14400000
 
@@ -76,14 +76,13 @@ function sendNotifications(users: UserNotificationData[]): Promise<admin.messagi
 				token,
 				`You have ${user.cardsDue} card${user.cardsDue === 1 ? '' : 's'} to review`,
 				getNotificationMessage(user)
-			)
+			).setType(NotificationType.cardsDue)
 		)
 	), 2))
 }
 
 function getNotificationMessage(user: UserNotificationData): string {
 	const numberOfDecksDue = user.decksDue.length
-	console.log(numberOfDecksDue)
 	if (!numberOfDecksDue) return 'Click here to review'
 	const has1DeckDue = numberOfDecksDue === 1
 	const cardsDuePrefix = user.cardsDue === 1 ? '' : 's'
