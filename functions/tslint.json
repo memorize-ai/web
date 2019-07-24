@@ -29,7 +29,8 @@
 		"prefer-for-of": { "severity": "warning" },
 		"unified-signatures": { "severity": "warning" },
 		"prefer-const": { "severity": "warning" },
-		"trailing-comma": { "severity": "warning" }
+		"trailing-comma": { "severity": "warning" },
+		"semicolon": [true, "never"]
 	},
 	"defaultSeverity": "error"
 }
