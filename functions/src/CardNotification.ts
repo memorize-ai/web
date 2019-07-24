@@ -10,6 +10,8 @@ const LAST_NOTIFICATION_DIFFERENCE = 86400000
 
 const firestore = admin.firestore()
 
+type UserNotificationData = { uid: string, tokens: string[], decksDue: number, cardsDue: number }
+
 export const sendDueCardNotifications = functions.pubsub.schedule('every 15 minutes').onRun(_context => {
 	const now = Date.now()
 	return firestore.collection('users').get().then(users =>
@@ -25,7 +27,7 @@ export const sendDueCardNotifications = functions.pubsub.schedule('every 15 minu
 	).then(sendNotifications)
 })
 
-function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): Promise<{ uid: string, tokens: string[], decksDue: number, cardsDue: number }> {
+function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): Promise<UserNotificationData> {
 	const decksDue = new Set<string>()
 	return User.getTokens(user.id).then(tokens =>
 		(tokens.length
@@ -40,11 +42,9 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 									if (isDue) decksDue.add(deck.id)
 									return (isDue ? 1 : 0) as number
 								})
-							))
+							)).then(addAllNumbers)
 						)
-					))
-				).then(values =>
-					values.flat().reduce((acc, element) => acc + element, 0)
+					)).then(addAllNumbers)
 				)
 			: Promise.resolve(0)
 		).then(cardsDue => ({
@@ -56,10 +56,14 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 	)
 }
 
-function sendNotifications(users: { uid: string, tokens: string[], decksDue: number, cardsDue: number }[]): Promise<admin.messaging.BatchResponse> {
+function sendNotifications(users: UserNotificationData[]): Promise<admin.messaging.BatchResponse> {
 	return Notification.sendAll(users.map(user => 
 		user.tokens.map(token =>
 			new Notification(token, `You have ${user.cardsDue} card${user.cardsDue === 1 ? '' : 's'} to review`, `You have ${user.cardsDue} card${user.cardsDue === 1 ? '' : 's'} to review in ${user.decksDue} deck${user.decksDue === 1 ? '' : 's'}`)
 		)
 	).flat())
+}
+
+function addAllNumbers(array: number[]): number {
+	return array.reduce((acc, element) => acc + element, 0)
 }
