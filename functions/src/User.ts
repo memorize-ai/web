@@ -84,6 +84,7 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 })
 
 export const userUpdated = functions.firestore.document('users/{uid}').onUpdate((change, context) => {
+	const uid: string = context.params.uid
 	const afterName: string | undefined = change.after.get('name')
 	if (!afterName) return Promise.resolve()
 	return (change.before.get('lastNotification') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastNotification') as FirebaseFirestore.Timestamp) && (change.before.get('lastOnline') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastOnline') as FirebaseFirestore.Timestamp) && (change.before.get('lastActivity') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastActivity') as FirebaseFirestore.Timestamp)
@@ -91,8 +92,9 @@ export const userUpdated = functions.firestore.document('users/{uid}').onUpdate(
 			Algolia.update({ index: Algolia.indices.users, change }),
 			change.before.get('name') === afterName
 				? Promise.resolve() as Promise<any>
-				: updateUser(context.params.uid, afterName),
-			User.updateLastActivity(context.params.uid)
+				: updateUser(uid, afterName),
+			sendReputationMilestoneNotification(uid, change.before.get('reputation'), change.after.get('reputation')),
+			User.updateLastActivity(uid)
 		])
 		: Promise.resolve()
 })
@@ -288,4 +290,18 @@ function addReputationForFollowers(followers: number, fn: (action: ReputationAct
 	default:
 		return Promise.resolve(null)
 	}
+}
+
+function sendReputationMilestoneNotification(uid: string, before: number | undefined, after: number | undefined): Promise<admin.messaging.BatchResponse | null> {
+	if (before === undefined || after === undefined || after <= before) return Promise.resolve(null)
+	const sendNotification = (milestone: number) =>
+		new Notification('', `Woohoo! You hit ${milestone} reputation`, 'Congratulations')
+			.setType(NotificationType.reputationMilestone)
+			.addData('amount', milestone.toString())
+			.sendToUser(uid)
+	const milestones = [10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000]
+	for (const milestone of milestones)
+		if (before < milestone && after >= milestone)
+			return sendNotification(milestone)
+	return Promise.resolve(null)
 }
