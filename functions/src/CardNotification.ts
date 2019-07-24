@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
+import { flatten } from './Helpers'
 import User from './User'
 import Deck from './Deck'
 import Card from './Card'
@@ -42,9 +43,11 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 									if (isDue) decksDue.add(deck.id)
 									return (isDue ? 1 : 0) as number
 								})
-							)).then(addAllNumbers)
+							))
 						)
-					)).then(addAllNumbers)
+					))
+				).then(values =>
+					addAllNumbers(flatten(values, 2))
 				)
 			: Promise.resolve(0)
 		).then(cardsDue => ({
@@ -57,11 +60,11 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 }
 
 function sendNotifications(users: UserNotificationData[]): Promise<admin.messaging.BatchResponse> {
-	return Notification.sendAll(users.map(user => 
+	return Notification.sendAll(flatten(users.map(user => 
 		user.tokens.map(token =>
 			new Notification(token, `You have ${user.cardsDue} card${user.cardsDue === 1 ? '' : 's'} to review`, `You have ${user.cardsDue} card${user.cardsDue === 1 ? '' : 's'} to review in ${user.decksDue} deck${user.decksDue === 1 ? '' : 's'}`)
 		)
-	).flat())
+	), 2))
 }
 
 function addAllNumbers(array: number[]): number {
