@@ -283,5 +283,8 @@ function updateSlugForName(uid: string, name: string): Promise<FirebaseFirestore
 }
 
 function sendFollowerNotification(uid: string, followers: number, following: boolean, followerId: string, followerName: string): Promise<admin.messaging.BatchResponse | null> {
-	return new Notification('', `${followerName} ${following ? 'is following' : 'unfollowed'} you`, `You have ${followers} follower${followers === 1 ? '' : 's'}`).setType(following ? NotificationType.newFollower : NotificationType.unfollowed).addData('uid', followerId).sendToUser(uid)
+	return new Notification('', `${followerName} ${following ? 'is following' : 'unfollowed'} you`, `You have ${followers} follower${followers === 1 ? '' : 's'}`)
+		.setType(following ? NotificationType.newFollower : NotificationType.unfollowed)
+		.addData('uid', followerId)
+		.sendToUser(uid)
 }
