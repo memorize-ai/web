@@ -66,7 +66,7 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 	)
 }
 
-function sendNotifications(users: UserNotificationData[]): Promise<admin.messaging.BatchResponse> {
+function sendNotifications(users: UserNotificationData[]): Promise<admin.messaging.BatchResponse | null> {
 	return Notification.sendAll(flatten(users.map(user => 
 		user.tokens.map(token =>
 			new Notification(

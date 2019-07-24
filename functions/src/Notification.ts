@@ -17,8 +17,10 @@ export default class Notification {
 		return messaging.send(notification.toMessage())
 	}
 
-	static sendAll(notifications: Notification[]): Promise<admin.messaging.BatchResponse> {
-		return messaging.sendAll(notifications.map(notification => notification.toMessage()))
+	static sendAll(notifications: Notification[]): Promise<admin.messaging.BatchResponse | null> {
+		return notifications.length
+			? messaging.sendAll(notifications.map(notification => notification.toMessage()))
+			: Promise.resolve(null)
 	}
 
 	send(): Promise<string> {
