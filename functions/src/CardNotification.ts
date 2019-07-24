@@ -36,23 +36,26 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 			? User.getLastNotificationDifference(user, date) < LAST_NOTIFICATION_DIFFERENCE
 				? Promise.resolve(0)
 				: firestore.collection(`users/${user.id}/decks`).where('hidden', '==', false).get().then(decks =>
-					Promise.all(decks.docs.map(deck =>
-						Deck.collection(deck.id, 'cards').listDocuments().then(cards => {
-							const deckName: string | undefined = deck.get('name')
-							const deckData = deckName ? { id: deck.id, name: deckName, cardsDue: 0 } as DeckNotificationData : undefined
-							return Promise.all(cards.map(emptyCard =>
-								firestore.doc(`users/${user.id}/decks/${deck.id}/cards/${emptyCard.id}`).get().then(card => {
-									const isDue = Card.isDue(card, date)
-									if (isDue && deckData) deckData.cardsDue++
-									return (isDue ? 1 : 0) as number
+					Promise.all(decks.docs.map(userDeck => {
+						const deckId = userDeck.id
+						return Deck.doc(deckId).get().then(deck =>
+							Deck.collection(deckId, 'cards').listDocuments().then(cards => {
+								const deckName: string | undefined = deck.get('name')
+								const deckData = deckName ? { id: deckId, name: deckName, cardsDue: 0 } as DeckNotificationData : undefined
+								return Promise.all(cards.map(emptyCard =>
+									firestore.doc(`users/${user.id}/decks/${deckId}/cards/${emptyCard.id}`).get().then(card => {
+										const isDue = Card.isDue(card, date)
+										if (isDue && deckData) deckData.cardsDue++
+										return (isDue ? 1 : 0) as number
+									})
+								)).then(values => {
+									if (deckData && deckData.cardsDue)
+										decksDue.push(deckData)
+									return values
 								})
-							)).then(values => {
-								if (deckData && deckData.cardsDue)
-									decksDue.push(deckData)
-								return values
 							})
-						})
-					))
+						)
+					}))
 				).then(values =>
 					addAllNumbers(flatten(values, 2))
 				)
@@ -80,6 +83,7 @@ function sendNotifications(users: UserNotificationData[]): Promise<admin.messagi
 
 function getNotificationMessage(user: UserNotificationData): string {
 	const numberOfDecksDue = user.decksDue.length
+	console.log(numberOfDecksDue)
 	if (!numberOfDecksDue) return 'Click here to review'
 	const has1DeckDue = numberOfDecksDue === 1
 	const cardsDuePrefix = user.cardsDue === 1 ? '' : 's'
