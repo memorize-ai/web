@@ -71,7 +71,7 @@ export default class Card {
 
 	static isDue(card: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): boolean {
 		return card.exists
-			? date <= (getDate(card, 'next') || new Date).getTime()
+			? date >= (getDate(card, 'next') || new Date).getTime()
 			: true
 	}
 
