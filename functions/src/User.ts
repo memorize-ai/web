@@ -8,6 +8,7 @@ import Algolia from './Algolia'
 import Email from './Email'
 import Permission, { PermissionRole } from './Permission'
 import Reputation, { ReputationAction } from './Reputation'
+import Notification, { NotificationType } from './Notification'
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket('us')
@@ -279,4 +280,8 @@ function updateSlugForName(uid: string, name: string): Promise<FirebaseFirestore
 	return Slug.find(name).then(slug =>
 		firestore.doc(`users/${uid}`).update({ slug })
 	)
+}
+
+function sendFollowerNotification(uid: string, followers: number, following: boolean, followerName: string): Promise<admin.messaging.BatchResponse | null> {
+	return new Notification('', `${followerName} ${following ? 'is following' : 'unfollowed'} you`, `You have ${followers} follower${followers === 1 ? '' : 's'}`).sendToUser(uid)
 }
