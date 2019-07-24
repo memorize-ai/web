@@ -299,8 +299,7 @@ function sendReputationMilestoneNotification(uid: string, before: number | undef
 			.setType(NotificationType.reputationMilestone)
 			.addData('amount', milestone.toString())
 			.sendToUser(uid)
-	const milestones = [10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000]
-	for (const milestone of milestones)
+	for (const milestone of [10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000])
 		if (before < milestone && after >= milestone)
 			return sendNotification(milestone)
 	return Promise.resolve(null)
