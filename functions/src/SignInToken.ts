@@ -16,15 +16,15 @@ export const getUserSignInToken = functions.https.onRequest((req, res) => {
 	const password: string | undefined = req.query.password
 	const email: string | undefined = req.query.email
 	const uid: string | undefined = req.query.uid
-	if (!((email || uid) && password)) return res.status(400).send('Specify a uid or email')
-	const getUser = email ? auth.getUserByEmail(email) : auth.getUser(uid || '')
-	return getUser.then(user =>
-		checkPasswordForUser(user, password)
-			? sendNewSignInToken(user.uid, res)
-			: res.send(401).send('Invalid password')
-	).catch(_error =>
-		res.send(403).send(`Invalid ${email ? 'email' : 'uid'}`)
-	)
+	return (email || uid) && password
+		? (email ? auth.getUserByEmail(email) : auth.getUser(uid || '')).then(user =>
+			checkPasswordForUser(user, password)
+				? sendNewSignInToken(user.uid, res)
+				: res.send(401).send('Invalid password')
+		).catch(_error =>
+			res.send(403).send(`Invalid ${email ? 'email' : 'uid'}`)
+		)
+		: res.status(400).send('Specify a uid or email and password')
 })
 
 export const checkUserSignInToken = functions.https.onRequest((req, res) => {
