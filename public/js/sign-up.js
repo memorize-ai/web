@@ -1,13 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const auth = firebase.auth()
 	const firestore = firebase.firestore()
+	const functions = firebase.functions()
 	const nameInput = document.querySelector('.name-input')
 	const emailInput = document.querySelector('.email-input')
 	const passwordInput = document.querySelector('.password-input')
 	const signUpButton = document.querySelector('.sign-up-button')
 	const isSignedIn = cookie('uid') !== undefined
+	const searchParams = new URLSearchParams(location.search)
+	const fromAction = searchParams.get('from-action')
+	const fromUrl = searchParams.get('from-url')
 
-	if (isSignedIn)
+	if (fromAction && fromUrl)
+		functions.httpsCallable('addAnalytics')({ category: 'from-actions', id: `${fromAction}&${fromUrl}` })
+	else if (isSignedIn)
 		document.querySelector('.card-content .content').innerHTML = '<h1 class="title">You\'re already signed in!</h1><button class="button is-medium is-primary sign-out-button large-auth-button">Sign out</button>'
 
 	auth.onAuthStateChanged(user =>
@@ -23,7 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
 					}).then(() => {
 						setLoading(signUpButton, false)
 						setCookie('uid', user.uid)
-						location.href = '/'
+						if (fromAction && fromUrl)
+							close()
+						else
+							location.href = '/'
 					}).catch(_error => {
 						setLoading(signUpButton, false)
 						alert('There was a problem creating an account. Please try again')
