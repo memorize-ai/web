@@ -2,6 +2,7 @@ import * as admin from 'firebase-admin'
 admin.initializeApp()
 
 export { adminFunction } from './Admin'
+export { addAnalytics } from './Analytics'
 export { app } from './App'
 export { rateCard, cardCreated, cardUpdated, cardDeleted } from './Card'
 export { cardDraftCreated, cardDraftUpdated, cardDraftDeleted } from './CardDraft'
