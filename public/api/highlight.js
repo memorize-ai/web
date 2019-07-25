@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	function getSelectedText() {
 		return (document.all ? document.selection.createRange().text : document.getSelection()).toString()
 	}
-
-	document.querySelectorAll('.memorize-ai-highlightable').forEach(element => element.onmouseup = mouseUp)
+	if (MEMORIZE_AI_HIGHLIGHT_ENABLED === undefined ? true : MEMORIZE_AI_HIGHLIGHT_ENABLED)
+		document.querySelectorAll('.memorize-ai-highlightable').forEach(element => element.onmouseup = mouseUp)
 	document.querySelectorAll('.memorize-ai-show-create-card-modal').forEach(element => element.addEventListener('click', event => showModal(null, event)))
 })
