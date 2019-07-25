@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	const UID_COOKIE = '__memorize-ai-uid'
 	const NAME_COOKIE = '__memorize-ai-name'
 	const TOKEN_COOKIE = '__memorize-ai-token'
+	const MODAL_DIMENSIONS = MEMORIZE_AI_CREATE_CARD_MODAL_DIMENSIONS
+		? { width: MEMORIZE_AI_CREATE_CARD_MODAL_DIMENSIONS.width || 100, height: MEMORIZE_AI_CREATE_CARD_MODAL_DIMENSIONS.height || 100 }
+		: { width: 100, height: 100 }
 
 	function getCookie(name) {
 		const cookies = document.cookie.match(`(^|[^;]+)\\s*${name}\\s*=\\s*([^;]+)`)
@@ -32,18 +35,37 @@ document.addEventListener('DOMContentLoaded', () => {
 		div.classList.add('__memorize-ai-highlight-modal')
 		div.classList.add('__memorize-ai-protected')
 		if (getCookie(UID_COOKIE)) {
-
+			
 		} else {
-			div.innerHTML = '<a href="https://memorize.ai/sign-up?from=create-card" target="_blank">Sign up</a><br><br><a class="__memorize-ai-create-card-sign-in __memorize-ai-protected">Sign in</a>'
+			div.innerHTML = `
+			<button class="__memorize-ai-create-card-close-modal __memorize-ai-protected">Close</button>
+			<button class="__memorize-ai-create-card-disable-modal __memorize-ai-protected">Disable</button>
+			<a href="https://memorize.ai/sign-up?from-action=create-card&from-url=${location.href}" target="_blank">Sign up</a
+			<br><br>
+			<a class="__memorize-ai-create-card-sign-in __memorize-ai-protected" href="#">Sign in</a>`
 		}
-		div.style.left = `${event.clientX}px`
-		div.style.top = `${event.clientY}px`
+		
+		div.style.padding = '30px'
+		div.style.zIndex = 9999
+		div.style.backgroundColor = 'white'
+		div.style.border = '5px black'
+		div.style.left = `${event.clientX - MODAL_DIMENSIONS.width / 2}px`
+		div.style.top = `${event.clientY + 20}px`
 		div.style.position = 'absolute'
+		div.style.width = `${MODAL_DIMENSIONS.width}px`
+		div.style.height = `${MODAL_DIMENSIONS.height}px`
 		document.querySelector('*').append(div)
+		document.querySelectorAll('.__memorize-ai-create-card-close-modal.__memorize-ai-protected').forEach(element => element.addEventListener('click', hideModal))
+		document.querySelectorAll('.__memorize-ai-create-card-disable-modal.__memorize-ai-protected').forEach(element => element.addEventListener('click', disableModal))
 	}
 
 	function hideModal() {
 		callOnModals(element => document.querySelector('*').removeChild(element))
+	}
+
+	function disableModal() {
+		hideModal()
+		document.querySelectorAll('.memorize-ai-highlightable').forEach(element => element.onmouseup = null)
 	}
 
 	function getSelectedText() {
