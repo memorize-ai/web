@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				if (doc.exists) {
 					setLoading(signUpButton, false)
 					alert(`There is already a user with the email ${emailInput.value}`)
-				} else {
+				} else
 					firestore.doc(`users/${user.uid}`).set({
 						name: nameInput.value,
 						email: emailInput.value
@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
 						setLoading(signUpButton, false)
 						alert('There was a problem creating an account. Please try again')
 					})
-				}
 			})
 			: null
 	)
