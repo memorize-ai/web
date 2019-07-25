@@ -240,16 +240,9 @@
 			}
 		}
 	},
-	"tutorials": { // Cannot be read or written to by anyone, only served with express
-		"ios": { // Section slug
-			"name": "iOS App", // (String) The full name of the section
-			"default": "getting-started", // (String) The default page slug
-			"pages (sub-collection)": {
-				"getting-started": { // Slug
-					"name": "Getting Started", // (String) The full name of the page
-					"html": "<p>First, download the app</p>" // (String) The tutorial's html
-				}
-			}
+	"analytics": {
+		"from-actions": { // Category slug
+			"create-card&https:%2F%2Fexample.com": 5 // (Int) [ID : Count]
 		}
 	}
 }
