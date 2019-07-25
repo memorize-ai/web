@@ -9,11 +9,11 @@ export function flatten(array: any[], depth: number): any[] {
 	, [])
 }
 
-export function getQueryParameter(query: any, parameter: string, decode: boolean = true): string | undefined {
+export function getQueryParameter(query: any, parameter: string, encode: boolean = false): string | undefined {
 	const value: string | undefined = query[parameter]
 	return value
-		? decode
-			? decodeURIComponent(value)
+		? encode
+			? encodeURIComponent(value)
 			: value
 		: undefined
 }
