@@ -13,7 +13,7 @@ export function getQueryParameter(query: any, parameter: string, encode: boolean
 	const value: string | undefined = query[parameter]
 	return value
 		? encode
-			? encodeURIComponent(value)
+			? encodeURIComponent(value).replace(/\./g, '%2E')
 			: value
 		: undefined
 }
