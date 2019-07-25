@@ -9,9 +9,13 @@ export function flatten(array: any[], depth: number): any[] {
 	, [])
 }
 
-export function getQueryParameter(query: any, parameter: string): string | undefined {
+export function getQueryParameter(query: any, parameter: string, decode: boolean = true): string | undefined {
 	const value: string | undefined = query[parameter]
-	return value ? decodeURIComponent(value) : undefined
+	return value
+		? decode
+			? decodeURIComponent(value)
+			: value
+		: undefined
 }
 
 export function getQueryParameterJSON(query: any, parameter: string): object | undefined {
