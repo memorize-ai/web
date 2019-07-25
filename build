@@ -9,7 +9,7 @@ case $1 in
 		npm update
 		npm i
 		git add package.json package-lock.json
-		for path in $(find . -not \( -path ./node_modules -prune \) -name '*.mjml')
+		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./testing -prune \) -name '*.mjml')
 		do
 			node_modules/.bin/mjml --config.minify -r "$path" -o "${path%.*}.html"
 		done
@@ -20,15 +20,15 @@ case $1 in
 	;;
 	'-m'|'--minify')
 		./build
-		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./functions/node_modules -prune \) -name '*.html')
+		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./testing -prune \) -not \( -path ./functions/node_modules -prune \) -name '*.html')
 		do
 			node_modules/.bin/html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-style-link-type-attributes --minify-css true --minify-js true "$path" -o "$path"
 		done
-		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./functions/node_modules -prune \) -name '*.css')
+		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./testing -prune \) -not \( -path ./functions/node_modules -prune \) -name '*.css')
 		do
 			node_modules/.bin/cssnano "$path" "$path"
 		done
-		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./functions/node_modules -prune \) -name '*.js')
+		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./testing -prune \) -not \( -path ./functions/node_modules -prune \) -name '*.js')
 		do
 			node_modules/.bin/uglifyjs "$path" -o "$path"
 		done
