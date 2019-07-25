@@ -8,3 +8,13 @@ export function flatten(array: any[], depth: number): any[] {
 		acc.concat(Array.isArray(element) && depth > 1 ? flatten(element, depth - 1) : element)
 	, [])
 }
+
+export function getQueryParameter(query: any, parameter: string): string | undefined {
+	const value: string | undefined = query[parameter]
+	return value ? decodeURIComponent(value) : undefined
+}
+
+export function getQueryParameterJSON(query: any, parameter: string): object | undefined {
+	const value = getQueryParameter(query, parameter)
+	return value ? JSON.parse(value) : undefined
+}

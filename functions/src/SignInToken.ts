@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import * as secure from 'securejs'
 
+import { getQueryParameter, getQueryParameterJSON } from './Helpers'
 import Deck from './Deck'
 import Card from './Card'
 import Permission, { PermissionRole } from './Permission'
@@ -13,9 +14,9 @@ type NewDeckData = { name: string, subtitle: string, public: boolean }
 type DeckData = FirebaseFirestore.DocumentData & { image: string, userData: FirebaseFirestore.DocumentData }
 
 export const getUserSignInToken = functions.https.onRequest((req, res) => {
-	const password: string | undefined = req.query.password
-	const email: string | undefined = req.query.email
-	const uid: string | undefined = req.query.uid
+	const password: string | undefined = getQueryParameter(req.query, 'password')
+	const email: string | undefined = getQueryParameter(req.query, 'email')
+	const uid: string | undefined = getQueryParameter(req.query, 'uid')
 	return (email || uid) && password
 		? (email ? auth.getUserByEmail(email) : auth.getUser(uid || '')).then(user =>
 			checkPasswordForUser(user, password)
@@ -28,8 +29,8 @@ export const getUserSignInToken = functions.https.onRequest((req, res) => {
 })
 
 export const checkUserSignInToken = functions.https.onRequest((req, res) => {
-	const uid: string | undefined = req.query.uid
-	const token: string | undefined = req.query.token
+	const uid: string | undefined = getQueryParameter(req.query, 'uid')
+	const token: string | undefined = getQueryParameter(req.query, 'token')
 	return uid && token
 		? checkSignInToken(uid, token).then(valid =>
 			valid
@@ -42,8 +43,8 @@ export const checkUserSignInToken = functions.https.onRequest((req, res) => {
 })
 
 export const getUserDecks = functions.https.onRequest((req, res) => {
-	const uid: string | undefined = req.query.uid
-	const token: string | undefined = req.query.token
+	const uid: string | undefined = getQueryParameter(req.query, 'uid')
+	const token: string | undefined = getQueryParameter(req.query, 'token')
 	return uid && token
 		? checkSignInToken(uid, token).then(valid =>
 			valid
@@ -65,12 +66,12 @@ export const getUserDecks = functions.https.onRequest((req, res) => {
 
 export const createCardWithSignInToken = functions.https.onRequest((req, res) => {
 	const now = new Date
-	const uid: string | undefined = req.query.uid
-	const token: string | undefined = req.query.token
-	const deckId: string | undefined = req.query.deck
-	const newDeck: NewDeckData | undefined = req.query.newDeck
-	const front: string | undefined = req.query.front
-	const back: string | undefined = req.query.back
+	const uid: string | undefined = getQueryParameter(req.query, 'uid')
+	const token: string | undefined = getQueryParameter(req.query, 'token')
+	const deckId: string | undefined = getQueryParameter(req.query, 'deck')
+	const newDeck = getQueryParameterJSON(req.query, 'newDeck') as NewDeckData | undefined
+	const front: string | undefined = getQueryParameter(req.query, 'front')
+	const back: string | undefined = getQueryParameter(req.query, 'back')
 	return uid && token && (deckId || newDeck) && front && back
 		? checkSignInToken(uid, token).then(valid =>
 			valid
