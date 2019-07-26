@@ -33,6 +33,10 @@
 				"destination": "/ios-tutorial.html"
 			},
 			{
+				"source": "/integrations",
+				"destination": "/integrations.html"
+			},
+			{
 				"source": "/privacy",
 				"destination": "/privacy.html"
 			},

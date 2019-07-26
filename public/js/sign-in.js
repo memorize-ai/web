@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	function handleSignIn(user) {
 		setLoading(signInButton, false)
 		setCookie('uid', user.uid)
-		location.href = '/'
+		location.href = new URLSearchParams(location.search).get('from') || '/'
 	}
 
 	function inputsAreValid() {

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const fromUrl = searchParams.get('from-url')
 
 	if (fromAction && fromUrl)
-		functions.httpsCallable('addAnalytics')({ category: 'from-actions', id: `${fromAction}&${fromUrl}` })
+		functions.httpsCallable('addAnalytics')({ category: 'from-actions', id: encodeURIComponent(`${fromAction}&${fromUrl}`).replace(/\./, '%2E') })
 	else if (isSignedIn)
 		document.querySelector('.card-content .content').innerHTML = '<h1 class="title">You\'re already signed in!</h1><button class="button is-medium is-primary sign-out-button large-auth-button">Sign out</button>'
 
@@ -31,8 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
 						setCookie('uid', user.uid)
 						if (fromAction && fromUrl)
 							close()
-						else
-							location.href = '/'
+						else {
+							location.href = new URLSearchParams(location.search).get('from') || '/'
+						}
 					}).catch(_error => {
 						setLoading(signUpButton, false)
 						alert('There was a problem creating an account. Please try again')
