@@ -31,9 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
 						setCookie('uid', user.uid)
 						if (fromAction && fromUrl)
 							close()
-						else {
+						else
 							location.href = new URLSearchParams(location.search).get('from') || '/'
-						}
 					}).catch(_error => {
 						setLoading(signUpButton, false)
 						alert('There was a problem creating an account. Please try again')
