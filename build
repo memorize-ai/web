@@ -30,7 +30,7 @@ case $1 in
 		done
 		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./testing -prune \) -not \( -path ./functions/node_modules -prune \) -name '*.js')
 		do
-			node_modules/.bin/uglifyjs "$path" -o "$path"
+			node_modules/.bin/minify "$path" --out-file "$path" --mangle.keepClassName
 		done
 	;;
 	'-c'|'--clean')
