@@ -22,7 +22,7 @@ export default class Card {
 
 	static updateRating({ deckId, cardId }: { deckId: string, cardId: string }, { from, to }: { from: CardRating | undefined, to: CardRating }): Promise<FirebaseFirestore.WriteResult[]> {
 		const promises: Promise<FirebaseFirestore.WriteResult>[] = []
-		const update = (obj: any) =>
+		const update = (obj: FirebaseFirestore.UpdateData) =>
 			promises.push(Deck.doc(deckId, `cards/${cardId}`).update(obj))
 		const decrement = admin.firestore.FieldValue.increment(-1)
 		const increment = admin.firestore.FieldValue.increment(1)
