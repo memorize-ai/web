@@ -6,9 +6,10 @@ body {
 .navbar-burger {
 	color: white;
 }
-.hero-head, .hero-body {
-	background: rgb(2,0,36);
-	background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,122,255,1) 0%, rgba(0,191,255,1) 100%);
+.hero-head,
+.hero-body {
+	background: rgb(2, 0, 36);
+	background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(0, 122, 255, 1) 0%, rgba(0, 191, 255, 1) 100%);
 }
 .dashboard-button {
 	font-weight: bold;
