@@ -7,7 +7,7 @@ const firestore = admin.firestore()
 
 export const addAnalytics = functions.https.onCall((data, _context) => {
 	const category = getQueryParameter(data, 'category')
-	const id = getQueryParameter(data, 'id', true)
+	const id = getQueryParameter(data, 'id', false)
 	return category && category.length && id && id.length
 		? firestore.doc(`analytics/${category}`).get().then(snapshot =>
 			snapshot.exists
