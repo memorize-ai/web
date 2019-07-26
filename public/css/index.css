@@ -1,13 +1,5 @@
-html,
-body {
-	background: #eff3f4;
-	font-family: 'Open Sans', serif;
-}
 .hero-body .container {
 	max-width: 700px;
-}
-.navbar-burger {
-	color: white;
 }
 .hero-body .title {
 	color: hsl(192, 17%, 99%) !important;

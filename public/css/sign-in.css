@@ -1,11 +1,3 @@
-html,
-body {
-	background: #eff3f4;
-	font-family: 'Open Sans', serif;
-}
-.navbar-burger {
-	color: white;
-}
 .is-shady {
 	animation: flyintoright 0.4s backwards;
 	background: #fff;
