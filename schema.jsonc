@@ -8,7 +8,7 @@
 			"reputation": 1300, // (Int) The amount of reputation the user has
 			"publicEmail": true, // (Bool) Email is public, default is true
 			"allowContact": true, // (Bool) Allow users to contact this user, default is true
-			"lastNotification": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of the last notification sent to the user
+			"lastCardNotification": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of the last notification sent to the user
 			"joined": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date joined
 			"lastOnline": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last online
 			"lastActivity": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last activity: review sessions, editing & downloading decks & cards

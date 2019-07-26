@@ -41,11 +41,11 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 			return Admin.resetKey().then(newKey =>
 				res.status(200).send(newKey)
 			)
-		case 'reset-last-notifications':
-			const lastNotification = new Date(0)
+		case 'reset-last-card-notifications':
+			const lastCardNotification = admin.firestore.FieldValue.delete()
 			return firestore.collection('users').listDocuments().then(users =>
 				Promise.all(users.map(user =>
-					user.update({ lastNotification })
+					user.update({ lastCardNotification })
 				))
 			).then(_writeResults =>
 				res.status(200).send('Complete')

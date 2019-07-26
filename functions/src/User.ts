@@ -19,8 +19,8 @@ export default class User {
 		return firestore.doc(`users/${uid}`).update({ lastActivity: new Date })
 	}
 
-	static updateLastNotification(uid: string): Promise<FirebaseFirestore.WriteResult> {
-		return firestore.doc(`users/${uid}`).update({ lastNotification: new Date })
+	static updateLastCardNotification(uid: string): Promise<FirebaseFirestore.WriteResult> {
+		return firestore.doc(`users/${uid}`).update({ lastCardNotification: new Date })
 	}
 
 	static updateRoleForDeck(uid: string, deckId: string, role: PermissionRole): Promise<FirebaseFirestore.WriteResult> {
@@ -58,8 +58,8 @@ export default class User {
 		})
 	}
 
-	static getLastNotificationDifference(snapshot: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): number {
-		return date - (getDate(snapshot, 'lastNotification') || new Date).getTime()
+	static getLastCardNotificationDifference(snapshot: FirebaseFirestore.DocumentSnapshot, date: number = Date.now()): number {
+		return date - (getDate(snapshot, 'lastCardNotification') || new Date(0)).getTime()
 	}
 
 	static getTokens(uid: string): Promise<string[]> {
@@ -77,7 +77,7 @@ export const userCreated = functions.firestore.document('users/{uid}').onCreate(
 	const now = new Date
 	return Promise.all([
 		Algolia.create({ index: Algolia.indices.users, snapshot }),
-		firestore.doc(`users/${uid}`).update({ lastNotification: now, joined: now, lastOnline: now, lastActivity: now }),
+		firestore.doc(`users/${uid}`).update({ joined: now, lastOnline: now, lastActivity: now }),
 		name ? updateUser(uid, name) : Promise.resolve() as Promise<any>,
 		Reputation.push(uid, ReputationAction.join, 'Joined memorize.ai', undefined, 0)
 	])
@@ -87,7 +87,7 @@ export const userUpdated = functions.firestore.document('users/{uid}').onUpdate(
 	const uid: string = context.params.uid
 	const afterName: string | undefined = change.after.get('name')
 	if (!afterName) return Promise.resolve()
-	return (change.before.get('lastNotification') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastNotification') as FirebaseFirestore.Timestamp) && (change.before.get('lastOnline') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastOnline') as FirebaseFirestore.Timestamp) && (change.before.get('lastActivity') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastActivity') as FirebaseFirestore.Timestamp)
+	return (change.before.get('lastCardNotification') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastCardNotification') as FirebaseFirestore.Timestamp) && (change.before.get('lastOnline') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastOnline') as FirebaseFirestore.Timestamp) && (change.before.get('lastActivity') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastActivity') as FirebaseFirestore.Timestamp)
 		? Promise.all([
 			Algolia.update({ index: Algolia.indices.users, change }),
 			change.before.get('name') === afterName
