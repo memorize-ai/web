@@ -17,6 +17,10 @@
 		],
 		"rewrites": [
 			{
+				"source": "/api/all",
+				"destination": "/api/all.js"
+			},
+			{
 				"source": "/api/highlight",
 				"destination": "/api/highlight.js"
 			},
