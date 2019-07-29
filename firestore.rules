@@ -135,6 +135,9 @@ service cloud.firestore {
 						match /elapsed {
 							allow create: if false
 						}
+						match /time {
+							allow create: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId)) && (newData() is int)
+						}
 					}
 				}
 			}

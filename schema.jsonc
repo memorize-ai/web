@@ -137,7 +137,8 @@
 									"date": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date created
 									"next": "Sat Feb 02 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Next date to review
 									"rating": 5, // (Int) Performance rating (0, 1, 2, 3, 4, 5) sent in by client
-									"elapsed": 12394874 // (Int) Milliseconds since last recall attempt
+									"elapsed": 12394874, // (Int) Milliseconds since last recall attempt
+									"time": 5000 // (Int) Milliseconds spent on review screen
 								}
 							}
 						}
