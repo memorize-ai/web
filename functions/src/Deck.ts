@@ -31,30 +31,16 @@ export default class Deck {
 	}
 
 	static updateViews(id: string, { total, unique }: { total: number, unique: number }): Promise<FirebaseFirestore.WriteResult> {
-		const doc = Deck.doc(id)
-		return doc.get().then(deck => {
-			const views: DeckViews | undefined = deck.get('views')
-			if (!views) return Promise.resolve() as Promise<any>
-			return doc.update({
-				views: {
-					total: views.total + total,
-					unique: views.unique + unique
-				}
-			})
+		return Deck.doc(id).update({
+			'views.total': admin.firestore.FieldValue.increment(total),
+			'views.unique': admin.firestore.FieldValue.increment(unique)
 		})
 	}
 
 	static updateDownloads(id: string, { total, current }: { total: number, current: number }): Promise<FirebaseFirestore.WriteResult> {
-		const doc = Deck.doc(id)
-		return doc.get().then(deck => {
-			const downloads: DeckDownloads | undefined = deck.get('downloads')
-			if (!downloads) return Promise.resolve() as Promise<any>
-			return doc.update({
-				downloads: {
-					total: downloads.total + total,
-					current: downloads.current + current
-				}
-			})
+		return Deck.doc(id).update({
+			'downloads.total': admin.firestore.FieldValue.increment(total),
+			'downloads.current': admin.firestore.FieldValue.increment(current)
 		})
 	}
 

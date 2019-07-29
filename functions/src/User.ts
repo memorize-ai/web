@@ -45,16 +45,9 @@ export default class User {
 	}
 
 	static updateViews(id: string, { total, unique }: { total: number, unique: number }): Promise<FirebaseFirestore.WriteResult> {
-		const doc = firestore.doc(`users/${id}`)
-		return doc.get().then(user => {
-			const views: UserViews | undefined = user.get('views')
-			if (!views) return Promise.resolve() as Promise<any>
-			return doc.update({
-				views: {
-					total: views.total + total,
-					unique: views.unique + unique
-				}
-			})
+		return firestore.doc(`users/${id}`).update({
+			'views.total': admin.firestore.FieldValue.increment(total),
+			'views.unique': admin.firestore.FieldValue.increment(unique)
 		})
 	}
 
