@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						if (fromAction && fromUrl)
 							close()
 						else
-							location.href = new URLSearchParams(location.search).get('from') || '/'
+							location.href = searchParams.get('from') || '/'
 					}).catch(_error => {
 						setLoading(signUpButton, false)
 						alert('There was a problem creating an account. Please try again')
