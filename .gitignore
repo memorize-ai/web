@@ -23,7 +23,5 @@ node_modules/
 *.tgz
 .yarn-integrity
 .env
-elm-stuff/
-public/elm/
 **/.DS_Store
 testing/
