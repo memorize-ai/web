@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			signOutButton.classList.remove('is-loading')
 			removeCookie('uid')
 			location.reload()
-		}).catch(_error => {
+		}).catch(() => {
 			signOutButton.classList.remove('is-loading')
 			alert('An error occurred. Please try again')
 		})
