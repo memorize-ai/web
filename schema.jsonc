@@ -255,7 +255,7 @@
 		"add-missing-fields-for-version": { // Admin function slug
 			"name": "Add missing fields for version", // (String) Function name
 			"inputs (map)": {
-				"users": "(String) version number" // (String) Input description
+				"users": "(String) version number" // (String) [String : String] Input description
 			}
 		}
 	}
