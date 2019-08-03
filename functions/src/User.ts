@@ -80,7 +80,9 @@ export const userUpdated = functions.firestore.document('users/{uid}').onUpdate(
 	const uid: string = context.params.uid
 	const afterName: string | undefined = change.after.get('name')
 	if (!afterName) return Promise.resolve()
-	return (change.before.get('lastCardNotification') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastCardNotification') as FirebaseFirestore.Timestamp) && (change.before.get('lastOnline') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastOnline') as FirebaseFirestore.Timestamp) && (change.before.get('lastActivity') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastActivity') as FirebaseFirestore.Timestamp)
+	const beforeLastCardNotification: FirebaseFirestore.Timestamp | undefined = change.before.get('lastCardNotification')
+	const afterLastCardNotification: FirebaseFirestore.Timestamp | undefined = change.after.get('lastCardNotification')
+	return (beforeLastCardNotification && afterLastCardNotification ? beforeLastCardNotification.isEqual(afterLastCardNotification) : true) && (change.before.get('lastOnline') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastOnline') as FirebaseFirestore.Timestamp) && (change.before.get('lastActivity') as FirebaseFirestore.Timestamp).isEqual(change.after.get('lastActivity') as FirebaseFirestore.Timestamp)
 		? Promise.all([
 			Algolia.update({ index: Algolia.indices.users, change }),
 			change.before.get('name') === afterName
