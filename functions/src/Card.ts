@@ -117,30 +117,30 @@ export const rateCard = functions.https.onCall((data, context) => {
 					const name: string = user.get('name') || ''
 					const deckName: string = deck.get('name') || ''
 					if (oldRatingAsCardRating === CardRating.none)
-						return Reputation.push(
+					return oldRatingAsCardRating === CardRating.none
+						? Reputation.push(
 							ownerId,
 							rating === CardRating.like ? ReputationAction.didGetCardLike : ReputationAction.didGetCardDislike,
 							`${name} ${rating === CardRating.like ? 'liked' : 'disliked'} a card in ${deckName}`,
 							{ uid }
 						)
-					else if (rating === CardRating.none)
-						return Reputation.push(
-							ownerId,
-							oldRatingAsCardRating === CardRating.like ? ReputationAction.didGetCardLikeRemoved : ReputationAction.didGetCardDislikeRemoved,
-							`${name} removed their ${oldRatingAsCardRating === CardRating.like ? '' : 'dis'}like on a card in ${deckName}`,
-							{ uid }
-						)
-					else
-						return Reputation.getAmountForAction(rating === CardRating.like ? ReputationAction.didGetCardLike : ReputationAction.didGetCardDislike).then(firstAmount =>
-							Reputation.getAmountForAction(oldRatingAsCardRating === CardRating.like ? ReputationAction.didGetCardLikeRemoved : ReputationAction.didGetCardDislikeRemoved).then(secondAmount =>
-								Reputation.pushWithAmount(
-									ownerId,
-									firstAmount + secondAmount,
-									`${name} changed their ${oldRatingAsCardRating === CardRating.like ? '' : 'dis'}like to a ${rating === CardRating.like ? '' : 'dis'}like on a card in ${deckName}`,
-									{ uid }
+						: rating === CardRating.none
+							? Reputation.push(
+								ownerId,
+								oldRatingAsCardRating === CardRating.like ? ReputationAction.didGetCardLikeRemoved : ReputationAction.didGetCardDislikeRemoved,
+								`${name} removed their ${oldRatingAsCardRating === CardRating.like ? '' : 'dis'}like on a card in ${deckName}`,
+								{ uid }
+							)
+							: Reputation.getAmountForAction(rating === CardRating.like ? ReputationAction.didGetCardLike : ReputationAction.didGetCardDislike).then(firstAmount =>
+								Reputation.getAmountForAction(oldRatingAsCardRating === CardRating.like ? ReputationAction.didGetCardLikeRemoved : ReputationAction.didGetCardDislikeRemoved).then(secondAmount =>
+									Reputation.pushWithAmount(
+										ownerId,
+										firstAmount + secondAmount,
+										`${name} changed their ${oldRatingAsCardRating === CardRating.like ? '' : 'dis'}like to a ${rating === CardRating.like ? '' : 'dis'}like on a card in ${deckName}`,
+										{ uid }
+									)
 								)
 							)
-						)
 				})
 			)
 		])
