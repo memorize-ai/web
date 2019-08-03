@@ -37,6 +37,8 @@ export const adminFunction = functions.https.onRequest((req, res) =>
 		const action: string | undefined = req.query.action
 		if (!action) return res.status(400).send('You must specify an action')
 		switch (action) {
+		case 'validate-key':
+			return res.sendStatus(200)
 		case 'reset-key':
 			return Admin.resetKey().then(newKey =>
 				res.status(200).send(newKey)
