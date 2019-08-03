@@ -1,4 +1,19 @@
 {
-	"indexes": [],
+	"indexes": [
+		{
+			"collectionGroup": "users",
+			"queryScope": "COLLECTION",
+			"fields": [
+				{
+					"fieldPath": "hasTitle",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "dateMilliseconds",
+					"order": "ASCENDING"
+				}
+			]
+		}
+	],
 	"fieldOverrides": []
 }
