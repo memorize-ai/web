@@ -270,6 +270,9 @@ service cloud.firestore {
 		match /markdown/{file} {
 			allow read
 		}
+		match /admin-functions/{function} {
+			allow read
+		}
 
 		function authId() {
 			return request.auth.uid

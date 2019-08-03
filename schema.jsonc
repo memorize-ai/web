@@ -245,5 +245,18 @@
 		"from-actions": { // Category slug
 			"create-card&https:%2F%2Fexample.com": 5 // (Int) [ID : Count]
 		}
+	},
+	"admin": { // Admin data
+		"key": {
+			"value": "abc123" // (String) Admin key
+		}
+	},
+	"admin-functions": {
+		"add-missing-fields-for-version": { // Admin function slug
+			"name": "Add missing fields for version", // (String) Function name
+			"inputs (map)": {
+				"users": "(String) version number" // (String) Input description
+			}
+		}
 	}
 }
