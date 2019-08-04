@@ -251,11 +251,15 @@
 			"value": "abc123" // (String) Admin key
 		}
 	},
-	"admin-functions": {
+	"adminFunctions": {
 		"add-missing-fields-for-version": { // Admin function slug
 			"name": "Add missing fields for version", // (String) Function name
 			"inputs (map)": {
-				"users": "(String) version number" // (String) [String : String] Input description
+				"field-1 (map)": { // Input slug
+					"name": "Field 1", // (String) Input name
+					"description": "This is so that the function works", // (String) Input description
+					"type": "text" // (String) Input type
+				}
 			}
 		}
 	}

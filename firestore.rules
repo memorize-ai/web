@@ -270,7 +270,7 @@ service cloud.firestore {
 		match /markdown/{file} {
 			allow read
 		}
-		match /admin-functions/{function} {
+		match /adminFunctions/{function} {
 			allow read
 		}
 
