@@ -251,7 +251,7 @@
 			"value": "abc123" // (String) Admin key
 		}
 	},
-	"adminFunctions": {
+	"admin-functions": {
 		"add-missing-fields-for-version": { // Admin function slug
 			"name": "Add missing fields for version", // (String) Function name
 			"inputs (map)": {
