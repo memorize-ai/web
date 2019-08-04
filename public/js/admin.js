@@ -18,8 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				break
 			case 'modified':
 				for (let i = 0; i < functions.length; i++)
-					if (functions[i].id === id)
+					if (functions[i].id === id) {
 						functions[i] = newData()
+						break
+					}
 				break
 			case 'removed':
 				functions = functions.filter(fn => fn.id !== id)
