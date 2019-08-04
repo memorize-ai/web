@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="copyright" content="2019 Ken Mueller">
+		<meta name="description" content="memorize.ai Admin">
+		<meta name="keywords" content="memorize.ai,memorize,memorizeai,ai,memorize.ai admin,quizlet,duolingo,artificial intelligence,spaced repetition,sm2,supermemo2,supermemo,memorize.ai sign up,memorize.ai sign in,ios app,ios,app,app store">
+		<script defer src="/__/firebase/5.9.4/firebase-app.js"></script>
+		<script defer src="/__/firebase/5.9.4/firebase-auth.js"></script>
+		<script defer src="/__/firebase/5.9.4/firebase-firestore.js"></script>
+		<script defer src="/__/firebase/5.9.4/firebase-functions.js"></script>
+		<script defer src="/__/firebase/init.js"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+		<link rel="stylesheet" href="https://unpkg.com/bulma@0.7.5/css/bulma.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+		<link rel="stylesheet" href="/css/main.css">
+		<link rel="stylesheet" href="/css/admin.css">
+		<link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Ffavicon.png?alt=media&token=b070c06a-b02c-44be-80d0-9924416f5c4d">
+		<title>memorize.ai Admin</title>
+	</head>
+	<body>
+		<section class="hero is-info is-medium is-bold">
+			<div class="hero-head">
+				<nav class="navbar">
+					<div class="container">
+						<div class="navbar-brand">
+							<a class="navbar-item" href="/">
+								<img src="https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Ftransparent-white-logo-arrows.png?alt=media&token=4217ef47-7c1c-44ff-8903-0eba29961ae1" alt="Logo">
+							</a>
+							<span class="navbar-burger">
+								<span></span>
+								<span></span>
+								<span></span>
+							</span>
+						</div>
+						<div class="navbar-menu">
+							<div class="navbar-end">
+								<div class="tabs is-right">
+									<ul>
+										<li><a href="/">Home</a></li>
+										<!-- <li><a href="/integrations">Integrations</a></li> -->
+										<li><a href="/ios-tutorial">iOS Tutorial</a></li>
+										<li><a onclick="alert('Email support@memorize.ai')">Contact Us</a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="navbar-end navbar-end-auth-buttons">
+								<div class="is-right buttons">
+									<a class="button is-outlined is-white navbar-auth-button-left navbar-auth-button sign-up">Sign up</a>
+									<a class="button is-outlined is-white navbar-auth-button-right navbar-auth-button sign-in">Sign in</a>
+									<a class="button is-outlined is-white navbar-auth-button-right navbar-auth-button sign-out is-hidden">Sign out</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</section>
+		<section class="container">
+			<div class="columns">
+				<div class="column sign-up-column">
+					<div class="card is-shady">
+						<div class="card-content">
+							<div class="content">
+								<h1 class="title">memorize.ai Admin</h1>
+								<div class="field">
+									<label class="label">Function</label>
+									<div class="control has-icons-left">
+										<input class="input name-input" type="text" placeholder="Enter name" autocomplete="name">
+										<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Email</label>
+									<div class="control has-icons-left">
+										<input class="input email-input" type="email" placeholder="Enter email" autocomplete="email">
+										<span class="icon is-small is-left"><i class="fas fa-at"></i></span>
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Password</label>
+									<div class="control has-icons-left">
+										<input class="input password-input" type="password" placeholder="Enter password" autocomplete="new-password">
+										<span class="icon is-small is-left"><i class="fas fa-key"></i></span>
+									</div>
+								</div>
+								<button class="button is-medium is-primary sign-up-button large-auth-button" disabled>Sign up</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<script src="/js/toggle-navbar-burger.js"></script>
+		<script src="/js/cookie.js"></script>
+		<script src="/js/navbar-auth-buttons.js"></script>
+		<script src="/js/sign-out.js"></script>
+		<script src="/js/admin.js"></script>
+	</body>
+</html>
