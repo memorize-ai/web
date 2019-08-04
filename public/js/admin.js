@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const newData = () => ({
 				id,
 				name: doc.get('name'),
-				inputs: Object.entries(doc.get('inputs')).map(input => Object.assign(input[1], { id: input[0] }))
+				inputs: Object.entries(doc.get('inputs')).map(([id, input]) => Object.assign(input, { id }))
 			})
 			switch (change.type) {
 			case 'added':
