@@ -113,10 +113,10 @@ export const rateCard = functions.https.onCall((data, context) => {
 			User.updateLastActivity(uid),
 			Deck.doc(deckId).get().then(deck =>
 				firestore.doc(`users/${uid}`).get().then(user => {
-					const ownerId: string = deck.get('owner') || ''
-					const name: string = user.get('name') || ''
-					const deckName: string = deck.get('name') || ''
-					if (oldRatingAsCardRating === CardRating.none)
+					const ownerId: string | undefined = deck.get('owner')
+					if (!ownerId) return Promise.resolve() as Promise<any>
+					const name: string = user.get('name') || 'Unknown user'
+					const deckName: string = deck.get('name') || 'Unknown deck'
 					return oldRatingAsCardRating === CardRating.none
 						? Reputation.push(
 							ownerId,
