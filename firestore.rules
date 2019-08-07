@@ -333,7 +333,7 @@ service cloud.firestore {
 		}
 
 		function isDeckAdmin(deckId) {
-			return permissionExists(deckId) && (permission(deckId).role == 'admin' && permission(deckId).accepted)
+			return permissionExists(deckId) && permission(deckId).role == 'admin' && permission(deckId).accepted
 		}
 
 		function deckExists(deckId) {
