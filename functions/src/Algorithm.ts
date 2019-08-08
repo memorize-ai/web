@@ -3,14 +3,20 @@ import { NeuralNetwork } from 'brain.js'
 const HISTORY_COUNT = 10
 const MILLISECONDS_IN_DAY = 86400000
 
+type CardTrainingData = { id: string, intervals: number[], front: string }
+
 export default class Algorithm {
-	static predict(id: string, cards: { id: string, intervals: number[], front: string }[]): Date {
+	static predict(id: string, cards: CardTrainingData[]): Date {
 		const wordsArray = unique(cards.flatMap(card => firstWords(card.front)))
 		const inputSize = HISTORY_COUNT + wordsArray.length
 		const net = new NeuralNetwork()
 		net.train(formatTrainingData(cards, wordsArray), trainingOptions(0.0001, inputSize, 1, [inputSize, inputSize], 'tanh'))
 		const current = cards.find(card => card.id === id)
-		return new Date(current ? denormalize(net.run(zeroFillLast(normalize(current.intervals), HISTORY_COUNT).concat(multiHot(firstWords(current.front), wordsArray))))[0] : 0)
+		return new Date(
+			current
+				? denormalize(net.run(zeroFillLast(normalize(current.intervals), HISTORY_COUNT).concat(multiHot(firstWords(current.front), wordsArray))))[0]
+				: 0
+		)
 	}
 }
 
@@ -31,7 +37,7 @@ function multiHot(words: string[], wordsArray: string[]): (1 | 0)[] {
 	return wordsArray.map(word => words.includes(word) ? 1 : 0)
 }
 
-function formatInputTrainingData(card: { id: string, intervals: number[], front: string }, words: string[]): number[] {
+function formatInputTrainingData(card: CardTrainingData, words: string[]): number[] {
 	return zeroFillLast(normalize(card.intervals.slice(0, -1)), HISTORY_COUNT).concat(multiHot(firstWords(card.front), words))
 }
 
@@ -43,7 +49,7 @@ function denormalize(vals: number[]): number[] {
 	return vals.map(val => val * MILLISECONDS_IN_DAY)
 }
 
-function formatTrainingData(cards: { id: string, intervals: number[], front: string }[], words: string[]): { input: number[], output: number[] }[] {
+function formatTrainingData(cards: CardTrainingData[], words: string[]): { input: number[], output: number[] }[] {
 	return cards.map(card => ({ input: formatInputTrainingData(card, words), output: normalize(card.intervals.slice(-1)) }))
 }
 
