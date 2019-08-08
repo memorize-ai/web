@@ -1,6 +1,7 @@
 import { NeuralNetwork } from 'brain.js'
 
 const HISTORY_COUNT = 10
+const FIRST_WORDS_COUNT = 2
 const MILLISECONDS_IN_DAY = 86400000
 
 type CardTrainingData = { id: string, intervals: number[], front: string }
@@ -21,7 +22,7 @@ export default class Algorithm {
 }
 
 function firstWords(sentence: string): string[] {
-	return sentence.split(/\W/).filter(a => a.length).slice(0, 2)
+	return sentence.split(/\W/).filter(word => word.length).slice(0, FIRST_WORDS_COUNT)
 }
 
 function unique(words: string[]): string[] {
@@ -33,7 +34,7 @@ function zeroFillLast<T>(arr: T[], count: number): T[] {
 	return last.length === count ? last : Array(count - last.length).fill(0).concat(last)
 }
 
-function multiHot(words: string[], wordsArray: string[]): (1 | 0)[] {
+function multiHot(words: string[], wordsArray: string[]): (0 | 1)[] {
 	return wordsArray.map(word => words.includes(word) ? 1 : 0)
 }
 
@@ -50,7 +51,10 @@ function denormalize(vals: number[]): number[] {
 }
 
 function formatTrainingData(cards: CardTrainingData[], words: string[]): { input: number[], output: number[] }[] {
-	return cards.map(card => ({ input: formatInputTrainingData(card, words), output: normalize(card.intervals.slice(-1)) }))
+	return cards.map(card => ({
+		input: formatInputTrainingData(card, words),
+		output: normalize(card.intervals.slice(-1))
+	}))
 }
 
 interface INeuralNetworkTrainingOptions {
