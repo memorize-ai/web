@@ -15,7 +15,7 @@ case $1 in
 		done
 		tsc
 		cd ..
-		git commit -m "Updated dependencies"
+		git commit -m 'Updated dependencies'
 		git push
 	;;
 	'-m'|'--minify')
