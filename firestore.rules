@@ -132,7 +132,7 @@ service cloud.firestore {
 							allow create: if false
 						}
 						match /rating {
-							allow create: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId)) && (newData() is int) && (newData() >= 0 && newData() <= 5)
+							allow create: if signedInWith(uid) && (isDeckPublic(deckId) || canViewDeck(deckId) || isDeckOwner(deckId)) && (newData() is int) && newData() >= 0 && newData() <= 5
 						}
 						match /elapsed {
 							allow create: if false
@@ -264,6 +264,10 @@ service cloud.firestore {
 					allow update, delete: if false
 				}
 				match /dislikes {
+					allow create: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && (newData() is int) && newData() == 0
+					allow update, delete: if false
+				}
+				match /reviews {
 					allow create: if signedIn() && (isDeckOwner(deckId) || canEditDeck(deckId)) && (newData() is int) && newData() == 0
 					allow update, delete: if false
 				}

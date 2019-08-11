@@ -236,7 +236,8 @@
 					"created": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Date of card creation
 					"updated": "Sat Feb 01 2019 16:43:49 GMT-0800 (Pacific Standard Time)", // (Timestamp) Last updated, initially created
 					"likes": 10, // (Int) Unique likes for card
-					"dislikes": 2 // (Int) Unique dislikes for card
+					"dislikes": 2, // (Int) Unique dislikes for card
+					"reviews": 6 // (Int) Number of review attempts by all users
 				}
 			}
 		}
