@@ -7,7 +7,7 @@ import Permission, { PermissionRole, PermissionStatus } from './Permission'
 import Reputation, { ReputationAction } from './Reputation'
 
 const firestore = admin.firestore()
-const storage = admin.storage().bucket('us')
+const storage = admin.storage().bucket()
 
 export default class Deck {
 	static defaultImageUrl = 'https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/static%2Fdefault-deck-image.png?alt=media&token=8329a28b-494c-4e1a-9b88-8ff614b2bb96'

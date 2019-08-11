@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin'
-admin.initializeApp()
+admin.initializeApp({ storageBucket: 'memorize-ai.appspot.com' })
 
 export { adminFunction } from './Admin'
 export { addAnalytics } from './Analytics'

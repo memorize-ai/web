@@ -11,7 +11,7 @@ import Reputation, { ReputationAction } from './Reputation'
 import Notification, { NotificationType } from './Notification'
 
 const firestore = admin.firestore()
-const storage = admin.storage().bucket('us')
+const storage = admin.storage().bucket()
 const auth = admin.auth()
 
 export default class User {
