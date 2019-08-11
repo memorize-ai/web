@@ -57,7 +57,7 @@ function getUser(user: FirebaseFirestore.DocumentSnapshot, date: number = Date.n
 						)
 					}))
 				).then(values =>
-					addAllNumbers(flatten(values, 2))
+					addAllNumbers(flatten(values))
 				)
 			: Promise.resolve(0)
 		).then(cardsDue => ({
@@ -78,7 +78,7 @@ function sendNotifications(users: UserNotificationData[]): Promise<admin.messagi
 				getNotificationMessage(user)
 			).setType(NotificationType.cardsDue)
 		)
-	), 2))
+	)))
 }
 
 function getNotificationMessage(user: UserNotificationData): string {

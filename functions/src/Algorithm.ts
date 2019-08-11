@@ -4,7 +4,7 @@ const HISTORY_COUNT = 10
 const FIRST_WORDS_COUNT = 2
 const MILLISECONDS_IN_DAY = 86400000
 
-type CardTrainingData = { id: string, intervals: number[], front: string }
+export type CardTrainingData = { id: string, intervals: number[], front: string }
 
 export default class Algorithm {
 	static predict(id: string, cards: CardTrainingData[]): Date {

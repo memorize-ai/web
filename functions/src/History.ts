@@ -3,11 +3,12 @@ import * as admin from 'firebase-admin'
 
 import Deck from './Deck'
 import Setting from './Setting'
-import Algorithm from './Algorithm'
+import Algorithm, { CardTrainingData } from './Algorithm'
 import SM2 from './SM2'
 import User from './User'
 import Reputation, { ReputationAction } from './Reputation'
 import { CardLast } from './Card'
+import { flatten } from './Helpers'
 
 const firestore = admin.firestore()
 
@@ -108,15 +109,15 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 	])
 })
 
-function allCards(uid: string): Promise<{ id: string, intervals: number[], front: string }[]> {
+function allCards(uid: string): Promise<CardTrainingData[]> {
 	return firestore.collection(`users/${uid}/decks`).get().then(decks =>
 		Promise.all(decks.docs.map(deck =>
 			allCardsForDeck(uid, deck.id)
-		)).then(lists => lists.flat())
+		)).then(lists => flatten(lists))
 	)
 }
 
-function allCardsForDeck(uid: string, deckId: string): Promise<{ id: string, intervals: number[], front: string }[]> {
+function allCardsForDeck(uid: string, deckId: string): Promise<CardTrainingData[]> {
 	return firestore.collection(`users/${uid}/decks/${deckId}/cards`).get().then(cards =>
 		Promise.all(cards.docs.map(card =>
 			allHistory(uid, deckId, card.id)
@@ -124,7 +125,7 @@ function allCardsForDeck(uid: string, deckId: string): Promise<{ id: string, int
 	)
 }
 
-function allHistory(uid: string, deckId: string, cardId: string): Promise<{ id: string, intervals: number[], front: string }> {
+function allHistory(uid: string, deckId: string, cardId: string): Promise<CardTrainingData> {
 	return firestore.collection(`users/${uid}/decks/${deckId}/cards/${cardId}/history`).get().then(historyDocs =>
 		Promise.all(historyDocs.docs.map(history => history.get('elapsed') as number || 0))
 	).then(intervals =>
