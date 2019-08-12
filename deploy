@@ -1,6 +1,9 @@
 ./clean -f
-git stash
-git stash apply
+if [[ $(git status --porcelain) ]]
+then
+	git stash
+	git stash apply
+fi
 ./build -m
 firebase deploy "$@"
 git reset --hard
