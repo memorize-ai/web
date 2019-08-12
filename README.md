@@ -28,8 +28,8 @@ npm i -g firebase-tools
 npm update -g firebase-tools
 firebase functions:config:set emails.support.email='support@memorize.ai' \
 							  emails.support.password='{SUPPORT_EMAIL_PASSWORD}' \
-							  algolia.appId='{ALGOLIA_APP_ID}' \
-							  algolia.apiKey='{ALGOLIA_API_KEY}'
+							  algolia.app_id='{ALGOLIA_APP_ID}' \
+							  algolia.api_key='{ALGOLIA_API_KEY}'
 ./build -c
 ```
 
