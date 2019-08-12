@@ -12,7 +12,6 @@ export const emails: {
 
 const firestore = admin.firestore()
 const transport = createTransport({
-	service: 'gmail',
 	auth: {
 		user: emails.support.email,
 		pass: emails.support.password
