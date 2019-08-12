@@ -6,24 +6,20 @@ import { join } from 'path'
 
 import Setting from './Setting'
 
+const emails: {
+	support: EmailAccount
+} = functions.config().emails
+
 const firestore = admin.firestore()
-const config: { email: string, password: string } = functions.config().gmail
 const transport = createTransport({
 	service: 'gmail',
 	auth: {
-		user: config.email,
-		pass: config.password
+		user: emails.support.email,
+		pass: emails.support.password
 	}
 })
 
-export enum EmailType {
-	accessRemoved = 'access-removed',
-	inviteConfirmed = 'invite-confirmed',
-	invited = 'invited',
-	roleChanged = 'role-changed',
-	uninvited = 'uninvited',
-	youConfirmedInvite = 'you-confirmed-invite'
-}
+type EmailAccount = { email: string, password: string }
 
 export default class Email {
 	static send(type: EmailType, { to, subject }: { to: string, subject: string }, context?: object): Promise<boolean> {
@@ -37,7 +33,7 @@ export default class Email {
 					const email: string | undefined = user.get('email')
 					return email
 						? transport.sendMail({
-							from: config.email,
+							from: emails.support.email,
 							to: email,
 							subject,
 							text: body
@@ -47,4 +43,13 @@ export default class Email {
 				: false
 		)
 	}
+}
+
+export enum EmailType {
+	accessRemoved = 'access-removed',
+	inviteConfirmed = 'invite-confirmed',
+	invited = 'invited',
+	roleChanged = 'role-changed',
+	uninvited = 'uninvited',
+	youConfirmedInvite = 'you-confirmed-invite'
 }
