@@ -23,12 +23,17 @@ git clone https://github.com/kenmueller/memorize.ai-web.git
 ## **Initialization**
 
 ```bash
+npm update -g npm
 npm i -g firebase-tools
-firebase functions:config:set gmail.email="GMAIL_EMAIL" gmail.password="GMAIL_PASSWORD" algolia.app_id="ALGOLIA_APP_ID" algolia.api_key="ALGOLIA_API_KEY"
+npm update -g firebase-tools
+firebase functions:config:set emails.support.email='support@memorize.ai' \
+							  emails.support.password='{SUPPORT_EMAIL_PASSWORD}' \
+							  algolia.appId='{ALGOLIA_APP_ID}' \
+							  algolia.apiKey='{ALGOLIA_API_KEY}'
 ./build -c
 ```
 
-## **LICENSE**
+## **License**
 
 CLOSED SOURCE SOFTWARE
 
