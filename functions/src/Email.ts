@@ -6,7 +6,7 @@ import { join } from 'path'
 
 import Setting from './Setting'
 
-const emails: {
+export const emails: {
 	support: EmailAccount
 } = functions.config().emails
 
@@ -19,7 +19,7 @@ const transport = createTransport({
 	}
 })
 
-type EmailAccount = { email: string, password: string }
+export type EmailAccount = { email: string, password: string }
 
 export default class Email {
 	static send(type: EmailType, { to, subject }: { to: string, subject: string }, context?: object): Promise<boolean> {
