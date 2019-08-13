@@ -262,8 +262,8 @@ function updateDisplayName(uid: string, displayName: string): Promise<admin.auth
 }
 
 function updateSlugForName(uid: string, name: string): Promise<FirebaseFirestore.WriteResult> {
-	return Slug.find(name).then(slug =>
-		firestore.doc(`users/${uid}`).update({ slug })
+	return Slug.findAvailable(new Slug(name)).then(slug =>
+		firestore.doc(`users/${uid}`).update({ slug: slug.toString() })
 	)
 }
 

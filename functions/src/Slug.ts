@@ -3,27 +3,28 @@ import * as admin from 'firebase-admin'
 const firestore = admin.firestore()
 
 export default class Slug {
-	string: string
-	parts: string[] | null
+	head: string
+	tail?: number
 
 	constructor(str: string) {
 		const slug = str.trim().replace(/\s+/g, '-').replace(/\.+/g, '').toLowerCase()
-		this.string = slug
-		this.parts = slug.match(/^(.+)\-(\d+)$/)
+		const parts = slug.match(/^(.+)\-(\d+)$/)
+		this.head = (parts && parts[0]) || slug
+		this.tail = parts && parts[1] ? parseInt(parts[1]) : undefined
 	}
 
-	static assemble(slug: Slug): string {
-		return slug.parts ? `${slug.parts[1]}-${parseInt(slug.parts[2]) + 1}` : `${slug}-1`
-	}
-	
-	static next(slug: string): string {
-		return Slug.assemble(new Slug(slug))
-	}
-	
-	static find(str: string): Promise<string> {
-		const slug = new Slug(str).string
-		return firestore.collection('users').where('slug', '==', slug).get().then(users =>
-			users.empty ? slug : Slug.find(Slug.next(slug))
+	static findAvailable(slug: Slug): Promise<Slug> {
+		return firestore.collection('users').where('slug', '==', slug.toString()).get().then(users =>
+			users.empty ? slug : Slug.findAvailable(slug.increment())
 		)
+	}
+
+	toString(): string {
+		return `${this.head}${this.tail ? `-${this.tail}` : ''}`
+	}
+
+	increment(): Slug {
+		this.tail = (this.tail || 0) + 1
+		return this
 	}
 }
