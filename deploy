@@ -1,5 +1,5 @@
 hasChanges=$(git status --porcelain)
-# ./clean -f
+./clean -f
 echo hasChanges
 if [[ $hasChanges ]]
 then
