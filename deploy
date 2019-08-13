@@ -1,5 +1,7 @@
-./clean -f
-if [[ $(git status --porcelain) ]]
+hasChanges=$(git status --porcelain)
+# ./clean -f
+echo hasChanges
+if [[ $hasChanges ]]
 then
 	git stash
 	git stash apply
@@ -7,5 +9,8 @@ fi
 ./build -m
 firebase deploy "$@"
 git reset --hard
-git stash pop
+if [[ $hasChanges ]]
+then
+	git stash pop
+fi
 ./clean
