@@ -22,7 +22,15 @@ case "$1" in
 		./build
 		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./testing -prune \) -not \( -path ./functions/node_modules -prune \) -name '*.html')
 		do
-			node_modules/.bin/html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-style-link-type-attributes --minify-css true --minify-js true "$path" -o "$path"
+			node_modules/.bin/html-minifier --collapse-whitespace \
+											--remove-comments \
+											--remove-optional-tags \
+											--remove-redundant-attributes \
+											--remove-script-type-attributes \
+											--remove-style-link-type-attributes \
+											--minify-css true \
+											--minify-js true \
+											"$path" -o "$path"
 		done
 		for path in $(find . -not \( -path ./node_modules -prune \) -not \( -path ./testing -prune \) -not \( -path ./functions/node_modules -prune \) -name '*.css')
 		do
