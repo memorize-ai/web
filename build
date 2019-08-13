@@ -1,4 +1,4 @@
-case $1 in
+case "$1" in
 	'')
 		npm i -g npm
 		npm i -g firebase-tools
