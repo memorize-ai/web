@@ -1,6 +1,5 @@
 hasChanges=$(git status --porcelain)
 ./clean -f
-echo hasChanges
 if [[ $hasChanges ]]
 then
 	git stash
