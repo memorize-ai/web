@@ -24,7 +24,8 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 	const cardRef = firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`)
 	return Promise.all([
 		cardRef.get().then(card => {
-			const rating: number = snapshot.get('rating') || 5
+			const rating: number | undefined = snapshot.get('rating')
+			if (rating === undefined) return Promise.resolve() as Promise<any>
 			const correct = rating > 2
 			const increment = correct ? 1 : 0
 			if (card.exists)
