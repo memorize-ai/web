@@ -27,7 +27,7 @@ export const historyCreated = functions.firestore.document('users/{uid}/decks/{d
 			const rating: number = snapshot.get('rating') || 5
 			const correct = rating > 2
 			const increment = correct ? 1 : 0
-			if (card.data())
+			if (card.exists)
 				return Setting.get<boolean>('algorithm', uid).then(algorithm => {
 					const last: CardLast | undefined = card.get('last')
 					const elapsed = now - (last ? last.date.toMillis() : now)
