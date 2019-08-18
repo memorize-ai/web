@@ -1,5 +1,7 @@
 # **[memorize.ai](https://memorize.ai)**
 
+**memorize.ai Website**
+
 ## **Repositories**
 
 **[memorize.ai-web](https://github.com/kenmueller/memorize.ai-web)**
@@ -7,6 +9,8 @@
 **[memorize.ai-ios](https://github.com/kenmueller/memorize.ai-ios)**
 
 **[memorize.ai-android](https://github.com/kenmueller/memorize.ai-android)**
+
+**[memorize.ai-ios-design](https://github.com/kenmueller/memorize.ai-ios-design)**
 
 ## **Links**
 
