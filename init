@@ -1,0 +1,6 @@
+npm i -g npm firebase-tools
+npm update -g npm firebase-tools
+firebase functions:config:set "$@"
+mkdir protected &> /dev/null
+firebase functions:config:get > protected/environment-variables.json
+./build -c
