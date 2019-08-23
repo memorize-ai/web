@@ -2,7 +2,7 @@
 	"name": "memorize.ai",
 	"description": "memorize.ai website",
 	"dependencies": {
-		"babel-minify": "^0.5.0",
+		"babel-minify": "^0.5.1",
 		"cssnano-cli": "^1.0.5",
 		"html-minifier": "^4.0.0"
 	},
