@@ -1,7 +1,7 @@
 {
 	"name": "memorize.ai",
 	"description": "memorize.ai website",
-	"dependencies": {
+	"devDependencies": {
 		"babel-minify": "^0.5.1",
 		"cssnano-cli": "^1.0.5",
 		"html-minifier": "^4.0.0"
