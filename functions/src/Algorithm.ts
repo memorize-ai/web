@@ -10,7 +10,7 @@ export default class Algorithm {
 	static predict(id: string, cards: CardTrainingData[]): Date {
 		const wordsArray = unique(cards.flatMap(card => firstWords(card.front)))
 		const inputSize = HISTORY_COUNT + wordsArray.length
-		const net = new NeuralNetwork()
+		const net = new NeuralNetwork
 		net.train(formatTrainingData(cards, wordsArray), trainingOptions(0.0001, inputSize, 1, [inputSize, inputSize], 'tanh'))
 		const current = cards.find(card => card.id === id)
 		return new Date(
