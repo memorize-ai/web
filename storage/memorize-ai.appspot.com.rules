@@ -1,10 +1,6 @@
 service firebase.storage {
 	match /b/{bucket}/o {
-		match /users/{uid}/profile {
-			allow read
-			allow write: if signedInWith(uid)
-		}
-		match /users/{uid}/background {
+		match /users/{uid} {
 			allow read
 			allow write: if signedInWith(uid)
 		}
