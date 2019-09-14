@@ -1,9 +1,8 @@
 service firebase.storage {
 	match /b/{bucket}/o {
-		match /{uploadId} {
+		match /{uid}/{uploadId} {
 			allow read
-			allow create: if signedInWith(request.resource.metadata.owner)
-			allow update, delete: if signedInWith(resource.metadata.owner)
+			allow write: if signedInWith(uid)
 		}
 
 		function authId() {
