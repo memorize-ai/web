@@ -7,19 +7,22 @@
 		"shell": "npm run build && firebase functions:shell",
 		"start": "npm run shell",
 		"deploy": "firebase deploy --only functions",
-		"logs": "firebase functions:log"
+		"logs": "firebase functions:log",
+		"test": "jest --verbose lib"
 	},
 	"engines": {
 		"node": "8"
 	},
-	"main": "lib/index.js",
+	"main": "lib/src/index.js",
 	"dependencies": {
 		"firebase-admin": "^8.6.0",
 		"firebase-functions": "^3.3.0"
 	},
 	"devDependencies": {
-		"typescript": "^3.6.4",
-		"tslint": "^5.20.0"
+		"@types/jest": "^24.0.18",
+		"jest": "^24.9.0",
+		"tslint": "^5.20.0",
+		"typescript": "^3.6.4"
 	},
 	"private": true
 }

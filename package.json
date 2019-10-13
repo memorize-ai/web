@@ -1,21 +1,27 @@
 {
 	"name": "memorize.ai-web",
 	"scripts": {
-		"start": "npm --prefix public start",
+		"start": "npm start -C public",
 		
-		"clean": "rm -rf .firebase && npm run clean:public && npm run clean:functions",
+		"install:all": "npm run install:public && npm run install:functions",
+		"install:public": "npm i -C public",
+		"install:functions": "npm i -C functions",
+		
+		"clean": "rm -rf .firebase *.log && npm run clean:public && npm run clean:functions",
 		"clean:public": "rm -rf public/build",
 		"clean:functions": "rm -rf functions/lib",
 		
 		"build": "npm run build:public && npm run build:functions",
-		"build:public": "npm --prefix public run build",
-		"build:functions": "npm --prefix functions run build",
+		"build:public": "npm run build -C public",
+		"build:functions": "npm run build -C functions",
 		
-		"build:deploy": "npm run build && npm run deploy",
-		"build:deploy:dev": "npm run build && npm run deploy:dev",
+		"test:functions": "npm test -C functions",
 		
-		"deploy": "firebase deploy -P default",
-		"deploy:dev": "firebase deploy -P dev"
+		"predeploy": "npm run clean && npm run install:all && npm run build",
+		"postdeploy": "npm run clean",
+		
+		"deploy": "npm run predeploy && firebase deploy -P default && npm run postdeploy",
+		"deploy:dev": "npm run predeploy && firebase deploy -P dev && npm run postdeploy"
 	},
 	"private": true
 }
