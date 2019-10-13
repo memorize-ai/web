@@ -1,0 +1,17 @@
+{
+	"name": "memorize.ai-web",
+	"scripts": {
+		"start": "npm --prefix public start",
+		
+		"build": "npm run build:public && npm run build:functions",
+		"build:public": "npm --prefix public run build",
+		"build:functions": "npm --prefix functions run build",
+		
+		"build:deploy": "npm run build && npm run deploy",
+		"build:deploy:dev": "npm run build && npm run deploy:dev",
+		
+		"deploy": "firebase deploy -P default",
+		"deploy:dev": "firebase deploy -P dev"
+	},
+	"private": true
+}

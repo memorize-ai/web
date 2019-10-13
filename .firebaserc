@@ -1,0 +1,6 @@
+{
+	"projects": {
+		"default": "memorize-ai",
+		"dev": "memorize-ai-dev"
+	}
+}
