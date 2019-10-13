@@ -3,6 +3,10 @@
 	"scripts": {
 		"start": "npm --prefix public start",
 		
+		"clean": "rm -rf .firebase && npm run clean:public && npm run clean:functions",
+		"clean:public": "rm -rf public/build",
+		"clean:functions": "rm -rf functions/lib",
+		
 		"build": "npm run build:public && npm run build:functions",
 		"build:public": "npm --prefix public run build",
 		"build:functions": "npm --prefix functions run build",
