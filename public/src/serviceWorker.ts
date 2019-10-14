@@ -11,10 +11,7 @@ interface Config {
 
 export const register = (config?: Config) => {
 	if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-		const publicUrl = new URL(
-			(process as { env: { [key: string]: string } }).env.PUBLIC_URL,
-			window.location.href
-		)
+		const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href)
 		if (publicUrl.origin !== window.location.origin)
 			return
 		window.addEventListener('load', () => {
