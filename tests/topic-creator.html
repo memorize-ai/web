@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://memorize-ai-dev.web.app/__/firebase/7.2.2/firebase-app.js"></script>
+		<script src="https://memorize-ai-dev.web.app/__/firebase/7.2.2/firebase-firestore.js"></script>
+		<script src="https://memorize-ai-dev.web.app/__/firebase/7.2.2/firebase-storage.js"></script>
+		<script src="https://memorize-ai-dev.web.app/__/firebase/init.js"></script>
+		<title>memorize.ai Topic Creator</title>
+	</head>
+	<body>
+		<h1>memorize.ai Topic Creator</h1>
+		<input id="file-input" type="file" oninput="onInputChange()">
+		<br><br>
+		<input id="name-input" placeholder="Name" oninput="onInputChange()">
+		<br><br>
+		<button id="add-button" onclick="addTopic()" disabled>Add</button>
+		<div id="loading-indicator" hidden>
+			<br>
+			Loading...
+		</div>
+		<script>
+			const fileInput = document.getElementById('file-input')
+			const nameInput = document.getElementById('name-input')
+			const addButton = document.getElementById('add-button')
+			const loadingIndicator = document.getElementById('loading-indicator')
+			
+			const firestore = firebase.firestore()
+			const storage = firebase.storage().ref()
+			
+			const onInputChange = () =>
+				addButton.disabled = !(fileInput.files.length && nameInput.value)
+			
+			const addTopic = () => {
+				addButton.disabled = true
+				loadingIndicator.hidden = false
+				firestore.collection('topics').add({
+					name: nameInput.value
+				}).then(({ id }) =>
+					storage.child(`topics/${id}`).put(fileInput.files[0])
+				).then(() => {
+					fileInput.value = null
+					nameInput.value = ''
+					alert('Success')
+				}).catch(reason => {
+					addButton.disabled = false
+					console.error(reason)
+					alert(reason)
+				}).finally(() =>
+					loadingIndicator.hidden = true
+				)
+			}
+		</script>
+	</body>
+</html>
