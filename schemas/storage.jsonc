@@ -1,5 +1,8 @@
 {
 	"topics (folder)": {
 		"ab23D8da": "IMAGE_DATA" // Same ID as in Firestore
+	},
+	"decks (folder)": {
+		"a3gsb2D3n": "IMAGE_DATA" // Same ID as in Firestore
 	}
 }
