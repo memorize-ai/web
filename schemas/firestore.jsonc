@@ -1,7 +1,11 @@
 {
 	"users (collection)": {
 		"name": "Ken Mueller", // Not unique
-		"email": "kenmueller0@gmail.com" // Unique
+		"email": "kenmueller0@gmail.com", // Unique
+		"topics (array)": [ // The user's interests
+			"ab23D8da", // Topic ID
+			"sdf3r3oD"
+		]
 	},
 	"topics (collection)": {
 		"ab23D8da (document)": { // Random ID, same as in Storage
