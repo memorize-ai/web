@@ -11,5 +11,15 @@
 		"ab23D8da (document)": { // Random ID, same as in Storage
 			"name": "Math" // Unique
 		}
+	},
+	"decks (collection)": {
+		"a3gsb2D3n (document)": { // Random ID, same as in Storage
+			"name": "Geometry Prep", // Not unique
+			"viewCount": 1200, // (Int) The total number of views (including unique)
+			"uniqueViewCount": 400, // (Int) The unique number views (included in "viewCount")
+			"ratingCount": 400, // (Int) The number of ratings this deck has
+			"averageRating": 4.5, // (Double) From 1-5
+			"downloadCount": 900 // (Int) The number of downloads this deck has
+		}
 	}
 }
