@@ -1,5 +1,7 @@
 import * as admin from 'firebase-admin'
 
+import Topic from '../Topic/Topic'
+
 const firestore = admin.firestore()
 
 export default class Deck {
@@ -33,6 +35,20 @@ export default class Deck {
 		firestore.doc(`decks/${id}`).get().then(snapshot =>
 			new Deck(snapshot)
 		)
+	
+	insertIntoTopDecks = (): Promise<void> =>
+		Promise.all(this.topics.map(Topic.fromId)).then(topics =>
+			Promise.all(topics.map(topic =>
+				Promise.all(topic.topDecks.map(Deck.fromId)).then(topDecks => {
+					for (const i of [...topDecks.keys()])
+						if (this.compareTo(topDecks[i])) {
+							topDecks.splice(i, 0, this).slice(0, Topic.MAX_TOP_DECKS_LENGTH)
+							return topic.documentReference().update({ topDecks })
+						}
+					return Promise.resolve(null)
+				})	
+			))
+		) as Promise<void>
 	
 	compareTo = (deck: Deck): boolean =>
 		true // TODO: Change this
