@@ -53,6 +53,13 @@ export default class Deck {
 			))
 		) as Promise<void>
 	
+	removeFromTopDecks = (): Promise<FirebaseFirestore.WriteResult[]> =>
+		Promise.all(this.topics.map(topicId =>
+			firestore.doc(`topics/${topicId}`).update({
+				topDecks: admin.firestore.FieldValue.arrayRemove(this.id)
+			})
+		))
+	
 	compareTo = (deck: Deck): boolean =>
 		true // TODO: Change this
 }
