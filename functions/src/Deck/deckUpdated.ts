@@ -10,7 +10,7 @@ export default functions.firestore.document('decks/{deckId}').onUpdate(({ after:
 			Promise.all(topic.topDecks.map(Deck.fromId)).then(topDecks => {
 				for (const i of [...topDecks.keys()])
 					if (thisDeck.compareTo(topDecks[i])) {
-						topDecks.length === 10
+						topDecks.length === Topic.MAX_TOP_DECKS_LENGTH
 							? topDecks[i] = thisDeck
 							: topDecks.splice(i, 0, thisDeck)
 						return topic.documentReference().update({ topDecks })

@@ -3,6 +3,8 @@ import * as admin from 'firebase-admin'
 const firestore = admin.firestore()
 
 export default class Topic {
+	static MAX_TOP_DECKS_LENGTH = 10
+	
 	id: string
 	name: string
 	topDecks: string[]
