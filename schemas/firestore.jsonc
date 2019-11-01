@@ -10,7 +10,7 @@
 	"topics (collection)": {
 		"ab23D8da (document)": { // Random ID, same as in Storage
 			"name": "Math", // Unique
-			"topDecks (array)": [ // The topic's top decks
+			"topDecks (array)": [ // The topic's top 10 decks
 				"a3gsb2D3n", // Deck ID
 				"saf88a9DC"
 			]
