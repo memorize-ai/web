@@ -18,6 +18,10 @@
 	},
 	"decks (collection)": {
 		"a3gsb2D3n (document)": { // Random ID, same as in Storage
+			"topics (array)": [ // The topics that this deck is associated with
+				"ab23D8da", // Topic ID
+				"sdf3r3oD"
+			],
 			"hasImage": true, // If this deck has an image or not
 			"name": "Geometry Prep", // Not unique
 			"subtitle": "Angles, lines, triangles and other polygons", // Only one line long, can be an empty string
