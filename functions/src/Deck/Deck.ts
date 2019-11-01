@@ -36,10 +36,13 @@ export default class Deck {
 			new Deck(snapshot)
 		)
 	
+	getTopics = (): Promise<Topic[]> =>
+		Promise.all(this.topics.map(Topic.fromId))
+	
 	insertIntoTopDecks = (): Promise<void> =>
-		Promise.all(this.topics.map(Topic.fromId)).then(topics =>
+		this.getTopics().then(topics =>
 			Promise.all(topics.map(topic =>
-				Promise.all(topic.topDecks.map(Deck.fromId)).then(topDecks => {
+				topic.getTopDecks().then(topDecks => {
 					for (const i of [...topDecks.keys()])
 						if (this.compareTo(topDecks[i])) {
 							topDecks.splice(i, 0, this).slice(0, Topic.MAX_TOP_DECKS_LENGTH)

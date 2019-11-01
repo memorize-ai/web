@@ -1,5 +1,7 @@
 import * as admin from 'firebase-admin'
 
+import Deck from '../Deck/Deck'
+
 const firestore = admin.firestore()
 
 export default class Topic {
@@ -22,4 +24,7 @@ export default class Topic {
 	
 	documentReference = () =>
 		firestore.doc(`topics/${this.id}`)
+	
+	getTopDecks = (): Promise<Deck[]> =>
+		Promise.all(this.topDecks.map(Deck.fromId))
 }
