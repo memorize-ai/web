@@ -14,7 +14,7 @@ export default class Topic {
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
-		this.topDecks = snapshot.get('topDecks')
+		this.topDecks = snapshot.get('topDecks') || []
 	}
 	
 	get documentReference() {
