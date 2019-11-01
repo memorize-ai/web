@@ -46,7 +46,9 @@ export default class Deck {
 					for (const i of [...topDecks.keys()])
 						if (this.compareTo(topDecks[i])) {
 							topDecks.splice(i, 0, this).slice(0, Topic.MAX_TOP_DECKS_LENGTH)
-							return topic.documentReference.update({ topDecks })
+							return topic.documentReference.update({
+								topDecks: topDecks.map(({ id }) => id)
+							})
 						}
 					return Promise.resolve(null)
 				})	
@@ -60,6 +62,40 @@ export default class Deck {
 			})
 		))
 	
-	compareTo = (deck: Deck): boolean =>
-		true // TODO: Change this
+	compareTo = (deck: Deck): boolean => {
+		let thisPoints = 0
+		let deckPoints = 0
+		
+		if (this.numberOfViews > deck.numberOfViews)
+			thisPoints += this.numberOfViews / deck.numberOfViews
+		else if (deck.numberOfViews > this.numberOfViews)
+			deckPoints += deck.numberOfViews / this.numberOfViews
+		
+		if (this.numberOfUniqueViews > deck.numberOfUniqueViews)
+			thisPoints += 2 * this.numberOfUniqueViews / deck.numberOfUniqueViews
+		else if (deck.numberOfUniqueViews > this.numberOfUniqueViews)
+			deckPoints += 2 * deck.numberOfUniqueViews / this.numberOfUniqueViews
+		
+		if (this.numberOfRatings > deck.numberOfRatings)
+			thisPoints += 2 * this.numberOfRatings / deck.numberOfRatings
+		else if (deck.numberOfRatings > this.numberOfRatings)
+			deckPoints += 2 * deck.numberOfRatings / this.numberOfRatings
+		
+		if (this.averageRating > deck.averageRating)
+			thisPoints += 5 * this.averageRating / deck.averageRating
+		else if (deck.averageRating > this.averageRating)
+			deckPoints += 5 * deck.averageRating / this.averageRating
+		
+		if (this.numberOfDownloads > deck.numberOfDownloads)
+			thisPoints += 4 * this.numberOfDownloads / deck.numberOfDownloads
+		else if (deck.numberOfDownloads > this.numberOfDownloads)
+			deckPoints += 4 * deck.numberOfDownloads / this.numberOfDownloads
+		
+		if (this.dateLastUpdated > deck.dateLastUpdated)
+			thisPoints++
+		else if (deck.dateLastUpdated > this.dateLastUpdated)
+			deckPoints++
+		
+		return thisPoints >= deckPoints
+	}
 }
