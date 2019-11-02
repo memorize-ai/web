@@ -45,7 +45,7 @@ export default class Deck {
 				topic.getTopDecks().then(topDecks => {
 					for (const i of [...topDecks.keys()])
 						if (this.compareTo(topDecks[i])) {
-							topDecks.splice(i, 0, this).slice(0, Topic.MAX_TOP_DECKS_LENGTH)
+							topDecks = topDecks.splice(i, 0, this).slice(0, Topic.MAX_TOP_DECKS_LENGTH)
 							return topic.documentReference.update({
 								topDecks: topDecks.map(({ id }) => id)
 							})
