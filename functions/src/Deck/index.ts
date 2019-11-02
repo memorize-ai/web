@@ -50,7 +50,11 @@ export default class Deck {
 								topDecks: topDecks.map(({ id }) => id)
 							})
 						}
-					return Promise.resolve(null)
+					return topDecks.length < Topic.MAX_TOP_DECKS_LENGTH
+						? topic.documentReference.update({
+							topDecks: admin.firestore.FieldValue.arrayUnion(this.id)
+						})
+						: Promise.resolve(null)
 				})	
 			))
 		) as Promise<void>
