@@ -5,7 +5,13 @@
 		"topics (array)": [ // The user's interests
 			"ab23D8da", // Topic ID
 			"sdf3r3oD"
-		]
+		],
+		"deckCount": 4, // The number of decks in this user's library
+		"decks (collection)": {
+			"a3gsb2D3n (document)": { // Deck ID
+				"added": "DATE" // (Date) The date that this deck was added to this user's libray
+			}
+		}
 	},
 	"topics (collection)": {
 		"ab23D8da (document)": { // Random ID, same as in Storage
