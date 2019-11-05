@@ -39,7 +39,7 @@ export default class Deck {
 	getTopics = (): Promise<Topic[]> =>
 		Promise.all(this.topics.map(Topic.fromId))
 	
-	insertIntoTopDecks = (): Promise<void> =>
+	insertIntoTopDecks = (): Promise<(FirebaseFirestore.WriteResult | null)[]> =>
 		this.getTopics().then(topics =>
 			Promise.all(topics.map(topic =>
 				topic.getTopDecks().then(topDecks => {
@@ -59,7 +59,7 @@ export default class Deck {
 						: Promise.resolve(null)
 				})	
 			))
-		) as Promise<void>
+		)
 	
 	removeFromTopDecks = (): Promise<FirebaseFirestore.WriteResult[]> =>
 		Promise.all(this.topics.map(topicId =>
