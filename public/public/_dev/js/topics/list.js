@@ -38,8 +38,10 @@ firestore.collection('topics').onSnapshot(snapshot =>
 						image
 					})
 				)
+				break
 			case 'removed':
 				removeTopicFromList(id)
+				break
 		}
 	})
 )
