@@ -46,6 +46,9 @@ export default class Deck {
 			])
 			: Promise.reject('No document data')
 	
+	deleteIndex = (): Promise<void> =>
+		decksClient.destroyDocuments(DECKS_ENGINE_NAME, [this.id])
+	
 	private transformDocumentDataForIndexing = (data: FirebaseFirestore.DocumentData): object => ({
 		...data,
 		id: this.id,
