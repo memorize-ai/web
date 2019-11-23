@@ -6,9 +6,9 @@ import Topic from '../Topic'
 const firestore = admin.firestore()
 
 export default class Deck {
-	documentData?: FirebaseFirestore.DocumentData
 	id: string
 	topics: string[]
+	hasImage: boolean
 	name: string
 	subtitle: string
 	numberOfViews: number
@@ -20,9 +20,9 @@ export default class Deck {
 	dateLastUpdated: Date
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
-		this.documentData = snapshot.data()
 		this.id = snapshot.id
 		this.topics = snapshot.get('topics')
+		this.hasImage = snapshot.get('hasImage')
 		this.name = snapshot.get('name')
 		this.subtitle = snapshot.get('subtitle')
 		this.numberOfViews = snapshot.get('viewCount')
@@ -40,20 +40,26 @@ export default class Deck {
 		)
 	
 	index = (): Promise<void> =>
-		this.documentData
-			? decksClient.indexDocuments(DECKS_ENGINE_NAME, [
-				this.transformDocumentDataForIndexing(this.documentData)
-			])
-			: Promise.reject('No document data')
+		decksClient.indexDocuments(DECKS_ENGINE_NAME, [
+			this.transformDataForIndexing()
+		])
 	
 	deleteIndex = (): Promise<void> =>
 		decksClient.destroyDocuments(DECKS_ENGINE_NAME, [this.id])
 	
-	private transformDocumentDataForIndexing = (data: FirebaseFirestore.DocumentData): object => ({
-		...data,
+	private transformDataForIndexing = (): object => ({
 		id: this.id,
-		created: new Date(data.created.seconds * 1000),
-		updated: new Date(data.updated.seconds * 1000)
+		topics: this.topics,
+		has_image: this.hasImage,
+		name: this.name,
+		subtitle: this.subtitle,
+		view_count: this.numberOfViews,
+		unique_view_count: this.numberOfUniqueViews,
+		rating_count: this.numberOfRatings,
+		average_rating: this.averageRating,
+		download_count: this.numberOfDownloads,
+		created: this.dateCreated,
+		updated: this.dateLastUpdated
 	})
 	
 	getTopics = (): Promise<Topic[]> =>
