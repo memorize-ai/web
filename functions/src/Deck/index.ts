@@ -39,6 +39,20 @@ export default class Deck {
 			new Deck(snapshot)
 		)
 	
+	index = (): Promise<void> =>
+		this.documentData
+			? decksClient.indexDocuments(DECKS_ENGINE_NAME, [
+				this.transformDocumentDataForIndexing(this.documentData)
+			])
+			: Promise.reject('No document data')
+	
+	private transformDocumentDataForIndexing = (data: FirebaseFirestore.DocumentData): object => ({
+		...data,
+		id: this.id,
+		created: new Date(data.created.seconds * 1000),
+		updated: new Date(data.updated.seconds * 1000)
+	})
+	
 	getTopics = (): Promise<Topic[]> =>
 		Promise.all(this.topics.map(Topic.fromId))
 	
