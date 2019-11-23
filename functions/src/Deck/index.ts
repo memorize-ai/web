@@ -1,10 +1,12 @@
 import * as admin from 'firebase-admin'
 
+import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
 import Topic from '../Topic'
 
 const firestore = admin.firestore()
 
 export default class Deck {
+	documentData?: FirebaseFirestore.DocumentData
 	id: string
 	topics: string[]
 	name: string
@@ -18,6 +20,7 @@ export default class Deck {
 	dateLastUpdated: Date
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
+		this.documentData = snapshot.data()
 		this.id = snapshot.id
 		this.topics = snapshot.get('topics')
 		this.name = snapshot.get('name')
