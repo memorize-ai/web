@@ -49,6 +49,7 @@ export default class Deck {
 	
 	private transformDataForIndexing = (): object => ({
 		id: this.id,
+		score: this.score,
 		topics: this.topics,
 		has_image: this.hasImage,
 		name: this.name,
@@ -61,6 +62,16 @@ export default class Deck {
 		created: this.dateCreated,
 		updated: this.dateLastUpdated
 	})
+	
+	get score() {
+		return (
+			this.numberOfViews +
+			this.numberOfUniqueViews * 1.5 +
+			this.numberOfRatings * 5 +
+			this.averageRating * 15 +
+			this.numberOfDownloads * 7.5
+		)
+	}
 	
 	getTopics = (): Promise<Topic[]> =>
 		Promise.all(this.topics.map(Topic.fromId))
