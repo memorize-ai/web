@@ -1,7 +1,5 @@
 import * as admin from 'firebase-admin'
 
-import Deck from '../Deck'
-
 const firestore = admin.firestore()
 
 export default class Topic {
@@ -9,12 +7,10 @@ export default class Topic {
 	
 	id: string
 	name: string
-	topDecks: string[]
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
-		this.topDecks = snapshot.get('topDecks') || []
 	}
 	
 	get documentReference() {
@@ -25,7 +21,4 @@ export default class Topic {
 		firestore.doc(`topics/${id}`).get().then(snapshot =>
 			new Topic(snapshot)
 		)
-	
-	getTopDecks = (): Promise<Deck[]> =>
-		Promise.all(this.topDecks.map(Deck.fromId))
 }
