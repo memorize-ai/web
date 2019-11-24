@@ -15,6 +15,7 @@ export default class Deck {
 	numberOfRatings: number
 	averageRating: number
 	numberOfDownloads: number
+	creatorId: string
 	dateCreated: Date
 	dateLastUpdated: Date
 	
@@ -29,6 +30,7 @@ export default class Deck {
 		this.numberOfRatings = snapshot.get('ratingCount')
 		this.averageRating = snapshot.get('averageRating')
 		this.numberOfDownloads = snapshot.get('downloadCount')
+		this.creatorId = snapshot.get('creator')
 		this.dateCreated = snapshot.get('created').toDate()
 		this.dateLastUpdated = snapshot.get('updated').toDate()
 	}
@@ -68,6 +70,7 @@ export default class Deck {
 		rating_count: this.numberOfRatings,
 		average_rating: this.averageRating,
 		download_count: this.numberOfDownloads,
+		creator: this.creatorId,
 		created: this.dateCreated,
 		updated: this.dateLastUpdated
 	})
