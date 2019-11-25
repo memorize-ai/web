@@ -39,7 +39,8 @@
 			"updated": "DATE", // (Date) The last date that this deck was updated on
 			"sections (collection)": {
 				"ab32asd3F (document)": { // Section ID
-					"name": "Chapter 1" // (String) The section name
+					"name": "Chapter 1", // (String) The section name
+					"cardCount": 403 // (Int?) The number of cards in this section. If nonexistent, treat as 0
 				}
 			},
 			"cards (collection)": {
@@ -47,8 +48,8 @@
 					"section": "ab32asd3F", // (String) The section ID associated with this card. If this card is unsectioned, this is the empty string
 					"front": "<h1>This is an image:</h1><img src=\"example.jpg\">", // (String) The front of the card in HTML
 					"back": "<h1>This is not an image:</h1><p>Here's some text</p>", // (String) The back of the card in HTML
-					"viewCount": 500, // (Int) The number of views this card has
-					"skipCount": 100 // (Int) The number of skips this card has
+					"viewCount": 500, // (Int?) The number of views this card has. If nonexistent, treat as 0
+					"skipCount": 100 // (Int?) The number of skips this card has. If nonexistent, treat as 0
 				}
 			}
 		}
