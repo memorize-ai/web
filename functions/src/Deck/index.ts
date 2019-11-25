@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin'
 
 import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
+import User from '../User'
 
 const firestore = admin.firestore()
 
@@ -51,27 +52,29 @@ export default class Deck {
 		)
 	
 	index = (): Promise<void> =>
-		decksClient.indexDocuments(DECKS_ENGINE_NAME, [
-			this.transformDataForIndexing()
-		])
+		this.transformDataForIndexing().then(data =>
+			decksClient.indexDocuments(DECKS_ENGINE_NAME, [data])
+		)
 	
 	deleteIndex = (): Promise<void> =>
 		decksClient.destroyDocuments(DECKS_ENGINE_NAME, [this.id])
 	
-	private transformDataForIndexing = (): object => ({
-		id: this.id,
-		score: this.score,
-		topics: this.topics,
-		has_image: this.hasImage,
-		name: this.name,
-		subtitle: this.subtitle,
-		view_count: this.numberOfViews,
-		unique_view_count: this.numberOfUniqueViews,
-		rating_count: this.numberOfRatings,
-		average_rating: this.averageRating,
-		download_count: this.numberOfDownloads,
-		creator: this.creatorId,
-		created: this.dateCreated,
-		updated: this.dateLastUpdated
-	})
+	private transformDataForIndexing = (): Promise<object> =>
+		User.fromId(this.creatorId).then(creator => ({
+			id: this.id,
+			score: this.score,
+			topics: this.topics,
+			has_image: this.hasImage,
+			name: this.name,
+			subtitle: this.subtitle,
+			view_count: this.numberOfViews,
+			unique_view_count: this.numberOfUniqueViews,
+			rating_count: this.numberOfRatings,
+			average_rating: this.averageRating,
+			download_count: this.numberOfDownloads,
+			creator_id: this.creatorId,
+			creator_name: creator.name,
+			created: this.dateCreated,
+			updated: this.dateLastUpdated
+		}))
 }

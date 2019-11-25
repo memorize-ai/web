@@ -16,6 +16,11 @@ export default class User {
 		this.interests = snapshot.get('topics')
 	}
 	
+	static fromId = (id: string): Promise<User> =>
+		firestore.doc(`users/${id}`).get().then(snapshot =>
+			new User(snapshot)
+		)
+	
 	static incrementDeckCount = (uid: string, amount: number = 1) =>
 		firestore.doc(`users/${uid}`).update({
 			deckCount: admin.firestore.FieldValue.increment(amount)
