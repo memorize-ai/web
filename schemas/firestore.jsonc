@@ -15,7 +15,12 @@
 					"dueCardCount": 10, // (Int?) The number of due cards in this deck. This is updated from the backend. Treat as 0 if nonexistent
 					"unlockedSections (array)": [ // ([String]?) The sections in this deck that aren't locked for this user. Treat as [] if nonexistent
 						"ab32asd3F" // Section ID
-					]
+					],
+					"cards (collection)": {
+						"a8D0ba2 (document)": { // Card ID
+							"due": "DATE" // (Date) The next due date of this card
+						}
+					}
 				}
 			}
 		}
