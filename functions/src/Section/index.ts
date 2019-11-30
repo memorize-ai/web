@@ -10,7 +10,7 @@ export default class Section {
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
-		this.numberOfCards = snapshot.get('cardCount')
+		this.numberOfCards = snapshot.get('cardCount') || 0
 	}
 	
 	static fromId = (sectionId: string, deckId: string): Promise<Section> =>
