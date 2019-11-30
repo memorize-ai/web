@@ -15,6 +15,12 @@ export {
 } from './Section/functions'
 
 export {
+	cardCreated,
+	cardUpdated,
+	cardDeleted
+} from './Card/functions'
+
+export {
 	userCreated,
 	userUpdated,
 	userDeleted
