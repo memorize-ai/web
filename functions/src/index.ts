@@ -11,6 +11,10 @@ export {
 } from './Deck/functions'
 
 export {
+	sectionDeleted
+} from './Section/functions'
+
+export {
 	userCreated,
 	userUpdated,
 	userDeleted
