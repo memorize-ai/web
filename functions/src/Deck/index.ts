@@ -16,6 +16,7 @@ export default class Deck {
 	numberOfRatings: number
 	averageRating: number
 	numberOfDownloads: number
+	numberOfCards: number
 	creatorId: string
 	dateCreated: Date
 	dateLastUpdated: Date
@@ -31,6 +32,7 @@ export default class Deck {
 		this.numberOfRatings = snapshot.get('ratingCount')
 		this.averageRating = snapshot.get('averageRating')
 		this.numberOfDownloads = snapshot.get('downloadCount')
+		this.numberOfCards = snapshot.get('cardCount')
 		this.creatorId = snapshot.get('creator')
 		this.dateCreated = snapshot.get('created').toDate()
 		this.dateLastUpdated = snapshot.get('updated').toDate()
@@ -42,7 +44,8 @@ export default class Deck {
 			this.numberOfUniqueViews * 1.5 +
 			this.numberOfRatings * 5 +
 			this.averageRating * 15 +
-			this.numberOfDownloads * 7.5
+			this.numberOfDownloads * 7.5 +
+			this.numberOfCards / 2
 		)
 	}
 	
@@ -72,9 +75,18 @@ export default class Deck {
 			rating_count: this.numberOfRatings,
 			average_rating: this.averageRating,
 			download_count: this.numberOfDownloads,
+			card_count: this.numberOfCards,
 			creator_id: this.creatorId,
 			creator_name: creator.name,
 			created: this.dateCreated,
 			updated: this.dateLastUpdated
 		}))
+	
+	incrementCardCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`decks/${this.id}`).update({
+			cardCount: admin.firestore.FieldValue.increment(amount)
+		})
+	
+	decrementCardCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		this.incrementCardCount(-amount)
 }
