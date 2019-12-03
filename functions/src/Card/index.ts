@@ -1,5 +1,7 @@
 import * as admin from 'firebase-admin'
 
+import Deck from '../Deck'
+
 const firestore = admin.firestore()
 
 export default class Card {
@@ -23,6 +25,9 @@ export default class Card {
 		firestore.doc(`decks/${deckId}/cards/${cardId}`).get().then(snapshot =>
 			new Card(snapshot)
 		)
+	
+	incrementDeckCardCount = Deck.incrementCardCount
+	decrementDeckCardCount = Deck.decrementCardCount
 	
 	incrementSectionCardCount = (deckId: string): Promise<FirebaseFirestore.WriteResult> =>
 		firestore.doc(`decks/${deckId}/sections/${this.sectionId}`).update({

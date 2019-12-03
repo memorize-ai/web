@@ -54,6 +54,14 @@ export default class Deck {
 			new Deck(snapshot)
 		)
 	
+	static incrementCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`decks/${deckId}`).update({
+			cardCount: admin.firestore.FieldValue.increment(amount)
+		})
+	
+	static decrementCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		Deck.incrementCardCount(deckId, -amount)
+	
 	index = (): Promise<void> =>
 		this.transformDataForIndexing().then(data =>
 			decksClient.indexDocuments(DECKS_ENGINE_NAME, [data])
@@ -81,12 +89,4 @@ export default class Deck {
 			created: this.dateCreated,
 			updated: this.dateLastUpdated
 		}))
-	
-	incrementCardCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
-		firestore.doc(`decks/${this.id}`).update({
-			cardCount: admin.firestore.FieldValue.increment(amount)
-		})
-	
-	decrementCardCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
-		this.incrementCardCount(-amount)
 }
