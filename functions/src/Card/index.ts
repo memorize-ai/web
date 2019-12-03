@@ -17,7 +17,7 @@ export default class Card {
 		this.sectionId = snapshot.get('section')
 		this.front = snapshot.get('front')
 		this.back = snapshot.get('back')
-		this.numberOfViews = snapshot.get('viewCount') || 0
+		this.numberOfViews = snapshot.get('viewCount')
 		this.numberOfSkips = snapshot.get('skipCount') || 0
 	}
 	
