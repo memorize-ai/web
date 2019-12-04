@@ -17,6 +17,8 @@ export default class Deck {
 	averageRating: number
 	numberOfDownloads: number
 	numberOfCards: number
+	numberOfCurrentUsers: number
+	numberOfAllTimeUsers: number
 	creatorId: string
 	dateCreated: Date
 	dateLastUpdated: Date
@@ -33,6 +35,8 @@ export default class Deck {
 		this.averageRating = snapshot.get('averageRating')
 		this.numberOfDownloads = snapshot.get('downloadCount')
 		this.numberOfCards = snapshot.get('cardCount')
+		this.numberOfCurrentUsers = snapshot.get('currentUserCount')
+		this.numberOfAllTimeUsers = snapshot.get('allTimeUserCount')
 		this.creatorId = snapshot.get('creator')
 		this.dateCreated = snapshot.get('created').toDate()
 		this.dateLastUpdated = snapshot.get('updated').toDate()
@@ -61,6 +65,19 @@ export default class Deck {
 	
 	static decrementCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
 		Deck.incrementCardCount(deckId, -amount)
+	
+	incrementCurrentUserCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`decks/${this.id}`).update({
+			currentUserCount: admin.firestore.FieldValue.increment(amount)
+		})
+	
+	decrementCurrentUserCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		this.incrementCurrentUserCount(-amount)
+	
+	incrementAllTimeUserCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`decks/${this.id}`).update({
+			allTimeUserCount: admin.firestore.FieldValue.increment(amount)
+		})
 	
 	index = (): Promise<void> =>
 		this.transformDataForIndexing().then(data =>

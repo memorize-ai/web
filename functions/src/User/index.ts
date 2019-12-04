@@ -7,13 +7,17 @@ export default class User {
 	id: string
 	name: string
 	email: string
-	interests: string
+	numberOfDecks: number
+	interests: string[]
+	allDecks: string[]
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
-		this.interests = snapshot.get('topics')
+		this.numberOfDecks = snapshot.get('deckCount') || 0
+		this.interests = snapshot.get('topics') || []
+		this.allDecks = snapshot.get('allDecks') || []
 	}
 	
 	static fromId = (id: string): Promise<User> =>
@@ -28,6 +32,16 @@ export default class User {
 	
 	static decrementDeckCount = (uid: string, amount: number = 1) =>
 		User.incrementDeckCount(uid, -amount)
+	
+	addDeckToAllDecks = (deckId: string): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`users/${this.id}`).update({
+			allDecks: admin.firestore.FieldValue.arrayUnion(deckId)
+		})
+	
+	removeDeckFromAllDecks = (deckId: string): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`users/${this.id}`).update({
+			allDecks: admin.firestore.FieldValue.arrayRemove(deckId)
+		})
 	
 	updateAuthDisplayName = (name: string): Promise<admin.auth.UserRecord> =>
 		auth.updateUser(this.id, { displayName: name })
