@@ -43,6 +43,7 @@
 			"hasImage": true, // If this deck has an image or not
 			"name": "Geometry Prep", // Not unique
 			"subtitle": "Angles, lines, triangles and other polygons", // Only one line long, can be an empty string
+			"description": "Angles, lines, triangles and other polygons", // Can be an empty string
 			"viewCount": 1200, // (Int) The total number of views (including unique)
 			"uniqueViewCount": 400, // (Int) The unique number views (included in "viewCount")
 			"ratingCount": 400, // (Int) The number of ratings this deck has

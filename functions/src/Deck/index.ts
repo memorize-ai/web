@@ -11,6 +11,7 @@ export default class Deck {
 	hasImage: boolean
 	name: string
 	subtitle: string
+	description: string
 	numberOfViews: number
 	numberOfUniqueViews: number
 	numberOfRatings: number
@@ -29,6 +30,7 @@ export default class Deck {
 		this.hasImage = snapshot.get('hasImage')
 		this.name = snapshot.get('name')
 		this.subtitle = snapshot.get('subtitle')
+		this.description = snapshot.get('description')
 		this.numberOfViews = snapshot.get('viewCount')
 		this.numberOfUniqueViews = snapshot.get('uniqueViewCount')
 		this.numberOfRatings = snapshot.get('ratingCount')
