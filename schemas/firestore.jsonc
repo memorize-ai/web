@@ -4,6 +4,7 @@
 			"name": "Ken Mueller", // Not unique
 			"email": "kenmueller0@gmail.com", // Unique
 			"deckCount": 4, // (Int?) The number of decks in this user's library. If nonexistent, treat as 0
+			"xp": 400, // (Int?) The XP that the user has. If nonexistent, treat as 0
 			"topics (array)": [ // The user's interests. If nonexistent, treat as []
 				"ab23D8da", // Topic ID
 				"sdf3r3oD"
@@ -47,6 +48,11 @@
 			"viewCount": 1200, // (Int) The total number of views (including unique)
 			"uniqueViewCount": 400, // (Int) The unique number views (included in "viewCount")
 			"ratingCount": 400, // (Int) The number of ratings this deck has
+			"1StarRatingCount": 100, // (Int) The number of 1 star ratings this deck has
+			"2StarRatingCount": 100, // (Int) The number of 2 star ratings this deck has
+			"3StarRatingCount": 100, // (Int) The number of 3 star ratings this deck has
+			"4StarRatingCount": 100, // (Int) The number of 4 star ratings this deck has
+			"5StarRatingCount": 100, // (Int) The number of 5 star ratings this deck has
 			"averageRating": 4.5, // (Double) From 1-5
 			"downloadCount": 900, // (Int) The number of downloads this deck has
 			"cardCount": 500, // (Int) The total number of cards in every section

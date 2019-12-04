@@ -15,6 +15,11 @@ export default class Deck {
 	numberOfViews: number
 	numberOfUniqueViews: number
 	numberOfRatings: number
+	numberOf1StarRatings: number
+	numberOf2StarRatings: number
+	numberOf3StarRatings: number
+	numberOf4StarRatings: number
+	numberOf5StarRatings: number
 	averageRating: number
 	numberOfDownloads: number
 	numberOfCards: number
@@ -34,6 +39,11 @@ export default class Deck {
 		this.numberOfViews = snapshot.get('viewCount')
 		this.numberOfUniqueViews = snapshot.get('uniqueViewCount')
 		this.numberOfRatings = snapshot.get('ratingCount')
+		this.numberOf1StarRatings = snapshot.get('1StarRatingCount')
+		this.numberOf2StarRatings = snapshot.get('2StarRatingCount')
+		this.numberOf3StarRatings = snapshot.get('3StarRatingCount')
+		this.numberOf4StarRatings = snapshot.get('4StarRatingCount')
+		this.numberOf5StarRatings = snapshot.get('5StarRatingCount')
 		this.averageRating = snapshot.get('averageRating')
 		this.numberOfDownloads = snapshot.get('downloadCount')
 		this.numberOfCards = snapshot.get('cardCount')
@@ -101,6 +111,11 @@ export default class Deck {
 			view_count: this.numberOfViews,
 			unique_view_count: this.numberOfUniqueViews,
 			rating_count: this.numberOfRatings,
+			one_star_rating_count: this.numberOf1StarRatings,
+			two_star_rating_count: this.numberOf2StarRatings,
+			three_star_rating_count: this.numberOf3StarRatings,
+			four_star_rating_count: this.numberOf4StarRatings,
+			five_star_rating_count: this.numberOf5StarRatings,
 			average_rating: this.averageRating,
 			download_count: this.numberOfDownloads,
 			card_count: this.numberOfCards,
