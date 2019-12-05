@@ -98,6 +98,23 @@ export default class Deck {
 			allTimeUserCount: admin.firestore.FieldValue.increment(amount)
 		})
 	
+	updateAverageRating = (): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`decks/${this.id}`).update({
+			averageRating: (
+				this.numberOf1StarRatings +
+				this.numberOf2StarRatings * 2 +
+				this.numberOf3StarRatings * 3 +
+				this.numberOf4StarRatings * 4 +
+				this.numberOf5StarRatings * 5
+			) / (
+				this.numberOf1StarRatings +
+				this.numberOf2StarRatings +
+				this.numberOf3StarRatings +
+				this.numberOf4StarRatings +
+				this.numberOf5StarRatings
+			)
+		})
+	
 	index = (): Promise<void> =>
 		this.transformDataForIndexing().then(data =>
 			decksClient.indexDocuments(DECKS_ENGINE_NAME, [data])

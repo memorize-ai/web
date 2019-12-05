@@ -39,6 +39,8 @@ const updateRating = (
 		: updateData.ratingCount = FieldValue.increment(-1)
 	
 	return documentReference.update(updateData)
+		.then(() => Deck.fromId(deckId))
+		.then(deck => deck.updateAverageRating())
 }
 
 const updateFavorites = (
