@@ -18,6 +18,7 @@
 					"added": "DATE", // (Date) The date that this deck was added to this user's libray
 					"favorite": false, // (Bool?) If the deck is favorited or not (If nonexistent, it is false)
 					"dueCardCount": 10, // (Int?) The number of due cards in this deck. This is updated from the backend. Treat as 0 if nonexistent
+					"rating": 4, // (Int?) The user's rating of this deck. If it is unrated, this is nonexistent
 					"unlockedSections (array)": [ // ([String]?) The sections in this deck that aren't locked for this user. Treat as [] if nonexistent
 						"ab32asd3F" // Section ID
 					],
