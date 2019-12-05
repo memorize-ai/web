@@ -78,6 +78,9 @@ export default class Deck {
 	static decrementCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
 		Deck.incrementCardCount(deckId, -amount)
 	
+	static fieldNameForRating = (rating: number): string =>
+		`${rating}StarRatingCount`
+	
 	incrementCurrentUserCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
 		firestore.doc(`decks/${this.id}`).update({
 			currentUserCount: admin.firestore.FieldValue.increment(amount)

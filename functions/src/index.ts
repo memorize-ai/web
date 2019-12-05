@@ -7,6 +7,7 @@ export {
 	deckUpdated,
 	deckDeleted,
 	deckUserNodeCreated,
+	deckUserNodeUpdated,
 	deckUserNodeDeleted
 } from './Deck/functions'
 
