@@ -25,6 +25,7 @@ export default class Deck {
 	numberOfCards: number
 	numberOfCurrentUsers: number
 	numberOfAllTimeUsers: number
+	numberOfFavorites: number
 	creatorId: string
 	dateCreated: Date
 	dateLastUpdated: Date
@@ -49,6 +50,7 @@ export default class Deck {
 		this.numberOfCards = snapshot.get('cardCount')
 		this.numberOfCurrentUsers = snapshot.get('currentUserCount')
 		this.numberOfAllTimeUsers = snapshot.get('allTimeUserCount')
+		this.numberOfFavorites = snapshot.get('favoriteCount')
 		this.creatorId = snapshot.get('creator')
 		this.dateCreated = snapshot.get('created').toDate()
 		this.dateLastUpdated = snapshot.get('updated').toDate()
@@ -61,7 +63,9 @@ export default class Deck {
 			this.numberOfRatings * 5 +
 			this.averageRating * 15 +
 			this.numberOfDownloads * 7.5 +
-			this.numberOfCards / 2
+			this.numberOfCards / 2 +
+			this.numberOfCurrentUsers * 5,
+			this.numberOfFavorites * 2.5
 		)
 	}
 	
@@ -124,6 +128,7 @@ export default class Deck {
 			card_count: this.numberOfCards,
 			current_user_count: this.numberOfCurrentUsers,
 			all_time_user_count: this.numberOfAllTimeUsers,
+			favorite_count: this.numberOfFavorites,
 			creator_id: this.creatorId,
 			creator_name: creator.name,
 			created: this.dateCreated,
