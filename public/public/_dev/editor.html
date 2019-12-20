@@ -56,16 +56,34 @@
 			<button onclick="exec('fontSize', 5)">Medium font</button>
 			<button onclick="exec('fontSize', 3)">Normal font</button>
 			<button onclick="exec('fontSize', 1)">Small font</button>
-			<button onclick="alert('Coming soon')">Math</button>
+			<button onclick="insertMath()">Math</button>
 			<button onclick="alert('Coming soon')">Code</button>
 		</div>
 		<div id="editor" contenteditable></div>
 		<script>
 			const editor = document.getElementById('editor')
 			
-			const exec = (command, payload = '') => {
+			const exec = (command, payload = null) => {
 				document.execCommand(command, false, payload)
 				editor.focus()
+			}
+			
+			const moveCursor = characters => {
+				const selection = getSelection()
+				if (selection.rangeCount > 0) {
+					const textNode = selection.focusNode
+					const newOffset = selection.focusOffset + characters
+					selection.collapse(textNode, Math.min(textNode.length, newOffset));
+				}
+			}
+			
+			const insertMath = () => {
+				const selection = getSelection()
+				
+				exec('insertText', `\\(${selection}\\)`)
+				
+				if (!selection.toString())
+					moveCursor(-2)
 			}
 			
 			editor.focus()
