@@ -22,6 +22,13 @@
 					"unlockedSections (array)": [ // ([String]?) The sections in this deck that aren't locked for this user. Treat as [] if nonexistent
 						"ab32asd3F" // Section ID
 					],
+					"drafts (collection)": {
+						"abac2S4-15 (document)": { // Draft ID
+							"section": "ab32asd3F", // (String?) The section ID. Treat as Unsectioned if nonexistent
+							"front": "This is the front", // (String) The front of the card
+							"back": "This is the back" // (String) The back of the card
+						}
+					},
 					"cards (collection)": {
 						"a8D0ba2 (document)": { // Card ID
 							"due": "DATE" // (Date) The next due date of this card
