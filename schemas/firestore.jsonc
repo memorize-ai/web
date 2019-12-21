@@ -64,6 +64,7 @@
 			"averageRating": 4.5, // (Double) From 1-5
 			"downloadCount": 900, // (Int) The number of downloads this deck has
 			"cardCount": 500, // (Int) The total number of cards in every section
+			"unsectionedCardCount": 20, // (Int) The number of cards without a section
 			"currentUserCount": 300, // (Int) The number of current users using this deck
 			"allTimeUserCount": 600, // (Int) The number of all time users that have used this deck
 			"favoriteCount": 100, // (Int) The number of users that have favorited this deck

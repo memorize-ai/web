@@ -29,13 +29,29 @@ export default class Card {
 	incrementDeckCardCount = Deck.incrementCardCount
 	decrementDeckCardCount = Deck.decrementCardCount
 	
-	incrementSectionCardCount = (deckId: string): Promise<FirebaseFirestore.WriteResult> =>
-		firestore.doc(`decks/${deckId}/sections/${this.sectionId}`).update({
-			cardCount: admin.firestore.FieldValue.increment(1)
-		})
+	get isUnsectioned() {
+		return this.sectionId === ''
+	}
 	
-	decrementSectionCardCount = (deckId: string): Promise<FirebaseFirestore.WriteResult> =>
-		firestore.doc(`decks/${deckId}/sections/${this.sectionId}`).update({
-			cardCount: admin.firestore.FieldValue.increment(-1)
-		})
+	incrementSectionCardCount = (deckId: string): Promise<FirebaseFirestore.WriteResult> => {
+		const increment = admin.firestore.FieldValue.increment(1)
+		return this.isUnsectioned
+			? firestore.doc(`decks/${deckId}`).update({
+				unsectionedCardCount: increment
+			})
+			: firestore.doc(`decks/${deckId}/sections/${this.sectionId}`).update({
+				cardCount: increment
+			})
+	}
+	
+	decrementSectionCardCount = (deckId: string): Promise<FirebaseFirestore.WriteResult> => {
+		const decrement = admin.firestore.FieldValue.increment(-1)
+		return this.isUnsectioned
+			? firestore.doc(`decks/${deckId}`).update({
+				unsectionedCardCount: decrement
+			})
+			: firestore.doc(`decks/${deckId}/sections/${this.sectionId}`).update({
+				cardCount: decrement
+			})
+	}
 }

@@ -4,11 +4,14 @@ import Card from '..'
 
 export default functions.firestore
 	.document('decks/{deckId}/cards/{cardId}')
-	.onUpdate(({ before, after }, { params: { deckId } }) =>
-		before.get('section') === after.get('section')
+	.onUpdate(({ before, after }, { params: { deckId } }) => {
+		const oldCard = new Card(before)
+		const newCard = new Card(after)
+		
+		return oldCard.sectionId === newCard.sectionId
 			? Promise.resolve()
 			: Promise.all([
-				new Card(before).decrementSectionCardCount(deckId),
-				new Card(after).incrementSectionCardCount(deckId)
+				oldCard.decrementSectionCardCount(deckId),
+				newCard.incrementSectionCardCount(deckId)
 			])
-	)
+	})

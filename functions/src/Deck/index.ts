@@ -23,6 +23,7 @@ export default class Deck {
 	averageRating: number
 	numberOfDownloads: number
 	numberOfCards: number
+	numberOfUnsectionedCards: number
 	numberOfCurrentUsers: number
 	numberOfAllTimeUsers: number
 	numberOfFavorites: number
@@ -48,6 +49,7 @@ export default class Deck {
 		this.averageRating = snapshot.get('averageRating')
 		this.numberOfDownloads = snapshot.get('downloadCount')
 		this.numberOfCards = snapshot.get('cardCount')
+		this.numberOfUnsectionedCards = snapshot.get('unsectionedCardCount')
 		this.numberOfCurrentUsers = snapshot.get('currentUserCount')
 		this.numberOfAllTimeUsers = snapshot.get('allTimeUserCount')
 		this.numberOfFavorites = snapshot.get('favoriteCount')
@@ -82,8 +84,21 @@ export default class Deck {
 	static decrementCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
 		Deck.incrementCardCount(deckId, -amount)
 	
+	static incrementUnsectionedCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`decks/${deckId}`).update({
+			unsectionedCardCount: admin.firestore.FieldValue.increment(amount)
+		})
+	
+	static decrementUnsectionedCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		Deck.incrementUnsectionedCardCount(deckId, -amount)
+	
 	static fieldNameForRating = (rating: number): string =>
 		`${rating}StarRatingCount`
+	
+	updateLastUpdated = (): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`decks/${this.id}`).update({
+			updated: admin.firestore.FieldValue.serverTimestamp()
+		})
 	
 	incrementCurrentUserCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
 		firestore.doc(`decks/${this.id}`).update({
@@ -148,6 +163,7 @@ export default class Deck {
 			average_rating: this.averageRating,
 			download_count: this.numberOfDownloads,
 			card_count: this.numberOfCards,
+			unsectioned_card_count: this.numberOfUnsectionedCards,
 			current_user_count: this.numberOfCurrentUsers,
 			all_time_user_count: this.numberOfAllTimeUsers,
 			favorite_count: this.numberOfFavorites,
