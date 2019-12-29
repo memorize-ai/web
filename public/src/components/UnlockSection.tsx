@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { Heading } from 'react-bulma-components'
 
 import useDeck from '../hooks/useDeck'
 import useSection from '../hooks/useSection'
@@ -14,8 +15,7 @@ export default () => {
 	
 	return (
 		<div id="unlock-section">
-			Deck: {deck?.name ?? 'Loading...'}<br />
-			Section: {section?.name ?? 'Loading...'}
+			<Heading textColor="white">{deck?.name}</Heading>
 		</div>
 	)
 }
