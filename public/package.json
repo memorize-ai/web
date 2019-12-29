@@ -1,14 +1,20 @@
 {
 	"name": "public",
 	"dependencies": {
+		"firebase": "^7.6.1",
+		"node-sass": "^4.13.0",
 		"react": "^16.12.0",
+		"react-bulma-components": "^3.1.3",
 		"react-dom": "^16.12.0",
+		"react-helmet": "^5.2.1",
+		"react-router-dom": "^5.1.2",
 		"react-scripts": "^3.3.0"
 	},
 	"devDependencies": {
 		"@types/node": "^12.12.21",
 		"@types/react": "^16.9.17",
 		"@types/react-dom": "^16.9.4",
+		"@types/react-router-dom": "^5.1.3",
 		"tslint": "^5.20.1",
 		"typescript": "^3.7.4"
 	},
