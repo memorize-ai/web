@@ -74,6 +74,7 @@
 			"sections (collection)": {
 				"ab32asd3F (document)": { // Section ID
 					"name": "Chapter 1", // (String) The section name
+					"index": 1, // (Int) 0-based index on the order of the section
 					"cardCount": 403 // (Int?) The number of cards in this section. If nonexistent, treat as 0
 				}
 			},
