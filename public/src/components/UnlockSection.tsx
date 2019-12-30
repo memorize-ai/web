@@ -22,7 +22,7 @@ export default () => {
 	
 	const deck = useDeck(deckId ?? '')
 	const section = useSection(deckId ?? '', sectionId ?? '')
-	const [currentUser, didFinishLoadingCurrentUser] = useCurrentUser()
+	const [currentUser, currentUserLoadingState] = useCurrentUser()
 	
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -43,13 +43,13 @@ export default () => {
 				setUnlockLoadingState(LoadingState.Success)
 			)
 			.catch(error => {
-				alert('Oh no! An error occurred. Please reload the page to try again')
-				console.error(error)
+				alert(error)
 				setUnlockLoadingState(LoadingState.Fail)
 			})
-	}, [currentUser])
+	}, [currentUser, deckId, sectionId])
 	
 	const signOut = () => {
+		setUnlockLoadingState(LoadingState.None)
 		setSignOutLoadingState(LoadingState.Loading)
 		
 		auth.signOut()
@@ -57,8 +57,7 @@ export default () => {
 				setSignOutLoadingState(LoadingState.Success)
 			)
 			.catch(error => {
-				alert('Oh no! An error occurred while signing out. Please reload the page to try again')
-				console.error(error)
+				alert(error)
 				setSignOutLoadingState(LoadingState.Fail)
 			})
 	}
@@ -68,7 +67,7 @@ export default () => {
 			<Heading textColor="white">{deck?.name}</Heading>
 			<Columns>
 				<Columns.Column size="half" offset="one-quarter">
-					{didFinishLoadingCurrentUser && (
+					{currentUserLoadingState !== LoadingState.None && (
 						<Box id="content-box">
 							<Heading>Unlock {section?.name}</Heading>
 							<hr />
@@ -113,10 +112,14 @@ export default () => {
 									className="is-info"
 									outlined
 									loading={unlockLoadingState === LoadingState.Loading}
-									disabled={!(email && password)}
+									disabled={!(email && password) || unlockLoadingState === LoadingState.Success}
 									onClick={() => {
 										setUnlockLoadingState(LoadingState.Loading)
 										auth.signInWithEmailAndPassword(email, password)
+											.catch(error => {
+												alert(error)
+												setUnlockLoadingState(LoadingState.Fail)
+											})
 									}}
 								>
 									<FontAwesomeIcon
