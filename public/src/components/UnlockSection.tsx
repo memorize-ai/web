@@ -27,6 +27,7 @@ export default () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [unlockLoadingState, setUnlockLoadingState] = useState(LoadingState.None)
+	const [signOutLoadingState, setSignOutLoadingState] = useState(LoadingState.None)
 	
 	useEffect(() => {
 		if (!currentUser)
@@ -48,8 +49,19 @@ export default () => {
 			})
 	}, [currentUser])
 	
-	const signIn = () =>
-		auth.signInWithEmailAndPassword(email, password)
+	const signOut = () => {
+		setSignOutLoadingState(LoadingState.Loading)
+		
+		auth.signOut()
+			.then(() =>
+				setSignOutLoadingState(LoadingState.Success)
+			)
+			.catch(error => {
+				alert('Oh no! An error occurred while signing out. Please reload the page to try again')
+				console.error(error)
+				setSignOutLoadingState(LoadingState.Fail)
+			})
+	}
 	
 	return (
 		<div id="unlock-section">
@@ -104,7 +116,7 @@ export default () => {
 									disabled={!(email && password)}
 									onClick={() => {
 										setUnlockLoadingState(LoadingState.Loading)
-										signIn()
+										auth.signInWithEmailAndPassword(email, password)
 									}}
 								>
 									<FontAwesomeIcon
@@ -112,7 +124,13 @@ export default () => {
 									/>
 								</Button>
 								{currentUser && (
-									<Button id="sign-out-button" className="is-info" outlined>
+									<Button
+										id="sign-out-button"
+										className="is-info"
+										outlined
+										loading={signOutLoadingState === LoadingState.Loading}
+										onClick={signOut}
+									>
 										<FontAwesomeIcon icon={faSignOutAlt} />
 									</Button>
 								)}
