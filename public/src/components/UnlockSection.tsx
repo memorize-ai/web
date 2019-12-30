@@ -35,7 +35,7 @@ export default () => {
 		
 		setUnlockLoadingState(LoadingState.Loading)
 		
-		firestore.doc(`users/${currentUser.uid}/decks/${deckId}`)
+		firestore.doc(`users/${currentUser.uid}/decks/${deckId ?? ''}`)
 			.update({
 				unlockedSections: firebase.firestore.FieldValue.arrayUnion(sectionId)
 			})
