@@ -54,8 +54,8 @@ export default class Deck {
 		this.numberOfAllTimeUsers = snapshot.get('allTimeUserCount')
 		this.numberOfFavorites = snapshot.get('favoriteCount')
 		this.creatorId = snapshot.get('creator')
-		this.dateCreated = snapshot.get('created').toDate()
-		this.dateLastUpdated = snapshot.get('updated').toDate()
+		this.dateCreated = snapshot.get('created')?.toDate()
+		this.dateLastUpdated = snapshot.get('updated')?.toDate()
 	}
 	
 	get score() {
@@ -95,22 +95,22 @@ export default class Deck {
 	static fieldNameForRating = (rating: number): string =>
 		`${rating}StarRatingCount`
 	
-	updateLastUpdated = (): Promise<FirebaseFirestore.WriteResult> =>
-		firestore.doc(`decks/${this.id}`).update({
-			updated: admin.firestore.FieldValue.serverTimestamp()
-		})
-	
-	incrementCurrentUserCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
-		firestore.doc(`decks/${this.id}`).update({
+	static incrementCurrentUserCount = (id: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`decks/${id}`).update({
 			currentUserCount: admin.firestore.FieldValue.increment(amount)
 		})
 	
-	decrementCurrentUserCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
-		this.incrementCurrentUserCount(-amount)
+	static decrementCurrentUserCount = (id: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		Deck.incrementCurrentUserCount(id, -amount)
 	
-	incrementAllTimeUserCount = (amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
-		firestore.doc(`decks/${this.id}`).update({
+	static incrementAllTimeUserCount = (id: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`decks/${id}`).update({
 			allTimeUserCount: admin.firestore.FieldValue.increment(amount)
+		})
+	
+	updateLastUpdated = (): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`decks/${this.id}`).update({
+			updated: admin.firestore.FieldValue.serverTimestamp()
 		})
 	
 	updateAverageRating = (): Promise<FirebaseFirestore.WriteResult> => {
