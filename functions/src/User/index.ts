@@ -15,9 +15,9 @@ export default class User {
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
-		this.numberOfDecks = snapshot.get('deckCount') || 0
-		this.interests = snapshot.get('topics') || []
-		this.allDecks = snapshot.get('allDecks') || []
+		this.numberOfDecks = snapshot.get('deckCount') ?? 0
+		this.interests = snapshot.get('topics') ?? []
+		this.allDecks = snapshot.get('allDecks') ?? []
 	}
 	
 	static fromId = (id: string): Promise<User> =>

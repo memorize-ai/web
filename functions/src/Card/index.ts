@@ -18,7 +18,7 @@ export default class Card {
 		this.front = snapshot.get('front')
 		this.back = snapshot.get('back')
 		this.numberOfViews = snapshot.get('viewCount')
-		this.numberOfSkips = snapshot.get('skipCount') || 0
+		this.numberOfSkips = snapshot.get('skipCount') ?? 0
 	}
 	
 	static fromId = (cardId: string, deckId: string): Promise<Card> =>
