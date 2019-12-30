@@ -4,8 +4,16 @@
 	padding: 20px;
 	background: linear-gradient(to right, #cb34b5, #44a6bb);
 	
-	#unlock-button {
-		width: 100px;
-		margin-top: 12px;
+	#buttons {
+		display: flex;
+		margin-top: 20px;
+		
+		#unlock-button {
+			width: 100px;
+		}
+		
+		#sign-out-button {
+			margin-left: auto;
+		}
 	}
 }
