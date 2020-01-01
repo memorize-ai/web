@@ -113,6 +113,32 @@ export default class Deck {
 			updated: admin.firestore.FieldValue.serverTimestamp()
 		})
 	
+	static updateRating = (
+		deckId: string,
+		oldRating: number | undefined,
+		newRating: number | undefined
+	): Promise<FirebaseFirestore.WriteResult | null> => {
+		if (oldRating === newRating)
+			return Promise.resolve(null)
+		
+		const { FieldValue } = admin.firestore
+		
+		const documentReference = firestore.doc(`decks/${deckId}`)
+		const updateData: FirebaseFirestore.UpdateData = {}
+		
+		oldRating
+			? updateData[Deck.fieldNameForRating(oldRating)] = FieldValue.increment(-1)
+			: updateData.ratingCount = FieldValue.increment(1)
+		
+		newRating
+			? updateData[Deck.fieldNameForRating(newRating)] = FieldValue.increment(1)
+			: updateData.ratingCount = FieldValue.increment(-1)
+		
+		return documentReference.update(updateData)
+			.then(() => Deck.fromId(deckId))
+			.then(deck => deck.updateAverageRating())
+	}
+	
 	updateAverageRating = (): Promise<FirebaseFirestore.WriteResult> => {
 		const sum = (
 			this.numberOf1StarRatings +
