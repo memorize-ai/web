@@ -31,7 +31,20 @@
 					},
 					"cards (collection)": {
 						"a8D0ba2 (document)": { // Card ID
-							"due": "DATE" // (Date) The next due date of this card
+							"due": "DATE", // (Date) The next due date of this card
+							"totalCount": 4, // (Int) Total amount of recall attempts (history nodes) for this card
+							"correctCount": 3, // (Int) Total amount of correct recall attempts (ratings 3, 4, 5)
+							"streak": 2, // (Int) Streak of correct recall attempts, reset if rating is 0, 1, or 2
+							"mastered": false, // (Bool) If this card has been mastered by the user
+							"history (sub-collection)": {
+								"mno345": { // History ID
+									"date": "DATE", // (Date) Date of the recall attempt
+									"next": "DATE", // (Date) Next date to review
+									"rating": 5, // (Int) Performance rating (0, 1, 2) sent in by client
+									"elapsed": 12394874, // (Int) Milliseconds since last recall attempt
+									"time": 5000 // (Int) Milliseconds spent on review screen
+								}
+							}
 						}
 					}
 				}

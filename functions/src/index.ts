@@ -18,7 +18,8 @@ export {
 export {
 	cardCreated,
 	cardUpdated,
-	cardDeleted
+	cardDeleted,
+	getCardPrediction
 } from './Card/functions'
 
 export {

@@ -1,5 +1,9 @@
 import * as admin from 'firebase-admin'
 
+import { flatten } from '../Helpers'
+import { CardTrainingData } from '../Algorithm'
+import Deck from '../Deck'
+
 const auth = admin.auth()
 const firestore = admin.firestore()
 
@@ -23,6 +27,13 @@ export default class User {
 	static fromId = (id: string): Promise<User> =>
 		firestore.doc(`users/${id}`).get().then(snapshot =>
 			new User(snapshot)
+		)
+	
+	static cardTrainingData = (uid: string): Promise<CardTrainingData[]> =>
+		firestore.collection(`users/${uid}/decks`).listDocuments().then(decks =>
+			Promise.all(decks.map(({ id: deckId }) =>
+				Deck.cardTrainingData(uid, deckId)
+			)).then(flatten)
 		)
 	
 	static incrementDeckCount = (uid: string, amount: number = 1) =>

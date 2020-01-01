@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin'
 
+import { CardTrainingData } from '../Algorithm'
 import Deck from '../Deck'
 
 const firestore = admin.firestore()
@@ -24,6 +25,18 @@ export default class Card {
 	static fromId = (cardId: string, deckId: string): Promise<Card> =>
 		firestore.doc(`decks/${deckId}/cards/${cardId}`).get().then(snapshot =>
 			new Card(snapshot)
+		)
+	
+	static trainingData = (uid: string, deckId: string, cardId: string): Promise<CardTrainingData> =>
+		firestore.collection(`users/${uid}/decks/${deckId}/cards/${cardId}/history`).get().then(({ docs }) =>
+			Promise.all(docs.map(history =>
+				history.get('elapsed')
+			))
+		).then((intervals: number[]) =>
+			Card.fromId(cardId, deckId).then(card => ({
+				card,
+				intervals
+			}))
 		)
 	
 	incrementDeckCardCount = Deck.incrementCardCount
