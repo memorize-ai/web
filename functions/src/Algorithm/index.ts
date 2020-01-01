@@ -5,12 +5,14 @@ import Card from '../Card'
 
 const HISTORY_COUNT = 10
 const FIRST_WORDS_COUNT = 2
-const MILLISECONDS_IN_DAY = 86400000
+const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24
 
 export type CardTrainingData = { card: Card, intervals: number[] }
 
 export default class Algorithm {
-	static predict(id: string, trainingData: CardTrainingData[]): Date {
+	static INITIAL_INTERVAL = 1000 * 60 * 60 * 4
+	
+	static nextDueDate = (id: string, trainingData: CardTrainingData[]): Date => {
 		const wordsArray = unique(flatten(trainingData.map(({ card }) =>
 			firstWords(card.front, FIRST_WORDS_COUNT)
 		)))
@@ -24,14 +26,12 @@ export default class Algorithm {
 			activation: 'tanh'
 		} as INeuralNetworkTrainingOptions)
 		const current = trainingData.find(({ card }) => card.id === id)
-		return new Date(
-			current
-				? denormalize(net.run([
-					...zeroFillLeft(normalize(current.intervals), HISTORY_COUNT),
-					...multiHot(firstWords(current.card.front, FIRST_WORDS_COUNT), wordsArray)
-				]))[0]
-				: 0
-		)
+		return current
+			? new Date(denormalize(net.run([
+				...zeroFillLeft(normalize(current.intervals), HISTORY_COUNT),
+				...multiHot(firstWords(current.card.front, FIRST_WORDS_COUNT), wordsArray)
+			]))[0])
+			: new Date
 	}
 }
 

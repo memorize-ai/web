@@ -97,7 +97,8 @@
 					"front": "<h1>This is an image:</h1><img src=\"example.jpg\">", // (String) The front of the card in HTML
 					"back": "<h1>This is not an image:</h1><p>Here's some text</p>", // (String) The back of the card in HTML
 					"viewCount": 500, // (Int) The number of views this card has
-					"skipCount": 100 // (Int?) The number of skips this card has. If nonexistent, treat as 0
+					"reviewCount": 400, // (Int) The number of reviews this card has
+					"skipCount": 100 // (Int) The number of skips this card has
 				}
 			}
 		}
