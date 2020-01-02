@@ -1,6 +1,7 @@
 import { NeuralNetwork } from 'brain.js'
 
 import { flatten, firstWords, unique, zeroFillLeft } from '../Helpers'
+import PerformanceRating from '../PerformanceRating'
 import CardTrainingData from './CardTrainingData'
 
 const HISTORY_COUNT = 10
@@ -8,29 +9,38 @@ const FIRST_WORDS_COUNT = 2
 const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24
 
 export default class Algorithm {
-	static INITIAL_INTERVAL = 1000 * 60 * 60 * 4
 	static MASTERED_STREAK = 20
 	
-	static nextDueDate = (id: string, trainingData: CardTrainingData[]): Date => {
-		const wordsArray = unique(flatten(trainingData.map(({ card }) =>
+	static nextDueDate = (rating: PerformanceRating, thisData: CardTrainingData, allData: CardTrainingData[]): Date => {
+		const wordsArray = unique(flatten(allData.map(({ card }) =>
 			firstWords(card.front, FIRST_WORDS_COUNT)
 		)))
 		const inputSize = HISTORY_COUNT + wordsArray.length
 		const net = new NeuralNetwork
-		net.train(formatTrainingData(trainingData, wordsArray), {
+		net.train(formatTrainingData(allData, wordsArray), {
 			errorThresh: 0.0001,
 			inputSize,
 			outputSize: 1,
 			hiddenLayers: [inputSize, inputSize],
 			activation: 'tanh'
 		} as INeuralNetworkTrainingOptions)
-		const current = trainingData.find(({ card }) => card.id === id)
-		return current
-			? new Date(denormalize(net.run([
-				...zeroFillLeft(normalize(current.intervals), HISTORY_COUNT),
-				...multiHot(firstWords(current.card.front, FIRST_WORDS_COUNT), wordsArray)
-			]))[0])
-			: new Date
+		return new Date(denormalize(net.run([
+			...zeroFillLeft(normalize(thisData.intervals), HISTORY_COUNT),
+			...multiHot(firstWords(thisData.card.front, FIRST_WORDS_COUNT), wordsArray)
+		]))[0])
+	}
+	
+	static nextDueDateForNewCard = (rating: PerformanceRating): Date => {
+		const now = new Date
+		
+		switch (rating) {
+			case PerformanceRating.Forgot:
+				return now
+			case PerformanceRating.Struggled:
+				return new Date(now.getTime() + 1000 * 60 * 60 * 2)
+			case PerformanceRating.Easy:
+				return new Date(now.getTime() + 1000 * 60 * 60 * 4)
+		}
 	}
 }
 

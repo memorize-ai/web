@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin'
 
 import Algorithm from '../../Algorithm'
 import User from '../../User'
+import PerformanceRating, { performanceRatingFromNumber } from '../../PerformanceRating'
 
 const firestore = admin.firestore()
 
@@ -10,7 +11,7 @@ export default functions.https.onCall((
 	{
 		deck: deckId,
 		card: cardId,
-		rating,
+		rating: numberRating,
 		viewTime
 	}: {
 		deck: string,
@@ -22,6 +23,11 @@ export default functions.https.onCall((
 ) => {
 	if (!auth)
 		return new functions.https.HttpsError('failed-precondition', 'You need to be signed in')
+	
+	const rating = performanceRatingFromNumber(numberRating)
+	
+	if (rating === null)
+		return new functions.https.HttpsError('invalid-argument', '"rating" must be 0, 1, or 2')
 	
 	const now = new Date
 	const { uid } = auth
@@ -38,13 +44,13 @@ const updateExistingCard = (
 	uid: string,
 	card: FirebaseFirestore.DocumentSnapshot,
 	date: Date,
-	rating: 0 | 1 | 2,
+	rating: PerformanceRating,
 	viewTime: number
 ): Promise<[FirebaseFirestore.WriteResult, FirebaseFirestore.DocumentReference]> =>
 	User.cardTrainingData(uid).then(trainingData => {
 		const { id: cardId, ref } = card
-		const isCorrect = rating > 0
-		const next = Algorithm.nextDueDate(cardId, trainingData)
+		const isCorrect = rating.valueOf() > 0
+		const next = Algorithm.nextDueDate(, trainingData)
 		const last = trainingData
 			.find(({ card }) => card.id === cardId)?.history
 			.sort(({ date: a }, { date: b }) =>
@@ -57,12 +63,12 @@ const updateExistingCard = (
 				totalCount: admin.firestore.FieldValue.increment(1),
 				correctCount: admin.firestore.FieldValue.increment(isCorrect ? 1 : 0),
 				streak: isCorrect ? admin.firestore.FieldValue.increment(1) : 0,
-				mastered: rating === 2 && (card.get('streak') >= Algorithm.MASTERED_STREAK - 1)
+				mastered: rating === PerformanceRating.Easy && (card.get('streak') >= Algorithm.MASTERED_STREAK - 1)
 			}),
 			ref.collection('history').add({
 				date,
 				next,
-				rating,
+				rating: rating.valueOf(),
 				elapsed: last
 					? date.getTime() - last.date.getTime()
 					: 0,
@@ -74,10 +80,10 @@ const updateExistingCard = (
 const updateNewCard = (
 	ref: FirebaseFirestore.DocumentReference,
 	date: Date,
-	rating: 0 | 1 | 2,
+	rating: PerformanceRating,
 	viewTime: number
 ): Promise<[FirebaseFirestore.WriteResult, FirebaseFirestore.DocumentReference]> => {
-	const isCorrect = rating > 0
+	const isCorrect = rating.valueOf() > 0
 	const streak = isCorrect ? 1 : 0
 	const next = new Date(date.getTime() + (isCorrect ? Algorithm.INITIAL_INTERVAL : 0))
 	
@@ -92,7 +98,7 @@ const updateNewCard = (
 		ref.collection('history').add({
 			date,
 			next,
-			rating,
+			rating: rating.valueOf(),
 			elapsed: 0,
 			viewTime
 		})
