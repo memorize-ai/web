@@ -1,6 +1,7 @@
 import PerformanceRating, { performanceRatingFromNumber } from '../PerformanceRating'
 
 export default class History {
+	id: string
 	date: Date
 	next: Date
 	rating: PerformanceRating
@@ -8,6 +9,7 @@ export default class History {
 	viewTime: number
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
+		this.id = snapshot.id
 		this.date = snapshot.get('date')?.toDate()
 		this.next = snapshot.get('next')?.toDate()
 		this.rating = performanceRatingFromNumber(snapshot.get('rating')) ?? PerformanceRating.Easy
