@@ -10,7 +10,21 @@ export default class CardTrainingData {
 		this.history = history
 	}
 	
-	get intervals() {
+	get intervals(): number[] {
 		return this.history.map(({ elapsed }) => elapsed)
+	}
+	
+	get last(): History {
+		let max = this.history[0]
+		
+		for (const history of this.history)
+			if (history.date > max.date)
+				max = history
+		
+		return max
+	}
+	
+	get elapsed(): number {
+		return Date.now() - this.last.date.getTime()
 	}
 }
