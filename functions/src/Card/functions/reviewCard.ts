@@ -36,7 +36,7 @@ const updateExistingCard = (
 	date: Date,
 	rating: 0 | 1 | 2,
 	viewTime: number
-) =>
+): Promise<[FirebaseFirestore.WriteResult, FirebaseFirestore.DocumentReference]> =>
 	User.cardTrainingData(uid).then(trainingData => {
 		const { id: cardId, ref } = card
 		const isCorrect = rating > 0
