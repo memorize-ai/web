@@ -18,9 +18,13 @@ export default functions.https.onCall((
 		rating: 0 | 1 | 2,
 		viewTime: number
 	},
-	{ auth: { uid } }
+	{ auth }
 ) => {
+	if (!auth)
+		return new functions.https.HttpsError('failed-precondition', 'You need to be signed in')
+	
 	const now = new Date
+	const { uid } = auth
 	const cardRef = firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`)
 	
 	return cardRef.get().then(card =>
