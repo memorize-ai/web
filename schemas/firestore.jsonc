@@ -42,7 +42,7 @@
 									"next": "DATE", // (Date) Next date to review
 									"rating": 5, // (Int) Performance rating (0, 1, 2) sent in by client
 									"elapsed": 12394874, // (Int) Milliseconds since last recall attempt
-									"time": 5000 // (Int) Milliseconds spent on review screen
+									"viewTime": 5000 // (Int) Milliseconds spent on review screen
 								}
 							}
 						}

@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin'
 
 import { flatten } from '../Helpers'
-import { CardTrainingData } from '../Algorithm'
+import CardTrainingData from '../Algorithm/CardTrainingData'
 import Deck from '../Deck'
 
 const auth = admin.auth()

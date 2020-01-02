@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin'
 
-import { CardTrainingData } from '../Algorithm'
+import CardTrainingData from '../Algorithm/CardTrainingData'
 import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
 import User from '../User'
 import Card from '../Card'

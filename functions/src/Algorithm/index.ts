@@ -1,13 +1,11 @@
 import { NeuralNetwork } from 'brain.js'
 
 import { flatten, firstWords, unique, zeroFillLeft } from '../Helpers'
-import Card from '../Card'
+import CardTrainingData from './CardTrainingData'
 
 const HISTORY_COUNT = 10
 const FIRST_WORDS_COUNT = 2
 const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24
-
-export type CardTrainingData = { card: Card, intervals: number[] }
 
 export default class Algorithm {
 	static INITIAL_INTERVAL = 1000 * 60 * 60 * 4
