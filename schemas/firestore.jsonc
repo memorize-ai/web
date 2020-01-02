@@ -33,9 +33,16 @@
 						"a8D0ba2 (document)": { // Card ID
 							"due": "DATE", // (Date) The next due date of this card
 							"totalCount": 4, // (Int) Total amount of recall attempts (history nodes) for this card
-							"correctCount": 3, // (Int) Total amount of correct recall attempts (ratings 3, 4, 5)
+							"forgotCount": 1, // (Int) Total amount of forgot recall attempts for this card
+							"struggledCount": 2, // (Int) Total amount of struggled recall attempts for this card
+							"easyCount": 1, // (Int) Total amount of easy recall attempts for this card
 							"streak": 2, // (Int) Streak of correct recall attempts, reset if rating is 0, 1, or 2
 							"mastered": false, // (Bool) If this card has been mastered by the user
+							"last (map)": {
+								"id": "mno345", // (String) History ID
+								"date": "DATE", // (Date) Date of the recall attempt
+								"next": "DATE" // (Date) Next date to review
+							},
 							"history (sub-collection)": {
 								"mno345": { // History ID
 									"date": "DATE", // (Date) Date of the recall attempt

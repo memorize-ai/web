@@ -2,8 +2,8 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
 import Algorithm from '../../Algorithm'
-import User from '../../User'
 import PerformanceRating, { performanceRatingFromNumber } from '../../PerformanceRating'
+import CardUserData from '../CardUserData'
 
 const firestore = admin.firestore()
 
@@ -33,70 +33,92 @@ export default functions.https.onCall((
 	const { uid } = auth
 	const cardRef = firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`)
 	
-	return cardRef.get().then(card =>
-		card.exists
-			? updateExistingCard(uid, card, now, rating, viewTime)
+	return CardUserData.fromId(uid, deckId, cardId).then(userData =>
+		userData
+			? updateExistingCard(userData, cardRef, now, rating, viewTime)
 			: updateNewCard(cardRef, now, rating, viewTime)
 	)
 })
 
 const updateExistingCard = (
-	uid: string,
-	card: FirebaseFirestore.DocumentSnapshot,
+	userData: CardUserData,
+	ref: FirebaseFirestore.DocumentReference,
 	date: Date,
 	rating: PerformanceRating,
 	viewTime: number
-): Promise<[FirebaseFirestore.WriteResult, FirebaseFirestore.DocumentReference] | null> =>
-	User.cardTrainingData(uid).then(allData => {
-		const { id: cardId, ref } = card
-		const isCorrect = rating.valueOf() > 0
-		const thisData = allData.find(({ card: { id } }) => id === cardId)
-		
-		if (!thisData)
-			return Promise.resolve(null)
-		
-		const next = Algorithm.nextDueDate(rating, thisData, allData)
-		const last = thisData.history.sort(({ date: a }, { date: b }) =>
-			b.getTime() - a.getTime()
-		)[0]
-		
-		return Promise.all([
-			ref.update({
-				due: next,
-				totalCount: admin.firestore.FieldValue.increment(1),
-				correctCount: admin.firestore.FieldValue.increment(isCorrect ? 1 : 0),
-				streak: isCorrect ? admin.firestore.FieldValue.increment(1) : 0,
-				mastered: rating === PerformanceRating.Easy && (card.get('streak') >= Algorithm.MASTERED_STREAK - 1)
-			}),
-			ref.collection('history').add({
-				date,
-				next,
-				rating: rating.valueOf(),
-				elapsed: date.getTime() - last.date.getTime(),
-				viewTime
-			})
-		])
-	})
+): Promise<FirebaseFirestore.WriteResult[]> => {
+	const isCorrect = Algorithm.isPerformanceRatingCorrect(rating)
+	const historyRef = ref.collection('history').doc()
+	const next = Algorithm.nextDueDate(rating, userData, date)
+	
+	const updateData: any = {
+		due: next,
+		totalCount: admin.firestore.FieldValue.increment(1),
+		correctCount: admin.firestore.FieldValue.increment(isCorrect ? 1 : 0),
+		streak: isCorrect ? admin.firestore.FieldValue.increment(1) : 0,
+		mastered: rating === PerformanceRating.Easy && (userData.streak >= Algorithm.MASTERED_STREAK - 1),
+		last: {
+			id: historyRef.id,
+			date,
+			next
+		}
+	}
+	
+	switch (rating) {
+		case PerformanceRating.Forgot:
+			updateData.forgotCount = admin.firestore.FieldValue.increment(1)
+		case PerformanceRating.Struggled:
+			updateData.struggledCount = admin.firestore.FieldValue.increment(1)
+		case PerformanceRating.Easy:
+			updateData.easyCount = admin.firestore.FieldValue.increment(1)
+	}
+	
+	return Promise.all([
+		ref.update(updateData),
+		historyRef.set({
+			date,
+			next,
+			rating: rating.valueOf(),
+			elapsed: date.getTime() - userData.last.date.getTime(),
+			viewTime
+		})
+	])
+}
 
 const updateNewCard = (
 	ref: FirebaseFirestore.DocumentReference,
 	date: Date,
 	rating: PerformanceRating,
 	viewTime: number
-): Promise<[FirebaseFirestore.WriteResult, FirebaseFirestore.DocumentReference]> => {
-	const isCorrect = rating.valueOf() > 0
-	const streak = isCorrect ? 1 : 0
+): Promise<FirebaseFirestore.WriteResult[]> => {
+	const isCorrect = Algorithm.isPerformanceRatingCorrect(rating)
+	const historyRef = ref.collection('history').doc()
 	const next = Algorithm.nextDueDateForNewCard(rating, date)
 	
+	const setData: any = {
+		due: next,
+		totalCount: 1,
+		streak: isCorrect ? 1 : 0,
+		mastered: false,
+		last: {
+			id: historyRef.id,
+			date,
+			next
+		}
+	}
+	
+	switch (rating) {
+		case PerformanceRating.Forgot:
+			setData.forgotCount = 1
+		case PerformanceRating.Struggled:
+			setData.struggledCount = 1
+		case PerformanceRating.Easy:
+			setData.easyCount = 1
+	}
+	
 	return Promise.all([
-		ref.set({
-			due: next,
-			totalCount: 1,
-			correctCount: streak,
-			streak,
-			mastered: false
-		}),
-		ref.collection('history').add({
+		ref.set(setData),
+		historyRef.set({
 			date,
 			next,
 			rating: rating.valueOf(),

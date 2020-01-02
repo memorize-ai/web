@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin'
 
-import CardTrainingData from '../Algorithm/CardTrainingData'
 import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
 import User from '../User'
 import Card from '../Card'
@@ -76,13 +75,6 @@ export default class Deck {
 	static fromId = (id: string): Promise<Deck> =>
 		firestore.doc(`decks/${id}`).get().then(snapshot =>
 			new Deck(snapshot)
-		)
-	
-	static cardTrainingData = (uid: string, deckId: string): Promise<CardTrainingData[]> =>
-		firestore.collection(`users/${uid}/decks/${deckId}/cards`).listDocuments().then(cards =>
-			Promise.all(cards.map(({ id: cardId }) =>
-				Card.trainingData(uid, deckId, cardId)
-			))
 		)
 	
 	static incrementCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
