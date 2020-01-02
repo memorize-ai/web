@@ -1,5 +1,5 @@
 import PerformanceRating from '../PerformanceRating'
-import CardUserData from '../Card/CardUserData'
+import CardUserData from '../Card/UserData'
 
 export default class Algorithm {
 	static DEFAULT_E = 2.5

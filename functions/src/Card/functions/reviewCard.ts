@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin'
 
 import Algorithm from '../../Algorithm'
 import PerformanceRating, { performanceRatingFromNumber } from '../../PerformanceRating'
-import CardUserData from '../CardUserData'
+import CardUserData from '../UserData'
 
 const firestore = admin.firestore()
 
