@@ -9,6 +9,7 @@ const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24
 
 export default class Algorithm {
 	static INITIAL_INTERVAL = 1000 * 60 * 60 * 4
+	static MASTERED_STREAK = 20
 	
 	static nextDueDate = (id: string, trainingData: CardTrainingData[]): Date => {
 		const wordsArray = unique(flatten(trainingData.map(({ card }) =>

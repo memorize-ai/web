@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin'
 
 import Card from '..'
 import Algorithm from '../../Algorithm'
+import User from '../../User'
 
 const firestore = admin.firestore()
 
@@ -27,13 +28,43 @@ export default functions.https.onCall((
 	
 	return cardRef.get().then(card =>
 		card.exists
-			? 
+			? updateExistingCard(uid, card, now, rating, viewTime)
 			: updateNewCard(cardRef, now, rating, viewTime)
 	)
 })
 
+const updateExistingCard = (
+	uid: string,
+	card: FirebaseFirestore.DocumentSnapshot,
+	date: Date,
+	rating: 0 | 1 | 2,
+	viewTime: number
+) =>
+	User.cardTrainingData(uid).then(trainingData => {
+		const { ref } = card
+		const isCorrect = rating > 0
+		const next = Algorithm.nextDueDate(card.id, trainingData)
+		
+		return Promise.all([
+			ref.update({
+				due: next,
+				totalCount: admin.firestore.FieldValue.increment(1),
+				correctCount: admin.firestore.FieldValue.increment(isCorrect ? 1 : 0),
+				streak: isCorrect ? admin.firestore.FieldValue.increment(1) : 0,
+				mastered: isCorrect && (card.get('streak') >= Algorithm.MASTERED_STREAK - 1)
+			}),
+			ref.collection('history').add({
+				date,
+				next,
+				rating,
+				elapsed: 0, // TODO: Change this
+				viewTime
+			})
+		])
+	})
+
 const updateNewCard = (
-	cardRef: FirebaseFirestore.DocumentReference,
+	ref: FirebaseFirestore.DocumentReference,
 	date: Date,
 	rating: 0 | 1 | 2,
 	viewTime: number
@@ -43,14 +74,14 @@ const updateNewCard = (
 	const next = new Date(date.getTime() + (isCorrect ? Algorithm.INITIAL_INTERVAL : 0))
 	
 	return Promise.all([
-		cardRef.set({
+		ref.set({
 			due: next,
 			totalCount: 1,
 			correctCount: streak,
 			streak,
 			mastered: false
 		}),
-		cardRef.collection('history').add({
+		ref.collection('history').add({
 			date,
 			next,
 			rating,
