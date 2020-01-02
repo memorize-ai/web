@@ -9,6 +9,7 @@ export default class CardUserData {
 	numberOfStruggledRecallAttempts: number
 	numberOfEasyRecallAttempts: number
 	streak: number
+	e: number
 	isMastered: boolean
 	last: {
 		id: string
@@ -23,6 +24,7 @@ export default class CardUserData {
 		this.numberOfStruggledRecallAttempts = snapshot.get('struggledCount') ?? 0
 		this.numberOfEasyRecallAttempts = snapshot.get('easyCount') ?? 0
 		this.streak = snapshot.get('streak')
+		this.e = snapshot.get('e')
 		this.isMastered = snapshot.get('mastered')
 		
 		const last = snapshot.get('last')

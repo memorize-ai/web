@@ -37,6 +37,7 @@
 							"struggledCount": 2, // (Int) Total amount of struggled recall attempts for this card
 							"easyCount": 1, // (Int) Total amount of easy recall attempts for this card
 							"streak": 2, // (Int) Streak of correct recall attempts, reset if rating is 0, 1, or 2
+							"e": 2.5, // (Double) The easiness factor for SM2
 							"mastered": false, // (Bool) If this card has been mastered by the user
 							"last (map)": {
 								"id": "mno345", // (String) History ID

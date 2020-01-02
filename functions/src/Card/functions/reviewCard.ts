@@ -49,13 +49,14 @@ const updateExistingCard = (
 ): Promise<FirebaseFirestore.WriteResult[]> => {
 	const isCorrect = Algorithm.isPerformanceRatingCorrect(rating)
 	const historyRef = ref.collection('history').doc()
-	const next = Algorithm.nextDueDate(rating, userData, date)
+	const { e, next } = Algorithm.nextDueDate(rating, userData, date)
 	
 	const updateData: any = {
 		due: next,
 		totalCount: admin.firestore.FieldValue.increment(1),
 		correctCount: admin.firestore.FieldValue.increment(isCorrect ? 1 : 0),
 		streak: isCorrect ? admin.firestore.FieldValue.increment(1) : 0,
+		e,
 		mastered: rating === PerformanceRating.Easy && (userData.streak >= Algorithm.MASTERED_STREAK - 1),
 		last: {
 			id: historyRef.id,
@@ -93,12 +94,13 @@ const updateNewCard = (
 ): Promise<FirebaseFirestore.WriteResult[]> => {
 	const isCorrect = Algorithm.isPerformanceRatingCorrect(rating)
 	const historyRef = ref.collection('history').doc()
-	const next = Algorithm.nextDueDateForNewCard(rating, date)
+	const { e, next } = Algorithm.nextDueDateForNewCard(date)
 	
 	const setData: any = {
 		due: next,
 		totalCount: 1,
 		streak: isCorrect ? 1 : 0,
+		e,
 		mastered: false,
 		last: {
 			id: historyRef.id,
