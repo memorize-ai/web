@@ -50,7 +50,7 @@ const updateExistingCard = (
 	User.cardTrainingData(uid).then(allData => {
 		const { id: cardId, ref } = card
 		const isCorrect = rating.valueOf() > 0
-		const thisData = allData.find(({ card }) => card.id === cardId)
+		const thisData = allData.find(({ card: { id } }) => id === cardId)
 		
 		if (!thisData)
 			return Promise.resolve(null)
