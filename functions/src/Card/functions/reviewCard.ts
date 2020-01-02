@@ -46,16 +46,19 @@ const updateExistingCard = (
 	date: Date,
 	rating: PerformanceRating,
 	viewTime: number
-): Promise<[FirebaseFirestore.WriteResult, FirebaseFirestore.DocumentReference]> =>
-	User.cardTrainingData(uid).then(trainingData => {
+): Promise<[FirebaseFirestore.WriteResult, FirebaseFirestore.DocumentReference] | null> =>
+	User.cardTrainingData(uid).then(allData => {
 		const { id: cardId, ref } = card
 		const isCorrect = rating.valueOf() > 0
-		const next = Algorithm.nextDueDate(, trainingData)
-		const last = trainingData
-			.find(({ card }) => card.id === cardId)?.history
-			.sort(({ date: a }, { date: b }) =>
-				b.getTime() - a.getTime()
-			)[0]
+		const thisData = allData.find(({ card }) => card.id === cardId)
+		
+		if (!thisData)
+			return Promise.resolve(null)
+		
+		const next = Algorithm.nextDueDate(rating, thisData, allData)
+		const last = thisData.history.sort(({ date: a }, { date: b }) =>
+			b.getTime() - a.getTime()
+		)[0]
 		
 		return Promise.all([
 			ref.update({
@@ -69,9 +72,7 @@ const updateExistingCard = (
 				date,
 				next,
 				rating: rating.valueOf(),
-				elapsed: last
-					? date.getTime() - last.date.getTime()
-					: 0,
+				elapsed: date.getTime() - last.date.getTime(),
 				viewTime
 			})
 		])
@@ -85,7 +86,7 @@ const updateNewCard = (
 ): Promise<[FirebaseFirestore.WriteResult, FirebaseFirestore.DocumentReference]> => {
 	const isCorrect = rating.valueOf() > 0
 	const streak = isCorrect ? 1 : 0
-	const next = new Date(date.getTime() + (isCorrect ? Algorithm.INITIAL_INTERVAL : 0))
+	const next = Algorithm.nextDueDateForNewCard(rating, date)
 	
 	return Promise.all([
 		ref.set({

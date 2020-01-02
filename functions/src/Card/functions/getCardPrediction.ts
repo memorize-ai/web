@@ -9,17 +9,20 @@ export default functions.https.onCall(({ id: cardId }: { id: string }, { auth })
 		? User.cardTrainingData(auth.uid).then(allData => {
 			const thisData = allData.find(({ card }) => card.id === cardId)
 			
-			return thisData
-				? {
+			if (thisData)
+				return {
 					0: Algorithm.nextDueDate(PerformanceRating.Forgot, thisData, allData),
 					1: Algorithm.nextDueDate(PerformanceRating.Struggled, thisData, allData),
 					2: Algorithm.nextDueDate(PerformanceRating.Easy, thisData, allData),
 				}
-				: {
-					0: Algorithm.nextDueDateForNewCard(PerformanceRating.Forgot),
-					1: Algorithm.nextDueDateForNewCard(PerformanceRating.Struggled),
-					2: Algorithm.nextDueDateForNewCard(PerformanceRating.Easy)
-				}
+			
+			const now = new Date
+			
+			return {
+				0: Algorithm.nextDueDateForNewCard(PerformanceRating.Forgot, now),
+				1: Algorithm.nextDueDateForNewCard(PerformanceRating.Struggled, now),
+				2: Algorithm.nextDueDateForNewCard(PerformanceRating.Easy, now)
+			}
 		})
 		: new functions.https.HttpsError('failed-precondition', 'You need to be signed in')
 )

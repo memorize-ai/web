@@ -30,16 +30,14 @@ export default class Algorithm {
 		]))[0])
 	}
 	
-	static nextDueDateForNewCard = (rating: PerformanceRating): Date => {
-		const now = new Date
-		
+	static nextDueDateForNewCard = (rating: PerformanceRating, startDate: Date = new Date): Date => {
 		switch (rating) {
 			case PerformanceRating.Forgot:
-				return now
+				return startDate
 			case PerformanceRating.Struggled:
-				return new Date(now.getTime() + 1000 * 60 * 60 * 2)
+				return new Date(startDate.getTime() + 1000 * 60 * 60 * 2)
 			case PerformanceRating.Easy:
-				return new Date(now.getTime() + 1000 * 60 * 60 * 4)
+				return new Date(startDate.getTime() + 1000 * 60 * 60 * 4)
 		}
 	}
 }
