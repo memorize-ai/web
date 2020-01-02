@@ -4,8 +4,8 @@ export const flatten = <T>(array: T[][]): T[] =>
 export const firstWords = (sentence: string, count: number): string[] =>
 	sentence.split(/\W/).filter(word => word.length).slice(0, count)
 
-export const unique = (words: string[]): string[] =>
-	[...new Set(words)]
+export const unique = <T>(elements: T[]): T[] =>
+	[...new Set(elements)]
 
 export const zeroFillLeft = <T>(array: T[], count: number): T[] => {
 	const last = array.slice(-count)
