@@ -77,6 +77,11 @@ export default class Deck {
 			new Deck(snapshot)
 		)
 	
+	static decrementDueCardCount = (uid: string, deckId: string): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`users/${uid}/decks/${deckId}`).update({
+			dueCardCount: admin.firestore.FieldValue.increment(-1)
+		})
+	
 	static updateDueCardCount = (uid: string, deckId: string, now: Date = new Date): Promise<FirebaseFirestore.WriteResult> =>
 		Deck.numberOfDueCards(uid, deckId, now).then(dueCardCount =>
 			firestore.doc(`users/${uid}/decks/${deckId}`).update({ dueCardCount })

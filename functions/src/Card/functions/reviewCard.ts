@@ -4,6 +4,7 @@ import * as admin from 'firebase-admin'
 import Algorithm from '../../Algorithm'
 import PerformanceRating, { performanceRatingFromNumber } from '../../PerformanceRating'
 import CardUserData from '../UserData'
+import Deck from '../../Deck'
 
 const firestore = admin.firestore()
 
@@ -33,11 +34,14 @@ export default functions.https.onCall((
 	const { uid } = auth
 	const cardRef = firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`)
 	
-	return CardUserData.fromId(uid, deckId, cardId).then(userData =>
-		userData
-			? updateExistingCard(userData, cardRef, now, rating, viewTime)
-			: updateNewCard(cardRef, now, rating, viewTime)
-	)
+	return Promise.all([
+		CardUserData.fromId(uid, deckId, cardId).then(userData =>
+			userData
+				? updateExistingCard(userData, cardRef, now, rating, viewTime)
+				: updateNewCard(cardRef, now, rating, viewTime)
+		),
+		Deck.decrementDueCardCount(uid, deckId)
+	])
 })
 
 const updateExistingCard = (
