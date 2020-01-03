@@ -42,4 +42,8 @@ export default class CardUserData {
 				? new CardUserData(snapshot)
 				: null
 		)
+	
+	get isDue(): boolean {
+		return this.due.getTime() <= Date.now()
+	}
 }
