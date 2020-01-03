@@ -77,7 +77,12 @@ export default class Deck {
 			new Deck(snapshot)
 		)
 	
-	static numberOfDueCards = async (uid: string, deckId: string, now: Date = new Date): Promise<number> =>
+	static updateDueCardCount = (uid: string, deckId: string, now: Date = new Date): Promise<FirebaseFirestore.WriteResult> =>
+		Deck.numberOfDueCards(uid, deckId, now).then(dueCardCount =>
+			firestore.doc(`users/${uid}/decks/${deckId}`).update({ dueCardCount })
+		)
+	
+	static numberOfDueCards = (uid: string, deckId: string, now: Date = new Date): Promise<number> =>
 		Deck.fromId(deckId).then(deck =>
 			deck.cardUserData(uid).then(allUserData =>
 				allUserData.reduce((acc, { due }) =>
