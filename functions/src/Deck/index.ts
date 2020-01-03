@@ -91,7 +91,7 @@ export default class Deck {
 		Deck.fromId(deckId).then(deck =>
 			deck.cardUserData(uid).then(allUserData =>
 				allUserData.reduce((acc, { due }) =>
-					acc - (now.getTime() > due.getTime() ? 1 : 0)
+					acc - (now.getTime() < due.getTime() ? 1 : 0)
 				, deck.numberOfCards)
 			)
 		)
