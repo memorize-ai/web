@@ -2,7 +2,6 @@ import * as admin from 'firebase-admin'
 
 import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
 import User from '../User'
-import Card from '../Card'
 
 const firestore = admin.firestore()
 

@@ -8,7 +8,8 @@ export {
 	deckDeleted,
 	deckUserNodeCreated,
 	deckUserNodeUpdated,
-	deckUserNodeDeleted
+	deckUserNodeDeleted,
+	deckDueCardCountPubSub
 } from './Deck/functions'
 
 export {
