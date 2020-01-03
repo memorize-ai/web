@@ -2,6 +2,7 @@ import * as admin from 'firebase-admin'
 
 import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
 import User from '../User'
+import CardUserData from '../Card/UserData'
 
 const firestore = admin.firestore()
 
@@ -76,8 +77,14 @@ export default class Deck {
 			new Deck(snapshot)
 		)
 	
-	static numberOfDueCards = (uid: string, deckId: string) =>
-		Promise.resolve(0) // TODO: Calculate number of due cards
+	static numberOfDueCards = async (uid: string, deckId: string, now: Date = new Date): Promise<number> =>
+		Deck.fromId(deckId).then(deck =>
+			deck.cardUserData(uid).then(allUserData =>
+				allUserData.reduce((acc, { due }) =>
+					acc - (now.getTime() > due.getTime() ? 1 : 0)
+				, deck.numberOfCards)
+			)
+		)
 	
 	static incrementCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
 		firestore.doc(`decks/${deckId}`).update({
@@ -141,6 +148,11 @@ export default class Deck {
 			.then(() => Deck.fromId(deckId))
 			.then(deck => deck.updateAverageRating())
 	}
+	
+	cardUserData = (uid: string): Promise<CardUserData[]> =>
+		firestore.collection(`users/${uid}/decks/${this.id}/cards`).get().then(({ docs }) =>
+			docs.map(doc => new CardUserData(doc))
+		)
 	
 	updateAverageRating = (): Promise<FirebaseFirestore.WriteResult> => {
 		const sum = (
