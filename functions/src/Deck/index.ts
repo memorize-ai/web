@@ -76,6 +76,9 @@ export default class Deck {
 			new Deck(snapshot)
 		)
 	
+	static numberOfDueCards = (uid: string, deckId: string) =>
+		Promise.resolve(0) // TODO: Calculate number of due cards
+	
 	static incrementCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
 		firestore.doc(`decks/${deckId}`).update({
 			cardCount: admin.firestore.FieldValue.increment(amount)
