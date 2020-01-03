@@ -82,12 +82,12 @@ export default class Deck {
 			dueCardCount: admin.firestore.FieldValue.increment(-1)
 		})
 	
-	static updateDueCardCount = (uid: string, deckId: string, now: Date = new Date): Promise<FirebaseFirestore.WriteResult> =>
-		Deck.numberOfDueCards(uid, deckId, now).then(dueCardCount =>
+	static updateDueCardCount = (uid: string, deckId: string): Promise<FirebaseFirestore.WriteResult> =>
+		Deck.numberOfDueCards(uid, deckId).then(dueCardCount =>
 			firestore.doc(`users/${uid}/decks/${deckId}`).update({ dueCardCount })
 		)
 	
-	static numberOfDueCards = (uid: string, deckId: string, now: Date = new Date): Promise<number> =>
+	static numberOfDueCards = (uid: string, deckId: string): Promise<number> =>
 		Deck.fromId(deckId).then(deck =>
 			deck.cardUserData(uid).then(allUserData =>
 				allUserData.reduce((acc, { isDue }) =>
