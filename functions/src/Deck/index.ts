@@ -82,19 +82,14 @@ export default class Deck {
 			dueCardCount: admin.firestore.FieldValue.increment(-1)
 		})
 	
-	static updateDueCardCount = (uid: string, deckId: string): Promise<FirebaseFirestore.WriteResult> =>
-		Deck.numberOfDueCards(uid, deckId).then(dueCardCount =>
-			firestore.doc(`users/${uid}/decks/${deckId}`).update({ dueCardCount })
-		)
+	static updateDueCardCount = (uid: string, deckId: string, dueCardCount: number): Promise<FirebaseFirestore.WriteResult> =>
+		firestore.doc(`users/${uid}/decks/${deckId}`).update({ dueCardCount })
 	
-	static numberOfDueCards = (uid: string, deckId: string): Promise<number> =>
-		Deck.fromId(deckId).then(deck =>
-			deck.cardUserData(uid).then(allUserData =>
-				allUserData.reduce((acc, { isDue }) =>
-					acc - (isDue ? 0 : 1)
-				, deck.numberOfCards)
+	static numberOfDueCards = (uid: string, deckId: string, cache: { [id: string]: Deck }): Promise<number> =>
+		cache[deckId]?.numberOfDueCards(uid)
+			?? Deck.fromId(deckId).then(deck =>
+				(cache[deckId] = deck).numberOfDueCards(uid)
 			)
-		)
 	
 	static incrementCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>
 		firestore.doc(`decks/${deckId}`).update({
@@ -127,6 +122,13 @@ export default class Deck {
 		firestore.doc(`decks/${id}`).update({
 			allTimeUserCount: admin.firestore.FieldValue.increment(amount)
 		})
+	
+	numberOfDueCards = (uid: string): Promise<number> =>
+		this.cardUserData(uid).then(allUserData =>
+			allUserData.reduce((acc, { isDue }) =>
+				acc - (isDue ? 0 : 1)
+			, this.numberOfCards)
+		)
 	
 	updateLastUpdated = (): Promise<FirebaseFirestore.WriteResult> =>
 		firestore.doc(`decks/${this.id}`).update({

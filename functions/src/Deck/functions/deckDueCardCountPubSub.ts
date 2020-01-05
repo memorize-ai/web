@@ -5,16 +5,18 @@ import Deck from '..'
 
 const firestore = admin.firestore()
 
-export default functions.pubsub.schedule('every 1 minutes').onRun(_context =>
-	firestore.collection('users').listDocuments().then(users =>
+export default functions.pubsub.schedule('every 1 minutes').onRun(_context => {
+	const cache: { [id: string]: Deck } = {}
+	
+	return firestore.collection('users').listDocuments().then(users =>
 		Promise.all(users.map(({ id: uid }) =>
 			firestore.collection(`users/${uid}/decks`).listDocuments().then(decks =>
 				Promise.all(decks.map(({ id: deckId }) =>
-					Deck.numberOfDueCards(uid, deckId).then(dueCardCount =>
-						firestore.doc(`users/${uid}/decks/${deckId}`).update({ dueCardCount })
+					Deck.numberOfDueCards(uid, deckId, cache).then(numberOfDueCards =>
+						Deck.updateDueCardCount(uid, deckId, numberOfDueCards)
 					)
 				))
 			)
 		))
 	)
-)
+})
