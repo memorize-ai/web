@@ -1,7 +1,11 @@
 import * as functions from 'firebase-functions'
+import * as admin from 'firebase-admin'
 
 import Deck from '..'
 import User from '../../User'
+import Section from '../../Section'
+
+const firestore = admin.firestore()
 
 export default functions.firestore.document('users/{uid}/decks/{deckId}').onCreate(({ ref }, { params: { uid, deckId } }) => {
 	User.fromId(uid).then(user =>
@@ -13,10 +17,33 @@ export default functions.firestore.document('users/{uid}/decks/{deckId}').onCrea
 			user.addDeckToAllDecks(deckId),
 			User.incrementDeckCount(uid),
 			Deck.fromId(deckId).then(deck =>
-				ref.update({
-					
-				})
+				updateDueCardCounts(ref, deck, uid === deck.creatorId)
 			)
 		])
 	)
 })
+
+const updateDueCardCounts = async (
+	ref: FirebaseFirestore.DocumentReference,
+	deck: Deck,
+	isOwner: boolean,
+) => {
+	const sections = await firestore
+		.collection(`decks/${deck.id}/sections`)
+		.get()
+		.then(({ docs }) =>
+			docs.map(doc => new Section(doc))
+		)
+	
+	const updateObject: FirebaseFirestore.UpdateData = {
+		unsectionedDueCardCount: deck.numberOfUnsectionedCards
+	}
+	
+	if (isOwner)
+		updateObject.sections = sections.reduce((acc, section) => ({
+			...acc,
+			[section.id]: section.numberOfCards
+		}), {})
+	
+	return ref.update(updateObject)
+}

@@ -19,6 +19,7 @@
 					"favorite": false, // (Bool?) If the deck is favorited or not (If nonexistent, it is false)
 					"dueCardCount": 10, // (Int?) The number of due cards in this deck. This is updated from the backend. Treat as 0 if nonexistent
 					"rating": 4, // (Int?) The user's rating of this deck. If it is unrated, this is nonexistent
+					"unsectionedDueCardCount": 4, // (Int) The number of unsectioned due cards
 					"sections (map)": { // If section is not included, the section is not unlocked yet
 						"abc123": 5 // (Section ID: Int) Number of cards due for section
 					},
