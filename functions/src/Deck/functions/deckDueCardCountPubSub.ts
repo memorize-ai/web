@@ -25,7 +25,7 @@ export default functions.pubsub.schedule('every 1 minutes').onRun(() => {
 					const [sections, dueCardCount] = await Promise.all([
 						Section.numberOfDueCards(deckUserData, cardUserData, sectionCache),
 						Deck.numberOfDueCards(
-							uid,
+							deckId,
 							cardUserData.map(({ userData }) => userData),
 							deckCache
 						)
