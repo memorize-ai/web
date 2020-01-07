@@ -2,6 +2,7 @@ import * as admin from 'firebase-admin'
 
 import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
 import User from '../User'
+import Card from '../Card'
 import CardUserData from '../Card/UserData'
 
 const firestore = admin.firestore()
@@ -96,9 +97,26 @@ export default class Deck {
 		)
 	}
 	
-	static cardUserData = (uid: string, deckId: string): Promise<CardUserData[]> =>
+	static cardUserData = (
+		uid: string,
+		deckId: string,
+		cache: Record<string, Card>
+	): Promise<{ card: Card, userData: CardUserData }[]> =>
 		firestore.collection(`users/${uid}/decks/${deckId}/cards`).get().then(({ docs }) =>
-			docs.map(doc => new CardUserData(doc))
+			Promise.all(docs.map(async doc => {
+				const cardId = doc.id
+				
+				const card = cache[cardId]
+					?? await Card.fromId(cardId, deckId)
+				
+				if (!cache[cardId])
+					cache[cardId] = card
+				
+				return {
+					card,
+					userData: new CardUserData(doc)
+				}
+			}))
 		)
 	
 	static incrementCardCount = (deckId: string, amount: number = 1): Promise<FirebaseFirestore.WriteResult> =>

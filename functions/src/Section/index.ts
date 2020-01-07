@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin'
 
 import DeckUserData from '../Deck/UserData'
+import Card from '../Card'
 import CardUserData from '../Card/UserData'
 
 const firestore = admin.firestore()
@@ -23,7 +24,7 @@ export default class Section {
 	
 	static numberOfDueCards = async (
 		deckUserData: DeckUserData,
-		cardUserData: CardUserData[],
+		cardUserData: { card: Card, userData: CardUserData }[],
 		cache: Record<string, Section>
 	): Promise<Record<string, number>> => {
 		const deckId = deckUserData.id
@@ -36,9 +37,13 @@ export default class Section {
 			if (!cache[sectionId])
 				cache[sectionId] = section
 			
-			acc[sectionId] = cardUserData.reduce((dueCount, { isDue }) =>
-				dueCount - (isDue ? 0 : 1)
-			, section.numberOfCards)
+			acc[sectionId] = cardUserData
+				.filter(({ card }) =>
+					card.sectionId === sectionId
+				)
+				.reduce((dueCount, { userData: { isDue } }) =>
+					dueCount - (isDue ? 0 : 1)
+				, section.numberOfCards)
 		}
 		
 		return acc

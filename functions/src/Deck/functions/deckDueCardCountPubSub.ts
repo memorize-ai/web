@@ -4,12 +4,14 @@ import * as admin from 'firebase-admin'
 import Deck from '..'
 import DeckUserData from '../UserData'
 import Section from '../../Section'
+import Card from '../../Card'
 
 const firestore = admin.firestore()
 
 export default functions.pubsub.schedule('every 1 minutes').onRun(() => {
 	const deckCache: Record<string, Deck> = {}
 	const sectionCache: Record<string, Section> = {}
+	const cardCache: Record<string, Card> = {}
 	
 	return firestore.collection('users').listDocuments().then(users =>
 		Promise.all(users.map(({ id: uid }) =>
@@ -18,17 +20,28 @@ export default functions.pubsub.schedule('every 1 minutes').onRun(() => {
 					const deckId = deckSnapshot.id
 					
 					const deckUserData = new DeckUserData(deckSnapshot)
-					const cardUserData = await Deck.cardUserData(uid, deckId)
+					const cardUserData = await Deck.cardUserData(uid, deckId, cardCache)
 					
-					return Promise.all([
+					const [sections, dueCardCount] = await Promise.all([
 						Section.numberOfDueCards(deckUserData, cardUserData, sectionCache),
-						Deck.numberOfDueCards(uid, cardUserData, deckCache)
-					]).then(([sections, dueCardCount]) =>
-						firestore.doc(`users/${uid}/decks/${deckId}`).update({
-							sections,
-							dueCardCount
-						})
-					)
+						Deck.numberOfDueCards(
+							uid,
+							cardUserData.map(({ userData }) => userData),
+							deckCache
+						)
+					])
+					
+					const { numberOfUnsectionedCards } = deckCache[deckId]
+					
+					return firestore.doc(`users/${uid}/decks/${deckId}`).update({
+						unsectionedDueCardCount: cardUserData
+							.filter(({ card }) => card.isUnsectioned)
+							.reduce((acc, { userData: { isDue } }) =>
+								acc - (isDue ? 0 : 1)
+							, numberOfUnsectionedCards),
+						sections,
+						dueCardCount
+					})
 				}))
 			)
 		))
