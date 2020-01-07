@@ -1,5 +1,8 @@
 import * as admin from 'firebase-admin'
 
+import DeckUserData from '../Deck/UserData'
+import CardUserData from '../Card/UserData'
+
 const firestore = admin.firestore()
 
 export default class Section {
@@ -17,6 +20,29 @@ export default class Section {
 		firestore.doc(`decks/${deckId}/sections/${sectionId}`).get().then(snapshot =>
 			new Section(snapshot)
 		)
+	
+	static numberOfDueCards = async (
+		deckUserData: DeckUserData,
+		cardUserData: CardUserData[],
+		cache: Record<string, Section>
+	): Promise<Record<string, number>> => {
+		const deckId = deckUserData.id
+		const acc: Record<string, number> = {}
+		
+		for (const sectionId in deckUserData.sections) {
+			const section = cache[sectionId]
+				?? await Section.fromId(sectionId, deckId)
+			
+			if (!cache[sectionId])
+				cache[sectionId] = section
+			
+			acc[sectionId] = cardUserData.reduce((dueCount, { isDue }) =>
+				dueCount - (isDue ? 0 : 1)
+			, section.numberOfCards)
+		}
+		
+		return acc
+	}
 	
 	deleteCards = (deckId: string): Promise<FirebaseFirestore.WriteResult[]> =>
 		firestore
