@@ -30,14 +30,14 @@ export default () => {
 	const [signOutLoadingState, setSignOutLoadingState] = useState(LoadingState.None)
 	
 	useEffect(() => {
-		if (!currentUser)
+		if (!(currentUser && deckId && sectionId && section))
 			return
 		
 		setUnlockLoadingState(LoadingState.Loading)
 		
-		firestore.doc(`users/${currentUser.uid}/decks/${deckId ?? ''}`)
+		firestore.doc(`users/${currentUser.uid}/decks/${deckId}`)
 			.update({
-				unlockedSections: firebase.firestore.FieldValue.arrayUnion(sectionId)
+				[`sections.${sectionId}`]: section.cardCount ?? 0
 			})
 			.then(() =>
 				setUnlockLoadingState(LoadingState.Success)
@@ -46,7 +46,7 @@ export default () => {
 				alert(error)
 				setUnlockLoadingState(LoadingState.Fail)
 			})
-	}, [currentUser, deckId, sectionId])
+	}, [currentUser, deckId, sectionId, section])
 	
 	const signOut = () => {
 		setUnlockLoadingState(LoadingState.None)
