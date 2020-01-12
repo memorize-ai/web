@@ -92,6 +92,11 @@ export default class Deck {
 	static removeUserFromCurrentUsers = (deckId: string, uid: string): Promise<FirebaseFirestore.WriteResult> =>
 		firestore.doc(`decks/${deckId}/currentUsers/${uid}`).delete()
 	
+	static currentUsers = (deckId: string): Promise<string[]> =>
+		firestore.collection(`decks/${deckId}/currentUsers`).listDocuments().then(docs =>
+			docs.map(({ id }) => id)
+		)
+	
 	static numberOfDueCards = (deckId: string, cardUserData: CardUserData[], cache: Record<string, Deck>): Promise<number> => {
 		const cachedDeck = cache[deckId]
 		
