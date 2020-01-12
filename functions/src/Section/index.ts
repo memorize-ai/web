@@ -7,6 +7,8 @@ import CardUserData from '../Card/UserData'
 const firestore = admin.firestore()
 
 export default class Section {
+	static unsectionedId = ''
+	
 	id: string
 	name: string
 	numberOfCards: number

@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin'
 
 import Deck from '../Deck'
+import Section from '../Section'
 
 const firestore = admin.firestore()
 
@@ -30,7 +31,7 @@ export default class Card {
 	decrementDeckCardCount = Deck.decrementCardCount
 	
 	get isUnsectioned() {
-		return this.sectionId === ''
+		return this.sectionId === Section.unsectionedId
 	}
 	
 	incrementSectionCardCount = (deckId: string): Promise<FirebaseFirestore.WriteResult> => {

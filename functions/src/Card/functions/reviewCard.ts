@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
+import Card from '..'
 import Algorithm from '../../Algorithm'
 import PerformanceRating, { performanceRatingFromNumber } from '../../PerformanceRating'
 import CardUserData from '../UserData'
@@ -38,7 +39,9 @@ export default functions.https.onCall((
 		CardUserData.fromId(uid, deckId, cardId).then(userData =>
 			userData
 				? updateExistingCard(userData, cardRef, now, rating, viewTime)
-				: updateNewCard(cardRef, now, rating, viewTime)
+				: Card.fromId(cardId, deckId).then(card =>
+					updateNewCard(cardRef, card, now, rating, viewTime)
+				)
 		),
 		Deck.decrementDueCardCount(uid, deckId)
 	])
@@ -92,6 +95,7 @@ const updateExistingCard = (
 
 const updateNewCard = (
 	ref: FirebaseFirestore.DocumentReference,
+	card: Card,
 	date: Date,
 	rating: PerformanceRating,
 	viewTime: number
@@ -101,6 +105,7 @@ const updateNewCard = (
 	const { e, next } = Algorithm.nextDueDateForNewCard(date)
 	
 	const setData: any = {
+		section: card.sectionId,
 		due: next,
 		totalCount: 1,
 		streak: isCorrect ? 1 : 0,
