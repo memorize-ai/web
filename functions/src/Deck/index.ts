@@ -4,6 +4,7 @@ import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
 import User from '../User'
 import Card from '../Card'
 import CardUserData from '../Card/UserData'
+import Section from '../Section'
 
 const firestore = admin.firestore()
 
@@ -107,18 +108,64 @@ export default class Deck {
 			)
 	}
 	
-	static addCardsToUserNode = (deckId: string, uid: string): Promise<FirebaseFirestore.WriteResult[]> =>
-		firestore.collection(`decks/${deckId}/cards`).get().then(({ docs: cards }) => {
+	static firstSectionId = (deckId: string): Promise<string | null> =>
+		firestore
+			.collection(`decks/${deckId}/sections`)
+			.orderBy('index')
+			.limit(1)
+			.get()
+			.then(({ docs }) => docs[0]?.id ?? null)
+	
+	static addInitialCardsToUserNode = (deckId: string, uid: string): Promise<FirebaseFirestore.WriteResult[]> =>
+		Deck.firstSectionId(deckId).then(async firstSectionId => {
 			const batch = firestore.batch()
 			
-			for (const card of cards)
-				batch.set(
-					firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`),
-					{ new: true, section: card.get('section') }
+			await firestore
+				.collection(`decks/${deckId}/cards`)
+				.where('section', '==', Section.unsectionedId)
+				.get()
+				.then(({ docs: cards }) =>
+					cards.forEach(({ id: cardId }) =>
+						batch.set(
+							firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
+							{ new: true, section: Section.unsectionedId }
+						)
+					)
 				)
+			
+			if (firstSectionId)
+				await firestore
+					.collection(`decks/${deckId}/cards`)
+					.where('section', '==', firstSectionId)
+					.get()
+					.then(({ docs: cards }) =>
+						cards.forEach(({ id: cardId }) =>
+							batch.set(
+								firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
+								{ new: true, section: firstSectionId }
+							)
+						)
+					)
 			
 			return batch.commit()
 		})
+	
+	static addSectionToUserNode = (uid: string, deckId: string, sectionId: string) =>
+		firestore
+			.collection(`decks/${deckId}/cards`)
+			.where('section', '==', sectionId)
+			.get()
+			.then(({ docs: cards }) => {
+				const batch = firestore.batch()
+				
+				for (const { id: cardId } of cards)
+					batch.set(
+						firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
+						{ new: true, section: sectionId }
+					)
+				
+				return batch.commit()
+			})
 	
 	static cardUserData = (
 		uid: string,

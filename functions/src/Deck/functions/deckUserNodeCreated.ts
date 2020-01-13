@@ -23,7 +23,7 @@ export default functions
 					updateDueCardCounts(ref, deck, uid === deck.creatorId)
 				),
 				Deck.addUserToCurrentUsers(deckId, uid),
-				Deck.addCardsToUserNode(deckId, uid)
+				Deck.addInitialCardsToUserNode(deckId, uid)
 			])
 		)
 	)

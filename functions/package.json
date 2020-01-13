@@ -18,10 +18,12 @@
 		"@elastic/app-search-node": "^7.5.0",
 		"brain.js": "^2.0.0-alpha.11",
 		"firebase-admin": "^8.9.0",
-		"firebase-functions": "^3.3.0"
+		"firebase-functions": "^3.3.0",
+		"lodash": "^4.17.15"
 	},
 	"devDependencies": {
 		"@types/jest": "^24.0.25",
+		"@types/lodash": "^4.14.149",
 		"jest": "^24.9.0",
 		"tslint": "^5.20.1",
 		"typescript": "^3.7.4"
