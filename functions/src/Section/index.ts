@@ -1,9 +1,5 @@
 import * as admin from 'firebase-admin'
 
-import DeckUserData from '../Deck/UserData'
-import Card from '../Card'
-import CardUserData from '../Card/UserData'
-
 const firestore = admin.firestore()
 
 export default class Section {
