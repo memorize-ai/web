@@ -100,13 +100,25 @@ export default class Deck {
 	static numberOfDueCards = (deckId: string, cardUserData: CardUserData[], cache: Record<string, Deck>): Promise<number> => {
 		const cachedDeck = cache[deckId]
 		
-		if (cachedDeck)
-			return Promise.resolve(cachedDeck.numberOfDueCards(cardUserData))
-		
-		return Deck.fromId(deckId).then(deck =>
-			(cache[deckId] = deck).numberOfDueCards(cardUserData)
-		)
+		return cachedDeck
+			? Promise.resolve(cachedDeck.numberOfDueCards(cardUserData))
+			: Deck.fromId(deckId).then(deck =>
+				(cache[deckId] = deck).numberOfDueCards(cardUserData)
+			)
 	}
+	
+	static addCardsToUserNode = (deckId: string, uid: string): Promise<FirebaseFirestore.WriteResult[]> =>
+		firestore.collection(`decks/${deckId}/cards`).get().then(({ docs: cards }) => {
+			const batch = firestore.batch()
+			
+			for (const card of cards)
+				batch.set(
+					firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`),
+					{ new: true, section: card.get('section') }
+				)
+			
+			return batch.commit()
+		})
 	
 	static cardUserData = (
 		uid: string,

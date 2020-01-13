@@ -7,22 +7,26 @@ import Section from '../../Section'
 
 const firestore = admin.firestore()
 
-export default functions.firestore.document('users/{uid}/decks/{deckId}').onCreate(({ ref }, { params: { uid, deckId } }) =>
-	User.fromId(uid).then(user =>
-		Promise.all([
-			Deck.incrementCurrentUserCount(deckId),
-			user.allDecks.includes(deckId)
-				? Promise.resolve(null)
-				: Deck.incrementAllTimeUserCount(deckId),
-			user.addDeckToAllDecks(deckId),
-			User.incrementDeckCount(uid),
-			Deck.fromId(deckId).then(deck =>
-				updateDueCardCounts(ref, deck, uid === deck.creatorId)
-			),
-			Deck.addUserToCurrentUsers(deckId, uid)
-		])
+export default functions
+	.runWith({ timeoutSeconds: 540, memory: '2GB' })
+	.firestore
+	.document('users/{uid}/decks/{deckId}').onCreate(({ ref }, { params: { uid, deckId } }) =>
+		User.fromId(uid).then(user =>
+			Promise.all([
+				Deck.incrementCurrentUserCount(deckId),
+				user.allDecks.includes(deckId)
+					? Promise.resolve(null)
+					: Deck.incrementAllTimeUserCount(deckId),
+				user.addDeckToAllDecks(deckId),
+				User.incrementDeckCount(uid),
+				Deck.fromId(deckId).then(deck =>
+					updateDueCardCounts(ref, deck, uid === deck.creatorId)
+				),
+				Deck.addUserToCurrentUsers(deckId, uid),
+				Deck.addCardsToUserNode(deckId, uid)
+			])
+		)
 	)
-)
 
 const updateDueCardCounts = async (
 	ref: FirebaseFirestore.DocumentReference,
