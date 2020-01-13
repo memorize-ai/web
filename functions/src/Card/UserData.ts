@@ -1,8 +1,12 @@
 import * as admin from 'firebase-admin'
 
+import Section from '../Section'
+
 const firestore = admin.firestore()
 
 export default class CardUserData {
+	isNew: boolean
+	sectionId: string
 	due: Date
 	totalNumberOfRecallAttempts: number
 	numberOfForgotRecallAttempts: number
@@ -18,6 +22,8 @@ export default class CardUserData {
 	}
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
+		this.isNew = snapshot.get('new')
+		this.sectionId = snapshot.get('section')
 		this.due = snapshot.get('due')?.toDate()
 		this.totalNumberOfRecallAttempts = snapshot.get('totalCount')
 		this.numberOfForgotRecallAttempts = snapshot.get('forgotCount') ?? 0
@@ -30,20 +36,22 @@ export default class CardUserData {
 		const last = snapshot.get('last')
 		
 		this.last = {
-			id: last.id,
-			date: last.date.toDate(),
-			next: last.next.toDate()
+			id: last?.id,
+			date: last.date?.toDate(),
+			next: last.next?.toDate()
 		}
 	}
 	
-	static fromId = (uid: string, deckId: string, cardId: string): Promise<CardUserData | null> =>
+	static fromId = (uid: string, deckId: string, cardId: string): Promise<CardUserData> =>
 		firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`).get().then(snapshot =>
-			snapshot.exists
-				? new CardUserData(snapshot)
-				: null
+			new CardUserData(snapshot)
 		)
 	
 	get isDue(): boolean {
 		return this.due.getTime() <= Date.now()
+	}
+	
+	get isUnsectioned(): boolean {
+		return this.sectionId === Section.unsectionedId
 	}
 }

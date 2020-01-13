@@ -32,6 +32,7 @@
 					},
 					"cards (collection)": {
 						"a8D0ba2 (document)": { // Card ID
+							"new": false, // (Bool) If the card has not been reviewed before
 							"section": "ab32asd3F", // (String) The section ID associated with this card. If this card is unsectioned, this is the empty string
 							"due": "DATE", // (Date) The next due date of this card
 							"totalCount": 4, // (Int) Total amount of recall attempts (history nodes) for this card
@@ -55,6 +56,10 @@
 									"viewTime": 5000 // (Int) Milliseconds spent on review screen
 								}
 							}
+						},
+						"abaa89D (document)": { // Card ID
+							"new": true, // (Bool) If the card has not been reviewed before
+							"section": "ab32asd3F" // (String) The section ID associated with this card. If this card is unsectioned, this is the empty string
 						}
 					}
 				}
