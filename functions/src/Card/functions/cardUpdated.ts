@@ -22,16 +22,20 @@ export default functions.firestore
 	})
 
 const updateUserNodeSections = (deckId: string, oldCard: Card, newCard: Card) =>
-	Deck.currentUsers(deckId).then(currentUserIds =>
-		Promise.all(currentUserIds.map(uid =>
+	Deck.currentUsers(deckId).then(async currentUserIds => {
+		const batch = firestore.batch()
+		
+		await Promise.all(currentUserIds.map(uid =>
 			firestore
 				.collection(`users/${uid}/decks/${deckId}/cards`)
 				.where('section', '==', oldCard.sectionId)
 				.get()
 				.then(({ docs }) =>
-					Promise.all(docs.map(({ ref }) =>
-						ref.update({ section: newCard.sectionId })
-					))
+					docs.forEach(({ ref }) =>
+						batch.update(ref, { section: newCard.sectionId })
+					)
 				)
 		))
-	)
+		
+		return batch.commit()
+	})
