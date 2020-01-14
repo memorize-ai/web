@@ -20,6 +20,8 @@ export {
 	cardCreated,
 	cardUpdated,
 	cardDeleted,
+	cardUserNodeCreated,
+	cardUserNodeDeleted,
 	reviewCard,
 	getCardPrediction
 } from './Card/functions'
