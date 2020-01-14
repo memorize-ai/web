@@ -10,15 +10,15 @@ export default functions.https.onCall(({ deck: deckId, card: cardId }: { deck: s
 			const now = new Date
 			
 			if (userData.isNew) {
-				const { next } = Algorithm.nextDueDateForNewCard(now)
+				const next = Algorithm.nextDueDateForNewCard(now).next.getTime()
 				
 				return { 0: next, 1: next, 2: next }
 			}
 			
 			return {
-				0: Algorithm.nextDueDate(PerformanceRating.Forgot, userData, now).next,
-				1: Algorithm.nextDueDate(PerformanceRating.Struggled, userData, now).next,
-				2: Algorithm.nextDueDate(PerformanceRating.Easy, userData, now).next
+				0: Algorithm.nextDueDate(PerformanceRating.Forgot, userData, now).next.getTime(),
+				1: Algorithm.nextDueDate(PerformanceRating.Struggled, userData, now).next.getTime(),
+				2: Algorithm.nextDueDate(PerformanceRating.Easy, userData, now).next.getTime()
 			}
 		})
 		: new functions.https.HttpsError('failed-precondition', 'You need to be signed in')
