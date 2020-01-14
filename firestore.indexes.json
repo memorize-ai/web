@@ -1,4 +1,23 @@
 {
-	"indexes": [],
+	"indexes": [
+		{
+			"collectionGroup": "cards",
+			"queryScope": "COLLECTION",
+			"fields": [
+				{
+					"fieldPath": "new",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "section",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "due",
+					"order": "ASCENDING"
+				}
+			]
+		}
+	],
 	"fieldOverrides": []
 }
