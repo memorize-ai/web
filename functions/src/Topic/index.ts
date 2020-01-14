@@ -17,7 +17,7 @@ export default class Topic {
 		return firestore.doc(`topics/${this.id}`)
 	}
 	
-	static fromId = (id: string): Promise<Topic> =>
+	static fromId = (id: string) =>
 		firestore.doc(`topics/${id}`).get().then(snapshot =>
 			new Topic(snapshot)
 		)

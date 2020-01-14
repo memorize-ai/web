@@ -15,12 +15,12 @@ export default class Section {
 		this.numberOfCards = snapshot.get('cardCount') ?? 0
 	}
 	
-	static fromId = (sectionId: string, deckId: string): Promise<Section> =>
+	static fromId = (sectionId: string, deckId: string) =>
 		firestore.doc(`decks/${deckId}/sections/${sectionId}`).get().then(snapshot =>
 			new Section(snapshot)
 		)
 	
-	deleteCards = (deckId: string): Promise<FirebaseFirestore.WriteResult[]> =>
+	deleteCards = (deckId: string) =>
 		firestore
 			.collection(`decks/${deckId}/cards`)
 			.where('section', '==', this.id)

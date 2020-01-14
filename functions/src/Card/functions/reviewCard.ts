@@ -51,7 +51,7 @@ const updateNewCard = async (
 	date: Date,
 	rating: PerformanceRating,
 	viewTime: number
-): Promise<boolean> => {
+) => {
 	const isCorrect = Algorithm.isPerformanceRatingCorrect(rating)
 	const historyRef = ref.collection('history').doc()
 	const { e, next } = Algorithm.nextDueDateForNewCard(date)
@@ -102,7 +102,7 @@ const updateExistingCard = async (
 	date: Date,
 	rating: PerformanceRating,
 	viewTime: number
-): Promise<boolean> => {
+) => {
 	const isCorrect = Algorithm.isPerformanceRatingCorrect(rating)
 	const mastered = rating === PerformanceRating.Easy && (userData.streak >= Algorithm.MASTERED_STREAK - 1)
 	const historyRef = ref.collection('history').doc()

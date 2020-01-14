@@ -10,7 +10,7 @@ const firestore = admin.firestore()
 export default functions
 	.runWith({ timeoutSeconds: 540, memory: '2GB' })
 	.firestore
-	.document('users/{uid}/decks/{deckId}').onCreate(({ ref }, { params: { uid, deckId } }) =>
+	.document('users/{uid}/decks/{deckId}').onCreate((snapshot, { params: { uid, deckId } }) =>
 		User.fromId(uid).then(user =>
 			Promise.all([
 				Deck.incrementCurrentUserCount(deckId),
@@ -20,10 +20,14 @@ export default functions
 				user.addDeckToAllDecks(deckId),
 				User.incrementDeckCount(uid),
 				Deck.fromId(deckId).then(deck =>
-					updateDueCardCounts(ref, deck, uid === deck.creatorId)
+					updateDueCardCounts(snapshot.ref, deck, uid === deck.creatorId)
 				),
 				Deck.addUserToCurrentUsers(deckId, uid),
-				Deck.addInitialCardsToUserNode(deckId, uid)
+				Deck.addInitialCardsToUserNode(
+					uid,
+					deckId,
+					Object.keys(snapshot.get('sections') ?? {})
+				)
 			])
 		)
 	)

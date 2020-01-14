@@ -42,16 +42,16 @@ export default class CardUserData {
 		}
 	}
 	
-	static fromId = (uid: string, deckId: string, cardId: string): Promise<CardUserData> =>
+	static fromId = (uid: string, deckId: string, cardId: string) =>
 		firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`).get().then(snapshot =>
 			new CardUserData(snapshot)
 		)
 	
-	get isDue(): boolean {
+	get isDue() {
 		return this.due.getTime() <= Date.now()
 	}
 	
-	get isUnsectioned(): boolean {
+	get isUnsectioned() {
 		return this.sectionId === Section.unsectionedId
 	}
 }

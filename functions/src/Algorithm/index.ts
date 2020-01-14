@@ -12,7 +12,7 @@ export default class Algorithm {
 		rating: PerformanceRating,
 		userData: CardUserData,
 		start: Date = new Date
-	): { e: number, next: Date } => ({
+	) => ({
 		e: Algorithm.e(rating, userData.e),
 		next: new Date(
 			start.getTime() +
@@ -20,7 +20,7 @@ export default class Algorithm {
 		)
 	})
 	
-	private static q = (rating: PerformanceRating): number => {
+	private static q = (rating: PerformanceRating) => {
 		switch (rating) {
 			case PerformanceRating.Forgot:
 				return 0
@@ -31,7 +31,7 @@ export default class Algorithm {
 		}
 	}
 	
-	private static e = (rating: PerformanceRating, e: number): number => {
+	private static e = (rating: PerformanceRating, e: number) => {
 		const q = Algorithm.q(rating)
 		
 		return Math.max(
@@ -44,16 +44,16 @@ export default class Algorithm {
 		rating: PerformanceRating,
 		{ e, last }: CardUserData,
 		date: Date
-	): number =>
+	) =>
 		rating === PerformanceRating.Forgot
 			? Algorithm.MILLISECONDS_IN_DAY
 			: (date.getTime() - last.date.getTime()) * e
 	
-	static nextDueDateForNewCard = (start: Date = new Date): { e: number, next: Date } => ({
+	static nextDueDateForNewCard = (start: Date = new Date) => ({
 		e: Algorithm.DEFAULT_E,
 		next: new Date(start.getTime() + Algorithm.MILLISECONDS_IN_DAY)
 	})
 	
-	static isPerformanceRatingCorrect = (rating: PerformanceRating): boolean =>
+	static isPerformanceRatingCorrect = (rating: PerformanceRating) =>
 		rating.valueOf() > 0
 }

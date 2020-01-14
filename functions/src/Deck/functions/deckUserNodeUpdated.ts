@@ -24,7 +24,7 @@ const updateFavorites = (
 	deckId: string,
 	before: FirebaseFirestore.DocumentSnapshot,
 	after: FirebaseFirestore.DocumentSnapshot
-): Promise<FirebaseFirestore.WriteResult | null> => {
+) => {
 	const isFavorite = after.get('favorite')
 	
 	return before.get('favorite') === isFavorite

@@ -23,7 +23,7 @@ export default functions
 		])
 	})
 
-const removeAllCardsAndHistory = (uid: string, deckId: string): Promise<FirebaseFirestore.WriteResult[]> =>
+const removeAllCardsAndHistory = (uid: string, deckId: string) =>
 	firestore.collection(`users/${uid}/decks/${deckId}/cards`).listDocuments().then(cards => {
 		const batch = firestore.batch()
 		

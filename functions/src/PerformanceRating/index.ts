@@ -6,7 +6,7 @@ enum PerformanceRating {
 
 export default PerformanceRating
 
-export const performanceRatingFromNumber = (number: number): PerformanceRating | null => {
+export const performanceRatingFromNumber = (number: number) => {
 	switch (number) {
 		case 0:
 			return PerformanceRating.Easy

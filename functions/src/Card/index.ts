@@ -22,7 +22,7 @@ export default class Card {
 		this.numberOfSkips = snapshot.get('skipCount') ?? 0
 	}
 	
-	static fromId = (cardId: string, deckId: string): Promise<Card> =>
+	static fromId = (cardId: string, deckId: string) =>
 		firestore.doc(`decks/${deckId}/cards/${cardId}`).get().then(snapshot =>
 			new Card(snapshot)
 		)
@@ -34,7 +34,7 @@ export default class Card {
 		return this.sectionId === Section.unsectionedId
 	}
 	
-	incrementSectionCardCount = (deckId: string): Promise<FirebaseFirestore.WriteResult> => {
+	incrementSectionCardCount = (deckId: string) => {
 		const increment = admin.firestore.FieldValue.increment(1)
 		return this.isUnsectioned
 			? firestore.doc(`decks/${deckId}`).update({
@@ -45,7 +45,7 @@ export default class Card {
 			})
 	}
 	
-	decrementSectionCardCount = (deckId: string): Promise<FirebaseFirestore.WriteResult> => {
+	decrementSectionCardCount = (deckId: string) => {
 		const decrement = admin.firestore.FieldValue.increment(-1)
 		return this.isUnsectioned
 			? firestore.doc(`decks/${deckId}`).update({

@@ -19,11 +19,11 @@ export default class DeckUserData {
 		this.sections = snapshot.get('sections') ?? {}
 	}
 	
-	static fromId = (uid: string, deckId: string): Promise<DeckUserData> =>
+	static fromId = (uid: string, deckId: string) =>
 		firestore.doc(`users/${uid}/decks/${deckId}`).get().then(deck =>
 			new DeckUserData(deck)
 		)
 	
-	isSectionUnlocked = (sectionId: string): boolean =>
+	isSectionUnlocked = (sectionId: string) =>
 		this.sections[sectionId] !== undefined
 }

@@ -20,7 +20,7 @@ export default class User {
 		this.allDecks = snapshot.get('allDecks') ?? []
 	}
 	
-	static fromId = (id: string): Promise<User> =>
+	static fromId = (id: string) =>
 		firestore.doc(`users/${id}`).get().then(snapshot =>
 			new User(snapshot)
 		)
@@ -33,22 +33,22 @@ export default class User {
 	static decrementDeckCount = (uid: string, amount: number = 1) =>
 		User.incrementDeckCount(uid, -amount)
 	
-	addDeckToAllDecks = (deckId: string): Promise<FirebaseFirestore.WriteResult> =>
+	addDeckToAllDecks = (deckId: string) =>
 		firestore.doc(`users/${this.id}`).update({
 			allDecks: admin.firestore.FieldValue.arrayUnion(deckId)
 		})
 	
-	removeDeckFromAllDecks = (deckId: string): Promise<FirebaseFirestore.WriteResult> =>
+	removeDeckFromAllDecks = (deckId: string) =>
 		firestore.doc(`users/${this.id}`).update({
 			allDecks: admin.firestore.FieldValue.arrayRemove(deckId)
 		})
 	
-	updateAuthDisplayName = (name: string): Promise<admin.auth.UserRecord> =>
+	updateAuthDisplayName = (name: string) =>
 		auth.updateUser(this.id, { displayName: name })
 	
-	normalizeDisplayName = (): Promise<admin.auth.UserRecord> =>
+	normalizeDisplayName = () =>
 		this.updateAuthDisplayName(this.name)
 	
-	removeAuth = (): Promise<void> =>
+	removeAuth = () =>
 		auth.deleteUser(this.id)
 }

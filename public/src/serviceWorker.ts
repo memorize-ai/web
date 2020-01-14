@@ -27,7 +27,7 @@ export const register = (config?: Config) => {
 	}
 }
 
-const registerValidSW = (swUrl: string, config?: Config): Promise<void | (() => void)> =>
+const registerValidSW = (swUrl: string, config?: Config) =>
 	navigator.serviceWorker.register(swUrl).then(registration =>
 		registration.onupdatefound = () => {
 			const installingWorker = registration.installing
@@ -50,7 +50,7 @@ const registerValidSW = (swUrl: string, config?: Config): Promise<void | (() => 
 		console.error('Error during service worker registration:', error)
 	)
 
-const checkValidServiceWorker = (swUrl: string, config?: Config): Promise<void> =>
+const checkValidServiceWorker = (swUrl: string, config?: Config) =>
 	fetch(swUrl).then(response => {
 		const contentType = response.headers.get('content-type')
 		if (response.status === 404 || (contentType !== null && contentType.indexOf('javascript') === -1))
@@ -65,7 +65,7 @@ const checkValidServiceWorker = (swUrl: string, config?: Config): Promise<void> 
 		console.log('No internet connection found. App is running in offline mode.')
 	)
 
-export const unregister = (): Promise<boolean> | null =>
+export const unregister = () =>
 	'serviceWorker' in navigator
 		? navigator.serviceWorker.ready.then(registration =>
 			registration.unregister()
