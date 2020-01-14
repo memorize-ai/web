@@ -33,10 +33,10 @@ export default class CardUserData {
 		this.e = snapshot.get('e')
 		this.isMastered = snapshot.get('mastered')
 		
-		const last = snapshot.get('last')
+		const last = snapshot.get('last') ?? null
 		
-		this.last = {
-			id: last?.id,
+		this.last = last && {
+			id: last.id,
 			date: last.date?.toDate(),
 			next: last.next?.toDate()
 		}
