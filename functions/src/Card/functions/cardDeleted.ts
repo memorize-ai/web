@@ -19,10 +19,16 @@ export default functions.firestore
 	})
 
 const deleteUserNodeCards = (deckId: string, card: Card) =>
-	Deck.currentUsers(deckId).then(currentUserIds =>
-		Promise.all(currentUserIds.map(uid =>
-			firestore
-				.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`)
-				.delete()
-		))
-	)
+	Deck.currentUsers(deckId).then(currentUserIds => {
+		const batch = firestore.batch()
+		
+		for (const uid of currentUserIds) {
+			batch.delete(firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`))
+			batch.update(
+				firestore.doc(`users/${uid}/decks/${deckId}`),
+				{ unlockedCardCount: admin.firestore.FieldValue.increment(-1) }
+			)
+		}
+		
+		return batch.commit()
+	})
