@@ -11,11 +11,13 @@ const firestore = admin.firestore()
 export default functions.https.onCall(async (
 	{
 		deck: deckId,
+		section: sectionId,
 		card: cardId,
 		rating: numberRating,
 		viewTime
 	}: {
 		deck: string,
+		section: string,
 		card: string,
 		rating: 0 | 1 | 2,
 		viewTime: number
@@ -40,7 +42,10 @@ export default functions.https.onCall(async (
 				? updateNewCard(cardRef, now, rating, viewTime)
 				: updateExistingCard(userData, cardRef, now, rating, viewTime)
 		),
-		Deck.decrementDueCardCount(uid, deckId)
+		Deck.decrementDueCardCount(uid, deckId),
+		firestore.doc(`users/${uid}/decks/${deckId}`).update({
+			[`sections.${sectionId}`]: admin.firestore.FieldValue.increment(-1)
+		})
 	])
 	
 	return isNewlyMastered
