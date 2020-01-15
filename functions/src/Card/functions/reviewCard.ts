@@ -5,6 +5,7 @@ import Algorithm from '../../Algorithm'
 import PerformanceRating, { performanceRatingFromNumber } from '../../PerformanceRating'
 import CardUserData from '../UserData'
 import Deck from '../../Deck'
+import Section from '../../Section'
 
 const firestore = admin.firestore()
 
@@ -44,7 +45,10 @@ export default functions.https.onCall(async (
 		),
 		Deck.decrementDueCardCount(uid, deckId),
 		firestore.doc(`users/${uid}/decks/${deckId}`).update({
-			[`sections.${sectionId}`]: admin.firestore.FieldValue.increment(-1)
+			[sectionId === Section.unsectionedId
+				? 'unsectionedDueCardCount'
+				: `sections.${sectionId}`
+			]: admin.firestore.FieldValue.increment(-1)
 		})
 	])
 	
