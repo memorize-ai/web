@@ -17,6 +17,20 @@
 					"order": "ASCENDING"
 				}
 			]
+		},
+		{
+			"collectionGroup": "cards",
+			"queryScope": "COLLECTION",
+			"fields": [
+				{
+					"fieldPath": "new",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "due",
+					"order": "ASCENDING"
+				}
+			]
 		}
 	],
 	"fieldOverrides": []
