@@ -1,6 +1,8 @@
 import { initializeApp } from 'firebase-admin'
 
-initializeApp()
+initializeApp({
+	storageBucket: 'memorize-ai-dev.appspot.com'
+})
 
 export {
 	userCreated,
