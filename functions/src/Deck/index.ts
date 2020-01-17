@@ -248,6 +248,26 @@ export default class Deck {
 			.then(deck => deck.updateAverageRating())
 	}
 	
+	static sectionIds = (deckId: string) =>
+		firestore.collection(`decks/${deckId}/sections`).listDocuments().then(docs =>
+			docs.map(({ id }) => id)
+		)
+	
+	static delete = async (deckId: string) => {
+		const currentUserIds = await Deck.currentUsers(deckId)
+		const sectionIds = await Deck.sectionIds(deckId)
+		
+		const batch = firestore.batch()
+		
+		for (const uid of currentUserIds)
+			batch.delete(firestore.doc(`users/${uid}/decks/${deckId}`))
+		
+		for (const sectionId of sectionIds)
+			batch.delete(firestore.doc(`decks/${deckId}/sections/${sectionId}`))
+		
+		return batch.commit()
+	}
+	
 	updateAverageRating = () => {
 		const sum = (
 			this.numberOf1StarRatings +
