@@ -3,6 +3,12 @@ import { initializeApp } from 'firebase-admin'
 initializeApp()
 
 export {
+	userCreated,
+	userUpdated,
+	userDeleted
+} from './User/functions'
+
+export {
 	deckCreated,
 	deckUpdated,
 	deckDeleted,
@@ -25,7 +31,5 @@ export {
 } from './Card/functions'
 
 export {
-	userCreated,
-	userUpdated,
-	userDeleted
-} from './User/functions'
+	topicDeleted
+} from './Topic/functions'
