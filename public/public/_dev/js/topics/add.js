@@ -9,9 +9,11 @@ const onAddTopicInputChange = () =>
 const addTopic = () => {
 	addTopicButton.disabled = true
 	addTopicLoadingIndicator.hidden = false
-	const id = pushid()
-	storage.child(`topics/${id}`).put(addTopicFileInput.files[0]).then(() =>
-		firestore.doc(`topics/${id}`).set({
+	
+	const documentReference = firestore.collection('topics').doc()
+	
+	storage.child(`topics/${documentReference.id}`).put(addTopicFileInput.files[0]).then(() =>
+		documentReference.set({
 			name: addTopicNameInput.value
 		})
 	).then(() => {
