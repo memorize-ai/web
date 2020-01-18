@@ -26,12 +26,12 @@ export default functions.https.onCall(async (
 	{ auth }
 ) => {
 	if (!auth)
-		return new functions.https.HttpsError('failed-precondition', 'You need to be signed in')
+		throw new functions.https.HttpsError('failed-precondition', 'You need to be signed in')
 	
 	const rating = performanceRatingFromNumber(numberRating)
 	
 	if (rating === null)
-		return new functions.https.HttpsError('invalid-argument', '"rating" must be 0, 1, or 2')
+		throw new functions.https.HttpsError('invalid-argument', '"rating" must be 0, 1, or 2')
 	
 	const now = new Date
 	const { uid } = auth
