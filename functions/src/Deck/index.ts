@@ -211,6 +211,11 @@ export default class Deck {
 		firestore.doc(`decks/${id}`).update({
 			allTimeUserCount: admin.firestore.FieldValue.increment(amount)
 		})
+	
+	static incrementDownloadCount = (deckId: string) =>
+		firestore.doc(`decks/${deckId}`).update({
+			downloadCount: admin.firestore.FieldValue.increment(1)
+		})
 		
 	numberOfDueCards = (cardUserData: CardUserData[]) =>
 		cardUserData.reduce((acc, { isDue }) =>

@@ -16,6 +16,7 @@ export default functions
 				user.addDeckToAllDecks(deckId),
 				User.incrementDeckCount(uid),
 				Deck.addUserToCurrentUsers(deckId, uid),
+				Deck.incrementDownloadCount(deckId),
 				Deck.addInitialCardsToUserNode(
 					uid,
 					deckId,
