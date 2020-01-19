@@ -1,4 +1,4 @@
-import PerformanceRating from '../PerformanceRating'
+import PerformanceRating from '../Card/PerformanceRating'
 import CardUserData from '../Card/UserData'
 
 export default class Algorithm {

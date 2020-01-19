@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions'
 
 import CardUserData from '../UserData'
 import Algorithm from '../../Algorithm'
-import PerformanceRating from '../../PerformanceRating'
+import PerformanceRating from '../PerformanceRating'
 
 export default functions.https.onCall(({ deck: deckId, card: cardId }: { deck: string, card: string }, { auth }) => {
 	if (!auth)

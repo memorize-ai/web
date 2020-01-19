@@ -6,6 +6,8 @@ enum PerformanceRating {
 
 export default PerformanceRating
 
+export type NumberPerformanceRating = 0 | 1 | 2
+
 export const performanceRatingFromNumber = (number: number) => {
 	switch (number) {
 		case 0:

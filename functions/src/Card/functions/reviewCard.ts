@@ -2,9 +2,8 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
 import Algorithm from '../../Algorithm'
-import PerformanceRating, { performanceRatingFromNumber } from '../../PerformanceRating'
+import PerformanceRating, { NumberPerformanceRating, performanceRatingFromNumber } from '../PerformanceRating'
 import CardUserData from '../UserData'
-import Deck from '../../Deck'
 import Section from '../../Section'
 
 const firestore = admin.firestore()
@@ -17,10 +16,10 @@ export default functions.https.onCall(async (
 		rating: numberRating,
 		viewTime
 	}: {
-		deck: string,
-		section: string,
-		card: string,
-		rating: 0 | 1 | 2,
+		deck: string
+		section: string
+		card: string
+		rating: NumberPerformanceRating
 		viewTime: number
 	},
 	{ auth }
@@ -43,8 +42,8 @@ export default functions.https.onCall(async (
 				? updateNewCard(cardRef, now, rating, viewTime)
 				: updateExistingCard(userData, cardRef, now, rating, viewTime)
 		),
-		Deck.decrementDueCardCount(uid, deckId),
 		firestore.doc(`users/${uid}/decks/${deckId}`).update({
+			dueCardCount: admin.firestore.FieldValue.increment(-1),
 			[sectionId === Section.unsectionedId
 				? 'unsectionedDueCardCount'
 				: `sections.${sectionId}`
