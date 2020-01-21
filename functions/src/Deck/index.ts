@@ -228,6 +228,7 @@ export default class Deck {
 		})
 	
 	static updateRating = (
+		uid: string,
 		deckId: string,
 		oldRating: number | undefined,
 		newRating: number | undefined
@@ -248,9 +249,16 @@ export default class Deck {
 			? updateData[Deck.fieldNameForRating(newRating)] = FieldValue.increment(1)
 			: updateData.ratingCount = FieldValue.increment(-1)
 		
-		return documentReference.update(updateData)
-			.then(() => Deck.fromId(deckId))
-			.then(deck => deck.updateAverageRating())
+		return Promise.all([
+			documentReference.update(updateData)
+				.then(() => Deck.fromId(deckId))
+				.then(deck => deck.updateAverageRating()),
+			User.addXP(
+				uid,
+				(newRating === undefined ? 0 : (User.xp as Record<string, number>)[`rating_${newRating}`]) -
+				(oldRating === undefined ? 0 : (User.xp as Record<string, number>)[`rating_${oldRating}`])
+			)
+		])
 	}
 	
 	static sectionIds = (deckId: string) =>

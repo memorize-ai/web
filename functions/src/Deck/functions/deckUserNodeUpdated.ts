@@ -11,6 +11,7 @@ export default functions.firestore
 	.onUpdate(({ before, after }, { params: { uid, deckId } }) =>
 		Promise.all([
 			Deck.updateRating(
+				uid,
 				deckId,
 				before.get('rating'),
 				after.get('rating')

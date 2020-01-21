@@ -5,10 +5,12 @@ import Algorithm from '../../Algorithm'
 import PerformanceRating, { NumberPerformanceRating, performanceRatingFromNumber } from '../PerformanceRating'
 import CardUserData from '../UserData'
 import Section from '../../Section'
+import Deck from '../../Deck'
+import User from '../../User'
 
 const firestore = admin.firestore()
 
-export default functions.https.onCall(async (
+export default functions.https.onCall((
 	{
 		deck: deckId,
 		section: sectionId,
@@ -36,22 +38,26 @@ export default functions.https.onCall(async (
 	const { uid } = auth
 	const cardRef = firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`)
 	
-	const [isNewlyMastered] = await Promise.all([
-		CardUserData.fromId(uid, deckId, cardId).then(userData =>
-			userData.isNew
-				? updateNewCard(cardRef, now, rating, viewTime)
-				: updateExistingCard(userData, cardRef, now, rating, viewTime)
-		),
-		firestore.doc(`users/${uid}/decks/${deckId}`).update({
-			dueCardCount: admin.firestore.FieldValue.increment(-1),
-			[sectionId === Section.unsectionedId
-				? 'unsectionedDueCardCount'
-				: `sections.${sectionId}`
-			]: admin.firestore.FieldValue.increment(-1)
-		})
-	])
+	const decrement = admin.firestore.FieldValue.increment(-1)
 	
-	return isNewlyMastered
+	firestore.doc(`users/${uid}/decks/${deckId}`).update({
+		dueCardCount: decrement,
+		[sectionId === Section.unsectionedId
+			? 'unsectionedDueCardCount'
+			: `sections.${sectionId}`
+		]: decrement
+	})
+	
+	if (Math.random() < 0.2)
+		Deck.fromId(deckId).then(deck =>
+			User.addXP(deck.creatorId, User.xp.reviewCard)
+		)
+	
+	return CardUserData.fromId(uid, deckId, cardId).then(userData =>
+		userData.isNew
+			? updateNewCard(cardRef, now, rating, viewTime)
+			: updateExistingCard(userData, cardRef, now, rating, viewTime)
+	)
 })
 
 const updateNewCard = async (

@@ -4,6 +4,17 @@ const auth = admin.auth()
 const firestore = admin.firestore()
 
 export default class User {
+	static xp = {
+		deckDownload: 1,
+		reviewCard: 1,
+		
+		rating_1: -5,
+		rating_2: -2,
+		rating_3: 1,
+		rating_4: 4,
+		rating_5: 10
+	}
+	
 	id: string
 	name: string
 	email: string
@@ -32,6 +43,14 @@ export default class User {
 	
 	static decrementDeckCount = (uid: string, amount: number = 1) =>
 		User.incrementDeckCount(uid, -amount)
+	
+	static addXP = (uid: string, amount: number = 1) =>
+		firestore.doc(`users/${uid}`).update({
+			xp: admin.firestore.FieldValue.increment(amount)
+		})
+	
+	static subtractXP = (uid: string, amount: number = 1) =>
+		User.addXP(uid, -amount)
 	
 	addDeckToAllDecks = (deckId: string) =>
 		firestore.doc(`users/${this.id}`).update({

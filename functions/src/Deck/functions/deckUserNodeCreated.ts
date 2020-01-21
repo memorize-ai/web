@@ -21,6 +21,9 @@ export default functions
 					uid,
 					deckId,
 					Object.keys(snapshot.get('sections') ?? {})
+				),
+				Deck.fromId(deckId).then(deck =>
+					User.addXP(deck.creatorId, User.xp.deckDownload)
 				)
 			])
 		)
