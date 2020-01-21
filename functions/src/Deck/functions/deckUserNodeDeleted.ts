@@ -16,7 +16,7 @@ export default functions
 			Deck.decrementCurrentUserCount(deckId),
 			User.decrementDeckCount(uid),
 			oldRating
-				? Deck.updateRating(deckId, oldRating, undefined)
+				? Deck.updateRating(uid, deckId, oldRating, undefined)
 				: Promise.resolve(null),
 			Deck.removeUserFromCurrentUsers(deckId, uid),
 			removeAllCardsAndHistory(uid, deckId)
