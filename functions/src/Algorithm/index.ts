@@ -6,7 +6,7 @@ export default class Algorithm {
 	
 	static DEFAULT_E = 2.5
 	static MINIMUM_E = 1.3
-	static MASTERED_STREAK = 20
+	static MASTERED_STREAK = 10
 	
 	static nextDueDate = (
 		rating: PerformanceRating,
