@@ -7,6 +7,7 @@ import CardUserData from '../Card/UserData'
 import Section from '../Section'
 
 const firestore = admin.firestore()
+const storage = admin.storage().bucket()
 
 export default class Deck {
 	id: string
@@ -280,6 +281,9 @@ export default class Deck {
 		
 		return batch.commit()
 	}
+	
+	static deleteAssets = (deckId: string) =>
+		Promise.resolve() // TODO: Delete assets from firebase storage
 	
 	updateAverageRating = () => {
 		const sum = (

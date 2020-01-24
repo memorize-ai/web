@@ -4,6 +4,8 @@ initializeApp({
 	storageBucket: 'memorize-ai-dev.appspot.com'
 })
 
+export { default as api } from './API'
+
 export {
 	userCreated,
 	userUpdated,
