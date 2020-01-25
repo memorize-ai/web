@@ -283,7 +283,7 @@ export default class Deck {
 	}
 	
 	static deleteAssets = (deckId: string) =>
-		Promise.resolve() // TODO: Delete assets from firebase storage
+		Promise.resolve(`${storage} ${deckId}`) // TODO: Delete assets from firebase storage
 	
 	updateAverageRating = () => {
 		const sum = (

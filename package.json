@@ -25,7 +25,10 @@
 		"postdeploy": "npm run clean",
 		
 		"deploy": "npm run predeploy && firebase deploy -P default && npm run postdeploy",
-		"deploy:dev": "npm run predeploy && firebase deploy -P dev && npm run postdeploy"
+		"deploy:dev": "npm run predeploy && firebase deploy -P dev && npm run postdeploy",
+		
+		"deploy-except-hosting": "npm run predeploy && firebase deploy -P default --except hosting && npm run postdeploy",
+		"deploy-except-hosting:dev": "npm run predeploy && firebase deploy -P dev --except hosting && npm run postdeploy"
 	},
 	"private": true
 }

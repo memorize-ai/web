@@ -1,7 +1,9 @@
 import { initializeApp } from 'firebase-admin'
 
+import { DEFAULT_STORAGE_BUCKET } from './constants'
+
 initializeApp({
-	storageBucket: 'memorize-ai-dev.appspot.com'
+	storageBucket: DEFAULT_STORAGE_BUCKET
 })
 
 export { default as api } from './API'
