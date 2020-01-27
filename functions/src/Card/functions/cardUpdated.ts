@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin'
 
 import Card from '..'
 import Deck from '../../Deck'
+import { batchWithChunks } from '../../helpers'
 
 const firestore = admin.firestore()
 
@@ -23,7 +24,7 @@ export default functions.firestore
 
 const updateUserNodeSections = (deckId: string, oldCard: Card, newCard: Card) =>
 	Deck.currentUsers(deckId).then(async currentUserIds => {
-		const batch = firestore.batch()
+		const documentReferences: FirebaseFirestore.DocumentReference[] = []
 		
 		await Promise.all(currentUserIds.map(uid =>
 			firestore
@@ -32,10 +33,13 @@ const updateUserNodeSections = (deckId: string, oldCard: Card, newCard: Card) =>
 				.get()
 				.then(({ docs }) =>
 					docs.forEach(({ ref }) =>
-						batch.update(ref, { section: newCard.sectionId })
+						documentReferences.push(ref)
 					)
 				)
 		))
 		
-		return batch.commit()
+		return batchWithChunks(documentReferences, 500, (chunk, batch) => {
+			for (const ref of chunk)
+				batch.update(ref, { section: newCard.sectionId })
+		})
 	})

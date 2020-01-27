@@ -1,5 +1,7 @@
 import * as admin from 'firebase-admin'
 
+import { batchWithChunks } from '../helpers'
+
 const firestore = admin.firestore()
 
 export default class Section {
@@ -25,12 +27,10 @@ export default class Section {
 			.collection(`decks/${deckId}/cards`)
 			.where('section', '==', this.id)
 			.get()
-			.then(({ docs: cards }) => {
-				const batch = firestore.batch()
-				
-				for (const { ref } of cards)
-					batch.delete(ref)
-				
-				return batch.commit()
-			})
+			.then(({ docs: cards }) =>
+				batchWithChunks(cards, 500, (chunk, batch) => {
+					for (const { ref } of chunk)
+						batch.delete(ref)
+				})
+			)
 }
