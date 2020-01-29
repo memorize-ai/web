@@ -25,7 +25,7 @@ const createUserNodeCards = (deckId: string, card: Card) =>
 			for (const uid of chunk) {
 				batch.set(
 					firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`),
-					{ new: true, section: card.sectionId }
+					{ new: true, section: card.sectionId, due: new Date }
 				)
 				batch.update(
 					firestore.doc(`users/${uid}/decks/${deckId}`),

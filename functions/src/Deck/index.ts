@@ -113,7 +113,7 @@ export default class Deck {
 	static addInitialCardsToUserNode = async (uid: string, deckId: string, sectionIds: string[]) => {
 		const operations: {
 			ref: FirebaseFirestore.DocumentReference
-			data: { new: boolean, section: string }
+			data: { new: boolean, section: string, due: Date }
 		}[] = []
 		
 		await firestore
@@ -124,7 +124,7 @@ export default class Deck {
 				cards.forEach(({ id: cardId }) =>
 					operations.push({
 						ref: firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
-						data: { new: true, section: Section.unsectionedId }
+						data: { new: true, section: Section.unsectionedId, due: new Date }
 					})
 				)
 			)
@@ -138,7 +138,7 @@ export default class Deck {
 					cards.forEach(({ id: cardId }) =>
 						operations.push({
 							ref: firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
-							data: { new: true, section: sectionId }
+							data: { new: true, section: sectionId, due: new Date }
 						})
 					)
 				)
@@ -149,20 +149,20 @@ export default class Deck {
 		})
 	}
 	
-	static addSectionToUserNode = (uid: string, deckId: string, sectionId: string) =>
-		firestore
+	static addSectionToUserNode = async (uid: string, deckId: string, sectionId: string) => {
+		const { docs: cards } = await firestore
 			.collection(`decks/${deckId}/cards`)
 			.where('section', '==', sectionId)
 			.get()
-			.then(({ docs: cards }) =>
-				batchWithChunks(cards, 500, (chunk, batch) => {
-					for (const { id: cardId } of chunk)
-						batch.set(
-							firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
-							{ new: true, section: sectionId }
-						)
-				})
-			)
+		
+		return batchWithChunks(cards, 500, (chunk, batch) => {
+			for (const { id: cardId } of chunk)
+				batch.set(
+					firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
+					{ new: true, section: sectionId, due: new Date }
+				)
+		})
+	}
 	
 	static cardUserData = (
 		uid: string,
