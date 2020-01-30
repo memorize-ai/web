@@ -37,15 +37,13 @@ export default functions.https.onCall((
 	const now = new Date
 	const { uid } = auth
 	const cardRef = firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`)
-	
-	const decrement = admin.firestore.FieldValue.increment(-1)
-	
+		
 	firestore.doc(`users/${uid}/decks/${deckId}`).update({
-		dueCardCount: decrement,
+		dueCardCount: admin.firestore.FieldValue.increment(-1),
 		[sectionId === Section.unsectionedId
 			? 'unsectionedDueCardCount'
 			: `sections.${sectionId}`
-		]: decrement
+		]: admin.firestore.FieldValue.increment(-1)
 	})
 	
 	if (Math.random() < 0.2)

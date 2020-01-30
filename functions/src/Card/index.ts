@@ -34,25 +34,15 @@ export default class Card {
 		return this.sectionId === Section.unsectionedId
 	}
 	
-	incrementSectionCardCount = (deckId: string) => {
-		const increment = admin.firestore.FieldValue.increment(1)
-		return this.isUnsectioned
+	incrementSectionCardCount = (deckId: string, amount: number = 1) =>
+		this.isUnsectioned
 			? firestore.doc(`decks/${deckId}`).update({
-				unsectionedCardCount: increment
+				unsectionedCardCount: admin.firestore.FieldValue.increment(amount)
 			})
 			: firestore.doc(`decks/${deckId}/sections/${this.sectionId}`).update({
-				cardCount: increment
+				cardCount: admin.firestore.FieldValue.increment(amount)
 			})
-	}
 	
-	decrementSectionCardCount = (deckId: string) => {
-		const decrement = admin.firestore.FieldValue.increment(-1)
-		return this.isUnsectioned
-			? firestore.doc(`decks/${deckId}`).update({
-				unsectionedCardCount: decrement
-			})
-			: firestore.doc(`decks/${deckId}/sections/${this.sectionId}`).update({
-				cardCount: decrement
-			})
-	}
+	decrementSectionCardCount = (deckId: string, amount: number = 1) =>
+		this.incrementSectionCardCount(deckId, -amount)
 }
