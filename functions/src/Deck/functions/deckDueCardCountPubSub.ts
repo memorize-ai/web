@@ -37,13 +37,9 @@ const updateDueCardCounts = async (uid: string, deckUserData: FirebaseFirestore.
 	})
 }
 
-const getDueCards = async (uid: string, deckId: string) => {
-	const collection = firestore.collection(`users/${uid}/decks/${deckId}/cards`)
-	
-	const [{ docs: newCards }, { docs: dueCards }] = await Promise.all([
-		collection.where('new', '==', true).get(),
-		collection.where('due', '<=', new Date).get()
-	])
-	
-	return [...newCards, ...dueCards]
-}
+const getDueCards = (uid: string, deckId: string) =>
+	firestore
+		.collection(`users/${uid}/decks/${deckId}/cards`)
+		.where('due', '<=', new Date)
+		.get()
+		.then(({ docs }) => docs)
