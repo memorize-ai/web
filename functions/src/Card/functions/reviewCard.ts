@@ -10,7 +10,7 @@ import User from '../../User'
 
 const firestore = admin.firestore()
 
-export default functions.https.onCall((
+export default functions.https.onCall(async (
 	{
 		deck: deckId,
 		section: sectionId,
@@ -51,11 +51,11 @@ export default functions.https.onCall((
 			User.addXP(deck.creatorId, User.xp.reviewCard)
 		)
 	
-	return CardUserData.fromId(uid, deckId, cardId).then(userData =>
-		userData.isNew
-			? updateNewCard(cardRef, now, rating, viewTime)
-			: updateExistingCard(userData, cardRef, now, rating, viewTime)
-	)
+	const userData = await CardUserData.fromId(uid, deckId, cardId)
+	
+	return userData.isNew
+		? updateNewCard(cardRef, now, rating, viewTime)
+		: updateExistingCard(userData, cardRef, now, rating, viewTime)
 })
 
 const updateNewCard = async (
