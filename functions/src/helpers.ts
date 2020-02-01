@@ -3,15 +3,16 @@ import * as _ from 'lodash'
 
 const firestore = admin.firestore()
 
-export const batchWithChunks = <T>(
+export const batchWithChunks = async <T>(
 	array: T[],
 	chunkSize: number,
 	each: (chunk: T[], batch: FirebaseFirestore.WriteBatch) => void
-) =>
-	Promise.all(_.chunk(array, chunkSize).map(chunk => {
+) => {
+	for (const chunk of _.chunk(array, chunkSize)) {
 		const batch = firestore.batch()
 		
 		each(chunk, batch)
 		
-		return batch.commit()
-	}))
+		await batch.commit()
+	}
+}
