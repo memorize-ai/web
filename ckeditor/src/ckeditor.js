@@ -27,7 +27,6 @@ import Highlight from '@ckeditor/ckeditor5-highlight/src/highlight'
 import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline'
 import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize'
 import IndentBlock from '@ckeditor/ckeditor5-indent/src/indentblock'
-import MathType from '@wiris/mathtype-ckeditor5'
 import MediaEmbedToolbar from '@ckeditor/ckeditor5-media-embed/src/mediaembedtoolbar'
 import RemoveFormat from '@ckeditor/ckeditor5-remove-format/src/removeformat'
 import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough'
@@ -36,6 +35,7 @@ import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript'
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline'
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials'
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph'
+import Latex from 'ckeditor5-latex/src/latex'
 
 export default class Editor extends ClassicEditor {}
 
@@ -68,7 +68,6 @@ Editor.builtinPlugins = [
 	HorizontalLine,
 	ImageResize,
 	IndentBlock,
-	MathType,
 	MediaEmbedToolbar,
 	RemoveFormat,
 	Strikethrough,
@@ -76,7 +75,8 @@ Editor.builtinPlugins = [
 	Subscript,
 	Underline,
 	Essentials,
-	Paragraph
+	Paragraph,
+	Latex
 ]
 
 Editor.defaultConfig = {
@@ -102,7 +102,8 @@ Editor.defaultConfig = {
 			'insertTable',
 			'codeBlock',
 			'code',
-			'MathType',
+			'insertInlineLatex',
+			'insertCenteredLatex',
 			'|',
 			'indent',
 			'outdent',
