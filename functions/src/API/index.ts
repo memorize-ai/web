@@ -16,25 +16,23 @@ export default functions.https.onRequest(app)
 app.use(cors())
 
 app.post(`/${API_PREFIX}/upload-deck-asset`, async (
-	{ query: { deck: deckId }, body: data }: { query: { deck: string }, body: FormData },
+	{ query: { deck: deckId, type }, body: file }: { query: { deck: string, type: string }, body: Buffer },
 	res
 ) => {
-	if (!deckId) {
+	if (!(deckId && type)) {
 		res.json({
 			error: {
-				message: 'Invalid query parameters. You must specify the "deck" that this asset belongs to.'
+				message: 'Invalid query parameters. Required: "deck", "type"'
 			}
 		})
 		
 		return
 	}
 	
-	const file = data?.get('upload')
-	
-	if (!(file && typeof file === 'object')) {
+	if (!(typeof file === 'object')) {
 		res.json({
 			error: {
-				message: 'Invalid form data. "upload" is either missing or not a File.'
+				message: 'Invalid image data'
 			}
 		})
 		
@@ -50,7 +48,7 @@ app.post(`/${API_PREFIX}/upload-deck-asset`, async (
 			.save(file, {
 				public: true,
 				metadata: {
-					contentType: file.type,
+					contentType: type,
 					owner: ACCOUNT_ID,
 					metadata: {
 						firebaseStorageDownloadTokens: token
