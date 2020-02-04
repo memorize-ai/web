@@ -73,7 +73,7 @@ class Adapter {
 	upload() {
 		return this.loader.file.then(file =>
 			new Promise((resolve, reject) => {
-				this._initRequest(file)
+				this._initRequest()
 				this._initListeners(resolve, reject, file)
 				this._sendRequest(file)
 			})
@@ -85,20 +85,15 @@ class Adapter {
 			this.xhr.abort()
 	}
 	
-	_initRequest(file) {
+	_initRequest() {
 		const xhr = this.xhr = new XMLHttpRequest()
 		
-		xhr.open(
-			'POST',
-			this.options.uploadUrl.replace(/\{type\}/g, file.type),
-			true
-		)
+		xhr.open('POST', this.options.uploadUrl, true)
 		xhr.responseType = 'json'
 	}
 	
 	_initListeners(resolve, reject, file) {
-		const xhr = this.xhr
-		const loader = this.loader
+		const { xhr, loader } = this
 		const genericErrorText = `Couldn't upload file: ${file.name}.`
 		
 		xhr.addEventListener('error', () => reject(genericErrorText))
@@ -134,11 +129,7 @@ class Adapter {
 			this.xhr.setRequestHeader(headerName, headers[headerName])
 		
 		const data = new FormData
-		
 		data.append('upload', file)
-		
-		console.log(file, data)
-		window.file = file
 		
 		this.xhr.send(data)
 	}
