@@ -16,15 +16,18 @@
 	"main": "lib/src/index.js",
 	"dependencies": {
 		"@elastic/app-search-node": "^7.5.0",
-		"brain.js": "^2.0.0-alpha.12",
+		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"firebase-admin": "^8.9.2",
 		"firebase-functions": "^3.3.0",
-		"lodash": "^4.17.15"
+		"lodash": "^4.17.15",
+		"uuid": "^3.4.0"
 	},
 	"devDependencies": {
+		"@types/cors": "^2.8.6",
 		"@types/jest": "^24.9.1",
 		"@types/lodash": "^4.14.149",
+		"@types/uuid": "^3.4.7",
 		"jest": "^24.9.0",
 		"tslint": "^5.20.1",
 		"typescript": "^3.7.5"

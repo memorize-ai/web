@@ -16,7 +16,6 @@ import Table from '@ckeditor/ckeditor5-table/src/table'
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar'
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment'
 import Autosave from '@ckeditor/ckeditor5-autosave/src/autosave'
-import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter'
 import Code from '@ckeditor/ckeditor5-basic-styles/src/code'
 import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock'
 import FontBackgroundColor from '@ckeditor/ckeditor5-font/src/fontbackgroundcolor'
@@ -36,6 +35,114 @@ import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline'
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials'
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph'
 import Latex from 'ckeditor5-latex/src/latex'
+
+import Plugin from '@ckeditor/ckeditor5-core/src/plugin'
+import FileRepository from '@ckeditor/ckeditor5-upload/src/filerepository'
+import { attachLinkToDocumentation } from '@ckeditor/ckeditor5-utils/src/ckeditorerror'
+
+class SimpleUploadAdapter extends Plugin {
+	static get requires() {
+		return [FileRepository]
+	}
+	
+	static get pluginName() {
+		return 'SimpleUploadAdapter'
+	}
+	
+	init() {
+		const options = this.editor.config.get('simpleUpload') || {}
+		
+		if (!options.uploadUrl) {
+			console.warn(attachLinkToDocumentation(
+				'simple-upload-adapter-missing-uploadUrl: Missing the "uploadUrl" property in the "simpleUpload" editor configuration.'
+			))
+			return
+		}
+		
+		this.editor.plugins.get(FileRepository).createUploadAdapter = loader =>
+			new Adapter(loader, options)
+	}
+}
+
+class Adapter {
+	constructor(loader, options) {
+		this.loader = loader
+		this.options = options
+	}
+	
+	upload() {
+		return this.loader.file.then(file =>
+			new Promise((resolve, reject) => {
+				this._initRequest(file)
+				this._initListeners(resolve, reject, file)
+				this._sendRequest(file)
+			})
+		)
+	}
+	
+	abort() {
+		if (this.xhr)
+			this.xhr.abort()
+	}
+	
+	_initRequest(file) {
+		const xhr = this.xhr = new XMLHttpRequest()
+		
+		xhr.open(
+			'POST',
+			this.options.uploadUrl.replace(/\{type\}/g, file.type),
+			true
+		)
+		xhr.responseType = 'json'
+	}
+	
+	_initListeners(resolve, reject, file) {
+		const xhr = this.xhr
+		const loader = this.loader
+		const genericErrorText = `Couldn't upload file: ${file.name}.`
+		
+		xhr.addEventListener('error', () => reject(genericErrorText))
+		xhr.addEventListener('abort', () => reject())
+		xhr.addEventListener('load', () => {
+			const { response } = xhr
+			
+			if (!response || response.error) {
+				return reject(
+					response && response.error && response.error.message
+						? response.error.message
+						: genericErrorText
+				)
+			}
+			
+			resolve(response.url ? { default: response.url } : response.urls)
+		})
+		
+		if (xhr.upload) {
+			xhr.upload.addEventListener('progress', evt => {
+				if (evt.lengthComputable) {
+					loader.uploadTotal = evt.total
+					loader.uploaded = evt.loaded
+				}
+			})
+		}
+	}
+	
+	_sendRequest(file) {
+		const headers = this.options.headers || {}
+		
+		for (const headerName of Object.keys(headers))
+			this.xhr.setRequestHeader(headerName, headers[headerName])
+		
+		const data = new FormData
+		
+		data.append('upload', file)
+		
+		console.log(file, data)
+		window.file = file
+		
+		this.xhr.send(data)
+	}
+}
 
 export default class Editor extends ClassicEditor {}
 
@@ -57,7 +164,7 @@ Editor.builtinPlugins = [
 	TableToolbar,
 	Alignment,
 	Autosave,
-	Base64UploadAdapter,
+	SimpleUploadAdapter,
 	Code,
 	CodeBlock,
 	FontBackgroundColor,
@@ -80,6 +187,7 @@ Editor.builtinPlugins = [
 ]
 
 Editor.defaultConfig = {
+	language: 'en',
 	toolbar: {
 		items: [
 			'heading',
@@ -120,6 +228,15 @@ Editor.defaultConfig = {
 			'imageTextAlternative',
 			'imageStyle:full',
 			'imageStyle:side'
+		],
+		types: [
+			'jpeg',
+			'png',
+			'gif',
+			'bmp',
+			'webp',
+			'tiff',
+			'heic'
 		]
 	},
 	table: {
@@ -128,6 +245,5 @@ Editor.defaultConfig = {
 			'tableRow',
 			'mergeTableCells'
 		]
-	},
-	language: 'en'
+	}
 }

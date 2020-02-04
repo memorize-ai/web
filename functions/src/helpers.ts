@@ -1,6 +1,8 @@
 import * as admin from 'firebase-admin'
 import * as _ from 'lodash'
 
+import { DEFAULT_STORAGE_BUCKET } from './constants'
+
 const firestore = admin.firestore()
 
 export const batchWithChunks = async <T>(
@@ -16,3 +18,6 @@ export const batchWithChunks = async <T>(
 		await batch.commit()
 	}
 }
+
+export const storageUrl = (pathComponents: string[], token: string) =>
+	`https://firebasestorage.googleapis.com/v0/b/${DEFAULT_STORAGE_BUCKET}/o/${pathComponents.join('%2F')}?alt=media&token=${token}`

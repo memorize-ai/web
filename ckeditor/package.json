@@ -12,6 +12,7 @@
 		"@ckeditor/ckeditor5-basic-styles": "^16.0.0",
 		"@ckeditor/ckeditor5-block-quote": "^16.0.0",
 		"@ckeditor/ckeditor5-code-block": "^16.0.0",
+		"@ckeditor/ckeditor5-core": "^16.0.0",
 		"@ckeditor/ckeditor5-dev-utils": "^12.0.6",
 		"@ckeditor/ckeditor5-dev-webpack-plugin": "^8.0.6",
 		"@ckeditor/ckeditor5-editor-classic": "^16.0.0",
@@ -29,6 +30,7 @@
 		"@ckeditor/ckeditor5-table": "^16.0.0",
 		"@ckeditor/ckeditor5-theme-lark": "^16.0.0",
 		"@ckeditor/ckeditor5-upload": "^16.0.0",
+		"@ckeditor/ckeditor5-utils": "^16.0.0",
 		"ckeditor5-latex": "^1.0.3",
 		"postcss-loader": "^3.0.0",
 		"raw-loader": "^3.1.0",
@@ -38,6 +40,6 @@
 		"webpack-cli": "^3.3.10"
 	},
 	"scripts": {
-		"build": "webpack --mode production"
+		"build": "rm -rf build && webpack --mode production"
 	}
 }
