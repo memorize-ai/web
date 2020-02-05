@@ -5,11 +5,22 @@ service firebase.storage {
 		match /topics/{topic} {
 			allow read
 		}
+		
 		match /decks/{deck} {
-			allow read, create, update
+			allow read
+			allow create, update: if uid() == metadata().owner
 		}
+		
 		match /deck-assets/{deck}/{asset} {
 			allow read
+		}
+		
+		function uid() {
+			return request.auth.uid
+		}
+		
+		function metadata() {
+			return request.resource.metadata
 		}
 	}
 }
