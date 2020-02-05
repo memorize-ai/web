@@ -34,7 +34,7 @@ import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript'
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline'
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials'
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph'
-import Latex from 'ckeditor5-latex/src/latex'
+import Latex from 'ckeditor5-latex'
 
 import Plugin from '@ckeditor/ckeditor5-core/src/plugin'
 import FileRepository from '@ckeditor/ckeditor5-upload/src/filerepository'

@@ -31,7 +31,7 @@
 		"@ckeditor/ckeditor5-theme-lark": "^16.0.0",
 		"@ckeditor/ckeditor5-upload": "^16.0.0",
 		"@ckeditor/ckeditor5-utils": "^16.0.0",
-		"ckeditor5-latex": "^1.0.3",
+		"ckeditor5-latex": "^1.0.4",
 		"postcss-loader": "^3.0.0",
 		"raw-loader": "^3.1.0",
 		"style-loader": "^1.1.3",
