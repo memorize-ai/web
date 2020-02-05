@@ -16,7 +16,6 @@
 		"no-invalid-this": true,
 		"no-string-throw": true,
 		"no-unsafe-finally": true,
-		"no-void-expression": [true, "ignore-arrow-function-shorthand"],
 		"no-duplicate-imports": true,
 		"no-empty-interface": { "severity": "warning" },
 		"no-var-keyword": { "severity": "warning" },

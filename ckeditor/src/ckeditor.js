@@ -73,9 +73,8 @@ class Adapter {
 	upload() {
 		return this.loader.file.then(file =>
 			new Promise((resolve, reject) => {
-				this._initRequest(file)
+				this._initRequest()
 				this._initListeners(resolve, reject, file)
-				
 				return this._sendRequest(file)
 			})
 		)
@@ -86,14 +85,10 @@ class Adapter {
 			this.xhr.abort()
 	}
 	
-	_initRequest(file) {
+	_initRequest() {
 		const xhr = this.xhr = new XMLHttpRequest()
 		
-		xhr.open(
-			'POST',
-			this.options.uploadUrl.replace(/\{\{__TYPE__\}\}/g, file.type),
-			true
-		)
+		xhr.open('POST', this.options.uploadUrl, true)
 		xhr.responseType = 'json'
 	}
 	
@@ -135,17 +130,17 @@ class Adapter {
 			this.xhr.setRequestHeader(headerName, headers[headerName])
 		
 		return new Promise((resolve, reject) => {
-			const reader = new FileReader()
+			const reader = new FileReader
 			
-			reader.onload = ({ target: { result } }) => {
-				this.xhr.send(new Blob([new Uint8Array(result)], { type: file.type }))				
+			reader.onload = () => {
+				this.xhr.send(reader.result)
 				resolve()
 			}
 			
 			reader.onerror = () =>
 				reject(genericErrorText)
 			
-			reader.readAsArrayBuffer(file)
+			reader.readAsDataURL(file)
 		})
 	}
 }

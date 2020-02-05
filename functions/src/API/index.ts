@@ -16,39 +16,41 @@ export default functions.https.onRequest(app)
 app.use(cors())
 
 app.post(`/${API_PREFIX}/upload-deck-asset`, async (
-	{ query: { deck: deckId, type }, body: file }: { query: { deck: string, type: string }, body: Buffer },
+	{ query: { deck: deckId }, body: rawDataString }: { query: { deck: string }, body: string },
 	res
 ) => {
-	if (!(deckId && type)) {
+	const sendError = (message: string) =>
 		res.json({
-			error: {
-				message: 'Invalid query parameters. Required: "deck", "type"'
-			}
+			error: { message }
 		})
-		
+	
+	if (!deckId) {
+		sendError('Invalid query parameters. Required: "deck"')
 		return
 	}
 	
-	if (!(typeof file === 'object')) {
-		res.json({
-			error: {
-				message: 'Invalid image data'
-			}
-		})
-		
+	if (typeof rawDataString !== 'string') {
+		sendError('You must send a base64 encoded string as a body')
+		return
+	}
+	
+	const contentTypeMatch = rawDataString.match(/data\:(.+?);base64,/)
+	
+	if (!contentTypeMatch) {
+		sendError('Invalid image data')
 		return
 	}
 	
 	const token = uuid()
 	const { id } = firestore.collection('deck-assets').doc()
-		
+	
 	try {
 		await storage
 			.file(`deck-assets/${deckId}/${id}`)
-			.save(file, {
+			.save(new Buffer(rawDataString.replace(contentTypeMatch[0], ''), 'base64'), {
 				public: true,
 				metadata: {
-					contentType: type,
+					contentType: contentTypeMatch[1],
 					owner: ACCOUNT_ID,
 					metadata: {
 						firebaseStorageDownloadTokens: token
