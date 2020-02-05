@@ -11,7 +11,7 @@
 		"update:public": "npm update -C public",
 		"update:functions": "npm update -C functions",
 		
-		"clean": "rm -rf .firebase *.log && npm run clean:public && npm run clean:functions",
+		"clean": "rm -rf .firebase *.log && rm -rf ckeditor/build && npm run clean:public && npm run clean:functions",
 		"clean:public": "rm -rf public/build",
 		"clean:functions": "rm -rf functions/lib",
 		
