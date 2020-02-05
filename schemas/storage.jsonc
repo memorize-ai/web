@@ -1,8 +1,13 @@
 {
 	"topics (folder)": {
-		"ab23D8da": "IMAGE_DATA" // Same ID as in Firestore
+		"ab23D8da": "IMAGE_DATA" // Topic ID : Topic image
 	},
 	"decks (folder)": {
-		"a3gsb2D3n": "IMAGE_DATA" // Same ID as in Firestore
+		"a3gsb2D3n": "IMAGE_DATA" // Deck ID : Deck image
+	},
+	"deck-assets (folder)": {
+		"a3gsb2D3n (folder)": { // Deck ID
+			"a3gsb2D3as2n": "DATA" // Asset ID : Data
+		}
 	}
 }
