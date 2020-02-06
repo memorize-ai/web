@@ -24,16 +24,16 @@ service cloud.firestore {
 		
 		match /decks/{deck} {
 			allow read
-			allow write: if signedInWith(data().creator)
+			allow write: if signedInWith(oldData().creator)
 			
 			match /sections/{section} {
 				allow read
-				allow write: if signedInWith(data().creator)
+				allow write: if signedInWith(getDeck(deck).creator)
 			}
 			
 			match /cards/{card} {
 				allow read
-				allow write: if signedInWith(data().creator)
+				allow write: if signedInWith(getDeck(deck).creator)
 			}
 		}
 		
@@ -47,6 +47,14 @@ service cloud.firestore {
 		
 		function data() {
 			return request.resource.data
+		}
+		
+		function oldData() {
+			return resource.data
+		}
+		
+		function getDeck(deck) {
+			return get(/databases/$(database)/documents/decks/$(deck)).data
 		}
 	}
 }
