@@ -2,8 +2,51 @@ rules_version = '2'
 
 service cloud.firestore {
 	match /databases/{database}/documents {
-		match /{document=**} {
-			allow read, write
+		match /users/{user} {
+			allow read, create, update: if signedInWith(user)
+			
+			match /decks/{deck} {
+				allow read, write: if signedInWith(user)
+				
+				match /drafts/{draft} {
+					allow read, write: if signedInWith(user)
+				}
+				
+				match /cards/{card} {
+					allow read: if signedInWith(user)
+				}
+			}
+		}
+		
+		match /topics/{topic} {
+			allow read
+		}
+		
+		match /decks/{deck} {
+			allow read
+			allow write: if signedInWith(data().creator)
+			
+			match /sections/{section} {
+				allow read
+				allow write: if signedInWith(data().creator)
+			}
+			
+			match /cards/{card} {
+				allow read
+				allow write: if signedInWith(data().creator)
+			}
+		}
+		
+		function signedIn() {
+			return request.auth != null
+		}
+		
+		function signedInWith(uid) {
+			return signedIn() && request.auth.uid == uid
+		}
+		
+		function data() {
+			return request.resource.data
 		}
 	}
 }

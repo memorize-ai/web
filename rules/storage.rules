@@ -8,15 +8,19 @@ service firebase.storage {
 		
 		match /decks/{deck} {
 			allow read
-			allow create, update: if uid() == metadata().owner
+			allow create, update: if signedInWith(metadata().owner)
 		}
 		
 		match /deck-assets/{deck}/{asset} {
 			allow read
 		}
 		
-		function uid() {
-			return request.auth.uid
+		function signedIn() {
+			return request.auth != null
+		}
+		
+		function signedInWith(uid) {
+			return signedIn() && request.auth.uid == uid
 		}
 		
 		function metadata() {
