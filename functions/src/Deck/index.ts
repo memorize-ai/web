@@ -100,16 +100,6 @@ export default class Deck {
 			docs.map(({ id }) => id)
 		)
 	
-	static numberOfDueCards = (deckId: string, cardUserData: CardUserData[], cache: Record<string, Deck>) => {
-		const cachedDeck = cache[deckId]
-		
-		return cachedDeck
-			? Promise.resolve(cachedDeck.numberOfDueCards(cardUserData))
-			: Deck.fromId(deckId).then(deck =>
-				(cache[deckId] = deck).numberOfDueCards(cardUserData)
-			)
-	}
-	
 	static addInitialCardsToUserNode = async (uid: string, deckId: string, sectionIds: string[]) => {
 		const operations: {
 			ref: FirebaseFirestore.DocumentReference
@@ -164,28 +154,6 @@ export default class Deck {
 		})
 	}
 	
-	static cardUserData = (
-		uid: string,
-		deckId: string,
-		cache: Record<string, Card>
-	) =>
-		firestore.collection(`users/${uid}/decks/${deckId}/cards`).get().then(({ docs }) =>
-			Promise.all(docs.map(async doc => {
-				const cardId = doc.id
-				
-				const card = cache[cardId]
-					?? await Card.fromId(cardId, deckId)
-				
-				if (!cache[cardId])
-					cache[cardId] = card
-				
-				return {
-					card,
-					userData: new CardUserData(doc)
-				}
-			}))
-		)
-	
 	static incrementCardCount = (deckId: string, amount: number = 1) =>
 		firestore.doc(`decks/${deckId}`).update({
 			cardCount: admin.firestore.FieldValue.increment(amount)
@@ -222,11 +190,6 @@ export default class Deck {
 		firestore.doc(`decks/${deckId}`).update({
 			downloadCount: admin.firestore.FieldValue.increment(1)
 		})
-		
-	numberOfDueCards = (cardUserData: CardUserData[]) =>
-		cardUserData.reduce((acc, { isDue }) =>
-			acc - (isDue ? 0 : 1)
-		, this.numberOfCards)
 	
 	updateLastUpdated = () =>
 		firestore.doc(`decks/${this.id}`).update({

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Heading, Box, Columns, Button } from 'react-bulma-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock, faCheck, faUnlock, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
@@ -7,66 +7,71 @@ import { faEnvelope, faLock, faCheck, faUnlock, faSignOutAlt } from '@fortawesom
 import firebase from '../firebase'
 import LoadingState from '../LoadingState'
 import useDeck from '../hooks/useDeck'
-import useSection from '../hooks/useSection'
 import useCurrentUser from '../hooks/useCurrentUser'
 
 import 'firebase/auth'
 import 'firebase/firestore'
-import '../scss/UnlockSection.scss'
-
-const __DECK_NOT_OWNED__ = '__DECK_NOT_OWNED__'
+import '../scss/GetDeck.scss'
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()
 
 export default () => {
-	const { deckId, sectionId } = useParams()
+	const { deckId } = useParams()
 	
 	const deck = useDeck(deckId ?? '')
-	const section = useSection(deckId ?? '', sectionId ?? '')
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
 	
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	
-	const [unlockLoadingState, setUnlockLoadingState] = useState(LoadingState.None)
+	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	const [signOutLoadingState, setSignOutLoadingState] = useState(LoadingState.None)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
 	
 	useEffect(() => void (async () => {
-		if (!(currentUser && deckId && sectionId && section))
+		if (!(currentUser && deckId && deck))
 			return
 		
-		setUnlockLoadingState(LoadingState.Loading)
+		setGetLoadingState(LoadingState.Loading)
 		setErrorMessage(null)
 		
+		const ref = firestore.doc(`users/${currentUser.uid}/decks/${deckId}`)
+		
 		try {
-			const userDocument = await firestore
-				.doc(`users/${currentUser.uid}/decks/${deckId}`)
-				.get()
+			if ((await ref.get()).exists)
+				throw new Error('You already own this deck!')
 			
-			if (!userDocument.exists)
-				throw new Error(__DECK_NOT_OWNED__)
+			const { docs: [firstSection] } = await firestore
+					.collection(`decks/${deckId}/sections`)
+					.where('index', '==', 0)
+					.get()
 			
-			if ((userDocument.get('sections') ?? {})[sectionId] !== undefined)
-				throw new Error(`${section.name} has already been unlocked!`)
+			const { unsectionedCardCount } = deck
+			const firstSectionCardCount = firstSection?.get('cardCount') ?? 0
+			const unlockedCardCount = unsectionedCardCount + firstSectionCardCount
 			
-			await userDocument.ref.update({
-				dueCardCount: firebase.firestore.FieldValue.increment(section.cardCount ?? 0),
-				unlockedCardCount: firebase.firestore.FieldValue.increment(section.cardCount ?? 0),
-				[`sections.${sectionId}`]: section.cardCount ?? 0
-			})
+			await ref
+				.set({
+					added: firebase.firestore.FieldValue.serverTimestamp(),
+					dueCardCount: unlockedCardCount,
+					unsectionedDueCardCount: unsectionedCardCount,
+					unlockedCardCount,
+					sections: firstSection
+						? { [firstSection.id]: firstSectionCardCount }
+						: {}
+				})
 			
-			setUnlockLoadingState(LoadingState.Success)
+			setGetLoadingState(LoadingState.Success)
 			setErrorMessage(null)
 		} catch (error) {
-			setUnlockLoadingState(LoadingState.Fail)
+			setGetLoadingState(LoadingState.Fail)
 			setErrorMessage(error.message)
 		}
-	})(), [currentUser, deckId, sectionId, section])
+	})(), [currentUser, deckId, deck])
 	
 	const signOut = async () => {
-		setUnlockLoadingState(LoadingState.None)
+		setGetLoadingState(LoadingState.None)
 		setSignOutLoadingState(LoadingState.Loading)
 		setErrorMessage(null)
 		
@@ -82,13 +87,13 @@ export default () => {
 	}
 	
 	return (
-		<div id="unlock-section">
+		<div id="get-deck">
 			<Heading textColor="white">{deck?.name}</Heading>
 			<Columns>
 				<Columns.Column size="half" offset="one-quarter">
 					{currentUserLoadingState !== LoadingState.None && (
 						<Box id="content-box">
-							<Heading>Unlock {section?.name}</Heading>
+							<Heading>Get {deck?.name}</Heading>
 							<hr />
 							{currentUser
 								? null
@@ -127,37 +132,26 @@ export default () => {
 							}
 							<div id="buttons">
 								{errorMessage
-									? (
-										<div id="error-message">
-											{errorMessage === __DECK_NOT_OWNED__ && deckId
-												? (
-													<Link to={`/d/${deckId}/g`}>
-														Click here to get {deck?.name}
-													</Link>
-												)
-												: errorMessage
-											}
-										</div>
-									)
+									? <div id="error-message">{errorMessage}</div>
 									: (
 										<Button
-											id="unlock-button"
+											id="get-button"
 											className="is-info"
 											outlined
-											loading={unlockLoadingState === LoadingState.Loading}
-											disabled={!(email && password) || unlockLoadingState === LoadingState.Success}
+											loading={getLoadingState === LoadingState.Loading}
+											disabled={!(email && password) || getLoadingState === LoadingState.Success}
 											onClick={() => {
-												setUnlockLoadingState(LoadingState.Loading)
+												setGetLoadingState(LoadingState.Loading)
 												
 												auth.signInWithEmailAndPassword(email, password)
 													.catch(error => {
-														setUnlockLoadingState(LoadingState.Fail)
+														setGetLoadingState(LoadingState.Fail)
 														setErrorMessage(error.message)
 													})
 											}}
 										>
 											<FontAwesomeIcon
-												icon={unlockLoadingState === LoadingState.Success ? faCheck : faUnlock}
+												icon={getLoadingState === LoadingState.Success ? faCheck : faUnlock}
 											/>
 										</Button>
 									)
