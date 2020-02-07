@@ -2,8 +2,6 @@ import * as admin from 'firebase-admin'
 
 import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
 import User from '../User'
-import Card from '../Card'
-import CardUserData from '../Card/UserData'
 import Section from '../Section'
 import { batchWithChunks } from '../helpers'
 
