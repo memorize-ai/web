@@ -1,0 +1,11 @@
+{
+	"name": "ios-libraries",
+	"devDependencies": {
+		"babel-minify": "^0.5.1",
+		"uglifycss": "0.0.29"
+	},
+	"scripts": {
+		"build": "rm -rf lib && node ."
+	},
+	"private": true
+}
