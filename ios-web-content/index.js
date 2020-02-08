@@ -40,11 +40,11 @@ for (const bundle of ['display', 'editor']) {
 	const { css, js } = tree[bundle]
 	
 	writeFile(
-		join(__dirname, `lib/${bundle}/${bundle}.css`),
+		join(__dirname, `lib/${bundle}/index.css`),
 		minifyCss(css.join('\n'))
 	)
 	writeFile(
-		join(__dirname, `lib/${bundle}/${bundle}.js`),
+		join(__dirname, `lib/${bundle}/index.js`),
 		minifyJs(js.join('\n'), { mangle: false }).code || ''
 	)
 }
