@@ -10,7 +10,7 @@ const minifyJs = require('babel-minify')
 
 mkdir(join(__dirname, 'lib'))
 
-const tree = {
+const bundles = {
 	display: {
 		css: [
 			readFile(join(__dirname, 'src/display/css/ckeditor-content-styles.css')).toString(),
@@ -37,7 +37,7 @@ const tree = {
 for (const bundle of ['display', 'editor']) {
 	mkdir(join(__dirname, `lib/${bundle}`))
 	
-	const { css, js } = tree[bundle]
+	const { css, js } = bundles[bundle]
 	
 	writeFile(
 		join(__dirname, `lib/${bundle}/index.css`),
