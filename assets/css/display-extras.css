@@ -1,0 +1,15 @@
+@font-face {
+	font-family: Muli;
+	src: url('Muli-Regular.ttf') format('truetype');
+}
+body {
+	font-family: Muli, Arial, Helvetica, sans-serif;
+	margin-left: 12px;
+	margin-right: 12px;
+}
+img {
+	max-width: calc(100vw - 12px * 2);
+}
+:focus {
+	outline: none;
+}
