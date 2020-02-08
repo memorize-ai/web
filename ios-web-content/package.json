@@ -1,5 +1,5 @@
 {
-	"name": "ios-libraries",
+	"name": "ios-web-content",
 	"devDependencies": {
 		"babel-minify": "^0.5.1",
 		"uglifycss": "0.0.29"
