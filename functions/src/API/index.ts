@@ -4,8 +4,8 @@ import * as express from 'express'
 import * as cors from 'cors'
 import * as uuid from 'uuid/v4'
 
-import { API_PREFIX, ACCOUNT_ID } from '../constants'
-import { storageUrl } from '../helpers'
+import { API_PREFIX } from '../constants'
+import { storageUrl } from '../Utils'
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket()
@@ -15,8 +15,16 @@ export default functions.https.onRequest(app)
 
 app.use(cors())
 
+interface UploadDeckAssetRequest {
+	query: {
+		user: string
+		deck: string
+	}
+	body: string
+}
+
 app.post(`/${API_PREFIX}/upload-deck-asset`, async (
-	{ query: { deck: deckId }, body: rawDataString }: { query: { deck: string }, body: string },
+	{ query: { user: uid, deck: deckId }, body: rawDataString }: UploadDeckAssetRequest,
 	res
 ) => {
 	const sendError = (message: string) =>
@@ -24,8 +32,8 @@ app.post(`/${API_PREFIX}/upload-deck-asset`, async (
 			error: { message }
 		})
 	
-	if (!deckId) {
-		sendError('Invalid query parameters. Required: "deck"')
+	if (!(typeof uid === 'string' && typeof deckId === 'string')) {
+		sendError('Invalid query parameters. Required: "user", "deck"')
 		return
 	}
 	
@@ -51,7 +59,7 @@ app.post(`/${API_PREFIX}/upload-deck-asset`, async (
 				public: true,
 				metadata: {
 					contentType: contentTypeMatch[1],
-					owner: ACCOUNT_ID,
+					owner: uid,
 					metadata: {
 						firebaseStorageDownloadTokens: token
 					}

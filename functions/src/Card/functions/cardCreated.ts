@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin'
 
 import Card from '..'
 import Deck from '../../Deck'
-import { batchWithChunks } from '../../helpers'
+import Batch from '../../Utils/Batch'
 
 const firestore = admin.firestore()
 
@@ -20,17 +20,19 @@ export default functions.firestore
 	})
 
 const createUserNodeCards = (deckId: string, card: Card) =>
-	Deck.currentUsers(deckId).then(currentUserIds =>
-		batchWithChunks(currentUserIds, 250, (chunk, batch) => {
-			for (const uid of chunk) {
-				batch.set(
-					firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`),
-					{ new: true, section: card.sectionId, due: new Date }
-				)
-				batch.update(
-					firestore.doc(`users/${uid}/decks/${deckId}`),
-					{ unlockedCardCount: admin.firestore.FieldValue.increment(1) }
-				)
-			}
-		})
-	)
+	Deck.currentUsers(deckId).then(currentUserIds => {
+		const batch = new Batch
+		
+		for (const uid of currentUserIds) {
+			batch.set(
+				firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`),
+				{ new: true, section: card.sectionId, due: new Date }
+			)
+			batch.update(
+				firestore.doc(`users/${uid}/decks/${deckId}`),
+				{ unlockedCardCount: admin.firestore.FieldValue.increment(1) }
+			)
+		}
+		
+		return batch.commit()
+	})

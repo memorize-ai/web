@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin'
 
 import Deck from '..'
 import User from '../../User'
-import { batchWithChunks } from '../../helpers'
+import Batch from '../../Utils/Batch'
 
 const firestore = admin.firestore()
 
@@ -26,20 +26,14 @@ export default functions
 
 const removeAllCardsAndHistory = (uid: string, deckId: string) =>
 	firestore.collection(`users/${uid}/decks/${deckId}/cards`).listDocuments().then(async cards => {
-		const documentReferences: FirebaseFirestore.DocumentReference[] = []
+		const batch = new Batch
 		
 		for (const card of cards) {
-			documentReferences.push(card)
+			batch.delete(card)
 			
-			const historyNodes = await card.collection('history').listDocuments()
-			
-			historyNodes.forEach(historyNode =>
-				documentReferences.push(historyNode)
-			)
+			;(await card.collection('history').listDocuments())
+				.forEach(batch.delete)
 		}
 		
-		return batchWithChunks(documentReferences, 500, (chunk, batch) => {
-			for (const ref of chunk)
-				batch.delete(ref)
-		})
+		return batch.commit()
 	})

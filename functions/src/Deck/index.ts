@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin'
 import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
 import User from '../User'
 import Section from '../Section'
-import { batchWithChunks } from '../helpers'
+import Batch from '../Utils/Batch'
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket()
@@ -99,10 +99,7 @@ export default class Deck {
 		)
 	
 	static addInitialCardsToUserNode = async (uid: string, deckId: string, sectionIds: string[]) => {
-		const operations: {
-			ref: FirebaseFirestore.DocumentReference
-			data: { new: boolean, section: string, due: Date }
-		}[] = []
+		const batch = new Batch
 		
 		await firestore
 			.collection(`decks/${deckId}/cards`)
@@ -110,10 +107,10 @@ export default class Deck {
 			.get()
 			.then(({ docs: cards }) =>
 				cards.forEach(({ id: cardId }) =>
-					operations.push({
-						ref: firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
-						data: { new: true, section: Section.unsectionedId, due: new Date }
-					})
+					batch.set(
+						firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
+						{ new: true, section: Section.unsectionedId, due: new Date }
+					)
 				)
 			)
 		
@@ -124,17 +121,14 @@ export default class Deck {
 				.get()
 				.then(({ docs: cards }) =>
 					cards.forEach(({ id: cardId }) =>
-						operations.push({
-							ref: firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
-							data: { new: true, section: sectionId, due: new Date }
-						})
+						batch.set(
+							firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
+							{ new: true, section: sectionId, due: new Date }
+						)
 					)
 				)
 		
-		return batchWithChunks(operations, 500, (chunk, batch) => {
-			for (const { ref, data } of chunk)
-				batch.set(ref, data)
-		})
+		return batch.commit()
 	}
 	
 	static addSectionToUserNode = async (uid: string, deckId: string, sectionId: string) => {
@@ -143,13 +137,15 @@ export default class Deck {
 			.where('section', '==', sectionId)
 			.get()
 		
-		return batchWithChunks(cards, 500, (chunk, batch) => {
-			for (const { id: cardId } of chunk)
-				batch.set(
-					firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
-					{ new: true, section: sectionId, due: new Date }
-				)
-		})
+		const batch = new Batch
+		
+		for (const { id: cardId } of cards)
+			batch.set(
+				firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
+				{ new: true, section: sectionId, due: new Date }
+			)
+		
+		return batch.commit()
 	}
 	
 	static incrementCardCount = (deckId: string, amount: number = 1) =>
@@ -237,18 +233,15 @@ export default class Deck {
 		const currentUserIds = await Deck.currentUsers(deckId)
 		const sectionIds = await Deck.sectionIds(deckId)
 		
-		const documentReferences: FirebaseFirestore.DocumentReference[] = []
+		const batch = new Batch
 		
 		for (const uid of currentUserIds)
-			documentReferences.push(firestore.doc(`users/${uid}/decks/${deckId}`))
+			batch.delete(firestore.doc(`users/${uid}/decks/${deckId}`))
 		
 		for (const sectionId of sectionIds)
-			documentReferences.push(firestore.doc(`decks/${deckId}/sections/${sectionId}`))
+			batch.delete(firestore.doc(`decks/${deckId}/sections/${sectionId}`))
 		
-		return batchWithChunks(documentReferences, 500, (chunk, batch) => {
-			for (const ref of chunk)
-				batch.delete(ref)
-		})
+		return batch.commit()
 	}
 	
 	static deleteAssets = (deckId: string) =>
