@@ -46,10 +46,8 @@ export default functions.https.onCall(async (
 		]: admin.firestore.FieldValue.increment(-1)
 	})
 	
-	if (Math.random() < 0.2)
-		Deck.fromId(deckId).then(deck =>
-			User.addXP(deck.creatorId, User.xp.reviewCard)
-		)
+	if (Math.random() < 0.2) // 20% chance
+		User.addXP((await Deck.fromId(deckId)).creatorId, User.xp.reviewCard)
 	
 	const userData = await CardUserData.fromId(uid, deckId, cardId)
 	

@@ -6,24 +6,26 @@ const addTopicLoadingIndicator = document.getElementById('add-topic-loading-indi
 const onAddTopicInputChange = () =>
 	addTopicButton.disabled = !(addTopicFileInput.files.length && addTopicNameInput.value)
 
-const addTopic = () => {
+const addTopic = async () => {
 	addTopicButton.disabled = true
 	addTopicLoadingIndicator.hidden = false
 	
 	const documentReference = firestore.collection('topics').doc()
 	
-	storage.child(`topics/${documentReference.id}`).put(addTopicFileInput.files[0]).then(() =>
-		documentReference.set({
+	try {
+		await storage.child(`topics/${documentReference.id}`).put(addTopicFileInput.files[0])
+		
+		await documentReference.set({
 			name: addTopicNameInput.value
 		})
-	).then(() => {
+		
 		addTopicFileInput.value = null
 		addTopicNameInput.value = ''
-	}).catch(reason => {
+	} catch (error) {
 		addButton.disabled = false
-		console.error(reason)
-		alert(reason)
-	}).finally(() =>
+		console.error(error)
+		alert(error)
+	} finally {
 		addTopicLoadingIndicator.hidden = true
-	)
+	}
 }

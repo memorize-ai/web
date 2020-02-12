@@ -17,22 +17,20 @@ export default class Section {
 		this.numberOfCards = snapshot.get('cardCount') ?? 0
 	}
 	
-	static fromId = (sectionId: string, deckId: string) =>
-		firestore.doc(`decks/${deckId}/sections/${sectionId}`).get().then(snapshot =>
-			new Section(snapshot)
-		)
+	static fromId = async (sectionId: string, deckId: string) =>
+		new Section(await firestore.doc(`decks/${deckId}/sections/${sectionId}`).get())
 	
-	deleteCards = (deckId: string) =>
-		firestore
+	deleteCards = async (deckId: string) => {
+		const { docs: cards } = await firestore
 			.collection(`decks/${deckId}/cards`)
 			.where('section', '==', this.id)
 			.get()
-			.then(({ docs: cards }) => {
-				const batch = new Batch
-				
-				for (const { ref } of cards)
-					batch.delete(ref)
-				
-				return batch.commit()
-			})
+		
+		const batch = new Batch
+		
+		for (const { ref } of cards)
+			batch.delete(ref)
+		
+		return batch.commit()
+	}
 }

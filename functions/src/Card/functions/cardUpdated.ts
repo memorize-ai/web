@@ -22,21 +22,20 @@ export default functions.firestore
 			])
 	})
 
-const updateUserNodeSections = (deckId: string, oldCard: Card, newCard: Card) =>
-	Deck.currentUsers(deckId).then(async currentUserIds => {
-		const batch = new Batch
+const updateUserNodeSections = async (deckId: string, oldCard: Card, newCard: Card) => {
+	const currentUserIds = await Deck.currentUsers(deckId)
+	
+	const batch = new Batch
+	
+	await Promise.all(currentUserIds.map(async uid => {
+		const { docs } = await firestore
+			.collection(`users/${uid}/decks/${deckId}/cards`)
+			.where('section', '==', oldCard.sectionId)
+			.get()
 		
-		await Promise.all(currentUserIds.map(uid =>
-			firestore
-				.collection(`users/${uid}/decks/${deckId}/cards`)
-				.where('section', '==', oldCard.sectionId)
-				.get()
-				.then(({ docs }) =>
-					docs.forEach(({ ref }) =>
-						batch.update(ref, { section: newCard.sectionId })
-					)
-				)
-		))
-		
-		return batch.commit()
-	})
+		for (const { ref } of docs)
+			batch.update(ref, { section: newCard.sectionId })
+	}))
+	
+	return batch.commit()
+}

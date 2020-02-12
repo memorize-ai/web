@@ -19,17 +19,18 @@ export default functions.firestore
 		])
 	})
 
-const deleteUserNodeCards = (deckId: string, card: Card) =>
-	Deck.currentUsers(deckId).then(currentUserIds => {
-		const batch = new Batch
-		
-		for (const uid of currentUserIds) {
-			batch.delete(firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`))
-			batch.update(
-				firestore.doc(`users/${uid}/decks/${deckId}`),
-				{ unlockedCardCount: admin.firestore.FieldValue.increment(-1) }
-			)
-		}
-		
-		return batch.commit()
-	})
+const deleteUserNodeCards = async (deckId: string, card: Card) => {
+	const currentUserIds = await Deck.currentUsers(deckId)
+	
+	const batch = new Batch
+	
+	for (const uid of currentUserIds) {
+		batch.delete(firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`))
+		batch.update(
+			firestore.doc(`users/${uid}/decks/${deckId}`),
+			{ unlockedCardCount: admin.firestore.FieldValue.increment(-1) }
+		)
+	}
+	
+	return batch.commit()
+}

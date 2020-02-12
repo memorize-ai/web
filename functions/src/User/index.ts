@@ -31,10 +31,8 @@ export default class User {
 		this.allDecks = snapshot.get('allDecks') ?? []
 	}
 	
-	static fromId = (id: string) =>
-		firestore.doc(`users/${id}`).get().then(snapshot =>
-			new User(snapshot)
-		)
+	static fromId = async (id: string) =>
+		new User(await firestore.doc(`users/${id}`).get())
 	
 	static incrementDeckCount = (uid: string, amount: number = 1) =>
 		firestore.doc(`users/${uid}`).update({

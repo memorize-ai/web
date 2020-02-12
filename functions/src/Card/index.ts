@@ -22,10 +22,8 @@ export default class Card {
 		this.numberOfSkips = snapshot.get('skipCount') ?? 0
 	}
 	
-	static fromId = (cardId: string, deckId: string) =>
-		firestore.doc(`decks/${deckId}/cards/${cardId}`).get().then(snapshot =>
-			new Card(snapshot)
-		)
+	static fromId = async (cardId: string, deckId: string) =>
+		new Card(await firestore.doc(`decks/${deckId}/cards/${cardId}`).get())
 	
 	incrementDeckCardCount = Deck.incrementCardCount
 	decrementDeckCardCount = Deck.decrementCardCount

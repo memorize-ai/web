@@ -11,20 +11,25 @@ const deleteTopicWithDocument = ({ id, ref }) =>
 		storage.child(`topics/${id}`).delete()
 	])
 
-const deleteTopic = () => {
+const deleteTopic = async () => {
 	deleteTopicButton.disabled = true
 	deleteTopicLoadingIndicator.hidden = false
+	
 	const topicName = deleteTopicNameInput.value
-	firestore.collection('topics').where('name', '==', topicName).get().then(({ empty, docs }) =>
-		empty
-			? Promise.reject(`There are no topics with the name "${topicName}"`)
-			: deleteTopicWithDocument(docs[0])
-	).then(() =>
+	
+	try {
+		const { empty, docs } = await firestore.collection('topics').where('name', '==', topicName).get()
+		
+		if (empty)
+			throw new Error(`There are no topics with the name "${topicName}"`)
+		
+		await deleteTopicWithDocument(docs[0])
+		
 		deleteTopicNameInput.value = ''
-	).catch(reason => {
+	} catch (error) {
 		deleteTopicButton.disabled = false
-		alert(reason)
-	}).finally(() =>
+		alert(error)
+	} finally {
 		deleteTopicLoadingIndicator.hidden = true
-	)
+	}
 }

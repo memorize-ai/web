@@ -19,20 +19,21 @@ export default functions.firestore
 		])
 	})
 
-const createUserNodeCards = (deckId: string, card: Card) =>
-	Deck.currentUsers(deckId).then(currentUserIds => {
-		const batch = new Batch
-		
-		for (const uid of currentUserIds) {
-			batch.set(
-				firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`),
-				{ new: true, section: card.sectionId, due: new Date }
-			)
-			batch.update(
-				firestore.doc(`users/${uid}/decks/${deckId}`),
-				{ unlockedCardCount: admin.firestore.FieldValue.increment(1) }
-			)
-		}
-		
-		return batch.commit()
-	})
+const createUserNodeCards = async (deckId: string, card: Card) => {
+	const currentUserIds = await Deck.currentUsers(deckId)
+	
+	const batch = new Batch
+	
+	for (const uid of currentUserIds) {
+		batch.set(
+			firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`),
+			{ new: true, section: card.sectionId, due: new Date }
+		)
+		batch.update(
+			firestore.doc(`users/${uid}/decks/${deckId}`),
+			{ unlockedCardCount: admin.firestore.FieldValue.increment(1) }
+		)
+	}
+	
+	return batch.commit()
+}

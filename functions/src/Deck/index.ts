@@ -74,10 +74,8 @@ export default class Deck {
 		)
 	}
 	
-	static fromId = (id: string) =>
-		firestore.doc(`decks/${id}`).get().then(snapshot =>
-			new Deck(snapshot)
-		)
+	static fromId = async (id: string) =>
+		new Deck(await firestore.doc(`decks/${id}`).get())
 	
 	static decrementDueCardCount = (uid: string, deckId: string) =>
 		firestore.doc(`users/${uid}/decks/${deckId}`).update({
@@ -93,40 +91,36 @@ export default class Deck {
 	static removeUserFromCurrentUsers = (deckId: string, uid: string) =>
 		firestore.doc(`decks/${deckId}/currentUsers/${uid}`).delete()
 	
-	static currentUsers = (deckId: string) =>
-		firestore.collection(`decks/${deckId}/currentUsers`).listDocuments().then(docs =>
-			docs.map(({ id }) => id)
-		)
+	static currentUsers = async (deckId: string) =>
+		(await firestore.collection(`decks/${deckId}/currentUsers`).listDocuments())
+			.map(({ id }) => id)
 	
 	static addInitialCardsToUserNode = async (uid: string, deckId: string, sectionIds: string[]) => {
 		const batch = new Batch
 		
-		await firestore
+		const { docs: unsectionedCards } = await firestore
 			.collection(`decks/${deckId}/cards`)
 			.where('section', '==', Section.unsectionedId)
 			.get()
-			.then(({ docs: cards }) =>
-				cards.forEach(({ id: cardId }) =>
-					batch.set(
-						firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
-						{ new: true, section: Section.unsectionedId, due: new Date }
-					)
-				)
+		
+		for (const { id: cardId } of unsectionedCards)
+			batch.set(
+				firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
+				{ new: true, section: Section.unsectionedId, due: new Date }
 			)
 		
-		for (const sectionId of sectionIds)
-			await firestore
+		for (const sectionId of sectionIds) {
+			const { docs: cards } = await firestore
 				.collection(`decks/${deckId}/cards`)
 				.where('section', '==', sectionId)
 				.get()
-				.then(({ docs: cards }) =>
-					cards.forEach(({ id: cardId }) =>
-						batch.set(
-							firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
-							{ new: true, section: sectionId, due: new Date }
-						)
-					)
+			
+			for (const { id: cardId } of cards)
+				batch.set(
+					firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`),
+					{ new: true, section: sectionId, due: new Date }
 				)
+		}
 		
 		return batch.commit()
 	}
@@ -224,10 +218,9 @@ export default class Deck {
 		])
 	}
 	
-	static sectionIds = (deckId: string) =>
-		firestore.collection(`decks/${deckId}/sections`).listDocuments().then(docs =>
-			docs.map(({ id }) => id)
-		)
+	static sectionIds = async (deckId: string) =>
+		(await firestore.collection(`decks/${deckId}/sections`).listDocuments())
+			.map(({ id }) => id)
 	
 	static delete = async (deckId: string) => {
 		const currentUserIds = await Deck.currentUsers(deckId)
@@ -269,16 +262,18 @@ export default class Deck {
 		})
 	}
 	
-	index = () =>
-		this.transformDataForIndexing().then(data =>
-			decksClient.indexDocuments(DECKS_ENGINE_NAME, [data])
-		)
+	index = async () =>
+		decksClient.indexDocuments(DECKS_ENGINE_NAME, [
+			await this.transformDataForIndexing()
+		])
 	
 	deleteIndex = () =>
 		decksClient.destroyDocuments(DECKS_ENGINE_NAME, [this.id])
 	
-	private transformDataForIndexing = () =>
-		User.fromId(this.creatorId).then(creator => ({
+	private transformDataForIndexing = async () => {
+		const creator = await User.fromId(this.creatorId)
+		
+		return {
 			id: this.id,
 			score: this.score,
 			topics: this.topics,
@@ -305,5 +300,6 @@ export default class Deck {
 			creator_name: creator.name,
 			created: this.dateCreated,
 			updated: this.dateLastUpdated
-		}))
+		}
+	}
 }

@@ -5,17 +5,17 @@ import Section from '../../Section'
 
 const firestore = admin.firestore()
 
-export default functions.pubsub.schedule('every 1 minutes').onRun(() =>
-	firestore.collection('users').listDocuments().then(users =>
-		Promise.all(users.map(({ id: uid }) =>
-			firestore.collection(`users/${uid}/decks`).get().then(({ docs: decks }) =>
-				Promise.all(decks.map(userData =>
-					updateDueCardCounts(uid, userData)
-				))
-			)
+export default functions.pubsub.schedule('every 1 minutes').onRun(async () => {
+	const users = await firestore.collection('users').listDocuments()
+	
+	return Promise.all(users.map(async ({ id: uid }) => {
+		const { docs: decks } = await firestore.collection(`users/${uid}/decks`).get()
+		
+		return Promise.all(decks.map(userData =>
+			updateDueCardCounts(uid, userData)
 		))
-	)
-)
+	}))
+})
 
 const updateDueCardCounts = async (uid: string, deckUserData: FirebaseFirestore.DocumentSnapshot) => {
 	const deckId = deckUserData.id
@@ -37,9 +37,9 @@ const updateDueCardCounts = async (uid: string, deckUserData: FirebaseFirestore.
 	})
 }
 
-const getDueCards = (uid: string, deckId: string) =>
-	firestore
+const getDueCards = async (uid: string, deckId: string) =>
+	(await firestore
 		.collection(`users/${uid}/decks/${deckId}/cards`)
 		.where('due', '<=', new Date)
 		.get()
-		.then(({ docs }) => docs)
+	).docs

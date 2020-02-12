@@ -24,16 +24,17 @@ export default functions
 		])
 	})
 
-const removeAllCardsAndHistory = (uid: string, deckId: string) =>
-	firestore.collection(`users/${uid}/decks/${deckId}/cards`).listDocuments().then(async cards => {
-		const batch = new Batch
+const removeAllCardsAndHistory = async (uid: string, deckId: string) => {
+	const cards = await firestore.collection(`users/${uid}/decks/${deckId}/cards`).listDocuments()
+	
+	const batch = new Batch
+	
+	for (const card of cards) {
+		batch.delete(card)
 		
-		for (const card of cards) {
-			batch.delete(card)
-			
-			;(await card.collection('history').listDocuments())
-				.forEach(batch.delete)
-		}
-		
-		return batch.commit()
-	})
+		;(await card.collection('history').listDocuments())
+			.forEach(batch.delete)
+	}
+	
+	return batch.commit()
+}

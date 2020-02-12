@@ -42,10 +42,8 @@ export default class CardUserData {
 		}
 	}
 	
-	static fromId = (uid: string, deckId: string, cardId: string) =>
-		firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`).get().then(snapshot =>
-			new CardUserData(snapshot)
-		)
+	static fromId = async (uid: string, deckId: string, cardId: string) =>
+		new CardUserData(await firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`).get())
 	
 	get isDue() {
 		return this.due.getTime() <= Date.now()

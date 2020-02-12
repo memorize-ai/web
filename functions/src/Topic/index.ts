@@ -17,8 +17,6 @@ export default class Topic {
 		return firestore.doc(`topics/${this.id}`)
 	}
 	
-	static fromId = (id: string) =>
-		firestore.doc(`topics/${id}`).get().then(snapshot =>
-			new Topic(snapshot)
-		)
+	static fromId = async (id: string) =>
+		new Topic(await firestore.doc(`topics/${id}`).get())
 }

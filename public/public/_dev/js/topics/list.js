@@ -26,18 +26,17 @@ const removeTopicFromList = id => {
 }
 
 firestore.collection('topics').onSnapshot(snapshot =>
-	snapshot.docChanges().forEach(change => {
+	snapshot.docChanges().forEach(async change => {
 		const { doc, type } = change
 		const { id } = doc
+		
 		switch (type) {
 			case 'added':
-				storage.child(`topics/${id}`).getDownloadURL().then(image =>
-					addTopicToList({
-						id,
-						name: doc.get('name'),
-						image
-					})
-				)
+				addTopicToList({
+					id,
+					name: doc.get('name'),
+					image: await storage.child(`topics/${id}`).getDownloadURL()
+				})
 				break
 			case 'removed':
 				removeTopicFromList(id)
