@@ -1,10 +1,13 @@
 import React from 'react'
+import { Heading } from 'react-bulma-components'
 
 import Disqus from './Disqus'
 
+import '../scss/Home.scss'
+
 export default () => (
-	<>
-		<h1>Welcome to memorize.ai</h1>
+	<div id="home">
+		<Heading textAlignment="centered">Welcome to memorize.ai</Heading>
 		<Disqus title="Home" id="home" />
-	</>
+	</div>
 )
