@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin'
 
-import decksClient, { DECKS_ENGINE_NAME } from '../AppSearch/decks'
+import decksClient from '../AppSearch/decks'
 import User from '../User'
 import Section from '../Section'
 import Batch from '../Utils/Batch'
@@ -263,12 +263,10 @@ export default class Deck {
 	}
 	
 	index = async () =>
-		decksClient.indexDocuments(DECKS_ENGINE_NAME, [
-			await this.transformDataForIndexing()
-		])
+		decksClient.createIndex(await this.transformDataForIndexing())
 	
 	deleteIndex = () =>
-		decksClient.destroyDocuments(DECKS_ENGINE_NAME, [this.id])
+		decksClient.deleteIndex(this.id)
 	
 	private transformDataForIndexing = async () => {
 		const creator = await User.fromId(this.creatorId)
