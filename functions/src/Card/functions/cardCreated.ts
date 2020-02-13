@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin'
 
 import Card from '..'
 import Deck from '../../Deck'
-import Batch from '../../Utils/Batch'
+import Batch from 'firestore-batch'
 
 const firestore = admin.firestore()
 
@@ -22,7 +22,7 @@ export default functions.firestore
 const createUserNodeCards = async (deckId: string, card: Card) => {
 	const currentUserIds = await Deck.currentUsers(deckId)
 	
-	const batch = new Batch
+	const batch = new Batch(firestore)
 	
 	for (const uid of currentUserIds) {
 		batch.set(

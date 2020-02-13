@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin'
 
 import Card from '..'
 import Deck from '../../Deck'
-import Batch from '../../Utils/Batch'
+import Batch from 'firestore-batch'
 
 const firestore = admin.firestore()
 
@@ -25,7 +25,7 @@ export default functions.firestore
 const updateUserNodeSections = async (deckId: string, oldCard: Card, newCard: Card) => {
 	const currentUserIds = await Deck.currentUsers(deckId)
 	
-	const batch = new Batch
+	const batch = new Batch(firestore)
 	
 	await Promise.all(currentUserIds.map(async uid => {
 		const { docs } = await firestore

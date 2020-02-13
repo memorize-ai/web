@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin'
 import decksClient from '../AppSearch/decks'
 import User from '../User'
 import Section from '../Section'
-import Batch from '../Utils/Batch'
+import Batch from 'firestore-batch'
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket()
@@ -96,7 +96,7 @@ export default class Deck {
 			.map(({ id }) => id)
 	
 	static addInitialCardsToUserNode = async (uid: string, deckId: string, sectionIds: string[]) => {
-		const batch = new Batch
+		const batch = new Batch(firestore)
 		
 		const { docs: unsectionedCards } = await firestore
 			.collection(`decks/${deckId}/cards`)
@@ -131,7 +131,7 @@ export default class Deck {
 			.where('section', '==', sectionId)
 			.get()
 		
-		const batch = new Batch
+		const batch = new Batch(firestore)
 		
 		for (const { id: cardId } of cards)
 			batch.set(
@@ -226,7 +226,7 @@ export default class Deck {
 		const currentUserIds = await Deck.currentUsers(deckId)
 		const sectionIds = await Deck.sectionIds(deckId)
 		
-		const batch = new Batch
+		const batch = new Batch(firestore)
 		
 		for (const uid of currentUserIds)
 			batch.delete(firestore.doc(`users/${uid}/decks/${deckId}`))

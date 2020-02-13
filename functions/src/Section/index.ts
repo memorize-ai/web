@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin'
 
-import Batch from '../Utils/Batch'
+import Batch from 'firestore-batch'
 
 const firestore = admin.firestore()
 
@@ -26,7 +26,7 @@ export default class Section {
 			.where('section', '==', this.id)
 			.get()
 		
-		const batch = new Batch
+		const batch = new Batch(firestore)
 		
 		for (const { ref } of cards)
 			batch.delete(ref)
