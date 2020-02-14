@@ -1,8 +1,10 @@
+@import 'global.scss';
+
 #unlock-section {
-	font-family: Muli, Arial, Helvetica, sans-serif;
+	font-family: $font-family;
 	height: 100vh;
 	padding: 20px;
-	background: linear-gradient(to right, #cb34b5, #44a6bb);
+	background: $gradient-background;
 	
 	#buttons {
 		display: flex;
@@ -11,7 +13,7 @@
 		#error-message {
 			height: min-content;
 			font-weight: bolder;
-			color: #209cee;
+			color: $light-blue-error-message;
 		}
 		
 		#unlock-button {
