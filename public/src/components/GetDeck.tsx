@@ -48,6 +48,10 @@ export default () => {
 					.get()
 			
 			const { unsectionedCardCount } = deck
+			
+			if (unsectionedCardCount === undefined)
+				throw new Error('This deck does not exist!')
+			
 			const firstSectionCardCount = firstSection?.get('cardCount') ?? 0
 			const unlockedCardCount = unsectionedCardCount + firstSectionCardCount
 			
