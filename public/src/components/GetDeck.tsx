@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 import { Heading, Box, Columns, Button } from 'react-bulma-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock, faCheck, faUnlock, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
@@ -92,6 +93,10 @@ export default () => {
 	
 	return (
 		<div id="get-deck">
+			<Helmet>
+				<meta name="description" content={`Get ${deck?.name ?? ''} on memorize.ai. Download on the App Store`} />
+				<title>{deck?.name ? `Get ${deck.name}` : 'memorize.ai'}</title>
+			</Helmet>
 			<Heading textColor="white">{deck?.name}</Heading>
 			<Columns>
 				<Columns.Column size="half" offset="one-quarter">
