@@ -42,7 +42,7 @@ app.post(`/${API_PREFIX}/upload-deck-asset`, async (
 		return
 	}
 	
-	const contentTypeMatch = rawDataString.match(/data\:(.+?);base64,/)
+	const contentTypeMatch = rawDataString.match(/^data\:(.+?);base64,/)
 	
 	if (!contentTypeMatch) {
 		sendError('Invalid image data')
