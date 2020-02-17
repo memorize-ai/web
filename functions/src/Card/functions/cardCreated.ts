@@ -29,10 +29,10 @@ const createUserNodeCards = async (deckId: string, card: Card) => {
 			firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`),
 			{ new: true, section: card.sectionId, due: new Date }
 		)
-		batch.update(
-			firestore.doc(`users/${uid}/decks/${deckId}`),
-			{ unlockedCardCount: admin.firestore.FieldValue.increment(1) }
-		)
+		batch.update(firestore.doc(`users/${uid}/decks/${deckId}`), {
+			unlockedCardCount: admin.firestore.FieldValue.increment(1),
+			[`sections.${card.sectionId}`]: admin.firestore.FieldValue.increment(1)
+		})
 	}
 	
 	return batch.commit()

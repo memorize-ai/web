@@ -26,10 +26,10 @@ const deleteUserNodeCards = async (deckId: string, card: Card) => {
 	
 	for (const uid of currentUserIds) {
 		batch.delete(firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`))
-		batch.update(
-			firestore.doc(`users/${uid}/decks/${deckId}`),
-			{ unlockedCardCount: admin.firestore.FieldValue.increment(-1) }
-		)
+		batch.update(firestore.doc(`users/${uid}/decks/${deckId}`), {
+			unlockedCardCount: admin.firestore.FieldValue.increment(-1),
+			[`sections.${card.sectionId}`]: admin.firestore.FieldValue.increment(-1)
+		})
 	}
 	
 	return batch.commit()
