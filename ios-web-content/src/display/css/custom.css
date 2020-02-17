@@ -1,6 +1,6 @@
 @font-face {
 	font-family: Muli;
-	src: url('Muli-Regular.ttf') format('truetype');
+	src: url('../Muli-Regular.ttf') format('truetype');
 }
 
 body {
