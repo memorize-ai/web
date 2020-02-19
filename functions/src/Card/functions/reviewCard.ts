@@ -37,7 +37,7 @@ export default functions.https.onCall(async (
 	const now = new Date
 	const { uid } = auth
 	const cardRef = firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`)
-		
+	
 	firestore.doc(`users/${uid}/decks/${deckId}`).update({
 		dueCardCount: admin.firestore.FieldValue.increment(-1),
 		[sectionId === Section.unsectionedId
