@@ -2,7 +2,7 @@
 	"name": "ios-web-content",
 	"devDependencies": {
 		"babel-minify": "^0.5.1",
-		"uglifycss": "0.0.29"
+		"uglifycss": "^0.0.29"
 	},
 	"scripts": {
 		"build": "rm -rf lib && node . && cp -r src/display/fonts lib/display/fonts"
