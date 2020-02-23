@@ -18,24 +18,19 @@ export default functions.firestore
 			: Promise.all([
 				oldCard.decrementSectionCardCount(deckId),
 				newCard.incrementSectionCardCount(deckId),
-				updateUserNodeSections(deckId, oldCard, newCard)
+				updateUserNodeSections(deckId, newCard)
 			])
 	})
 
-const updateUserNodeSections = async (deckId: string, oldCard: Card, newCard: Card) => {
+const updateUserNodeSections = async (deckId: string, card: Card) => {
 	const currentUserIds = await Deck.currentUsers(deckId)
 	
 	const batch = new Batch(firestore)
 	
-	await Promise.all(currentUserIds.map(async uid => {
-		const { docs } = await firestore
-			.collection(`users/${uid}/decks/${deckId}/cards`)
-			.where('section', '==', oldCard.sectionId)
-			.get()
-		
-		for (const { ref } of docs)
-			batch.update(ref, { section: newCard.sectionId })
-	}))
+	for (const uid of currentUserIds)
+		firestore
+			.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`)
+			.update({ section: card.sectionId })
 	
 	return batch.commit()
 }
