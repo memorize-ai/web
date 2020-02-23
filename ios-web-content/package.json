@@ -5,7 +5,7 @@
 		"uglifycss": "0.0.29"
 	},
 	"scripts": {
-		"build": "rm -rf lib && node ."
+		"build": "rm -rf lib && node . && cp -r src/display/fonts lib/display/fonts"
 	},
 	"private": true
 }
