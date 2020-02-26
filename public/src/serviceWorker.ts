@@ -21,14 +21,13 @@ export const register = (config?: Config) => {
 	window.addEventListener('load', async () => {
 		const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`
 		
-		if (isLocalhost) {
-			checkValidServiceWorker(swUrl, config)
-			
-			await navigator.serviceWorker.ready
-			
-			console.log('This web app is being served cache-first by a service worker. To learn more, visit https://bit.ly/CRA-PWA')
-		} else
-			registerValidSW(swUrl, config)
+		if (!isLocalhost)
+			return registerValidSW(swUrl, config)
+		
+		await checkValidServiceWorker(swUrl, config)
+		await navigator.serviceWorker.ready
+		
+		console.log('This web app is being served cache-first by a service worker. To learn more, visit https://bit.ly/CRA-PWA')
 	})
 }
 
