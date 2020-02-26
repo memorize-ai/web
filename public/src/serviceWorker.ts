@@ -32,47 +32,54 @@ export const register = (config?: Config) => {
 	})
 }
 
-const registerValidSW = (swUrl: string, config?: Config) =>
-	navigator.serviceWorker.register(swUrl).then(registration =>
+const registerValidSW = async (swUrl: string, config?: Config) => {
+	try {
+		const registration = await navigator.serviceWorker.register(swUrl)
+		
 		registration.onupdatefound = () => {
 			const installingWorker = registration.installing
-			if (installingWorker === null) return
+			
+			if (installingWorker === null)
+				return
+			
 			installingWorker.onstatechange = () => {
-				if (installingWorker.state === 'installed') {
-					if (navigator.serviceWorker.controller) {
-						console.log('New content is available and will be used when all tabs for this page are closed. See https://bit.ly/CRA-PWA.')
-						if (config && config.onUpdate)
-							config.onUpdate(registration)
-					} else {
-						console.log('Content is cached for offline use.')
-						if (config && config.onSuccess)
-							config.onSuccess(registration)
-					}
+				if (installingWorker.state !== 'installed')
+					return
+				
+				if (navigator.serviceWorker.controller) {
+					console.log('New content is available and will be used when all tabs for this page are closed. See https://bit.ly/CRA-PWA.')
+					
+					if (config && config.onUpdate)
+						config.onUpdate(registration)
+				} else {
+					console.log('Content is cached for offline use.')
+					
+					if (config && config.onSuccess)
+						config.onSuccess(registration)
 				}
 			}
 		}
-	).catch(error =>
+	} catch (error) {
 		console.error('Error during service worker registration:', error)
-	)
+	}
+}
 
-const checkValidServiceWorker = (swUrl: string, config?: Config) =>
-	fetch(swUrl).then(response => {
+const checkValidServiceWorker = async (swUrl: string, config?: Config) => {
+	try {
+		const response = await fetch(swUrl)
 		const contentType = response.headers.get('content-type')
-		if (response.status === 404 || (contentType !== null && contentType.indexOf('javascript') === -1))
-			navigator.serviceWorker.ready.then(registration =>
-				registration.unregister().then(() =>
-					window.location.reload()
-				)
-			)
-		else
-			registerValidSW(swUrl, config)
-	}).catch(() =>
+		
+		if (!(response.status === 404 || (contentType !== null && contentType.indexOf('javascript') === -1)))
+			return registerValidSW(swUrl, config)
+		
+		await (await navigator.serviceWorker.ready).unregister()
+		window.location.reload()
+	} catch {
 		console.log('No internet connection found. App is running in offline mode.')
-	)
+	}
+}
 
-export const unregister = () =>
+export const unregister = async () =>
 	'serviceWorker' in navigator
-		? navigator.serviceWorker.ready.then(registration =>
-			registration.unregister()
-		)
+		? (await navigator.serviceWorker.ready).unregister()
 		: null
