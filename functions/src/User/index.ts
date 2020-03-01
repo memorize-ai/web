@@ -50,6 +50,14 @@ export default class User {
 	static subtractXP = (uid: string, amount: number = 1) =>
 		User.addXP(uid, -amount)
 	
+	static incrementCounter = (amount: number = 1) =>
+		firestore.doc('counters/users').update({
+			value: admin.firestore.FieldValue.increment(amount)
+		})
+	
+	static decrementCounter = (amount: number = 1) =>
+		User.incrementCounter(-amount)
+	
 	addDeckToAllDecks = (deckId: string) =>
 		firestore.doc(`users/${this.id}`).update({
 			allDecks: admin.firestore.FieldValue.arrayUnion(deckId)
