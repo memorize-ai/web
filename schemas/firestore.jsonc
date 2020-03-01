@@ -121,5 +121,10 @@
 				}
 			}
 		}
+	},
+	"counters (collection)": {
+		"decks (document)": {
+			"value": 100 // (Int) The counter value
+		}
 	}
 }

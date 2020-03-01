@@ -240,6 +240,14 @@ export default class Deck {
 	static deleteAssets = (deckId: string) =>
 		Promise.resolve(`${storage} ${deckId}`) // TODO: Delete assets from firebase storage
 	
+	static incrementCounter = (amount: number = 1) =>
+		firestore.doc('counters/decks').update({
+			value: admin.firestore.FieldValue.increment(amount)
+		})
+	
+	static decrementCounter = (amount: number = 1) =>
+		Deck.incrementCounter(-amount)
+	
 	updateAverageRating = () => {
 		const sum = (
 			this.numberOf1StarRatings +
