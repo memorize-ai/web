@@ -4,15 +4,19 @@
 }
 
 body {
-	font-family: Muli, Arial, Helvetica, sans-serif;
-	margin-left: 12px;
-	margin-right: 12px;
+	font-family: Muli, Arial, Helvetica, sans-serif !important;
+	margin-left: 12px !important;
+	margin-right: 12px !important;
+}
+
+body * {
+	font-family: Muli, Arial, Helvetica, sans-serif !important;
 }
 
 img {
-	max-width: calc(100vw - 12px * 2);
+	max-width: calc(100vw - 12px * 2) !important;
 }
 
 :focus {
-	outline: none;
+	outline: none !important;
 }

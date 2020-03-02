@@ -4,15 +4,19 @@
 }
 
 body {
-	font-family: Muli, Arial, Helvetica, sans-serif;
-	margin: 0;
+	font-family: Muli, Arial, Helvetica, sans-serif !important;
+	margin: 0 !important;
+}
+
+body * {
+	font-family: Muli, Arial, Helvetica, sans-serif !important;
 }
 
 .ck.ck-dropdown__panel.ck-dropdown__panel_sw > .ck.ck-toolbar > .ck.ck-toolbar__items {
-	width: calc(100vw - 10px * 2);
-	flex-wrap: wrap;
+	width: calc(100vw - 10px * 2) !important;
+	flex-wrap: wrap !important;
 }
 
 .ck.ck-editor__main > .ck-editor__editable {
-	height: calc(100vh - 40.2px);
+	height: calc(100vh - 40.2px) !important;
 }
