@@ -34,10 +34,8 @@ const bundles = {
 	}
 }
 
-for (const bundle of ['display', 'editor']) {
+for (const [bundle, { css, js }] of Object.entries(bundles)) {
 	mkdir(join(__dirname, `lib/${bundle}`))
-	
-	const { css, js } = bundles[bundle]
 	
 	writeFile(
 		join(__dirname, `lib/${bundle}/index.css`),
