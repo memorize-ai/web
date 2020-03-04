@@ -18,9 +18,12 @@ export default functions.https.onCall(async ({ deck: deckId, card: cardId }: { d
 		return { 0: next, 1: next, 2: next }
 	}
 	
+	const getPrediction = (rating: PerformanceRating) =>
+		Algorithm.nextDueDate(rating, userData, now).next.getTime()
+	
 	return {
-		0: Algorithm.nextDueDate(PerformanceRating.Easy, userData, now).next.getTime(),
-		1: Algorithm.nextDueDate(PerformanceRating.Struggled, userData, now).next.getTime(),
-		2: Algorithm.nextDueDate(PerformanceRating.Forgot, userData, now).next.getTime()
+		0: getPrediction(PerformanceRating.Easy),
+		1: getPrediction(PerformanceRating.Struggled),
+		2: getPrediction(PerformanceRating.Forgot)
 	}
 })
