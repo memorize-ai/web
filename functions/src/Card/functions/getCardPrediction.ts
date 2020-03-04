@@ -19,8 +19,8 @@ export default functions.https.onCall(async ({ deck: deckId, card: cardId }: { d
 	}
 	
 	return {
-		0: Algorithm.nextDueDate(PerformanceRating.Forgot, userData, now).next.getTime(),
+		0: Algorithm.nextDueDate(PerformanceRating.Easy, userData, now).next.getTime(),
 		1: Algorithm.nextDueDate(PerformanceRating.Struggled, userData, now).next.getTime(),
-		2: Algorithm.nextDueDate(PerformanceRating.Easy, userData, now).next.getTime()
+		2: Algorithm.nextDueDate(PerformanceRating.Forgot, userData, now).next.getTime()
 	}
 })

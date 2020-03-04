@@ -70,7 +70,7 @@ const updateNewCard = async (
 		new: false,
 		due: next,
 		totalCount: 1,
-		streak: isCorrect ? 1 : 0,
+		streak: Number(isCorrect),
 		e,
 		mastered: false,
 		last: {
@@ -121,7 +121,7 @@ const updateExistingCard = async (
 	const data: Record<string, any> = {
 		due: next,
 		totalCount: admin.firestore.FieldValue.increment(1),
-		correctCount: admin.firestore.FieldValue.increment(isCorrect ? 1 : 0),
+		correctCount: admin.firestore.FieldValue.increment(Number(isCorrect)),
 		streak: isCorrect ? admin.firestore.FieldValue.increment(1) : 0,
 		e,
 		mastered,
