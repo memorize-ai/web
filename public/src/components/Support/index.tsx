@@ -5,7 +5,7 @@ export default () => (
 	<div className="p-8">
 		<Helmet>
 			<meta name="description" content="The ultimate memorization tool. Download on the App Store" />
-			<title>memorize.ai - Privacy</title>
+			<title>memorize.ai - Support</title>
 		</Helmet>
 		<h1 className="text-4xl">Support</h1>
 		Email us at support@memorize.ai or by post to:<br /><br />
