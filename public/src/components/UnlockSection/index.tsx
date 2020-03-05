@@ -79,7 +79,7 @@ export default () => {
 			setUnlockLoadingState(LoadingState.Fail)
 			setErrorMessage(error.message)
 		}
-	})(), [currentUser, deckId, sectionId, section])
+	})(), [currentUser, deckId, deck, sectionId, section])
 	
 	const signOut = async () => {
 		setUnlockLoadingState(LoadingState.None)
