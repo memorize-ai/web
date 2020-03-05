@@ -13,9 +13,11 @@ import Button from './Button'
 
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()
+const storage = firebase.storage().ref()
 
 export default () => {
 	const { deckId } = useParams()
@@ -25,6 +27,8 @@ export default () => {
 	
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	
+	const [imageUrl, setImageUrl] = useState(null as string | null)
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	const [signOutLoadingState, setSignOutLoadingState] = useState(LoadingState.None)
@@ -36,15 +40,21 @@ export default () => {
 	const isSignOutButtonLoading = signOutLoadingState === LoadingState.Loading
 	
 	useEffect(() => void (async () => {
-		if (!(currentUser && deckId && deck))
+		if (!(deckId && deck))
+			return
+		
+		if (deck.hasImage)
+			storage.child(`decks/${deckId}`).getDownloadURL().then(setImageUrl)
+		
+		if (!currentUser)
 			return
 		
 		setGetLoadingState(LoadingState.Loading)
 		setErrorMessage(null)
 		
-		const ref = firestore.doc(`users/${currentUser.uid}/decks/${deckId}`)
-		
 		try {
+			const ref = firestore.doc(`users/${currentUser.uid}/decks/${deckId}`)
+			
 			if ((await ref.get()).exists)
 				throw new Error('You already own this deck!')
 			
@@ -97,14 +107,23 @@ export default () => {
 	}
 	
 	return (
-		<div className="h-screen px-6 py-3 gradient-background">
+		<div className="h-screen px-4 py-4 gradient-background">
 			<Helmet>
 				<meta name="description" content={`Get ${deck?.name ?? ''} on memorize.ai. Download on the App Store`} />
 				<title>{deck?.name ? `Get ${deck.name}` : 'memorize.ai'}</title>
 			</Helmet>
-			<h1 className="mb-4 text-4xl text-white font-bold">{deck?.name}</h1>
+			<div className={`flex items-center ${imageUrl ? 'mb-6' : 'ml-2'}`}>
+				{imageUrl && (
+					<img
+						className="w-20 h-20 mr-4 object-cover rounded-lg"
+						src={imageUrl}
+						alt={deck?.name ?? 'Deck image'}
+					/>
+				)}
+				<h1 className="text-2xl sm:text-4xl text-white font-bold">{deck?.name}</h1>
+			</div>
 			<div className="md:w-1/2 mx-auto px-6 pt-4 pb-4 bg-white rounded-lg shadow-lg">
-				<h1 className="text-4xl text-dark-gray font-bold">Get {deck?.name}</h1>
+				<h1 className="text-2xl sm:text-4xl text-dark-gray font-bold">Get {deck?.name}</h1>
 				<hr className="mt-4 mb-4" />
 				<div hidden={currentUser !== null || currentUserLoadingState === LoadingState.Loading}>
 					<Input
