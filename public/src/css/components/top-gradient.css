@@ -1,0 +1,16 @@
+.top-gradient {
+	@apply w-full origin-top-left;
+	
+	height: 380px;
+	background: linear-gradient(to bottom, #5a2aff, #00e5f4);
+	transform: skewY(-12deg);
+	transition: 0.3s height;
+	
+	@screen md {
+		height: 570px;
+	}
+	
+	@screen lg {
+		height: 760px;
+	}
+}
