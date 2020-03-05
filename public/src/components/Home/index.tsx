@@ -1,7 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 
-import Disqus from './Disqus'
+import Disqus from '../shared/Disqus'
 
 export default () => (
 	<div id="home">

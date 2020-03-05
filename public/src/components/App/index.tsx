@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import Home from './Home'
-import Privacy from './Privacy'
-import Support from './Support'
-import GetDeck from './GetDeck'
-import UnlockSection from './UnlockSection'
+import Home from '../Home'
+import Privacy from '../Privacy'
+import Support from '../Support'
+import GetDeck from '../GetDeck'
+import UnlockSection from '../UnlockSection'
 
 export default () => (
 	<BrowserRouter>

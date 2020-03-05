@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import firebase from '../firebase'
-import LoadingState from '../LoadingState'
+import LoadingState from '../models/LoadingState'
 
 import 'firebase/auth'
 
