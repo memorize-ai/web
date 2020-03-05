@@ -1,0 +1,33 @@
+.input {
+	@apply relative;
+	
+	> svg {
+		@apply absolute pointer-events-none text-gray-300;
+		
+		left: 12px;
+		top: 10px;
+	}
+	
+	> input {
+		@apply text-dark-gray border-2 border-gray-300 rounded outline-none;
+		
+		width: 100%;
+		padding: 4px 4px 4px 2.25em;
+		
+		&:hover {
+			@apply border-gray-400;
+			
+			~ svg {
+				@apply text-gray-400;
+			}
+		}
+		
+		&:focus {
+			@apply border-blue-400;
+			
+			~ svg {
+				@apply text-blue-400;
+			}
+		}
+	}
+}

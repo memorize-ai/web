@@ -1,11 +1,8 @@
 import React from 'react'
-import { Heading } from 'react-bulma-components'
-
-import '../scss/Support.scss'
 
 export default () => (
-	<div id="support">
-		<Heading>Support</Heading>
+	<div className="p-8">
+		<h1 className="text-4xl">Support</h1>
 		
 		Email us at support@memorize.ai or by post to:<br /><br />
 		

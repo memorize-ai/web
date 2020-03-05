@@ -1,0 +1,14 @@
+.loader {
+	@apply rounded-full;
+	
+	animation: loader-spin 0.8s linear infinite;
+}
+
+@keyframes loader-spin {
+	0% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

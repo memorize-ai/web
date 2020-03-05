@@ -3,16 +3,20 @@
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.27",
 		"@fortawesome/free-solid-svg-icons": "^5.12.1",
-		"@fortawesome/react-fontawesome": "^0.1.8",
+		"@fortawesome/react-fontawesome": "^0.1.9",
+		"autoprefixer": "^9.7.4",
+		"cssnano": "^4.1.10",
 		"disqus-react": "^1.0.7",
 		"firebase": "^7.9.3",
-		"node-sass": "^4.13.1",
+		"postcss-cli": "^7.1.0",
+		"postcss-import": "^12.0.1",
+		"postcss-nested": "^4.2.1",
 		"react": "^16.13.0",
-		"react-bulma-components": "^3.2.0",
 		"react-dom": "^16.13.0",
 		"react-helmet": "^5.2.1",
 		"react-router-dom": "^5.1.2",
-		"react-scripts": "^3.4.0"
+		"react-scripts": "^3.4.0",
+		"tailwindcss": "^1.2.0"
 	},
 	"devDependencies": {
 		"@types/node": "^12.12.29",
@@ -25,8 +29,10 @@
 		"typescript": "^3.8.3"
 	},
 	"scripts": {
+		"build:css": "postcss src/css/index.css -o public/index.css",
+		"watch:css": "postcss src/css/index.css -o public/index.css -w",
 		"start": "react-scripts start",
-		"build": "react-scripts build",
+		"build": "npm run build:css && react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},

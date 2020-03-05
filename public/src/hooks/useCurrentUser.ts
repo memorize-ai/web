@@ -9,7 +9,7 @@ const auth = firebase.auth()
 
 export default (): [firebase.User | null, LoadingState] => {
 	const [currentUser, setCurrentUser] = useState(null as firebase.User | null)
-	const [loadingState, setLoadingState] = useState(LoadingState.None)
+	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
 	
 	useEffect(() => {
 		auth.onAuthStateChanged(

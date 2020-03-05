@@ -1,0 +1,19 @@
+body,
+body * {
+	@apply font-muli;
+	
+	&:focus {
+		@apply outline-none;
+	}
+}
+
+hr {
+	@apply border-none;
+	
+	height: 2px;
+	background: #f5f5f5;
+}
+
+button:disabled {
+	@apply cursor-not-allowed;
+}

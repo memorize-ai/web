@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, useParams } from 'react-router-dom'
-import { Heading, Box, Columns, Button } from 'react-bulma-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faLock, faCheck, faUnlock, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faCheck, faUnlock, faSignOutAlt, faKey } from '@fortawesome/free-solid-svg-icons'
 
 import firebase from '../firebase'
 import LoadingState from '../LoadingState'
 import useDeck from '../hooks/useDeck'
 import useSection from '../hooks/useSection'
 import useCurrentUser from '../hooks/useCurrentUser'
+import Input from './Input'
+import Button from './Button'
 
 import 'firebase/auth'
 import 'firebase/firestore'
-import '../scss/UnlockSection.scss'
 
 const __DECK_NOT_OWNED__ = '__DECK_NOT_OWNED__'
 
@@ -33,6 +33,11 @@ export default () => {
 	const [unlockLoadingState, setUnlockLoadingState] = useState(LoadingState.None)
 	const [signOutLoadingState, setSignOutLoadingState] = useState(LoadingState.None)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
+	
+	const isUnlockButtonDisabled = !(email && password) || unlockLoadingState === LoadingState.Success
+	const isUnlockButtonLoading = unlockLoadingState === LoadingState.Loading
+	
+	const isSignOutButtonLoading = signOutLoadingState === LoadingState.Loading
 	
 	useEffect(() => void (async () => {
 		if (!(currentUser && deckId && sectionId && section))
@@ -83,106 +88,103 @@ export default () => {
 	}
 	
 	return (
-		<div id="unlock-section">
+		<div className="h-screen px-6 py-3 gradient-background">
 			<Helmet>
 				<meta name="description" content={`${deck?.name ?? ''} - Unlock ${section?.name ?? ''} on memorize.ai. Download on the App Store`} />
 				<title>{section?.name ? `Unlock ${section.name}` : 'memorize.ai'}</title>
 			</Helmet>
-			<Heading textColor="white">{deck?.name}</Heading>
-			<Columns>
-				<Columns.Column size="half" offset="one-quarter">
-					{currentUserLoadingState !== LoadingState.None && (
-						<Box id="content-box">
-							<Heading>Unlock {section?.name}</Heading>
-							<hr />
-							{currentUser
-								? null
-								: (
-									<>
-										<div className="field">
-											<p className="control has-icons-left">
-												<input
-													className="input"
-													type="email"
-													placeholder="Email"
-													value={email}
-													onChange={({ target: { value } }) => setEmail(value)}
-												/>
-												<span className="icon is-small is-left">
-													<FontAwesomeIcon icon={faEnvelope} />
-												</span>
-											</p>
-										</div>
-										<div className="field">
-											<p className="control has-icons-left">
-												<input
-													className="input"
-													type="password"
-													placeholder="Password"
-													value={password}
-													onChange={({ target: { value } }) => setPassword(value)}
-												/>
-												<span className="icon is-small is-left">
-													<FontAwesomeIcon icon={faLock} />
-												</span>
-											</p>
-										</div>
-									</>
-								)
-							}
-							<div id="buttons">
-								{errorMessage
+			<h1 className="mb-4 text-4xl text-white font-bold">{deck?.name}</h1>
+			<div className="md:w-1/2 mx-auto px-6 pt-4 pb-4 bg-white rounded-lg shadow-lg">
+				<h1 className="text-4xl text-dark-gray font-bold">Unlock {section?.name}</h1>
+				<hr className="mt-4 mb-4" />
+				<div hidden={currentUser !== null || currentUserLoadingState === LoadingState.Loading}>
+					<Input
+						icon={faEnvelope}
+						type="email"
+						placeholder="Email"
+						value={email}
+						setValue={setEmail}
+					/>
+					<Input
+						className="mt-2"
+						icon={faKey}
+						type="password"
+						placeholder="Password"
+						value={password}
+						setValue={setPassword}
+					/>
+				</div>
+				<div className="flex mt-4">
+					{errorMessage
+						? (
+							<p className="text-red-600">
+								{errorMessage === __DECK_NOT_OWNED__ && deckId
 									? (
-										<div id="error-message">
-											{errorMessage === __DECK_NOT_OWNED__ && deckId
-												? (
-													<Link to={`/d/${deckId}/g`}>
-														Click here to get {deck?.name}
-													</Link>
-												)
-												: errorMessage
-											}
-										</div>
+										<Link to={`/d/${deckId}/g`}>
+											Click here to get {deck?.name}
+										</Link>
 									)
-									: (
-										<Button
-											id="unlock-button"
-											className="is-info"
-											outlined
-											loading={unlockLoadingState === LoadingState.Loading}
-											disabled={!(email && password) || unlockLoadingState === LoadingState.Success}
-											onClick={() => {
-												setUnlockLoadingState(LoadingState.Loading)
-												
-												auth.signInWithEmailAndPassword(email, password)
-													.catch(error => {
-														setUnlockLoadingState(LoadingState.Fail)
-														setErrorMessage(error.message)
-													})
-											}}
-										>
-											<FontAwesomeIcon
-												icon={unlockLoadingState === LoadingState.Success ? faCheck : faUnlock}
-											/>
-										</Button>
-									)
+									: errorMessage
 								}
-								{currentUser && (
-									<Button
-										id="sign-out-button"
-										className="is-info"
-										outlined
-										loading={signOutLoadingState === LoadingState.Loading}
-										onClick={signOut}
-									>
-										<FontAwesomeIcon icon={faSignOutAlt} />
-									</Button>
-								)}
-							</div>
-						</Box>
+							</p>
+						)
+						: (
+							<Button
+								className={`
+									h-8
+									px-8
+									text-blue-${isUnlockButtonDisabled ? 200 : 400}
+									${isUnlockButtonDisabled || isUnlockButtonLoading ? '' : 'hover:text-white'}
+									border-2
+									border-blue-${isUnlockButtonDisabled ? 200 : 400}
+									${isUnlockButtonDisabled || isUnlockButtonLoading ? '' : 'hover:bg-blue-400'}
+									rounded
+								`}
+								loaderSize="16px"
+								loaderThickness="3px"
+								loaderColor="#63b3ed"
+								loading={isUnlockButtonLoading}
+								disabled={isUnlockButtonDisabled}
+								onClick={() => {
+									setUnlockLoadingState(LoadingState.Loading)
+									
+									auth.signInWithEmailAndPassword(email, password)
+										.catch(error => {
+											setUnlockLoadingState(LoadingState.Fail)
+											setErrorMessage(error.message)
+										})
+								}}
+							>
+								<FontAwesomeIcon
+									icon={unlockLoadingState === LoadingState.Success ? faCheck : faUnlock}
+								/>
+							</Button>
+						)
+					}
+					{currentUser && (
+						<Button
+							className={`
+								h-8
+								ml-auto
+								px-8
+								text-blue-400
+								${isSignOutButtonLoading ? '' : 'hover:text-white'}
+								border-2
+								border-blue-400
+								${isSignOutButtonLoading ? '' : 'hover:bg-blue-400'}
+								rounded
+							`}
+							loaderSize="16px"
+							loaderThickness="3px"
+							loaderColor="#63b3ed"
+							loading={isSignOutButtonLoading}
+							onClick={signOut}
+						>
+							<FontAwesomeIcon icon={faSignOutAlt} />
+						</Button>
 					)}
-				</Columns.Column>
-			</Columns>
+				</div>
+			</div>
 		</div>
 	)
 }

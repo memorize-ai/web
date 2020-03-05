@@ -1,13 +1,13 @@
 import React from 'react'
 import { DiscussionEmbed } from 'disqus-react'
 
-import { disqusShortname, disqusUrl } from '../constants'
+import { DISQUS_SHORTNAME, DISQUS_URL } from '../constants'
 
 export default ({ title, id }: { title: string, id: string }) => (
 	<DiscussionEmbed
-		shortname={disqusShortname}
+		shortname={DISQUS_SHORTNAME}
 		config={{
-			url: disqusUrl,
+			url: DISQUS_URL,
 			identifier: id,
 			title
 		}}

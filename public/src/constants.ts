@@ -1,4 +1,4 @@
 export const DEBUG = false
 
-export const disqusShortname = 'memorize-ai'
-export const disqusUrl = 'https://memorize.ai'
+export const DISQUS_SHORTNAME = 'memorize-ai'
+export const DISQUS_URL = 'https://memorize.ai'

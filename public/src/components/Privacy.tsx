@@ -1,11 +1,8 @@
 import React from 'react'
-import { Heading } from 'react-bulma-components'
-
-import '../scss/Privacy.scss'
 
 export default () => (
-	<div id="privacy">
-		<Heading>PRIVACY NOTICE</Heading>
+	<div className="p-8">
+		<h1 className="text-4xl">PRIVACY NOTICE</h1>
 		
 		Last updated February 25, 2020<br /><br />
 
