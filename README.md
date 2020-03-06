@@ -14,6 +14,7 @@ git clone https://github.com/kenmueller/memorize.ai-web.git
 
 - Use tabs for indentation
 - No semicolons
+- Single quotes
 - Constants are formatted as follows: `APP_STORE_URL`
 
 ### Deploy
@@ -26,6 +27,7 @@ npm run deploy:dev # Deploy to development
 ### `/public`
 
 - Each component gets its own file
+- Double quotes for raw JSX attribute values
 
 ### Start local server
 
