@@ -1,30 +1,56 @@
-# **[memorize.ai](https://memorize.ai)**
+# [memorize.ai](https://memorize.ai)
 
 **memorize.ai Website**
 
-## **Repositories**
-
-**[memorize.ai-web](https://github.com/kenmueller/memorize.ai-web)**
-
-**[memorize.ai-ios](https://github.com/kenmueller/memorize.ai-ios)**
-
-**[memorize.ai-android](https://github.com/kenmueller/memorize.ai-android)**
-
-**[memorize.ai-ios-design](https://github.com/kenmueller/memorize.ai-ios-design)**
-
-## **Links**
-
-**[memorize.ai website](https://memorize.ai)**
-
-**[memorize.ai on the App Store](https://apps.apple.com/us/app/memorize-ai/id1462251805?ls=1)**
-
-## **Download**
+## Download
 
 ```bash
 git clone https://github.com/kenmueller/memorize.ai-web.git
 ```
 
-## **License**
+## Rules
+
+### General
+
+- Use tabs for indentation
+- No semicolons
+- Constants are formatted as follows: `APP_STORE_URL`
+
+### `/public`
+
+#### File structure
+
+- Each component gets its own file
+
+```
+-- components
+  -- shared
+    -- Input.tsx
+	-- Button.tsx
+  -- App
+    -- index.tsx
+	-- {helper components private to App}
+  -- Home
+    -- index.tsx
+	-- {helper components private to Home}
+-- hooks
+  -- useCurrentUser.ts
+  -- useDeck.ts
+-- models
+  -- LoadingState.ts
+  -- User.ts
+-- css
+  -- index.css
+  -- base.css
+  -- components
+    -- input.css
+	-- loader.css
+-- images
+  -- app-store-download.svg
+  -- logo.png
+```
+
+## License
 
 CLOSED SOURCE SOFTWARE
 
