@@ -16,11 +16,32 @@ git clone https://github.com/kenmueller/memorize.ai-web.git
 - No semicolons
 - Constants are formatted as follows: `APP_STORE_URL`
 
+### Deploy
+
+```bash
+npm run deploy # Deploy to production
+npm run deploy:dev # Deploy to development
+```
+
 ### `/public`
 
-#### File structure
-
 - Each component gets its own file
+
+### Start local server
+
+#### Terminal #1
+
+```bash
+npm start
+```
+
+#### Terminal #2
+
+```bash
+npm run watch:css
+```
+
+#### File structure
 
 ```
 -- components
