@@ -1,7 +1,6 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, HTMLAttributes } from 'react'
 
 export interface ButtonProps {
-	className?: string
 	loaderSize?: string
 	loaderThickness?: string
 	loaderColor?: string
@@ -11,16 +10,16 @@ export interface ButtonProps {
 }
 
 export default ({
-	className,
 	loaderSize,
 	loaderThickness,
 	loaderColor,
 	loading,
 	disabled,
 	onClick,
-	children
-}: PropsWithChildren<ButtonProps>) => (
-	<button className={className} disabled={disabled || loading} onClick={onClick}>
+	children,
+	...props
+}: PropsWithChildren<ButtonProps & HTMLAttributes<HTMLButtonElement>>) => (
+	<button {...props} disabled={disabled || loading} onClick={onClick}>
 		{loading
 			? (
 				<div
