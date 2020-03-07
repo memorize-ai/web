@@ -7,8 +7,8 @@ import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
 export default () => (
 	<div className="navbar flex items-center">
 		<Link to="/">
-			<CapitalLogo />
+			<CapitalLogo className="capital-logo raise-on-hover" />
 		</Link>
-		<AppStoreDownloadButton className="hidden sm:block ml-auto" />
+		<AppStoreDownloadButton className="hidden sm:block ml-auto shadow-raise-on-hover" />
 	</div>
 )

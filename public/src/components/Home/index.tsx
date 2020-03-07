@@ -5,7 +5,7 @@ import TopGradient from '../shared/TopGradient'
 import Navbar from './Navbar'
 
 export default () => (
-	<>
+	<div className="bg-light-gray">
 		<Helmet>
 			<meta name="description" content="The ultimate memorization tool. Download on the App Store" />
 			<title>memorize.ai</title>
@@ -13,5 +13,5 @@ export default () => (
 		<TopGradient>
 			<Navbar />
 		</TopGradient>
-	</>
+	</div>
 )

@@ -2,6 +2,10 @@
 	color: #363636;
 }
 
+.bg-light-gray {
+	background: #f5f6fb;
+}
+
 .gradient-background {
 	background: linear-gradient(to right, #cb34b5, #44a6bb);
 }
@@ -11,8 +15,15 @@
 	
 	&:hover,
 	&:focus {
-		@apply shadow-md;
-		
 		transform: translateY(-2px);
+	}
+}
+
+.shadow-raise-on-hover {
+	@apply raise-on-hover;
+	
+	&:hover,
+	&:focus {
+		@apply shadow-lg;
 	}
 }

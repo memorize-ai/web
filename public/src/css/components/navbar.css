@@ -6,7 +6,7 @@
 		padding-right: 135px;
 	}
 	
-	> a:first-child > img {
+	.capital-logo {
 		max-height: 59px;
 	}
 }
