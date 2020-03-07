@@ -1,0 +1,19 @@
+.home.navbar {
+	padding: 30px 30px 0 30px;
+	transition: padding 0.3s;
+	
+	@media (min-width: 800px) {
+		padding-left: 135px;
+		padding-right: 135px;
+	}
+	
+	.capital-logo {
+		max-height: 59px;
+	}
+	
+	.app-store-download-button {
+		@media (min-width: 500px) {
+			@apply block;
+		}
+	}
+}

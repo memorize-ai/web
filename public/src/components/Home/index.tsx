@@ -3,6 +3,7 @@ import Helmet from 'react-helmet'
 
 import TopGradient from '../shared/TopGradient'
 import Navbar from './Navbar'
+import Header from './Header'
 
 export default () => (
 	<div className="bg-light-gray">
@@ -12,6 +13,7 @@ export default () => (
 		</Helmet>
 		<TopGradient>
 			<Navbar />
+			<Header />
 		</TopGradient>
 	</div>
 )

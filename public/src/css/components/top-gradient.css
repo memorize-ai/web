@@ -6,7 +6,7 @@
 	transform: skewY(6deg);
 	transition: 0.3s height;
 	
-	@screen md {
+	@media (min-width: 800px) {
 		height: 570px;
 	}
 	
