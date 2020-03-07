@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { HTMLAttributes } from 'react'
 
-export default () => (
-	<div className="scroll-indicator">
-		<div><div /></div>
+export default ({ color, ...props }: HTMLAttributes<HTMLDivElement>) => (
+	<div {...props} className="scroll-indicator" style={{ borderColor: color }}>
+		<div style={{ background: color }} />
 	</div>
 )
