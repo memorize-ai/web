@@ -1,0 +1,12 @@
+.navbar {
+	padding: 30px 30px 0 30px;
+	
+	@screen sm {
+		padding-left: 135px;
+		padding-right: 135px;
+	}
+	
+	> img {
+		max-height: 59px;
+	}
+}

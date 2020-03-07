@@ -8,3 +8,5 @@
 @import 'components/input';
 @import 'components/loader';
 @import 'components/top-gradient';
+@import 'components/navbar';
+@import 'components/scroll-indicator';
