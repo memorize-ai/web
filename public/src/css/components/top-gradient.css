@@ -1,16 +1,22 @@
 .top-gradient {
-	@apply w-full origin-top-right;
-	
-	height: 380px;
-	background: linear-gradient(to bottom, #5a2aff, #00e5f4);
-	transform: skewY(6deg);
-	transition: 0.3s height;
-	
-	@media (min-width: 800px) {
-		height: 570px;
+	> .background,
+	> .content {
+		grid-row: 1;
+		grid-column: 1;
 	}
 	
-	@screen lg {
-		height: 670px;
+	> .background {
+		height: 380px;
+		background: linear-gradient(to bottom, #5a2aff, #00e5f4);
+		transform: skewY(6deg);
+		transition: 0.3s height;
+		
+		@media (min-width: 800px) {
+			height: 570px;
+		}
+		
+		@screen lg {
+			height: 670px;
+		}
 	}
 }

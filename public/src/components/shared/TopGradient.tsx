@@ -1,8 +1,8 @@
-import React, { PropsWithChildren } from 'react'
+import React, { HTMLAttributes } from 'react'
 
-export default ({ children }: PropsWithChildren<{}>) => (
-	<>
-		<div className="top-gradient" />
-		<div className="absolute inset-x-0 top-0">{children}</div>
-	</>
+export default ({ children, ...props }: HTMLAttributes<HTMLDivElement>) => (
+	<div {...props} className="top-gradient grid">
+		<div className="background origin-top-right" />
+		<div className="content z-10">{children}</div>
+	</div>
 )
