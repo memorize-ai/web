@@ -6,7 +6,7 @@
 		padding-right: 135px;
 	}
 	
-	> img {
+	> a:first-child > img {
 		max-height: 59px;
 	}
 }
