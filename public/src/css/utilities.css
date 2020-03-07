@@ -10,6 +10,15 @@
 	background: linear-gradient(to right, #cb34b5, #44a6bb);
 }
 
+.stack {
+	@apply grid;
+	
+	> * {
+		grid-row: 1;
+		grid-column: 1;
+	}
+}
+
 .raise-on-hover {
 	transition: box-shadow 0.25s, transform 0.25s;
 	
