@@ -1,9 +1,9 @@
 .top-gradient {
-	@apply w-full origin-top-left;
+	@apply w-full origin-top-right;
 	
 	height: 380px;
 	background: linear-gradient(to bottom, #5a2aff, #00e5f4);
-	transform: skewY(-12deg);
+	transform: skewY(6deg);
 	transition: 0.3s height;
 	
 	@screen md {
@@ -11,6 +11,6 @@
 	}
 	
 	@screen lg {
-		height: 760px;
+		height: 670px;
 	}
 }
