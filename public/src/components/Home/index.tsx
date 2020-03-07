@@ -12,8 +12,10 @@ export default () => (
 			<title>memorize.ai</title>
 		</Helmet>
 		<TopGradient>
-			<AppStoreDownloadButton />
 			<h1 className="text-4xl text-center">Welcome to memorize.ai</h1>
+			<div className="flex justify-center">
+				<AppStoreDownloadButton className="raise-on-hover" />
+			</div>
 			<div className="mx-8">
 				<Disqus title="Home" id="home" />
 			</div>
