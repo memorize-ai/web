@@ -28,9 +28,10 @@ const updateUserNodeSections = async (deckId: string, card: Card) => {
 	const batch = new Batch(firestore)
 	
 	for (const uid of currentUserIds)
-		firestore
-			.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`)
-			.update({ section: card.sectionId })
+		batch.update(
+			firestore.doc(`users/${uid}/decks/${deckId}/cards/${card.id}`),
+			{ section: card.sectionId }
+		)
 	
 	return batch.commit()
 }
