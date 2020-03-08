@@ -8,7 +8,6 @@
 @import 'components/input';
 @import 'components/loader';
 @import 'components/top-gradient';
-@import 'components/scroll-indicator';
 
 @import 'components/home/navbar';
 @import 'components/home/header';
