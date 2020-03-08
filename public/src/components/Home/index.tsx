@@ -6,6 +6,8 @@ import Navbar from './Navbar'
 import Header from './Header'
 import Boxes from './Boxes'
 import Screenshots from './Screenshots'
+import Integrations from './Integrations'
+import Footer from './Footer'
 
 export default () => (
 	<div className="bg-light-gray">
@@ -18,6 +20,8 @@ export default () => (
 			<Header />
 			<Boxes />
 			<Screenshots />
+			<Integrations />
+			<Footer />
 		</TopGradient>
 	</div>
 )

@@ -1,0 +1,30 @@
+.home.footer {
+	> .top {
+		padding: 40px 30px;
+		
+		> h1 {
+			max-width: 500px;
+			font-size: 38px;
+			font-weight: 800;
+			line-height: 52px;
+		}
+		
+		> .app-store-download-button {
+			margin-left: 100px;
+			transform: scale(2);
+		}
+	}
+	
+	> hr {
+		opacity: 0.06;
+	}
+	
+	> .bottom {
+		padding: 40px 30px;
+		
+		> .logo {
+			max-height: 60px;
+			margin-bottom: 20px;
+		}
+	}
+}
