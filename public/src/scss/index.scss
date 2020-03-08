@@ -1,0 +1,15 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import 'base.scss';
+@import 'utilities.scss';
+
+@import 'components/input.scss';
+@import 'components/loader.scss';
+@import 'components/top-gradient.scss';
+
+@import 'components/home/navbar.scss';
+@import 'components/home/header.scss';
+@import 'components/home/boxes.scss';
+@import 'components/home/screenshots.scss';

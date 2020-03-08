@@ -11,6 +11,7 @@
 		"postcss-cli": "^7.1.0",
 		"postcss-import": "^12.0.1",
 		"postcss-nested": "^4.2.1",
+		"postcss-scss": "^2.0.0",
 		"react": "^16.13.0",
 		"react-dom": "^16.13.0",
 		"react-helmet": "^5.2.1",
@@ -29,10 +30,10 @@
 		"typescript": "^3.8.3"
 	},
 	"scripts": {
-		"build:css": "postcss src/css/index.css -o public/index.css",
-		"watch:css": "postcss src/css/index.css -o public/index.css -w",
+		"build:scss": "postcss src/scss/index.scss -o public/index.css",
+		"watch:scss": "postcss src/scss/index.scss -o public/index.css -w",
 		"start": "react-scripts start",
-		"build": "npm run build:css && react-scripts build",
+		"build": "npm run build:scss && react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},

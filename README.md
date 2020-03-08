@@ -40,7 +40,7 @@ npm start
 #### Terminal #2
 
 ```bash
-npm run watch:css
+npm run watch:scss
 ```
 
 #### File structure
