@@ -5,6 +5,7 @@ import TopGradient from '../shared/TopGradient'
 import Navbar from './Navbar'
 import Header from './Header'
 import Boxes from './Boxes'
+import Screenshots from './Screenshots'
 
 export default () => (
 	<div className="bg-light-gray">
@@ -16,6 +17,7 @@ export default () => (
 			<Navbar />
 			<Header />
 			<Boxes />
+			<Screenshots />
 		</TopGradient>
 	</div>
 )

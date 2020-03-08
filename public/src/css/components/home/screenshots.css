@@ -1,0 +1,7 @@
+.home.screenshots {
+	> .background {
+		height: calc(100vh + 0.1051042353 * 100vw); /* tan(6deg) */
+		background: linear-gradient(to bottom, #5a2aff, #00e5f4);
+		transform: skewY(6deg);
+	}
+}
