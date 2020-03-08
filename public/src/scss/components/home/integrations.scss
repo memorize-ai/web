@@ -3,12 +3,12 @@
 	transition: padding 0.3s;
 	
 	@media (min-width: 800px) {
-		padding-left: 180px;
-		padding-right: 180px;
+		padding-left: 320px;
+		padding-right: 320px;
 	}
 	
 	> .left {
-		> .logo {
+		> a > .logo {
 			max-height: 60px;
 		}
 		
@@ -33,6 +33,17 @@
 				line-height: 28px;
 				opacity: 0.8;
 			}
+		}
+	}
+	
+	> .right {
+		grid-template-columns: repeat(3, minmax(0, 160px));
+		
+		> img {
+			width: 160px;
+			padding: 10px;
+			aspect-ratio: 1;
+			border-radius: 8px;
 		}
 	}
 }

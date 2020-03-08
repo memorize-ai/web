@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import Logo, { LogoType } from '../shared/Logo'
 import ListItem from './IntegrationsListItem'
@@ -41,7 +42,12 @@ export const integrations = [
 export default () => (
 	<div className="home integrations flex">
 		<div className="left">
-			<Logo type={LogoType.CapitalInverted} className="logo" />
+			<Link to="/">
+				<Logo
+					type={LogoType.CapitalInverted}
+					className="logo raise-on-hover"
+				/>
+			</Link>
 			<h1>Integrate your decks in your classroom, lecture review, and notes!</h1>
 			<div className="items">
 				{listItems.map((title, index) => (
@@ -49,8 +55,14 @@ export default () => (
 				))}
 			</div>
 		</div>
-		<div className="right grid">
-			{/* TODO: Add images */}
+		<div className="right grid gap-4">
+			{integrations.map((integration, index) => (
+				<img
+					key={index}
+					className="bg-white shadow-raise-on-hover"
+					{...integration}
+				/>
+			))}
 		</div>
 	</div>
 )
