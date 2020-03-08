@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import TopGradient from '../shared/TopGradient'
 import Navbar from './Navbar'
 import Header from './Header'
+import Boxes from './Boxes'
 
 export default () => (
 	<div className="bg-light-gray">
@@ -14,6 +15,7 @@ export default () => (
 		<TopGradient>
 			<Navbar />
 			<Header />
+			<Boxes />
 		</TopGradient>
 	</div>
 )
