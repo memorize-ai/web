@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
 import Logo, { LogoType } from '../shared/Logo'
@@ -11,10 +12,12 @@ export default () => (
 		</div>
 		<hr className="bg-black" />
 		<div className="bottom flex flex-col items-center">
-			<Logo
-				type={LogoType.CapitalInvertedGrayscale}
-				className="logo raise-on-hover"
-			/>
+			<Link to="/">
+				<Logo
+					type={LogoType.CapitalInvertedGrayscale}
+					className="logo raise-on-hover"
+				/>
+			</Link>
 			<p className="opacity-50">
 				Copyright &copy; 2020 <b>memorize.ai Inc</b>.
 				All rights reserved.

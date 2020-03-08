@@ -1,14 +1,38 @@
 .home.integrations {
+	padding: 30px 30px 60px 30px;
+	transition: padding 0.3s;
+	
+	@media (min-width: 800px) {
+		padding-left: 180px;
+		padding-right: 180px;
+	}
+	
 	> .left {
 		> .logo {
 			max-height: 60px;
 		}
 		
 		> h1 {
+			margin: 20px 0;
 			font-size: 38px;
 			font-weight: 800;
 			line-height: 48px;
 			color: #582efe;
+		}
+		
+		> .items > div {
+			> img {
+				height: 16px;
+				margin-top: 6px;
+			}
+			
+			> p {
+				margin-left: 20px;
+				font-size: 22px;
+				font-weight: 600;
+				line-height: 28px;
+				opacity: 0.8;
+			}
 		}
 	}
 }

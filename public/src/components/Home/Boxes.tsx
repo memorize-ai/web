@@ -43,8 +43,8 @@ export const boxes = [
 
 export default () => (
 	<div className="home boxes grid gap-4 justify-center mt-10">
-		{boxes.map(({ image, title, description }, index) => (
-			<Box key={index} image={image} title={title} description={description} />
+		{boxes.map((box, index) => (
+			<Box key={index} {...box} />
 		))}
 	</div>
 )
