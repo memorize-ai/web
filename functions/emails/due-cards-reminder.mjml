@@ -1,18 +1,82 @@
 <mjml>
 	<mj-head>
-		<mj-title>{{ subject }}</mj-title>
+		<mj-font
+			name="Muli"
+			href="https://fonts.googleapis.com/css2?family=Muli:wght@400;600;800&display=swap"
+		/>
+		<mj-attributes>
+			<mj-text
+				padding="0 30px"
+				font-family="Muli, Ubuntu, Arial, Helvetica, sans-serif"
+				color="#4a4a4a"
+			/>
+		</mj-attributes>
+		<mj-title>
+			You have {{ count }} card{{#if is_plural}}s{{/if}} due
+		</mj-title>
 		<mj-preview>
 			Hello, {{ name }}. Open memorize.ai to review your due cards!
 		</mj-preview>
 	</mj-head>
-	<mj-body>
+	<mj-body background-color="#f5f6fb">
 		<mj-section>
 			<mj-column>
-				<mj-text>Hello, {{ name }}</mj-text>
-				<mj-text>{{ subject }}</mj-text>
-				{{#each decks}}
-					<mj-text>{{ this.name }} - {{ this.count }} cards due</mj-text>
-				{{/each}}
+				<mj-image
+					width="400px"
+					href="https://memorize.ai"
+					src="https://memorize.ai/images/logos/capital-inverted.png"
+					alt="Logo"
+				/>
+			</mj-column>
+		</mj-section>
+		<mj-section>
+			<mj-column>
+				<mj-text
+					align="center"
+					font-size="24px"
+					font-weight="600"
+				>
+					Hello, {{ name }}
+				</mj-text>
+				<mj-text
+					align="center"
+					padding-top="16px"
+					font-size="30px"
+					font-weight="800"
+				>
+					You have {{ count }} card{{#if is_plural}}s{{/if}} due
+				</mj-text>
+				<mj-text padding-top="30px" font-size="20px">
+					Your decks that you need to review:
+				</mj-text>
+				<mj-table padding-top="20px">
+					{{#each decks}}
+						<tr style="font-size: 20px;">
+							<th style="text-align: right; color: #4a4a4a;">{{ this.name }}</th>
+							<th style="padding-left: 8px; text-align: left; color: #582efe;">
+								({{ this.count }} card{{#if this.is_plural}}s{{/if}})
+							</th>
+						</tr>
+					{{/each}}
+				</mj-table>
+			</mj-column>
+		</mj-section>
+		<mj-section background-color="#efeefa">
+			<mj-column>
+				<mj-image
+					width="200px"
+					href="https://memorize.ai"
+					src="https://memorize.ai/images/logos/capital-inverted-grayscale.png"
+					alt="Download on the App Store"
+				/>
+				<mj-text
+					align="center"
+					padding-top="12px"
+					padding-bottom="16px"
+				>
+					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
+					All rights reserved.
+				</mj-text>
 			</mj-column>
 		</mj-section>
 	</mj-body>

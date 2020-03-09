@@ -6,8 +6,6 @@ import Email, { EmailTemplate } from '../../Email'
 const firestore = admin.firestore()
 
 export default functions.pubsub.schedule('every 24 hours').onRun(async () => {
-	return // TODO: Remove this
-	
 	const users = await firestore.collection('users').listDocuments()
 	
 	return Promise.all(users.map(async ({ id: uid }) => {
@@ -36,18 +34,19 @@ const sendNotificationsIfNeeded = async (uid: string, decks: { id: string, dueCa
 	
 	const user = await firestore.doc(`users/${uid}`).get()
 	const dueCardCount = decks.reduce((acc, deck) => acc + deck.dueCardCount, 0)
-	const subject = `You have ${dueCardCount} card${dueCardCount === 1 ? '' : 's'} due`
 	
 	return Email.send({
 		template: EmailTemplate.DueCardsReminder,
 		to: user.get('email'),
-		subject,
+		subject: `You have ${dueCardCount} card${dueCardCount === 1 ? '' : 's'} due`,
 		context: {
-			subject,
+			count: dueCardCount,
+			is_plural: dueCardCount !== 1,
 			name: user.get('name'),
 			decks: await Promise.all(decks.map(async deck => ({
 				name: (await firestore.doc(`decks/${deck.id}`).get()).get('name'),
-				count: deck.dueCardCount
+				count: deck.dueCardCount,
+				is_plural: deck.dueCardCount !== 1
 			})))
 		}
 	})
