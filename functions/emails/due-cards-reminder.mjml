@@ -1,0 +1,19 @@
+<mjml>
+	<mj-head>
+		<mj-title>{{ subject }}</mj-title>
+		<mj-preview>
+			Hello, {{ name }}. Open memorize.ai to review your due cards!
+		</mj-preview>
+	</mj-head>
+	<mj-body>
+		<mj-section>
+			<mj-column>
+				<mj-text>Hello, {{ name }}</mj-text>
+				<mj-text>{{ subject }}</mj-text>
+				{{#each decks}}
+					<mj-text>{{ this.name }} - {{ this.count }} cards due</mj-text>
+				{{/each}}
+			</mj-column>
+		</mj-section>
+	</mj-body>
+</mjml>

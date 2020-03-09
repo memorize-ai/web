@@ -21,7 +21,8 @@ export {
 	deckUserNodeCreated,
 	deckUserNodeUpdated,
 	deckUserNodeDeleted,
-	deckDueCardCountPubSub
+	deckDueCardCountPubSub,
+	deckDueCardCountNotificationPubSub
 } from './Deck/functions'
 
 export {

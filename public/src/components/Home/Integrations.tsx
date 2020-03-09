@@ -40,8 +40,8 @@ export const integrations = [
 ]
 
 export default () => (
-	<div className="home integrations flex">
-		<div className="left">
+	<div className="home integrations grid">
+		<div className="left flex flex-col items-start">
 			<Link to="/">
 				<Logo
 					type={LogoType.CapitalInverted}
