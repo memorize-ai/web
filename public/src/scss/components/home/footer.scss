@@ -29,16 +29,32 @@
 		
 		> .app-store-download-button {
 			margin: 0;
+			transform: scale(1);
 			transition: transform 0.3s;
+			
+			&:hover,
+			&:focus {
+				transform: scale(1.25);
+			}
 			
 			@media (min-width: 305px) {
 				margin: 0 10px;
 				transform: scale(1.5);
+				
+				&:hover,
+				&:focus {
+					transform: scale(1.75);
+				}
 			}
 			
 			@media (min-width: 350px) {
 				margin: 0 60px;
 				transform: scale(2);
+				
+				&:hover,
+				&:focus {
+					transform: scale(2.25);
+				}
 			}
 			
 			@media (min-width: 1070px) {
