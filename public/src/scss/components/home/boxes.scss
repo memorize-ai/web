@@ -1,12 +1,20 @@
 .home.boxes {
-	grid-template-columns: repeat(3, minmax(0, 370px));
+	grid-template-columns: repeat(1, minmax(0, 370px));
 	padding-left: 30px;
 	padding-right: 30px;
 	transition: padding 0.3s;
 	
+	@media (min-width: 465px) {
+		grid-template-columns: repeat(2, minmax(0, 370px));
+	}
+	
 	@media (min-width: 800px) {
 		padding-left: 135px;
 		padding-right: 135px;
+	}
+	
+	@media (min-width: 970px) {
+		grid-template-columns: repeat(3, minmax(0, 370px));
 	}
 	
 	> div {
@@ -24,6 +32,10 @@
 		
 		> p {
 			opacity: 0.8;
+			
+			@media (min-width: 465px) {
+				@apply block;
+			}
 		}
 	}
 }

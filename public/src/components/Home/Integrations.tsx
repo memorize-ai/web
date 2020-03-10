@@ -41,7 +41,7 @@ export const integrations = [
 
 export default () => (
 	<div className="home integrations grid">
-		<div className="left flex flex-col items-start">
+		{/* <div className="left flex flex-col items-start">
 			<Link to="/">
 				<Logo
 					type={LogoType.CapitalInverted}
@@ -54,15 +54,15 @@ export default () => (
 					<ListItem key={index} title={title} />
 				))}
 			</div>
-		</div>
+		</div> */}
 		<div className="right grid gap-4">
-			{integrations.map((integration, index) => (
+			{/* {integrations.map((integration, index) => ( // eslint-disable-next-line
 				<img
 					key={index}
 					className="bg-white shadow-raise-on-hover"
 					{...integration}
 				/>
-			))}
+			))} */}
 		</div>
 	</div>
 )

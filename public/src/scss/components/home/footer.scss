@@ -1,17 +1,49 @@
 .home.footer {
 	> .top {
-		padding: 40px 30px;
+		padding: 40px 0;
+		
+		@media (min-width: 640px) {
+			padding-left: 30px;
+			padding-right: 30px;
+		}
 		
 		> h1 {
 			max-width: 500px;
-			font-size: 38px;
+			font-size: 28px;
 			font-weight: 800;
-			line-height: 52px;
+			line-height: 42px;
+			
+			@media (min-width: 640px) {
+				@apply block;
+			}
+			
+			@media (min-width: 750px) {
+				font-size: 38px;
+				line-height: 52px;
+			}
+			
+			@media (min-width: 1070px) {
+				margin: 0;
+			}
 		}
 		
 		> .app-store-download-button {
-			margin-left: 100px;
-			transform: scale(2);
+			margin: 0;
+			transition: transform 0.3s;
+			
+			@media (min-width: 305px) {
+				margin: 0 10px;
+				transform: scale(1.5);
+			}
+			
+			@media (min-width: 350px) {
+				margin: 0 60px;
+				transform: scale(2);
+			}
+			
+			@media (min-width: 1070px) {
+				margin-left: 100px;
+			}
 		}
 	}
 	

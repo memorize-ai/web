@@ -6,9 +6,13 @@ import Logo, { LogoType } from '../shared/Logo'
 
 export default () => (
 	<div className="home footer text-dark-gray bg-medium-gray">
-		<div className="top flex items-center justify-center items-center">
-			<h1>Download the ultimate memorization app</h1>
-			<AppStoreDownloadButton className="app-store-download-button" />
+		<div className="top flex justify-center items-center">
+			<h1 className="hidden mr-auto">
+				Download the ultimate memorization app
+			</h1>
+			<AppStoreDownloadButton
+				className="app-store-download-button ml-auto"
+			/>
 		</div>
 		<hr className="bg-black" />
 		<div className="bottom flex flex-col items-center">

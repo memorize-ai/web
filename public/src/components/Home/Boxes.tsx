@@ -17,27 +17,27 @@ export const boxes = [
 	{
 		image: artificialIntelligenceImage,
 		title: 'Artificial Intelligence',
-		description: 'We use AI to help determine the spacing between recall attempts. We predict the perfect memorization timing so you can remember an extraordinary amount with very little studying!'
+		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
 	},
 	{
 		image: fasterResultsImage,
 		title: 'Faster Results',
-		description: 'What if you need to cram information quickly? Review decks quickly and easily with our Cram mode, designed for studying in a compressed amount of time.'
+		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
 	},
 	{
 		image: communityImage,
 		title: 'Community of learners',
-		description: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them. Share your knowledge with the world.'
+		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
 	},
 	{
 		image: editorImage,
 		title: 'Beautiful, rich content',
-		description: 'The cards you work with are beautiful and easy to create. No other platform has an editor like memorize.ai does. from images to math to code, we have everything covered!'
+		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
 	},
 	{
 		image: integrateImage,
 		title: 'Easy to integrate',
-		description: 'memorize.ai can easily fit in your current workflow with integration support for Canvas, Schoology, Google Classroom, and more!'
+		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
 	}
 ]
 
