@@ -7,7 +7,7 @@ export default (
 	}>
 ) => (
 	<div className={`
-		${outerClassName}
+		${outerClassName ?? ''}
 		fixed-container
 		fixed
 		inset-0
