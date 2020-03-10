@@ -46,7 +46,7 @@ export default () => {
 					))}
 				</div>
 			</div>
-			<div className="right grid gap-4">
+			<div className="right grid gap-6">
 				{gridItems}
 			</div>
 		</div>
