@@ -1,9 +1,17 @@
 .home.integrations {
-	grid-template-columns: 1fr 1fr;
 	padding: 30px 30px 60px 30px;
 	transition: padding 0.3s;
 	
 	@media (min-width: 800px) {
+		padding-left: 135px;
+		padding-right: 135px;
+	}
+	
+	@media (min-width: 990px) {
+		flex-direction: row;
+	}
+	
+	@media (min-width: 1370px) {
 		padding-left: 320px;
 		padding-right: 320px;
 	}
@@ -15,24 +23,41 @@
 		
 		> h1 {
 			margin: 20px 0;
-			font-size: 38px;
+			font-size: 28px;
 			font-weight: 800;
-			line-height: 48px;
+			line-height: 38px;
 			color: #582efe;
+			transition: font-size 0.3s, line-height 0.3s;
+			
+			@media (min-width: 590px) {
+				font-size: 38px;
+				line-height: 48px;
+			}
 		}
 		
 		> .items > div {
 			> img {
 				height: 16px;
-				margin-top: 6px;
+				margin-top: 3px;
+				transition: margin 0.3s;
+				
+				@media (min-width: 590px) {
+					margin-top: 6px;
+				}
 			}
 			
 			> p {
 				margin-left: 20px;
-				font-size: 22px;
+				font-size: 16px;
 				font-weight: 600;
-				line-height: 28px;
+				line-height: 20px;
 				opacity: 0.8;
+				transition: font-size 0.3s, line-height 0.3s;
+				
+				@media (min-width: 590px) {
+					font-size: 22px;
+					line-height: 28px;
+				}
 			}
 			
 			&:not(:last-child) {
@@ -42,13 +67,45 @@
 	}
 	
 	> .right {
-		grid-template-columns: repeat(3, minmax(0, 160px));
+		grid-template-columns: repeat(2, 100px);
+		margin-top: 30px;
+		
+		@media (min-width: 320px) {
+			grid-template-columns: repeat(2, 120px);
+		}
+		
+		@media (min-width: 370px) {
+			grid-template-columns: repeat(2, 140px);
+		}
+		
+		@media (min-width: 530px) {
+			grid-template-columns: repeat(3, 140px);
+		}
+		
+		@media (min-width: 590px) {
+			grid-template-columns: repeat(3, 160px);
+		}
+		
+		@media (min-width: 990px) {
+			grid-template-columns: repeat(2, 140px);
+			margin-top: 0;
+			margin-left: 40px;
+		}
+		
+		@media (min-width: 1150px) {
+			grid-template-columns: repeat(3, 140px);
+		}
+		
+		@media (min-width: 1370px) {
+			grid-template-columns: repeat(2, 160px);
+		}
+		
+		@media (min-width: 1570px) {
+			grid-template-columns: repeat(3, 160px);
+		}
 		
 		> img {
-			width: 160px;
-			min-width: 160px;
 			padding: 10px;
-			aspect-ratio: 1;
 			border-radius: 8px;
 		}
 	}

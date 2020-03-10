@@ -17,7 +17,7 @@
 		
 		> h1,
 		> h3 {
-			transition: font-size 0.3s;
+			transition: font-size 0.3s, line-height 0.3s;
 		}
 		
 		> h1 {
@@ -83,7 +83,7 @@
 			font-size: 18px;
 			font-weight: 700;
 			line-height: 24px;
-			transition: font-size 0.3s;
+			transition: font-size 0.3s, line-height 0.3s;
 			
 			@media (min-width: 500px) {
 				margin-top: 120px;

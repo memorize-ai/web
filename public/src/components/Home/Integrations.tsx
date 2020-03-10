@@ -13,56 +13,42 @@ export const listItems = [
 ]
 
 export const integrations = [
-	{
-		src: canvasImage,
-		alt: 'Canvas'
-	},
-	{
-		src: canvasImage,
-		alt: 'Canvas'
-	},
-	{
-		src: canvasImage,
-		alt: 'Canvas'
-	},
-	{
-		src: canvasImage,
-		alt: 'Canvas'
-	},
-	{
-		src: canvasImage,
-		alt: 'Canvas'
-	},
-	{
-		src: canvasImage,
-		alt: 'Canvas'
-	}
+	{ src: canvasImage, alt: 'Canvas' },
+	{ src: canvasImage, alt: 'Canvas' },
+	{ src: canvasImage, alt: 'Canvas' },
+	{ src: canvasImage, alt: 'Canvas' },
+	{ src: canvasImage, alt: 'Canvas' },
+	{ src: canvasImage, alt: 'Canvas' }
 ]
 
-export default () => (
-	<div className="home integrations grid">
-		{/* <div className="left flex flex-col items-start">
-			<Link to="/">
-				<Logo
-					type={LogoType.CapitalInverted}
-					className="logo raise-on-hover"
-				/>
-			</Link>
-			<h1>Integrate your decks in your classroom, lecture review, and notes!</h1>
-			<div className="items">
-				{listItems.map((title, index) => (
-					<ListItem key={index} title={title} />
-				))}
+export default () => {
+	const gridItems = integrations.map((integration, index) => ( // eslint-disable-next-line
+		<img
+			key={index}
+			className="bg-white shadow-raise-on-hover"
+			{...integration}
+		/>
+	))
+	
+	return (
+		<div className="home integrations flex flex-col items-center">
+			<div className="left flex flex-col items-start">
+				<Link to="/">
+					<Logo
+						type={LogoType.CapitalInverted}
+						className="logo raise-on-hover"
+					/>
+				</Link>
+				<h1>Integrate your decks in your classroom, lecture review, and notes!</h1>
+				<div className="items">
+					{listItems.map((title, index) => (
+						<ListItem key={index} title={title} />
+					))}
+				</div>
 			</div>
-		</div> */}
-		<div className="right grid gap-4">
-			{/* {integrations.map((integration, index) => ( // eslint-disable-next-line
-				<img
-					key={index}
-					className="bg-white shadow-raise-on-hover"
-					{...integration}
-				/>
-			))} */}
+			<div className="right grid gap-4">
+				{gridItems}
+			</div>
 		</div>
-	</div>
-)
+	)
+}
