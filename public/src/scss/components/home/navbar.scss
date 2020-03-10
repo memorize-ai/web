@@ -12,8 +12,16 @@
 	}
 	
 	.app-store-download-button {
+		transform: scale(1.25);
+		transition: transform 0.2s;
+		
 		@media (min-width: 500px) {
 			@apply block;
+		}
+		
+		&:hover,
+		&:focus {
+			transform: scale(1.35);
 		}
 	}
 }

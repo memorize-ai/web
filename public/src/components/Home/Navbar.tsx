@@ -9,6 +9,6 @@ export default () => (
 		<Link to="/">
 			<Logo type={LogoType.Capital} className="capital-logo raise-on-hover" />
 		</Link>
-		<AppStoreDownloadButton className="app-store-download-button hidden ml-auto shadow-raise-on-hover" />
+		<AppStoreDownloadButton className="app-store-download-button hidden ml-auto" />
 	</div>
 )

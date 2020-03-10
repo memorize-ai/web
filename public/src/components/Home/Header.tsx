@@ -16,9 +16,7 @@ export default () => (
 				Spend the least amount of time reviewing, but memorization has never been easier!
 			</p>
 			<div className="app-store-download-button-container flex">
-				<AppStoreDownloadButton
-					className="app-store-download-button shadow-raise-on-hover"
-				/>
+				<AppStoreDownloadButton className="app-store-download-button" />
 			</div>
 		</div>
 		<Screenshot type={ScreenshotType.Cram} className="screenshot hidden ml-auto" />

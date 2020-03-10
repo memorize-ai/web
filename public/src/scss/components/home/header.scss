@@ -101,7 +101,14 @@
 		}
 		
 		> .app-store-download-button-container > .app-store-download-button {
-			margin-top: 20px;
+			margin: 20px 0 0 14px;
+			transform: scale(1.25);
+			transition: transform 0.2s;
+			
+			&:hover,
+			&:focus {
+				transform: scale(1.35);
+			}
 		}
 	}
 	
