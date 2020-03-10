@@ -108,7 +108,7 @@
 	> .screenshot {
 		max-width: 342px;
 		transform: rotate(6deg);
-		transition: margin-right 0.3s;
+		transition: margin-right 0.3s, transform 0.3s;
 		
 		@media (min-width: 970px) {
 			@apply block;
@@ -116,6 +116,11 @@
 		
 		@media (min-width: 1500px) {
 			margin-right: 244px;
+		}
+		
+		&:hover,
+		&:focus {
+			transform: rotate(0);
 		}
 	}
 }
