@@ -1,6 +1,8 @@
 import React from 'react'
 
+import FixedContainer from './ScreenshotsFixedContainer'
 import Screenshot, { ScreenshotType } from '../shared/Screenshot'
+import backgroundImage from '../../images/home-screenshots-background.png'
 
 const screenshots = [
 	ScreenshotType.Cram,
@@ -13,27 +15,27 @@ const screenshots = [
 export default () => (
 	<div className="home screenshots stack">
 		<div className="background origin-top-right" />
-		<div className="content relative">
-			{screenshots.map((type, index) => (
-				<div key={index}>
-					<div
-						id={`home-screenshots-aos-anchor-${index}`}
-						className="anchor absolute inset-x-0"
-						style={{ top: `${index * 100}vh` }}
-					/>
-					<div className="fixed-container fixed inset-0 pointer-events-none">
-						<div className="center-container grid justify-center content-center h-screen">
-							<Screenshot
-								type={type}
-								className="screenshot"
-								data-aos="fade-right"
-								data-aos-anchor={`#home-screenshots-aos-anchor-${index}`}
-								data-aos-anchor-placement="top-top"
-							/>
-						</div>
+		<div
+			id="home-screenshots-aos-anchor"
+			className="content relative"
+		>
+			<FixedContainer outerClassName="background" anchor="#home-screenshots-aos-anchor">
+				<img className="background" src={backgroundImage} alt="Background" />
+			</FixedContainer>
+			<div className="screenshots">
+				{screenshots.map((type, index) => (
+					<div key={index}>
+						<div
+							id={`home-screenshots-aos-anchor-${index}`}
+							className="anchor absolute inset-x-0"
+							style={{ top: `${index * 100}vh` }}
+						/>
+						<FixedContainer anchor={`#home-screenshots-aos-anchor-${index}`}>
+							<Screenshot type={type} className="screenshot" />
+						</FixedContainer>
 					</div>
-				</div>
-			))}
+				))}
+			</div>
 		</div>
 	</div>
 )
