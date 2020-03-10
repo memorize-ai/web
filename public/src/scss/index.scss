@@ -2,8 +2,11 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import 'aos/dist/aos';
+
 @import 'base.scss';
 @import 'utilities.scss';
+@import 'animations.scss';
 
 @import 'components/input.scss';
 @import 'components/loader.scss';

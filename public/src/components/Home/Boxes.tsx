@@ -42,9 +42,12 @@ export const boxes = [
 ]
 
 export default () => (
-	<div className="home boxes grid gap-4 justify-center mt-10">
+	<div
+		id="home-boxes-aos-anchor"
+		className="home boxes grid gap-4 justify-center mt-10"
+	>
 		{boxes.map((box, index) => (
-			<Box key={index} {...box} />
+			<Box key={index} {...box} index={index} />
 		))}
 	</div>
 )

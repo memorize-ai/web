@@ -27,12 +27,23 @@ export default () => {
 			key={index}
 			className="bg-white shadow-raise-on-hover"
 			{...integration}
+			data-aos="flip-up"
+			data-aos-anchor="#home-integrations-aos-anchor"
+			data-aos-delay={index * 100}
 		/>
 	))
 	
 	return (
-		<div className="home integrations flex flex-col items-center">
-			<div className="left flex flex-col items-start">
+		<div
+			id="home-integrations-aos-anchor"
+			className="home integrations flex flex-col items-center"
+		>
+			<div
+				className="left flex flex-col items-start"
+				data-aos="flip-up"
+				data-aos-anchor="#home-integrations-aos-anchor"
+				data-aos-delay="100"
+			>
 				<Link to="/">
 					<Logo
 						type={LogoType.CapitalInverted}
