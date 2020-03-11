@@ -7,7 +7,29 @@ import backgroundImage from '../../images/home-screenshots-background.png'
 
 export const screenshots = [
 	{
-		type: ScreenshotType.Cram,
+		type: ScreenshotType.Market,
+		descriptions: [
+			{
+				title: 'Share your knowledge',
+				body: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them',
+				margin: 20
+			},
+			{
+				title: 'Easy-to-use rich text editor',
+				body: `
+					We support:
+					• Images
+					• Tables
+					• Code (with automatic highlighting)
+					• LaTeX
+					• And more!
+				`,
+				margin: 35
+			}
+		]
+	},
+	{
+		type: ScreenshotType.Review,
 		descriptions: [
 			{
 				title: 'Share your knowledge',
@@ -51,7 +73,7 @@ export const screenshots = [
 		]
 	},
 	{
-		type: ScreenshotType.Cram,
+		type: ScreenshotType.Editor,
 		descriptions: [
 			{
 				title: 'Share your knowledge',
@@ -73,7 +95,7 @@ export const screenshots = [
 		]
 	},
 	{
-		type: ScreenshotType.Cram,
+		type: ScreenshotType.Decks,
 		descriptions: [
 			{
 				title: 'Share your knowledge',
@@ -95,7 +117,7 @@ export const screenshots = [
 		]
 	},
 	{
-		type: ScreenshotType.Cram,
+		type: ScreenshotType.Home,
 		descriptions: [
 			{
 				title: 'Share your knowledge',
@@ -117,7 +139,7 @@ export const screenshots = [
 		]
 	},
 	{
-		type: ScreenshotType.Cram,
+		type: ScreenshotType.Recap,
 		descriptions: [
 			{
 				title: 'Share your knowledge',

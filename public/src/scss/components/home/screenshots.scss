@@ -1,5 +1,5 @@
 .home.screenshots {
-	--number-of-screenshots: 6;
+	--number-of-screenshots: 7;
 	--screenshot-height: 60vh;
 	--tan-6: 0.1051042353;
 	
@@ -18,24 +18,42 @@
 		}
 		
 		> .screenshots .screenshot-container {
-			grid-template-columns: 300px auto 300px;
+			grid-template-rows: 1fr auto 1fr;
+			gap: 20px;
+			justify-items: center;
 			padding: 0 30px;
+			
+			@media (min-width: 750px) {
+				grid-template-columns: 300px auto 300px;
+				grid-template-rows: none;
+				gap: 0;
+			}
 			
 			> .descriptions > .description {
 				margin-bottom: auto;
 				
 				> h1 {
-					font-size: 19px;
+					font-size: 16px;
 					font-weight: 700;
-					line-height: 20px;
+					line-height: 17px;
 					margin-bottom: 12px;
+					
+					@media (min-width: 790px) {
+						font-size: 19px;
+						line-height: 20px;
+					}
 				}
 				
 				> p {
-					font-size: 15px;
+					font-size: 13px;
 					font-weight: 600;
-					line-height: 21px;
+					line-height: 19px;
 					opacity: 0.8;
+					
+					@media (min-width: 790px) {
+						font-size: 15px;
+						line-height: 21px;
+					}
 				}
 				
 				&:first-child {
