@@ -20,18 +20,18 @@ export const boxes = [
 		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
 	},
 	{
-		image: fasterResultsImage,
-		title: 'Faster Results',
+		image: communityImage,
+		title: 'Spaced repetition',
 		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
 	},
 	{
-		image: communityImage,
-		title: 'Community of learners',
+		image: fasterResultsImage,
+		title: 'Faster results',
 		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
 	},
 	{
 		image: editorImage,
-		title: 'Beautiful, rich content',
+		title: 'Beautiful flashcards',
 		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
 	},
 	{

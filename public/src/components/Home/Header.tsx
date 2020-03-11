@@ -12,8 +12,8 @@ export default () => (
 			</h1>
 			<h3>Truly effective flashcards</h3>
 			<p className="description text-dark-gray">
-				Our AI-powered spaced repetition algorithm learns as you learn.
-				Spend the least amount of time reviewing, but memorization has never been easier!
+				Artificial Intelligence learns how to quiz you with the right flashcards at the right time.
+				Spend little time reviewing and remember better than you thought possible.
 			</p>
 			<div className="app-store-download-button-container flex">
 				<AppStoreDownloadButton className="app-store-download-button" />
