@@ -26,9 +26,10 @@ export default ({ side, descriptions, ...props }: { side: DescriptionsSide, desc
 				<h1>{title}</h1>
 				{body
 					.split('\n')
+					.map(line => line.trim())
 					.filter(line => line)
 					.map((line, index) => (
-						<p key={index}>{line.trim()}</p>
+						<p key={index}>{line}</p>
 					))
 				}
 			</div>
