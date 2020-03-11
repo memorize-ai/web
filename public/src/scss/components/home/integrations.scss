@@ -100,11 +100,7 @@
 			grid-template-columns: repeat(2, 160px);
 		}
 		
-		// @media (min-width: 1570px) {
-		// 	grid-template-columns: repeat(3, 160px);
-		// }
-		
-		> img {
+		> a > img {
 			padding: 10px;
 			border-radius: 8px;
 		}
