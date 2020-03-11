@@ -1,0 +1,10 @@
+[data-aos='disappear'] {
+	transform: translateX(0);
+	opacity: 1;
+	transition-property: transform, opacity;
+	
+	&.aos-animate {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+}

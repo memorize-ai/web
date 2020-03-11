@@ -1,10 +1,12 @@
 .home.screenshots {
 	--number-of-screenshots: 6;
+	--screenshot-height: 60vh;
+	--tan-6: 0.1051042353;
 	
 	> .background {
 		height: calc(
-			(var(--number-of-screenshots) + 1) * 60vh +
-			0.1051042353 * 100vw // tan(6deg)
+			(var(--number-of-screenshots) + 1) * var(--screenshot-height) +
+			var(--tan-6) * 200vw
 		);
 		background: #5a2aff;
 		transform: skewY(6deg);
@@ -44,6 +46,13 @@
 			> .screenshot {
 				width: min(100vw - 60px, 342px);
 			}
+		}
+		
+		> #home-screenshots-aos-anchor-last {
+			top: calc(
+				(var(--number-of-screenshots) + 1) * var(--screenshot-height) +
+				var(--tan-6) * 100vw
+			)
 		}
 	}
 }

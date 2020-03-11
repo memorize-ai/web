@@ -11,8 +11,8 @@ export interface Description {
 	margin: number
 }
 
-export default ({ side, descriptions }: { side: DescriptionsSide, descriptions: Description[] }) => (
-	<div className="descriptions flex flex-col h-full">
+export default ({ side, descriptions, ...props }: { side: DescriptionsSide, descriptions: Description[] }) => (
+	<div {...props} className="descriptions flex flex-col h-full">
 		{descriptions.map(({ title, body, margin }, index) => (
 			<div
 				key={index}
