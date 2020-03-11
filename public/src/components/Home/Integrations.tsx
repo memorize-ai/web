@@ -52,9 +52,13 @@ export const integrations = [
 
 export default () => {
 	const gridItems = integrations.map(({ src, alt, href }, index) => (
-		<a rel="noopener noreferrer" target="_blank" href={href}>
+		<a
+			key={index}
+			rel="noopener noreferrer"
+			target="_blank"
+			href={href}
+		>
 			<img
-				key={index}
 				className="bg-white shadow-sm shadow-raise-on-hover"
 				src={src}
 				alt={alt}
