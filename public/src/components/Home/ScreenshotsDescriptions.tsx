@@ -1,0 +1,37 @@
+import React from 'react'
+
+export enum DescriptionsSide {
+	Left,
+	Right
+}
+
+export interface Description {
+	title: string
+	body: string
+	margin: number
+}
+
+export default ({ side, descriptions }: { side: DescriptionsSide, descriptions: Description[] }) => (
+	<div className="descriptions flex flex-col h-full">
+		{descriptions.map(({ title, body, margin }, index) => (
+			<div
+				key={index}
+				className="description text-white"
+				style={
+					side === DescriptionsSide.Left
+						? { marginRight: `${margin}px` }
+						: { marginLeft: `${margin}px` }
+				}
+			>
+				<h1>{title}</h1>
+				{body
+					.split('\n')
+					.filter(line => line)
+					.map((line, index) => (
+						<p key={index}>{line.trim()}</p>
+					))
+				}
+			</div>
+		))}
+	</div>
+)

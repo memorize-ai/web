@@ -14,7 +14,7 @@ export default (
 		pointer-events-none
 	`}>
 		<div
-			className="center-container grid justify-center content-center h-screen"
+			className="screenshot-container grid justify-center content-center h-screen"
 			data-aos="fade-right"
 			data-aos-anchor={anchor}
 			data-aos-anchor-placement="top-top"
