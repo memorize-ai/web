@@ -17,11 +17,12 @@ export default ({ side, descriptions, ...props }: { side: DescriptionsSide, desc
 			<div
 				key={index}
 				className="description text-white"
-				style={
-					side === DescriptionsSide.Left
-						? { marginRight: `${margin}px` }
-						: { marginLeft: `${margin}px` }
-				}
+				style={{
+					[side === DescriptionsSide.Left
+						? 'marginRight'
+						: 'marginLeft'
+					]: `${margin}px`
+				}}
 			>
 				<h1>{title}</h1>
 				{body
