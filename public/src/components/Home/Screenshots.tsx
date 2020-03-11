@@ -5,7 +5,7 @@ import Descriptions, { DescriptionsSide } from './ScreenshotsDescriptions'
 import Screenshot, { ScreenshotType } from '../shared/Screenshot'
 import backgroundImage from '../../images/home-screenshots-background.png'
 
-const screenshots = [
+export const screenshots = [
 	{
 		type: ScreenshotType.Cram,
 		descriptions: [
