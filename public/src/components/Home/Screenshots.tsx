@@ -28,7 +28,7 @@ export default () => (
 						<div
 							id={`home-screenshots-aos-anchor-${index}`}
 							className="anchor absolute inset-x-0"
-							style={{ top: `${index * 100}vh` }}
+							style={{ top: `${index * 60}vh` }}
 						/>
 						<FixedContainer anchor={`#home-screenshots-aos-anchor-${index}`}>
 							<Screenshot type={type} className="screenshot" />

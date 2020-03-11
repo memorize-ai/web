@@ -1,6 +1,6 @@
 .home.screenshots {
 	> .background {
-		height: calc(600vh + 0.1051042353 * 100vw); // tan(6deg)
+		height: calc(6 * 60vh + 0.1051042353 * 100vw); // tan(6deg)
 		background: #5a2aff;
 		transform: skewY(6deg);
 	}
