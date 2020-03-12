@@ -12,8 +12,8 @@ import udemyImage from '../../images/home-integrations/udemy.png'
 
 export const listItems = [
 	'Share your deck with a simple link',
-	'Embed in your blog posts or ebooks',
-	'Unlock sections for each chapter for your students',
+	'Embed in your blog posts, ebooks, classroom, or courses',
+	'Share links to unlock certain sections',
 	'Works with Canvas, Schoology, Google Classroom, Udemy, and more!'
 ]
 
@@ -50,52 +50,43 @@ export const integrations = [
 	}
 ]
 
-export default () => {
-	const gridItems = integrations.map(({ src, alt, href }, index) => (
-		<a
-			key={index}
-			rel="noopener noreferrer"
-			target="_blank"
-			href={href}
-		>
-			<img
-				className="bg-white shadow-sm shadow-raise-on-hover"
-				src={src}
-				alt={alt}
-				data-aos="flip-up"
-				data-aos-anchor="#home-integrations-aos-anchor"
-				data-aos-delay={index * 100}
-			/>
-		</a>
-	))
-	
-	return (
+export default () => (
+	<div
+		id="home-integrations-aos-anchor"
+		className="home integrations flex flex-col items-center"
+	>
 		<div
-			id="home-integrations-aos-anchor"
-			className="home integrations flex flex-col items-center"
+			className="left flex flex-col items-start"
+			data-aos="flip-up"
+			data-aos-anchor="#home-integrations-aos-anchor"
+			data-aos-delay="100"
 		>
-			<div
-				className="left flex flex-col items-start"
-				data-aos="flip-up"
-				data-aos-anchor="#home-integrations-aos-anchor"
-				data-aos-delay="100"
-			>
-				<Link to="/">
-					<Logo
-						type={LogoType.CapitalInverted}
-						className="logo raise-on-hover"
-					/>
-				</Link>
-				<h1>Integrate your decks in your classroom, lecture review, and notes!</h1>
-				<div className="items">
-					{listItems.map((title, index) => (
-						<ListItem key={index} title={title} />
-					))}
-				</div>
-			</div>
-			<div className="right grid gap-6">
-				{gridItems}
+			<Link to="/">
+				<Logo
+					type={LogoType.CapitalInverted}
+					className="logo raise-on-hover"
+				/>
+			</Link>
+			<h1>Integrate your decks in your classroom, lecture review, and notes!</h1>
+			<div className="items">
+				{listItems.map((title, index) => (
+					<ListItem key={index} title={title} />
+				))}
 			</div>
 		</div>
-	)
-}
+		<div className="right grid gap-6">
+			{integrations.map(({ src, alt, href }, index) => (
+				<a key={index} href={href} rel="noopener noreferrer" target="_blank">
+					<img
+						className="bg-white shadow-sm shadow-raise-on-hover"
+						src={src}
+						alt={alt}
+						data-aos="flip-up"
+						data-aos-anchor="#home-integrations-aos-anchor"
+						data-aos-delay={index * 100}
+					/>
+				</a>
+			))}
+		</div>
+	</div>
+)
