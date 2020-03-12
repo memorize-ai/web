@@ -26,27 +26,27 @@ export const integrations = [
 	{
 		src: googleClassroomImage,
 		alt: 'Google Classroom',
-		href: 'https://classroom.google.com/'
+		href: 'https://classroom.google.com'
 	},
 	{
 		src: schoologyImage,
 		alt: 'Schoology',
-		href: 'https://www.schoology.com/'
+		href: 'https://www.schoology.com'
 	},
 	{
 		src: classdojoImage,
 		alt: 'ClassDojo',
-		href: 'https://www.classdojo.com/'
+		href: 'https://www.classdojo.com'
 	},
 	{
 		src: edmodoImage,
 		alt: 'edmodo',
-		href: 'https://www.edmodo.com/'
+		href: 'https://www.edmodo.com'
 	},
 	{
 		src: udemyImage,
 		alt: 'Udemy',
-		href: 'https://www.udemy.com/'
+		href: 'https://www.udemy.com'
 	}
 ]
 
