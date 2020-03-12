@@ -53,46 +53,36 @@
 				}
 				
 				> h1 {
-					font-size: 13px;
+					font-size: 17px;
 					font-weight: 700;
-					line-height: 14px;
+					line-height: 18px;
 					margin-bottom: 12px;
 					
-					@media (min-height: 600px) {
-						font-size: 15px;
-						line-height: 16px;
-					}
-					
 					@media (min-width: 300px) and (min-height: 800px) {
-						font-size: 17px;
-						line-height: 18px;
+						font-size: 19px;
+						line-height: 20px;
 					}
 					
 					@media (min-width: 1150px) and (min-height: 850px) {
-						font-size: 19px;
-						line-height: 20px;
+						font-size: 21px;
+						line-height: 22px;
 					}
 				}
 				
 				> p {
-					font-size: 9px;
+					font-size: 13px;
 					font-weight: 600;
-					line-height: 15px;
+					line-height: 19px;
 					opacity: 0.8;
 					
-					@media (min-height: 600px) {
-						font-size: 11px;
-						line-height: 17px;
-					}
-					
 					@media (min-width: 300px) and (min-height: 800px) {
-						font-size: 13px;
-						line-height: 19px;
+						font-size: 15px;
+						line-height: 21px;
 					}
 					
 					@media (min-width: 1150px) and (min-height: 850px) {
-						font-size: 15px;
-						line-height: 21px;
+						font-size: 17px;
+						line-height: 23px;
 					}
 				}
 			}
