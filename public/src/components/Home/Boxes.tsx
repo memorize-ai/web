@@ -12,32 +12,32 @@ export const boxes = [
 	{
 		image: decksImage,
 		title: '40,000+ decks',
-		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
+		description: 'Anything you could dream of learning. Create your own decks, and share them with the world.'
 	},
 	{
 		image: artificialIntelligenceImage,
 		title: 'Artificial Intelligence',
-		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
+		description: 'State of the art algorithms to ensure optimal memorization by adjusting when to quiz you.'
 	},
 	{
 		image: communityImage,
 		title: 'Spaced repetition',
-		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
+		description: 'If just the right amount of time has passed between reviewing flashcards, you\'ll see an improvement in memorization like never before.'
 	},
 	{
 		image: fasterResultsImage,
 		title: 'Faster results',
-		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
+		description: 'Through Artificial Intelligence and spaced repetition, not only learn better, but also learn faster.'
 	},
 	{
 		image: editorImage,
 		title: 'Beautiful flashcards',
-		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
+		description: 'Create gorgeous cards using the most advanced editor on your phone. With images, tables, audio, and LaTeX, there are no limits.'
 	},
 	{
 		image: integrateImage,
 		title: 'Easy to integrate',
-		description: 'Explore our collection of decks and flashcards. Choose your interests and get recommendations based on what you like.'
+		description: 'Share your decks and unlock your sections with a simple link, available anywhere.'
 	}
 ]
 
