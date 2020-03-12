@@ -11,20 +11,13 @@ export const screenshots = [
 		descriptions: [
 			{
 				title: 'Share your knowledge',
-				body: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them',
+				body: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them.',
 				margin: 20
 			},
 			{
-				title: 'Easy-to-use rich text editor',
-				body: `
-					We support:
-					• Images
-					• Tables
-					• Code (with automatic highlighting)
-					• LaTeX
-					• And more!
-				`,
-				margin: 35
+				title: 'Easy to find what you\'re looking for',
+				body: 'Recommendations and search results are ranked based on what you like, popularity, and ratings. Earn XP based on the popularity of your decks.',
+				margin: 32
 			}
 		]
 	},
@@ -32,20 +25,13 @@ export const screenshots = [
 		type: ScreenshotType.Review,
 		descriptions: [
 			{
-				title: 'Share your knowledge',
-				body: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them',
+				title: 'Flashcards done right',
+				body: 'Rate your performance only after you\'ve seen the back of the card.',
 				margin: 20
 			},
 			{
-				title: 'Easy-to-use rich text editor',
-				body: `
-					We support:
-					• Images
-					• Tables
-					• Code (with automatic highlighting)
-					• LaTeX
-					• And more!
-				`,
+				title: 'Revolutionary spaced repetition algorithm',
+				body: 'Our algorithm learns as you learn. Over time, memorize.ai will get to know you so well that it can predict the perfect memorization timing far better than you could yourself!',
 				margin: 35
 			}
 		]
@@ -54,21 +40,14 @@ export const screenshots = [
 		type: ScreenshotType.Cram,
 		descriptions: [
 			{
-				title: 'Share your knowledge',
-				body: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them',
+				title: 'Got a test tomorrow?',
+				body: 'Master cards in a short period of time',
 				margin: 20
 			},
 			{
-				title: 'Easy-to-use rich text editor',
-				body: `
-					We support:
-					• Images
-					• Tables
-					• Code (with automatic highlighting)
-					• LaTeX
-					• And more!
-				`,
-				margin: 35
+				title: 'Effectively learn faster than you thought possible',
+				body: 'By the end of a cram session, you\'ll be ready for whatever lies ahead.',
+				margin: 30
 			}
 		]
 	},
@@ -76,21 +55,20 @@ export const screenshots = [
 		type: ScreenshotType.Editor,
 		descriptions: [
 			{
-				title: 'Share your knowledge',
-				body: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them',
+				title: 'Flashcards have never looked so good',
+				body: 'Using the most advanced editor on a phone, design cards to your heart\'s desire.',
 				margin: 20
 			},
 			{
-				title: 'Easy-to-use rich text editor',
+				title: 'Free for everyone',
 				body: `
-					We support:
-					• Images
-					• Tables
-					• Code (with automatic highlighting)
 					• LaTeX
+					• Images
+					• Code (automatic highlighting)
+					• Tables
 					• And more!
 				`,
-				margin: 35
+				margin: 20
 			}
 		]
 	},
@@ -98,21 +76,14 @@ export const screenshots = [
 		type: ScreenshotType.Decks,
 		descriptions: [
 			{
-				title: 'Share your knowledge',
-				body: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them',
+				title: 'Share with everyone',
+				body: 'Embed links to download your deck and unlock certain sections.',
 				margin: 20
 			},
 			{
-				title: 'Easy-to-use rich text editor',
-				body: `
-					We support:
-					• Images
-					• Tables
-					• Code (with automatic highlighting)
-					• LaTeX
-					• And more!
-				`,
-				margin: 35
+				title: 'Spend little to no time reviewing every day',
+				body: 'Review cards as they\'re due. This way, you\'ll learn better and save tremendous amounts of time.',
+				margin: 30
 			}
 		]
 	},
@@ -120,21 +91,14 @@ export const screenshots = [
 		type: ScreenshotType.Home,
 		descriptions: [
 			{
-				title: 'Share your knowledge',
-				body: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them',
+				title: 'Quickly review and add decks',
+				body: 'Recommendations based on what you like and what you need improvement on.',
 				margin: 20
 			},
 			{
-				title: 'Easy-to-use rich text editor',
-				body: `
-					We support:
-					• Images
-					• Tables
-					• Code (with automatic highlighting)
-					• LaTeX
-					• And more!
-				`,
-				margin: 35
+				title: 'Know what you need to do at a glance',
+				body: 'Spend a couple minutes, but gain knowledge for a lifetime.',
+				margin: 20
 			}
 		]
 	},
@@ -142,21 +106,14 @@ export const screenshots = [
 		type: ScreenshotType.Recap,
 		descriptions: [
 			{
-				title: 'Share your knowledge',
-				body: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them',
+				title: 'Earn XP and review your performance',
+				body: 'Both you and memorize.ai will know what you need to work on.',
 				margin: 20
 			},
 			{
-				title: 'Easy-to-use rich text editor',
-				body: `
-					We support:
-					• Images
-					• Tables
-					• Code (with automatic highlighting)
-					• LaTeX
-					• And more!
-				`,
-				margin: 35
+				title: 'Earn streaks and gain mastery',
+				body: 'Easily see how well you\'ve been performing, and work towards "mastery".',
+				margin: 20
 			}
 		]
 	}

@@ -55,17 +55,17 @@
 				> h1 {
 					font-size: 17px;
 					font-weight: 700;
-					line-height: 18px;
+					line-height: 21px;
 					margin-bottom: 12px;
 					
 					@media (min-width: 300px) and (min-height: 800px) {
 						font-size: 19px;
-						line-height: 20px;
+						line-height: 23px;
 					}
 					
 					@media (min-width: 1150px) and (min-height: 850px) {
 						font-size: 21px;
-						line-height: 22px;
+						line-height: 25px;
 					}
 				}
 				
