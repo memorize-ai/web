@@ -204,7 +204,7 @@ export default () => (
 							/>
 							<Screenshot
 								type={type}
-								className="screenshot"
+								className="screenshot mx-auto"
 								data-aos="disappear"
 								data-aos-anchor={
 									`#home-screenshots-aos-anchor-${

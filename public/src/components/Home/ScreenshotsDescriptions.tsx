@@ -16,7 +16,7 @@ export default ({ side, descriptions, ...props }: { side: DescriptionsSide, desc
 		{descriptions.map(({ title, body, margin }, index) => (
 			<div
 				key={index}
-				className="description text-white"
+				className="description my-auto text-white"
 				style={{
 					[side === DescriptionsSide.Left
 						? 'marginRight'

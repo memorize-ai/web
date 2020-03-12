@@ -18,51 +18,92 @@
 		}
 		
 		> .screenshots .screenshot-container {
-			grid-template-rows: 1fr auto 1fr;
 			gap: 20px;
-			justify-items: center;
 			padding: 0 30px;
 			
-			@media (min-width: 750px) {
+			@media (min-width: 1150px) and (min-height: 850px) {
 				grid-template-columns: 300px auto 300px;
-				grid-template-rows: none;
 				gap: 0;
 			}
 			
 			> .descriptions > .description {
-				margin-bottom: auto;
+				max-width: 300px;
+				
+				@media (max-width: 300px) {
+					padding: 0 40px;
+				}
+				
+				@media (max-height: 800px) {
+					padding: 0 40px;
+				}
+				
+				@media (max-width: 1150px) {
+					margin: 0 !important;
+					padding: 0 30px;
+				}
+				
+				@media (max-height: 850px) {
+					margin: 0 !important;
+					padding: 0 30px;
+				}
+				
+				> h1,
+				> p {
+					transition: font-size 0.3s, line-height 0.3s;
+				}
 				
 				> h1 {
-					font-size: 16px;
+					font-size: 13px;
 					font-weight: 700;
-					line-height: 17px;
+					line-height: 14px;
 					margin-bottom: 12px;
 					
-					@media (min-width: 790px) {
+					@media (min-height: 600px) {
+						font-size: 15px;
+						line-height: 16px;
+					}
+					
+					@media (min-width: 300px) and (min-height: 800px) {
+						font-size: 17px;
+						line-height: 18px;
+					}
+					
+					@media (min-width: 1150px) and (min-height: 850px) {
 						font-size: 19px;
 						line-height: 20px;
 					}
 				}
 				
 				> p {
-					font-size: 13px;
+					font-size: 9px;
 					font-weight: 600;
-					line-height: 19px;
+					line-height: 15px;
 					opacity: 0.8;
 					
-					@media (min-width: 790px) {
+					@media (min-height: 600px) {
+						font-size: 11px;
+						line-height: 17px;
+					}
+					
+					@media (min-width: 300px) and (min-height: 800px) {
+						font-size: 13px;
+						line-height: 19px;
+					}
+					
+					@media (min-width: 1150px) and (min-height: 850px) {
 						font-size: 15px;
 						line-height: 21px;
 					}
 				}
-				
-				&:first-child {
-					margin-top: auto;
-				}
 			}
 			
 			> .screenshot {
-				width: min(100vw - 60px, 342px);
+				max-width: min(500px, 100vw - 60px);
+				max-height: calc(100vh - 60px - 300px);
+				
+				@media (min-width: 1150px) and (min-height: 850px) {
+					max-height: calc(100vh - 60px);
+				}
 			}
 		}
 		
@@ -70,7 +111,7 @@
 			top: calc(
 				(var(--number-of-screenshots) + 1) * var(--screenshot-height) +
 				var(--tan-6) * 100vw
-			)
+			);
 		}
 	}
 }
