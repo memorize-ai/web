@@ -8,7 +8,7 @@
 		"autoprefixer": "^9.7.4",
 		"cssnano": "^4.1.10",
 		"disqus-react": "^1.0.7",
-		"firebase": "^7.10.0",
+		"firebase": "^7.11.0",
 		"postcss-cli": "^7.1.0",
 		"postcss-import": "^12.0.1",
 		"postcss-nested": "^4.2.1",
@@ -22,7 +22,7 @@
 	},
 	"devDependencies": {
 		"@types/aos": "^3.0.3",
-		"@types/node": "^12.12.29",
+		"@types/node": "^12.12.30",
 		"@types/react": "^16.9.23",
 		"@types/react-dom": "^16.9.5",
 		"@types/react-fontawesome": "^1.6.4",
