@@ -14,10 +14,12 @@ import Button from '../shared/Button'
 import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/storage'
+import 'firebase/analytics'
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()
 const storage = firebase.storage().ref()
+const analytics = firebase.analytics()
 
 export default () => {
 	const { deckId } = useParams()
@@ -38,6 +40,8 @@ export default () => {
 	const isGetButtonLoading = getLoadingState === LoadingState.Loading
 	
 	const isSignOutButtonLoading = signOutLoadingState === LoadingState.Loading
+	
+	analytics.setCurrentScreen('get_deck')
 	
 	useEffect(() => void (async () => {
 		if (!(deckId && deck))

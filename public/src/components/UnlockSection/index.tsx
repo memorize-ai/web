@@ -15,12 +15,14 @@ import Button from '../shared/Button'
 import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/storage'
+import 'firebase/analytics'
 
 const __DECK_NOT_OWNED__ = '__DECK_NOT_OWNED__'
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()
 const storage = firebase.storage().ref()
+const analytics = firebase.analytics()
 
 export default () => {
 	const { deckId, sectionId } = useParams()
@@ -42,6 +44,8 @@ export default () => {
 	const isUnlockButtonLoading = unlockLoadingState === LoadingState.Loading
 	
 	const isSignOutButtonLoading = signOutLoadingState === LoadingState.Loading
+	
+	analytics.setCurrentScreen('unlock_section')
 	
 	useEffect(() => void (async () => {
 		if (!(deckId && deck))

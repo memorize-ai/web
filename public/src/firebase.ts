@@ -11,7 +11,8 @@ firebase.initializeApp(
 			projectId: 'memorize-ai-dev',
 			storageBucket: 'memorize-ai-dev.appspot.com',
 			messagingSenderId: '282248067698',
-			appId: '1:282248067698:web:15118a7de810d7b23860eb'
+			appId: '1:282248067698:web:15118a7de810d7b23860eb',
+			measurementId: 'G-EPVDM67CYM'
 		}
 		: {
 			apiKey: 'AIzaSyDfSkXDJ4kQCrRGfyauprPKPPoGZFEhySU',
@@ -20,7 +21,8 @@ firebase.initializeApp(
 			projectId: 'memorize-ai',
 			storageBucket: 'memorize-ai.appspot.com',
 			messagingSenderId: '629763488334',
-			appId: '1:629763488334:web:9199305a713b3634'
+			appId: '1:629763488334:web:9199305a713b3634',
+			measurementId: 'G-N98QHH5MJ8'
 		}
 )
 
