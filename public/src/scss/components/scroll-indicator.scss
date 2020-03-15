@@ -1,0 +1,26 @@
+.scroll-indicator {
+	width: 34px;
+	height: 55px;
+	border-radius: 25px;
+	
+	> div {
+		width: 3px;
+		height: 10px;
+		border-radius: 25%;
+		animation: scroll-indicator 2.2s cubic-bezier(0.15, 0.41, 0.69, 0.94) infinite;
+	}
+}
+
+@keyframes scroll-indicator {
+	0% {
+		opacity: 0;
+	}
+	10% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(15px);
+		opacity: 0;
+	}
+}

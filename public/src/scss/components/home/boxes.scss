@@ -1,10 +1,12 @@
 .home.boxes {
-	grid-template-columns: repeat(1, minmax(0, 370px));
+	margin: calc(-100vw * var(--tan-6)) 0 20px 0;
 	padding-left: 30px;
 	padding-right: 30px;
 	transition: padding 0.3s;
 	
 	@media (min-width: 465px) {
+		@apply grid;
+		
 		grid-template-columns: repeat(2, minmax(0, 370px));
 	}
 	

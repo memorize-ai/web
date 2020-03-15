@@ -75,41 +75,6 @@
 				line-height: 38px;
 			}
 		}
-		
-		> .description {
-			max-width: 534px;
-			margin-top: 160px;
-			margin-right: 50px;
-			font-size: 18px;
-			font-weight: 700;
-			line-height: 24px;
-			transition: font-size 0.3s, line-height 0.3s;
-			
-			@media (min-width: 500px) {
-				margin-top: 120px;
-				font-size: 26px;
-				line-height: 33px;
-			}
-			
-			@media (min-width: 800px) {
-				margin-top: 200px
-			}
-			
-			@media (min-width: 970px) {
-				@apply mt-auto;
-			}
-		}
-		
-		> .app-store-download-button-container > .app-store-download-button {
-			margin: 20px 0 0 14px;
-			transform: scale(1.25);
-			transition: transform 0.2s;
-			
-			&:hover,
-			&:focus {
-				transform: scale(1.35);
-			}
-		}
 	}
 	
 	> .screenshot {

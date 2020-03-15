@@ -1,7 +1,21 @@
 .home.screenshots {
 	--number-of-screenshots: 7;
 	--screenshot-height: 60vh;
-	--tan-6: 0.1051042353;
+	
+	margin-top: 170px;
+	transition: margin 0.3s;
+	
+	@media (min-width: 800px) {
+		margin-top: 270px;
+	}
+	
+	@media (min-width: 970px) {
+		margin-top: -230px;
+	}
+	
+	@media (min-width: 1100px) {
+		margin-top: -80px;
+	}
 	
 	> .background {
 		height: calc(
@@ -13,6 +27,16 @@
 	}
 	
 	> .content {
+		> .scroll-indicator-container {
+			margin-top: calc(35vh - (100vw * var(--tan-6)));
+			font-size: 24px;
+			font-weight: 900;
+			
+			> .scroll-indicator {
+				margin: 0 auto;
+			}
+		}
+		
 		> .background.fixed-container .background {
 			width: 100vw - 60px;
 		}

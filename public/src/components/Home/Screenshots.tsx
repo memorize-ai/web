@@ -3,6 +3,7 @@ import React from 'react'
 import FixedContainer from './ScreenshotsFixedContainer'
 import Descriptions, { DescriptionsSide } from './ScreenshotsDescriptions'
 import Screenshot, { ScreenshotType } from '../shared/Screenshot'
+import ScrollIndicator from '../shared/ScrollIndicator'
 import backgroundImage from '../../images/home-screenshots-background.png'
 
 export const screenshots = [
@@ -11,7 +12,7 @@ export const screenshots = [
 		descriptions: [
 			{
 				title: 'Share your knowledge',
-				body: 'We are a community of learners that create decks for one another; all decks are public, and anyone can use them.',
+				body: 'With 45,000+ decks, we are a community of learners that create decks for one another; all decks are public, and anyone can use them.',
 				margin: 20
 			},
 			{
@@ -121,8 +122,22 @@ export const screenshots = [
 
 export default () => (
 	<div className="home screenshots stack">
-		<div className="background origin-top-right" />
+		<div
+			id="home-screenshots-background-aos-anchor"
+			className="background origin-top-right"
+			data-aos="home-screenshots-background"
+			data-aos-anchor="#home-screenshots-background-aos-anchor"
+			data-aos-anchor-placement="top-top"
+		/>
 		<div id="home-screenshots-aos-anchor-first" className="content relative">
+			<div
+				className="scroll-indicator-container"
+				data-aos="disappear-with-fade"
+				data-aos-anchor="#home-screenshots-background-aos-anchor"
+				data-aos-anchor-placement="top-top"
+			>
+				<ScrollIndicator />
+			</div>
 			<FixedContainer outerClassName="background" anchor="#home-screenshots-aos-anchor-first">
 				<img
 					className="background"

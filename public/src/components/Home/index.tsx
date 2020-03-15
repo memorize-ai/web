@@ -26,8 +26,8 @@ export default () => {
 			<TopGradient>
 				<Navbar />
 				<Header />
-				<Boxes />
 				<Screenshots />
+				<Boxes />
 				<Integrations />
 				<Footer />
 			</TopGradient>
