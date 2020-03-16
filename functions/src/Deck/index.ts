@@ -271,10 +271,10 @@ export default class Deck {
 	}
 	
 	index = async () =>
-		decksClient.createIndex(await this.transformDataForIndexing())
+		decksClient.createIndices(await this.transformDataForIndexing())
 	
 	deleteIndex = () =>
-		decksClient.deleteIndex(this.id)
+		decksClient.deleteIndices(this.id)
 	
 	private transformDataForIndexing = async () => {
 		const creator = await User.fromId(this.creatorId)
