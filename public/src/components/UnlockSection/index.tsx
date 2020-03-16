@@ -10,6 +10,7 @@ import AuthenticationMode from '../../models/AuthenticationMode'
 import useDeck from '../../hooks/useDeck'
 import useSection from '../../hooks/useSection'
 import useCurrentUser from '../../hooks/useCurrentUser'
+import TopGradient from '../shared/TopGradient'
 import Input from '../shared/Input'
 import Button from '../shared/Button'
 import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
@@ -144,167 +145,171 @@ export default () => {
 	}
 	
 	return (
-		<div className="h-screen px-4 py-4 gradient-background">
+		<div className="h-screen bg-light-gray">
 			<Helmet>
 				<meta name="description" content={`${deck?.name ?? ''} - Unlock ${section?.name ?? ''} on memorize.ai. Download on the App Store`} />
 				<title>{section?.name ? `Unlock ${section.name}` : 'memorize.ai'}</title>
 			</Helmet>
-			<div className={`flex items-center ${imageUrl ? 'mb-6' : 'ml-2'}`}>
-				{imageUrl && (
-					<img
-						className="w-20 h-20 mr-4 object-cover rounded-lg"
-						src={imageUrl}
-						alt={deck?.name ?? 'Deck image'}
-					/>
-				)}
-				<h1 className="text-2xl sm:text-4xl text-white font-bold">{deck?.name}</h1>
-			</div>
-			<div className="md:w-1/2 mx-auto px-6 pt-4 pb-4 bg-white rounded-lg shadow-lg">
-				<h1 className="text-2xl sm:text-4xl text-dark-gray font-bold">Unlock {section?.name}</h1>
-				<hr className="mt-4 mb-4" />
-				<div hidden={currentUser !== null || currentUserLoadingState === LoadingState.Loading}>
-					<div className="flex mb-4">
-						<Button
-							className={`
-								w-full
-								h-8
-								mr-2
-								px-8
-								text-${
-									authenticationMode === AuthenticationMode.LogIn
-										? 'white'
-										: 'blue-400'
-								}
-								hover:text-white
-								font-bold
-								border-2
-								border-blue-400
-								${authenticationMode === AuthenticationMode.LogIn ? 'bg-blue-400' : ''}
-								hover:bg-blue-400
-								rounded
-							`}
-							onClick={() => setAuthenticationMode(AuthenticationMode.LogIn)}
-						>
-							Log in
-						</Button>
-						<Button
-							className={`
-								w-full
-								h-8
-								px-8
-								text-${
-									authenticationMode === AuthenticationMode.SignUp
-										? 'white'
-										: 'blue-400'
-								}
-								hover:text-white
-								font-bold
-								border-2
-								border-blue-400
-								${authenticationMode === AuthenticationMode.SignUp ? 'bg-blue-400' : ''}
-								hover:bg-blue-400
-								rounded
-							`}
-							onClick={() => setAuthenticationMode(AuthenticationMode.SignUp)}
-						>
-							Sign up
-						</Button>
+			<TopGradient>
+				<div className="px-4 py-4">
+					<div className={`flex items-center ${imageUrl ? 'mb-6' : 'ml-2'}`}>
+						{imageUrl && (
+							<img
+								className="w-20 h-20 mr-4 object-cover rounded-lg"
+								src={imageUrl}
+								alt={deck?.name ?? 'Deck image'}
+							/>
+						)}
+						<h1 className="text-2xl sm:text-4xl text-white font-bold">{deck?.name}</h1>
 					</div>
-					{authenticationMode === AuthenticationMode.SignUp && (
-						<Input
-							className="mb-2"
-							icon={faUser}
-							type="name"
-							placeholder="Name"
-							value={name}
-							setValue={setName}
-						/>
-					)}
-					<Input
-						className="mb-2"
-						icon={faEnvelope}
-						type="email"
-						placeholder="Email"
-						value={email}
-						setValue={setEmail}
-					/>
-					<Input
-						icon={faKey}
-						type="password"
-						placeholder="Password"
-						value={password}
-						setValue={setPassword}
-					/>
-				</div>
-				<div className="flex mt-4">
-					{errorMessage
-						? (
-							<p className="text-red-600">
-								{errorMessage === __DECK_NOT_OWNED__ && deckId
-									? (
-										<Link to={`/d/${deckId}/g`}>
-											Click here to get {deck?.name}
-										</Link>
-									)
-									: errorMessage
-								}
-							</p>
-						)
-						: (
-							<Button
-								className={`
-									h-8
-									px-8
-									text-blue-${isUnlockButtonDisabled ? 200 : 400}
-									${isUnlockButtonDisabled || isUnlockButtonLoading ? '' : 'hover:text-white'}
-									border-2
-									border-blue-${isUnlockButtonDisabled ? 200 : 400}
-									${isUnlockButtonDisabled || isUnlockButtonLoading ? '' : 'hover:bg-blue-400'}
-									rounded
-								`}
-								loaderSize="16px"
-								loaderThickness="3px"
-								loaderColor="#63b3ed"
-								loading={isUnlockButtonLoading}
-								disabled={isUnlockButtonDisabled}
-								onClick={authenticate}
-							>
-								<FontAwesomeIcon
-									icon={unlockLoadingState === LoadingState.Success ? faCheck : faUnlock}
+					<div className="md:w-1/2 mx-auto px-6 pt-4 pb-4 bg-white rounded-lg shadow-lg">
+						<h1 className="text-2xl sm:text-4xl text-dark-gray font-bold">Unlock {section?.name}</h1>
+						<hr className="mt-4 mb-4" />
+						<div hidden={currentUser !== null || currentUserLoadingState === LoadingState.Loading}>
+							<div className="flex mb-4">
+								<Button
+									className={`
+										w-full
+										h-8
+										mr-2
+										px-8
+										text-${
+											authenticationMode === AuthenticationMode.LogIn
+												? 'white'
+												: 'blue-400'
+										}
+										hover:text-white
+										font-bold
+										border-2
+										border-blue-400
+										${authenticationMode === AuthenticationMode.LogIn ? 'bg-blue-400' : ''}
+										hover:bg-blue-400
+										rounded
+									`}
+									onClick={() => setAuthenticationMode(AuthenticationMode.LogIn)}
+								>
+									Log in
+								</Button>
+								<Button
+									className={`
+										w-full
+										h-8
+										px-8
+										text-${
+											authenticationMode === AuthenticationMode.SignUp
+												? 'white'
+												: 'blue-400'
+										}
+										hover:text-white
+										font-bold
+										border-2
+										border-blue-400
+										${authenticationMode === AuthenticationMode.SignUp ? 'bg-blue-400' : ''}
+										hover:bg-blue-400
+										rounded
+									`}
+									onClick={() => setAuthenticationMode(AuthenticationMode.SignUp)}
+								>
+									Sign up
+								</Button>
+							</div>
+							{authenticationMode === AuthenticationMode.SignUp && (
+								<Input
+									className="mb-2"
+									icon={faUser}
+									type="name"
+									placeholder="Name"
+									value={name}
+									setValue={setName}
 								/>
-							</Button>
-						)
-					}
-					{currentUser && (
-						<Button
-							className={`
-								h-8
-								ml-auto
-								px-8
-								text-blue-400
-								${isSignOutButtonLoading ? '' : 'hover:text-white'}
-								border-2
-								border-blue-400
-								${isSignOutButtonLoading ? '' : 'hover:bg-blue-400'}
-								rounded
-							`}
-							loaderSize="16px"
-							loaderThickness="3px"
-							loaderColor="#63b3ed"
-							loading={isSignOutButtonLoading}
-							onClick={signOut}
-						>
-							<FontAwesomeIcon icon={faSignOutAlt} />
-						</Button>
-					)}
+							)}
+							<Input
+								className="mb-2"
+								icon={faEnvelope}
+								type="email"
+								placeholder="Email"
+								value={email}
+								setValue={setEmail}
+							/>
+							<Input
+								icon={faKey}
+								type="password"
+								placeholder="Password"
+								value={password}
+								setValue={setPassword}
+							/>
+						</div>
+						<div className="flex mt-4">
+							{errorMessage
+								? (
+									<p className="text-red-600">
+										{errorMessage === __DECK_NOT_OWNED__ && deckId
+											? (
+												<Link to={`/d/${deckId}/g`}>
+													Click here to get {deck?.name}
+												</Link>
+											)
+											: errorMessage
+										}
+									</p>
+								)
+								: (
+									<Button
+										className={`
+											h-8
+											px-8
+											text-blue-${isUnlockButtonDisabled ? 200 : 400}
+											${isUnlockButtonDisabled || isUnlockButtonLoading ? '' : 'hover:text-white'}
+											border-2
+											border-blue-${isUnlockButtonDisabled ? 200 : 400}
+											${isUnlockButtonDisabled || isUnlockButtonLoading ? '' : 'hover:bg-blue-400'}
+											rounded
+										`}
+										loaderSize="16px"
+										loaderThickness="3px"
+										loaderColor="#63b3ed"
+										loading={isUnlockButtonLoading}
+										disabled={isUnlockButtonDisabled}
+										onClick={authenticate}
+									>
+										<FontAwesomeIcon
+											icon={unlockLoadingState === LoadingState.Success ? faCheck : faUnlock}
+										/>
+									</Button>
+								)
+							}
+							{currentUser && (
+								<Button
+									className={`
+										h-8
+										ml-auto
+										px-8
+										text-blue-400
+										${isSignOutButtonLoading ? '' : 'hover:text-white'}
+										border-2
+										border-blue-400
+										${isSignOutButtonLoading ? '' : 'hover:bg-blue-400'}
+										rounded
+									`}
+									loaderSize="16px"
+									loaderThickness="3px"
+									loaderColor="#63b3ed"
+									loading={isSignOutButtonLoading}
+									onClick={signOut}
+								>
+									<FontAwesomeIcon icon={faSignOutAlt} />
+								</Button>
+							)}
+						</div>
+					</div>
+					<div className="flex">
+						<AppStoreDownloadButton
+							className="mt-8 mx-auto"
+							style={{ transform: 'scale(1.5)' }}
+						/>
+					</div>
 				</div>
-			</div>
-			<div className="flex">
-				<AppStoreDownloadButton
-					className="mt-8 mx-auto"
-					style={{ transform: 'scale(1.5)' }}
-				/>
-			</div>
+			</TopGradient>
 		</div>
 	)
 }
