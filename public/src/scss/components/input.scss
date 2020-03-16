@@ -17,7 +17,7 @@
 		&:hover {
 			@apply border-gray-400;
 			
-			~ svg {
+			+ svg {
 				@apply text-gray-400;
 			}
 		}
@@ -25,7 +25,7 @@
 		&:focus {
 			@apply border-blue-400;
 			
-			~ svg {
+			+ svg {
 				@apply text-blue-400;
 			}
 		}
