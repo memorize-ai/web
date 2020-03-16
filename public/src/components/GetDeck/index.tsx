@@ -108,9 +108,13 @@ export default () => {
 		try {
 			switch (authenticationMode) {
 				case AuthenticationMode.LogIn:
+					analytics.logEvent('login', { method: 'email', component: 'GetDeck' })
+					
 					await auth.signInWithEmailAndPassword(email, password)
 					break
 				case AuthenticationMode.SignUp:
+					analytics.logEvent('sign_up', { method: 'email', component: 'GetDeck' })
+					
 					const { user } = await auth.createUserWithEmailAndPassword(email, password)
 					
 					if (!user)
@@ -131,6 +135,8 @@ export default () => {
 	}
 	
 	const signOut = async () => {
+		analytics.logEvent('sign_out', { component: 'GetDeck' })
+		
 		setGetLoadingState(LoadingState.None)
 		setSignOutLoadingState(LoadingState.Loading)
 		setErrorMessage(null)

@@ -99,9 +99,13 @@ export default () => {
 		try {
 			switch (authenticationMode) {
 				case AuthenticationMode.LogIn:
+					analytics.logEvent('login', { method: 'email', component: 'UnlockSection' })
+					
 					await auth.signInWithEmailAndPassword(email, password)
 					break
 				case AuthenticationMode.SignUp:
+					analytics.logEvent('sign_up', { method: 'email', component: 'UnlockSection' })
+					
 					const { user } = await auth.createUserWithEmailAndPassword(email, password)
 					
 					if (!user)
@@ -122,6 +126,8 @@ export default () => {
 	}
 	
 	const signOut = async () => {
+		analytics.logEvent('sign_out', { component: 'UnlockSection' })
+		
 		setUnlockLoadingState(LoadingState.None)
 		setSignOutLoadingState(LoadingState.Loading)
 		setErrorMessage(null)
