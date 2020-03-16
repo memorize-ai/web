@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import Logo, { LogoType } from '../shared/Logo'
-import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
+import Logo, { LogoType } from './Logo'
+import AppStoreDownloadButton from './AppStoreDownloadButton'
 
 export default () => (
-	<div className="home navbar flex items-center">
+	<div className="basic navbar flex items-center">
 		<Link to="/">
 			<Logo type={LogoType.Capital} className="capital-logo raise-on-hover" />
 		</Link>

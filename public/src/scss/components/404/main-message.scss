@@ -1,0 +1,27 @@
+.page-404.main-message {
+	@apply text-4xl;
+	
+	margin-top: 40px;
+	margin-left: 30px;
+	margin-right: 30px;
+	transition: margin 0.3s, font-size 0.3s;
+	
+	@media (min-width: 330px) {
+		margin-top: 60px;
+	}
+	
+	@media (min-width: 670px) {
+		@apply text-6xl;
+		
+		margin-top: 30px;
+	}
+	
+	@media (min-width: 800px) {
+		margin-left: 135px;
+		margin-right: 135px;
+	}
+	
+	@media (min-width: 1100px) {
+		margin-top: 120px;
+	}
+}
