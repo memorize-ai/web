@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react'
 import Helmet from 'react-helmet'
 import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faCheck, faUnlock, faSignOutAlt, faKey } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faCheck, faUnlock, faSignOutAlt, faKey, faUser } from '@fortawesome/free-solid-svg-icons'
 
 import firebase from '../../firebase'
 import LoadingState from '../../models/LoadingState'
+import AuthenticationMode from '../../models/AuthenticationMode'
 import useDeck from '../../hooks/useDeck'
 import useSection from '../../hooks/useSection'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import Input from '../shared/Input'
 import Button from '../shared/Button'
+import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -31,6 +33,8 @@ export default () => {
 	const section = useSection(deckId ?? '', sectionId ?? '')
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
 	
+	const [authenticationMode, setAuthenticationMode] = useState(AuthenticationMode.LogIn)
+	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	
@@ -40,7 +44,11 @@ export default () => {
 	const [signOutLoadingState, setSignOutLoadingState] = useState(LoadingState.None)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
 	
-	const isUnlockButtonDisabled = !(email && password) || unlockLoadingState === LoadingState.Success
+	const isUnlockButtonDisabled = !(
+		(authenticationMode === AuthenticationMode.LogIn || name) &&
+		email &&
+		password
+	) || unlockLoadingState === LoadingState.Success
 	const isUnlockButtonLoading = unlockLoadingState === LoadingState.Loading
 	
 	const isSignOutButtonLoading = signOutLoadingState === LoadingState.Loading
@@ -85,6 +93,34 @@ export default () => {
 		}
 	})(), [currentUser, deckId, deck, sectionId, section])
 	
+	const authenticate = async () => {
+		setUnlockLoadingState(LoadingState.Loading)
+		
+		try {
+			switch (authenticationMode) {
+				case AuthenticationMode.LogIn:
+					await auth.signInWithEmailAndPassword(email, password)
+					break
+				case AuthenticationMode.SignUp:
+					const { user } = await auth.createUserWithEmailAndPassword(email, password)
+					
+					if (!user)
+						throw new Error('An unknown error occurred. Please try again')
+					
+					await firestore.doc(`users/${user.uid}`).set({
+						name,
+						email,
+						joined: firebase.firestore.FieldValue.serverTimestamp()
+					})
+					
+					break
+			}
+		} catch (error) {
+			setUnlockLoadingState(LoadingState.Fail)
+			setErrorMessage(error.message)
+		}
+	}
+	
 	const signOut = async () => {
 		setUnlockLoadingState(LoadingState.None)
 		setSignOutLoadingState(LoadingState.Loading)
@@ -121,7 +157,65 @@ export default () => {
 				<h1 className="text-2xl sm:text-4xl text-dark-gray font-bold">Unlock {section?.name}</h1>
 				<hr className="mt-4 mb-4" />
 				<div hidden={currentUser !== null || currentUserLoadingState === LoadingState.Loading}>
+					<div className="flex mb-4">
+						<Button
+							className={`
+								w-full
+								h-8
+								mr-2
+								px-8
+								text-${
+									authenticationMode === AuthenticationMode.LogIn
+										? 'white'
+										: 'blue-400'
+								}
+								hover:text-white
+								font-bold
+								border-2
+								border-blue-400
+								${authenticationMode === AuthenticationMode.LogIn ? 'bg-blue-400' : ''}
+								hover:bg-blue-400
+								rounded
+							`}
+							onClick={() => setAuthenticationMode(AuthenticationMode.LogIn)}
+						>
+							Log in
+						</Button>
+						<Button
+							className={`
+								w-full
+								h-8
+								px-8
+								text-${
+									authenticationMode === AuthenticationMode.SignUp
+										? 'white'
+										: 'blue-400'
+								}
+								hover:text-white
+								font-bold
+								border-2
+								border-blue-400
+								${authenticationMode === AuthenticationMode.SignUp ? 'bg-blue-400' : ''}
+								hover:bg-blue-400
+								rounded
+							`}
+							onClick={() => setAuthenticationMode(AuthenticationMode.SignUp)}
+						>
+							Sign up
+						</Button>
+					</div>
+					{authenticationMode === AuthenticationMode.SignUp && (
+						<Input
+							className="mb-2"
+							icon={faUser}
+							type="name"
+							placeholder="Name"
+							value={name}
+							setValue={setName}
+						/>
+					)}
 					<Input
+						className="mb-2"
 						icon={faEnvelope}
 						type="email"
 						placeholder="Email"
@@ -129,7 +223,6 @@ export default () => {
 						setValue={setEmail}
 					/>
 					<Input
-						className="mt-2"
 						icon={faKey}
 						type="password"
 						placeholder="Password"
@@ -168,15 +261,7 @@ export default () => {
 								loaderColor="#63b3ed"
 								loading={isUnlockButtonLoading}
 								disabled={isUnlockButtonDisabled}
-								onClick={() => {
-									setUnlockLoadingState(LoadingState.Loading)
-									
-									auth.signInWithEmailAndPassword(email, password)
-										.catch(error => {
-											setUnlockLoadingState(LoadingState.Fail)
-											setErrorMessage(error.message)
-										})
-								}}
+								onClick={authenticate}
 							>
 								<FontAwesomeIcon
 									icon={unlockLoadingState === LoadingState.Success ? faCheck : faUnlock}
@@ -207,6 +292,12 @@ export default () => {
 						</Button>
 					)}
 				</div>
+			</div>
+			<div className="flex">
+				<AppStoreDownloadButton
+					className="mt-8 mx-auto"
+					style={{ transform: 'scale(1.5)' }}
+				/>
 			</div>
 		</div>
 	)
