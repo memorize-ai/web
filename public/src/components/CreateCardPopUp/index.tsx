@@ -16,6 +16,9 @@ import Deck from '../../models/Deck'
 import Section from '../../models/Section'
 import useQuery from '../../hooks/useQuery'
 import useCurrentUser from '../../hooks/useCurrentUser'
+import firebase from '../../firebase'
+
+import 'firebase/analytics'
 
 export interface CreateCardPopUpOwnProps {
 	match: {
@@ -42,6 +45,8 @@ export interface CreateCardPopUpProps {
 	updateSection: (deckId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
 	removeSection: (deckId: string, sectionId: string) => void
 }
+
+const analytics = firebase.analytics()
 
 const CreateCardPopUp = ({
 	decks: unfilteredDecks,
@@ -70,6 +75,10 @@ const CreateCardPopUp = ({
 	const decks = unfilteredDecks.filter(deck =>
 		deck.creatorId === currentUser?.uid
 	)
+	
+	useEffect(() => {
+		analytics.logEvent('show_create_card_pop_up', { from })
+	}, [])
 	
 	useEffect(() => {
 		if (isObservingDecks || !currentUser)
