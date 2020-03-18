@@ -21,7 +21,9 @@
 	const reloadHighlightable = () =>
 		document
 			.querySelectorAll('.memorize-ai-highlightable')
-			.forEach(element => element.onmouseup = onMouseUp)
+			.forEach(element =>
+				element.addEventListener('mouseup', onMouseUp)
+			)
 	
 	const reloadShowCreateCardPopUp = () =>
 		document
