@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import {
 	setIsObservingDecks,
@@ -17,16 +17,18 @@ import Section from '../../../models/Section'
 import useQuery from '../../../hooks/useQuery'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 
-export interface CreateCardPopUpWithSelectedDeckOwnProps {
+export interface CreateCardPopUpEditorOwnProps {
 	match: {
 		params: {
 			deckId: string
+			sectionId: string
 		}
 	}
 }
 
-export interface CreateCardPopUpWithSelectedDeckProps {
+export interface CreateCardPopUpEditorProps {
 	deck: Deck | undefined
+	section: Section | undefined
 	
 	isObservingDecks: boolean
 	setIsObservingDecks: (value: boolean) => void
@@ -39,8 +41,9 @@ export interface CreateCardPopUpWithSelectedDeckProps {
 	removeSection: (deckId: string, sectionId: string) => void
 }
 
-const CreateCardPopUpWithSelectedDeck = ({
+const CreateCardPopUpEditor = ({
 	deck,
+	section,
 	
 	isObservingDecks,
 	setIsObservingDecks,
@@ -51,7 +54,8 @@ const CreateCardPopUpWithSelectedDeck = ({
 	addSection,
 	updateSection,
 	removeSection
-}: CreateCardPopUpWithSelectedDeckProps) => {
+}: CreateCardPopUpEditorProps) => {
+	const { deckId } = useParams()
 	const text = useQuery().get('text') ?? ''
 	const [currentUser] = useCurrentUser()
 	
@@ -67,41 +71,37 @@ const CreateCardPopUpWithSelectedDeck = ({
 	}, [deck, currentUser]) // eslint-disable-line
 	
 	useEffect(() => {
-		if (!deck || deck.isObservingSections)
+		if (!deckId || (deck && deck.isObservingSections))
 			return
 		
-		setIsObservingSections(deck.id, true)
-		Section.observeForDeckWithId(deck.id, {
+		setIsObservingSections(deckId, true)
+		Section.observeForDeckWithId(deckId, {
 			addSection,
 			updateSection,
 			removeSection
 		})
-	}, [deck]) // eslint-disable-line
+	}, [deckId, deck]) // eslint-disable-line
 	
 	return (
 		<>
 			<p>{text}</p>
 			<p>{deck?.name ?? 'Loading...'}</p>
-			<p>Choose a section...</p>
-			<ul>
-				{deck?.sections.map(section => (
-					<li key={section.id}>
-						<Link to={`/create-card-pop-up/d/${deck.id}/s/${section.id}?text=${encodeURIComponent(text)}`}>
-							{section.name}
-						</Link>
-					</li>
-				))}
-			</ul>
+			<p>{section?.name ?? 'Loading...'}</p>
 		</>
 	)
 }
 
 const mapStateToProps = (
 	{ decks }: State,
-	{ match: { params: { deckId } } }: CreateCardPopUpWithSelectedDeckOwnProps
-) => ({
-	deck: decks.find(deck => deck.id === deckId)
-})
+	{ match: { params: { deckId, sectionId } } }: CreateCardPopUpEditorOwnProps
+) => {
+	const deck = decks.find(deck => deck.id === deckId)
+	
+	return {
+		deck,
+		section: deck?.sections.find(section => section.id === sectionId)
+	}
+}
 
 export default connect(mapStateToProps, {
 	setIsObservingDecks,
@@ -111,4 +111,4 @@ export default connect(mapStateToProps, {
 	addSection,
 	updateSection,
 	removeSection
-})(CreateCardPopUpWithSelectedDeck)
+})(CreateCardPopUpEditor)
