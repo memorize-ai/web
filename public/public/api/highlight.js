@@ -20,20 +20,20 @@
 	
 	const reloadHighlightable = () =>
 		document
-			.querySelectorAll('.memorize-ai-highlightable')
+			.querySelectorAll('.mai-hl')
 			.forEach(element =>
 				element.addEventListener('mouseup', onMouseUp)
 			)
 	
 	const reloadShowCreateCardPopUp = () =>
 		document
-			.querySelectorAll('.memorize-ai-show-create-card-pop-up')
+			.querySelectorAll('.mai-create-card')
 			.forEach(element =>
 				element.addEventListener('click', () => showPopUp())
 			)
 	
-	window.mai = window.memorize_ai = {
-		...window.memorize_ai,
+	window.mai = {
+		...window.mai,
 		showCreateCardPopUp: showPopUp,
 		reloadHighlightable,
 		reloadShowCreateCardPopUp
