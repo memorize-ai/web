@@ -34,116 +34,8 @@ import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript'
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline'
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials'
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph'
+import SimpleBase64UploadAdapter from 'ckeditor5-simple-base64-upload-adapter'
 import Latex from 'ckeditor5-latex'
-
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin'
-import FileRepository from '@ckeditor/ckeditor5-upload/src/filerepository'
-import { attachLinkToDocumentation } from '@ckeditor/ckeditor5-utils/src/ckeditorerror'
-
-class SimpleUploadAdapter extends Plugin {
-	static get requires() {
-		return [FileRepository]
-	}
-	
-	static get pluginName() {
-		return 'SimpleUploadAdapter'
-	}
-	
-	init() {
-		const options = this.editor.config.get('simpleUpload') || {}
-		
-		if (!options.uploadUrl) {
-			console.warn(attachLinkToDocumentation(
-				'simple-upload-adapter-missing-uploadUrl: Missing the "uploadUrl" property in the "simpleUpload" editor configuration.'
-			))
-			return
-		}
-		
-		this.editor.plugins.get(FileRepository).createUploadAdapter = loader =>
-			new Adapter(loader, options)
-	}
-}
-
-class Adapter {
-	constructor(loader, options) {
-		this.loader = loader
-		this.options = options
-	}
-	
-	upload() {
-		return this.loader.file.then(file =>
-			new Promise((resolve, reject) => {
-				this._initRequest()
-				this._initListeners(resolve, reject, file)
-				return this._sendRequest(file)
-			})
-		)
-	}
-	
-	abort() {
-		if (this.xhr)
-			this.xhr.abort()
-	}
-	
-	_initRequest() {
-		const xhr = this.xhr = new XMLHttpRequest()
-		
-		xhr.open('POST', this.options.uploadUrl, true)
-		xhr.responseType = 'json'
-	}
-	
-	_initListeners(resolve, reject, file) {
-		const { xhr, loader } = this
-		const genericErrorText = `Couldn't upload file: ${file.name}.`
-		
-		xhr.addEventListener('error', () => reject(genericErrorText))
-		xhr.addEventListener('abort', () => reject())
-		xhr.addEventListener('load', () => {
-			const { response } = xhr
-			
-			if (!response || response.error) {
-				return reject(
-					response && response.error && response.error.message
-						? response.error.message
-						: genericErrorText
-				)
-			}
-			
-			resolve(response.url ? { default: response.url } : response.urls)
-		})
-		
-		if (xhr.upload) {
-			xhr.upload.addEventListener('progress', evt => {
-				if (evt.lengthComputable) {
-					loader.uploadTotal = evt.total
-					loader.uploaded = evt.loaded
-				}
-			})
-		}
-	}
-	
-	_sendRequest(file) {
-		const headers = this.options.headers || {}
-		const genericErrorText = `Couldn't upload file: ${file.name}.`
-		
-		for (const headerName of Object.keys(headers))
-			this.xhr.setRequestHeader(headerName, headers[headerName])
-		
-		return new Promise((resolve, reject) => {
-			const reader = new FileReader
-			
-			reader.onload = () => {
-				this.xhr.send(reader.result)
-				resolve()
-			}
-			
-			reader.onerror = () =>
-				reject(genericErrorText)
-			
-			reader.readAsDataURL(file)
-		})
-	}
-}
 
 export default class Editor extends ClassicEditor {}
 
@@ -165,7 +57,7 @@ Editor.builtinPlugins = [
 	TableToolbar,
 	Alignment,
 	Autosave,
-	SimpleUploadAdapter,
+	SimpleBase64UploadAdapter,
 	Code,
 	CodeBlock,
 	FontBackgroundColor,

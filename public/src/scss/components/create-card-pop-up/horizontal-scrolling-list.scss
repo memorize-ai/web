@@ -1,0 +1,17 @@
+.create-card-pop-up.horizontal-scrolling-list {
+	@apply bg-white rounded-lg border border-gray-400;
+	
+	display: flex;
+	overflow-x: auto;
+	width: calc(100vw - 2rem);
+	padding: 20px;
+	
+	> * {
+		display: inline-block;
+		flex: 0 0 auto;
+		
+		&:not(:first-child) {
+			@apply ml-4;
+		}
+	}
+}

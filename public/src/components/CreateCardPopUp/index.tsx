@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 import {
 	setIsObservingDecks,
@@ -17,6 +17,9 @@ import Section from '../../models/Section'
 import useQuery from '../../hooks/useQuery'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import firebase from '../../firebase'
+import TopGradient from '../shared/TopGradient'
+import HorizontalScrollingList from './HorizontalScrollingList'
+import Box from './Box'
 
 import 'firebase/analytics'
 
@@ -86,10 +89,12 @@ const CreateCardPopUp = ({
 			return
 		
 		setIsObservingDecks(true)
-		Deck.observeForUserWithId(currentUser.uid, {
-			updateDeck,
-			removeDeck
-		})
+		Deck.observeForUserWithId(
+			currentUser.uid, 
+			{ updateDeck
+			, removeDeck
+			}
+		)
 	}, [isObservingDecks, currentUser]) // eslint-disable-line
 	
 	useEffect(() => {
@@ -137,67 +142,65 @@ const CreateCardPopUp = ({
 	}, [currentDeck, currentSection, text, from]) // eslint-disable-line
 	
 	return (
-		<>
-			<div>
-				<p>Choose a deck...</p>
-				{decks.map(deck => (
-					<Link
-						key={deck.id}
-						to={
-							`/create-card-pop-up/d/${
-								deck.id
-							}${
-								deck.sections.length
-									? `/s/${deck.sections[0].id}`
-									: ''
-							}?text=${
-								encodeURIComponent(text)
-							}&from=${
-								encodeURIComponent(from)
-							}`}
-						style={{
-							background: deck.id === currentDeck?.id
-								? 'green'
-								: 'red',
-							marginRight: '20px'
-						}}
-					>
-						{deck.name}
-					</Link>
-				))}
-			</div>
-			<div>
-				<p>Choose a section...</p>
-				{currentDeck?.sections.map(section => (
-					<Link
-						key={section.id}
-						to={
-							`/create-card-pop-up/d/${
-								currentDeck.id
-							}/s/${
-								section.id
-							}?text=${
-								encodeURIComponent(text)
-							}&from=${
-								encodeURIComponent(from)
-							}`}
-						style={{
-							background: section.id === currentSection?.id
-								? 'green'
-								: 'red',
-							marginRight: '20px'
-						}}
-					>
-						{section.name}
-					</Link>
-				))}
-			</div>
-			{currentDeck && currentSection && (
-				<div>
-					EDITOR
+		<div className="bg-light-gray">
+			<TopGradient>
+				<div className="p-4">
+					<h1 className="text-4xl text-white font-bold">
+						Created decks
+					</h1>
+					<HorizontalScrollingList>
+						{decks.map(deck => (
+							<Box
+								key={deck.id}
+								href={
+									`/create-card-pop-up/d/${
+										deck.id
+									}${
+										deck.sections.length
+											? `/s/${deck.sections[0].id}`
+											: ''
+									}?text=${
+										encodeURIComponent(text)
+									}&from=${
+										encodeURIComponent(from)
+									}`
+								}
+								isSelected={deck.id === currentDeck?.id}
+							>
+								{deck.name}
+							</Box>
+						))}
+					</HorizontalScrollingList>
+					<div>
+						<p>Choose a section...</p>
+						{currentDeck?.sections.map(section => (
+							<Box
+								key={section.id}
+								href={
+									`/create-card-pop-up/d/${
+										currentDeck.id
+									}/s/${
+										section.id
+									}?text=${
+										encodeURIComponent(text)
+									}&from=${
+										encodeURIComponent(from)
+									}`
+								}
+								isSelected={section.id === currentSection?.id}
+							>
+								{section.name}
+							</Box>
+						))}
+					</div>
+					{currentDeck && currentSection && (
+						<div>
+							EDITOR
+						</div>
+					)}
 				</div>
-			)}
-		</>
+			</TopGradient>
+		</div>
 	)
 }
 
