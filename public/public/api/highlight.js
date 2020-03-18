@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+(() => {
 	const getSelectedText = () =>
 		document.getSelection().toString()
 	
@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		reloadShowCreateCardPopUp
 	}
 	
-	reloadHighlightable()
-	reloadShowCreateCardPopUp()
-})
+	document.addEventListener('DOMContentLoaded', () => {
+		reloadHighlightable()
+		reloadShowCreateCardPopUp()
+	})
+})()
