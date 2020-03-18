@@ -1,30 +1,75 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
-import { setIsObservingDecks, updateDeck, removeDeck } from '../../actions'
+import {
+	setIsObservingDecks,
+	updateDeck,
+	removeDeck,
+	setIsObservingSections,
+	addSection,
+	updateSection,
+	removeSection
+} from '../../actions'
 import { State } from '../../reducers'
 import Deck from '../../models/Deck'
+import Section from '../../models/Section'
 import useQuery from '../../hooks/useQuery'
 import useCurrentUser from '../../hooks/useCurrentUser'
 
+export interface CreateCardPopUpOwnProps {
+	match: {
+		params: {
+			deckId?: string
+			sectionId?: string
+		}
+	}
+}
+
 export interface CreateCardPopUpProps {
-	isObservingDecks: boolean
 	decks: Deck[]
+	
+	deck?: Deck
+	section?: Section
+	
+	isObservingDecks: boolean
 	setIsObservingDecks: (value: boolean) => void
 	updateDeck: (snapshot: firebase.firestore.DocumentSnapshot) => void
 	removeDeck: (id: string) => void
+	
+	setIsObservingSections: (deckId: string, value: boolean) => void
+	addSection: (deckId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
+	updateSection: (deckId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
+	removeSection: (deckId: string, sectionId: string) => void
 }
 
 const CreateCardPopUp = ({
+	decks: unfilteredDecks,
+	
+	deck: currentDeck,
+	section: currentSection,
+	
 	isObservingDecks,
-	decks,
 	setIsObservingDecks,
 	updateDeck,
-	removeDeck
+	removeDeck,
+	
+	setIsObservingSections,
+	addSection,
+	updateSection,
+	removeSection
 }: CreateCardPopUpProps) => {
-	const text = useQuery().get('text') ?? ''
+	const history = useHistory()
+	
+	const query = useQuery()
+	const text = query.get('text') ?? ''
+	const from = query.get('from') ?? ''
+	
 	const [currentUser] = useCurrentUser()
+	
+	const decks = unfilteredDecks.filter(deck =>
+		deck.creatorId === currentUser?.uid
+	)
 	
 	useEffect(() => {
 		if (isObservingDecks || !currentUser)
@@ -35,34 +80,132 @@ const CreateCardPopUp = ({
 			updateDeck,
 			removeDeck
 		})
-	}, [currentUser]) // eslint-disable-line
+	}, [isObservingDecks, currentUser]) // eslint-disable-line
+	
+	useEffect(() => {
+		if (!decks.length || currentDeck)
+			return
+		
+		history.push(
+			`/create-card-pop-up/d/${
+				decks[0].id
+			}?text=${
+				encodeURIComponent(text)
+			}&from=${
+				encodeURIComponent(from)
+			}`
+		)
+	}, [decks, currentDeck, text, from]) // eslint-disable-line
+	
+	useEffect(() => {
+		if (!currentDeck || currentDeck.isObservingSections)
+			return
+		
+		setIsObservingSections(currentDeck.id, true)
+		Section.observeForDeckWithId(currentDeck.id, {
+			addSection,
+			updateSection,
+			removeSection
+		})
+	}, [currentDeck]) // eslint-disable-line
+	
+	useEffect(() => {
+		if (!currentDeck || !currentDeck.sections.length || currentSection)
+			return
+		
+		history.push(
+			`/create-card-pop-up/d/${
+				currentDeck.id
+			}/s/${
+				currentDeck.sections[0].id
+			}?text=${
+				encodeURIComponent(text)
+			}&from=${
+				encodeURIComponent(from)
+			}`
+		)
+	}, [currentDeck, currentSection, text, from]) // eslint-disable-line
 	
 	return (
 		<>
-			<p>Choose a deck...</p>
-			<ul>
-				{decks
-					.filter(deck => deck.creatorId === currentUser?.uid)
-					.map(deck => (
-						<li key={deck.id}>
-							<Link to={`/create-card-pop-up/d/${deck.id}?text=${encodeURIComponent(text)}`}>
-								{deck.name}
-							</Link>
-						</li>
-					))
-				}
-			</ul>
+			<div>
+				<p>Choose a deck...</p>
+				{decks.map(deck => (
+					<Link
+						key={deck.id}
+						to={
+							`/create-card-pop-up/d/${
+								deck.id
+							}${
+								deck.sections.length
+									? `/s/${deck.sections[0].id}`
+									: ''
+							}?text=${
+								encodeURIComponent(text)
+							}&from=${
+								encodeURIComponent(from)
+							}`}
+						style={{
+							background: deck.id === currentDeck?.id
+								? 'green'
+								: 'red',
+							marginRight: '20px'
+						}}
+					>
+						{deck.name}
+					</Link>
+				))}
+			</div>
+			<div>
+				<p>Choose a section...</p>
+				{currentDeck?.sections.map(section => (
+					<Link
+						key={section.id}
+						to={
+							`/create-card-pop-up/d/${
+								currentDeck.id
+							}/s/${
+								section.id
+							}?text=${
+								encodeURIComponent(text)
+							}&from=${
+								encodeURIComponent(from)
+							}`}
+						style={{
+							background: section.id === currentSection?.id
+								? 'green'
+								: 'red',
+							marginRight: '20px'
+						}}
+					>
+						{section.name}
+					</Link>
+				))}
+			</div>
 		</>
 	)
 }
 
-const mapStateToProps = ({ isObservingDecks, decks }: State) => ({
-	isObservingDecks,
-	decks
-})
+const mapStateToProps = (
+	{ isObservingDecks, decks }: State,
+	{ match: { params: { deckId, sectionId } } }: CreateCardPopUpOwnProps
+) => {
+	const deck = decks.find(deck => deck.id === deckId)
+	
+	return {
+		decks,
+		deck,
+		section: deck?.sections.find(section => section.id === sectionId),
+		isObservingDecks
+	}
+}
 
 export default connect(mapStateToProps, {
 	setIsObservingDecks,
 	updateDeck,
-	removeDeck
+	removeDeck,
+	setIsObservingSections,
+	addSection,
+	updateSection,
+	removeSection
 })(CreateCardPopUp)

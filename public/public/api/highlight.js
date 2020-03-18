@@ -6,6 +6,8 @@
 		void window.open(
 			`http://localhost:3000/create-card-pop-up?${
 				text && `text=${encodeURIComponent(text)}`
+			}&from=${
+				encodeURIComponent(window.location.href)
 			}`,
 			'popup',
 			'width=600,height=800'
@@ -28,7 +30,7 @@
 				element.addEventListener('click', () => showPopUp())
 			)
 	
-	window.memorize_ai = {
+	window.mai = window.memorize_ai = {
 		...window.memorize_ai,
 		showCreateCardPopUp: showPopUp,
 		reloadHighlightable,

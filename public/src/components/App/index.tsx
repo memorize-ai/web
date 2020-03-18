@@ -9,8 +9,6 @@ import GetDeck from '../GetDeck'
 import UnlockSection from '../UnlockSection'
 
 import CreateCardPopUp from '../CreateCardPopUp'
-import CreateCardPopUpSections from '../CreateCardPopUp/Sections'
-import CreateCardPopUpEditor from '../CreateCardPopUp/Editor'
 
 import CatchAll from '../404'
 
@@ -24,9 +22,15 @@ export default () => (
 			<Route exact path="/d/:deckId/g" component={GetDeck} />
 			<Route exact path="/d/:deckId/s/:sectionId/u" component={UnlockSection} />
 			
-			<Route exact path="/create-card-pop-up" component={CreateCardPopUp} />
-			<Route exact path="/create-card-pop-up/d/:deckId" component={CreateCardPopUpSections} />
-			<Route exact path="/create-card-pop-up/d/:deckId/s/:sectionId" component={CreateCardPopUpEditor} />
+			<Route
+				exact
+				path={[
+					'/create-card-pop-up',
+					'/create-card-pop-up/d/:deckId',
+					'/create-card-pop-up/d/:deckId/s/:sectionId'
+				]}
+				component={CreateCardPopUp}
+			/>
 			
 			<Route exact component={CatchAll} />
 		</Switch>
