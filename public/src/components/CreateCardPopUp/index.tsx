@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useParams, useHistory } from 'react-router-dom'
 
 import {
 	setIsObservingDecks,
@@ -64,6 +64,7 @@ const CreateCardPopUp = ({
 	updateSection,
 	removeSection
 }: CreateCardPopUpProps) => {
+	const { deckId, sectionId } = useParams()
 	const history = useHistory()
 	
 	const query = useQuery()
@@ -92,7 +93,7 @@ const CreateCardPopUp = ({
 	}, [isObservingDecks, currentUser]) // eslint-disable-line
 	
 	useEffect(() => {
-		if (!decks.length || currentDeck)
+		if (!decks.length || currentDeck || deckId)
 			return
 		
 		history.push(
@@ -119,7 +120,7 @@ const CreateCardPopUp = ({
 	}, [currentDeck]) // eslint-disable-line
 	
 	useEffect(() => {
-		if (!currentDeck || !currentDeck.sections.length || currentSection)
+		if (!currentDeck || !currentDeck.sections.length || currentSection || sectionId)
 			return
 		
 		history.push(
