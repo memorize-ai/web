@@ -78,7 +78,7 @@ const CreateCardPopUp = ({
 	
 	useEffect(() => {
 		analytics.logEvent('show_create_card_pop_up', { from })
-	}, [])
+	}, [from])
 	
 	useEffect(() => {
 		if (isObservingDecks || !currentUser)
@@ -191,6 +191,11 @@ const CreateCardPopUp = ({
 					</Link>
 				))}
 			</div>
+			{currentDeck && currentSection && (
+				<div>
+					EDITOR
+				</div>
+			)}
 		</>
 	)
 }
