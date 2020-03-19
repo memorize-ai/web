@@ -1,5 +1,7 @@
 import React, { PropsWithChildren, HTMLAttributes } from 'react'
 
+import Loader from './Loader'
+
 export interface ButtonProps {
 	loaderSize?: string
 	loaderThickness?: string
@@ -20,17 +22,12 @@ export default ({
 	...props
 }: PropsWithChildren<ButtonProps & HTMLAttributes<HTMLButtonElement>>) => (
 	<button {...props} disabled={disabled || loading} onClick={onClick}>
-		{loading
+		{loading && loaderSize && loaderThickness && loaderColor
 			? (
-				<div
-					className="loader"
-					style={{
-						width: loaderSize,
-						height: loaderSize,
-						border: `${loaderThickness} solid transparent`,
-						borderTop: `${loaderThickness} solid ${loaderColor}`,
-						borderRight: `${loaderThickness} solid ${loaderColor}`
-					}}
+				<Loader
+					size={loaderSize}
+					thickness={loaderThickness}
+					color={loaderColor}
 				/>
 			)
 			: children

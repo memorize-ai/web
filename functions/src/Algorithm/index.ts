@@ -55,5 +55,5 @@ export default class Algorithm {
 	})
 	
 	static isPerformanceRatingCorrect = (rating: PerformanceRating) =>
-		rating.valueOf() > 0
+		rating > 0
 }

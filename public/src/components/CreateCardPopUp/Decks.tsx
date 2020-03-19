@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import Deck from '../../models/Deck'
-import { getPopUpUrl } from '.'
+import { getPopUpUrl } from './Content'
 import HorizontalScrollingList from './HorizontalScrollingList'
 import Box from './Box'
 import CreateDeckModal from './CreateDeckModal'

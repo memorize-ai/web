@@ -97,7 +97,7 @@ const updateNewCard = async (
 		historyRef.set({
 			date,
 			next,
-			rating: rating.valueOf(),
+			rating,
 			elapsed: 0,
 			viewTime
 		})
@@ -149,7 +149,7 @@ const updateExistingCard = async (
 		historyRef.set({
 			date,
 			next,
-			rating: rating.valueOf(),
+			rating,
 			elapsed: date.getTime() - userData.last.date.getTime(),
 			viewTime
 		})
