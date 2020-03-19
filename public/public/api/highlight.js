@@ -4,7 +4,7 @@
 	
 	const showPopUp = text =>
 		void window.open(
-			`http://localhost:3000/create-card-pop-up?${
+			`https://memorize.ai/create-card-pop-up?${
 				text ? `text=${encodeURIComponent(text)}&` : ''
 			}from=${
 				encodeURIComponent(window.location.href)
