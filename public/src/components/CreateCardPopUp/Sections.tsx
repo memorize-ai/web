@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import Deck from '../../models/Deck'
 import Section from '../../models/Section'
+import { getPopUpUrl } from '.'
 import HorizontalScrollingList from './HorizontalScrollingList'
 import Box from './Box'
 import CreateSectionModal from './CreateSectionModal'
@@ -15,6 +16,11 @@ export default (
 	}
 ) => {
 	const [isCreateSectionModalShowing, setIsCreateSectionModalShowing] = useState(false)
+	
+	const sections = currentDeck && [
+		currentDeck.unsectionedSection,
+		...currentDeck.sections
+	]
 	
 	return (
 		<>
@@ -30,20 +36,15 @@ export default (
 				</button>
 			</div>
 			<HorizontalScrollingList>
-				{currentDeck?.sections.map(section => (
+				{currentDeck && sections?.map(section => (
 					<Box
 						key={section.id}
-						href={
-							`/create-card-pop-up/d/${
-								currentDeck.id
-							}/s/${
-								section.id
-							}?text=${
-								encodeURIComponent(text)
-							}&from=${
-								encodeURIComponent(from)
-							}`
-						}
+						href={getPopUpUrl({
+							deck: currentDeck,
+							section: section.isUnsectioned ? undefined : section,
+							text,
+							from
+						})}
 						isSelected={section.id === currentSection?.id}
 					>
 						{section.name}

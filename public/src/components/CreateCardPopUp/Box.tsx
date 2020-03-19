@@ -9,7 +9,7 @@ export default (
 ) => (
 	<Link
 		to={href}
-		className={`px-8 py-2 bg-${isSelected ? 'green-400' : 'red-400'}`}
+		className={`px-8 py-2 text-dark-gray bg-${isSelected ? 'green-400' : 'red-400'}`}
 	>
 		{children}
 	</Link>

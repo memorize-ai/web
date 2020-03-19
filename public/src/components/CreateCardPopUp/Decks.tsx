@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import Deck from '../../models/Deck'
+import { getPopUpUrl } from '.'
 import HorizontalScrollingList from './HorizontalScrollingList'
 import Box from './Box'
 import CreateDeckModal from './CreateDeckModal'
@@ -32,19 +33,7 @@ export default (
 				{decks.map(deck => (
 					<Box
 						key={deck.id}
-						href={
-							`/create-card-pop-up/d/${
-								deck.id
-							}${
-								deck.sections.length
-									? `/s/${deck.sections[0].id}`
-									: ''
-							}?text=${
-								encodeURIComponent(text)
-							}&from=${
-								encodeURIComponent(from)
-							}`
-						}
+						href={getPopUpUrl({ deck, text, from })}
 						isSelected={deck.id === currentDeck?.id}
 					>
 						{deck.name}

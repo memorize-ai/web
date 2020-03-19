@@ -5,18 +5,42 @@ import 'firebase/firestore'
 
 const firestore = firebase.firestore()
 
-export default class Section {
+export interface SectionData {
+	name: string
+	index: number
+	numberOfCards: number
+}
+
+export default class Section implements SectionData {
 	id: string
 	name: string
 	index: number
 	numberOfCards: number
 	
-	constructor(snapshot: firebase.firestore.DocumentSnapshot) {
-		this.id = snapshot.id
-		this.name = snapshot.get('name')
-		this.index = snapshot.get('index')
-		this.numberOfCards = snapshot.get('cardCount') ?? 0
+	constructor(id: string, data: SectionData) {
+		this.id = id
+		this.name = data.name
+		this.index = data.index
+		this.numberOfCards = data.numberOfCards
 	}
+	
+	get isUnsectioned() {
+		return !this.id
+	}
+	
+	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) =>
+		new Section(snapshot.id, {
+			name: snapshot.get('name'),
+			index: snapshot.get('index'),
+			numberOfCards: snapshot.get('cardCount') ?? 0
+		})
+	
+	static newUnsectionedSection = (numberOfCards: number) =>
+		new Section('', {
+			name: 'Unsectioned',
+			index: -1,
+			numberOfCards
+		})
 	
 	static observeForDeckWithId = (
 		deckId: string,

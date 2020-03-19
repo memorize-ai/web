@@ -20,6 +20,7 @@ import firebase from '../../firebase'
 import TopGradient from '../shared/TopGradient'
 import Decks from './Decks'
 import Sections from './Sections'
+import Editors from './Editors'
 
 import 'firebase/analytics'
 
@@ -51,6 +52,26 @@ export interface CreateCardPopUpProps {
 
 const analytics = firebase.analytics()
 
+export const getPopUpUrl = (
+	{ deck, section, text, from }: {
+		deck: Deck
+		section?: Section
+		text: string
+		from: string
+	}
+) =>
+	`/create-card-pop-up/d/${
+		deck.id
+	}${
+		section
+			? `/s/${section.id}`
+			: ''
+	}?text=${
+		encodeURIComponent(text)
+	}&from=${
+		encodeURIComponent(from)
+	}`
+
 const CreateCardPopUp = ({
 	decks: unfilteredDecks,
 	
@@ -67,7 +88,7 @@ const CreateCardPopUp = ({
 	updateSection,
 	removeSection
 }: CreateCardPopUpProps) => {
-	const { deckId, sectionId } = useParams()
+	const { deckId } = useParams()
 	const history = useHistory()
 	
 	const query = useQuery()
@@ -101,15 +122,11 @@ const CreateCardPopUp = ({
 		if (!decks.length || currentDeck || deckId)
 			return
 		
-		history.push(
-			`/create-card-pop-up/d/${
-				decks[0].id
-			}?text=${
-				encodeURIComponent(text)
-			}&from=${
-				encodeURIComponent(from)
-			}`
-		)
+		history.push(getPopUpUrl({
+			deck: decks[0],
+			text,
+			from
+		}))
 	}, [decks, currentDeck, text, from]) // eslint-disable-line
 	
 	useEffect(() => {
@@ -123,23 +140,6 @@ const CreateCardPopUp = ({
 			removeSection
 		})
 	}, [currentDeck]) // eslint-disable-line
-	
-	useEffect(() => {
-		if (!currentDeck || !currentDeck.sections.length || currentSection || sectionId)
-			return
-		
-		history.push(
-			`/create-card-pop-up/d/${
-				currentDeck.id
-			}/s/${
-				currentDeck.sections[0].id
-			}?text=${
-				encodeURIComponent(text)
-			}&from=${
-				encodeURIComponent(from)
-			}`
-		)
-	}, [currentDeck, currentSection, text, from]) // eslint-disable-line
 	
 	return (
 		<div className="bg-light-gray">
@@ -158,9 +158,11 @@ const CreateCardPopUp = ({
 						from={from}
 					/>
 					{currentDeck && currentSection && (
-						<div>
-							EDITOR
-						</div>
+						<Editors
+							deck={currentDeck}
+							section={currentSection}
+							text={text}
+						/>
 					)}
 				</div>
 			</TopGradient>
@@ -177,7 +179,9 @@ const mapStateToProps = (
 	return {
 		decks,
 		deck,
-		section: deck?.sections.find(section => section.id === sectionId),
+		section: sectionId
+			? deck?.sections.find(section => section.id === sectionId)
+			: deck?.unsectionedSection,
 		isObservingDecks
 	}
 }

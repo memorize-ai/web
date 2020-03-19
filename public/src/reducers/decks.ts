@@ -21,7 +21,7 @@ export default (
 						? deck.updateFromSnapshot(snapshot)
 						: deck
 				)
-				: [...decks, new Deck(snapshot)]
+				: [...decks, Deck.fromSnapshot(snapshot)]
 		}
 		case ActionType.RemoveDeck:
 			return decks.filter(deck => deck.id !== payload)
