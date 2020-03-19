@@ -4,10 +4,12 @@ import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/BasicNavbar'
 
 export default ({ children }: PropsWithChildren<{}>) => (
-	<div className="create-card-pop-up-container min-h-screen bg-light-gray">
+	<div className="min-h-screen bg-light-gray">
 		<TopGradient>
 			<Navbar />
-			{children}
+			<div className="create-card-pop-up content-container mt-8">
+				{children}
+			</div>
 		</TopGradient>
 	</div>
 )

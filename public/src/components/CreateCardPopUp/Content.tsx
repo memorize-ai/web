@@ -135,7 +135,7 @@ const CreateCardPopUp = ({
 	}, [currentDeck]) // eslint-disable-line
 	
 	return (
-		<div className="p-4">
+		<>
 			<Decks
 				decks={decks}
 				currentDeck={currentDeck}
@@ -155,7 +155,7 @@ const CreateCardPopUp = ({
 					text={text}
 				/>
 			)}
-		</div>
+		</>
 	)
 }
 
