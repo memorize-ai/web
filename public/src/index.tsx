@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Modal from 'react-modal'
 import { Provider } from 'react-redux'
 import { createStore, compose, applyMiddleware } from 'redux'
 import reduxThunk from 'redux-thunk'
@@ -19,6 +20,8 @@ const enhancer = (
 
 analytics.logEvent('start')
 AOS.init()
+
+Modal.setAppElement(document.getElementById('root')!)
 
 ReactDOM.render((
 	<Provider store={createStore(reducers, enhancer)}>

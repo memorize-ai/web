@@ -1,0 +1,11 @@
+.textarea {
+	@apply w-full px-2 py-1 text-dark-gray border-2 border-gray-300 rounded outline-none;
+	
+	&:hover {
+		@apply border-gray-400;
+	}
+	
+	&:focus {
+		@apply border-blue-400;
+	}
+}

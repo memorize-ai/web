@@ -5,6 +5,12 @@ import 'firebase/firestore'
 
 const firestore = firebase.firestore()
 
+export interface CreateDeckData {
+	name: string
+	subtitle: string
+	description: string
+}
+
 export default class Deck {
 	id: string
 	topics: string[]
@@ -91,6 +97,38 @@ export default class Deck {
 				console.error(error)
 			}
 		)
+	
+	static createForUserWithId = async (uid: string, data: CreateDeckData) => {
+		const { id: deckId } = await firestore.collection('decks').add({
+			...data,
+			topics: [],
+			hasImage: false,
+			viewCount: 0,
+			uniqueViewCount: 0,
+			ratingCount: 0,
+			'1StarRatingCount': 0,
+			'2StarRatingCount': 0,
+			'3StarRatingCount': 0,
+			'4StarRatingCount': 0,
+			'5StarRatingCount': 0,
+			averageRating: 0,
+			downloadCount: 0,
+			cardCount: 0,
+			unsectionedCardCount: 0,
+			currentUserCount: 0,
+			allTimeUserCount: 0,
+			favoriteCount: 0,
+			creator: uid,
+			created: firebase.firestore.FieldValue.serverTimestamp(),
+			updated: firebase.firestore.FieldValue.serverTimestamp()
+		})
+		
+		await firestore.doc(`users/${uid}/decks/${deckId}`).set({
+			added: firebase.firestore.FieldValue.serverTimestamp()
+		})
+		
+		return deckId
+	}
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.topics = snapshot.get('topics')

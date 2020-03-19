@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { HTMLAttributes } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 
@@ -11,8 +11,16 @@ export interface InputProps {
 	setValue: (value: string) => void
 }
 
-export default ({ className, icon, type, placeholder, value, setValue }: InputProps) => (
-	<div className={`input${className ? ` ${className}` : ''}`}>
+export default ({
+	className,
+	icon,
+	type,
+	placeholder,
+	value,
+	setValue,
+	...props
+}: InputProps & HTMLAttributes<HTMLDivElement>) => (
+	<div {...props} className={`input${className ? ` ${className}` : ''}`}>
 		<input
 			type={type}
 			placeholder={placeholder}

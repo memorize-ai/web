@@ -18,7 +18,7 @@ import useQuery from '../../hooks/useQuery'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import firebase from '../../firebase'
 import TopGradient from '../shared/TopGradient'
-import HorizontalScrollingList from './HorizontalScrollingList'
+import Decks from './Decks'
 import Box from './Box'
 
 import 'firebase/analytics'
@@ -145,32 +145,12 @@ const CreateCardPopUp = ({
 		<div className="bg-light-gray">
 			<TopGradient>
 				<div className="p-4">
-					<h1 className="text-4xl text-white font-bold">
-						Created decks
-					</h1>
-					<HorizontalScrollingList>
-						{decks.map(deck => (
-							<Box
-								key={deck.id}
-								href={
-									`/create-card-pop-up/d/${
-										deck.id
-									}${
-										deck.sections.length
-											? `/s/${deck.sections[0].id}`
-											: ''
-									}?text=${
-										encodeURIComponent(text)
-									}&from=${
-										encodeURIComponent(from)
-									}`
-								}
-								isSelected={deck.id === currentDeck?.id}
-							>
-								{deck.name}
-							</Box>
-						))}
-					</HorizontalScrollingList>
+					<Decks
+						decks={decks}
+						currentDeck={currentDeck}
+						text={text}
+						from={from}
+					/>
 					<div>
 						<p>Choose a section...</p>
 						{currentDeck?.sections.map(section => (
