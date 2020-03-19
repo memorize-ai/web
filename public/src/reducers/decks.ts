@@ -18,7 +18,7 @@ export default (
 			return decks.some(deck => deck.id === snapshot.id)
 				? decks.map(deck =>
 					deck.id === snapshot.id
-						? { ...deck.updateFromSnapshot(snapshot) }
+						? deck.updateFromSnapshot(snapshot)
 						: deck
 				)
 				: [...decks, new Deck(snapshot)]
@@ -33,7 +33,7 @@ export default (
 			
 			return decks.map(deck =>
 				deck.id === deckId
-					? { ...deck.setIsObservingSections(value) }
+					? deck.setIsObservingSections(value)
 					: deck
 			)
 		}
@@ -45,7 +45,7 @@ export default (
 			
 			return decks.map(deck =>
 				deck.id === deckId
-					? { ...deck.addSection(snapshot) }
+					? deck.addSection(snapshot)
 					: deck
 			)
 		}
@@ -57,7 +57,7 @@ export default (
 			
 			return decks.map(deck =>
 				deck.id === deckId
-					? { ...deck.updateSection(snapshot) }
+					? deck.updateSection(snapshot)
 					: deck
 			)
 		}
@@ -69,7 +69,7 @@ export default (
 			
 			return decks.map(deck =>
 				deck.id === deckId
-					? { ...deck.removeSection(sectionId) }
+					? deck.removeSection(sectionId)
 					: deck
 			)
 		}

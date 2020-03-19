@@ -156,23 +156,34 @@ export default class Deck {
 		return this
 	}
 	
+	private copy = () => ({ ...this })
+	
+	private sortSections = () =>
+		this.sections = this.sections.sort(({ index: a }, { index: b }) => a - b)
+	
 	setIsObservingSections = (value: boolean) => {
 		this.isObservingSections = value
-		return this
+		return this.copy()
 	}
 	
 	addSection = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.sections.push(new Section(snapshot))
-		return this
+		this.sortSections()
+		
+		return this.copy()
 	}
 	
 	updateSection = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.sections.find(section => section.id === snapshot.id)?.updateFromSnapshot(snapshot)
-		return this
+		this.sortSections()
+		
+		return this.copy()
 	}
 	
 	removeSection = (sectionId: string) => {
 		this.sections = this.sections.filter(section => section.id !== sectionId)
-		return this
+		this.sortSections()
+		
+		return this.copy()
 	}
 }

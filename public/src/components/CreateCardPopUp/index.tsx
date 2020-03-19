@@ -19,7 +19,7 @@ import useCurrentUser from '../../hooks/useCurrentUser'
 import firebase from '../../firebase'
 import TopGradient from '../shared/TopGradient'
 import Decks from './Decks'
-import Box from './Box'
+import Sections from './Sections'
 
 import 'firebase/analytics'
 
@@ -151,28 +151,12 @@ const CreateCardPopUp = ({
 						text={text}
 						from={from}
 					/>
-					<div>
-						<p>Choose a section...</p>
-						{currentDeck?.sections.map(section => (
-							<Box
-								key={section.id}
-								href={
-									`/create-card-pop-up/d/${
-										currentDeck.id
-									}/s/${
-										section.id
-									}?text=${
-										encodeURIComponent(text)
-									}&from=${
-										encodeURIComponent(from)
-									}`
-								}
-								isSelected={section.id === currentSection?.id}
-							>
-								{section.name}
-							</Box>
-						))}
-					</div>
+					<Sections
+						currentDeck={currentDeck}
+						currentSection={currentSection}
+						text={text}
+						from={from}
+					/>
 					{currentDeck && currentSection && (
 						<div>
 							EDITOR

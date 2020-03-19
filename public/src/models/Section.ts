@@ -1,4 +1,5 @@
 import firebase from '../firebase'
+import Deck from './Deck'
 
 import 'firebase/firestore'
 
@@ -45,6 +46,16 @@ export default class Section {
 				console.error(error)
 			}
 		)
+	
+	static createForDeck = async (deck: Deck, name: string) =>
+		(await firestore
+			.collection(`decks/${deck.id}/sections`)
+			.add({
+				name,
+				index: deck.sections.length,
+				cardCount: 0
+			})
+		).id
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.name = snapshot.get('name')
