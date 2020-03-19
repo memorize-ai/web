@@ -1,8 +1,7 @@
 import React from 'react'
-import Helmet from 'react-helmet'
+import { Link } from 'react-router-dom'
 
-import TopGradient from '../shared/TopGradient'
-import Navbar from '../shared/BasicNavbar'
+import Navbar from '../shared/Navbar'
 import Header from './Header'
 import Boxes from './Boxes'
 import Screenshots from './Screenshots'
@@ -18,19 +17,29 @@ export default () => {
 	analytics.setCurrentScreen('home')
 	
 	return (
-		<div className="bg-light-gray">
-			<Helmet>
-				<meta name="description" content="The ultimate memorization tool. Download on the App Store" />
-				<title>memorize.ai</title>
-			</Helmet>
-			<TopGradient>
-				<Navbar />
-				<Header />
-				<Screenshots />
-				<Boxes />
-				<Integrations />
-				<Footer />
-			</TopGradient>
-		</div>
+		<>
+			<Navbar>
+				<Link
+					to="/auth"
+					className="
+						home
+						navbar-item-auth
+						px-4
+						text-xl
+						text-white
+						font-bold
+						bg-black
+						rounded-lg
+					"
+				>
+					Log in <span className="opacity-50">/</span> Sign up
+				</Link>
+			</Navbar>
+			<Header />
+			<Screenshots />
+			<Boxes />
+			<Integrations />
+			<Footer />
+		</>
 	)
 }

@@ -1,9 +1,11 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import Home from '../Home'
+import Root from './Root'
 import Privacy from '../Privacy'
 import Support from '../Support'
+
+import Auth from '../Auth'
 
 import GetDeck from '../GetDeck'
 import UnlockSection from '../UnlockSection'
@@ -15,9 +17,11 @@ import CatchAll from '../404'
 export default () => (
 	<BrowserRouter>
 		<Switch>
-			<Route exact path="/" component={Home} />
+			<Route exact path="/" component={Root} />
 			<Route exact path="/privacy" component={Privacy} />
 			<Route exact path="/support" component={Support} />
+			
+			<Route exact path="/auth" component={Auth} />
 			
 			<Route exact path="/d/:deckId/g" component={GetDeck} />
 			<Route exact path="/d/:deckId/s/:sectionId/u" component={UnlockSection} />

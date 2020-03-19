@@ -2,7 +2,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 
 import TopGradient from '../shared/TopGradient'
-import Navbar from '../shared/BasicNavbar'
+import Navbar from '../shared/Navbar'
 import firebase from '../../firebase'
 
 import 'firebase/analytics'

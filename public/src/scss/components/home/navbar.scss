@@ -1,0 +1,13 @@
+.home {
+	&.navbar-item-auth {
+		height: 50px;
+		line-height: 50px;
+		border: 1px solid rgba(255, 255, 255, 0.7);
+		transition: transform 0.2s;
+		
+		&:hover,
+		&:focus {
+			transform: scale(1.05);
+		}
+	}
+}

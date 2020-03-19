@@ -1,4 +1,4 @@
-.basic.navbar {
+.navbar {
 	padding: 30px 30px 0 30px;
 	transition: padding 0.3s;
 	
@@ -7,11 +7,16 @@
 		padding-right: 135px;
 	}
 	
-	.capital-logo {
+	> a > .capital-logo {
 		max-height: 60px;
 	}
 	
-	.app-store-download-button {
+	> .items {
+		margin-right: 40px;
+	}
+	
+	> .app-store-download-button {
+		padding-right: 20px;
 		transform: scale(1.25);
 		transition: transform 0.2s;
 		

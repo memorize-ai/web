@@ -6,8 +6,10 @@ body,
 body *,
 body ::before,
 body ::after {
-	@apply font-muli box-border outline-none;
+	@apply font-muli;
 	
+	box-sizing: border-box;
+	outline: none !important;
 	border: 0 solid #e2e8f0;
 }
 

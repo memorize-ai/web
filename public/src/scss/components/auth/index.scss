@@ -1,0 +1,7 @@
+.auth {
+	transition: width 0.3s;
+	
+	> .header {
+		transition: font-size 0.3s;
+	}
+}
