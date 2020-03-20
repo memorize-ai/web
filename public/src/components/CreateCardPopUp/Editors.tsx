@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
-import CKEditor from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 import Deck from '../../models/Deck'
 import Section from '../../models/Section'
 import Card from '../../models/Card'
 import LoadingState from '../../models/LoadingState'
+import CKEditor from '../shared/CKEditor'
 import Button from '../shared/Button'
-
-import '../../types/ckeditor5-react.d'
-import '../../types/ckeditor5-build-classic.d'
 
 export default (
 	{ deck, section, text }: {
@@ -43,18 +39,12 @@ export default (
 	return (
 		<div className="create-card-pop-up editors">
 			<CKEditor
-				editor={ClassicEditor}
 				data={front}
-				onChange={(_event: any, editor: any) =>
-					setFront(editor.getData())
-				}
+				setData={setFront}
 			/>
 			<CKEditor
-				editor={ClassicEditor}
 				data={back}
-				onChange={(_event: any, editor: any) =>
-					setBack(editor.getData())
-				}
+				setData={setBack}
 			/>
 			<div className="flex">
 				<Button

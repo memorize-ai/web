@@ -1,3 +1,0 @@
-App URL: https://memorize.ai/_dev/ios/app.ipa
-Display Image URL: https://memorize.ai/_dev/ios/57x57.png
-Full Size Image URL: https://memorize.ai/_dev/ios/512x512.png

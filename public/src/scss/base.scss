@@ -13,6 +13,22 @@ body ::after {
 	border: 0 solid #e2e8f0;
 }
 
+hr {
+	@apply border-none;
+	
+	height: 2px;
+	background: #f5f5f5;
+}
+
+button:disabled {
+	@apply cursor-not-allowed;
+}
+
+.ck.ck-dropdown__panel.ck-dropdown__panel_sw > .ck.ck-toolbar > .ck.ck-toolbar__items {
+	width: calc(100% - 10px * 2);
+	flex-wrap: wrap;
+}
+
 // Tailwind CSS [START]
 
 html {
@@ -323,14 +339,3 @@ video {
 }
 
 // Tailwind CSS [END]
-
-hr {
-	@apply border-none;
-	
-	height: 2px;
-	background: #f5f5f5;
-}
-
-button:disabled {
-	@apply cursor-not-allowed;
-}

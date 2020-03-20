@@ -1,13 +1,13 @@
 {
 	"name": "public",
 	"dependencies": {
-		"@ckeditor/ckeditor5-build-classic": "^17.0.0",
 		"@ckeditor/ckeditor5-react": "^2.1.0",
 		"@fortawesome/fontawesome-svg-core": "^1.2.27",
 		"@fortawesome/free-solid-svg-icons": "^5.12.1",
 		"@fortawesome/react-fontawesome": "^0.1.9",
 		"aos": "^3.0.0-beta.6",
 		"autoprefixer": "^9.7.4",
+		"ckeditor5-memorize.ai": "^1.0.3",
 		"cssnano": "^4.1.10",
 		"disqus-react": "^1.0.7",
 		"firebase": "^7.11.0",

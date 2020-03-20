@@ -1,5 +1,12 @@
 .create-card-pop-up.editors {
-	> div {
+	> .ck.ck-editor {
 		@apply mt-4;
+		
+		width: calc(100vw - 30px * 2);
+		transition: width 0.3s;
+		
+		@media (min-width: 800px) {
+			width: calc(100vw - 135px * 2);
+		}
 	}
 }
