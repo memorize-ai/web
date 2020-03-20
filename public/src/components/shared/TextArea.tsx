@@ -1,4 +1,5 @@
 import React, { HTMLAttributes } from 'react'
+import cx from 'classnames'
 
 import '../../scss/components/TextArea.scss'
 
@@ -13,7 +14,7 @@ export default (
 ) => (
 	<textarea
 		{...props}
-		className={`textarea${className ? ` ${className}` : ''}`}
+		className={cx('textarea', className)}
 		style={{ minHeight }}
 		placeholder={placeholder}
 		value={value}
