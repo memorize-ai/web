@@ -1,4 +1,8 @@
+@import '../mixins';
+
 .navbar {
+	display: flex;
+	align-items: center;
 	padding: 30px 30px 0 30px;
 	transition: padding 0.3s;
 	
@@ -7,15 +11,20 @@
 		padding-right: 135px;
 	}
 	
-	> a > .capital-logo {
+	> a > .logo {
+		@include raise-on-hover;
+		
 		max-height: 60px;
 	}
 	
 	> .items {
-		margin-right: 40px;
+		display: flex;
+		align-items: center;
+		margin: 0 40px 0 auto;
 	}
 	
 	> .app-store-download-button {
+		display: none;
 		padding-right: 20px;
 		transform: scale(1.25);
 		transition: transform 0.2s;

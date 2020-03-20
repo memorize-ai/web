@@ -1,14 +1,25 @@
+@import '../mixins';
+
 .top-gradient {
-	height: 380px;
-	background: linear-gradient(to bottom, #5a2aff, #00e5f4);
-	transform: skewY(6deg);
-	transition: 0.3s height;
+	@include stack;
 	
-	@media (min-width: 800px) {
-		height: 520px;
+	> .background {
+		height: 380px;
+		background: linear-gradient(to bottom, #5a2aff, #00e5f4);
+		transform: skewY(6deg);
+		transform-origin: top right;
+		transition: 0.3s height;
+		
+		@media (min-width: 800px) {
+			height: 520px;
+		}
+		
+		@media (min-width: 1100px) {
+			height: 670px;
+		}
 	}
 	
-	@media (min-width: 1100px) {
-		height: 670px;
+	> .content {
+		z-index: 10;
 	}
 }

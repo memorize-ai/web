@@ -1,10 +1,10 @@
 @import '../variables';
 
 .input {
-	display: relative;
+	position: relative;
 	
 	> svg {
-		display: absolute;
+		position: absolute;
 		left: 12px;
 		top: 12px;
 		pointer-events: none;

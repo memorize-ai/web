@@ -223,11 +223,6 @@ button {
 	padding: 0;
 }
 
-button:focus {
-	outline: 1px dotted;
-	outline: 5px auto -webkit-focus-ring-color;
-}
-
 fieldset {
 	margin: 0;
 	padding: 0;
@@ -293,7 +288,7 @@ a {
 	text-decoration: inherit;
 }
 
-button,
+// button,
 input,
 optgroup,
 select,

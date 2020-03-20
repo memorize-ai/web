@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { faUser, faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import firebase from '../../firebase'
 import AuthenticationMode from '../../models/AuthenticationMode'
@@ -80,129 +81,75 @@ export default () => {
 	}, [currentUser, history])
 	
 	return (
-		<div className="min-h-screen bg-light-gray">
+		<div className="auth">
 			<TopGradient>
 				<Navbar />
-				<div
-					className="
-						auth
-						md:w-2/3
-						lg:w-1/2
-						mt-10
-						mx-auto
-						px-6
-						pt-4
-						pb-4
-						bg-white
-						rounded-lg
-						shadow-lg
-					"
-				>
-					<h1 className="header text-2xl sm:text-4xl text-dark-gray font-bold">
-						Welcome to memorize.ai!
-					</h1>
-					<hr className="mt-4 mb-4" />
-					<div className="flex mb-4">
-						<Button
-							className={`
-								w-full
-								h-8
-								mr-2
-								px-8
-								text-${
-									authenticationMode === AuthenticationMode.LogIn
-										? 'white'
-										: 'blue-400'
-								}
-								hover:text-white
-								font-bold
-								border-2
-								border-blue-400
-								${authenticationMode === AuthenticationMode.LogIn ? 'bg-blue-400' : ''}
-								hover:bg-blue-400
-								rounded
-							`}
-							onClick={() => setAuthenticationMode(AuthenticationMode.LogIn)}
-						>
-							Log in
-						</Button>
-						<Button
-							className={`
-								w-full
-								h-8
-								px-8
-								text-${
-									authenticationMode === AuthenticationMode.SignUp
-										? 'white'
-										: 'blue-400'
-								}
-								hover:text-white
-								font-bold
-								border-2
-								border-blue-400
-								${authenticationMode === AuthenticationMode.SignUp ? 'bg-blue-400' : ''}
-								hover:bg-blue-400
-								rounded
-							`}
-							onClick={() => setAuthenticationMode(AuthenticationMode.SignUp)}
-						>
-							Sign up
-						</Button>
-					</div>
-					<div>
-						{authenticationMode === AuthenticationMode.SignUp && (
+				<div className="main-box-container">
+					<div className="main-box">
+						<h1 className="header">Welcome to memorize.ai!</h1>
+						<hr />
+						<div className="authentication-mode-toggle">
+							<Button
+								className={cx({
+									selected: authenticationMode === AuthenticationMode.LogIn
+								})}
+								onClick={() => setAuthenticationMode(AuthenticationMode.LogIn)}
+							>
+								Log in
+							</Button>
+							<Button
+								className={cx({
+									selected: authenticationMode === AuthenticationMode.SignUp
+								})}
+								onClick={() => setAuthenticationMode(AuthenticationMode.SignUp)}
+							>
+								Sign up
+							</Button>
+						</div>
+						<div className="inputs">
+							{authenticationMode === AuthenticationMode.SignUp && (
+								<Input
+									icon={faUser}
+									type="name"
+									placeholder="Name"
+									value={name}
+									setValue={setName}
+								/>
+							)}
 							<Input
-								className="mb-2"
-								icon={faUser}
-								type="name"
-								placeholder="Name"
-								value={name}
-								setValue={setName}
+								icon={faEnvelope}
+								type="email"
+								placeholder="Email"
+								value={email}
+								setValue={setEmail}
 							/>
-						)}
-						<Input
-							className="mb-2"
-							icon={faEnvelope}
-							type="email"
-							placeholder="Email"
-							value={email}
-							setValue={setEmail}
-						/>
-						<Input
-							className="mb-4"
-							icon={faKey}
-							type="password"
-							placeholder="Password"
-							value={password}
-							setValue={setPassword}
-						/>
-					</div>
-					<div className="flex items-center">
-						<Button
-							className={`
-								h-8
-								mr-auto
-								px-8
-								text-blue-${isAuthenticateButtonDisabled ? 200 : 400}
-								${isAuthenticateButtonDisabled || isAuthenticateButtonLoading ? '' : 'hover:text-white'}
-								font-bold
-								border-2
-								border-blue-${isAuthenticateButtonDisabled ? 200 : 400}
-								${isAuthenticateButtonDisabled || isAuthenticateButtonLoading ? '' : 'hover:bg-blue-400'}
-								rounded
-							`}
-							loaderSize="16px"
-							loaderThickness="3px"
-							loaderColor="#63b3ed"
-							loading={isAuthenticateButtonLoading}
-							disabled={isAuthenticateButtonDisabled}
-							onClick={authenticate}
-						>
-							Next
-						</Button>
-						<p className="ml-6 text-red-600 font-bold" hidden={!errorMessage}>
-							{errorMessage}
-						</p>
+							<Input
+								icon={faKey}
+								type="password"
+								placeholder="Password"
+								value={password}
+								setValue={setPassword}
+							/>
+						</div>
+						<div className="footer">
+							<Button
+								className={cx({
+									loading: isAuthenticateButtonLoading,
+									disabled: isAuthenticateButtonDisabled
+								})}
+								loaderSize="16px"
+								loaderThickness="3px"
+								loaderColor="#63b3ed"
+								loading={isAuthenticateButtonLoading}
+								disabled={isAuthenticateButtonDisabled}
+								onClick={authenticate}
+							>
+								Next
+							</Button>
+							<p hidden={!errorMessage}>
+								{errorMessage}
+							</p>
+						</div>
 					</div>
 				</div>
 			</TopGradient>

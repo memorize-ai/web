@@ -7,13 +7,11 @@ import AppStoreDownloadButton from './AppStoreDownloadButton'
 import '../../scss/components/Navbar.scss'
 
 export default ({ children, ...props }: HTMLAttributes<HTMLDivElement>) => (
-	<div {...props} className="navbar flex items-center">
+	<div {...props} className="navbar">
 		<Link to="/">
-			<Logo type={LogoType.Capital} className="capital-logo raise-on-hover" />
+			<Logo type={LogoType.Capital} className="logo" />
 		</Link>
-		<div className="items flex items-center ml-auto">
-			{children}
-		</div>
-		<AppStoreDownloadButton className="app-store-download-button hidden" />
+		<div className="items">{children}</div>
+		<AppStoreDownloadButton className="app-store-download-button" />
 	</div>
 )
