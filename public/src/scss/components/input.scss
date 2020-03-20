@@ -1,31 +1,37 @@
+@import '../variables';
+
 .input {
-	@apply relative;
+	display: relative;
 	
 	> svg {
-		@apply absolute pointer-events-none text-gray-300;
-		
+		display: absolute;
 		left: 12px;
 		top: 12px;
+		pointer-events: none;
+		color: $gray-300;
 	}
 	
 	> input {
-		@apply w-full text-dark-gray border-2 border-gray-300 rounded outline-none;
-		
+		width: 100%;
 		padding: 6px 6px 6px 2.25em;
+		color: $dark-gray;
+		border: 2px solid $gray-300;
+		border-radius: 0.25rem;
+		outline: none;
 		
 		&:hover {
-			@apply border-gray-400;
+			border-color: $gray-400;
 			
 			+ svg {
-				@apply text-gray-400;
+				color: $gray-400;
 			}
 		}
 		
 		&:focus {
-			@apply border-blue-400;
+			border-color: $blue-400;
 			
 			+ svg {
-				@apply text-blue-400;
+				color: $blue-400;
 			}
 		}
 	}

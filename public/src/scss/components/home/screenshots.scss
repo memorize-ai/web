@@ -1,7 +1,9 @@
+@import '../../trigonometry';
+
+$number-of-screenshots: 7;
+$screenshot-height: 60vh;
+
 .home.screenshots {
-	--number-of-screenshots: 7;
-	--screenshot-height: 60vh;
-	
 	margin-top: 170px;
 	transition: margin 0.3s;
 	
@@ -19,8 +21,8 @@
 	
 	> .background {
 		height: calc(
-			(var(--number-of-screenshots) + 1) * var(--screenshot-height) +
-			var(--tan-6) * 200vw
+			(#{$number-of-screenshots} + 1) * #{$screenshot-height} +
+			#{tan(6deg)} * 200vw
 		);
 		background: #5a2aff;
 		transform: skewY(6deg);
@@ -28,7 +30,7 @@
 	
 	> .content {
 		> .scroll-indicator-container {
-			margin-top: calc(35vh - (100vw * var(--tan-6)));
+			margin-top: calc(35vh - (100vw * #{tan(6deg)}));
 			font-size: 24px;
 			font-weight: 900;
 			
@@ -38,7 +40,7 @@
 		}
 		
 		> .background.fixed-container .background {
-			width: 100vw - 60px;
+			width: calc(100vw - 60px);
 		}
 		
 		> .screenshots .screenshot-container {
@@ -112,7 +114,7 @@
 			}
 			
 			> .screenshot {
-				max-width: min(500px, 100vw - 60px);
+				max-width: calc(min(500px, 100vw - 60px));
 				max-height: calc(100vh - 60px - 300px);
 				
 				@media (min-width: 1150px) and (min-height: 850px) {
@@ -123,8 +125,8 @@
 		
 		> #home-screenshots-aos-anchor-last {
 			top: calc(
-				(var(--number-of-screenshots) + 1) * var(--screenshot-height) +
-				var(--tan-6) * 100vw
+				(#{$number-of-screenshots} + 1) * #{$screenshot-height} +
+				#{tan(6deg)} * 100vw
 			);
 		}
 	}

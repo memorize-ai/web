@@ -12,7 +12,7 @@
 		transition: padding 0.3s;
 		
 		@media (min-width: 1500px) {
-			@apply pb-10;
+			padding-bottom: 2.5rem;
 		}
 		
 		> h1,
@@ -84,7 +84,7 @@
 		transition: margin-right 0.3s, transform 0.3s;
 		
 		@media (min-width: 970px) {
-			@apply block;
+			display: block;
 		}
 		
 		@media (min-width: 1500px) {

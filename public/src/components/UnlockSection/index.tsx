@@ -151,7 +151,7 @@ export default () => {
 				<title>{section?.name ? `Unlock ${section.name}` : 'memorize.ai'}</title>
 			</Helmet>
 			<TopGradient>
-				<div className="px-4 py-4">
+				<div className="p-4">
 					<div className={`flex items-center ${imageUrl ? 'mb-6' : 'ml-2'}`}>
 						{imageUrl && (
 							<img

@@ -21,7 +21,7 @@
 		transition: transform 0.2s;
 		
 		@media (min-width: 500px) {
-			@apply block;
+			display: block;
 		}
 		
 		&:hover,

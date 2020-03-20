@@ -1,15 +1,19 @@
+@import '../../variables';
+
 .create-card-pop-up.horizontal-scrolling-list {
-	@apply p-4 bg-white rounded-lg border border-gray-400;
-	
 	display: flex;
 	overflow-x: auto;
+	padding: 1rem;
+	background: white;
+	border: 1px solid $gray-400;
+	border-radius: 0.5rem;
 	
 	> * {
 		display: inline-block;
 		flex: 0 0 auto;
 		
 		&:not(:first-child) {
-			@apply ml-4;
+			margin-left: 1rem;
 		}
 	}
 }

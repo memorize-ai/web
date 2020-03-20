@@ -1,9 +1,12 @@
-.page-404.main-message {
-	@apply text-4xl;
-	
-	margin-top: 40px;
-	margin-left: 30px;
-	margin-right: 30px;
+@import '../variables';
+
+.page-404 {
+	background: $light-gray;
+	font-size: 2.25rem;
+	font-weight: bold;
+	margin: 40px 30px 0 30px;
+	color: white;
+	text-align: center;
 	transition: margin 0.3s, font-size 0.3s;
 	
 	@media (min-width: 330px) {
@@ -11,8 +14,7 @@
 	}
 	
 	@media (min-width: 670px) {
-		@apply text-6xl;
-		
+		font-size: 4rem;
 		margin-top: 30px;
 	}
 	

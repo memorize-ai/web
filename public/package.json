@@ -6,15 +6,14 @@
 		"@fortawesome/free-solid-svg-icons": "^5.12.1",
 		"@fortawesome/react-fontawesome": "^0.1.9",
 		"aos": "^3.0.0-beta.6",
-		"autoprefixer": "^9.7.4",
 		"ckeditor5-memorize.ai": "^1.0.3",
-		"cssnano": "^4.1.10",
-		"disqus-react": "^1.0.7",
 		"firebase": "^7.11.0",
-		"postcss-cli": "^7.1.0",
-		"postcss-import": "^12.0.1",
-		"postcss-nested": "^4.2.1",
-		"postcss-scss": "^2.0.0",
+		"gulp": "^4.0.2",
+		"gulp-autoprefixer": "^7.0.1",
+		"gulp-concat": "^2.6.1",
+		"gulp-minify-css": "^1.2.4",
+		"gulp-sass": "^4.0.2",
+		"node-sass": "^4.13.1",
 		"react": "^16.13.0",
 		"react-dom": "^16.13.0",
 		"react-helmet": "^5.2.1",
@@ -23,8 +22,7 @@
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "^3.4.0",
 		"redux": "^4.0.5",
-		"redux-thunk": "^2.3.0",
-		"tailwindcss": "^1.2.0"
+		"redux-thunk": "^2.3.0"
 	},
 	"devDependencies": {
 		"@types/aos": "^3.0.3",
@@ -40,8 +38,8 @@
 		"typescript": "^3.8.3"
 	},
 	"scripts": {
-		"build:scss": "postcss src/scss/index.scss -o public/index.css",
-		"watch:scss": "postcss src/scss/index.scss -o public/index.css -w",
+		"build:scss": "gulp scss",
+		"watch:scss": "gulp scss:watch",
 		"start": "react-scripts start",
 		"build": "npm run build:scss && react-scripts build",
 		"test": "react-scripts test",

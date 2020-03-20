@@ -1,11 +1,18 @@
+@import '../variables';
+
 .textarea {
-	@apply w-full px-2 py-1 text-dark-gray border-2 border-gray-300 rounded outline-none;
+	width: 100%;
+	padding: 0.25rem 0.5rem;
+	color: $dark-gray;
+	border: 2px solid $gray-300;
+	border-radius: 0.25rem;
+	outline: none;
 	
 	&:hover {
-		@apply border-gray-400;
+		border-color: $gray-400;
 	}
 	
 	&:focus {
-		@apply border-blue-400;
+		border-color: $gray-400;
 	}
 }

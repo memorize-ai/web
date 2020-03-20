@@ -11,7 +11,7 @@ export default () => {
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
 	
 	return (
-		<div className="min-h-screen bg-light-gray">
+		<div className="root">
 			<Helmet>
 				<meta name="description" content="The ultimate memorization tool. Download on the App Store" />
 				<title>memorize.ai</title>
