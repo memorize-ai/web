@@ -14,6 +14,7 @@ import Input from '../shared/Input'
 import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/analytics'
+import '../../scss/components/Auth.scss'
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()

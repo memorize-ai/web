@@ -6,6 +6,8 @@ import Screenshot, { ScreenshotType } from '../shared/Screenshot'
 import ScrollIndicator from '../shared/ScrollIndicator'
 import backgroundImage from '../../images/home-screenshots-background.png'
 
+import '../../scss/components/Home/Screenshots.scss'
+
 export const screenshots = [
 	{
 		type: ScreenshotType.Market,

@@ -10,6 +10,7 @@ import Footer from './Footer'
 import firebase from '../../firebase'
 
 import 'firebase/analytics'
+import '../../scss/components/Home/Navbar.scss'
 
 const analytics = firebase.analytics()
 

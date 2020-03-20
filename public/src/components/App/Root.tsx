@@ -7,6 +7,8 @@ import TopGradient from '../shared/TopGradient'
 import Home from '../Home'
 import Dashboard from '../Dashboard'
 
+import '../../scss/components/App/Root.scss'
+
 export default () => {
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
 	

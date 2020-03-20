@@ -3,6 +3,8 @@ import React, { PropsWithChildren } from 'react'
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
 
+import '../../scss/components/CreateCardPopUp/ContentContainer.scss'
+
 export default ({ children }: PropsWithChildren<{}>) => (
 	<div className="min-h-screen bg-light-gray">
 		<TopGradient>

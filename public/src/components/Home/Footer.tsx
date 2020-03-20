@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
 import Logo, { LogoType } from '../shared/Logo'
 
+import '../../scss/components/Home/Footer.scss'
+
 export default () => (
 	<div className="home footer text-dark-gray bg-medium-gray">
 		<div className="top flex justify-center items-center">

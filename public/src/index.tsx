@@ -12,6 +12,8 @@ import App from './components/App'
 import firebase from './firebase'
 
 import 'firebase/analytics'
+import 'aos/dist/aos.css'
+import './scss/index.scss'
 
 const analytics = firebase.analytics()
 const enhancer = (

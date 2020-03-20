@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import Logo, { LogoType } from './Logo'
 import AppStoreDownloadButton from './AppStoreDownloadButton'
 
+import '../../scss/components/Navbar.scss'
+
 export default ({ children, ...props }: HTMLAttributes<HTMLDivElement>) => (
 	<div {...props} className="navbar flex items-center">
 		<Link to="/">

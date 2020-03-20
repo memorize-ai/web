@@ -6,6 +6,7 @@ import Navbar from '../shared/Navbar'
 import firebase from '../../firebase'
 
 import 'firebase/analytics'
+import '../../scss/components/404.scss'
 
 const analytics = firebase.analytics()
 

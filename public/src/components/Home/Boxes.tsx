@@ -8,6 +8,8 @@ import communityImage from '../../images/home-boxes/community.png'
 import editorImage from '../../images/home-boxes/editor.png'
 import integrateImage from '../../images/home-boxes/integrate.png'
 
+import '../../scss/components/Home/Boxes.scss'
+
 export const boxes = [
 	{
 		image: decksImage,

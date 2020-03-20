@@ -10,6 +10,8 @@ import classdojoImage from '../../images/home-integrations/classdojo.png'
 import edmodoImage from '../../images/home-integrations/edmodo.png'
 import udemyImage from '../../images/home-integrations/udemy.png'
 
+import '../../scss/components/Home/Integrations.scss'
+
 export const listItems = [
 	'Share your deck with a simple link',
 	'Embed in your blog posts, ebooks, classroom, or courses',

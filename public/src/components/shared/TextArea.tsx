@@ -1,5 +1,7 @@
 import React, { HTMLAttributes } from 'react'
 
+import '../../scss/components/TextArea.scss'
+
 export default (
 	{ className, minHeight, placeholder, value, setValue, ...props }: {
 		className?: string

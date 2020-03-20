@@ -2,6 +2,8 @@ import React from 'react'
 
 import Screenshot, { ScreenshotType } from '../shared/Screenshot'
 
+import '../../scss/components/Home/Header.scss'
+
 export default () => (
 	<div className="home header flex">
 		<div className="left flex flex-col text-white">

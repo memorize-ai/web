@@ -2,6 +2,8 @@ import React, { HTMLAttributes } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 
+import '../../scss/components/Input.scss'
+
 export interface InputProps {
 	className?: string
 	icon?: IconDefinition

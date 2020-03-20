@@ -7,6 +7,8 @@ import LoadingState from '../../models/LoadingState'
 import CKEditor from '../shared/CKEditor'
 import Button from '../shared/Button'
 
+import '../../scss/components/CreateCardPopUp/Editors.scss'
+
 export default (
 	{ deck, section, text }: {
 		deck: Deck
