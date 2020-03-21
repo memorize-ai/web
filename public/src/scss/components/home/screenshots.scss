@@ -1,9 +1,12 @@
+@import '../../mixins';
 @import '../../trigonometry';
 
 $number-of-screenshots: 7;
 $screenshot-height: 60vh;
 
 .home.screenshots {
+	@include stack;
+	
 	margin-top: 170px;
 	transition: margin 0.3s;
 	
@@ -26,9 +29,12 @@ $screenshot-height: 60vh;
 		);
 		background: #5a2aff;
 		transform: skewY(6deg);
+		transform-origin: top right;
 	}
 	
 	> .content {
+		position: relative;
+		
 		> .scroll-indicator-container {
 			margin-top: calc(35vh - (100vw * #{tan(6deg)}));
 			font-size: 24px;
@@ -43,91 +49,127 @@ $screenshot-height: 60vh;
 			width: calc(100vw - 60px);
 		}
 		
-		> .screenshots .screenshot-container {
-			gap: 20px;
-			padding: 0 30px;
-			
-			@media (min-width: 1150px) and (min-height: 850px) {
-				grid-template-columns: 300px auto 300px;
-				gap: 0;
+		> .screenshots > div {
+			> .anchor {
+				position: absolute;
+				left: 0;
+				right: 0;
 			}
 			
-			> .descriptions > .description {
-				max-width: 300px;
-				
-				@media (max-width: 300px) {
-					padding: 0 40px;
-				}
-				
-				@media (max-height: 800px) {
-					padding: 0 40px;
-				}
-				
-				@media (max-width: 1150px) {
-					margin: 0 !important;
-					padding: 0 30px;
-				}
-				
-				@media (max-height: 850px) {
-					margin: 0 !important;
-					padding: 0 30px;
-				}
-				
-				> h1,
-				> p {
-					transition: font-size 0.3s, line-height 0.3s;
-				}
-				
-				> h1 {
-					font-size: 17px;
-					font-weight: 700;
-					line-height: 21px;
-					margin-bottom: 12px;
-					
-					@media (min-width: 300px) and (min-height: 800px) {
-						font-size: 19px;
-						line-height: 23px;
-					}
-					
-					@media (min-width: 1150px) and (min-height: 850px) {
-						font-size: 21px;
-						line-height: 25px;
-					}
-				}
-				
-				> p {
-					font-size: 13px;
-					font-weight: 600;
-					line-height: 19px;
-					opacity: 0.8;
-					
-					@media (min-width: 300px) and (min-height: 800px) {
-						font-size: 15px;
-						line-height: 21px;
-					}
-					
-					@media (min-width: 1150px) and (min-height: 850px) {
-						font-size: 17px;
-						line-height: 23px;
-					}
-				}
-			}
-			
-			> .screenshot {
-				max-width: calc(min(500px, 100vw - 60px));
-				max-height: calc(100vh - 60px - 300px);
+			.screenshot-container {
+				gap: 20px;
+				padding: 0 30px;
 				
 				@media (min-width: 1150px) and (min-height: 850px) {
-					max-height: calc(100vh - 60px);
+					grid-template-columns: 300px auto 300px;
+					gap: 0;
+				}
+				
+				> .descriptions {
+					display: flex;
+					flex-direction: column;
+					height: 100%;
+					
+					> .description {
+						max-width: 300px;
+						margin: auto 0;
+						color: white;
+						
+						@media (max-width: 300px) {
+							padding: 0 40px;
+						}
+						
+						@media (max-height: 800px) {
+							padding: 0 40px;
+						}
+						
+						@media (max-width: 1150px) {
+							margin: 0 !important;
+							padding: 0 30px;
+						}
+						
+						@media (max-height: 850px) {
+							margin: 0 !important;
+							padding: 0 30px;
+						}
+						
+						> h1,
+						> p {
+							transition: font-size 0.3s, line-height 0.3s;
+						}
+						
+						> h1 {
+							font-size: 17px;
+							font-weight: 700;
+							line-height: 21px;
+							margin-bottom: 12px;
+							
+							@media (min-width: 300px) and (min-height: 800px) {
+								font-size: 19px;
+								line-height: 23px;
+							}
+							
+							@media (min-width: 1150px) and (min-height: 850px) {
+								font-size: 21px;
+								line-height: 25px;
+							}
+						}
+						
+						> p {
+							font-size: 13px;
+							font-weight: 600;
+							line-height: 19px;
+							opacity: 0.8;
+							
+							@media (min-width: 300px) and (min-height: 800px) {
+								font-size: 15px;
+								line-height: 21px;
+							}
+							
+							@media (min-width: 1150px) and (min-height: 850px) {
+								font-size: 17px;
+								line-height: 23px;
+							}
+						}
+					}
+				}
+				
+				> .screenshot {
+					max-width: calc(min(500px, 100vw - 60px));
+					max-height: calc(100vh - 60px - 300px);
+					margin: 0 auto;
+					
+					@media (min-width: 1150px) and (min-height: 850px) {
+						max-height: calc(100vh - 60px);
+					}
 				}
 			}
 		}
 		
+		.fixed-container {
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			pointer-events: none;
+			
+			> .screenshot-container {
+				display: grid;
+				justify-content: center;
+				align-content: center;
+				height: 100vh;
+			}
+		}
+		
 		> #home-screenshots-aos-anchor-last {
+			position: absolute;
 			top: calc(
 				(#{$number-of-screenshots} + 1) * #{$screenshot-height} +
 				#{tan(6deg)} * 100vw
 			);
+			left: 0;
+			right: 0;
 		}
 	}
 }

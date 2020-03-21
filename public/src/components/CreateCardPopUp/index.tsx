@@ -6,32 +6,31 @@ import useCurrentUser from '../../hooks/useCurrentUser'
 import Container from './Container'
 import Loader from '../shared/Loader'
 import Content from './Content'
-import Authenticate from './Authenticate'
+import Auth from '../shared/Auth'
 
 export default () => {
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
 	const { deckId, sectionId } = useParams()
 	
-	return (
-		<Container>
-			{currentUserLoadingState === LoadingState.Loading
-				? (
-					<Loader
-						size="40px"
-						thickness="5px"
-						color="white"
+	return currentUserLoadingState === LoadingState.Loading
+		? (
+			<Container>
+				<Loader
+					size="40px"
+					thickness="5px"
+					color="white"
+				/>
+			</Container>
+		)
+		: currentUser
+			? (
+				<Container>
+					<Content
+						currentUser={currentUser}
+						deckId={deckId}
+						sectionId={sectionId}
 					/>
-				)
-				: currentUser
-					? (
-						<Content
-							currentUser={currentUser}
-							deckId={deckId}
-							sectionId={sectionId}
-						/>
-					)
-					: <Authenticate />
-			}
-		</Container>
-	)
+				</Container>
+			)
+			: <Auth title="Create card" />
 }

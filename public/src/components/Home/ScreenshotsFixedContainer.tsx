@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from 'react'
+import cx from 'classnames'
 
 export default (
 	{ outerClassName, anchor, children }: PropsWithChildren<{
@@ -6,15 +7,9 @@ export default (
 		anchor: string
 	}>
 ) => (
-	<div className={`
-		${outerClassName ?? ''}
-		fixed-container
-		fixed
-		inset-0
-		pointer-events-none
-	`}>
+	<div className={cx('fixed-container', outerClassName)}>
 		<div
-			className="screenshot-container grid justify-center content-center h-screen"
+			className="screenshot-container"
 			data-aos="fade-right"
 			data-aos-anchor={anchor}
 			data-aos-anchor-placement="top-top"

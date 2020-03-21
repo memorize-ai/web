@@ -1,5 +1,14 @@
+@import '../../variables';
+@import '../../mixins';
+
 .home.footer {
+	color: $dark-gray;
+	background: $medium-gray;
+	
 	> .top {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		padding: 40px 0;
 		
 		@media (min-width: 640px) {
@@ -8,7 +17,9 @@
 		}
 		
 		> h1 {
+			display: none;
 			max-width: 500px;
+			margin-right: auto;
 			font-size: 28px;
 			font-weight: 800;
 			line-height: 42px;
@@ -28,7 +39,7 @@
 		}
 		
 		> .app-store-download-button {
-			margin: 0;
+			margin-left: auto;
 			transform: scale(1);
 			transition: transform 0.3s;
 			
@@ -64,15 +75,25 @@
 	}
 	
 	> hr {
+		background: black;
 		opacity: 0.06;
 	}
 	
 	> .bottom {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		padding: 40px 30px;
 		
 		> a > .logo {
+			@include raise-on-hover;
+			
 			max-height: 60px;
 			margin-bottom: 20px;
+		}
+		
+		> p {
+			opacity: 0.5;
 		}
 	}
 }

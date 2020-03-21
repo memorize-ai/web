@@ -7,24 +7,22 @@ import Logo, { LogoType } from '../shared/Logo'
 import '../../scss/components/Home/Footer.scss'
 
 export default () => (
-	<div className="home footer text-dark-gray bg-medium-gray">
-		<div className="top flex justify-center items-center">
-			<h1 className="hidden mr-auto">
-				Download the ultimate memorization app
-			</h1>
+	<div className="home footer">
+		<div className="top">
+			<h1>Download the ultimate memorization app</h1>
 			<AppStoreDownloadButton
-				className="app-store-download-button ml-auto"
+				className="app-store-download-button"
 			/>
 		</div>
-		<hr className="bg-black" />
-		<div className="bottom flex flex-col items-center">
+		<hr />
+		<div className="bottom">
 			<Link to="/">
 				<Logo
 					type={LogoType.CapitalInvertedGrayscale}
-					className="logo raise-on-hover"
+					className="logo"
 				/>
 			</Link>
-			<p className="opacity-50">
+			<p>
 				Copyright &copy; 2020 <b>memorize.ai Inc</b>.
 				All rights reserved.
 			</p>

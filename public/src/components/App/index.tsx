@@ -7,9 +7,6 @@ import Support from '../Support'
 
 import Auth from '../Auth'
 
-import GetDeck from '../GetDeck'
-import UnlockSection from '../UnlockSection'
-
 import CreateCardPopUp from '../CreateCardPopUp'
 
 import CatchAll from '../404'
@@ -22,9 +19,6 @@ export default () => (
 			<Route exact path="/support" component={Support} />
 			
 			<Route exact path="/auth" component={Auth} />
-			
-			<Route exact path="/d/:deckId/g" component={GetDeck} />
-			<Route exact path="/d/:deckId/s/:sectionId/u" component={UnlockSection} />
 			
 			<Route
 				exact

@@ -12,11 +12,11 @@ export interface Description {
 }
 
 export default ({ side, descriptions, ...props }: { side: DescriptionsSide, descriptions: Description[] }) => (
-	<div {...props} className="descriptions flex flex-col h-full">
+	<div {...props} className="descriptions">
 		{descriptions.map(({ title, body, margin }, index) => (
 			<div
 				key={index}
-				className="description my-auto text-white"
+				className="description"
 				style={{
 					[side === DescriptionsSide.Left
 						? 'marginRight'

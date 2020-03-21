@@ -1,4 +1,5 @@
 import React, { PropsWithChildren, HTMLAttributes } from 'react'
+import cx from 'classnames'
 
 import Loader from './Loader'
 
@@ -12,6 +13,7 @@ export interface ButtonProps {
 }
 
 export default ({
+	className,
 	loaderSize,
 	loaderThickness,
 	loaderColor,
@@ -21,7 +23,12 @@ export default ({
 	children,
 	...props
 }: PropsWithChildren<ButtonProps & HTMLAttributes<HTMLButtonElement>>) => (
-	<button {...props} disabled={disabled || loading} onClick={onClick}>
+	<button
+		{...props}
+		className={cx(className, { loading, disabled })}
+		disabled={disabled || loading}
+		onClick={onClick}
+	>
 		{loading && loaderSize && loaderThickness && loaderColor
 			? (
 				<Loader

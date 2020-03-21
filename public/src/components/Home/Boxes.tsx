@@ -46,7 +46,7 @@ export const boxes = [
 export default () => (
 	<div
 		id="home-boxes-aos-anchor"
-		className="home boxes hidden gap-4 justify-center"
+		className="home boxes"
 	>
 		{boxes.map((box, index) => (
 			<Box key={index} {...box} index={index} />

@@ -1,109 +1,11 @@
 @import '../variables';
-@import '../mixins';
 
 .auth {
 	min-height: 100vh;
 	background: $light-gray;
 	transition: width 0.3s;
 	
-	.main-box-container {
+	.auth-container {
 		padding: 0 30px;
-		
-		> .main-box {
-			@include shadow-lg;
-			
-			margin: 2.5rem auto 0 auto;
-			padding: 1rem 1.5rem;
-			background: white;
-			border-radius: 0.5rem;
-			
-			@media (min-width: $screen-size-md) {
-				width: 100% * 2 / 3;
-			}
-			
-			@media (min-width: $screen-size-lg) {
-				width: 50%;
-			}
-			
-			> .header {
-				font-size: 1.5rem;
-				font-weight: bold;
-				color: $dark-gray;
-				transition: font-size 0.3s;
-				
-				@media (min-width: $screen-size-sm) {
-					font-size: 2.25rem;
-				}
-			}
-			
-			> hr {
-				margin: 1rem 0;
-			}
-			
-			> .authentication-mode-toggle {
-				display: flex;
-				margin-bottom: 1rem;
-				
-				> button {
-					width: 100%;
-					height: 2rem;
-					padding: 0 2rem;
-					font-weight: bold;
-					color: $blue-400;
-					border: 2px solid $blue-400;
-					border-radius: 0.25rem;
-					
-					&:hover,
-					&:focus,
-					&.selected {
-						color: white;
-						background: $blue-400;
-					}
-					
-					&:not(:last-child) {
-						margin-right: 0.5rem;
-					}
-				}
-			}
-			
-			> .inputs {
-				margin-bottom: 1rem;
-				
-				> .input:not(:last-child) {
-					margin-bottom: 0.5rem;
-				}
-			}
-			
-			> .footer {
-				display: flex;
-				align-items: center;
-				
-				> button {
-					height: 2rem;
-					padding: 0 2rem;
-					margin-right: auto;
-					font-weight: bold;
-					color: $blue-400;
-					border: 2px solid $blue-400;
-					border-radius: 0.25rem;
-					
-					&.disabled {
-						color: $blue-200;
-						border-color: $blue-200;
-					}
-					
-					&:not(.disabled):not(.loading):hover {
-						color: white;
-						background: $blue-400;
-					}
-				}
-				
-				> p {
-					margin-left: 1.5rem;
-					font-weight: bold;
-					color: $red-600;
-				}
-			}
-		}
 	}
 }

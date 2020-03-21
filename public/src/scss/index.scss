@@ -1,4 +1,7 @@
+@import 'aos/dist/aos';
+
 @import 'variables';
+@import 'animations';
 
 body,
 body *,
@@ -36,12 +39,6 @@ main {
 h1 {
 	font-size: 2em;
 	margin: 0.67em 0;
-}
-
-hr {
-	box-sizing: content-box;
-	height: 0;
-	overflow: visible;
 }
 
 pre {
@@ -246,10 +243,6 @@ html {
 	border-width: 0;
 	border-style: solid;
 	border-color: #e2e8f0;
-}
-
-hr {
-	border-top-width: 1px;
 }
 
 img {

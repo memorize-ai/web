@@ -123,15 +123,15 @@ export const screenshots = [
 ]
 
 export default () => (
-	<div className="home screenshots stack">
+	<div className="home screenshots">
 		<div
 			id="home-screenshots-background-aos-anchor"
-			className="background origin-top-right"
+			className="background"
 			data-aos="home-screenshots-background"
 			data-aos-anchor="#home-screenshots-background-aos-anchor"
 			data-aos-anchor-placement="top-top"
 		/>
-		<div id="home-screenshots-aos-anchor-first" className="content relative">
+		<div id="home-screenshots-aos-anchor-first" className="content">
 			<div
 				className="scroll-indicator-container"
 				data-aos="disappear-with-fade"
@@ -155,7 +155,7 @@ export default () => (
 					<div key={index}>
 						<div
 							id={`home-screenshots-aos-anchor-${index}`}
-							className="absolute inset-x-0"
+							className="anchor"
 							style={{ top: `${index * 60}vh` }}
 						/>
 						<FixedContainer anchor={`#home-screenshots-aos-anchor-${index}`}>
@@ -178,7 +178,7 @@ export default () => (
 							/>
 							<Screenshot
 								type={type}
-								className="screenshot mx-auto"
+								className="screenshot"
 								data-aos="disappear"
 								data-aos-anchor={
 									`#home-screenshots-aos-anchor-${
@@ -214,7 +214,7 @@ export default () => (
 					</div>
 				))}
 			</div>
-			<div id="home-screenshots-aos-anchor-last" className="absolute inset-x-0" />
+			<div id="home-screenshots-aos-anchor-last" />
 		</div>
 	</div>
 )

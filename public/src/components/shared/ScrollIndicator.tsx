@@ -5,9 +5,9 @@ import '../../scss/components/ScrollIndicator.scss'
 export default ({ color = 'white', ...props }: HTMLAttributes<HTMLDivElement>) => (
 	<div
 		{...props}
-		className="scroll-indicator border-2 border-solid opacity-75"
+		className="scroll-indicator"
 		style={{ borderColor: color }}
 	>
-		<div className="mt-2 mx-auto" style={{ background: color }} />
+		<div style={{ background: color }} />
 	</div>
 )
