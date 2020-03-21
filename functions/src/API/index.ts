@@ -11,7 +11,7 @@ const firestore = admin.firestore()
 const storage = admin.storage().bucket()
 const app = express()
 
-export default functions.https.onRequest(app)
+export default functions.https.onRequest(app as any)
 
 app.use(cors())
 

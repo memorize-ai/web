@@ -1,11 +1,12 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
+import { EMAIL_SCHEDULE } from '../../constants'
 import Email, { EmailTemplate } from '../../Email'
 
 const firestore = admin.firestore()
 
-export default functions.pubsub.schedule('every 24 hours').onRun(async () => {
+export default functions.pubsub.schedule(EMAIL_SCHEDULE).onRun(async () => {
 	const users = await firestore.collection('users').listDocuments()
 	
 	return Promise.all(users.map(async ({ id: uid }) => {

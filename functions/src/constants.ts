@@ -9,6 +9,7 @@ export const DEFAULT_STORAGE_BUCKET = `memorize-ai${DEBUG ? '-dev' : ''}.appspot
 
 export const API_PREFIX = '_api'
 
+export const EMAIL_SCHEDULE = '0 12 * * *'
 export const EMAIL_SENDER = new Sender({
 	service: 'gmail',
 	email: 'support@gig.io',
