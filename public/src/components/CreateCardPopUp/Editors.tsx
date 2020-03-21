@@ -48,22 +48,9 @@ export default (
 				data={back}
 				setData={setBack}
 			/>
-			<div className="flex">
+			<div className="publish-button-container">
 				<Button
-					className={`
-						h-12
-						mx-auto
-						px-8
-						text-blue-${isPublishButtonDisabled ? 200 : 400}
-						${isPublishButtonDisabled || isPublishButtonLoading ? '' : 'hover:text-white'}
-						font-bold
-						uppercase
-						text-xl
-						border-2
-						border-blue-${isPublishButtonDisabled ? 200 : 400}
-						${isPublishButtonDisabled || isPublishButtonLoading ? '' : 'hover:bg-blue-400'}
-						rounded
-					`}
+					className="publish-button"
 					loaderSize="16px"
 					loaderThickness="3px"
 					loaderColor="#63b3ed"

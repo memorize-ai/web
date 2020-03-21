@@ -1,19 +1,24 @@
 @import '../../variables';
 
-.create-card-pop-up.editors {
-	> .ck.ck-editor {
-		width: calc(100vw - 30px * 2);
-		margin-top: 1rem;
+.create-card-pop-up.create-deck-modal {
+	> .title {
+		margin-bottom: 1rem;
+		font-size: 2.25rem;
+		font-weight: bold;
+		text-align: center;
+	}
+	
+	> .fields > * {
+		margin-bottom: 0.75rem;
 		
-		@media (min-width: 800px) {
-			width: calc(100vw - 135px * 2);
+		&:last-child {
+			margin-bottom: 0.5rem;
 		}
 	}
 	
 	> .publish-button-container {
 		display: flex;
 		justify-content: center;
-		margin-top: 1rem;
 		
 		> .publish-button {
 			height: 3rem;

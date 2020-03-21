@@ -1,12 +1,20 @@
+@import '../../variables';
+
 .create-card-pop-up.container {
-	padding: 0 30px;
-	transition: padding 0.3s;
+	min-height: 100vh;
+	background: $light-gray;
 	
-	@media (min-width: 800px) {
-		padding: 0 135px;
-	}
-	
-	> .loader {
-		margin: 4rem auto 0 auto;
+	.container-content {
+		margin: 2rem auto 0 auto;
+		padding: 0 30px;
+		transition: padding 0.3s;
+		
+		@media (min-width: 800px) {
+			padding: 0 135px;
+		}
+		
+		> .loader {
+			margin: 4rem auto 0 auto;
+		}
 	}
 }

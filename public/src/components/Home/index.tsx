@@ -20,20 +20,8 @@ export default () => {
 	return (
 		<>
 			<Navbar>
-				<Link
-					to="/auth"
-					className="
-						home
-						navbar-item-auth
-						px-4
-						text-xl
-						text-white
-						font-bold
-						bg-black
-						rounded-lg
-					"
-				>
-					Log in <span className="opacity-50">/</span> Sign up
+				<Link to="/auth" className="home navbar-item-auth">
+					Log in <span>/</span> Sign up
 				</Link>
 			</Navbar>
 			<Header />

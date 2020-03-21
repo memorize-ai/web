@@ -1,19 +1,20 @@
 @import '../../variables';
 
-.create-card-pop-up.editors {
-	> .ck.ck-editor {
-		width: calc(100vw - 30px * 2);
-		margin-top: 1rem;
-		
-		@media (min-width: 800px) {
-			width: calc(100vw - 135px * 2);
-		}
+.create-card-pop-up.create-section-modal {
+	> .title {
+		margin-bottom: 1rem;
+		font-size: 2.25rem;
+		font-weight: bold;
+		text-align: center;
+	}
+	
+	> .name-input {
+		margin-bottom: 0.75rem;
 	}
 	
 	> .publish-button-container {
 		display: flex;
 		justify-content: center;
-		margin-top: 1rem;
 		
 		> .publish-button {
 			height: 3rem;

@@ -6,10 +6,10 @@ import Navbar from '../shared/Navbar'
 import '../../scss/components/CreateCardPopUp/Container.scss'
 
 export default ({ children }: PropsWithChildren<{}>) => (
-	<div className="min-h-screen bg-light-gray">
+	<div className="create-card-pop-up container">
 		<TopGradient>
 			<Navbar />
-			<div className="create-card-pop-up container mt-8">
+			<div className="container-content">
 				{children}
 			</div>
 		</TopGradient>

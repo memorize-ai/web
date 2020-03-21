@@ -1,0 +1,14 @@
+@import '../variables';
+
+.policy {
+	padding: 2rem;
+	color: $dark-gray;
+	
+	> .title {
+		text-align: center;
+	}
+	
+	> hr:first-of-type {
+		margin: 1rem 0;
+	}
+}

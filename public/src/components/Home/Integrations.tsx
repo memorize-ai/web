@@ -53,21 +53,15 @@ export const integrations = [
 ]
 
 export default () => (
-	<div
-		id="home-integrations-aos-anchor"
-		className="home integrations flex flex-col items-center"
-	>
+	<div id="home-integrations-aos-anchor" className="home integrations">
 		<div
-			className="left flex flex-col items-start"
+			className="left"
 			data-aos="flip-up"
 			data-aos-anchor="#home-integrations-aos-anchor"
 			data-aos-delay="100"
 		>
 			<Link to="/">
-				<Logo
-					type={LogoType.CapitalInverted}
-					className="logo raise-on-hover"
-				/>
+				<Logo type={LogoType.CapitalInverted} className="logo" />
 			</Link>
 			<h1>Integrate your decks in your classroom, lecture review, and notes!</h1>
 			<div className="items">
@@ -76,11 +70,10 @@ export default () => (
 				))}
 			</div>
 		</div>
-		<div className="right grid gap-6">
+		<div className="right">
 			{integrations.map(({ src, alt, href }, index) => (
 				<a key={index} href={href} rel="noopener noreferrer" target="_blank">
 					<img
-						className="bg-white shadow-sm shadow-raise-on-hover"
 						src={src}
 						alt={alt}
 						data-aos="flip-up"

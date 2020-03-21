@@ -1,5 +1,8 @@
 import React, { HTMLAttributes } from 'react'
 import { Link } from 'react-router-dom'
+import cx from 'classnames'
+
+import '../../scss/components/CreateCardPopUp/Box.scss'
 
 export default (
 	{ href, isSelected, children }: {
@@ -9,7 +12,11 @@ export default (
 ) => (
 	<Link
 		to={href}
-		className={`px-8 py-2 text-dark-gray bg-${isSelected ? 'green-400' : 'red-400'}`}
+		className={cx(
+			'create-card-pop-up',
+			'box',
+			{ selected: isSelected }
+		)}
 	>
 		{children}
 	</Link>

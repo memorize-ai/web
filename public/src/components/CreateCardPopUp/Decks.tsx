@@ -6,6 +6,8 @@ import HorizontalScrollingList from './HorizontalScrollingList'
 import Box from './Box'
 import CreateDeckModal from './CreateDeckModal'
 
+import '../../scss/components/CreateCardPopUp/Decks.scss'
+
 export default (
 	{ decks, currentDeck, text, from }: {
 		decks: Deck[]
@@ -17,15 +19,10 @@ export default (
 	const [isCreateDeckModalShowing, setIsCreateDeckModalShowing] = useState(false)
 	
 	return (
-		<>
-			<div className="flex mb-2">
-				<h1 className="text-4xl text-white font-bold">
-					Created decks
-				</h1>
-				<button
-					className="uppercase"
-					onClick={() => setIsCreateDeckModalShowing(true)}
-				>
+		<div className="create-card-pop-up decks">
+			<div className="header">
+				<h1>Created decks</h1>
+				<button onClick={() => setIsCreateDeckModalShowing(true)}>
 					Create deck
 				</button>
 			</div>
@@ -44,6 +41,6 @@ export default (
 				isShowing={isCreateDeckModalShowing}
 				hide={() => setIsCreateDeckModalShowing(false)}
 			/>
-		</>
+		</div>
 	)
 }

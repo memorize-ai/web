@@ -9,6 +9,8 @@ import LoadingState from '../../models/LoadingState'
 import Input from '../shared/Input'
 import Button from '../shared/Button'
 
+import '../../scss/components/CreateCardPopUp/CreateSectionModal.scss'
+
 export default (
 	{ deck, isShowing, hide }: {
 		deck: Deck
@@ -45,42 +47,29 @@ export default (
 				overlay: { zIndex: MODAL_Z_INDEX }
 			}}
 		>
-			<h1 className="mb-4 text-4xl text-center font-bold">
-				Create section
-			</h1>
-			<Input
-				className="mb-3"
-				icon={faSignature}
-				type="name"
-				placeholder="Name (required)"
-				value={name}
-				setValue={setName}
-			/>
-			<div className="flex">
-				<Button
-					className={`
-						h-12
-						mx-auto
-						px-8
-						text-blue-${isPublishButtonDisabled ? 200 : 400}
-						${isPublishButtonDisabled || isPublishButtonLoading ? '' : 'hover:text-white'}
-						font-bold
-						uppercase
-						text-xl
-						border-2
-						border-blue-${isPublishButtonDisabled ? 200 : 400}
-						${isPublishButtonDisabled || isPublishButtonLoading ? '' : 'hover:bg-blue-400'}
-						rounded
-					`}
-					loaderSize="16px"
-					loaderThickness="3px"
-					loaderColor="#63b3ed"
-					loading={isPublishButtonLoading}
-					disabled={isPublishButtonDisabled}
-					onClick={createSection}
-				>
-					Create
-				</Button>
+			<div className="create-card-pop-up create-section-modal">
+				<h1 className="title">Create section</h1>
+				<Input
+					className="name-input"
+					icon={faSignature}
+					type="name"
+					placeholder="Name (required)"
+					value={name}
+					setValue={setName}
+				/>
+				<div className="publish-button-container">
+					<Button
+						className="publish-button"
+						loaderSize="16px"
+						loaderThickness="3px"
+						loaderColor="#63b3ed"
+						loading={isPublishButtonLoading}
+						disabled={isPublishButtonDisabled}
+						onClick={createSection}
+					>
+						Create
+					</Button>
+				</div>
 			</div>
 		</Modal>
 	)

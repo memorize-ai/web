@@ -10,6 +10,8 @@ import Input from '../shared/Input'
 import TextArea from '../shared/TextArea'
 import Button from '../shared/Button'
 
+import '../../scss/components/CreateCardPopUp/CreateDeckModal.scss'
+
 export default (
 	{ isShowing, hide }: {
 		isShowing: boolean
@@ -55,57 +57,43 @@ export default (
 				overlay: { zIndex: MODAL_Z_INDEX }
 			}}
 		>
-			<h1 className="mb-4 text-4xl text-center font-bold">
-				Create deck
-			</h1>
-			<Input
-				className="mb-3"
-				icon={faSignature}
-				type="name"
-				placeholder="Name (required)"
-				value={name}
-				setValue={setName}
-			/>
-			<Input
-				className="mb-3"
-				icon={faAlignLeft}
-				type="name"
-				placeholder="Subtitle (optional)"
-				value={subtitle}
-				setValue={setSubtitle}
-			/>
-			<TextArea
-				className="mb-2"
-				minHeight={100}
-				placeholder="Description (optional)"
-				value={description}
-				setValue={setDescription}
-			/>
-			<div className="flex">
-				<Button
-					className={`
-						h-12
-						mx-auto
-						px-8
-						text-blue-${isPublishButtonDisabled ? 200 : 400}
-						${isPublishButtonDisabled || isPublishButtonLoading ? '' : 'hover:text-white'}
-						font-bold
-						uppercase
-						text-xl
-						border-2
-						border-blue-${isPublishButtonDisabled ? 200 : 400}
-						${isPublishButtonDisabled || isPublishButtonLoading ? '' : 'hover:bg-blue-400'}
-						rounded
-					`}
-					loaderSize="16px"
-					loaderThickness="3px"
-					loaderColor="#63b3ed"
-					loading={isPublishButtonLoading}
-					disabled={isPublishButtonDisabled}
-					onClick={createDeck}
-				>
-					Create
-				</Button>
+			<div className="create-card-pop-up create-deck-modal">
+				<h1 className="title">Create deck</h1>
+				<div className="fields">
+					<Input
+						icon={faSignature}
+						type="name"
+						placeholder="Name (required)"
+						value={name}
+						setValue={setName}
+					/>
+					<Input
+						icon={faAlignLeft}
+						type="name"
+						placeholder="Subtitle (optional)"
+						value={subtitle}
+						setValue={setSubtitle}
+					/>
+					<TextArea
+						minHeight={100}
+						placeholder="Description (optional)"
+						value={description}
+						setValue={setDescription}
+					/>
+				</div>
+				<div className="publish-button-container">
+					<Button
+						className="publish-button"
+						loaderSize="16px"
+						loaderThickness="3px"
+						loaderColor="#63b3ed"
+						loading={isPublishButtonLoading}
+						disabled={isPublishButtonDisabled}
+						onClick={createDeck}
+					>
+						Create
+					</Button>
+				</div>
 			</div>
 		</Modal>
 	)

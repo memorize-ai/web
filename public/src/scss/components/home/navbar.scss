@@ -1,6 +1,12 @@
 .home {
 	&.navbar-item-auth {
 		height: 50px;
+		padding: 0 1rem;
+		font-size: 1.25rem;
+		font-weight: bold;
+		color: white;
+		background: black;
+		border-radius: 0.5rem;
 		line-height: 50px;
 		border: 1px solid rgba(255, 255, 255, 0.7);
 		transition: transform 0.2s;
@@ -8,6 +14,10 @@
 		&:hover,
 		&:focus {
 			transform: scale(1.05);
+		}
+		
+		> span {
+			opacity: 0.5;
 		}
 	}
 }
