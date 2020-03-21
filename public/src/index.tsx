@@ -12,6 +12,7 @@ import App from './components/App'
 import firebase from './firebase'
 
 import 'firebase/analytics'
+
 import './scss/index.scss'
 
 const analytics = firebase.analytics()
