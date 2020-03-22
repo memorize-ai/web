@@ -1,7 +1,6 @@
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { compose } from 'redux'
+import { useContext, useEffect } from 'react'
 
+import DecksContext from '../contexts/Decks'
 import {
 	addSection,
 	updateSection,
@@ -10,9 +9,10 @@ import {
 } from '../actions'
 import Deck from '../models/Deck'
 import Section from '../models/Section'
+import { compose2 } from '../utils'
 
 export default (deck: Deck | null | undefined) => {
-	const dispatch = useDispatch()
+	const [, dispatch] = useContext(DecksContext)
 	
 	useEffect(() => {
 		if (!deck || deck.isObservingSections)
@@ -21,9 +21,9 @@ export default (deck: Deck | null | undefined) => {
 		dispatch(setIsObservingSections(deck.id, true))
 		
 		Section.observeForDeckWithId(deck.id, {
-			addSection: compose(dispatch, addSection),
-			updateSection: compose(dispatch, updateSection),
-			removeSection: compose(dispatch, removeSection)
+			addSection: compose2(dispatch, addSection),
+			updateSection: compose2(dispatch, updateSection),
+			removeSection: compose2(dispatch, removeSection)
 		})
 	}, [deck]) // eslint-disable-line
 	

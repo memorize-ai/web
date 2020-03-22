@@ -1,8 +1,6 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { compose } from 'redux'
+import { useContext, useEffect } from 'react'
 
-import { State } from '../reducers'
+import DecksContext from '../contexts/Decks'
 import {
 	updateDeck,
 	updateDeckUserData,
@@ -11,13 +9,10 @@ import {
 } from '../actions'
 import useCurrentUser from './useCurrentUser'
 import Deck from '../models/Deck'
+import { compose1, compose2 } from '../utils'
 
 export default () => {
-	const dispatch = useDispatch()
-	
-	const decks = useSelector((state: State) => state.decks)
-	const isObservingDecks = useSelector((state: State) => state.isObservingDecks)
-	
+	const [{ decks, isObservingDecks }, dispatch] = useContext(DecksContext)
 	const [currentUser] = useCurrentUser()
 	
 	useEffect(() => {
@@ -27,9 +22,9 @@ export default () => {
 		dispatch(setIsObservingDecks(true))
 		
 		Deck.observeForUserWithId(currentUser.uid, {
-			updateDeck: compose(dispatch, updateDeck),
-			updateDeckUserData: compose(dispatch, updateDeckUserData),
-			removeDeck: compose(dispatch, removeDeck)
+			updateDeck: compose2(dispatch, updateDeck),
+			updateDeckUserData: compose1(dispatch, updateDeckUserData),
+			removeDeck: compose1(dispatch, removeDeck)
 		})
 	}, [isObservingDecks, currentUser]) // eslint-disable-line
 	
