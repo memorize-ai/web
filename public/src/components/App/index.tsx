@@ -7,6 +7,10 @@ import Support from '../Support'
 
 import Auth from '../Auth'
 
+import Market from '../Dashboard/Market'
+import Decks from '../Dashboard/Decks'
+import Interests from '../Dashboard/Interests'
+
 import CreateCardPopUp from '../CreateCardPopUp'
 
 import CatchAll from '../404'
@@ -19,6 +23,10 @@ export default () => (
 			<Route exact path="/support" component={Support} />
 			
 			<Route exact path="/auth" component={Auth} />
+			
+			<Route exact path="/market" component={Market} />
+			<Route exact path="/decks" component={Decks} />
+			<Route exact path="/interests" component={Interests} />
 			
 			<Route
 				exact

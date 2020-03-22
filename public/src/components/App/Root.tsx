@@ -5,7 +5,7 @@ import LoadingState from '../../models/LoadingState'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import TopGradient from '../shared/TopGradient'
 import Home from '../Home'
-import Dashboard from '../Dashboard'
+import DashboardHome from '../Dashboard/Home'
 
 import '../../scss/components/App/Root.scss'
 
@@ -21,7 +21,7 @@ export default () => {
 			<TopGradient>
 				{currentUserLoadingState === LoadingState.Loading
 					? null
-					: currentUser ? <Dashboard /> : <Home />
+					: currentUser ? <DashboardHome /> : <Home />
 				}
 			</TopGradient>
 		</div>

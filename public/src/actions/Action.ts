@@ -6,6 +6,7 @@ export default interface Action<Payload> {
 export enum ActionType {
 	SetIsObservingDecks = 'SET_IS_OBSERVING_DECKS',
 	UpdateDeck = 'UPDATE_DECK',
+	UpdateDeckUserData = 'UPDATE_DECK_USER_DATA',
 	RemoveDeck = 'REMOVE_DECK',
 	
 	SetIsObservingSections = 'SET_IS_OBSERVING_SECTIONS',

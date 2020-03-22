@@ -6,8 +6,16 @@ export const setIsObservingDecks = (value: boolean) => ({
 	payload: value
 })
 
-export const updateDeck = (snapshot: firebase.firestore.DocumentSnapshot) => ({
+export const updateDeck = (
+	snapshot: firebase.firestore.DocumentSnapshot,
+	userDataSnapshot: firebase.firestore.DocumentSnapshot
+) => ({
 	type: ActionType.UpdateDeck,
+	payload: { snapshot, userDataSnapshot }
+})
+
+export const updateDeckUserData = (snapshot: firebase.firestore.DocumentSnapshot) => ({
+	type: ActionType.UpdateDeckUserData,
 	payload: snapshot
 })
 

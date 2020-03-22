@@ -4,6 +4,6 @@ import Dashboard from '..'
 
 export default () => (
 	<Dashboard>
-		Home
+		Decks
 	</Dashboard>
 )

@@ -1,5 +1,6 @@
-import Section from './Section'
-import firebase from '../firebase'
+import UserData from './UserData'
+import Section from '../Section'
+import firebase from '../../firebase'
 
 import 'firebase/firestore'
 
@@ -63,10 +64,14 @@ export default class Deck implements DeckData {
 	created: Date
 	lastUpdated: Date
 	
+	imageUrl: string | null = null
+	
 	isObservingSections: boolean = false
 	sections: Section[] = []
 	
-	constructor(id: string, data: DeckData) {
+	userData: UserData | null
+	
+	constructor(id: string, data: DeckData, userData: UserData | null = null) {
 		this.id = id
 		this.topics = data.topics
 		this.hasImage = data.hasImage
@@ -91,13 +96,18 @@ export default class Deck implements DeckData {
 		this.creatorId = data.creatorId
 		this.created = data.created
 		this.lastUpdated = data.lastUpdated
+		
+		this.userData = userData
 	}
 	
 	get unsectionedSection() {
 		return Section.newUnsectionedSection(this.numberOfUnsectionedCards)
 	}
 	
-	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) =>
+	static fromSnapshot = (
+		snapshot: firebase.firestore.DocumentSnapshot,
+		userData: UserData | null = null
+	) =>
 		new Deck(snapshot.id, {
 			topics: snapshot.get('topics'),
 			hasImage: snapshot.get('hasImage'),
@@ -122,30 +132,37 @@ export default class Deck implements DeckData {
 			creatorId: snapshot.get('creator'),
 			created: snapshot.get('created')?.toDate(),
 			lastUpdated: snapshot.get('updated')?.toDate()
-		})
+		}, userData)
 	
 	static observeForUserWithId = (
 		uid: string,
-		{ updateDeck, removeDeck }: {
-			updateDeck: (snapshot: firebase.firestore.DocumentSnapshot) => void
+		{ updateDeck, updateDeckUserData, removeDeck }: {
+			updateDeck: (
+				snapshot: firebase.firestore.DocumentSnapshot,
+				userDataSnapshot: firebase.firestore.DocumentSnapshot
+			) => void
+			updateDeckUserData: (snapshot: firebase.firestore.DocumentSnapshot) => void
 			removeDeck: (id: string) => void
 		}
 	) =>
 		firestore.collection(`users/${uid}/decks`).onSnapshot(
 			snapshot => {
-				for (const { type, doc: { id: deckId } } of snapshot.docChanges())
+				for (const { type, doc } of snapshot.docChanges())
 					switch (type) {
 						case 'added':
-							firestore.doc(`decks/${deckId}`).onSnapshot(
-								updateDeck,
+							firestore.doc(`decks/${doc.id}`).onSnapshot(
+								snapshot => updateDeck(snapshot, doc),
 								error => {
 									alert(error.message)
 									console.error(error)
 								}
 							)
 							break
+						case 'modified':
+							updateDeckUserData(doc)
+							break
 						case 'removed':
-							removeDeck(deckId)
+							removeDeck(doc.id)
 							break
 					}
 			},
@@ -210,6 +227,13 @@ export default class Deck implements DeckData {
 		this.numberOfFavorites = snapshot.get('favoriteCount')
 		this.lastUpdated = snapshot.get('updated')?.toDate()
 		
+		return this
+	}
+	
+	updateUserDataFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
+		this.userData?.updateFromSnapshot(snapshot) ?? (
+			this.userData = UserData.fromSnapshot(snapshot)
+		)
 		return this
 	}
 	

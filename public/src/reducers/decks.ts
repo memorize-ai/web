@@ -1,10 +1,15 @@
 import Action, { ActionType } from '../actions/Action'
 import Deck from '../models/Deck'
+import DeckUserData from '../models/Deck/UserData'
 
 export default (
 	decks: Deck[] = [],
 	{ type, payload }: Action<
-		| firebase.firestore.DocumentSnapshot // UpdateDeck
+		| {
+			snapshot: firebase.firestore.DocumentSnapshot
+			userDataSnapshot: firebase.firestore.DocumentSnapshot
+		} // UpdateDeck
+		| firebase.firestore.DocumentSnapshot // UpdateDeckUserData
 		| string // RemoveDeck
 		| { deckId: string, value: boolean } // SetIsObservingSections
 		| { deckId: string, snapshot: firebase.firestore.DocumentSnapshot } // AddSection, UpdateSection
@@ -13,7 +18,10 @@ export default (
 ) => {
 	switch (type) {
 		case ActionType.UpdateDeck: {
-			const snapshot = payload as firebase.firestore.DocumentSnapshot
+			const { snapshot, userDataSnapshot } = payload as {
+				snapshot: firebase.firestore.DocumentSnapshot
+				userDataSnapshot: firebase.firestore.DocumentSnapshot
+			}
 			
 			return decks.some(deck => deck.id === snapshot.id)
 				? decks.map(deck =>
@@ -21,7 +29,19 @@ export default (
 						? deck.updateFromSnapshot(snapshot)
 						: deck
 				)
-				: [...decks, Deck.fromSnapshot(snapshot)]
+				: [...decks, Deck.fromSnapshot(
+					snapshot,
+					DeckUserData.fromSnapshot(userDataSnapshot)
+				)]
+		}
+		case ActionType.UpdateDeckUserData: {
+			const snapshot = payload as firebase.firestore.DocumentSnapshot
+			
+			return decks.map(deck =>
+				deck.id === snapshot.id
+					? deck.updateUserDataFromSnapshot(snapshot)
+					: deck
+			)
 		}
 		case ActionType.RemoveDeck:
 			return decks.filter(deck => deck.id !== payload)

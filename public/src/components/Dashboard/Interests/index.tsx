@@ -4,6 +4,6 @@ import Dashboard from '..'
 
 export default () => (
 	<Dashboard>
-		Home
+		Interests
 	</Dashboard>
 )
