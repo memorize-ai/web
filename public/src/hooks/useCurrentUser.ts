@@ -1,29 +1,39 @@
-import { useState, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 
-import firebase from '../firebase'
+import CurrentUserContext from '../contexts/CurrentUser'
+import User from '../models/User'
 import LoadingState from '../models/LoadingState'
+import {
+	setCurrentUser,
+	updateCurrentUser,
+	setCurrentUserLoadingState,
+	setIsObservingCurrentUser
+} from '../actions'
+import { compose1 } from '../utils'
 
-import 'firebase/auth'
-
-const auth = firebase.auth()
-
-export default (): [firebase.User | null, LoadingState] => {
-	const [currentUser, setCurrentUser] = useState(null as firebase.User | null)
-	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
+export default (): [User | null, LoadingState] => {
+	const [
+		{ currentUser, currentUserLoadingState, isObservingCurrentUser },
+		dispatch
+	] = useContext(CurrentUserContext)
 	
 	useEffect(() => {
-		auth.onAuthStateChanged(
-			user => {
-				setCurrentUser(user)
-				setLoadingState(LoadingState.Success)
-			},
-			error => {
-				alert('Oh no! An error occurred. Please reload the page to try again')
-				console.error(error)
-				setLoadingState(LoadingState.Fail)
-			}
-		)
-	}, [])
+		if (currentUserLoadingState === LoadingState.None)
+			User.initialize({
+				setCurrentUser: compose1(dispatch, setCurrentUser),
+				setCurrentUserLoadingState: compose1(dispatch, setCurrentUserLoadingState)
+			})
+	}, [currentUserLoadingState]) // eslint-disable-line
 	
-	return [currentUser, loadingState]
+	useEffect(() => {
+		if (!currentUser || isObservingCurrentUser)
+			return
+		
+		currentUser.observe({
+			updateCurrentUser: compose1(dispatch, updateCurrentUser),
+			setIsObservingCurrentUser: compose1(dispatch, setIsObservingCurrentUser)
+		})
+	}, [currentUser, isObservingCurrentUser]) // eslint-disable-line
+	
+	return [currentUser, currentUserLoadingState]
 }

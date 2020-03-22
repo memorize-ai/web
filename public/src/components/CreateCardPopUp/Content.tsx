@@ -7,6 +7,7 @@ import useQuery from '../../hooks/useQuery'
 import useDecks from '../../hooks/useDecks'
 import useSections from '../../hooks/useSections'
 import firebase from '../../firebase'
+import User from '../../models/User'
 import Decks from './Decks'
 import Sections from './Sections'
 import Editors from './Editors'
@@ -37,7 +38,7 @@ export const getPopUpUrl = (
 
 export default (
 	{ currentUser, deckId, sectionId }: {
-		currentUser: firebase.User
+		currentUser: User
 		deckId: string | undefined
 		sectionId: string | undefined
 	}
@@ -49,7 +50,7 @@ export default (
 	const from = query.get('from') ?? ''
 	
 	const decks = useDecks().filter(deck =>
-		deck.creatorId === currentUser.uid
+		deck.creatorId === currentUser.id
 	)
 	
 	const currentDeck = decks.find(deck => deck.id === deckId)

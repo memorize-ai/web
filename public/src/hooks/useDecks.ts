@@ -21,7 +21,7 @@ export default () => {
 		
 		dispatch(setIsObservingDecks(true))
 		
-		Deck.observeForUserWithId(currentUser.uid, {
+		Deck.observeForUserWithId(currentUser.id, {
 			updateDeck: compose2(dispatch, updateDeck),
 			updateDeckUserData: compose1(dispatch, updateDeckUserData),
 			removeDeck: compose1(dispatch, removeDeck)

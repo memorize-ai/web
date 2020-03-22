@@ -4,6 +4,7 @@ import cx from 'classnames'
 
 import firebase from '../../firebase'
 import AuthenticationMode from '../../models/AuthenticationMode'
+import User from '../../models/User'
 import LoadingState from '../../models/LoadingState'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import Button from './Button'
@@ -21,7 +22,7 @@ const analytics = firebase.analytics()
 
 export interface AuthBoxProps {
 	title: string
-	onUser?: (user: firebase.User) => void
+	onUser?: (user: User) => void
 }
 
 export default ({ title, onUser }: AuthBoxProps) => {
