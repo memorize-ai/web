@@ -2,6 +2,7 @@
 	"name": "public",
 	"dependencies": {
 		"@ckeditor/ckeditor5-react": "^2.1.0",
+		"@elastic/app-search-javascript": "^7.6.0",
 		"@fortawesome/fontawesome-svg-core": "^1.2.27",
 		"@fortawesome/free-solid-svg-icons": "^5.12.1",
 		"@fortawesome/react-fontawesome": "^0.1.9",
