@@ -1,5 +1,6 @@
 import firebase from '../firebase'
 import LoadingState from './LoadingState'
+import { setExpectsSignIn } from '../utils'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -30,6 +31,8 @@ export default class User {
 			user => {
 				setCurrentUser(user)
 				setCurrentUserLoadingState(LoadingState.Success)
+				
+				setExpectsSignIn(Boolean(user))
 			},
 			error => {
 				setCurrentUserLoadingState(LoadingState.Fail)
