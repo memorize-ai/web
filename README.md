@@ -31,16 +31,8 @@ npm run deploy:dev # Deploy to development
 
 ### Start local server
 
-#### Terminal #1
-
 ```bash
 npm start
-```
-
-#### Terminal #2
-
-```bash
-npm run watch:scss
 ```
 
 #### File structure
@@ -52,25 +44,25 @@ npm run watch:scss
 	-- Button.tsx
   -- App
     -- index.tsx
-	-- {helper components private to App}
+    -- {helper components private to App}
   -- Home
     -- index.tsx
-	-- {helper components private to Home}
+    -- {helper components private to Home}
 -- hooks
   -- useCurrentUser.ts
   -- useDeck.ts
 -- models
   -- LoadingState.ts
   -- User.ts
--- css
-  -- index.css
-  -- base.css
+-- scss
+  -- index.scss
   -- components
-    -- input.css
-	-- loader.css
+    -- Input.scss
+    -- Loader.scss
 -- images
   -- app-store-download.svg
-  -- logo.png
+  -- logos
+    -- logo.png
 ```
 
 ## License
