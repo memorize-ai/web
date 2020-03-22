@@ -10,9 +10,9 @@ export default ({ topic }: { topic: Topic }) => {
 	return (
 		<button
 			className={cx({
-				selected: currentUser?.topicIds?.includes(topic.id) ?? false
+				selected: currentUser?.interestIds?.includes(topic.id) ?? false
 			})}
-			onClick={() => currentUser?.toggleTopic(topic.id)}
+			onClick={() => currentUser?.toggleInterest(topic.id)}
 		>
 			<img src={topic.imageUrl} alt={topic.name} />
 			<p>{topic.name}</p>

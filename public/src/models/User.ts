@@ -15,7 +15,7 @@ export default class User {
 	
 	numberOfDecks: number | null = null
 	xp: number | null = null
-	topicIds: string[] | null = null
+	interestIds: string[] | null = null
 	allDecks: string[] | null = null
 	
 	constructor(firebaseUser: firebase.User) {
@@ -72,18 +72,18 @@ export default class User {
 		
 		this.numberOfDecks = snapshot.get('deckCount') ?? 0
 		this.xp = snapshot.get('xp') ?? 0
-		this.topicIds = snapshot.get('topics') ?? []
+		this.interestIds = snapshot.get('topics') ?? []
 		this.allDecks = snapshot.get('allDecks') ?? []
 		
 		return this
 	}
 	
-	toggleTopic = (id: string) => {
-		if (!this.topicIds)
+	toggleInterest = (id: string) => {
+		if (!this.interestIds)
 			return this
 		
 		firestore.doc(`users/${this.id}`).update({
-			topics: this.topicIds.includes(id)
+			topics: this.interestIds.includes(id)
 				? firebase.firestore.FieldValue.arrayRemove(id)
 				: firebase.firestore.FieldValue.arrayUnion(id)
 		})
