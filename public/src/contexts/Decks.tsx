@@ -19,7 +19,10 @@ export type DecksAction = Action<
 	| { deckId: string, sectionId: string } // RemoveSection
 >
 
-const initialState: DecksState = { decks: [], isObservingDecks: false }
+const initialState: DecksState = {
+	decks: [],
+	isObservingDecks: false
+}
 
 const reducer = (state: DecksState, { type, payload }: DecksAction) => {
 	switch (type) {

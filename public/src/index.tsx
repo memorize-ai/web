@@ -6,6 +6,7 @@ import AOS from 'aos'
 import * as serviceWorker from './serviceWorker'
 import { CurrentUserProvider } from './contexts/CurrentUser'
 import { DecksProvider } from './contexts/Decks'
+import { TopicsProvider } from './contexts/Topics'
 import App from './components/App'
 import firebase from './firebase'
 
@@ -24,7 +25,9 @@ Modal.setAppElement(root)
 ReactDOM.render((
 	<CurrentUserProvider>
 		<DecksProvider>
-			<App />
+			<TopicsProvider>
+				<App />
+			</TopicsProvider>
 		</DecksProvider>
 	</CurrentUserProvider>
 ), root)

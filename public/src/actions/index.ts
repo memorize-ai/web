@@ -70,3 +70,25 @@ export const removeSection = (deckId: string, sectionId: string) => ({
 	type: ActionType.RemoveSection,
 	payload: { deckId, sectionId }
 })
+
+// Topics
+
+export const setIsObservingTopics = (value: boolean) => ({
+	type: ActionType.SetIsObservingTopics,
+	payload: value
+})
+
+export const addTopic = (snapshot: firebase.firestore.DocumentSnapshot) => ({
+	type: ActionType.AddTopic,
+	payload: snapshot
+})
+
+export const updateTopic = (snapshot: firebase.firestore.DocumentSnapshot) => ({
+	type: ActionType.UpdateTopic,
+	payload: snapshot
+})
+
+export const removeTopic = (id: string) => ({
+	type: ActionType.RemoveTopic,
+	payload: id
+})

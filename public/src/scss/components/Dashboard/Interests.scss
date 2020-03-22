@@ -1,0 +1,17 @@
+.dashboard > .content.interests {
+	padding: 20px;
+	
+	> .topics {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, 150px);
+		justify-content: center;
+		
+		> button {
+			background: lightcoral;
+			
+			&.selected {
+				background: lightgreen;
+			}
+		}
+	}
+}

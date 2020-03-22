@@ -17,5 +17,10 @@ export enum ActionType {
 	SetIsObservingSections = 'SET_IS_OBSERVING_SECTIONS',
 	AddSection = 'ADD_SECTION',
 	UpdateSection = 'UPDATE_SECTION',
-	RemoveSection = 'REMOVE_SECTION'
+	RemoveSection = 'REMOVE_SECTION',
+	
+	SetIsObservingTopics = 'SET_IS_OBSERVING_TOPICS',
+	AddTopic = 'ADD_TOPIC',
+	UpdateTopic = 'UPDATE_TOPIC',
+	RemoveTopic = 'REMOVE_TOPIC'
 }
