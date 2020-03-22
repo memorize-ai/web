@@ -1,9 +1,9 @@
 import React from 'react'
 
-import Dashboard from '..'
+import Dashboard, { DashboardTabSelection as Selection } from '..'
 
 export default () => (
-	<Dashboard>
+	<Dashboard selection={Selection.Market}>
 		Market
 	</Dashboard>
 )

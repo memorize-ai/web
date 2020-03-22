@@ -1,0 +1,11 @@
+.dashboard {
+	$sidebar-width: 100px;
+	$tabs-height: 100px;
+	
+	display: grid;
+	grid: auto #{$tabs-height} / #{$sidebar-width} auto;
+	grid-template-areas:
+		'sidebar content'
+		'tabs tabs';
+	height: 100vh;
+}
