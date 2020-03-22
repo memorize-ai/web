@@ -1,4 +1,25 @@
 .dashboard > .sidebar {
 	grid-area: sidebar;
+	overflow-y: auto;
+	padding: 10px;
 	background: lightblue;
+	
+	> .decks > a {
+		display: flex;
+		align-items: center;
+		
+		> .title {
+			margin-right: auto;
+			font-weight: bold;
+		}
+		
+		> .badge {
+			padding: 4px 8px;
+			background: lightgreen;
+		}
+		
+		&:not(:last-child) {
+			margin-bottom: 10px;
+		}
+	}
 }

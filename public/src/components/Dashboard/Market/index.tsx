@@ -3,7 +3,7 @@ import React from 'react'
 import Dashboard, { DashboardTabSelection as Selection } from '..'
 
 export default () => (
-	<Dashboard selection={Selection.Market}>
+	<Dashboard selection={Selection.Market} className="market">
 		Market
 	</Dashboard>
 )

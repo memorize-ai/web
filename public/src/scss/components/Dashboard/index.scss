@@ -1,5 +1,5 @@
 .dashboard {
-	$sidebar-width: 100px;
+	$sidebar-width: 200px;
 	$tabs-height: 100px;
 	
 	display: grid;
@@ -8,4 +8,9 @@
 		'sidebar content'
 		'tabs tabs';
 	height: 100vh;
+	
+	> .content {
+		grid-area: content;
+		overflow-y: auto;
+	}
 }
