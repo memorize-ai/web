@@ -6,13 +6,34 @@ import Deck from '.'
 import '../../types/app-search-javascript.d'
 
 export enum DeckSortAlgorithm {
-	Relevance = 'Relevance',
-	Recommended = 'Recommended',
-	Top = 'Top',
-	Rating = 'Rating',
-	CurrentUsers = 'Popularity',
-	New = 'New',
-	RecentlyUpdated = 'Recently updated'
+	Relevance = 'relevance',
+	Recommended = 'recommended',
+	Top = 'top',
+	Rating = 'rating',
+	CurrentUsers = 'popularity',
+	New = 'new',
+	RecentlyUpdated = 'recently-updated'
+}
+
+export const decodeDeckSortAlgorithm = (string: string) => {
+	switch (string) {
+		case 'relevance':
+			return DeckSortAlgorithm.Relevance
+		case 'recommended':
+			return DeckSortAlgorithm.Recommended
+		case 'top':
+			return DeckSortAlgorithm.Top
+		case 'rating':
+			return DeckSortAlgorithm.Rating
+		case 'popularity':
+			return DeckSortAlgorithm.CurrentUsers
+		case 'new':
+			return DeckSortAlgorithm.New
+		case 'recently-updated':
+			return DeckSortAlgorithm.RecentlyUpdated
+		default:
+			return null
+	}
 }
 
 type RawSearchResultItemData = Record<string, { raw: any }>

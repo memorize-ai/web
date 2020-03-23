@@ -1,23 +1,49 @@
 @import '../../variables';
 
+$search-height: 40px;
+$sort-width: 200px;
+$padding: 20px;
+
 .dashboard > .content.market {
 	display: grid;
-	grid-template-rows: 60px auto;
+	grid: #{$search-height} auto / auto #{$padding + $sort-width};
+	grid-template-areas:
+		'search search'
+		'decks sort';
+	padding: $padding $padding 0 $padding;
 	
 	> .search {
-		margin: 20px 20px 0 20px;
+		grid-area: search;
 	}
 	
 	> .decks {
-		padding: 20px;
+		grid-area: decks;
 		overflow-y: auto;
+		padding: $padding 0;
 		
 		> a {
-			display: block;
+			display: flex;
 			background: lightgreen;
 			
 			&:not(:last-child) {
-				margin-bottom: 20px;
+				margin-bottom: $padding;
+			}
+		}
+	}
+	
+	> .sort {
+		overflow-y: auto;
+		padding: $padding 0 $padding $padding;
+		
+		> .rows > button {
+			display: block;
+			
+			&.selected {
+				font-weight: bold;
+			}
+			
+			&:not(:last-child) {
+				margin-bottom: 12px;
 			}
 		}
 	}

@@ -10,3 +10,13 @@ export const setExpectsSignIn = (value: boolean) =>
 	value
 		? localStorage.setItem(EXPECTS_SIGN_IN_KEY, '1')
 		: localStorage.removeItem(EXPECTS_SIGN_IN_KEY)
+
+export const urlWithSearchParams = (url: string, searchParams: Record<string, string | null>) => {
+	const extension = Object.entries(searchParams)
+		.reduce((acc, [key, value]) => (
+			value ? [...acc, `${key}=${encodeURIComponent(value)}`] : acc
+		), [] as string[])
+		.join('&')
+	
+	return `${url}${extension ? `?${extension}` : ''}`
+}

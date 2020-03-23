@@ -1,24 +1,51 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import Dashboard, { DashboardTabSelection as Selection } from '..'
+import useQuery from '../../../hooks/useQuery'
 import Deck from '../../../models/Deck'
-import DeckSearch, { DeckSortAlgorithm } from '../../../models/Deck/Search'
+import DeckSearch, { DeckSortAlgorithm, decodeDeckSortAlgorithm } from '../../../models/Deck/Search'
+import { urlWithSearchParams } from '../../../utils'
 import Input from '../../shared/Input'
 import DeckCell from './DeckCell'
+import Sort from './Sort'
 
 import '../../../scss/components/Dashboard/Market.scss'
 
 export default () => {
-	const [query, setQuery] = useState('')
+	const history = useHistory()
+	const searchParams = useQuery()
+	
+	const [query, setQuery] = useState(searchParams.get('q') ?? '')
+	const [sortAlgorithm, setSortAlgorithm] = useState(
+		decodeDeckSortAlgorithm(searchParams.get('s') ?? '') ?? DeckSortAlgorithm.Recommended
+	)
+	
 	const [decks, setDecks] = useState([] as Deck[])
 	
 	useEffect(() => void (async () => {
 		setDecks(await DeckSearch.search(query, {
-			sortAlgorithm: DeckSortAlgorithm.Relevance,
+			sortAlgorithm,
 			filterForTopics: null
 		}))
-	})(), [query])
+	})(), [query, sortAlgorithm])
+	
+	useEffect(() => {
+		if (query || sortAlgorithm === DeckSortAlgorithm.Recommended)
+			return
+		
+		setSortAlgorithm(DeckSortAlgorithm.Recommended)
+	}, [query]) // eslint-disable-line
+	
+	useEffect(() => {
+		history.push(urlWithSearchParams('/market', {
+			q: query,
+			s: sortAlgorithm === DeckSortAlgorithm.Recommended
+				? null
+				: sortAlgorithm
+		}))
+	}, [query, sortAlgorithm]) // eslint-disable-line
 	
 	return (
 		<Dashboard selection={Selection.Market} className="market">
@@ -35,6 +62,7 @@ export default () => {
 					<DeckCell key={deck.id} deck={deck} />
 				))}
 			</div>
+			<Sort algorithm={sortAlgorithm} setAlgorithm={setSortAlgorithm} />
 		</Dashboard>
 	)
 }
