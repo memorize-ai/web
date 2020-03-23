@@ -23,6 +23,7 @@ export default () => {
 	return (
 		<Dashboard selection={Selection.Market} className="market">
 			<Input
+				className="search"
 				icon={faSearch}
 				type="name"
 				placeholder="Decks"

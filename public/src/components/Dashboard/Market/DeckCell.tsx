@@ -11,6 +11,7 @@ export default ({ deck }: { deck: Deck }) => {
 		<Link to={`/d/${deck.id}`}>
 			{imageUrl && <img src={imageUrl} alt={deck.name} />}
 			<h1>{deck.name}</h1>
+			<p>{deck.subtitle}</p>
 		</Link>
 	)
 }

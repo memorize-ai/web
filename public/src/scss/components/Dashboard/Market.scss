@@ -1,3 +1,24 @@
+@import '../../variables';
+
 .dashboard > .content.market {
-	padding: 20px;
+	display: grid;
+	grid-template-rows: 60px auto;
+	
+	> .search {
+		margin: 20px 20px 0 20px;
+	}
+	
+	> .decks {
+		padding: 20px;
+		overflow-y: auto;
+		
+		> a {
+			display: block;
+			background: lightgreen;
+			
+			&:not(:last-child) {
+				margin-bottom: 20px;
+			}
+		}
+	}
 }

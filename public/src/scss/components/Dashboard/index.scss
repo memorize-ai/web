@@ -1,9 +1,8 @@
+@import '../../variables';
+
 .dashboard {
-	$sidebar-width: 200px;
-	$tabs-height: 100px;
-	
 	display: grid;
-	grid: auto #{$tabs-height} / #{$sidebar-width} auto;
+	grid: auto #{$dashboard-tabs-height} / #{$dashboard-sidebar-width} auto;
 	grid-template-areas:
 		'sidebar content'
 		'tabs tabs';
