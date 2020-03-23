@@ -1,17 +1,41 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import Dashboard, { DashboardTabSelection as Selection } from '..'
 import useTopics from '../../../hooks/useTopics'
 import TopicCell from './TopicCell'
+import firebase from '../../../firebase'
+
+import 'firebase/auth'
 
 import '../../../scss/components/Dashboard/Interests.scss'
 
-export default () => (
-	<Dashboard selection={Selection.Interests} className="interests">
-		<div className="topics">
-			{useTopics().map(topic => (
-				<TopicCell key={topic.id} topic={topic} />
-			))}
-		</div>
-	</Dashboard>
-)
+const auth = firebase.auth()
+
+export default () => {
+	const history = useHistory()
+	
+	const signOut = async () => {
+		try {
+			await auth.signOut()
+			
+			history.push('/')
+		} catch (error) {
+			alert(error.message)
+			console.error(error)
+		}
+	}
+	
+	return (
+		<Dashboard selection={Selection.Interests} className="interests">
+			<div className="sign-out-button-container">
+				<button onClick={signOut}>Sign out</button>
+			</div>
+			<div className="topics">
+				{useTopics().map(topic => (
+					<TopicCell key={topic.id} topic={topic} />
+				))}
+			</div>
+		</Dashboard>
+	)
+}
