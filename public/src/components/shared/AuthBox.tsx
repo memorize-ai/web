@@ -131,7 +131,6 @@ export default ({ title, onUser }: AuthBoxProps) => {
 			</div>
 			<div className="footer">
 				<Button
-					type="submit"
 					loaderSize="16px"
 					loaderThickness="3px"
 					loaderColor="#63b3ed"

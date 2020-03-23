@@ -84,7 +84,6 @@ export default (
 				<div className="publish-button-container">
 					<Button
 						className="publish-button"
-						type="submit"
 						loaderSize="16px"
 						loaderThickness="3px"
 						loaderColor="#63b3ed"
