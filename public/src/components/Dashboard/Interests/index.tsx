@@ -2,6 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 
 import Dashboard, { DashboardTabSelection as Selection } from '..'
+import requiresAuth from '../../../hooks/requiresAuth'
 import useTopics from '../../../hooks/useTopics'
 import TopicCell from './TopicCell'
 import firebase from '../../../firebase'
@@ -13,6 +14,8 @@ import '../../../scss/components/Dashboard/Interests.scss'
 const auth = firebase.auth()
 
 export default () => {
+	requiresAuth('/interests')
+	
 	const history = useHistory()
 	
 	const signOut = async () => {
