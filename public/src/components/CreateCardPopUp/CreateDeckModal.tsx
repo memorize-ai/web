@@ -59,44 +59,42 @@ export default (
 		>
 			<div className="create-card-pop-up create-deck-modal">
 				<h1 className="title">Create deck</h1>
-				<form onSubmit={createDeck}>
-					<div className="fields">
-						<Input
-							required
-							icon={faSignature}
-							type="name"
-							placeholder="Name (required)"
-							value={name}
-							setValue={setName}
-						/>
-						<Input
-							icon={faAlignLeft}
-							type="name"
-							placeholder="Subtitle (optional)"
-							value={subtitle}
-							setValue={setSubtitle}
-						/>
-						<TextArea
-							minHeight={100}
-							placeholder="Description (optional)"
-							value={description}
-							setValue={setDescription}
-						/>
-					</div>
-					<div className="publish-button-container">
-						<Button
-							className="publish-button"
-							type="submit"
-							loaderSize="16px"
-							loaderThickness="3px"
-							loaderColor="#63b3ed"
-							loading={isPublishButtonLoading}
-							disabled={isPublishButtonDisabled}
-						>
-							Create
-						</Button>
-					</div>
-				</form>
+				<div className="fields">
+					<Input
+						icon={faSignature}
+						type="name"
+						placeholder="Name (required)"
+						value={name}
+						setValue={setName}
+					/>
+					<Input
+						icon={faAlignLeft}
+						type="name"
+						placeholder="Subtitle (optional)"
+						value={subtitle}
+						setValue={setSubtitle}
+					/>
+					<TextArea
+						minHeight={100}
+						placeholder="Description (optional)"
+						value={description}
+						setValue={setDescription}
+					/>
+				</div>
+				<div className="publish-button-container">
+					<Button
+						className="publish-button"
+						type="submit"
+						loaderSize="16px"
+						loaderThickness="3px"
+						loaderColor="#63b3ed"
+						loading={isPublishButtonLoading}
+						disabled={isPublishButtonDisabled}
+						onClick={createDeck}
+					>
+						Create
+					</Button>
+				</div>
 			</div>
 		</Modal>
 	)

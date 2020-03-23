@@ -104,51 +104,47 @@ export default ({ title, onUser }: AuthBoxProps) => {
 					Sign up
 				</Button>
 			</div>
-			<form onSubmit={authenticate}>
-				<div className="inputs">
-					{authenticationMode === AuthenticationMode.SignUp && (
-						<Input
-							required
-							icon={faUser}
-							type="name"
-							placeholder="Name"
-							value={name}
-							setValue={setName}
-						/>
-					)}
+			<div className="inputs">
+				{authenticationMode === AuthenticationMode.SignUp && (
 					<Input
-						required
-						icon={faEnvelope}
-						type="email"
-						placeholder="Email"
-						value={email}
-						setValue={setEmail}
+						icon={faUser}
+						type="name"
+						placeholder="Name"
+						value={name}
+						setValue={setName}
 					/>
-					<Input
-						required
-						icon={faKey}
-						type="password"
-						placeholder="Password"
-						value={password}
-						setValue={setPassword}
-					/>
-				</div>
-				<div className="footer">
-					<Button
-						type="submit"
-						loaderSize="16px"
-						loaderThickness="3px"
-						loaderColor="#63b3ed"
-						loading={isAuthenticateButtonLoading}
-						disabled={isAuthenticateButtonDisabled}
-					>
-						Next
-					</Button>
-					<p hidden={!errorMessage}>
-						{errorMessage}
-					</p>
-				</div>
-			</form>
+				)}
+				<Input
+					icon={faEnvelope}
+					type="email"
+					placeholder="Email"
+					value={email}
+					setValue={setEmail}
+				/>
+				<Input
+					icon={faKey}
+					type="password"
+					placeholder="Password"
+					value={password}
+					setValue={setPassword}
+				/>
+			</div>
+			<div className="footer">
+				<Button
+					type="submit"
+					loaderSize="16px"
+					loaderThickness="3px"
+					loaderColor="#63b3ed"
+					loading={isAuthenticateButtonLoading}
+					disabled={isAuthenticateButtonDisabled}
+					onClick={authenticate}
+				>
+					Next
+				</Button>
+				<p hidden={!errorMessage}>
+					{errorMessage}
+				</p>
+			</div>
 		</div>
 	)
 }
