@@ -7,15 +7,10 @@ import useImageUrl from '../../../hooks/useImageUrl'
 export default ({ deck }: { deck: Deck }) => {
 	const [imageUrl] = useImageUrl(deck)
 	
-	const numberOfDueCards = deck.userData?.numberOfDueCards ?? 0
-	
 	return (
-		<Link to={`/decks/${deck.id}`}>
+		<Link to={`/d/${deck.id}`}>
 			{imageUrl && <img src={imageUrl} alt={deck.name} />}
-			<h1 className="name">{deck.name}</h1>
-			<p className="due-cards-message">
-				{numberOfDueCards} card{numberOfDueCards === 1 ? '' : 's'} due
-			</p>
+			<h1>{deck.name}</h1>
 		</Link>
 	)
 }

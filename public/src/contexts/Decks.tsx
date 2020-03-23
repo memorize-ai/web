@@ -3,7 +3,6 @@ import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'r
 import Action, { ActionType } from '../actions/Action'
 import Deck from '../models/Deck'
 import DeckUserData from '../models/Deck/UserData'
-import LoadingState from '../models/LoadingState'
 
 export interface DecksState {
 	decks: Deck[]
@@ -15,8 +14,6 @@ export type DecksAction = Action<
 	| { snapshot: firebase.firestore.DocumentSnapshot, userDataSnapshot: firebase.firestore.DocumentSnapshot } // UpdateDeck
 	| firebase.firestore.DocumentSnapshot // UpdateDeckUserData
 	| string // RemoveDeck
-	| { deckId: string, url: string } // SetDeckImageUrl
-	| { deckId: string, loadingState: LoadingState } // SetDeckImageUrlLoadingState
 	| { deckId: string, value: boolean } // SetIsObservingSections
 	| { deckId: string, snapshot: firebase.firestore.DocumentSnapshot } // AddSection, UpdateSection
 	| { deckId: string, sectionId: string } // RemoveSection
@@ -65,30 +62,6 @@ const reducer = (state: DecksState, { type, payload }: DecksAction) => {
 		}
 		case ActionType.RemoveDeck:
 			return { ...state, decks: state.decks.filter(deck => deck.id !== payload) }
-		case ActionType.SetDeckImageUrl: {
-			const { deckId, url } = payload as { deckId: string, url: string }
-			
-			return {
-				...state,
-				decks: state.decks.map(deck =>
-					deck.id === deckId
-						? (deck.imageUrl = url, deck)
-						: deck
-				)
-			}
-		}
-		case ActionType.SetDeckImageUrlLoadingState: {
-			const { deckId, loadingState } = payload as { deckId: string, loadingState: LoadingState }
-			
-			return {
-				...state,
-				decks: state.decks.map(deck =>
-					deck.id === deckId
-						? (deck.imageUrlLoadingState = loadingState, deck)
-						: deck
-				)
-			}
-		}
 		case ActionType.SetIsObservingSections: {
 			const { deckId, value } = payload as {
 				deckId: string

@@ -67,9 +67,6 @@ export default class Deck implements DeckData {
 	created: Date
 	lastUpdated: Date
 	
-	imageUrl: string | null = null
-	imageUrlLoadingState: LoadingState = LoadingState.None
-	
 	isObservingSections: boolean = false
 	sections: Section[] = []
 	
@@ -242,18 +239,20 @@ export default class Deck implements DeckData {
 	}
 	
 	loadImageUrl = async (
-		{ setDeckImageUrl, setDeckImageUrlLoadingState }: {
-			setDeckImageUrl: (deckId: string, url: string) => void
-			setDeckImageUrlLoadingState: (deckId: string, loadingState: LoadingState) => void
+		{ setImageUrl, setImageUrlLoadingState }: {
+			setImageUrl: (deckId: string, url: string | null) => void
+			setImageUrlLoadingState: (deckId: string, loadingState: LoadingState) => void
 		}
 	) => {
 		try {
-			setDeckImageUrlLoadingState(this.id, LoadingState.Loading)
+			setImageUrlLoadingState(this.id, LoadingState.Loading)
 			
-			setDeckImageUrl(this.id, await storage.child(`decks/${this.id}`).getDownloadURL())
-			setDeckImageUrlLoadingState(this.id, LoadingState.Success)
+			setImageUrl(this.id, await storage.child(`decks/${this.id}`).getDownloadURL())
+			setImageUrlLoadingState(this.id, LoadingState.Success)
 		} catch (error) {
-			setDeckImageUrlLoadingState(this.id, LoadingState.Fail)
+			setImageUrl(this.id, null)
+			setImageUrlLoadingState(this.id, LoadingState.Fail)
+			
 			console.error(error)
 		}
 	}

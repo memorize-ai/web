@@ -5,7 +5,7 @@ import Deck from '../../../models/Deck'
 import useImageUrl from '../../../hooks/useImageUrl'
 
 export default ({ deck }: { deck: Deck }) => {
-	const imageUrl = useImageUrl(deck)
+	const [imageUrl] = useImageUrl(deck)
 	
 	return (
 		<Link to={`/d/${deck.id}`}>

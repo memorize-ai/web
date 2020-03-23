@@ -51,7 +51,7 @@ export const removeDeck = (id: string) => ({
 
 // Deck image URL
 
-export const setDeckImageUrl = (deckId: string, url: string) => ({
+export const setDeckImageUrl = (deckId: string, url: string | null) => ({
 	type: ActionType.SetDeckImageUrl,
 	payload: { deckId, url }
 })

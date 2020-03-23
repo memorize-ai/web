@@ -13,7 +13,7 @@ export default () => {
 			return
 		
 		setDecks(await DeckSearch.recommendedDecks(currentUser.interestIds))
-	})(), [currentUser?.interestIds])
+	})(), [currentUser?.interestIds]) // eslint-disable-line
 	
 	return decks
 }

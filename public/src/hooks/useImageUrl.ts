@@ -1,23 +1,25 @@
 import { useContext, useEffect } from 'react'
 
-import DecksContext from '../contexts/Decks'
-import { setDeckImageUrl, setDeckImageUrlLoadingState } from '../actions'
+import DeckImageUrlsContext from '../contexts/DeckImageUrls'
 import Deck from '../models/Deck'
 import LoadingState from '../models/LoadingState'
+import { setDeckImageUrl, setDeckImageUrlLoadingState } from '../actions'
 import { compose2 } from '../utils'
 
-export default (deck: Deck) => {
-	const [, dispatch] = useContext(DecksContext)
+export default (deck: Deck): [string | null, LoadingState] => {
+	const [{ [deck.id]: _state }, dispatch] = useContext(DeckImageUrlsContext)
+	
+	const state = _state ?? { url: null, loadingState: LoadingState.None }
 	
 	useEffect(() => {
-		if (deck.imageUrlLoadingState !== LoadingState.None)
+		if (!(deck.hasImage && state.loadingState === LoadingState.None))
 			return
 		
 		deck.loadImageUrl({
-			setDeckImageUrl: compose2(dispatch, setDeckImageUrl),
-			setDeckImageUrlLoadingState: compose2(dispatch, setDeckImageUrlLoadingState)
+			setImageUrl: compose2(dispatch, setDeckImageUrl),
+			setImageUrlLoadingState: compose2(dispatch, setDeckImageUrlLoadingState)
 		})
-	}, [deck]) // eslint-disable-line
+	}, [deck.hasImage, state.loadingState]) // eslint-disable-line
 	
-	return deck.imageUrl
+	return [state.url, state.loadingState]
 }
