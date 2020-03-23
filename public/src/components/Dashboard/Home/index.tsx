@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import Dashboard, { DashboardTabSelection as Selection } from '..'
 import useCurrentUser from '../../../hooks/useCurrentUser'
@@ -20,10 +21,17 @@ export default () => {
 	
 	return (
 		<Dashboard selection={Selection.Home} className="home">
-			<h1>Hello, {currentUser?.name}</h1>
-			<p className="due-cards-message">
-				You have {numberOfDueCards} card{numberOfDueCards === 1 ? '' : 's'} due
-			</p>
+			<div className="header">
+				<div className="left">
+					<h1>Hello, {currentUser?.name}</h1>
+					<p className="due-cards-message">
+						You have {numberOfDueCards} card{numberOfDueCards === 1 ? '' : 's'} due
+					</p>
+				</div>
+				<Link to="/new" className="create-deck">
+					Create deck
+				</Link>
+			</div>
 			{decks.length ? <Decks /> : null}
 			{recommendedDecks.length
 				? <RecommendedDecks decks={recommendedDecks} />
