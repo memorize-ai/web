@@ -57,43 +57,45 @@
 			}
 		}
 	}
-
-	> .inputs {
-		margin-bottom: 1rem;
-		
-		> .input:not(:last-child) {
-			margin-bottom: 0.5rem;
-		}
-	}
-
-	> .footer {
-		display: flex;
-		align-items: center;
-		
-		> button {
-			height: 2rem;
-			padding: 0 2rem;
-			margin-right: auto;
-			font-weight: bold;
-			color: $blue-400;
-			border: 2px solid $blue-400;
-			border-radius: 0.25rem;
+	
+	> form {
+		> .inputs {
+			margin-bottom: 1rem;
 			
-			&.disabled {
-				color: $blue-200;
-				border-color: $blue-200;
-			}
-			
-			&:not(.disabled):not(.loading):hover {
-				color: white;
-				background: $blue-400;
+			> .input:not(:last-child) {
+				margin-bottom: 0.5rem;
 			}
 		}
-		
-		> p {
-			margin-left: 1.5rem;
-			font-weight: bold;
-			color: $red-600;
+
+		> .footer {
+			display: flex;
+			align-items: center;
+			
+			> button {
+				height: 2rem;
+				padding: 0 2rem;
+				margin-right: auto;
+				font-weight: bold;
+				color: $blue-400;
+				border: 2px solid $blue-400;
+				border-radius: 0.25rem;
+				
+				&.disabled {
+					color: $blue-200;
+					border-color: $blue-200;
+				}
+				
+				&:not(.disabled):not(.loading):hover {
+					color: white;
+					background: $blue-400;
+				}
+			}
+			
+			> p {
+				margin-left: 1.5rem;
+				font-weight: bold;
+				color: $red-600;
+			}
 		}
 	}
 }

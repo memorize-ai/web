@@ -8,32 +8,34 @@
 		text-align: center;
 	}
 	
-	> .name-input {
-		margin-bottom: 0.75rem;
-	}
-	
-	> .publish-button-container {
-		display: flex;
-		justify-content: center;
+	> form {
+		> .name-input {
+			margin-bottom: 0.75rem;
+		}
 		
-		> .publish-button {
-			height: 3rem;
-			padding: 0 2rem;
-			font-size: 1.25rem;
-			font-weight: bold;
-			text-transform: uppercase;
-			color: $blue-400;
-			border: 2px solid $blue-400;
-			border-radius: 0.25rem;
+		> .publish-button-container {
+			display: flex;
+			justify-content: center;
 			
-			&.disabled {
-				color: $blue-200;
-				border-color: $blue-200;
-			}
-			
-			&:not(.disabled):not(.loading):hover {
-				color: white;
-				background: $blue-400;
+			> .publish-button {
+				height: 3rem;
+				padding: 0 2rem;
+				font-size: 1.25rem;
+				font-weight: bold;
+				text-transform: uppercase;
+				color: $blue-400;
+				border: 2px solid $blue-400;
+				border-radius: 0.25rem;
+				
+				&.disabled {
+					color: $blue-200;
+					border-color: $blue-200;
+				}
+				
+				&:not(.disabled):not(.loading):hover {
+					color: white;
+					background: $blue-400;
+				}
 			}
 		}
 	}

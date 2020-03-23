@@ -49,27 +49,30 @@ export default (
 		>
 			<div className="create-card-pop-up create-section-modal">
 				<h1 className="title">Create section</h1>
-				<Input
-					className="name-input"
-					icon={faSignature}
-					type="name"
-					placeholder="Name (required)"
-					value={name}
-					setValue={setName}
-				/>
-				<div className="publish-button-container">
-					<Button
-						className="publish-button"
-						loaderSize="16px"
-						loaderThickness="3px"
-						loaderColor="#63b3ed"
-						loading={isPublishButtonLoading}
-						disabled={isPublishButtonDisabled}
-						onClick={createSection}
-					>
-						Create
-					</Button>
-				</div>
+				<form onSubmit={createSection}>
+					<Input
+						className="name-input"
+						required
+						icon={faSignature}
+						type="name"
+						placeholder="Name (required)"
+						value={name}
+						setValue={setName}
+					/>
+					<div className="publish-button-container">
+						<Button
+							className="publish-button"
+							type="submit"
+							loaderSize="16px"
+							loaderThickness="3px"
+							loaderColor="#63b3ed"
+							loading={isPublishButtonLoading}
+							disabled={isPublishButtonDisabled}
+						>
+							Create
+						</Button>
+					</div>
+				</form>
 			</div>
 		</Modal>
 	)

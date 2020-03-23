@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, HTMLAttributes } from 'react'
+import React, { PropsWithChildren } from 'react'
 import cx from 'classnames'
 
 import Loader from './Loader'
@@ -22,7 +22,7 @@ export default ({
 	onClick,
 	children,
 	...props
-}: PropsWithChildren<ButtonProps & HTMLAttributes<HTMLButtonElement>>) => (
+}: PropsWithChildren<ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>>) => (
 	<button
 		{...props}
 		className={cx(className, { loading, disabled })}

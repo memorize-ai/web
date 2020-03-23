@@ -7,6 +7,7 @@ import '../../scss/components/Input.scss'
 
 export interface InputProps {
 	className?: string
+	required?: boolean
 	icon?: IconDefinition
 	type: string
 	placeholder: string
@@ -16,6 +17,7 @@ export interface InputProps {
 
 export default ({
 	className,
+	required,
 	icon,
 	type,
 	placeholder,
@@ -25,6 +27,7 @@ export default ({
 }: InputProps & HTMLAttributes<HTMLDivElement>) => (
 	<div {...props} className={cx('input', className)}>
 		<input
+			required={required}
 			type={type}
 			placeholder={placeholder}
 			value={value}
