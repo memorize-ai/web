@@ -6,16 +6,17 @@
 		display: flex;
 		overflow-x: auto;
 		
-		> a:not(:last-child) {
-			margin-right: 20px;
+		> a {
+			background: lightgreen;
+			
+			> img {
+				height: 100px;
+				margin: 0 auto;
+			}
+			
+			&:not(:last-child) {
+				margin-right: 20px;
+			}
 		}
-	}
-	
-	> .decks > a {
-		background: lightgreen;
-	}
-	
-	> .recommended-decks > a {
-		background: lightgreen;
 	}
 }

@@ -49,6 +49,18 @@ export const removeDeck = (id: string) => ({
 	payload: id
 })
 
+// Deck image URL
+
+export const setDeckImageUrl = (deckId: string, url: string) => ({
+	type: ActionType.SetDeckImageUrl,
+	payload: { deckId, url }
+})
+
+export const setDeckImageUrlLoadingState = (deckId: string, loadingState: LoadingState) => ({
+	type: ActionType.SetDeckImageUrlLoadingState,
+	payload: { deckId, loadingState }
+})
+
 // Sections
 
 export const setIsObservingSections = (deckId: string, value: boolean) => ({

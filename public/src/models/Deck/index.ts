@@ -1,10 +1,13 @@
 import UserData from './UserData'
 import Section from '../Section'
+import LoadingState from '../LoadingState'
 import firebase from '../../firebase'
 
 import 'firebase/firestore'
+import 'firebase/storage'
 
 const firestore = firebase.firestore()
+const storage = firebase.storage().ref()
 
 export interface DeckData {
 	topics: string[]
@@ -65,6 +68,7 @@ export default class Deck implements DeckData {
 	lastUpdated: Date
 	
 	imageUrl: string | null = null
+	imageUrlLoadingState: LoadingState = LoadingState.None
 	
 	isObservingSections: boolean = false
 	sections: Section[] = []
@@ -235,6 +239,23 @@ export default class Deck implements DeckData {
 			this.userData = UserData.fromSnapshot(snapshot)
 		)
 		return this
+	}
+	
+	loadImageUrl = async (
+		{ setDeckImageUrl, setDeckImageUrlLoadingState }: {
+			setDeckImageUrl: (deckId: string, url: string) => void
+			setDeckImageUrlLoadingState: (deckId: string, loadingState: LoadingState) => void
+		}
+	) => {
+		try {
+			setDeckImageUrlLoadingState(this.id, LoadingState.Loading)
+			
+			setDeckImageUrl(this.id, await storage.child(`decks/${this.id}`).getDownloadURL())
+			setDeckImageUrlLoadingState(this.id, LoadingState.Success)
+		} catch (error) {
+			setDeckImageUrlLoadingState(this.id, LoadingState.Fail)
+			console.error(error)
+		}
 	}
 	
 	private sortSections = () =>

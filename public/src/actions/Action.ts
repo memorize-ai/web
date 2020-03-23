@@ -14,6 +14,9 @@ export enum ActionType {
 	UpdateDeckUserData = 'UPDATE_DECK_USER_DATA',
 	RemoveDeck = 'REMOVE_DECK',
 	
+	SetDeckImageUrl = 'SET_DECK_IMAGE_URL',
+	SetDeckImageUrlLoadingState = 'SET_DECK_IMAGE_URL_LOADING_STATE',
+	
 	SetIsObservingSections = 'SET_IS_OBSERVING_SECTIONS',
 	AddSection = 'ADD_SECTION',
 	UpdateSection = 'UPDATE_SECTION',

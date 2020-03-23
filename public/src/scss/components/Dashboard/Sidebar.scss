@@ -8,6 +8,12 @@
 		display: flex;
 		align-items: center;
 		
+		> img {
+			width: 40px;
+			height: 40px;
+			object-fit: cover;
+		}
+		
 		> .title {
 			margin-right: auto;
 			font-weight: bold;
