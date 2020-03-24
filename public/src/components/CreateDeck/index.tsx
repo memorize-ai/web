@@ -1,9 +1,9 @@
-import React, { useState, useEffect, MouseEvent} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
-import cx from 'classnames'
 
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
+import ImagePicker from '../shared/ImagePicker'
 
 import '../../scss/components/CreateDeck.scss'
 
@@ -17,41 +17,18 @@ export default () => {
 		setImageUrl(imageFile && URL.createObjectURL(imageFile))
 	}, [imageFile])
 	
-	const removeImage = (event: MouseEvent) => {
-		event.stopPropagation()
-		setImageUrl(null)
-	}
-	
 	return (
 		<div className="create-deck">
 			<TopGradient>
 				<Navbar />
 				<div className="main-box">
-					<div
-						{...getRootProps()}
-						className={cx('image-picker', {
-							dragging: isDragActive,
-							'has-image': imageUrl
-						})}
-					>
-						<input {...getInputProps()} />
-						{imageUrl
-							? (
-								<>
-									<img src={imageUrl} alt="Uploaded image" />
-									<button onClick={removeImage}>
-										&times;
-									</button>
-								</>
-							)
-							: (
-								<div className="message">
-									<p>Choose image</p>
-									<p>Click or drag</p>
-								</div>
-							)
-						}
-					</div>
+					<ImagePicker
+						rootProps={getRootProps()}
+						inputProps={getInputProps()}
+						isDragging={isDragActive}
+						url={imageUrl}
+						removeImage={() => setImageUrl(null)}
+					/>
 				</div>
 			</TopGradient>
 		</div>
