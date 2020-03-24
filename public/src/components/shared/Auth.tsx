@@ -10,9 +10,7 @@ export default (props: AuthBoxProps) => (
 	<div className="auth">
 		<TopGradient>
 			<Navbar />
-			<div className="auth-container">
-				<AuthBox {...props} />
-			</div>
+			<AuthBox {...props} />
 		</TopGradient>
 	</div>
 )

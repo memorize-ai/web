@@ -28,7 +28,7 @@ export default () => {
 						You have {numberOfDueCards} card{numberOfDueCards === 1 ? '' : 's'} due
 					</p>
 				</div>
-				<Link to="/new" className="create-deck">
+				<Link to="/new">
 					Create deck
 				</Link>
 			</div>

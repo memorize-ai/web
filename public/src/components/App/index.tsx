@@ -11,6 +11,8 @@ import Market from '../Dashboard/Market'
 import Decks from '../Dashboard/Decks'
 import Interests from '../Dashboard/Interests'
 
+import CreateDeck from '../CreateDeck'
+
 import CreateCardPopUp from '../CreateCardPopUp'
 
 import CatchAll from '../404'
@@ -27,6 +29,8 @@ export default () => (
 			<Route exact path="/market" component={Market} />
 			<Route exact path="/decks" component={Decks} />
 			<Route exact path="/interests" component={Interests} />
+			
+			<Route exact path="/new" component={CreateDeck} />
 			
 			<Route
 				exact

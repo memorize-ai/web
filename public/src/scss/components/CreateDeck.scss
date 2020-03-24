@@ -1,0 +1,92 @@
+@import '../variables';
+@import '../mixins';
+
+.create-deck {
+	min-height: 100vh;
+	background: $light-gray;
+	
+	.main-box {
+		@include shadow-lg;
+		
+		margin: 2.5rem 30px 0 30px;
+		padding: 1rem 1.5rem;
+		background: white;
+		border-radius: 0.5rem;
+		
+		@media (min-width: $screen-size-md) {
+			width: calc(100% * 2 / 3);
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		@media (min-width: $screen-size-lg) {
+			width: 50%;
+		}
+		
+		> .image-picker {
+			$dimension: 175px;
+			$border-width: 2px;
+			
+			display: grid;
+			position: relative;
+			align-content: center;
+			width: $dimension;
+			height: $dimension;
+			margin: 0 auto;
+			background: $medium-gray;
+			border: $border-width solid transparentize($dark-gray, 0.85);
+			
+			&.dragging {
+				border-width: $border-width * 2;
+				border-style: dashed;
+			}
+			
+			&:not(.has-image) {
+				cursor: pointer;
+			}
+			
+			&,
+			> img {
+				border-radius: 12px;
+			}
+			
+			> .message {
+				user-select: none;
+				font-weight: bold;
+				text-align: center;
+				text-transform: uppercase;
+				
+				> p:first-child {
+					font-size: 1.1rem;
+					color: transparentize($dark-gray, 0.3);
+				}
+				
+				> p:last-child {
+					font-size: 0.9rem;
+					color: transparentize($dark-gray, 0.6);
+				}
+			}
+			
+			> img {
+				width: $dimension - ($border-width * 2);
+				height: $dimension - ($border-width * 2);
+				object-fit: cover;
+			}
+			
+			> button {
+				$spacing: 8px;
+				$dimension: 30px;
+				
+				position: absolute;
+				top: $spacing;
+				right: $spacing;
+				width: $dimension;
+				height: $dimension;
+				line-height: $dimension;
+				color: white;
+				background: transparentize($red-400, 0.25);
+				border-radius: 50%;
+			}
+		}
+	}
+}
