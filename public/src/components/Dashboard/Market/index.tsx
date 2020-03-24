@@ -6,7 +6,7 @@ import Dashboard, { DashboardTabSelection as Selection } from '..'
 import useQuery from '../../../hooks/useQuery'
 import Deck from '../../../models/Deck'
 import DeckSearch, { DeckSortAlgorithm, decodeDeckSortAlgorithm } from '../../../models/Deck/Search'
-import { urlWithSearchParams } from '../../../utils'
+import { urlWithQuery } from '../../../utils'
 import Input from '../../shared/Input'
 import DeckCell from './DeckCell'
 import Sort from './Sort'
@@ -39,7 +39,7 @@ export default () => {
 	}, [query]) // eslint-disable-line
 	
 	useEffect(() => {
-		history.push(urlWithSearchParams('/market', {
+		history.push(urlWithQuery('/market', {
 			q: query,
 			s: sortAlgorithm === DeckSortAlgorithm.Recommended
 				? null

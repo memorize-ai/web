@@ -6,12 +6,12 @@ import Auth from '../shared/Auth'
 
 export default () => {
 	const history = useHistory()
-	const next = useQuery().get('next') ?? '/'
+	const query = useQuery()
 	
 	return (
 		<Auth
-			title="Welcome to memorize.ai!"
-			onUser={() => history.push(next)}
+			title={query.get('title') ?? 'Welcome to memorize.ai!'}
+			onUser={() => history.push(query.get('next') ?? '/')}
 		/>
 	)
 }

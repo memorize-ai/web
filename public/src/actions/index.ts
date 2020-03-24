@@ -104,3 +104,25 @@ export const removeTopic = (id: string) => ({
 	type: ActionType.RemoveTopic,
 	payload: id
 })
+
+// Create deck
+
+export const setCreateDeckImage = (value: File | null) => ({
+	type: ActionType.SetCreateDeckImage,
+	payload: value
+})
+
+export const setCreateDeckName = (value: string) => ({
+	type: ActionType.SetCreateDeckName,
+	payload: value
+})
+
+export const setCreateDeckSubtitle = (value: string) => ({
+	type: ActionType.SetCreateDeckSubtitle,
+	payload: value
+})
+
+export const setCreateDeckDescription = (value: string) => ({
+	type: ActionType.SetCreateDeckDescription,
+	payload: value
+})

@@ -6,10 +6,12 @@
 	background: $light-gray;
 	
 	.main-box {
+		$margin: 1.5rem;
+		
 		@include shadow-lg;
 		
 		margin: 2.5rem 30px 0 30px;
-		padding: 1rem 1.5rem;
+		padding: $margin;
 		background: white;
 		border-radius: 0.5rem;
 		
@@ -21,6 +23,37 @@
 		
 		@media (min-width: $screen-size-lg) {
 			width: 50%;
+		}
+		
+		> .inputs {
+			margin-top: $margin;
+			
+			> :not(:first-child) {
+				margin-top: $margin / 2;
+			}
+		}
+		
+		> button {
+			display: block;
+			height: 3rem;
+			margin: ($margin * 2 / 3) auto 0 auto;
+			padding: 0 2rem;
+			font-size: 1.25rem;
+			font-weight: bold;
+			text-transform: uppercase;
+			color: $blue-400;
+			border: 2px solid $blue-400;
+			border-radius: 0.25rem;
+			
+			&.disabled {
+				color: $blue-200;
+				border-color: $blue-200;
+			}
+			
+			&:not(.disabled):not(.loading):hover {
+				color: white;
+				background: $blue-400;
+			}
 		}
 	}
 }

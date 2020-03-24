@@ -10,8 +10,7 @@
 	width: $dimension;
 	height: $dimension;
 	margin: 0 auto;
-	background: $medium-gray;
-	border: $border-width solid transparentize($dark-gray, 0.85);
+	border: $border-width solid $gray-300;
 	
 	&.dragging {
 		border-width: $border-width * 2;
@@ -35,12 +34,12 @@
 		
 		> p:first-child {
 			font-size: 1.1rem;
-			color: transparentize($dark-gray, 0.3);
+			color: transparentize($dark-gray, 0.5);
 		}
 		
 		> p:last-child {
-			font-size: 0.9rem;
-			color: transparentize($dark-gray, 0.6);
+			font-size: 0.8rem;
+			color: transparentize($dark-gray, 0.7);
 		}
 	}
 	

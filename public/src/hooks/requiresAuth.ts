@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import useCurrentUser from './useCurrentUser'
 import LoadingState from '../models/LoadingState'
-import { expectsSignIn, urlWithSearchParams } from '../utils'
+import { expectsSignIn, urlWithQuery } from '../utils'
 
 export default (next: string) => {
 	const history = useHistory()
@@ -13,6 +13,6 @@ export default (next: string) => {
 		if (currentUserLoadingState === LoadingState.Success ? currentUser : expectsSignIn())
 			return
 		
-		history.push(urlWithSearchParams('/auth', { next }))
+		history.push(urlWithQuery('/auth', { next }))
 	}, [currentUser, currentUserLoadingState]) // eslint-disable-line
 }

@@ -8,6 +8,7 @@ import { CurrentUserProvider } from './contexts/CurrentUser'
 import { DecksProvider } from './contexts/Decks'
 import { DeckImageUrlsProvider } from './contexts/DeckImageUrls'
 import { TopicsProvider } from './contexts/Topics'
+import { CreateDeckProvider } from './contexts/CreateDeck'
 import App from './components/App'
 import firebase from './firebase'
 
@@ -28,7 +29,9 @@ ReactDOM.render((
 		<DecksProvider>
 			<DeckImageUrlsProvider>
 				<TopicsProvider>
-					<App />
+					<CreateDeckProvider>
+						<App />
+					</CreateDeckProvider>
 				</TopicsProvider>
 			</DeckImageUrlsProvider>
 		</DecksProvider>

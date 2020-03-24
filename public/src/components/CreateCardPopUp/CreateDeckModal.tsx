@@ -37,7 +37,7 @@ export default (
 			
 			await Deck.createForUserWithId(
 				currentUser.id,
-				{ name, subtitle, description }
+				{ image: null, name, subtitle, description }
 			)
 			
 			setPublishLoadingState(LoadingState.Success)

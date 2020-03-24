@@ -11,8 +11,8 @@ export const setExpectsSignIn = (value: boolean) =>
 		? localStorage.setItem(EXPECTS_SIGN_IN_KEY, '1')
 		: localStorage.removeItem(EXPECTS_SIGN_IN_KEY)
 
-export const urlWithSearchParams = (url: string, searchParams: Record<string, string | null>) => {
-	const extension = Object.entries(searchParams)
+export const urlWithQuery = (url: string, params: Record<string, string | null>) => {
+	const extension = Object.entries(params)
 		.reduce((acc, [key, value]) => (
 			value ? [...acc, `${key}=${encodeURIComponent(value)}`] : acc
 		), [] as string[])

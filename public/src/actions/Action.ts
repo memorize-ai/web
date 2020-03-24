@@ -25,5 +25,10 @@ export enum ActionType {
 	SetIsObservingTopics = 'SET_IS_OBSERVING_TOPICS',
 	AddTopic = 'ADD_TOPIC',
 	UpdateTopic = 'UPDATE_TOPIC',
-	RemoveTopic = 'REMOVE_TOPIC'
+	RemoveTopic = 'REMOVE_TOPIC',
+	
+	SetCreateDeckImage = 'SET_CREATE_DECK_IMAGE',
+	SetCreateDeckName = 'SET_CREATE_DECK_NAME',
+	SetCreateDeckSubtitle = 'SET_CREATE_DECK_SUBTITLE',
+	SetCreateDeckDescription = 'SET_CREATE_DECK_DESCRIPTION'
 }

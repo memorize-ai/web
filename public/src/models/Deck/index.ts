@@ -36,6 +36,7 @@ export interface DeckData {
 }
 
 export interface CreateDeckData {
+	image: File | null
 	name: string
 	subtitle: string
 	description: string
@@ -175,9 +176,11 @@ export default class Deck implements DeckData {
 	
 	static createForUserWithId = async (uid: string, data: CreateDeckData) => {
 		const { id: deckId } = await firestore.collection('decks').add({
-			...data,
 			topics: [],
-			hasImage: false,
+			hasImage: Boolean(data.image),
+			name: data.name,
+			subtitle: data.subtitle,
+			description: data.description,
 			viewCount: 0,
 			uniqueViewCount: 0,
 			ratingCount: 0,
@@ -197,6 +200,12 @@ export default class Deck implements DeckData {
 			created: firebase.firestore.FieldValue.serverTimestamp(),
 			updated: firebase.firestore.FieldValue.serverTimestamp()
 		})
+		
+		if (data.image)
+			await storage.child(`/decks/${deckId}`).put(data.image, {
+				contentType: data.image.type,
+				customMetadata: { owner: uid }
+			})
 		
 		await firestore.doc(`users/${uid}/decks/${deckId}`).set({
 			added: firebase.firestore.FieldValue.serverTimestamp()
