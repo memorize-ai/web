@@ -119,7 +119,7 @@ export default () => {
 						/>
 						<TextArea
 							minHeight={100}
-							placeholder="Description"
+							placeholder="Description (optional)"
 							value={description}
 							setValue={compose1(dispatch, setCreateDeckDescription)}
 						/>
