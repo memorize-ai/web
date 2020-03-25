@@ -21,12 +21,18 @@ $padding: 20px;
 		overflow-y: auto;
 		padding: $padding 0;
 		
-		> a {
-			display: flex;
-			background: lightgreen;
-			
-			&:not(:last-child) {
+		> div {
+			> :not(:last-child) {
 				margin-bottom: $padding;
+			}
+			
+			> a {
+				display: flex;
+				background: lightgreen;
+			}
+			
+			> .loader {
+				margin: 0 auto;
 			}
 		}
 	}

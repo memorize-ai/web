@@ -94,12 +94,20 @@ export default class Search {
 	
 	static search = async (
 		query: string | null,
-		{ sortAlgorithm, filterForTopics }: {
+		{ pageNumber, pageSize, sortAlgorithm, filterForTopics }: {
+			pageNumber: number
+			pageSize: number
 			sortAlgorithm: DeckSortAlgorithm
 			filterForTopics: string[] | null
 		}
 	) => {
-		const options: Record<string, any> = {}
+		const options: Record<string, any> = {
+			page: {
+				size: pageSize,
+				current: pageNumber
+			}
+		}
+		
 		const encodedSortAlgorithm = Search.encodeSortAlgorithm(sortAlgorithm)
 		
 		if (encodedSortAlgorithm)
@@ -108,14 +116,14 @@ export default class Search {
 		if (filterForTopics)
 			options.filters = { topics: filterForTopics }
 		
-		return (await Search.client.search(query ?? '', options)).results
-			.map(({ data }: { data: RawSearchResultItemData }) =>
-				Search.createDeckFromRawData(data)
-			)
+		return ((await Search.client.search(query ?? '', options)).results as { data: RawSearchResultItemData }[])
+			.map(({ data }) => Search.createDeckFromRawData(data))
 	}
 	
-	static recommendedDecks = (interests: string[]) =>
+	static recommendedDecks = (pageSize: number, interests: string[]) =>
 		Search.search(null, {
+			pageNumber: 1,
+			pageSize,
 			sortAlgorithm: DeckSortAlgorithm.Recommended,
 			filterForTopics: interests.length ? interests : null
 		})

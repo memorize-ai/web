@@ -13,7 +13,7 @@ import '../../../scss/components/Dashboard/Home.scss'
 export default () => {
 	const [currentUser] = useCurrentUser()
 	const decks = useDecks()
-	const recommendedDecks = useRecommendedDecks()
+	const recommendedDecks = useRecommendedDecks(20)
 	
 	const numberOfDueCards = decks.reduce((acc, deck) => (
 		acc + (deck.userData?.numberOfDueCards ?? 0)

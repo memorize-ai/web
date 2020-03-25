@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import InfiniteScroll from 'react-infinite-scroller'
 
 import Dashboard, { DashboardTabSelection as Selection } from '..'
 import useQuery from '../../../hooks/useQuery'
@@ -8,6 +9,7 @@ import Deck from '../../../models/Deck'
 import DeckSearch, { DeckSortAlgorithm, decodeDeckSortAlgorithm } from '../../../models/Deck/Search'
 import { urlWithQuery } from '../../../utils'
 import Input from '../../shared/Input'
+import Loader from '../../shared/Loader'
 import DeckCell from './DeckCell'
 import Sort from './Sort'
 
@@ -23,13 +25,19 @@ export default () => {
 	)
 	
 	const [decks, setDecks] = useState([] as Deck[])
+	const [isLastPage, setIsLastPage] = useState(false)
 	
 	useEffect(() => void (async () => {
-		setDecks(await DeckSearch.search(query, {
-			sortAlgorithm,
-			filterForTopics: null
+		setIsLastPage(false)
+		setDecks(await getDecks(1))
+		
+		history.push(urlWithQuery('/market', {
+			q: query,
+			s: sortAlgorithm === DeckSortAlgorithm.Recommended
+				? null
+				: sortAlgorithm
 		}))
-	})(), [query, sortAlgorithm])
+	})(), [query, sortAlgorithm]) // eslint-disable-line
 	
 	useEffect(() => {
 		if (query || sortAlgorithm === DeckSortAlgorithm.Recommended)
@@ -38,14 +46,29 @@ export default () => {
 		setSortAlgorithm(DeckSortAlgorithm.Recommended)
 	}, [query]) // eslint-disable-line
 	
-	useEffect(() => {
-		history.push(urlWithQuery('/market', {
-			q: query,
-			s: sortAlgorithm === DeckSortAlgorithm.Recommended
-				? null
-				: sortAlgorithm
-		}))
-	}, [query, sortAlgorithm]) // eslint-disable-line
+	const getDecks = async (pageNumber: number) => {
+		try {
+			const decks = await DeckSearch.search(query, {
+				pageNumber,
+				pageSize: 20,
+				sortAlgorithm,
+				filterForTopics: null
+			})
+			
+			if (!decks.length)
+				setIsLastPage(true)
+			
+			return decks
+		} catch (error) {
+			setIsLastPage(true)
+			console.error(error)
+			
+			return []
+		}
+	}
+	
+	const loadMoreDecks = async (pageNumber: number) =>
+		setDecks([...decks, ...await getDecks(pageNumber)])
 	
 	return (
 		<Dashboard selection={Selection.Market} className="market">
@@ -58,9 +81,24 @@ export default () => {
 				setValue={setQuery}
 			/>
 			<div className="decks">
-				{decks.map(deck => (
-					<DeckCell key={deck.id} deck={deck} />
-				))}
+				<InfiniteScroll
+					pageStart={1}
+					loadMore={loadMoreDecks}
+					hasMore={!isLastPage}
+					loader={
+						<Loader
+							key={0}
+							size="24px"
+							thickness="4px"
+							color="#63b3ed"
+						/>
+					}
+					useWindow={false}
+				>
+					{decks.map(deck => (
+						<DeckCell key={deck.id} deck={deck} />
+					))}
+				</InfiniteScroll>
 			</div>
 			<Sort algorithm={sortAlgorithm} setAlgorithm={setSortAlgorithm} />
 		</Dashboard>
