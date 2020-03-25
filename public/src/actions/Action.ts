@@ -9,6 +9,7 @@ export enum ActionType {
 	SetCurrentUserLoadingState = 'SET_CURRENT_USER_LOADING_STATE',
 	SetIsObservingCurrentUser = 'SET_IS_OBSERVING_CURRENT_USER',
 	
+	SetSelectedDeck = 'SET_SELECTED_DECK',
 	SetIsObservingDecks = 'SET_IS_OBSERVING_DECKS',
 	UpdateDeck = 'UPDATE_DECK',
 	UpdateDeckUserData = 'UPDATE_DECK_USER_DATA',

@@ -7,9 +7,11 @@ import DeckUserData from '../models/Deck/UserData'
 export interface DecksState {
 	decks: Deck[]
 	isObservingDecks: boolean
+	selectedDeck: Deck | null
 }
 
 export type DecksAction = Action<
+	| Deck // SetSelectedDeck
 	| boolean // SetIsObservingDecks
 	| { snapshot: firebase.firestore.DocumentSnapshot, userDataSnapshot: firebase.firestore.DocumentSnapshot } // UpdateDeck
 	| firebase.firestore.DocumentSnapshot // UpdateDeckUserData
@@ -21,11 +23,14 @@ export type DecksAction = Action<
 
 const initialState: DecksState = {
 	decks: [],
-	isObservingDecks: false
+	isObservingDecks: false,
+	selectedDeck: null
 }
 
 const reducer = (state: DecksState, { type, payload }: DecksAction) => {
 	switch (type) {
+		case ActionType.SetSelectedDeck:
+			return { ...state, selectedDeck: payload as Deck }
 		case ActionType.SetIsObservingDecks:
 			return { ...state, isObservingDecks: payload as boolean }
 		case ActionType.UpdateDeck: {
@@ -33,19 +38,21 @@ const reducer = (state: DecksState, { type, payload }: DecksAction) => {
 				snapshot: firebase.firestore.DocumentSnapshot
 				userDataSnapshot: firebase.firestore.DocumentSnapshot
 			}
+			const decks = state.decks.some(deck => deck.id === snapshot.id)
+				? state.decks.map(deck =>
+					deck.id === snapshot.id
+						? deck.updateFromSnapshot(snapshot)
+						: deck
+				)
+				: [...state.decks, Deck.fromSnapshot(
+					snapshot,
+					DeckUserData.fromSnapshot(userDataSnapshot)
+				)]
 			
 			return {
 				...state,
-				decks: state.decks.some(deck => deck.id === snapshot.id)
-					? state.decks.map(deck =>
-						deck.id === snapshot.id
-							? deck.updateFromSnapshot(snapshot)
-							: deck
-					)
-					: [...state.decks, Deck.fromSnapshot(
-						snapshot,
-						DeckUserData.fromSnapshot(userDataSnapshot)
-					)]
+				selectedDeck: state.selectedDeck ?? (decks.length ? decks[0] : null),
+				decks
 			}
 		}
 		case ActionType.UpdateDeckUserData: {
@@ -60,8 +67,18 @@ const reducer = (state: DecksState, { type, payload }: DecksAction) => {
 				)
 			}
 		}
-		case ActionType.RemoveDeck:
-			return { ...state, decks: state.decks.filter(deck => deck.id !== payload) }
+		case ActionType.RemoveDeck: {
+			const deckId = payload as string
+			const decks = state.decks.filter(deck => deck.id !== deckId)
+			
+			return {
+				...state,
+				selectedDeck: state.selectedDeck?.id === deckId
+					? decks.length ? decks[0] : null
+					: state.selectedDeck,
+				decks
+			}
+		}
 		case ActionType.SetIsObservingSections: {
 			const { deckId, value } = payload as {
 				deckId: string

@@ -24,6 +24,10 @@
 			background: lightgreen;
 		}
 		
+		&.selected {
+			background: white;
+		}
+		
 		&:not(:last-child) {
 			margin-bottom: 10px;
 		}

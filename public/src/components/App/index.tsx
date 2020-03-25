@@ -27,7 +27,11 @@ export default () => (
 			<Route exact path="/auth" component={Auth} />
 			
 			<Route exact path="/market" component={Market} />
-			<Route exact path="/decks" component={Decks} />
+			<Route
+				exact
+				path={['/decks', '/decks/:deckId']}
+				component={Decks}
+			/>
 			<Route exact path="/interests" component={Interests} />
 			
 			<Route exact path="/new" component={CreateDeck} />

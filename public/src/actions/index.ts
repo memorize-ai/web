@@ -1,5 +1,6 @@
 import { ActionType } from './Action'
 import firebase from '../firebase'
+import Deck from '../models/Deck'
 import LoadingState from '../models/LoadingState'
 
 // Current user
@@ -25,6 +26,11 @@ export const setIsObservingCurrentUser = (value: boolean) => ({
 })
 
 // Decks
+
+export const setSelectedDeck = (deck: Deck) => ({
+	type: ActionType.SetSelectedDeck,
+	payload: deck
+})
 
 export const setIsObservingDecks = (value: boolean) => ({
 	type: ActionType.SetIsObservingDecks,
