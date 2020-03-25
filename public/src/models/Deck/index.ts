@@ -266,6 +266,26 @@ export default class Deck implements DeckData {
 		}
 	}
 	
+	isSectionUnlocked = (section: Section) =>
+		section.isUnsectioned || (
+			this.userData?.sections[section.id] !== undefined
+		)
+	
+	unlockSectionForUserWithId = async (uid: string, section: Section) => {
+		const { numberOfCards } = section
+		
+		await firestore.doc(`users/${uid}/decks/${this.id}`).update({
+			dueCardCount: firebase.firestore.FieldValue.increment(numberOfCards),
+			unlockedCardCount: firebase.firestore.FieldValue.increment(numberOfCards),
+			[`sections.${section.id}`]: numberOfCards
+		})
+		
+		return this
+	}
+	
+	numberOfCardsDueForSection = (section: Section) =>
+		this.userData?.sections[section.id] ?? 0
+	
 	private sortSections = () =>
 		this.sections = this.sections.sort(({ index: a }, { index: b }) => a - b)
 	

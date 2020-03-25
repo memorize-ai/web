@@ -5,6 +5,9 @@ import Dashboard, { DashboardTabSelection as Selection } from '..'
 import requiresAuth from '../../../hooks/requiresAuth'
 import useSelectedDeck from '../../../hooks/useSelectedDeck'
 import useDecks from '../../../hooks/useDecks'
+import Content from './Content'
+
+import '../../../scss/components/Dashboard/Decks.scss'
 
 export default () => {
 	requiresAuth('/decks')
@@ -32,7 +35,7 @@ export default () => {
 	return (
 		<Dashboard selection={Selection.Decks} className="decks">
 			{selectedDeck
-				? <>{selectedDeck.name}</>
+				? <Content deck={selectedDeck} />
 				: <>Loading...</>
 			}
 		</Dashboard>

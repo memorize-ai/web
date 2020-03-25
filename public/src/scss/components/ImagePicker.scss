@@ -13,6 +13,7 @@
 	border: $border-width solid $gray-300;
 	
 	&.dragging {
+		animation: image-picker-pulse ease-in-out infinite alternate 0.3s;
 		border-width: $border-width * 2;
 		border-style: dashed;
 	}
@@ -62,5 +63,14 @@
 		color: white;
 		background: transparentize($red-400, 0.25);
 		border-radius: 50%;
+	}
+}
+
+@keyframes image-picker-pulse {
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(1.05);
 	}
 }

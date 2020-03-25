@@ -1,0 +1,28 @@
+@import '../../functions';
+
+.dashboard > .content.decks {
+	$padding: 20px;
+	
+	padding: 0 rawRepeat(3, $padding);
+	
+	> .sections {
+		> div {
+			> .header {
+				display: flex;
+				align-items: center;
+				
+				> .name,
+				> .card-count-message {
+					font-weight: bold;
+				}
+				
+				> .spacer {
+					flex: 1;
+					height: 2px;
+					margin: 0 $padding;
+					background: lightgray;
+				}
+			}
+		}
+	}
+}
