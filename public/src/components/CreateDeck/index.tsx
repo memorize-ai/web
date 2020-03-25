@@ -39,12 +39,8 @@ export default () => {
 	const isCreateButtonDisabled = !name
 	
 	useEffect(() => {
-		if (shouldCreate)
-			return
-		
-		dispatch(setCreateDeckImage(
-			acceptedFiles.length ? acceptedFiles[0] : null
-		))
+		if (acceptedFiles.length)
+			dispatch(setCreateDeckImage(acceptedFiles[0]))
 	}, [acceptedFiles]) // eslint-disable-line
 	
 	useEffect(() => {
