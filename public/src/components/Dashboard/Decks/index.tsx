@@ -36,7 +36,7 @@ export default () => {
 		<Dashboard selection={Selection.Decks} className="decks">
 			{selectedDeck
 				? <Content deck={selectedDeck} />
-				: <>Loading...</>
+				: 'Loading...'
 			}
 		</Dashboard>
 	)

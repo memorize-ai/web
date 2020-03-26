@@ -8,6 +8,7 @@ body *,
 body ::before,
 body ::after {
 	font-family: $font-family;
+	text-rendering: optimizeLegibility;
 	box-sizing: border-box;
 	outline: none !important;
 	border: 0 solid #e2e8f0;

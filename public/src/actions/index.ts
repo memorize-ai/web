@@ -132,3 +132,10 @@ export const setCreateDeckDescription = (value: string) => ({
 	type: ActionType.SetCreateDeckDescription,
 	payload: value
 })
+
+// Expanded sections
+
+export const toggleSectionExpanded = (deckId: string, sectionId: string) => ({
+	type: ActionType.ToggleSectionExpanded,
+	payload: { deckId, sectionId }
+})

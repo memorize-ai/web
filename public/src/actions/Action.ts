@@ -31,5 +31,7 @@ export enum ActionType {
 	SetCreateDeckImage = 'SET_CREATE_DECK_IMAGE',
 	SetCreateDeckName = 'SET_CREATE_DECK_NAME',
 	SetCreateDeckSubtitle = 'SET_CREATE_DECK_SUBTITLE',
-	SetCreateDeckDescription = 'SET_CREATE_DECK_DESCRIPTION'
+	SetCreateDeckDescription = 'SET_CREATE_DECK_DESCRIPTION',
+	
+	ToggleSectionExpanded = 'TOGGLE_SECTION_EXPANDED'
 }

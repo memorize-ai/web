@@ -9,6 +9,7 @@ import { DecksProvider } from './contexts/Decks'
 import { DeckImageUrlsProvider } from './contexts/DeckImageUrls'
 import { TopicsProvider } from './contexts/Topics'
 import { CreateDeckProvider } from './contexts/CreateDeck'
+import { ExpandedSectionsProvider } from './contexts/ExpandedSections'
 import App from './components/App'
 import firebase from './firebase'
 
@@ -30,7 +31,9 @@ ReactDOM.render((
 			<DeckImageUrlsProvider>
 				<TopicsProvider>
 					<CreateDeckProvider>
-						<App />
+						<ExpandedSectionsProvider>
+							<App />
+						</ExpandedSectionsProvider>
 					</CreateDeckProvider>
 				</TopicsProvider>
 			</DeckImageUrlsProvider>

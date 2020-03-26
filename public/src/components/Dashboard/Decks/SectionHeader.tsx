@@ -1,13 +1,16 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLock } from '@fortawesome/free-solid-svg-icons'
+import { faLock, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import useCurrentUser from '../../../hooks/useCurrentUser'
+import useExpandedSections from '../../../hooks/useExpandedSections'
+import TripleDots from '../../shared/TripleDots'
 
 export default ({ deck, section }: { deck: Deck, section: Section }) => {
 	const [currentUser] = useCurrentUser()
+	const [isExpanded, toggleExpanded] = useExpandedSections(deck)
 	
 	const isUnlocked = deck.isSectionUnlocked(section)
 	
@@ -30,6 +33,15 @@ export default ({ deck, section }: { deck: Deck, section: Section }) => {
 					({section.numberOfCards} card{section.numberOfCards === 1 ? '' : 's'})
 				</p>
 			)}
+			<button
+				className="expand-toggle"
+				onClick={() => toggleExpanded(section.id)}
+			>
+				<FontAwesomeIcon
+					icon={isExpanded(section.id) ? faMinusCircle : faPlusCircle}
+				/>
+			</button>
+			<TripleDots color="blue" />
 		</div>
 	)
 }

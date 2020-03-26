@@ -3,9 +3,50 @@
 .dashboard > .content.decks {
 	$padding: 20px;
 	
-	padding: 0 rawRepeat(3, $padding);
+	display: grid;
+	grid-template-rows: 60px auto;
+	
+	> .header {
+		display: flex;
+		align-items: center;
+		overflow-x: auto;
+		padding: 0 $padding;
+		background: lightpink;
+		
+		> .name {
+			margin-right: auto;
+		}
+		
+		> .actions {
+			&,
+			> button {
+				display: flex;
+				align-items: center;
+			}
+			
+			> button {
+				flex-shrink: 0;
+				margin-left: $padding;
+				padding: 4px 8px;
+				background: lightgray;
+				border-radius: 4px;
+				
+				&.destructive {
+					color: red;
+				}
+				
+				> p {
+					margin-left: 8px;
+					font-weight: bold;
+				}
+			}
+		}
+	}
 	
 	> .sections {
+		overflow-y: auto;
+		padding: $padding;
+		
 		> div {
 			> .header {
 				display: flex;
@@ -21,6 +62,19 @@
 					height: 2px;
 					margin: 0 $padding;
 					background: lightgray;
+				}
+				
+				> .card-count-message {
+					margin-right: $padding;
+				}
+				
+				> .expand-toggle {
+					margin-right: $padding / 2;
+					transform: scale(1.2);
+				}
+				
+				> .triple-dots {
+					padding: 0 $padding / 2;
 				}
 			}
 		}

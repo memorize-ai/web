@@ -1,19 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import cx from 'classnames'
 
 export default (
-	{ href, icon, title, isSelected }: {
-		href: string
+	{ color, icon, title, onClick }: {
+		color?: string
 		icon: IconDefinition
 		title: string
-		isSelected: boolean
+		onClick: () => void
 	}
 ) => (
-	<Link to={href} className={cx({ selected: isSelected })}>
+	<button
+		style={{ color }}
+		onClick={onClick}
+	>
 		<FontAwesomeIcon icon={icon} />
 		<p>{title}</p>
-	</Link>
+	</button>
 )
