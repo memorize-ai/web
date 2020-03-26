@@ -89,6 +89,28 @@ export const removeSection = (deckId: string, sectionId: string) => ({
 	payload: { deckId, sectionId }
 })
 
+// Cards
+
+export const addCard = (sectionId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
+	type: ActionType.AddCard,
+	payload: { sectionId, snapshot }
+})
+
+export const updateCard = (sectionId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
+	type: ActionType.UpdateCard,
+	payload: { sectionId, snapshot }
+})
+
+export const updateCardUserData = (sectionId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
+	type: ActionType.UpdateCardUserData,
+	payload: { sectionId, snapshot }
+})
+
+export const removeCard = (sectionId: string, cardId: string) => ({
+	type: ActionType.RemoveCard,
+	payload: { sectionId, cardId }
+})
+
 // Topics
 
 export const setIsObservingTopics = (value: boolean) => ({

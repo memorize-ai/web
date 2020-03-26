@@ -23,6 +23,11 @@ export enum ActionType {
 	UpdateSection = 'UPDATE_SECTION',
 	RemoveSection = 'REMOVE_SECTION',
 	
+	AddCard = 'ADD_CARD',
+	UpdateCard = 'UPDATE_CARD',
+	UpdateCardUserData = 'UPDATE_CARD_USER_DATA',
+	RemoveCard = 'REMOVE_CARD',
+	
 	SetIsObservingTopics = 'SET_IS_OBSERVING_TOPICS',
 	AddTopic = 'ADD_TOPIC',
 	UpdateTopic = 'UPDATE_TOPIC',

@@ -77,6 +77,18 @@
 					padding: 0 $padding / 2;
 				}
 			}
+			
+			> .cards {
+				display: none;
+				
+				&.expanded {
+					display: block;
+				}
+				
+				> .loader {
+					margin: 0 auto;
+				}
+			}
 		}
 	}
 }
