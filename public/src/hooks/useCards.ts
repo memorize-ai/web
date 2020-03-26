@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react'
 
 import CardsContext from '../contexts/Cards'
 import {
+	initializeCards,
 	addCard,
 	updateCard,
 	updateCardUserData,
@@ -11,7 +12,7 @@ import Deck from '../models/Deck'
 import Section from '../models/Section'
 import Card from '../models/Card'
 import useCurrentUser from './useCurrentUser'
-import { compose2 } from '../utils'
+import { compose1, compose2 } from '../utils'
 
 export default (deck: Deck, section: Section, shouldLoadCards: boolean): Card[] | null => {
 	const [{ [section.id]: cards }, dispatch] = useContext(CardsContext)
@@ -26,6 +27,7 @@ export default (deck: Deck, section: Section, shouldLoadCards: boolean): Card[] 
 			deckId: deck.id,
 			sectionId: section.id,
 			uid: currentUser.id,
+			initializeCards: compose1(dispatch, initializeCards),
 			addCard: compose2(dispatch, addCard),
 			updateCard: compose2(dispatch, updateCard),
 			updateCardUserData: compose2(dispatch, updateCardUserData),

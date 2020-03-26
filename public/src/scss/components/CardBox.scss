@@ -1,0 +1,47 @@
+@import '../variables';
+
+$border-width: 4px;
+$collapsed-content-height: 200px;
+$footer-height: 50px;
+
+.card {
+	border: $border-width solid $medium-gray;
+	border-radius: 12px;
+	
+	&:hover > .content {
+		max-height: none;
+	}
+	
+	> .content {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-areas: 'front back';
+		max-height: $collapsed-content-height;
+		overflow-y: hidden;
+		
+		> .front,
+		> .back {
+			overflow-x: auto;
+			padding: 8px 12px;
+			border-style: solid;
+			border-color: $medium-gray;
+		}
+		
+		> .front {
+			grid-area: front;
+			overflow-x: auto;
+			border-right-width: $border-width / 2;
+		}
+		
+		> .back {
+			grid-area: back;
+			overflow-x: auto;
+			border-left-width: $border-width / 2;
+		}
+	}
+	
+	> .footer {
+		height: $footer-height;
+		border-top: $border-width solid $medium-gray;
+	}
+}

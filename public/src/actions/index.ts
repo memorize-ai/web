@@ -91,6 +91,11 @@ export const removeSection = (deckId: string, sectionId: string) => ({
 
 // Cards
 
+export const initializeCards = (sectionId: string) => ({
+	type: ActionType.InitializeCards,
+	payload: sectionId
+})
+
 export const addCard = (sectionId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
 	type: ActionType.AddCard,
 	payload: { sectionId, snapshot }

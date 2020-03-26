@@ -50,10 +50,11 @@ export default class Card implements CardData {
 		}, userData)
 	
 	static observe = (
-		{ deckId, sectionId, uid, addCard, updateCard, updateCardUserData, removeCard }: {
+		{ deckId, sectionId, uid, initializeCards, addCard, updateCard, updateCardUserData, removeCard }: {
 			deckId: string
 			sectionId: string
 			uid: string
+			initializeCards: (sectionId: string) => void
 			addCard: (sectionId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
 			updateCard: (sectionId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
 			updateCardUserData: (sectionId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
@@ -62,6 +63,8 @@ export default class Card implements CardData {
 	) =>
 		firestore.collection(`decks/${deckId}/cards`).where('section', '==', sectionId).onSnapshot(
 			snapshot => {
+				initializeCards(sectionId)
+				
 				for (const { type, doc } of snapshot.docChanges())
 					switch (type) {
 						case 'added':

@@ -48,6 +48,11 @@
 		padding: $padding;
 		
 		> div {
+			> .header,
+			> .cards > * {
+				margin-bottom: calc(#{$padding} * 2 / 3);
+			}
+			
 			> .header {
 				display: flex;
 				align-items: center;
@@ -79,12 +84,6 @@
 			}
 			
 			> .cards {
-				display: none;
-				
-				&.expanded {
-					display: block;
-				}
-				
 				> .loader {
 					margin: 0 auto;
 				}
