@@ -1,5 +1,7 @@
 import * as admin from 'firebase-admin'
 
+import { EmailTemplate } from '../Email'
+
 const auth = admin.auth()
 const firestore = admin.firestore()
 
@@ -33,6 +35,13 @@ export default class User {
 	
 	static fromId = async (id: string) =>
 		new User(await firestore.doc(`users/${id}`).get())
+	
+	static resetUnsubscribed = (uid: string) =>
+		firestore.doc(`users/${uid}`).update({
+			unsubscribed: {
+				[EmailTemplate.DueCards]: false
+			}
+		})
 	
 	static incrementDeckCount = (uid: string, amount: number = 1) =>
 		firestore.doc(`users/${uid}`).update({

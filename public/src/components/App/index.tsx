@@ -15,6 +15,8 @@ import CreateDeck from '../CreateDeck'
 
 import CreateCardPopUp from '../CreateCardPopUp'
 
+import Unsubscribe from '../Unsubscribe'
+
 import CatchAll from '../404'
 
 export default () => (
@@ -46,7 +48,9 @@ export default () => (
 				component={CreateCardPopUp}
 			/>
 			
-			<Route exact component={CatchAll} />
+			<Route exact path="/unsubscribe/:uid/:type" component={Unsubscribe} />
+			
+			<Route status={404} component={CatchAll} />
 		</Switch>
 	</BrowserRouter>
 )

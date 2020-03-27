@@ -7,7 +7,10 @@ import Email, { EmailTemplate } from '../../Email'
 const firestore = admin.firestore()
 
 export default functions.pubsub.schedule(EMAIL_SCHEDULE).onRun(async () => {
-	const users = await firestore.collection('users').listDocuments()
+	const { docs: users } = await firestore
+		.collection('users')
+		.where(`unsubscribed.${EmailTemplate.DueCards}`, '==', false)
+		.get()
 	
 	return Promise.all(users.map(async ({ id: uid }) => {
 		const { docs: decks } = await firestore
@@ -37,7 +40,7 @@ const sendNotificationsIfNeeded = async (uid: string, decks: { id: string, dueCa
 	const dueCardCount = decks.reduce((acc, deck) => acc + deck.dueCardCount, 0)
 	
 	return Email.send({
-		template: EmailTemplate.DueCardsReminder,
+		template: EmailTemplate.DueCards,
 		to: user.get('email'),
 		subject: `You have ${dueCardCount} card${dueCardCount === 1 ? '' : 's'} due`,
 		context: {
@@ -47,8 +50,10 @@ const sendNotificationsIfNeeded = async (uid: string, decks: { id: string, dueCa
 			decks: await Promise.all(decks.map(async deck => ({
 				name: (await firestore.doc(`decks/${deck.id}`).get()).get('name'),
 				count: deck.dueCardCount,
-				is_plural: deck.dueCardCount !== 1
-			})))
+				is_plural: deck.dueCardCount !== 1,
+				url: `https://memorize.ai/decks/${deck.id}`
+			}))),
+			unsubscribe_url: `https://memorize.ai/unsubscribe/${uid}/${EmailTemplate.DueCards}`
 		}
 	})
 }

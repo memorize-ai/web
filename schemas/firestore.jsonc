@@ -5,6 +5,9 @@
 			"email": "kenmueller0@gmail.com", // Unique
 			"deckCount": 4, // (Int?) The number of decks in this user's library. If nonexistent, treat as 0
 			"xp": 400, // (Int?) The XP that the user has. If nonexistent, treat as 0
+			"unsubscribed": {
+				"due-cards": true
+			},
 			"topics (array)": [ // The user's interests. If nonexistent, treat as []
 				"ab23D8da", // Topic ID
 				"sdf3r3oD"

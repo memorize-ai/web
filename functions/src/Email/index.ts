@@ -1,7 +1,7 @@
 import { EMAIL_SENDER } from '../constants'
 
 export enum EmailTemplate {
-	DueCardsReminder = 'due-cards-reminder'
+	DueCards = 'due-cards'
 }
 
 export default class Email {

@@ -52,9 +52,21 @@
 				<mj-table padding-top="20px">
 					{{#each decks}}
 						<tr style="font-size: 20px;">
-							<th style="text-align: right; color: #4a4a4a;">{{ this.name }}</th>
-							<th style="padding-left: 8px; text-align: left; color: #582efe;">
-								({{ this.count }} card{{#if this.is_plural}}s{{/if}})
+							<th style="text-align: right;">
+								<a
+									href="{{ this.url }}"
+									style="text-decoration: none; color: #4a4a4a;"
+								>
+									{{ this.name }}
+								</a>
+							</th>
+							<th style="padding-left: 8px; text-align: left;">
+								<a
+									href="{{ this.url }}"
+									style="text-decoration: none; color: #582efe;"
+								>
+									({{ this.count }} card{{#if this.is_plural}}s{{/if}})
+								</a>
 							</th>
 						</tr>
 					{{/each}}
@@ -76,6 +88,14 @@
 				>
 					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
 					All rights reserved.
+				</mj-text>
+				<mj-text align="center">
+					<a
+						href="{{ unsubscribe_url }}"
+						style="text-decoration: none; color: #7f7f7f;"
+					>
+						Unsubscribe
+					</a>
 				</mj-text>
 			</mj-column>
 		</mj-section>
