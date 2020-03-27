@@ -84,15 +84,21 @@
 				<mj-text
 					align="center"
 					padding-top="12px"
-					padding-bottom="16px"
 				>
 					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
 					All rights reserved.
 				</mj-text>
-				<mj-text align="center">
+				<mj-text
+					align="center"
+					padding-top="16px"
+					color="#7f7f7f"
+				>
+					This reminder is sent at {{ time_sent }}
+				</mj-text>
+				<mj-text align="center" padding-top="12px">
 					<a
 						href="{{ unsubscribe_url }}"
-						style="text-decoration: none; color: #7f7f7f;"
+						style="color: #7f7f7f;"
 					>
 						Unsubscribe
 					</a>

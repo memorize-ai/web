@@ -53,6 +53,7 @@ const sendNotificationsIfNeeded = async (uid: string, decks: { id: string, dueCa
 				is_plural: deck.dueCardCount !== 1,
 				url: `https://memorize.ai/decks/${deck.id}`
 			}))),
+			time_sent: '12:00 PM PST',
 			unsubscribe_url: `https://memorize.ai/unsubscribe/${uid}/${EmailTemplate.DueCards}`
 		}
 	})
