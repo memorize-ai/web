@@ -7,13 +7,14 @@ $divider-color: transparentize(#ddd, 0.8);
 	display: grid;
 	grid:
 		'top' auto
-		'sections' auto
+		'sections' 1fr
 		'bottom' auto /
 		auto;
 	height: 100vh;
 	background: #051e34;
 	
-	> * {
+	> .top,
+	> .bottom {
 		padding: 0 20px;
 	}
 	
@@ -71,7 +72,7 @@ $divider-color: transparentize(#ddd, 0.8);
 			margin-top: 16px;
 			
 			> p {
-				margin-bottom: 12px;
+				margin: 0 20px 8px 20px;
 				font-weight: bold;
 				color: white;
 			}
@@ -79,6 +80,7 @@ $divider-color: transparentize(#ddd, 0.8);
 			> .decks > a {
 				display: flex;
 				align-items: center;
+				padding: 8px 20px;
 				
 				> img {
 					$dimension: 50px;
@@ -91,7 +93,8 @@ $divider-color: transparentize(#ddd, 0.8);
 				
 				> .title {
 					margin: 0 12px;
-					color: transparentize(white, 0.2);
+					color: white;
+					opacity: 0.8;
 				}
 				
 				> .badge {
@@ -111,15 +114,24 @@ $divider-color: transparentize(#ddd, 0.8);
 					border-radius: 4px;
 				}
 				
+				&.selected {
+					background: #582efe;
+					
+					> .title {
+						font-weight: bold;
+						opacity: 1;
+					}
+				}
+				
 				&:not(:last-child) {
-					margin-bottom: 16px;
+					margin-bottom: 4px;
 				}
 			}
 			
 			> .divider {
 				@include divider(2.5px);
 				
-				margin-top: 16px;
+				margin: 16px 20px 0 20px;
 			}
 		}
 	}
@@ -169,6 +181,7 @@ $divider-color: transparentize(#ddd, 0.8);
 					
 					> div {
 						background: #582efe;
+						transition: width 0.3s ease-in-out;
 					}
 				}
 				

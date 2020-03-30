@@ -1,6 +1,7 @@
 import React, { HTMLAttributes } from 'react'
 
 export enum LogoType {
+	Icon = 'icon.png',
 	Capital = 'capital.png',
 	CapitalInverted = 'capital-inverted.png',
 	CapitalInvertedGrayscale = 'capital-inverted-grayscale.png'

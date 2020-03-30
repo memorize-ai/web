@@ -22,6 +22,8 @@ export default () => {
 	const nextLevel = isLevelLoading ? '...' : formatNumberAsInt(currentUser!.level! + 1)
 	const xp = isNullish(currentUser?.xp) ? '...' : formatNumber(currentUser!.xp)
 	
+	const sliderPercent = (currentUser?.percentToNextLevel ?? 0) * 100
+	
 	return (
 		<div className="sidebar">
 			<div className="top">
@@ -60,7 +62,7 @@ export default () => {
 					</p>
 					<div className="level-container">
 						<div className="slider">
-							<div style={{ width: `${(currentUser?.percentToNextLevel ?? 0) * 100}%` }}/>
+							<div style={{ width: `${sliderPercent}%` }} />
 						</div>
 						<p className="level">lvl {nextLevel}</p>
 					</div>

@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 
 import Deck from '../../models/Deck'
+import LoadingState from '../../models/LoadingState'
 import useSelectedDeck from '../../hooks/useSelectedDeck'
 import useImageUrl from '../../hooks/useImageUrl'
 import { formatNumber } from '../../utils'
 
 export default ({ deck }: { deck: Deck }) => {
 	const [selectedDeck] = useSelectedDeck()
-	const [imageUrl] = useImageUrl(deck)
+	const [imageUrl, imageUrlLoadingState] = useImageUrl(deck)
 	
 	return (
 		<Link
@@ -18,7 +19,9 @@ export default ({ deck }: { deck: Deck }) => {
 				selected: selectedDeck?.id === deck.id
 			})}
 		>
-			{imageUrl && <img src={imageUrl} alt={deck.name} />}
+			{imageUrlLoadingState === LoadingState.Loading || (
+				<img src={imageUrl ?? require('../../images/logos/icon.png')} alt={deck.name} />
+			)}
 			<p className="title">
 				{deck.name}
 			</p>
