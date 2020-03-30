@@ -9,6 +9,8 @@ export const DEFAULT_STORAGE_BUCKET = `memorize-ai${DEBUG ? '-dev' : ''}.appspot
 
 export const API_PREFIX = '_api'
 
+export const DECK_DUE_CARD_COUNT_SCHEDULE = 'every 5 minutes'
+
 export const EMAIL_SCHEDULE = '0 12 * * *'
 export const EMAIL_SENDER = new Sender({
 	service: 'gmail',
