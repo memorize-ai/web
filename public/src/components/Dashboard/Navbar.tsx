@@ -1,36 +1,30 @@
 import React from 'react'
-import { faHome, faShoppingCart, faFolder, faUser } from '@fortawesome/free-solid-svg-icons'
 
 import { DashboardNavbarSelection as Selection } from '.'
-import Item from './NavbarItem'
+import Tab from './NavbarTab'
+
+import { ReactComponent as Home } from '../../images/icons/home.svg'
+import { ReactComponent as Cart } from '../../images/icons/cart.svg'
+import { ReactComponent as Decks } from '../../images/icons/decks.svg'
+import { ReactComponent as Topics } from '../../images/icons/topics.svg'
 
 import '../../scss/components/Dashboard/Navbar.scss'
 
 export default ({ selection }: { selection: Selection }) => (
 	<div className="dashboard-navbar">
-		<Item
-			href="/"
-			icon={faHome}
-			title="Home"
-			isSelected={selection === Selection.Home}
-		/>
-		<Item
-			href="/market"
-			icon={faShoppingCart}
-			title="Market"
-			isSelected={selection === Selection.Market}
-		/>
-		<Item
-			href="/decks"
-			icon={faFolder}
-			title="Decks"
-			isSelected={selection === Selection.Decks}
-		/>
-		<Item
-			href="/interests"
-			icon={faUser}
-			title="Interests"
-			isSelected={selection === Selection.Interests}
-		/>
+		<div className="tabs">
+			<Tab href="/" title="Home" isSelected={selection === Selection.Home}>
+				<Home />
+			</Tab>
+			<Tab href="/market" title="Market" isSelected={selection === Selection.Market}>
+				<Cart />
+			</Tab>
+			<Tab href="/decks" title="Decks" isSelected={selection === Selection.Decks}>
+				<Decks />
+			</Tab>
+			<Tab href="/interests" title="Interests" isSelected={selection === Selection.Interests}>
+				<Topics />
+			</Tab>
+		</div>
 	</div>
 )

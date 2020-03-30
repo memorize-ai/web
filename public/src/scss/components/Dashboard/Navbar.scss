@@ -1,17 +1,48 @@
 .dashboard > .content > .container > .dashboard-navbar {
-	grid-area: navbar;
-	display: flex;
-	// justify-content: space-evenly;
-	// align-items: center;
-	// background: lightgray;
+	$unselected-border-width: 2px;
+	$selected-border-width: 4px;
 	
-	// > a {
-	// 	> p {
-	// 		font-size: 1.5rem;
-	// 	}
+	grid-area: navbar;
+	overflow-x: auto;
+	margin: 0 30px;
+	border-bottom: $unselected-border-width solid transparentize(#ddd, 0.8);
+	
+	> .tabs {
+		display: flex;
+		align-items: flex-end;
+		height: 100%;
 		
-	// 	&.selected {
-	// 		background: lightgreen;
-	// 	}
-	// }
+		> a {
+			$horizontal-padding: 20px;
+			$bottom-padding: 13px;
+			
+			display: flex;
+			align-items: center;
+			padding: 0 $horizontal-padding $bottom-padding $horizontal-padding;
+			
+			> svg,
+			> p {
+				opacity: 0.7;
+			}
+			
+			> p {
+				margin-left: 10px;
+				font-weight: bold;
+				color: white;
+			}
+			
+			&.selected {
+				padding-bottom: $bottom-padding - ($selected-border-width - $unselected-border-width) / 2;
+				border-bottom: $selected-border-width solid white;
+				transform: translateY(
+					($unselected-border-width + $selected-border-width) / 2
+				);
+				
+				> svg,
+				> p {
+					opacity: 1;
+				}
+			}
+		}
+	}
 }
