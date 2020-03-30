@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroller'
 
-import Dashboard, { DashboardTabSelection as Selection } from '..'
+import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useQuery from '../../../hooks/useQuery'
 import Deck from '../../../models/Deck'
 import DeckSearch, { DeckSortAlgorithm, decodeDeckSortAlgorithm } from '../../../models/Deck/Search'

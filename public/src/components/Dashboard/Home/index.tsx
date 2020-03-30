@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import Dashboard, { DashboardTabSelection as Selection } from '..'
+import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useRecommendedDecks from '../../../hooks/useRecommendedDecks'
 import useDecks from '../../../hooks/useDecks'

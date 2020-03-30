@@ -1,6 +1,7 @@
+@import '../../mixins';
 @import '../../functions';
 
-.dashboard > .content.decks {
+@include dashboard-content('decks') {
 	$padding: 20px;
 	
 	display: grid;

@@ -5,6 +5,7 @@ import cx from 'classnames'
 import Deck from '../../models/Deck'
 import useSelectedDeck from '../../hooks/useSelectedDeck'
 import useImageUrl from '../../hooks/useImageUrl'
+import { formatNumber } from '../../utils'
 
 export default ({ deck }: { deck: Deck }) => {
 	const [selectedDeck] = useSelectedDeck()
@@ -22,7 +23,7 @@ export default ({ deck }: { deck: Deck }) => {
 				{deck.name}
 			</p>
 			<p className="badge">
-				{deck.userData?.numberOfDueCards}
+				{deck.userData && formatNumber(deck.userData.numberOfDueCards)}
 			</p>
 		</Link>
 	)

@@ -1,4 +1,6 @@
-.dashboard > .content.home {
+@import '../../mixins';
+
+@include dashboard-content('home') {
 	padding-top: 20px;
 	
 	> .header {

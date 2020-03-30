@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-import Dashboard, { DashboardTabSelection as Selection } from '..'
+import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import requiresAuth from '../../../hooks/requiresAuth'
 import useTopics from '../../../hooks/useTopics'
 import TopicCell from './TopicCell'

@@ -4,10 +4,9 @@
 	@include stack;
 	
 	> .background {
+		@include top-gradient($is-right: true);
+		
 		height: 380px;
-		background: linear-gradient(to bottom, #5a2aff, #00e5f4);
-		transform: skewY(6deg);
-		transform-origin: top right;
 		transition: 0.3s height;
 		
 		@media (min-width: 800px) {

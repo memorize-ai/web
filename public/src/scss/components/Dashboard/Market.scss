@@ -1,10 +1,11 @@
 @import '../../variables';
+@import '../../mixins';
 
 $search-height: 40px;
 $sort-width: 200px;
 $padding: 20px;
 
-.dashboard > .content.market {
+@include dashboard-content('market') {
 	display: grid;
 	grid: #{$search-height} auto / auto #{$padding + $sort-width};
 	grid-template-areas:

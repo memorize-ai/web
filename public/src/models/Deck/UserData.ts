@@ -38,6 +38,10 @@ export default class DeckUserData implements DeckUserDataConstructor {
 			rating: snapshot.get('rating') || null
 		})
 	
+	get isDue() {
+		return this.numberOfDueCards > 0
+	}
+	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.dateAdded = snapshot.get('added')?.toDate()
 		this.isFavorite = snapshot.get('favorite') ?? false

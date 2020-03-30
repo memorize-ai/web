@@ -1,35 +1,183 @@
+@import '../../mixins';
+
+$divider-color: transparentize(#ddd, 0.8);
+
 .dashboard > .sidebar {
 	grid-area: sidebar;
-	overflow-y: auto;
-	padding: 10px;
-	background: lightblue;
+	display: grid;
+	grid:
+		'top' auto
+		'sections' auto
+		'bottom' auto /
+		auto;
+	height: 100vh;
+	background: #051e34;
 	
-	> .decks > a {
-		display: flex;
-		align-items: center;
+	> * {
+		padding: 0 20px;
+	}
+	
+	@mixin divider($height) {
+		height: $height;
+		background: $divider-color;
+		border-radius: $height / 2;
+	}
+	
+	> .top {
+		grid-area: top;
 		
 		> img {
-			width: 40px;
-			height: 40px;
-			object-fit: cover;
+			$left-margin: 12px;
+			$vertical-margin: 15px;
+			
+			@include raise-on-hover;
+			
+			height: 41px;
+			margin: $vertical-margin 0 $vertical-margin $left-margin;
 		}
 		
-		> .title {
-			margin-right: auto;
-			font-weight: bold;
+		> .divider {
+			@include divider(2px);
 		}
 		
-		> .badge {
-			padding: 4px 8px;
-			background: lightgreen;
+		> .input {
+			margin-top: 20px;
+			
+			&,
+			> input {
+				border-radius: 8px;
+			}
+			
+			> input {
+				$vertical-padding: 8px;
+				
+				padding-top: $vertical-padding;
+				padding-bottom: $vertical-padding;
+				border: none;
+			}
+			
+			> svg {
+				color: #582efe;
+			}
+		}
+	}
+	
+	> .sections {
+		grid-area: sections;
+		overflow-y: auto;
+		padding-bottom: 20px;
+		
+		> div {
+			margin-top: 16px;
+			
+			> p {
+				margin-bottom: 12px;
+				font-weight: bold;
+				color: white;
+			}
+			
+			> .decks > a {
+				display: flex;
+				align-items: center;
+				
+				> img {
+					$dimension: 50px;
+					
+					width: $dimension;
+					height: $dimension;
+					object-fit: cover;
+					border-radius: 5px;
+				}
+				
+				> .title {
+					margin: 0 12px;
+					color: transparentize(white, 0.2);
+				}
+				
+				> .badge {
+					$min-width: 35px;
+					$height: 25px;
+					$horizontal-padding: 8px;
+					
+					min-width: $min-width;
+					height: $height;
+					margin-left: auto;
+					padding: 0 $horizontal-padding;
+					text-align: center;
+					font-weight: bold;
+					line-height: $height;
+					color: white;
+					background: #00d388;
+					border-radius: 4px;
+				}
+				
+				&:not(:last-child) {
+					margin-bottom: 16px;
+				}
+			}
+			
+			> .divider {
+				@include divider(2.5px);
+				
+				margin-top: 16px;
+			}
+		}
+	}
+	
+	> .bottom {
+		grid-area: bottom;
+		
+		> .divider {
+			@include divider(2.5px);
 		}
 		
-		&.selected {
-			background: white;
-		}
-		
-		&:not(:last-child) {
-			margin-bottom: 10px;
+		> .content {
+			padding: 20px 0;
+			
+			> .stats {
+				margin-bottom: 4px;
+				
+				> .level {
+					font-weight: bold;
+					color: white;
+				}
+				
+				> .bullet,
+				> .xp {
+					color: #9b9b9b;
+				}
+				
+				> .bullet {
+					opacity: 0.7;
+				}
+			}
+			
+			> .level-container {
+				display: flex;
+				align-items: center;
+				
+				> .slider {
+					width: 100%;
+					margin-right: 20px;
+					background: white;
+					
+					&,
+					> div {
+						height: 12px;
+						border-radius: 6px;
+					}
+					
+					> div {
+						background: #582efe;
+					}
+				}
+				
+				> .level {
+					white-space: nowrap;
+					font-weight: bold;
+					color: transparentize(white, 0.2);
+				}
+			}
 		}
 	}
 }

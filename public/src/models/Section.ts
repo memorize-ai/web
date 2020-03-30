@@ -24,10 +24,6 @@ export default class Section implements SectionData {
 		this.numberOfCards = data.numberOfCards
 	}
 	
-	get isUnsectioned() {
-		return !this.id
-	}
-	
 	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) =>
 		new Section(snapshot.id, {
 			name: snapshot.get('name'),
@@ -80,6 +76,10 @@ export default class Section implements SectionData {
 				cardCount: 0
 			})
 		).id
+	
+	get isUnsectioned() {
+		return !this.id
+	}
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.name = snapshot.get('name')

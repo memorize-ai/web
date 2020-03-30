@@ -1,4 +1,6 @@
-.dashboard > .content.interests {
+@import '../../mixins';
+
+@include dashboard-content('interests')  {
 	padding: 20px;
 	
 	> .sign-out-button-container {

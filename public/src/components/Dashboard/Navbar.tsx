@@ -1,13 +1,13 @@
 import React from 'react'
 import { faHome, faShoppingCart, faFolder, faUser } from '@fortawesome/free-solid-svg-icons'
 
-import { DashboardTabSelection as Selection } from '.'
-import Item from './TabItem'
+import { DashboardNavbarSelection as Selection } from '.'
+import Item from './NavbarItem'
 
-import '../../scss/components/Dashboard/Tabs.scss'
+import '../../scss/components/Dashboard/Navbar.scss'
 
 export default ({ selection }: { selection: Selection }) => (
-	<div className="tabs">
+	<div className="dashboard-navbar">
 		<Item
 			href="/"
 			icon={faHome}

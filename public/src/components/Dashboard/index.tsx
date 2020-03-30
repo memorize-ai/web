@@ -2,11 +2,11 @@ import React, { PropsWithChildren } from 'react'
 import cx from 'classnames'
 
 import Sidebar from './Sidebar'
-import Tabs from './Tabs'
+import Navbar from './Navbar'
 
 import '../../scss/components/Dashboard/index.scss'
 
-export enum DashboardTabSelection {
+export enum DashboardNavbarSelection {
 	Home,
 	Market,
 	Decks,
@@ -15,15 +15,20 @@ export enum DashboardTabSelection {
 
 export default (
 	{ selection, className, children }: PropsWithChildren<{
-		selection: DashboardTabSelection
+		selection: DashboardNavbarSelection
 		className: string
 	}>
 ) => (
 	<div className="dashboard">
 		<Sidebar />
-		<div className={cx('content', className)}>
-			{children}
+		<div className="content">
+			<div className="background" />
+			<div className="container">
+				<Navbar selection={selection} />
+				<div className={cx('foreground', className)}>
+					{children}
+				</div>
+			</div>
 		</div>
-		<Tabs selection={selection} />
 	</div>
 )

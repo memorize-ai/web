@@ -47,6 +47,45 @@ export default class User {
 		)
 	}
 	
+	static xpNeededForLevel = (level: number): number => {
+		switch (level) {
+			case 0:
+				return 0
+			case 1:
+				return 1
+			case 2:
+				return 5
+			case 3:
+				return 10
+			case 4:
+				return 50
+			default:
+				return User.xpNeededForLevel(level - 1) + 25 * (level - 4)
+		}
+	}
+	
+	static levelForXP = (xp: number) => {
+		for (let level = 1;; level++)
+			if (xp < User.xpNeededForLevel(level))
+				return level - 1
+	}
+	
+	get level() {
+		return this.xp === null ? null : User.levelForXP(this.xp ?? 0)
+	}
+	
+	get percentToNextLevel() {
+		if (this.xp === null || this.level === null)
+			return null
+		
+		const xpNeededForCurrentLevel = User.xpNeededForLevel(this.level)
+		
+		return (
+			(this.xp - xpNeededForCurrentLevel) /
+			(User.xpNeededForLevel(this.level + 1) - xpNeededForCurrentLevel)
+		)
+	}
+	
 	observe = (
 		{ updateCurrentUser, setIsObservingCurrentUser }: {
 			updateCurrentUser: (snapshot: firebase.firestore.DocumentSnapshot) => void
