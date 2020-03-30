@@ -12,7 +12,9 @@ export default (
 		includesDivider?: boolean
 	}
 ) => {
-	const decks = _decks.filter(deck => includesNormalized(query, [deck.name]))
+	const decks = _decks.filter(deck =>
+		deck.name && includesNormalized(query, [deck.name])
+	)
 	
 	return decks.length
 		? (
