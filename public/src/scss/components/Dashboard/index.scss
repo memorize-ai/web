@@ -30,6 +30,11 @@ $navbar-height: 71px;
 				'foreground' auto /
 				auto;
 			z-index: 10;
+			
+			> .foreground {
+				grid-area: foreground;
+				overflow-y: auto;
+			}
 		}
 	}
 }

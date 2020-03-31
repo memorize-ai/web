@@ -43,6 +43,8 @@ export interface CreateDeckData {
 }
 
 export default class Deck implements DeckData {
+	static defaultImage = require('../../images/logos/icon.png')
+	
 	id: string
 	topics: string[]
 	hasImage: boolean
