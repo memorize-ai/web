@@ -170,4 +170,42 @@
 			text-align: center;
 		}
 	}
+	
+	> .my-decks,
+	> .recommended-decks {
+		margin-top: 16px;
+		
+		> h1 {
+			width: max-content;
+			margin: 0 30px;
+			padding: 2px 12px;
+			font-size: 25px;
+			font-weight: 600;
+			background: transparentize(black, 0.9674);
+			border-radius: 5px;
+		}
+		
+		> .decks {
+			display: flex;
+			overflow-x: auto;
+			margin-top: 12px;
+			padding-left: 30px;
+			
+			> .deck-cell {
+				flex-shrink: 0;
+				
+				&:not(:last-of-type) {
+					margin-right: 12px;
+				}
+			}
+			
+			> span {
+				margin-left: 30px;
+			}
+		}
+	}
+	
+	> .my-decks {
+		
+	}
 }

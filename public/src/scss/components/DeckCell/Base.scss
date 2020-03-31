@@ -1,0 +1,17 @@
+.deck-cell {
+	display: flex;
+	overflow: hidden;
+	background: white;
+	border: 1px solid #eee;
+	border-radius: 8px;
+	box-shadow: 0 5px 10px 0 transparentize(black, 0.9);
+	
+	> img {
+		width: 195px;
+		object-fit: cover;
+	}
+	
+	> .content {
+		
+	}
+}

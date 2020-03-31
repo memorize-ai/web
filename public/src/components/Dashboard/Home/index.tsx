@@ -8,14 +8,19 @@ import _ from 'lodash'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
+import useRecommendedDecks from '../../../hooks/useRecommendedDecks'
 import DueDeckRow from './DueDeckRow'
+import OwnedDeckCell from '../../shared/DeckCell/Owned'
+import DeckCell from '../../shared/DeckCell'
 import { APP_STORE_URL } from '../../../constants'
 
 import '../../../scss/components/Dashboard/Home.scss'
 
 export default () => {
 	const [currentUser] = useCurrentUser()
+	
 	const decks = useDecks()
+	const recommendedDecks = useRecommendedDecks(20)
 	
 	const dueDecks = decks
 		.filter(deck => deck.userData?.numberOfDueCards)
@@ -35,7 +40,7 @@ export default () => {
 					<p>Create deck</p>
 				</Link>
 			</div>
-			{dueCards && (
+			{dueCards === 0 || (
 				<div className="due-decks">
 					<h1 className="greeting">
 						Hello, {currentUser?.name ?? '...'}
@@ -57,7 +62,6 @@ export default () => {
 								))}
 							</div>
 						))}
-						<span />
 					</div>
 					<p className="deck-count-message">
 						{dueDecks.length} deck{dueDecks.length === 1 ? '' : 's'}
@@ -67,7 +71,19 @@ export default () => {
 			<div className="my-decks">
 				<h1>My decks</h1>
 				<div className="decks">
-					
+					{decks.map(deck => (
+						<OwnedDeckCell key={deck.id} deck={deck} />
+					))}
+					<span>&nbsp;</span>
+				</div>
+			</div>
+			<div className="recommended-decks">
+				<h1>Recommended decks</h1>
+				<div className="decks">
+					{recommendedDecks.map(deck => (
+						<DeckCell key={deck.id} deck={deck} />
+					))}
+					<span>&nbsp;</span>
 				</div>
 			</div>
 		</Dashboard>

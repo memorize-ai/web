@@ -12,7 +12,7 @@ $divider-color: transparentize(#ddd, 0.8);
 		auto;
 	height: 100vh;
 	background: #051e34;
-	box-shadow: -4px 0 30px 0 black;
+	box-shadow: -4px 0 30px 0 transparentize(black, 0.1);
 	z-index: 10;
 	
 	> .top,
