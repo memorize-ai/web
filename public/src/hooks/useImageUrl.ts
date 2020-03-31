@@ -4,7 +4,7 @@ import DeckImageUrlsContext from '../contexts/DeckImageUrls'
 import Deck from '../models/Deck'
 import LoadingState from '../models/LoadingState'
 import { setDeckImageUrl, setDeckImageUrlLoadingState } from '../actions'
-import { compose2 } from '../utils'
+import { compose } from '../utils'
 
 export default (deck: Deck): [string | null, LoadingState] => {
 	const [{ [deck.id]: _state }, dispatch] = useContext(DeckImageUrlsContext)
@@ -16,8 +16,8 @@ export default (deck: Deck): [string | null, LoadingState] => {
 			return
 		
 		deck.loadImageUrl({
-			setImageUrl: compose2(dispatch, setDeckImageUrl),
-			setImageUrlLoadingState: compose2(dispatch, setDeckImageUrlLoadingState)
+			setImageUrl: compose(dispatch, setDeckImageUrl),
+			setImageUrlLoadingState: compose(dispatch, setDeckImageUrlLoadingState)
 		})
 	}, [deck.hasImage, state.loadingState]) // eslint-disable-line
 	

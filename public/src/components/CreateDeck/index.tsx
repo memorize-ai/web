@@ -20,7 +20,7 @@ import ImagePicker from '../shared/ImagePicker'
 import Input from '../shared/Input'
 import TextArea from '../shared/TextArea'
 import Button from '../shared/Button'
-import { urlWithQuery, compose1 } from '../../utils'
+import { urlWithQuery, compose } from '../../utils'
 
 import '../../scss/components/CreateDeck.scss'
 
@@ -104,20 +104,20 @@ export default () => {
 							type="name"
 							placeholder="Name (required)"
 							value={name}
-							setValue={compose1(dispatch, setCreateDeckName)}
+							setValue={compose(dispatch, setCreateDeckName)}
 						/>
 						<Input
 							icon={faSignature}
 							type="name"
 							placeholder="Subtitle (optional)"
 							value={subtitle}
-							setValue={compose1(dispatch, setCreateDeckSubtitle)}
+							setValue={compose(dispatch, setCreateDeckSubtitle)}
 						/>
 						<TextArea
 							minHeight={100}
 							placeholder="Description (optional)"
 							value={description}
-							setValue={compose1(dispatch, setCreateDeckDescription)}
+							setValue={compose(dispatch, setCreateDeckDescription)}
 						/>
 					</div>
 					<Button

@@ -1,0 +1,28 @@
+@import '../variables';
+
+.dropdown {
+	position: relative;
+	
+	> .content {
+		position: absolute;
+		z-index: $overlay-z-index;
+		
+		&:not(.right-aligned) {
+			left: 0;
+		}
+		
+		&.right-aligned {
+			right: 0;
+		}
+	}
+	
+	&.showing {
+		> .trigger {
+			cursor: default;
+		}
+		
+		> .content {
+			box-shadow: 0 0 0 100vmax transparentize(black, 0.7);
+		}
+	}
+}

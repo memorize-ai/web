@@ -117,6 +117,9 @@ export default class User {
 		return this
 	}
 	
+	updateName = (name: string) =>
+		firestore.doc(`users/${this.id}`).update({ name })
+	
 	toggleInterest = (id: string) => {
 		if (!this.interestIds)
 			return this

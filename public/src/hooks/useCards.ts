@@ -12,7 +12,7 @@ import Deck from '../models/Deck'
 import Section from '../models/Section'
 import Card from '../models/Card'
 import useCurrentUser from './useCurrentUser'
-import { compose1, compose2 } from '../utils'
+import { compose } from '../utils'
 
 export default (deck: Deck, section: Section, shouldLoadCards: boolean): Card[] | null => {
 	const [{ [section.id]: cards }, dispatch] = useContext(CardsContext)
@@ -27,11 +27,11 @@ export default (deck: Deck, section: Section, shouldLoadCards: boolean): Card[] 
 			deckId: deck.id,
 			sectionId: section.id,
 			uid: currentUser.id,
-			initializeCards: compose1(dispatch, initializeCards),
-			addCard: compose2(dispatch, addCard),
-			updateCard: compose2(dispatch, updateCard),
-			updateCardUserData: compose2(dispatch, updateCardUserData),
-			removeCard: compose2(dispatch, removeCard)
+			initializeCards: compose(dispatch, initializeCards),
+			addCard: compose(dispatch, addCard),
+			updateCard: compose(dispatch, updateCard),
+			updateCardUserData: compose(dispatch, updateCardUserData),
+			removeCard: compose(dispatch, removeCard)
 		})
 	}, [shouldLoadCards, cards, currentUser]) // eslint-disable-line
 	

@@ -1,7 +1,9 @@
 import { EXPECTS_SIGN_IN_KEY } from './constants'
 
-export const compose1 = <T, U, V>(b: (u: U) => V, a: (t: T) => U) => (t: T) => b(a(t))
-export const compose2 = <T, U, V, W>(b: (v: V) => W, a: (t: T, u: U) => V) => (t: T, u: U) => b(a(t, u))
+export const compose = <T extends any[], U, V>(
+	b: (u: U) => V,
+	a: (...args: T) => U
+) => (...args: T) => b(a(...args))
 
 export const expectsSignIn = () =>
 	localStorage.getItem(EXPECTS_SIGN_IN_KEY) !== null

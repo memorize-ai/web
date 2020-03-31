@@ -9,7 +9,7 @@ import {
 } from '../actions'
 import Deck from '../models/Deck'
 import Section from '../models/Section'
-import { compose2 } from '../utils'
+import { compose } from '../utils'
 
 export default (deck: Deck | null | undefined) => {
 	const [, dispatch] = useContext(DecksContext)
@@ -21,9 +21,9 @@ export default (deck: Deck | null | undefined) => {
 		dispatch(setIsObservingSections(deck.id, true))
 		
 		Section.observeForDeckWithId(deck.id, {
-			addSection: compose2(dispatch, addSection),
-			updateSection: compose2(dispatch, updateSection),
-			removeSection: compose2(dispatch, removeSection)
+			addSection: compose(dispatch, addSection),
+			updateSection: compose(dispatch, updateSection),
+			removeSection: compose(dispatch, removeSection)
 		})
 	}, [deck]) // eslint-disable-line
 	

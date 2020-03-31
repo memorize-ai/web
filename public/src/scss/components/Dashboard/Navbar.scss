@@ -1,28 +1,32 @@
+@import '../../variables';
+
 .dashboard > .content > .container > .dashboard-navbar {
-	$unselected-border-width: 2px;
-	$selected-border-width: 4px;
+	$bottom-border-width: 2px;
 	
 	grid-area: navbar;
-	overflow-x: auto;
+	display: flex;
+	align-items: flex-end;
 	margin: 0 30px;
-	border-bottom: $unselected-border-width solid transparentize(#ddd, 0.8);
+	border-bottom: $bottom-border-width solid transparentize(#ddd, 0.8);
 	
 	> .tabs {
 		display: flex;
 		align-items: flex-end;
-		height: 100%;
+		overflow-x: auto;
 		
-		> a {
+		> .tab {
 			$horizontal-padding: 20px;
 			$bottom-padding: 13px;
 			
 			display: flex;
+			position: relative;
 			align-items: center;
 			padding: 0 $horizontal-padding $bottom-padding $horizontal-padding;
 			
 			> svg,
 			> p {
 				opacity: 0.7;
+				transition: opacity 0.3s;
 			}
 			
 			> p {
@@ -31,16 +35,112 @@
 				color: white;
 			}
 			
+			&:hover {
+				> svg,
+				> p {
+					opacity: 0.9;
+				}
+			}
+			
 			&.selected {
-				padding-bottom: $bottom-padding - ($selected-border-width - $unselected-border-width) / 2;
-				border-bottom: $selected-border-width solid white;
-				transform: translateY(
-					($unselected-border-width + $selected-border-width) / 2
-				);
-				
 				> svg,
 				> p {
 					opacity: 1;
+				}
+			}
+		}
+	}
+	
+	> .profile-dropdown {
+		margin: 0 10px 10px auto;
+		
+		> .trigger {
+			padding: 10px;
+			background: white;
+			border-radius: 50%;
+			transition: background 0.3s;
+			
+			&:hover {
+				background: #051e34;
+			}
+		}
+		
+		> .content {
+			width: 400px;
+			padding: 20px;
+			background: white;
+			
+			&,
+			> .settings,
+			> .settings > .name-input,
+			> button {
+				border-radius: 4px;
+			}
+			
+			> .settings,
+			> button {
+				width: 100%;
+			}
+			
+			> .settings,
+			> .forgot-password {
+				border: 1px solid #ddd;
+			}
+			
+			> .settings {
+				display: flex;
+				flex-direction: column;
+				padding: 20px 16px;
+				
+				> label {
+					margin-bottom: 4px;
+					font-size: 14px;
+					font-weight: bold;
+					color: #9b9b9b;
+				}
+				
+				> .name-input,
+				> .email {
+					color: $dark-gray;
+				}
+				
+				> .name-input {
+					margin-bottom: 14px;
+					padding: 8px 10px;
+					background: transparentize(#f0f1f8, 1 / 3)
+				}
+				
+				> .email {
+					margin-top: -4px;
+					font-size: 17px;
+				}
+			}
+			
+			> button {
+				height: 40px;
+				margin-top: 12px;
+			}
+			
+			> .forgot-password {
+				color: #4355f9;
+				transition: color 0.3s, background 0.3s, border 0.3s;
+				
+				&:hover,
+				&:focus {
+					color: white;
+					background: #051e34;
+					border: none;
+				}
+			}
+			
+			> .sign-out {
+				color: white;
+				background: #f55d23;
+				transition: background 0.3s;
+				
+				&:hover,
+				&:hover {
+					background: #051e34;
 				}
 			}
 		}

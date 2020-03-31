@@ -9,7 +9,7 @@ import {
 	setCurrentUserLoadingState,
 	setIsObservingCurrentUser
 } from '../actions'
-import { compose1 } from '../utils'
+import { compose } from '../utils'
 
 export default (): [User | null, LoadingState] => {
 	const [
@@ -20,8 +20,8 @@ export default (): [User | null, LoadingState] => {
 	useEffect(() => {
 		if (currentUserLoadingState === LoadingState.None)
 			User.initialize({
-				setCurrentUser: compose1(dispatch, setCurrentUser),
-				setCurrentUserLoadingState: compose1(dispatch, setCurrentUserLoadingState)
+				setCurrentUser: compose(dispatch, setCurrentUser),
+				setCurrentUserLoadingState: compose(dispatch, setCurrentUserLoadingState)
 			})
 	}, [currentUserLoadingState]) // eslint-disable-line
 	
@@ -30,8 +30,8 @@ export default (): [User | null, LoadingState] => {
 			return
 		
 		currentUser.observe({
-			updateCurrentUser: compose1(dispatch, updateCurrentUser),
-			setIsObservingCurrentUser: compose1(dispatch, setIsObservingCurrentUser)
+			updateCurrentUser: compose(dispatch, updateCurrentUser),
+			setIsObservingCurrentUser: compose(dispatch, setIsObservingCurrentUser)
 		})
 	}, [currentUser, isObservingCurrentUser]) // eslint-disable-line
 	

@@ -9,7 +9,7 @@ export default (
 		isSelected: boolean
 	}>
 ) => (
-	<Link to={href} className={cx({ selected: isSelected })}>
+	<Link to={href} className={cx('tab', { selected: isSelected })}>
 		{children}
 		<p>{title}</p>
 	</Link>

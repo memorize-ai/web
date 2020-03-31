@@ -8,7 +8,7 @@ import {
 	removeTopic
 } from '../actions'
 import Topic from '../models/Topic'
-import { compose1 } from '../utils'
+import { compose } from '../utils'
 
 export default () => {
 	const [{ topics, isObservingTopics }, dispatch] = useContext(TopicsContext)
@@ -20,9 +20,9 @@ export default () => {
 		dispatch(setIsObservingTopics(true))
 		
 		Topic.observeAll({
-			addTopic: compose1(dispatch, addTopic),
-			updateTopic: compose1(dispatch, updateTopic),
-			removeTopic: compose1(dispatch, removeTopic)
+			addTopic: compose(dispatch, addTopic),
+			updateTopic: compose(dispatch, updateTopic),
+			removeTopic: compose(dispatch, removeTopic)
 		})
 	}, [isObservingTopics]) // eslint-disable-line
 	

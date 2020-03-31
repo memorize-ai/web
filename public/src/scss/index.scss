@@ -5,6 +5,11 @@
 @import 'variables';
 @import 'animations';
 
+html {
+	line-height: 1.15;
+	text-size-adjust: 100%;
+}
+
 body,
 body *,
 body ::before,
@@ -16,6 +21,10 @@ body ::after {
 	border: 0 solid #e2e8f0;
 }
 
+body {
+	margin: 0;
+}
+
 hr {
 	border: none;
 	height: 2px;
@@ -24,15 +33,6 @@ hr {
 
 button:disabled {
 	cursor: not-allowed;
-}
-
-html {
-	line-height: 1.15;
-	-webkit-text-size-adjust: 100%;
-}
-
-body {
-	margin: 0;
 }
 
 main {
