@@ -92,7 +92,7 @@
 		> .decks {
 			display: flex;
 			overflow-x: auto;
-			margin-top: 20px;
+			margin: 20px 0 10px 0;
 			padding-left: 16px;
 			
 			> .column {
@@ -161,13 +161,6 @@
 					border-right: 2px solid transparentize(#ddd, 0.5);
 				}
 			}
-		}
-		
-		> .deck-count-message {
-			margin: 12px 0;
-			font-weight: bold;
-			color: #582efe;
-			text-align: center;
 		}
 	}
 	

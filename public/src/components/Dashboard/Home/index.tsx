@@ -63,9 +63,6 @@ export default () => {
 							</div>
 						))}
 					</div>
-					<p className="deck-count-message">
-						{dueDecks.length} deck{dueDecks.length === 1 ? '' : 's'}
-					</p>
 				</div>
 			)}
 			<div className="my-decks">
