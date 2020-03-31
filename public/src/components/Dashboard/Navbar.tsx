@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
+import firebase from '../../firebase'
 import { DashboardNavbarSelection as Selection } from '.'
+import useCurrentUser from '../../hooks/useCurrentUser'
 import Tab from './NavbarTab'
 import Dropdown from '../shared/Dropdown'
 import { isNullish } from '../../utils'
@@ -11,21 +13,40 @@ import { ReactComponent as Decks } from '../../images/icons/decks.svg'
 import { ReactComponent as Topics } from '../../images/icons/topics.svg'
 import { ReactComponent as User } from '../../images/icons/purple-user.svg'
 
+import 'firebase/auth'
+
 import '../../scss/components/Dashboard/Navbar.scss'
 
-import useCurrentUser from '../../hooks/useCurrentUser'
+const auth = firebase.auth()
 
 export default ({ selection }: { selection: Selection }) => {
 	const [currentUser] = useCurrentUser()
 	
 	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(false)
 	
-	const sendForgotPasswordEmail = () => {
+	const sendForgotPasswordEmail = async () => {
+		if (isNullish(currentUser?.email))
+			return
 		
+		try {
+			await auth.sendPasswordResetEmail(currentUser!.email)
+			
+			alert(`Sent. Check your email (${currentUser!.email})`)
+		} catch (error) {
+			alert(error.message)
+			console.error(error)
+		}
 	}
 	
-	const signOut = () => {
-		
+	const signOut = async () => {
+		try {
+			await auth.signOut()
+			
+			window.location.href = '/'
+		} catch (error) {
+			alert(error.message)
+			console.error(error)
+		}
 	}
 	
 	return (

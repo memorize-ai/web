@@ -1,15 +1,20 @@
 @import '../../variables';
+@import '../../functions';
 
 .dashboard > .content > .container > .dashboard-navbar {
 	$bottom-border-width: 2px;
 	
 	grid-area: navbar;
-	display: flex;
-	align-items: flex-end;
+	display: grid;
+	grid:
+		'tabs profile-dropdown' auto /
+		1fr auto;
+	align-items: end;
 	margin: 0 30px;
 	border-bottom: $bottom-border-width solid transparentize(#ddd, 0.8);
 	
 	> .tabs {
+		grid-area: tabs;
 		display: flex;
 		align-items: flex-end;
 		overflow-x: auto;
@@ -52,7 +57,8 @@
 	}
 	
 	> .profile-dropdown {
-		margin: 0 10px 10px auto;
+		grid-area: profile-dropdown;
+		margin: 0 rawRepeat(3, 10px);
 		
 		> .trigger {
 			padding: 10px;
