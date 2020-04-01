@@ -1,0 +1,12 @@
+.deck-cell.default {
+	> .stats {
+		display: flex;
+		align-items: center;
+		
+		> .divider {
+			width: 2px;
+			height: 10%;
+			background: transparentize(#ddd, 0.5);
+		}
+	}
+}

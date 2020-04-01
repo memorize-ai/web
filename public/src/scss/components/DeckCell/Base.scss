@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .deck-cell {
 	display: flex;
 	overflow: hidden;
@@ -9,9 +11,37 @@
 	> img {
 		width: 195px;
 		object-fit: cover;
+		box-shadow: 0 0 20px 0 transparentize(black, 0.9);
 	}
 	
 	> .content {
+		padding: 16px;
 		
+		> .name {
+			font-size: 18px;
+			font-weight: 600;
+			color: $dark-gray;
+		}
+		
+		> .subtitle,
+		> .creator {
+			color: #9b9b9b;
+		}
+		
+		> .subtitle {
+			font-size: 15px;
+			font-weight: 500;
+		}
+		
+		> .creator {
+			display: flex;
+			align-items: center;
+			margin: 6px 0 8px 0;
+			
+			> svg {
+				margin-right: 8px;
+				transform: scale(1.3);
+			}
+		}
 	}
 }

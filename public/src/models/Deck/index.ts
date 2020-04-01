@@ -31,6 +31,7 @@ export interface DeckData {
 	numberOfAllTimeUsers: number
 	numberOfFavorites: number
 	creatorId: string
+	creatorName: string | null
 	created: Date
 	lastUpdated: Date
 }
@@ -67,6 +68,7 @@ export default class Deck implements DeckData {
 	numberOfAllTimeUsers: number
 	numberOfFavorites: number
 	creatorId: string
+	creatorName: string | null // Only available if the deck was retrieved from search
 	created: Date
 	lastUpdated: Date
 	
@@ -98,6 +100,7 @@ export default class Deck implements DeckData {
 		this.numberOfAllTimeUsers = data.numberOfAllTimeUsers
 		this.numberOfFavorites = data.numberOfFavorites
 		this.creatorId = data.creatorId
+		this.creatorName = data.creatorName
 		this.created = data.created
 		this.lastUpdated = data.lastUpdated
 		
@@ -134,6 +137,7 @@ export default class Deck implements DeckData {
 			numberOfAllTimeUsers: snapshot.get('allTimeUserCount'),
 			numberOfFavorites: snapshot.get('favoriteCount'),
 			creatorId: snapshot.get('creator'),
+			creatorName: null,
 			created: snapshot.get('created')?.toDate(),
 			lastUpdated: snapshot.get('updated')?.toDate()
 		}, userData)

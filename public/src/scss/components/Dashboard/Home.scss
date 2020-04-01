@@ -164,7 +164,6 @@
 		}
 	}
 	
-	> .my-decks,
 	> .recommended-decks {
 		margin-top: 16px;
 		
@@ -179,26 +178,25 @@
 		}
 		
 		> .decks {
-			display: flex;
 			overflow-x: auto;
-			margin-top: 12px;
-			padding-left: 30px;
+			margin: 12px 0 15px 0;
+			padding: 0 0 15px 30px;
 			
-			> .deck-cell {
-				flex-shrink: 0;
+			> div {
+				display: flex;
 				
-				&:not(:last-of-type) {
-					margin-right: 12px;
+				> .deck-cell {
+					flex-shrink: 0;
+					
+					&:not(:last-of-type) {
+						margin-right: 12px;
+					}
+				}
+				
+				&:not(:last-child) {
+					margin-bottom: 12px;
 				}
 			}
-			
-			> span {
-				margin-left: 30px;
-			}
 		}
-	}
-	
-	> .my-decks {
-		
 	}
 }

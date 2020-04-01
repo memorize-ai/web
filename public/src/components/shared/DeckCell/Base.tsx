@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -6,14 +6,16 @@ import Deck from '../../../models/Deck'
 import LoadingState from '../../../models/LoadingState'
 import useImageUrl from '../../../hooks/useImageUrl'
 
+import { ReactComponent as User } from '../../../images/icons/user.svg'
+
 import '../../../scss/components/DeckCell/Base.scss'
 
 export default (
-	{ className, deck, href }: {
+	{ className, deck, href, children }: PropsWithChildren<{
 		className?: string
 		deck: Deck
 		href: string
-	}
+	}>
 ) => {
 	const [imageUrl, imageUrlLoadingState] = useImageUrl(deck)
 	
@@ -23,12 +25,19 @@ export default (
 				<img src={imageUrl ?? Deck.defaultImage} alt={deck.name} />
 			)}
 			<div className="content">
-				<h1 className="name">
+				<p className="name">
 					{deck.name}
-				</h1>
-				<h3 className="subtitle">
-					{deck.subtitle}
-				</h3>
+				</p>
+				<p className="subtitle">
+					This is a subtitle{deck.subtitle}
+				</p>
+				{deck.creatorName && (
+					<div className="creator">
+						<User />
+						<p>{deck.creatorName}</p>
+					</div>
+				)}
+				{children}
 			</div>
 		</Link>
 	)

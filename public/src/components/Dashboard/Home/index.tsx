@@ -68,19 +68,43 @@ export default () => {
 			<div className="my-decks">
 				<h1>My decks</h1>
 				<div className="decks">
-					{decks.map(deck => (
-						<OwnedDeckCell key={deck.id} deck={deck} />
-					))}
-					<span>&nbsp;</span>
+					<div>
+						{decks
+							.filter((_, i) => !(i & 1))
+							.map(deck => (
+								<OwnedDeckCell key={deck.id} deck={deck} />
+							))
+						}
+					</div>
+					<div>
+						{decks
+							.filter((_, i) => i & 1)
+							.map(deck => (
+								<OwnedDeckCell key={deck.id} deck={deck} />
+							))
+						}
+					</div>
 				</div>
 			</div>
 			<div className="recommended-decks">
 				<h1>Recommended decks</h1>
 				<div className="decks">
-					{recommendedDecks.map(deck => (
-						<DeckCell key={deck.id} deck={deck} />
-					))}
-					<span>&nbsp;</span>
+					<div>
+						{recommendedDecks
+							.filter((_, i) => !(i & 1))
+							.map(deck => (
+								<DeckCell key={deck.id} deck={deck} />
+							))
+						}
+					</div>
+					<div>
+						{recommendedDecks
+							.filter((_, i) => i & 1)
+							.map(deck => (
+								<DeckCell key={deck.id} deck={deck} />
+							))
+						}
+					</div>
 				</div>
 			</div>
 		</Dashboard>

@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import cx from 'classnames'
+import Helmet from 'react-helmet'
 
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
@@ -7,10 +8,10 @@ import Navbar from './Navbar'
 import '../../scss/components/Dashboard/index.scss'
 
 export enum DashboardNavbarSelection {
-	Home,
-	Market,
-	Decks,
-	Interests
+	Home = 'Home',
+	Market = 'Market',
+	Decks = 'Decks',
+	Interests = 'Interests'
 }
 
 export default (
@@ -20,6 +21,9 @@ export default (
 	}>
 ) => (
 	<div className="dashboard">
+		<Helmet>
+			<title>memorize.ai - {selection}</title>
+		</Helmet>
 		<Sidebar />
 		<div className="content">
 			<div className="background" />

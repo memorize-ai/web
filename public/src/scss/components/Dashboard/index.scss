@@ -29,6 +29,7 @@ $navbar-height: 71px;
 				'navbar' $navbar-height
 				'foreground' auto /
 				auto;
+			height: 100vh;
 			z-index: 10;
 			
 			> .foreground {

@@ -88,6 +88,7 @@ export default class Search {
 			numberOfAllTimeUsers: data.all_time_user_count?.raw,
 			numberOfFavorites: data.favorite_count?.raw,
 			creatorId: data.creator_id?.raw,
+			creatorName: data.creator_name?.raw,
 			created: new Date(data.created?.raw),
 			lastUpdated: new Date(data.updated?.raw)
 		})
