@@ -1,6 +1,9 @@
 @import '../../variables';
+@import '../../mixins';
 
 .deck-cell {
+	@include raise-on-hover;
+	
 	display: flex;
 	overflow: hidden;
 	background: white;
@@ -36,7 +39,7 @@
 		> .creator {
 			display: flex;
 			align-items: center;
-			margin: 6px 0 8px 0;
+			margin-top: 6px;
 			
 			> svg {
 				margin-right: 8px;

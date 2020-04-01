@@ -4,29 +4,28 @@ import DecksContext from '../contexts/Decks'
 import {
 	updateDeck,
 	updateDeckUserData,
-	removeDeck,
-	setIsObservingDecks
+	removeDeck
 } from '../actions'
 import useCurrentUser from './useCurrentUser'
 import Deck from '../models/Deck'
 import { compose } from '../utils'
 
 export default () => {
-	const [{ decks, isObservingDecks }, dispatch] = useContext(DecksContext)
+	const [{ decks }, dispatch] = useContext(DecksContext)
 	const [currentUser] = useCurrentUser()
 	
 	useEffect(() => {
-		if (isObservingDecks || !currentUser)
+		if (!currentUser || Deck.isObserving[currentUser.id])
 			return
 		
-		dispatch(setIsObservingDecks(true))
+		Deck.isObserving[currentUser.id] = true
 		
 		Deck.observeForUserWithId(currentUser.id, {
 			updateDeck: compose(dispatch, updateDeck),
 			updateDeckUserData: compose(dispatch, updateDeckUserData),
 			removeDeck: compose(dispatch, removeDeck)
 		})
-	}, [isObservingDecks, currentUser]) // eslint-disable-line
+	}, [currentUser]) // eslint-disable-line
 	
 	return decks
 }

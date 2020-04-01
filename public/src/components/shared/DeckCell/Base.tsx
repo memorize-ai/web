@@ -29,7 +29,7 @@ export default (
 					{deck.name}
 				</p>
 				<p className="subtitle">
-					This is a subtitle{deck.subtitle}
+					{deck.subtitle}
 				</p>
 				{deck.creatorName && (
 					<div className="creator">

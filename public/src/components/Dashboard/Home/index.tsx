@@ -65,48 +65,52 @@ export default () => {
 					</div>
 				</div>
 			)}
-			<div className="my-decks">
-				<h1>My decks</h1>
-				<div className="decks">
-					<div>
-						{decks
-							.filter((_, i) => !(i & 1))
-							.map(deck => (
-								<OwnedDeckCell key={deck.id} deck={deck} />
-							))
-						}
-					</div>
-					<div>
-						{decks
-							.filter((_, i) => i & 1)
-							.map(deck => (
-								<OwnedDeckCell key={deck.id} deck={deck} />
-							))
-						}
-					</div>
-				</div>
-			</div>
-			<div className="recommended-decks">
-				<h1>Recommended decks</h1>
-				<div className="decks">
-					<div>
-						{recommendedDecks
-							.filter((_, i) => !(i & 1))
-							.map(deck => (
-								<DeckCell key={deck.id} deck={deck} />
-							))
-						}
-					</div>
-					<div>
-						{recommendedDecks
-							.filter((_, i) => i & 1)
-							.map(deck => (
-								<DeckCell key={deck.id} deck={deck} />
-							))
-						}
+			{decks.length === 0 || (
+				<div className="my-decks">
+					<h1>My decks</h1>
+					<div className="decks">
+						<div>
+							{decks
+								.filter((_, i) => !(i & 1))
+								.map(deck => (
+									<OwnedDeckCell key={deck.id} deck={deck} />
+								))
+							}
+						</div>
+						<div>
+							{decks
+								.filter((_, i) => i & 1)
+								.map(deck => (
+									<OwnedDeckCell key={deck.id} deck={deck} />
+								))
+							}
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
+			{recommendedDecks.length === 0 || (
+				<div className="recommended-decks">
+					<h1>Recommended decks</h1>
+					<div className="decks">
+						<div>
+							{recommendedDecks
+								.filter((_, i) => !(i & 1))
+								.map(deck => (
+									<DeckCell key={deck.id} deck={deck} />
+								))
+							}
+						</div>
+						<div>
+							{recommendedDecks
+								.filter((_, i) => i & 1)
+								.map(deck => (
+									<DeckCell key={deck.id} deck={deck} />
+								))
+							}
+						</div>
+					</div>
+				</div>
+			)}
 		</Dashboard>
 	)
 }

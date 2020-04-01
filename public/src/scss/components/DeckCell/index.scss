@@ -1,12 +1,82 @@
-.deck-cell.default {
+.deck-cell.default > .content {
+	display: flex;
+	flex-direction: column;
+	
 	> .stats {
 		display: flex;
 		align-items: center;
+		margin-top: auto;
 		
 		> .divider {
 			width: 2px;
-			height: 10%;
+			height: 25px;
+			margin: 0 20px;
 			background: transparentize(#ddd, 0.5);
+		}
+		
+		> .rating,
+		> .downloads,
+		> .current-users {
+			display: flex;
+			align-items: center;
+			
+			> p {
+				margin-left: 8px;
+				font-size: 17px;
+				font-weight: 600;
+				color: #9b9b9b;
+			}
+		}
+		
+		> .downloads,
+		> .current-users {
+			> img {
+				margin-right: 4px;
+				transform: scale(1.7);
+			}
+		}
+	}
+	
+	> .buttons {
+		display: flex;
+		align-items: center;
+		margin-top: 18px;
+		
+		> button {
+			width: 100%;
+			height: 30px;
+			font-weight: bold;
+			text-transform: uppercase;
+			border-radius: 8px;
+			transition: color 0.3s, background 0.3s;
+			
+			&:hover,
+			&:focus {
+				color: white;
+				background: #051e34;
+			}
+		}
+		
+		> .get {
+			color: white;
+			background: #4355f9;
+		}
+		
+		> .remove {
+			margin-right: 8px;
+			color: #4355f9;
+			border: 1.5px solid #4355f9;
+			
+			&:hover,
+			&:focus {
+				background: #4355f9;
+			}
+		}
+		
+		> .open {
+			margin-left: 8px;
+			color: white;
+			background: #00d388;
 		}
 	}
 }

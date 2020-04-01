@@ -32,11 +32,6 @@ export const setSelectedDeck = (deck: Deck) => ({
 	payload: deck
 })
 
-export const setIsObservingDecks = (value: boolean) => ({
-	type: ActionType.SetIsObservingDecks,
-	payload: value
-})
-
 export const updateDeck = (
 	snapshot: firebase.firestore.DocumentSnapshot,
 	userDataSnapshot: firebase.firestore.DocumentSnapshot

@@ -46,6 +46,9 @@ export interface CreateDeckData {
 export default class Deck implements DeckData {
 	static defaultImage = require('../../images/logos/icon.png')
 	
+	static isObserving: Record<string, boolean> = {} // Key is a user id
+	static snapshotListeners: Record<string, () => void> = {}
+	
 	id: string
 	topics: string[]
 	hasImage: boolean
@@ -142,6 +145,16 @@ export default class Deck implements DeckData {
 			lastUpdated: snapshot.get('updated')?.toDate()
 		}, userData)
 	
+	static addSnapshotListener = (id: string, value: () => void) =>
+		Deck.snapshotListeners[id] = value
+	
+	static removeSnapshotListener = (id: string) => {
+		const listener = Deck.snapshotListeners[id]
+		listener && listener()
+		
+		delete Deck.snapshotListeners[id]
+	}
+	
 	static observeForUserWithId = (
 		uid: string,
 		{ updateDeck, updateDeckUserData, removeDeck }: {
@@ -158,18 +171,22 @@ export default class Deck implements DeckData {
 				for (const { type, doc } of snapshot.docChanges())
 					switch (type) {
 						case 'added':
-							firestore.doc(`decks/${doc.id}`).onSnapshot(
-								snapshot => updateDeck(snapshot, doc),
-								error => {
-									alert(error.message)
-									console.error(error)
-								}
+							Deck.addSnapshotListener(
+								doc.id,
+								firestore.doc(`decks/${doc.id}`).onSnapshot(
+									snapshot => updateDeck(snapshot, doc),
+									error => {
+										alert(error.message)
+										console.error(error)
+									}
+								)
 							)
 							break
 						case 'modified':
 							updateDeckUserData(doc)
 							break
 						case 'removed':
+							Deck.removeSnapshotListener(doc.id)
 							removeDeck(doc.id)
 							break
 					}
@@ -271,6 +288,35 @@ export default class Deck implements DeckData {
 			console.error(error)
 		}
 	}
+	
+	get = async (uid: string) => {
+		const { docs } = await firestore
+			.collection(`decks/${this.id}/sections`)
+			.where('index', '==', 0)
+			.get()
+		
+		const section: (
+			firebase.firestore.DocumentSnapshot | undefined
+		) = docs[0]
+		
+		const numberOfSectionedCards = section?.get('cardCount') ?? 0
+		const numberOfUnlockedCards = this.numberOfUnsectionedCards + numberOfSectionedCards
+		
+		const data: Record<string, any> = {
+			added: firebase.firestore.FieldValue.serverTimestamp(),
+			dueCardCount: numberOfUnlockedCards,
+			unsectionedDueCardCount: this.numberOfUnsectionedCards,
+			unlockedCardCount: numberOfUnlockedCards
+		}
+		
+		if (section)
+			data.sections = { [section.id]: numberOfSectionedCards }
+		
+		return firestore.doc(`users/${uid}/decks/${this.id}`).set(data)
+	}
+	
+	remove = (uid: string) =>
+		firestore.doc(`users/${uid}/decks/${this.id}`).delete()
 	
 	isSectionUnlocked = (section: Section) =>
 		section.isUnsectioned || (

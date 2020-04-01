@@ -6,13 +6,11 @@ import DeckUserData from '../models/Deck/UserData'
 
 export interface DecksState {
 	decks: Deck[]
-	isObservingDecks: boolean
 	selectedDeck: Deck | null
 }
 
 export type DecksAction = Action<
 	| Deck // SetSelectedDeck
-	| boolean // SetIsObservingDecks
 	| { snapshot: firebase.firestore.DocumentSnapshot, userDataSnapshot: firebase.firestore.DocumentSnapshot } // UpdateDeck
 	| firebase.firestore.DocumentSnapshot // UpdateDeckUserData
 	| string // RemoveDeck
@@ -23,7 +21,6 @@ export type DecksAction = Action<
 
 const initialState: DecksState = {
 	decks: [],
-	isObservingDecks: false,
 	selectedDeck: null
 }
 
@@ -31,8 +28,6 @@ const reducer = (state: DecksState, { type, payload }: DecksAction) => {
 	switch (type) {
 		case ActionType.SetSelectedDeck:
 			return { ...state, selectedDeck: payload as Deck }
-		case ActionType.SetIsObservingDecks:
-			return { ...state, isObservingDecks: payload as boolean }
 		case ActionType.UpdateDeck: {
 			const { snapshot, userDataSnapshot } = payload as {
 				snapshot: firebase.firestore.DocumentSnapshot

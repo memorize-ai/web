@@ -9,7 +9,6 @@ export interface ButtonProps {
 	loaderColor?: string
 	loading?: boolean
 	disabled?: boolean
-	onClick?: () => void
 }
 
 export default ({

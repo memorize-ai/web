@@ -10,7 +10,6 @@ export enum ActionType {
 	SetIsObservingCurrentUser = 'SET_IS_OBSERVING_CURRENT_USER',
 	
 	SetSelectedDeck = 'SET_SELECTED_DECK',
-	SetIsObservingDecks = 'SET_IS_OBSERVING_DECKS',
 	UpdateDeck = 'UPDATE_DECK',
 	UpdateDeckUserData = 'UPDATE_DECK_USER_DATA',
 	RemoveDeck = 'REMOVE_DECK',

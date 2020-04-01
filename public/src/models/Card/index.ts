@@ -17,6 +17,8 @@ export interface CardData {
 }
 
 export default class Card implements CardData {
+	static snapshotListeners: Record<string, () => void> = {}
+	
 	id: string
 	sectionId: string | null
 	front: string
@@ -49,6 +51,16 @@ export default class Card implements CardData {
 			numberOfSkips: snapshot.get('skipCount') ?? 0
 		}, userData)
 	
+	static addSnapshotListener = (id: string, value: () => void) =>
+		Card.snapshotListeners[id] = value
+	
+	static removeSnapshotListener = (id: string) => {
+		const listener = Card.snapshotListeners[id]
+		listener && listener()
+		
+		delete Card.snapshotListeners[id]
+	}
+	
 	static observe = (
 		{ deckId, sectionId, uid, initializeCards, addCard, updateCard, updateCardUserData, removeCard }: {
 			deckId: string
@@ -69,18 +81,24 @@ export default class Card implements CardData {
 					switch (type) {
 						case 'added':
 							addCard(sectionId, doc)
-							firestore.doc(`users/${uid}/decks/${deckId}/cards/${doc.id}`).onSnapshot(
-								userDataSnapshot => updateCardUserData(sectionId, userDataSnapshot),
-								error => {
-									alert(error.message)
-									console.error(error)
-								}
+							
+							Card.addSnapshotListener(
+								doc.id,
+								firestore.doc(`users/${uid}/decks/${deckId}/cards/${doc.id}`).onSnapshot(
+									userDataSnapshot => updateCardUserData(sectionId, userDataSnapshot),
+									error => {
+										alert(error.message)
+										console.error(error)
+									}
+								)
 							)
+							
 							break
 						case 'modified':
 							updateCard(sectionId, doc)
 							break
 						case 'removed':
+							Card.removeSnapshotListener(doc.id)
 							removeCard(sectionId, doc.id)
 							break
 					}
