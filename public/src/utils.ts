@@ -1,4 +1,6 @@
-import { EXPECTS_SIGN_IN_KEY } from './constants'
+import _ from 'lodash'
+
+import { EXPECTS_SIGN_IN_KEY, EMOJIS } from './constants'
 
 export const compose = <T extends any[], U, V>(
 	b: (u: U) => V,
@@ -70,3 +72,6 @@ export const toOneDecimalPlace = (number: number) =>
 
 export const isInt = (number: number) =>
 	number === Math.floor(number)
+
+export const randomEmoji = () =>
+	_.sample(EMOJIS) ?? EMOJIS[0]

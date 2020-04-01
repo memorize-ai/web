@@ -12,7 +12,10 @@
 	box-shadow: 0 5px 10px 0 transparentize(black, 0.9);
 	
 	> img {
-		width: 195px;
+		$dimension: 195px;
+		
+		width: $dimension;
+		max-height: $dimension;
 		object-fit: cover;
 		box-shadow: 0 0 20px 0 transparentize(black, 0.9);
 	}

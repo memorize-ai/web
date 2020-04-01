@@ -1,0 +1,35 @@
+.deck-cell.owned > .content {
+	display: flex;
+	flex-direction: column;
+	
+	> .due-cards-message {
+		margin-top: auto;
+		font-weight: bold;
+		color: #9b9b9b;
+	}
+	
+	> .download-app {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 10px;
+		padding: 8px 16px;
+		font-size: 18px;
+		font-weight: bold;
+		color: white;
+		background: #00d388;
+		text-transform: uppercase;
+		border-radius: 8px;
+		transition: background 0.3s;
+		
+		> svg {
+			margin-right: 14px;
+			transform: scale(1.4);
+		}
+		
+		&:hover,
+		&:focus {
+			background: #051e34;
+		}
+	}
+}

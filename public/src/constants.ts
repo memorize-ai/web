@@ -9,3 +9,5 @@ export const MODAL_Z_INDEX = 100
 export const DECKS_HOST_IDENTIFIER = 'host-fig55q'
 export const DECKS_SEARCH_KEY = 'search-no3fo2msypcfjc1p14upkg1c'
 export const DECKS_ENGINE_NAME = 'memorize-ai-decks'
+
+export const EMOJIS = ['😃', '😇', '😌', '😘', '🥳', '💪']
