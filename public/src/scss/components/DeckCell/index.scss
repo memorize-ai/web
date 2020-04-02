@@ -43,6 +43,8 @@
 		margin-top: 18px;
 		
 		> button {
+			display: flex;
+			justify-content: center;
 			width: 100%;
 			height: 30px;
 			font-weight: bold;
@@ -53,13 +55,17 @@
 			&:hover,
 			&:focus {
 				color: white;
-				background: #051e34;
 			}
 		}
 		
 		> .get {
 			color: white;
 			background: #4355f9;
+			
+			&:hover,
+			&:focus {
+				background: #00d388;
+			}
 		}
 		
 		> .remove {
@@ -77,6 +83,11 @@
 			margin-left: 8px;
 			color: white;
 			background: #00d388;
+			
+			&:hover,
+			&:focus {
+				background: #051e34;
+			}
 		}
 	}
 }

@@ -14,7 +14,7 @@ export default (
 			return (
 				<>
 					<h1>Unsubscribing...</h1>
-					<Loader size="24px" thickness="4px" color="#63b3ed" />
+					<Loader size="24px" thickness="4px" color="#582efe" />
 				</>
 			)
 		case LoadingState.Success:

@@ -10,6 +10,7 @@ import DeckSearch, { DeckSortAlgorithm, decodeDeckSortAlgorithm } from '../../..
 import Counters, { Counter } from '../../../models/Counters'
 import Input from '../../shared/Input'
 import SortDropdown from './SortDropdown'
+import DeckCell from '../../shared/DeckCell'
 import Loader from '../../shared/Loader'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
@@ -94,7 +95,7 @@ export default () => {
 				/>
 			</div>
 			<div className="decks">
-				{/* <InfiniteScroll
+				<InfiniteScroll
 					pageStart={1}
 					loadMore={loadMoreDecks}
 					hasMore={!isLastPage}
@@ -103,15 +104,17 @@ export default () => {
 							key={0}
 							size="24px"
 							thickness="4px"
-							color="#63b3ed"
+							color="#582efe"
 						/>
 					}
 					useWindow={false}
 				>
-					{decks.map(deck => (
-						<DeckCell key={deck.id} deck={deck} />
-					))}
-				</InfiniteScroll> */}
+					<div className="grid">
+						{decks.map(deck => (
+							<DeckCell key={deck.id} deck={deck} />
+						))}
+					</div>
+				</InfiniteScroll>
 			</div>
 		</Dashboard>
 	)

@@ -6,6 +6,7 @@
 	
 	display: flex;
 	overflow: hidden;
+	width: $deck-cell-width;
 	background: white;
 	border: 1px solid #eee;
 	border-radius: 8px;
@@ -15,7 +16,9 @@
 		$dimension: 195px;
 		
 		width: $dimension;
-		max-height: $dimension;
+		min-height: $dimension;
+		max-height: $dimension * 4 / 3;
+		height: 100%;
 		object-fit: cover;
 		box-shadow: 0 0 20px 0 transparentize(black, 0.9);
 	}
@@ -42,7 +45,7 @@
 		> .creator {
 			display: flex;
 			align-items: center;
-			margin-top: 6px;
+			margin: 6px 0 18px 0;
 			
 			> svg {
 				margin-right: 8px;

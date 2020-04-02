@@ -19,7 +19,7 @@ export default ({ deck, section }: { deck: Deck, section: Section }) => {
 					? cards.map(card => (
 						<CardBox key={card.id} card={card} />
 					))
-					: <Loader size="24px" thickness="4px" color="#63b3ed" />
+					: <Loader size="24px" thickness="4px" color="#582efe" />
 				: null
 			}
 		</div>

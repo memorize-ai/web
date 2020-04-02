@@ -48,6 +48,7 @@
 		> .greeting,
 		> .count-message {
 			text-align: center;
+			word-wrap: break-word;
 		}
 		
 		> .greeting {
@@ -80,6 +81,10 @@
 				> svg {
 					margin-right: 14px;
 					transform: scale(1.4);
+				}
+				
+				> p {
+					word-wrap: break-word;
 				}
 				
 				&:hover,

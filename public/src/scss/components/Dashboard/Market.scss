@@ -108,7 +108,32 @@
 	}
 	
 	> .decks {
+		$top-padding: 4px;
+		
 		grid-area: decks;
 		overflow-y: auto;
+		margin-top: 12px;
+		padding: $top-padding raw-repeat(3, 30px);
+		
+		@media (min-width: 1473px) and (max-width: 1540px) {
+			padding: $top-padding raw-repeat(3, 4px);
+			
+			> div > .grid {
+				gap: 16px !important;
+			}
+		}
+		
+		> div {
+			> .grid {
+				display: grid;
+				grid: none / repeat(auto-fill, $deck-cell-width);
+				gap: 30px;
+				justify-content: center;
+			}
+			
+			> .loader {
+				margin: 30px auto 0 auto;
+			}
+		}
 	}
 }

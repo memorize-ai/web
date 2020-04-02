@@ -76,7 +76,7 @@ export default ({ deck }: { deck: Deck }) => {
 								className="remove"
 								loaderSize="16px"
 								loaderThickness="3px"
-								loaderColor="#63b3ed"
+								loaderColor="white"
 								loading={getLoadingState === LoadingState.Loading}
 								disabled={false}
 								onClick={get}
@@ -98,7 +98,7 @@ export default ({ deck }: { deck: Deck }) => {
 							className="get"
 							loaderSize="16px"
 							loaderThickness="3px"
-							loaderColor="#63b3ed"
+							loaderColor="white"
 							loading={getLoadingState === LoadingState.Loading}
 							disabled={false}
 							onClick={get}
