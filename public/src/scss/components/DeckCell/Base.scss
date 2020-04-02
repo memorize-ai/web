@@ -7,18 +7,15 @@
 	display: flex;
 	overflow: hidden;
 	width: $deck-cell-width;
+	height: $deck-cell-height;
 	background: white;
 	border: 1px solid #eee;
 	border-radius: 8px;
 	box-shadow: 0 5px 10px 0 transparentize(black, 0.9);
 	
 	> img {
-		$dimension: 195px;
-		
-		width: $dimension;
-		min-height: $dimension;
-		max-height: $dimension * 4 / 3;
-		height: 100%;
+		width: $deck-cell-height;
+		height: $deck-cell-height;
 		object-fit: cover;
 		box-shadow: 0 0 20px 0 transparentize(black, 0.9);
 	}
