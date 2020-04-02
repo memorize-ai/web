@@ -33,7 +33,7 @@ export default () => {
 	), 0)
 	
 	return (
-		<Dashboard selection={Selection.Home} className="home">
+		<Dashboard selection={Selection.Home} className="home" gradientHeight="350px">
 			<div className="create-deck-container">
 				<Link to="/new">
 					<FontAwesomeIcon icon={faPlus} />

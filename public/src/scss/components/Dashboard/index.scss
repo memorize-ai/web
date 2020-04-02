@@ -2,7 +2,6 @@
 @import '../../mixins';
 
 $sidebar-width: 305px;
-$background-gradient-height: 349px;
 $navbar-height: 71px;
 
 .dashboard {
@@ -20,7 +19,7 @@ $navbar-height: 71px;
 		> .background {
 			@include top-gradient($is-right: false);
 			
-			height: $background-gradient-height;
+			transition: height 0.3s;
 		}
 		
 		> .container {

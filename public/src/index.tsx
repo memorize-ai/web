@@ -11,6 +11,7 @@ import { DeckImageUrlsProvider } from './contexts/DeckImageUrls'
 import { TopicsProvider } from './contexts/Topics'
 import { CreateDeckProvider } from './contexts/CreateDeck'
 import { ExpandedSectionsProvider } from './contexts/ExpandedSections'
+import { CountersProvider } from './contexts/Counters'
 import App from './components/App'
 import firebase from './firebase'
 
@@ -34,7 +35,9 @@ ReactDOM.render((
 					<TopicsProvider>
 						<CreateDeckProvider>
 							<ExpandedSectionsProvider>
-								<App />
+								<CountersProvider>
+									<App />
+								</CountersProvider>
 							</ExpandedSectionsProvider>
 						</CreateDeckProvider>
 					</TopicsProvider>

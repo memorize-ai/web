@@ -33,7 +33,7 @@ export default () => {
 	}, [selectedDeck, deckId, decks]) // eslint-disable-line
 	
 	return (
-		<Dashboard selection={Selection.Decks} className="decks">
+		<Dashboard selection={Selection.Decks} className="decks" gradientHeight="350px">
 			{selectedDeck
 				? <Content deck={selectedDeck} />
 				: 'Loading...'

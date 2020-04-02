@@ -1,4 +1,4 @@
-@function rawRepeat($count, $value, $delimiter: ' ') {
+@function raw-repeat($count, $value, $delimiter: ' ') {
 	$acc: '';
 	
 	@for $i from 1 through $count {

@@ -15,9 +15,10 @@ export enum DashboardNavbarSelection {
 }
 
 export default (
-	{ selection, className, children }: PropsWithChildren<{
+	{ selection, className, gradientHeight, children }: PropsWithChildren<{
 		selection: DashboardNavbarSelection
 		className: string
+		gradientHeight: string
 	}>
 ) => (
 	<div className="dashboard">
@@ -26,7 +27,10 @@ export default (
 		</Helmet>
 		<Sidebar />
 		<div className="content">
-			<div className="background" />
+			<div
+				className="background"
+				style={{ height: gradientHeight }}
+			/>
 			<div className="container">
 				<Navbar selection={selection} />
 				<div className={cx('foreground', className)}>

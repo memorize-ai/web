@@ -1,57 +1,114 @@
 @import '../../variables';
 @import '../../mixins';
-
-$search-height: 40px;
-$sort-width: 200px;
-$padding: 20px;
+@import '../../functions';
 
 @include dashboard-content('market') {
 	display: grid;
-	grid: #{$search-height} auto / auto #{$padding + $sort-width};
-	grid-template-areas:
-		'search search'
-		'decks sort';
-	padding: $padding $padding 0 $padding;
+	grid:
+		'header' auto
+		'decks' 1fr /
+		auto;
+	overflow-y: unset;
 	
-	> .search {
-		grid-area: search;
+	> .header {
+		grid-area: header;
+		display: flex;
+		align-items: center;
+		margin: 16px 30px 0 30px;
+		
+		> .search {
+			width: 100%;
+			
+			> input {
+				padding: raw-repeat(3, 12px) 44px;
+				color: white;
+				background: transparentize(#eee, 0.8);
+				border: none;
+				border-radius: 100px;
+				
+				&::placeholder {
+					color: transparentize(#eee, 0.2);
+				}
+			}
+			
+			> svg {
+				top: 16px;
+				left: 16px;
+				color: #eee;
+			}
+		}
+		
+		> .sort-dropdown {
+			margin-left: 16px;
+			
+			> .trigger {
+				display: flex;
+				align-items: center;
+				padding: 8px 14px;
+				color: white;
+				border: 1.5px solid transparentize(#eee, 0.8);
+				border-radius: 8px;
+				
+				> svg {
+					opacity: 0.7;
+					transform: scale(1.1);
+					transition: opacity 0.3s;
+				}
+				
+				> p {
+					margin-left: 8px;
+					font-weight: bold;
+					text-transform: uppercase;
+				}
+				
+				&:hover,
+				&:focus {
+					> svg {
+						opacity: 1;
+					}
+				}
+			}
+			
+			> .content {
+				width: 264px;
+				padding: 20px;
+				background: white;
+				border-radius: 5px;
+				
+				> button {
+					$vertical-padding: 12px;
+					
+					display: flex;
+					align-items: center;
+					width: 100%;
+					font-weight: 600;
+					color: #9b9b9b;
+					
+					> svg {
+						margin-right: 10px;
+						transform: scale(1.1);
+					}
+					
+					&.selected {
+						font-weight: bold;
+						color: #4355f9;
+					}
+					
+					&:not(:first-child) {
+						padding-top: $vertical-padding;
+					}
+					
+					&:not(:last-child) {
+						padding-bottom: $vertical-padding;
+						border-bottom: 1px solid #dcdcdc;
+					}
+				}
+			}
+		}
 	}
 	
 	> .decks {
 		grid-area: decks;
 		overflow-y: auto;
-		padding: $padding 0;
-		
-		> div {
-			> :not(:last-child) {
-				margin-bottom: $padding;
-			}
-			
-			> a {
-				display: flex;
-				background: lightgreen;
-			}
-			
-			> .loader {
-				margin: 0 auto;
-			}
-		}
-	}
-	
-	> .sort {
-		overflow-y: auto;
-		padding: $padding 0 $padding $padding;
-		
-		> .rows > button {
-			display: block;
-			
-			&.selected {
-				font-weight: bold;
-			}
-			
-			&:not(:last-child) {
-				margin-bottom: 12px;
-			}
-		}
 	}
 }

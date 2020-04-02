@@ -2,6 +2,7 @@ import { ActionType } from './Action'
 import firebase from '../firebase'
 import Deck from '../models/Deck'
 import LoadingState from '../models/LoadingState'
+import { Counter } from '../models/Counters'
 
 // Current user
 
@@ -160,4 +161,11 @@ export const setCreateDeckDescription = (value: string) => ({
 export const toggleSectionExpanded = (deckId: string, sectionId: string) => ({
 	type: ActionType.ToggleSectionExpanded,
 	payload: { deckId, sectionId }
+})
+
+// Counters
+
+export const setCounterKey = (key: Counter, value: number | null) => ({
+	type: ActionType.SetCounterKey,
+	payload: { key, value }
 })

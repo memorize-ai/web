@@ -30,7 +30,7 @@ export default () => {
 	}
 	
 	return (
-		<Dashboard selection={Selection.Interests} className="interests">
+		<Dashboard selection={Selection.Interests} className="interests" gradientHeight="350px">
 			<div className="sign-out-button-container">
 				<button onClick={signOut}>Sign out</button>
 			</div>

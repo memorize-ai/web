@@ -7,11 +7,11 @@ import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useQuery from '../../../hooks/useQuery'
 import Deck from '../../../models/Deck'
 import DeckSearch, { DeckSortAlgorithm, decodeDeckSortAlgorithm } from '../../../models/Deck/Search'
-import { urlWithQuery } from '../../../utils'
+import Counters, { Counter } from '../../../models/Counters'
 import Input from '../../shared/Input'
+import SortDropdown from './SortDropdown'
 import Loader from '../../shared/Loader'
-import DeckCell from './DeckCell'
-import Sort from './Sort'
+import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Market.scss'
 
@@ -26,6 +26,9 @@ export default () => {
 	
 	const [decks, setDecks] = useState([] as Deck[])
 	const [isLastPage, setIsLastPage] = useState(false)
+	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
+	
+	const numberOfDecks = Counters.get(Counter.Decks)
 	
 	useEffect(() => void (async () => {
 		setIsLastPage(false)
@@ -71,17 +74,27 @@ export default () => {
 		setDecks([...decks, ...await getDecks(pageNumber)])
 	
 	return (
-		<Dashboard selection={Selection.Market} className="market">
-			<Input
-				className="search"
-				icon={faSearch}
-				type="name"
-				placeholder="Decks"
-				value={query}
-				setValue={setQuery}
-			/>
+		<Dashboard selection={Selection.Market} className="market" gradientHeight="500px">
+			<div className="header">
+				<Input
+					className="search"
+					icon={faSearch}
+					type="name"
+					placeholder={
+						`Explore ${numberOfDecks === null ? '...' : formatNumber(numberOfDecks)} decks`
+					}
+					value={query}
+					setValue={setQuery}
+				/>
+				<SortDropdown
+					isShowing={isSortDropdownShowing}
+					setIsShowing={setIsSortDropdownShowing}
+					algorithm={sortAlgorithm}
+					setAlgorithm={setSortAlgorithm}
+				/>
+			</div>
 			<div className="decks">
-				<InfiniteScroll
+				{/* <InfiniteScroll
 					pageStart={1}
 					loadMore={loadMoreDecks}
 					hasMore={!isLastPage}
@@ -98,9 +111,8 @@ export default () => {
 					{decks.map(deck => (
 						<DeckCell key={deck.id} deck={deck} />
 					))}
-				</InfiniteScroll>
+				</InfiniteScroll> */}
 			</div>
-			<Sort algorithm={sortAlgorithm} setAlgorithm={setSortAlgorithm} />
 		</Dashboard>
 	)
 }
