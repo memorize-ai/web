@@ -73,7 +73,7 @@ export default (
 			text,
 			from
 		}))
-	}, [decks, currentDeck, text, from]) // eslint-disable-line
+	}, [decks, currentDeck, text, from])
 	
 	return (
 		<>

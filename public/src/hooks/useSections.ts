@@ -25,7 +25,7 @@ export default (deck: Deck | null | undefined) => {
 			updateSection: compose(dispatch, updateSection),
 			removeSection: compose(dispatch, removeSection)
 		})
-	}, [deck]) // eslint-disable-line
+	}, [deck])
 	
 	return deck?.sections ?? []
 }

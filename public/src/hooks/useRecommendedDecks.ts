@@ -13,7 +13,7 @@ export default (pageSize: number) => {
 			return
 		
 		setDecks(await DeckSearch.recommendedDecks(pageSize, currentUser.interestIds))
-	})(), [currentUser?.interestIds]) // eslint-disable-line
+	})(), [currentUser?.interestIds])
 	
 	return decks
 }

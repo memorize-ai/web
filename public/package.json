@@ -46,7 +46,10 @@
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
-		"extends": "react-app"
+		"extends": "react-app",
+		"rules": {
+			"jsx-a11y/img-redundant-alt": "off"
+		}
 	},
 	"browserslist": {
 		"production": [

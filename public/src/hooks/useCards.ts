@@ -33,7 +33,7 @@ export default (deck: Deck, section: Section, shouldLoadCards: boolean): Card[] 
 			updateCardUserData: compose(dispatch, updateCardUserData),
 			removeCard: compose(dispatch, removeCard)
 		})
-	}, [shouldLoadCards, cards, currentUser]) // eslint-disable-line
+	}, [shouldLoadCards, cards, currentUser])
 	
 	return cards ?? null
 }

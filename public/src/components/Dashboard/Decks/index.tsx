@@ -21,7 +21,7 @@ export default () => {
 	useEffect(() => {
 		if (!deckId && selectedDeck)
 			history.push(`/decks/${selectedDeck.id}`)
-	}, [deckId, selectedDeck]) // eslint-disable-line
+	}, [deckId, selectedDeck])
 	
 	useEffect(() => {
 		if (selectedDeck && selectedDeck.id === deckId)
@@ -30,7 +30,7 @@ export default () => {
 		const deck = decks.find(deck => deck.id === deckId)
 		
 		deck && setSelectedDeck(deck)
-	}, [selectedDeck, deckId, decks]) // eslint-disable-line
+	}, [selectedDeck, deckId, decks])
 	
 	return (
 		<Dashboard selection={Selection.Decks} className="decks" gradientHeight="350px">

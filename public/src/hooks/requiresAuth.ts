@@ -14,5 +14,5 @@ export default (next: string) => {
 			return
 		
 		history.push(urlWithQuery('/auth', { next }))
-	}, [currentUser, currentUserLoadingState]) // eslint-disable-line
+	}, [currentUser, currentUserLoadingState])
 }

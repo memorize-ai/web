@@ -24,7 +24,7 @@ export default () => {
 			updateTopic: compose(dispatch, updateTopic),
 			removeTopic: compose(dispatch, removeTopic)
 		})
-	}, [isObservingTopics]) // eslint-disable-line
+	}, [isObservingTopics])
 	
 	return topics
 }

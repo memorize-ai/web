@@ -41,7 +41,7 @@ export default () => {
 	useEffect(() => {
 		if (acceptedFiles.length)
 			dispatch(setCreateDeckImage(acceptedFiles[0]))
-	}, [acceptedFiles]) // eslint-disable-line
+	}, [acceptedFiles])
 	
 	useEffect(() => {
 		setImageUrl(image && URL.createObjectURL(image))
@@ -50,7 +50,7 @@ export default () => {
 	useEffect(() => {
 		if (shouldCreate && name)
 			create()
-	}, [shouldCreate]) // eslint-disable-line
+	}, [shouldCreate])
 	
 	const reset = () => {
 		dispatch(setCreateDeckImage(null))

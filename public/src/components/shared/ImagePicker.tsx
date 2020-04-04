@@ -24,7 +24,7 @@ export default (
 		{url
 			? (
 				<>
-					<img src={url} alt="Uploaded image" /* eslint-disable-line */ />
+					<img src={url} alt="Uploaded" />
 					<button
 						onClick={event => {
 							event.stopPropagation()
