@@ -25,12 +25,10 @@ export default (
 			? (
 				<>
 					<img src={url} alt="Uploaded" />
-					<button
-						onClick={event => {
-							event.stopPropagation()
-							removeImage()
-						}}
-					>
+					<button onClick={event => {
+						event.stopPropagation()
+						removeImage()
+					}}>
 						&times;
 					</button>
 				</>
