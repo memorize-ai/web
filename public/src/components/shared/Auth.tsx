@@ -9,7 +9,7 @@ import '../../scss/components/Auth.scss'
 export default (props: AuthBoxProps) => (
 	<div className="auth">
 		<TopGradient>
-			<Navbar />
+			<Navbar hasAuthButton={false} />
 			<AuthBox {...props} />
 		</TopGradient>
 	</div>

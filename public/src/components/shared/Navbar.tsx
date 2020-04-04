@@ -10,7 +10,11 @@ import { DEFAULT_DECK_COUNT } from '../../constants'
 
 import '../../scss/components/Navbar.scss'
 
-export default ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => {
+export default (
+	{ className, hasAuthButton = true, ...props }: HTMLAttributes<HTMLDivElement> & {
+		hasAuthButton?: boolean
+	}
+) => {
 	const isSignedIn = useAuthState()
 	
 	return (
@@ -18,7 +22,10 @@ export default ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => {
 			<Link to="/">
 				<Logo type={LogoType.Capital} className="logo" />
 			</Link>
-			<div className={cx('items', { 'signed-in': isSignedIn })}>
+			<div className={cx('items', {
+				'signed-in': isSignedIn,
+				'has-auth-button': hasAuthButton
+			})}>
 				{isSignedIn
 					? (
 						<Link to="/" className="dashboard-button">
@@ -31,9 +38,11 @@ export default ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => {
 								<FontAwesomeIcon icon={faSearch} />
 								<p>Explore {DEFAULT_DECK_COUNT} decks</p>
 							</Link>
-							<Link to="/auth" className="auth-button">
-								Log in <span>/</span> Sign up
-							</Link>
+							{hasAuthButton && (
+								<Link to="/auth" className="auth-button">
+									Log in <span>/</span> Sign up
+								</Link>
+							)}
 						</>
 					)
 				}

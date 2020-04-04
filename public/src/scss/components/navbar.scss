@@ -32,6 +32,10 @@
 			border-bottom: 2px solid transparentize(#ddd, 0.8);
 		}
 		
+		&:not(.has-auth-button) > .market-tab {
+			padding-right: 14px;
+		}
+		
 		> .market-tab {
 			display: flex;
 			align-items: center;
