@@ -7,7 +7,7 @@
 	grid-area: navbar;
 	display: grid;
 	grid:
-		'tabs profile-dropdown' auto /
+		'tabs right' auto /
 		1fr auto;
 	align-items: end;
 	margin: 0 30px;
@@ -40,7 +40,7 @@
 				color: white;
 			}
 			
-			&:hover {
+			&:not(.selected):not(.disabled):hover {
 				> svg,
 				> p {
 					opacity: 0.9;
@@ -53,13 +53,26 @@
 					opacity: 1;
 				}
 			}
+			
+			&.disabled {
+				cursor: default;
+				pointer-events: none;
+				
+				> svg,
+				> p {
+					opacity: 0.5;
+				}
+			}
 		}
 	}
 	
-	> .profile-dropdown {
-		grid-area: profile-dropdown;
+	> .profile-dropdown,
+	> .auth-button {
+		grid-area: right;
 		margin: 0 raw-repeat(3, 10px);
-		
+	}
+	
+	> .profile-dropdown {
 		> .trigger {
 			padding: 10px;
 			background: white;
@@ -149,6 +162,26 @@
 					background: #051e34;
 				}
 			}
+		}
+	}
+	
+	> .auth-button {
+		margin-right: 14px;
+		padding: 8px 14px;
+		font-weight: bold;
+		color: white;
+		background: #051e34;
+		border-radius: 8px;
+		transform: scale(1.1);
+		transition: transform 0.3s;
+		
+		> span {
+			opacity: 0.7;
+		}
+		
+		&:hover,
+		&:focus {
+			transform: scale(1.1) translateY(-2px);
 		}
 	}
 }

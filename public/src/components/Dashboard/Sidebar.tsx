@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
+import useAuthState from '../../hooks/useAuthState'
 import useDecks from '../../hooks/useDecks'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import Logo, { LogoType } from '../shared/Logo'
@@ -11,46 +13,59 @@ import { isNullish, formatNumber, formatNumberAsInt } from '../../utils'
 import '../../scss/components/Dashboard/Sidebar.scss'
 
 export default () => {
+	const isSignedIn = useAuthState()
+	
 	const decks = useDecks()
 	const [currentUser] = useCurrentUser()
 	
 	const [query, setQuery] = useState('')
 	
-	const isLevelLoading = isNullish(currentUser?.level)
+	const isLevelLoading = isSignedIn && isNullish(currentUser?.level)
 	
-	const level = isLevelLoading ? '...' : formatNumberAsInt(currentUser!.level!)
-	const nextLevel = isLevelLoading ? '...' : formatNumberAsInt(currentUser!.level! + 1)
-	const xp = isNullish(currentUser?.xp) ? '...' : formatNumber(currentUser!.xp)
+	const level = isLevelLoading ? '...' : formatNumberAsInt(currentUser?.level ?? 0)
+	const nextLevel = isLevelLoading ? '...' : formatNumberAsInt((currentUser?.level ?? 0) + 1)
+	const xp = isSignedIn && isNullish(currentUser?.xp) ? '...' : formatNumber(currentUser?.xp ?? 0)
 	
 	const sliderPercent = (currentUser?.percentToNextLevel ?? 0) * 100
+	
+	const hasNoDecks = !isSignedIn || (currentUser && !(decks.length || currentUser.numberOfDecks))
 	
 	return (
 		<div className="sidebar">
 			<div className="top">
-				<Logo type={LogoType.Capital} />
+				<Link to="/">
+					<Logo type={LogoType.Capital} />
+				</Link>
 				<div className="divider" />
 				<Input
 					icon={faSearch}
 					type="name"
-					placeholder="Decks"
+					placeholder="My decks"
 					value={query}
 					setValue={setQuery}
 				/>
 			</div>
 			<div className="sections">
-				<Section
-					title="Due"
-					decks={decks.filter(deck => deck.userData?.isDue ?? false)}
-					query={query}
-					includesDivider
-				/>
-				<Section
-					title="Favorites"
-					decks={decks.filter(deck => deck.userData?.isFavorite ?? false)}
-					query={query}
-					includesDivider
-				/>
-				<Section title="All" decks={decks} query={query} />
+				{hasNoDecks
+					? <p>Go on. Explore!</p>
+					: (
+						<>
+							<Section
+								title="Due"
+								decks={decks.filter(deck => deck.userData?.isDue ?? false)}
+								query={query}
+								includesDivider
+							/>
+							<Section
+								title="Favorites"
+								decks={decks.filter(deck => deck.userData?.isFavorite ?? false)}
+								query={query}
+								includesDivider
+							/>
+							<Section title="All" decks={decks} query={query} />
+						</>
+					)
+				}
 			</div>
 			<div className="bottom">
 				<div className="divider" />

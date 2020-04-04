@@ -8,7 +8,7 @@ import useDecks from '../../../hooks/useDecks'
 import Base from './Base'
 import Stars from '../Stars'
 import Button from '../Button'
-import { formatNumber } from '../../../utils'
+import { urlWithQuery, formatNumber } from '../../../utils'
 
 import downloads from '../../../images/icons/download.svg'
 import users from '../../../images/icons/users.svg'
@@ -29,7 +29,10 @@ export default ({ deck }: { deck: Deck }) => {
 		event.preventDefault()
 		
 		if (!currentUser)
-			return
+			return history.push(urlWithQuery('/auth', {
+				title: 'I heard that deck is great...',
+				next: `/d/${deck.id}`
+			}))
 		
 		try {
 			setGetLoadingState(LoadingState.Loading)

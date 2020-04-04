@@ -29,7 +29,7 @@ $divider-color: transparentize(#ddd, 0.8);
 	> .top {
 		grid-area: top;
 		
-		> img {
+		> a > img {
 			$left-margin: 12px;
 			$vertical-margin: 15px;
 			
@@ -68,6 +68,13 @@ $divider-color: transparentize(#ddd, 0.8);
 	> .sections {
 		grid-area: sections;
 		overflow-y: auto;
+		
+		> p {
+			margin-top: 20px;
+			text-align: center;
+			color: white;
+			font-weight: bold;
+		}
 		
 		> div {
 			margin-top: 16px;

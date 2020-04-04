@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import firebase from '../../firebase'
 import { DashboardNavbarSelection as Selection } from '.'
+import useAuthState from '../../hooks/useAuthState'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import Tab from './NavbarTab'
 import Dropdown from '../shared/Dropdown'
-import { isNullish } from '../../utils'
+import { urlWithQuery, isNullish } from '../../utils'
 
 import { ReactComponent as Home } from '../../images/icons/home.svg'
 import { ReactComponent as Cart } from '../../images/icons/cart.svg'
@@ -20,6 +22,7 @@ import '../../scss/components/Dashboard/Navbar.scss'
 const auth = firebase.auth()
 
 export default ({ selection }: { selection: Selection }) => {
+	const isSignedIn = useAuthState()
 	const [currentUser] = useCurrentUser()
 	
 	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(false)
@@ -52,45 +55,80 @@ export default ({ selection }: { selection: Selection }) => {
 	return (
 		<div className="dashboard-navbar">
 			<div className="tabs">
-				<Tab href="/" title="Home" isSelected={selection === Selection.Home}>
+				<Tab
+					href="/"
+					title="Home"
+					isSelected={selection === Selection.Home}
+					isDisabled={!isSignedIn}
+				>
 					<Home />
 				</Tab>
-				<Tab href="/market" title="Market" isSelected={selection === Selection.Market}>
+				<Tab
+					href="/market"
+					title="Market"
+					isSelected={selection === Selection.Market}
+					isDisabled={false}
+				>
 					<Cart />
 				</Tab>
-				<Tab href="/decks" title="Decks" isSelected={selection === Selection.Decks}>
+				<Tab
+					href="/decks"
+					title="Decks"
+					isSelected={selection === Selection.Decks}
+					isDisabled={!isSignedIn}
+				>
 					<Decks />
 				</Tab>
-				<Tab href="/interests" title="Interests" isSelected={selection === Selection.Interests}>
+				<Tab
+					href="/interests"
+					title="Interests"
+					isSelected={selection === Selection.Interests}
+					isDisabled={!isSignedIn}
+				>
 					<Topics />
 				</Tab>
 			</div>
-			<Dropdown
-				className="profile-dropdown"
-				trigger={<User />}
-				isShowing={isProfileDropdownShowing}
-				setIsShowing={setIsProfileDropdownShowing}
-			>
-				<div className="settings">
-					<label>Name{isNullish(currentUser?.name) ? ' (LOADING)' : ''}</label>
-					<input
-						className="name-input"
-						type="name"
-						value={currentUser?.name ?? ''}
-						onChange={({ target: { value } }) =>
-							currentUser?.updateName(value)
-						}
-					/>
-					<label>Email{isNullish(currentUser?.email) ? ' (LOADING)' : ''}</label>
-					<p className="email">{currentUser?.email ?? ''}</p>
-				</div>
-				<button className="forgot-password" onClick={sendForgotPasswordEmail}>
-					Forgot password
-				</button>
-				<button className="sign-out" onClick={signOut}>
-					Sign out
-				</button>
-			</Dropdown>
+			{isSignedIn
+				? (
+					<Dropdown
+						className="profile-dropdown"
+						trigger={<User />}
+						isShowing={isProfileDropdownShowing}
+						setIsShowing={setIsProfileDropdownShowing}
+					>
+						<div className="settings">
+							<label>Name{isNullish(currentUser?.name) ? ' (LOADING)' : ''}</label>
+							<input
+								className="name-input"
+								type="name"
+								value={currentUser?.name ?? ''}
+								onChange={({ target: { value } }) =>
+									currentUser?.updateName(value)
+								}
+							/>
+							<label>Email{isNullish(currentUser?.email) ? ' (LOADING)' : ''}</label>
+							<p className="email">{currentUser?.email ?? ''}</p>
+						</div>
+						<button className="forgot-password" onClick={sendForgotPasswordEmail}>
+							Forgot password
+						</button>
+						<button className="sign-out" onClick={signOut}>
+							Sign out
+						</button>
+					</Dropdown>
+				)
+				: (
+					<Link
+						to={urlWithQuery('/auth', {
+							title: 'Come and join us!',
+							next: '/market'
+						})}
+						className="auth-button"
+					>
+						Log in <span>/</span> Sign up
+					</Link>
+				)
+			}
 		</div>
 	)
 }
