@@ -79,6 +79,25 @@
 				line-height: 38px;
 			}
 		}
+		
+		> .app-store-download-button-container {
+			display: flex;
+			margin: 40px 0 -50px 30px;
+			
+			> a {
+				> svg {
+					transform: scale(1.5);
+					transition: transform 0.3s;
+				}
+				
+				&:hover,
+				&:focus {
+					> svg {
+						transform: scale(1.7);
+					}
+				}
+			}
+		}
 	}
 	
 	> .screenshot {

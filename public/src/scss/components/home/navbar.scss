@@ -1,23 +1,63 @@
-.home {
-	&.navbar-item-auth {
-		height: 50px;
-		padding: 0 1rem;
-		font-size: 1.25rem;
-		font-weight: bold;
-		color: white;
-		background: black;
-		border-radius: 0.5rem;
-		line-height: 50px;
-		border: 1px solid rgba(255, 255, 255, 0.7);
-		transition: transform 0.2s;
+.home.navbar {
+	@media (min-width: 945px) {
+		padding-left: 135px;
+		padding-right: 135px;
+	}
+	
+	> .items {
+		$bottom-border-width: 2px;
 		
-		&:hover,
-		&:focus {
-			transform: scale(1.05);
+		align-items: flex-end;
+		overflow-x: auto;
+		border-bottom: $bottom-border-width solid transparentize(#ddd, 0.8);
+		
+		> .market-tab {
+			display: flex;
+			align-items: center;
+			flex-shrink: 0;
+			padding: 0 20px 13px 14px;
+			color: white;
+			
+			> svg,
+			> p {
+				opacity: 0.9;
+				transition: opacity 0.3s;
+			}
+			
+			> p {
+				margin-left: 10px;
+				font-weight: bold;
+			}
+			
+			&:hover,
+			&:focus {
+				> svg,
+				> p {
+					opacity: 1;
+				}
+			}
 		}
 		
-		> span {
-			opacity: 0.5;
+		> .auth-button {
+			flex-shrink: 0;
+			margin: 0 12px 10px 8px;
+			padding: 8px 14px;
+			font-size: larger;
+			font-weight: bold;
+			color: white;
+			background: #051e34;
+			border-radius: 8px;
+			transition: color 0.3s, background 0.3s;
+			
+			> span {
+				opacity: 0.7;
+			}
+			
+			&:hover,
+			&:focus {
+				color: #051e34;
+				background: white;
+			}
 		}
 	}
 }
