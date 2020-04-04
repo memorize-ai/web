@@ -1,8 +1,5 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
@@ -16,7 +13,6 @@ import firebase from '../../firebase'
 import 'firebase/analytics'
 
 import '../../scss/components/Home/index.scss'
-import '../../scss/components/Home/Navbar.scss'
 
 const analytics = firebase.analytics()
 
@@ -30,15 +26,7 @@ export default () => {
 				<title>memorize.ai</title>
 			</Helmet>
 			<TopGradient>
-				<Navbar className="home">
-					<Link to="/market" className="market-tab">
-						<FontAwesomeIcon icon={faSearch} />
-						<p>Explore 47k decks</p>
-					</Link>
-					<Link to="/auth" className="auth-button">
-						Log in <span>/</span> Sign up
-					</Link>
-				</Navbar>
+				<Navbar />
 				<Header />
 				<Screenshots />
 				<Boxes />

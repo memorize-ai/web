@@ -6,6 +6,11 @@
 	padding: 30px 30px 0 30px;
 	transition: padding 0.3s;
 	
+	@media (min-width: 945px) {
+		padding-left: 135px;
+		padding-right: 135px;
+	}
+	
 	> a {
 		margin-right: 12px;
 		
@@ -19,6 +24,61 @@
 	
 	> .items {
 		display: flex;
+		align-items: flex-end;
+		overflow-x: auto;
 		margin-left: auto;
+		
+		&:not(.signed-in) {
+			border-bottom: 2px solid transparentize(#ddd, 0.8);
+		}
+		
+		> .market-tab {
+			display: flex;
+			align-items: center;
+			flex-shrink: 0;
+			padding: 0 20px 13px 14px;
+			color: white;
+			
+			> svg,
+			> p {
+				opacity: 0.9;
+				transition: opacity 0.3s;
+			}
+			
+			> p {
+				margin-left: 10px;
+				font-weight: bold;
+			}
+			
+			&:hover,
+			&:focus {
+				> svg,
+				> p {
+					opacity: 1;
+				}
+			}
+		}
+		
+		> .auth-button,
+		> .dashboard-button {
+			margin: 0 12px 10px 8px;
+			padding: 8px 14px;
+			font-size: larger;
+			font-weight: bold;
+			color: white;
+			background: #051e34;
+			border-radius: 8px;
+			transition: color 0.3s, background 0.3s;
+			
+			> span {
+				opacity: 0.7;
+			}
+			
+			&:hover,
+			&:focus {
+				color: #051e34;
+				background: white;
+			}
+		}
 	}
 }

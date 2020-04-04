@@ -11,3 +11,5 @@ export const DECKS_SEARCH_KEY = 'search-no3fo2msypcfjc1p14upkg1c'
 export const DECKS_ENGINE_NAME = 'memorize-ai-decks'
 
 export const EMOJIS = ['😃', '😇', '😌', '😘', '🥳', '💪']
+
+export const DEFAULT_DECK_COUNT = '47k'
