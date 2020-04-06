@@ -6,6 +6,8 @@ import 'firebase/firestore'
 const firestore = firebase.firestore()
 
 export default class Topic {
+	static isObserving = false
+	
 	id: string
 	name: string
 	category: Category

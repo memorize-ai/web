@@ -1,0 +1,112 @@
+@import '../../variables';
+@import '../../mixins';
+
+@include dashboard-content('create-deck') {
+	display: grid;
+	grid:
+		'header' auto
+		'content' 1fr /
+		auto;
+	
+	> .header,
+	> .content {
+		padding: 0 30px;
+	}
+	
+	> .header {
+		grid-area: header;
+		display: flex;
+		align-items: center;
+		margin: 12px 0;
+		
+		> a {
+			margin: 0 auto 0 8px;
+			color: $light-gray;
+			transform: scale(1.8);
+		}
+		
+		> button {
+			height: 42px;
+			padding: 0 12px;
+			font-weight: 800;
+			color: #582efe;
+			background: white;
+			text-transform: uppercase;
+			border-radius: 8px;
+			transition: color 0.3s, background 0.3s, opacity 0.3s;
+			
+			&.disabled {
+				opacity: 0.8;
+			}
+			
+			&:not(.disabled):not(.loading) {
+				&:hover,
+				&:focus {
+					color: white;
+					background: #051e34;
+				}
+			}
+		}
+	}
+	
+	> .content {
+		grid-area: content;
+		overflow-y: auto;
+		padding-bottom: 30px;
+		
+		> div {
+			@include shadow-lg;
+			
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 30px;
+			background: white;
+			border-radius: 8px;
+			
+			> .inputs {
+				margin-top: 18px;
+				
+				> :not(:first-child) {
+					margin-top: 12px;
+				}
+			}
+			
+			> .topics {
+				$cell-dimension: 150px;
+				
+				display: grid;
+				grid-template-columns: repeat(auto-fill, $cell-dimension);
+				gap: 12px;
+				justify-content: center;
+				margin-top: 16px;
+				
+				> button {
+					position: relative;
+					overflow: hidden;
+					border-radius: 8px;
+					background-size: cover;
+					background-position: center;
+					
+					&,
+					> img {
+						width: $cell-dimension;
+						height: $cell-dimension;
+					}
+					
+					> .check,
+					> p {
+						position: absolute;
+					}
+					
+					> p {
+						right: 8px;
+						bottom: 12px;
+						left: 8px;
+						text-align: center;
+						color: white;
+					}
+				}
+			}
+		}
+	}
+}

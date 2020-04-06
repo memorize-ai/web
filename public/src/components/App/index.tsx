@@ -7,11 +7,10 @@ import Support from '../Support'
 
 import Auth from '../Auth'
 
+import CreateDeck from '../Dashboard/CreateDeck'
 import Market from '../Dashboard/Market'
 import Decks from '../Dashboard/Decks'
 import Interests from '../Dashboard/Interests'
-
-import CreateDeck from '../CreateDeck'
 
 import CreateCardPopUp from '../CreateCardPopUp'
 

@@ -114,11 +114,6 @@ export const removeCard = (sectionId: string, cardId: string) => ({
 
 // Topics
 
-export const setIsObservingTopics = (value: boolean) => ({
-	type: ActionType.SetIsObservingTopics,
-	payload: value
-})
-
 export const addTopic = (snapshot: firebase.firestore.DocumentSnapshot) => ({
 	type: ActionType.AddTopic,
 	payload: snapshot
@@ -153,6 +148,11 @@ export const setCreateDeckSubtitle = (value: string) => ({
 
 export const setCreateDeckDescription = (value: string) => ({
 	type: ActionType.SetCreateDeckDescription,
+	payload: value
+})
+
+export const setCreateDeckTopics = (value: string[]) => ({
+	type: ActionType.SetCreateDeckTopics,
 	payload: value
 })
 

@@ -7,18 +7,21 @@ export interface CreateDeckState {
 	name: string
 	subtitle: string
 	description: string
+	topics: string[]
 }
 
 export type CreateDeckAction = Action<
 	| File | null // SetCreateDeckImage
 	| string // SetCreateDeckName, SetCreateDeckSubtitle, SetCreateDeckDescription
+	| string[] // SetCreateDeckTopics
 >
 
 const initialState: CreateDeckState = {
 	image: null,
 	name: '',
 	subtitle: '',
-	description: ''
+	description: '',
+	topics: []
 }
 
 const reducer = (state: CreateDeckState, { type, payload }: CreateDeckAction) => {
@@ -31,6 +34,8 @@ const reducer = (state: CreateDeckState, { type, payload }: CreateDeckAction) =>
 			return { ...state, subtitle: payload as string }
 		case ActionType.SetCreateDeckDescription:
 			return { ...state, description: payload as string }
+		case ActionType.SetCreateDeckTopics:
+			return { ...state, topics: payload as string[] }
 		default:
 			return state
 	}

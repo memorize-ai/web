@@ -41,6 +41,7 @@ export interface CreateDeckData {
 	name: string
 	subtitle: string
 	description: string
+	topics: string[]
 }
 
 export default class Deck implements DeckData {
@@ -199,7 +200,7 @@ export default class Deck implements DeckData {
 	
 	static createForUserWithId = async (uid: string, data: CreateDeckData) => {
 		const { id: deckId } = await firestore.collection('decks').add({
-			topics: [],
+			topics: data.topics,
 			hasImage: Boolean(data.image),
 			name: data.name,
 			subtitle: data.subtitle,

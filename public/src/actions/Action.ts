@@ -28,7 +28,6 @@ export enum ActionType {
 	UpdateCardUserData = 'UPDATE_CARD_USER_DATA',
 	RemoveCard = 'REMOVE_CARD',
 	
-	SetIsObservingTopics = 'SET_IS_OBSERVING_TOPICS',
 	AddTopic = 'ADD_TOPIC',
 	UpdateTopic = 'UPDATE_TOPIC',
 	RemoveTopic = 'REMOVE_TOPIC',
@@ -37,6 +36,7 @@ export enum ActionType {
 	SetCreateDeckName = 'SET_CREATE_DECK_NAME',
 	SetCreateDeckSubtitle = 'SET_CREATE_DECK_SUBTITLE',
 	SetCreateDeckDescription = 'SET_CREATE_DECK_DESCRIPTION',
+	SetCreateDeckTopics = 'SET_CREATE_DECK_TOPICS',
 	
 	ToggleSectionExpanded = 'TOGGLE_SECTION_EXPANDED',
 	
