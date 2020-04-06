@@ -71,6 +71,12 @@
 				}
 			}
 			
+			> .no-topics-message {
+				margin-top: 8px;
+				font-weight: bold;
+				color: $red-600;
+			}
+			
 			> .topics {
 				$cell-dimension: 150px;
 				
@@ -83,19 +89,36 @@
 				> button {
 					position: relative;
 					overflow: hidden;
+					width: $cell-dimension;
+					height: $cell-dimension;
 					border-radius: 8px;
 					background-size: cover;
 					background-position: center;
 					
-					&,
-					> img {
-						width: $cell-dimension;
-						height: $cell-dimension;
-					}
-					
 					> .check,
 					> p {
 						position: absolute;
+					}
+					
+					> .check {
+						$dimension: 25px;
+						
+						top: 12px;
+						right: 12px;
+						width: $dimension;
+						height: $dimension;
+						background: transparentize(white, 0.5);
+						border: 1px solid white;
+						border-radius: 50%;
+					}
+					
+					&.selected > .check {
+						background: #00d388;
+						
+						> svg {
+							color: white;
+							transform: scale(0.8);
+						}
 					}
 					
 					> p {

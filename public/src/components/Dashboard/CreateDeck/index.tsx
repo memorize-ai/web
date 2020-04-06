@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faSignature } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faSignature, faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
@@ -145,6 +145,11 @@ export default () => {
 							setValue={compose(dispatch, setCreateDeckDescription)}
 						/>
 					</div>
+					{selectedTopics.length === 0 && (
+						<p className="no-topics-message">
+							You must select relevant topics for your deck to be recommended
+						</p>
+					)}
 					<div className="topics">
 						{useTopics().map(topic => {
 							const isSelected = selectedTopics.includes(topic.id)
@@ -164,6 +169,9 @@ export default () => {
 										backgroundImage: `linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8)), url('${topic.imageUrl}')`
 									}}
 								>
+									<div className="check">
+										{isSelected && <FontAwesomeIcon icon={faCheck} />}
+									</div>
 									<p>{topic.name}</p>
 								</button>
 							)
