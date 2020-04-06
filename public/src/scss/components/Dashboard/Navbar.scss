@@ -167,12 +167,12 @@
 	> .auth-button {
 		margin-right: 14px;
 		padding: 8px 14px;
+		font-size: larger;
 		font-weight: bold;
 		color: white;
 		background: #051e34;
 		border-radius: 8px;
-		transform: scale(1.1);
-		transition: transform 0.3s;
+		transition: color 0.3s, background 0.3s;
 		
 		> span {
 			opacity: 0.7;
@@ -180,7 +180,8 @@
 		
 		&:hover,
 		&:focus {
-			transform: scale(1.1) translateY(-2px);
+			color: #051e34;
+			background: white;
 		}
 	}
 }
