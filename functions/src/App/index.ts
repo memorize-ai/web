@@ -17,6 +17,4 @@ app.use(require('prerender-node').set(
 handleAPI(app)
 
 app.use(express.static('/srv/public'))
-app.get('*', (_req, res) => {
-	res.sendFile('/srv/public/index.html')
-})
+app.get('*', (_, res) => res.sendFile('/srv/public/index.html'))
