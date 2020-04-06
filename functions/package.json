@@ -22,6 +22,7 @@
 		"firebase-functions": "^3.6.0",
 		"firestore-batch": "^1.0.0",
 		"lodash": "^4.17.15",
+		"prerender-node": "^3.2.5",
 		"send-mjml": "^1.2.0",
 		"uuid": "^3.4.0"
 	},
