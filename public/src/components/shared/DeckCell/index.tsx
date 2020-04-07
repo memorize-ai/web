@@ -31,7 +31,7 @@ export default ({ deck }: { deck: Deck }) => {
 		if (!currentUser)
 			return history.push(urlWithQuery('/auth', {
 				title: 'I heard that deck is great...',
-				next: `/d/${deck.id}`
+				next: `/d/${deck.slug}`
 			}))
 		
 		try {
@@ -50,11 +50,11 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	const open = (event: MouseEvent) => {
 		event.preventDefault()
-		history.push(`/decks/${deck.id}`)
+		history.push(`/decks/${deck.slug}`)
 	}
 	
 	return (
-		<Base className="default" deck={deck} href={`/d/${deck.id}`}>
+		<Base className="default" deck={deck} href={`/d/${deck.slug}`}>
 			<div className="stats">
 				<div className="rating">
 					<Stars>{deck.averageRating}</Stars>

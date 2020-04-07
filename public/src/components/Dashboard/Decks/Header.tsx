@@ -40,7 +40,7 @@ export default ({ deck }: { deck: Deck }) => {
 				<Action
 					icon={faShoppingCart}
 					title="Market"
-					onClick={() => history.push(`/d/${deck.id}`)}
+					onClick={() => history.push(`/d/${deck.slug}`)}
 				/>
 				<Action
 					color="blue"

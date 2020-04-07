@@ -1,6 +1,7 @@
 import UserData from './UserData'
 import Section from '../Section'
 import LoadingState from '../LoadingState'
+import { slugify } from '../../utils'
 import firebase from '../../firebase'
 
 import 'firebase/firestore'
@@ -10,6 +11,7 @@ const firestore = firebase.firestore()
 const storage = firebase.storage().ref()
 
 export interface DeckData {
+	slug: string
 	topics: string[]
 	hasImage: boolean
 	name: string
@@ -51,6 +53,7 @@ export default class Deck implements DeckData {
 	static snapshotListeners: Record<string, () => void> = {}
 	
 	id: string
+	slug: string
 	topics: string[]
 	hasImage: boolean
 	name: string
@@ -83,6 +86,7 @@ export default class Deck implements DeckData {
 	
 	constructor(id: string, data: DeckData, userData: UserData | null = null) {
 		this.id = id
+		this.slug = data.slug
 		this.topics = data.topics
 		this.hasImage = data.hasImage
 		this.name = data.name
@@ -120,6 +124,7 @@ export default class Deck implements DeckData {
 		userData: UserData | null = null
 	) =>
 		new Deck(snapshot.id, {
+			slug: snapshot.get('slug'),
 			topics: snapshot.get('topics'),
 			hasImage: snapshot.get('hasImage'),
 			name: snapshot.get('name'),
@@ -198,8 +203,14 @@ export default class Deck implements DeckData {
 			}
 		)
 	
+	/** @returns The deck's slug */
 	static createForUserWithId = async (uid: string, data: CreateDeckData) => {
-		const { id: deckId } = await firestore.collection('decks').add({
+		const doc = firestore.collection('decks').doc()
+		const deckId = doc.id
+		const slug = Deck.createSlug(deckId, data.name)
+		
+		await doc.set({
+			slug,
 			topics: data.topics,
 			hasImage: Boolean(data.image),
 			name: data.name,
@@ -235,8 +246,11 @@ export default class Deck implements DeckData {
 			added: firebase.firestore.FieldValue.serverTimestamp()
 		})
 		
-		return deckId
+		return slug
 	}
+	
+	static createSlug = (id: string, name: string) =>
+		`${slugify(name)}-${id}`
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.topics = snapshot.get('topics')

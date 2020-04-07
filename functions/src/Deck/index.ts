@@ -1,15 +1,16 @@
 import * as admin from 'firebase-admin'
+import Batch from 'firestore-batch'
 
 import decksClient from '../AppSearch/decks'
 import User from '../User'
 import Section from '../Section'
-import Batch from 'firestore-batch'
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket()
 
 export default class Deck {
 	id: string
+	slug: string
 	topics: string[]
 	hasImage: boolean
 	name: string
@@ -36,6 +37,7 @@ export default class Deck {
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
 		this.id = snapshot.id
+		this.slug = snapshot.get('slug')
 		this.topics = snapshot.get('topics')
 		this.hasImage = snapshot.get('hasImage')
 		this.name = snapshot.get('name')
@@ -281,6 +283,7 @@ export default class Deck {
 		
 		return {
 			id: this.id,
+			slug: this.slug,
 			score: this.score,
 			topics: this.topics,
 			has_image: this.hasImage,

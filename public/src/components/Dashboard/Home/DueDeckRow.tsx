@@ -10,7 +10,7 @@ export default ({ deck }: { deck: Deck }) => {
 	const [imageUrl, imageUrlLoadingState] = useImageUrl(deck)
 	
 	return (
-		<Link to={`/decks/${deck.id}`}>
+		<Link to={`/decks/${deck.slug}`}>
 			{imageUrlLoadingState === LoadingState.Loading || (
 				<img src={imageUrl ?? Deck.defaultImage} alt={deck.name} />
 			)}

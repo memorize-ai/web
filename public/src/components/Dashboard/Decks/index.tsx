@@ -12,25 +12,25 @@ import '../../../scss/components/Dashboard/Decks.scss'
 export default () => {
 	requiresAuth('/decks')
 	
-	const { deckId } = useParams()
+	const { slug } = useParams()
 	const history = useHistory()
 	
 	const [selectedDeck, setSelectedDeck] = useSelectedDeck()
 	const decks = useDecks()
 	
 	useEffect(() => {
-		if (!deckId && selectedDeck)
-			history.push(`/decks/${selectedDeck.id}`)
-	}, [deckId, selectedDeck])
+		if (!slug && selectedDeck)
+			history.push(`/decks/${selectedDeck.slug}`)
+	}, [slug, selectedDeck]) // eslint-disable-line
 	
 	useEffect(() => {
-		if (selectedDeck && selectedDeck.id === deckId)
+		if (selectedDeck && selectedDeck.slug === slug)
 			return
 		
-		const deck = decks.find(deck => deck.id === deckId)
+		const deck = decks.find(deck => deck.slug === slug)
 		
 		deck && setSelectedDeck(deck)
-	}, [selectedDeck, deckId, decks])
+	}, [selectedDeck, slug, decks]) // eslint-disable-line
 	
 	return (
 		<Dashboard selection={Selection.Decks} className="decks" gradientHeight="350px">

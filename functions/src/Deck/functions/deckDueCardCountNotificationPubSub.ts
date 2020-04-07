@@ -22,13 +22,14 @@ export default functions.pubsub.schedule(EMAIL_SCHEDULE).onRun(async () => {
 			uid,
 			decks.map(deck => ({
 				id: deck.id,
+				slug: deck.get('slug'),
 				dueCardCount: deck.get('dueCardCount') ?? 0
 			}))
 		)
 	}))
 })
 
-const sendNotificationsIfNeeded = async (uid: string, decks: { id: string, dueCardCount: number }[]) => {
+const sendNotificationsIfNeeded = async (uid: string, decks: { id: string, slug: string, dueCardCount: number }[]) => {
 	decks = decks.filter(deck => deck.dueCardCount)
 	
 	if (!decks.length)
@@ -51,7 +52,7 @@ const sendNotificationsIfNeeded = async (uid: string, decks: { id: string, dueCa
 				name: (await firestore.doc(`decks/${deck.id}`).get()).get('name'),
 				count: deck.dueCardCount,
 				is_plural: deck.dueCardCount !== 1,
-				url: `https://memorize.ai/decks/${deck.id}`
+				url: `https://memorize.ai/decks/${deck.slug}`
 			}))),
 			time_sent: '12:00 PM PST',
 			unsubscribe_url: `https://memorize.ai/unsubscribe/${uid}/${EmailTemplate.DueCards}`
