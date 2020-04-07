@@ -25,7 +25,7 @@ export default () => {
 	
 	return (
 		<Dashboard selection={selection} className="deck-page" gradientHeight="500px">
-			<BackButton to={previousUrl || '/'} />
+			<BackButton to={previousUrl || '/market'} />
 			<div className="box">
 				{/* TODO: Add content */}
 			</div>
