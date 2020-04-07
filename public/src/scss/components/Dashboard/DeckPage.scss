@@ -1,0 +1,20 @@
+@import '../../variables';
+@import '../../mixins';
+@import '../../functions';
+
+@include dashboard-content('deck-page') {
+	padding: 0 raw-repeat(3, 30px);
+	
+	> .back-button {
+		margin: 12px 0;
+	}
+	
+	> .box {
+		@include shadow-lg;
+		
+		background: white;
+		border-radius: 8px;
+		
+		height: 1000px; // DEBUG
+	}
+}

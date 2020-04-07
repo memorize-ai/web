@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { useHistory, Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faSignature, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faSignature, faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
@@ -19,6 +19,7 @@ import {
 	setCreateDeckDescription,
 	setCreateDeckTopics
 } from '../../../actions'
+import BackButton from '../../shared/BackButton'
 import ImagePicker from '../../shared/ImagePicker'
 import Input from '../../shared/Input'
 import TextArea from '../../shared/TextArea'
@@ -100,9 +101,7 @@ export default () => {
 	return (
 		<Dashboard selection={Selection.Home} className="create-deck" gradientHeight="500px">
 			<div className="header">
-				<Link to="/">
-					<FontAwesomeIcon icon={faTimes} />
-				</Link>
+				<BackButton to="/" />
 				<Button
 					loaderSize="16px"
 					loaderThickness="3px"

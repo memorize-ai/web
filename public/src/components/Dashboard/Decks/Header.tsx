@@ -12,6 +12,7 @@ import {
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import Action from './HeaderAction'
+import { urlForDeckPage } from '../DeckPage'
 
 export default ({ deck }: { deck: Deck }) => {
 	const history = useHistory()
@@ -40,7 +41,7 @@ export default ({ deck }: { deck: Deck }) => {
 				<Action
 					icon={faShoppingCart}
 					title="Market"
-					onClick={() => history.push(`/d/${deck.slug}`)}
+					onClick={() => history.push(urlForDeckPage(deck))}
 				/>
 				<Action
 					color="blue"

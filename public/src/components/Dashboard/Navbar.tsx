@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import firebase from '../../firebase'
@@ -21,7 +21,7 @@ import '../../scss/components/Dashboard/Navbar.scss'
 
 const auth = firebase.auth()
 
-export default ({ selection }: { selection: Selection }) => {
+export default ({ selection, overlay, ...props }: { selection: Selection, overlay?: ReactNode }) => {
 	const isSignedIn = useAuthState()
 	const [currentUser] = useCurrentUser()
 	
@@ -53,7 +53,8 @@ export default ({ selection }: { selection: Selection }) => {
 	}
 	
 	return (
-		<div className="dashboard-navbar">
+		<div {...props} className="dashboard-navbar">
+			{}
 			<div className="tabs">
 				<Tab
 					href="/"

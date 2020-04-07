@@ -134,7 +134,7 @@ export default () => (
 		<div id="home-screenshots-aos-anchor-first" className="content">
 			<div
 				className="scroll-indicator-container"
-				data-aos="disappear-with-fade"
+				data-aos="fade-out"
 				data-aos-anchor="#home-screenshots-background-aos-anchor"
 				data-aos-anchor-placement="top-top"
 			>

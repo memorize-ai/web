@@ -8,6 +8,7 @@ import useDecks from '../../../hooks/useDecks'
 import Base from './Base'
 import Stars from '../Stars'
 import Button from '../Button'
+import { urlForDeckPage } from '../../Dashboard/DeckPage'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import downloads from '../../../images/icons/download.svg'
@@ -31,7 +32,7 @@ export default ({ deck }: { deck: Deck }) => {
 		if (!currentUser)
 			return history.push(urlWithQuery('/auth', {
 				title: 'I heard that deck is great...',
-				next: `/d/${deck.slug}`
+				next: urlForDeckPage(deck, 'get')
 			}))
 		
 		try {
@@ -54,7 +55,7 @@ export default ({ deck }: { deck: Deck }) => {
 	}
 	
 	return (
-		<Base className="default" deck={deck} href={`/d/${deck.slug}`}>
+		<Base className="default" deck={deck} href={urlForDeckPage(deck)}>
 			<div className="stats">
 				<div className="rating">
 					<Stars>{deck.averageRating}</Stars>

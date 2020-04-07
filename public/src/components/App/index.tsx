@@ -12,6 +12,8 @@ import Market from '../Dashboard/Market'
 import Decks from '../Dashboard/Decks'
 import Interests from '../Dashboard/Interests'
 
+import DeckPage from '../Dashboard/DeckPage'
+
 import CreateCardPopUp from '../CreateCardPopUp'
 
 import Unsubscribe from '../Unsubscribe'
@@ -27,11 +29,12 @@ export default () => (
 			
 			<Route exact path="/auth" component={Auth} />
 			
+			<Route exact path="/new" component={CreateDeck} />
 			<Route exact path="/market" component={Market} />
 			<Route exact path={['/decks', '/decks/:slug']} component={Decks} />
 			<Route exact path="/interests" component={Interests} />
 			
-			<Route exact path="/new" component={CreateDeck} />
+			<Route exact path="/d/:slug" component={DeckPage} />
 			
 			<Route
 				exact

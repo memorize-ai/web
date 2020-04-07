@@ -9,7 +9,16 @@
 	}
 }
 
-[data-aos='disappear-with-fade'] {
+[data-aos='fade-in'] {
+	opacity: 0;
+	transition-property: opacity;
+	
+	&.aos-animate {
+		opacity: 1;
+	}
+}
+
+[data-aos='fade-out'] {
 	opacity: 1;
 	transition-property: opacity;
 	
