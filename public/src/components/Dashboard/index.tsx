@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode } from 'react'
+import React, { PropsWithChildren } from 'react'
 import cx from 'classnames'
 import Helmet from 'react-helmet'
 
@@ -31,12 +31,10 @@ export const selectionFromUrl = (url: string) => {
 }
 
 export default (
-	{ selection, className, gradientHeight, navbarProps, navbarOverlay, children }: PropsWithChildren<{
+	{ selection, className, gradientHeight, children }: PropsWithChildren<{
 		selection: DashboardNavbarSelection
 		className: string
 		gradientHeight: string
-		navbarProps?: Record<string, any>
-		navbarOverlay?: ReactNode
 	}>
 ) => (
 	<div className="dashboard">
@@ -47,7 +45,7 @@ export default (
 		<div className="content">
 			<div className="background" style={{ height: gradientHeight }} />
 			<div className="container">
-				<Navbar {...navbarProps} selection={selection} overlay={navbarOverlay} />
+				<Navbar selection={selection} />
 				<div className={cx('foreground', className)}>
 					{children}
 				</div>

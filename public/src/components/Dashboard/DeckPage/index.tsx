@@ -24,30 +24,9 @@ export default () => {
 	const selection = (previousUrl && selectionFromUrl(previousUrl)) || Selection.Market
 	
 	return (
-		<Dashboard
-			selection={selection}
-			className="deck-page"
-			gradientHeight="500px"
-			navbarProps={{
-				'data-aos': 'fade-out',
-				'data-aos-anchor': '#deck-page-navbar-aos-anchor',
-				'data-aos-anchor-placement': 'top-top'
-			}}
-			navbarOverlay={
-				<div
-					data-aos="fade-in"
-					data-aos-anchor="#deck-page-navbar-aos-anchor"
-					data-aos-anchor-placement="top-top"
-				>
-					Navbar
-				</div>
-			}
-		>
-			<BackButton
-				to={previousUrl || '/'}
-				
-			/>
-			<div className="box" id="deck-page-navbar-aos-anchor">
+		<Dashboard selection={selection} className="deck-page" gradientHeight="500px">
+			<BackButton to={previousUrl || '/'} />
+			<div className="box">
 				{/* TODO: Add content */}
 			</div>
 		</Dashboard>
