@@ -110,14 +110,22 @@
 						background: transparentize(white, 0.5);
 						border: 1px solid white;
 						border-radius: 50%;
+						transition: background 0.3s, border 0.3s;
+						
+						> svg {
+							color: white;
+							opacity: 0;
+							transform: scale(0.8);
+							transition: opacity 0.3s;
+						}
 					}
 					
 					&.selected > .check {
 						background: #00d388;
+						border-color: #00d388;
 						
 						> svg {
-							color: white;
-							transform: scale(0.8);
+							opacity: 1;
 						}
 					}
 					

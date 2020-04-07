@@ -170,7 +170,7 @@ export default () => {
 									}}
 								>
 									<div className="check">
-										{isSelected && <FontAwesomeIcon icon={faCheck} />}
+										<FontAwesomeIcon icon={faCheck} />
 									</div>
 									<p>{topic.name}</p>
 								</button>
