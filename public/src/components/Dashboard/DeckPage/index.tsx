@@ -1,11 +1,14 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import Schema, { IndividualProduct } from 'schema.org-react'
+import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection, selectionFromUrl } from '..'
 import Deck from '../../../models/Deck'
 import useQuery from '../../../hooks/useQuery'
 import BackButton from '../../shared/BackButton'
+import Header from './Header'
+import Loader from '../../shared/Loader'
 import { urlWithQuery } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'
@@ -24,7 +27,7 @@ export default () => {
 	const { slug } = useParams()
 	const query = useQuery()
 	
-	const { deck, isOwned } = useDeck(slug)
+	const { deck, hasDeck } = useDeck(slug)
 	
 	const previousUrl = query.get('prev')
 	const selection = (previousUrl && selectionFromUrl(previousUrl)) || Selection.Market
@@ -36,9 +39,15 @@ export default () => {
 				'@type': 'IndividualProduct'
 			}} />
 			<BackButton to={previousUrl || '/market'} />
-			<div className="box">
-				<p>{deck?.name}</p>
-				<p>{isOwned.toString()}</p>
+			<div className={cx('box', { loading: !deck })}>
+				{deck
+					? (
+						<>
+							<Header deck={deck} hasDeck={hasDeck} />
+						</>
+					)
+					: <Loader size="24px" thickness="4px" color="#582efe" />
+				}
 			</div>
 		</Dashboard>
 	)

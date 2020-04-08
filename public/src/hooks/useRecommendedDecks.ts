@@ -8,12 +8,14 @@ export default (pageSize: number) => {
 	const [currentUser] = useCurrentUser()
 	const [decks, setDecks] = useState([] as Deck[])
 	
+	const interestIds = currentUser?.interestIds
+	
 	useEffect(() => void (async () => {
-		if (!currentUser?.interestIds)
+		if (!interestIds)
 			return
 		
-		setDecks(await DeckSearch.recommendedDecks(pageSize, currentUser.interestIds))
-	})(), [currentUser?.interestIds])
+		setDecks(await DeckSearch.recommendedDecks(pageSize, interestIds))
+	})(), [interestIds, pageSize])
 	
 	return decks
 }

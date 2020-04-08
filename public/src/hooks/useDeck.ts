@@ -47,6 +47,6 @@ export default (slug: string | null | undefined) => {
 	
 	return {
 		deck: deck ?? null,
-		isOwned: ownedDecks.some(deck => deck.slug === slug)
+		hasDeck: ownedDecks.some(deck => deck.slug === slug)
 	}
 }

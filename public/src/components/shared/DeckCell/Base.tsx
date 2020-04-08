@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
-import LoadingState from '../../../models/LoadingState'
 import useImageUrl from '../../../hooks/useImageUrl'
 
 import { ReactComponent as User } from '../../../images/icons/user.svg'
@@ -17,13 +16,11 @@ export default (
 		href: string
 	}>
 ) => {
-	const [imageUrl, imageUrlLoadingState] = useImageUrl(deck)
+	const [imageUrl] = useImageUrl(deck)
 	
 	return (
 		<Link to={href} className={cx('deck-cell', className)}>
-			{imageUrlLoadingState === LoadingState.Loading || (
-				<img src={imageUrl ?? Deck.defaultImage} alt={deck.name} />
-			)}
+			<img src={imageUrl ?? Deck.defaultImage} alt={deck.name} />
 			<div className="content">
 				<p className="name">
 					{deck.name}
