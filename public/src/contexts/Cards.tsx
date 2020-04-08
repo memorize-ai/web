@@ -7,8 +7,8 @@ export type CardsState = Record<string, Card[]>
 
 export type CardsAction = Action<
 	| string // InitializeCards
-	| { sectionId: string, snapshot: firebase.firestore.DocumentSnapshot } // AddCard, UpdateCard, UpdateCardUserData
-	| { sectionId: string, cardId: string } // RemoveCard
+	| { parentId: string, snapshot: firebase.firestore.DocumentSnapshot } // AddCard, UpdateCard, UpdateCardUserData
+	| { parentId: string, cardId: string } // RemoveCard
 >
 
 const initialState: CardsState = {}
@@ -16,36 +16,36 @@ const initialState: CardsState = {}
 const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 	switch (type) {
 		case ActionType.InitializeCards: {
-			const sectionId = payload as string
+			const parentId = payload as string
 			
 			return {
 				...state,
-				[sectionId]: state[sectionId] ?? []
+				[parentId]: state[parentId] ?? []
 			}
 		}
 		case ActionType.AddCard: {
-			const { sectionId, snapshot } = payload as {
-				sectionId: string
+			const { parentId, snapshot } = payload as {
+				parentId: string
 				snapshot: firebase.firestore.DocumentSnapshot
 			}
 			
 			return {
 				...state,
-				[sectionId]: [
-					...state[sectionId] ?? [],
+				[parentId]: [
+					...state[parentId] ?? [],
 					Card.fromSnapshot(snapshot, null)
 				]
 			}
 		}
 		case ActionType.UpdateCard: {
-			const { sectionId, snapshot } = payload as {
-				sectionId: string
+			const { parentId, snapshot } = payload as {
+				parentId: string
 				snapshot: firebase.firestore.DocumentSnapshot
 			}
 			
 			return {
 				...state,
-				[sectionId]: state[sectionId]?.map(card =>
+				[parentId]: state[parentId]?.map(card =>
 					card.id === snapshot.id
 						? card.updateFromSnapshot(snapshot)
 						: card
@@ -53,14 +53,14 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 			}
 		}
 		case ActionType.UpdateCardUserData: {
-			const { sectionId, snapshot } = payload as {
-				sectionId: string
+			const { parentId, snapshot } = payload as {
+				parentId: string
 				snapshot: firebase.firestore.DocumentSnapshot
 			}
 			
 			return {
 				...state,
-				[sectionId]: state[sectionId]?.map(card =>
+				[parentId]: state[parentId]?.map(card =>
 					card.id === snapshot.id
 						? card.updateUserDataFromSnapshot(snapshot)
 						: card
@@ -68,14 +68,14 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 			}
 		}
 		case ActionType.RemoveCard: {
-			const { sectionId, cardId } = payload as {
-				sectionId: string
+			const { parentId, cardId } = payload as {
+				parentId: string
 				cardId: string
 			}
 			
 			return {
 				...state,
-				[sectionId]: state[sectionId]?.filter(card =>
+				[parentId]: state[parentId]?.filter(card =>
 					card.id !== cardId
 				)
 			}

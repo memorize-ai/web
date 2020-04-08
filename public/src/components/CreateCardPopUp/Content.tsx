@@ -54,7 +54,7 @@ export default (
 	)
 	
 	const currentDeck = decks.find(deck => deck.id === deckId)
-	const sections = useSections(currentDeck)
+	const sections = useSections(currentDeck?.id)
 	
 	const currentSection = sectionId
 		? sections?.find(section => section.id === sectionId)
@@ -73,7 +73,7 @@ export default (
 			text,
 			from
 		}))
-	}, [decks, currentDeck, text, from])
+	}, [decks, currentDeck, text, from]) // eslint-disable-line
 	
 	return (
 		<>

@@ -1,31 +1,32 @@
 import { useContext, useEffect } from 'react'
 
-import DecksContext from '../contexts/Decks'
+import SectionsContext from '../contexts/Sections'
 import {
+	initializeSections,
 	addSection,
 	updateSection,
-	removeSection,
-	setIsObservingSections
+	removeSection
 } from '../actions'
-import Deck from '../models/Deck'
 import Section from '../models/Section'
 import { compose } from '../utils'
 
-export default (deck: Deck | null | undefined) => {
-	const [, dispatch] = useContext(DecksContext)
+export default (deckId: string | null | undefined) => {
+	const [_sections, dispatch] = useContext(SectionsContext)
+	const sections = deckId ? _sections[deckId] : null
 	
 	useEffect(() => {
-		if (!deck || deck.isObservingSections)
+		if (!deckId || sections)
 			return
 		
-		dispatch(setIsObservingSections(deck.id, true))
+		dispatch(initializeSections(deckId))
 		
-		Section.observeForDeckWithId(deck.id, {
+		Section.observeForDeckWithId(deckId, {
+			initializeSections: compose(dispatch, initializeSections),
 			addSection: compose(dispatch, addSection),
 			updateSection: compose(dispatch, updateSection),
 			removeSection: compose(dispatch, removeSection)
 		})
-	}, [deck])
+	}, [deckId, sections]) // eslint-disable-line
 	
-	return deck?.sections ?? []
+	return sections ?? []
 }

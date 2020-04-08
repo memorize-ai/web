@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import Deck from '../../models/Deck'
 import Section from '../../models/Section'
+import useSections from '../../hooks/useSections'
 import { getPopUpUrl } from './Content'
 import HorizontalScrollingList from './HorizontalScrollingList'
 import Box from './Box'
@@ -21,7 +22,7 @@ export default (
 	
 	const sections = currentDeck && [
 		currentDeck.unsectionedSection,
-		...currentDeck.sections
+		...useSections(currentDeck?.id)
 	]
 	
 	return (

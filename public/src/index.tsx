@@ -6,6 +6,7 @@ import AOS from 'aos'
 import * as serviceWorker from './serviceWorker'
 import { CurrentUserProvider } from './contexts/CurrentUser'
 import { DecksProvider } from './contexts/Decks'
+import { SectionsProvider } from './contexts/Sections'
 import { CardsProvider } from './contexts/Cards'
 import { DeckImageUrlsProvider } from './contexts/DeckImageUrls'
 import { TopicsProvider } from './contexts/Topics'
@@ -30,19 +31,21 @@ Modal.setAppElement(root)
 ReactDOM.render((
 	<CurrentUserProvider>
 		<DecksProvider>
-			<CardsProvider>
-				<DeckImageUrlsProvider>
-					<TopicsProvider>
-						<CreateDeckProvider>
-							<ExpandedSectionsProvider>
-								<CountersProvider>
-									<App />
-								</CountersProvider>
-							</ExpandedSectionsProvider>
-						</CreateDeckProvider>
-					</TopicsProvider>
-				</DeckImageUrlsProvider>
-			</CardsProvider>
+			<SectionsProvider>
+				<CardsProvider>
+					<DeckImageUrlsProvider>
+						<TopicsProvider>
+							<CreateDeckProvider>
+								<ExpandedSectionsProvider>
+									<CountersProvider>
+										<App />
+									</CountersProvider>
+								</ExpandedSectionsProvider>
+							</CreateDeckProvider>
+						</TopicsProvider>
+					</DeckImageUrlsProvider>
+				</CardsProvider>
+			</SectionsProvider>
 		</DecksProvider>
 	</CurrentUserProvider>
 ), root)

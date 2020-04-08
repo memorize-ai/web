@@ -11,13 +11,15 @@ export enum ActionType {
 	
 	SetSelectedDeck = 'SET_SELECTED_DECK',
 	UpdateDeck = 'UPDATE_DECK',
+	UpdateOwnedDeck = 'UPDATE_OWNED_DECK',
 	UpdateDeckUserData = 'UPDATE_DECK_USER_DATA',
 	RemoveDeck = 'REMOVE_DECK',
+	RemoveOwnedDeck = 'REMOVE_OWNED_DECK',
 	
 	SetDeckImageUrl = 'SET_DECK_IMAGE_URL',
 	SetDeckImageUrlLoadingState = 'SET_DECK_IMAGE_URL_LOADING_STATE',
 	
-	SetIsObservingSections = 'SET_IS_OBSERVING_SECTIONS',
+	InitializeSections = 'INITIALIZE_SECTIONS',
 	AddSection = 'ADD_SECTION',
 	UpdateSection = 'UPDATE_SECTION',
 	RemoveSection = 'REMOVE_SECTION',

@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
-import cx from 'classnames'
 import Helmet from 'react-helmet'
+import cx from 'classnames'
 
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'

@@ -10,6 +10,7 @@ import Input from '../shared/Input'
 import Button from '../shared/Button'
 
 import '../../scss/components/CreateCardPopUp/CreateSectionModal.scss'
+import useSections from '../../hooks/useSections'
 
 export default (
 	{ deck, isShowing, hide }: {
@@ -21,6 +22,8 @@ export default (
 	const [name, setName] = useState('')
 	const [publishLoadingState, setPublishLoadingState] = useState(LoadingState.None)
 	
+	const sections = useSections(deck.id)
+	
 	const isPublishButtonLoading = publishLoadingState === LoadingState.Loading
 	const isPublishButtonDisabled = !name
 	
@@ -28,7 +31,7 @@ export default (
 		try {
 			setPublishLoadingState(LoadingState.Loading)
 			
-			await Section.createForDeck(deck, name)
+			await Section.createForDeck(deck, name, sections.length)
 			
 			setPublishLoadingState(LoadingState.Success)
 			hide()

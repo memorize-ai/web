@@ -47,9 +47,15 @@ export interface CreateDeckData {
 }
 
 export default class Deck implements DeckData {
-	static defaultImage = require('../../images/logos/icon.png')
+	static defaultImage: string = require('../../images/logos/icon.png')
 	
-	static isObserving: Record<string, boolean> = {} // Key is a user id
+	/** Key is a user ID */
+	static isObservingOwned: Record<string, boolean> = {}
+	
+	/** Key is a deck slug */
+	static isObserving: Record<string, boolean> = {}
+	
+	/** Key is a deck ID */
 	static snapshotListeners: Record<string, () => void> = {}
 	
 	id: string
@@ -75,12 +81,10 @@ export default class Deck implements DeckData {
 	numberOfAllTimeUsers: number
 	numberOfFavorites: number
 	creatorId: string
-	creatorName: string | null // Only available if the deck was retrieved from search
+	/** Only available if the deck was retrieved from search */
+	creatorName: string | null
 	created: Date
 	lastUpdated: Date
-	
-	isObservingSections: boolean = false
-	sections: Section[] = []
 	
 	userData: UserData | null
 	
@@ -352,33 +356,4 @@ export default class Deck implements DeckData {
 	
 	numberOfCardsDueForSection = (section: Section) =>
 		this.userData?.sections[section.id] ?? 0
-	
-	private sortSections = () =>
-		this.sections = this.sections.sort(({ index: a }, { index: b }) => a - b)
-	
-	setIsObservingSections = (value: boolean) => {
-		this.isObservingSections = value
-		return this
-	}
-	
-	addSection = (snapshot: firebase.firestore.DocumentSnapshot) => {
-		this.sections.push(Section.fromSnapshot(snapshot))
-		this.sortSections()
-		
-		return this
-	}
-	
-	updateSection = (snapshot: firebase.firestore.DocumentSnapshot) => {
-		this.sections.find(section => section.id === snapshot.id)?.updateFromSnapshot(snapshot)
-		this.sortSections()
-		
-		return this
-	}
-	
-	removeSection = (sectionId: string) => {
-		this.sections = this.sections.filter(section => section.id !== sectionId)
-		this.sortSections()
-		
-		return this
-	}
 }

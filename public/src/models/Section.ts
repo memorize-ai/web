@@ -40,7 +40,8 @@ export default class Section implements SectionData {
 	
 	static observeForDeckWithId = (
 		deckId: string,
-		{ addSection, updateSection, removeSection }: {
+		{ initializeSections, addSection, updateSection, removeSection }: {
+			initializeSections: (deckId: string) => void
 			addSection: (deckId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
 			updateSection: (deckId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
 			removeSection: (deckId: string, sectionId: string) => void
@@ -48,6 +49,8 @@ export default class Section implements SectionData {
 	) =>
 		firestore.collection(`decks/${deckId}/sections`).onSnapshot(
 			snapshot => {
+				initializeSections(deckId)
+				
 				for (const { type, doc } of snapshot.docChanges())
 					switch (type) {
 						case 'added':
@@ -67,15 +70,18 @@ export default class Section implements SectionData {
 			}
 		)
 	
-	static createForDeck = async (deck: Deck, name: string) =>
+	static createForDeck = async (deck: Deck, name: string, numberOfSections: number) =>
 		(await firestore
 			.collection(`decks/${deck.id}/sections`)
 			.add({
 				name,
-				index: deck.sections.length,
+				index: numberOfSections,
 				cardCount: 0
 			})
 		).id
+	
+	static sort = (sections: Section[]) =>
+		sections.sort(({ index: a }, { index: b }) => a - b)
 	
 	get isUnsectioned() {
 		return !this.id

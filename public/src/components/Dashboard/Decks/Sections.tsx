@@ -6,7 +6,7 @@ import Header from './SectionHeader'
 import Cards from './Cards'
 
 export default ({ deck }: { deck: Deck }) => {
-	const sections = [deck.unsectionedSection, ...useSections(deck)]
+	const sections = [deck.unsectionedSection, ...useSections(deck.id)]
 	
 	return (
 		<div className="sections">
