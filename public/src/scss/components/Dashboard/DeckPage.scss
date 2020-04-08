@@ -35,9 +35,9 @@
 			$margin: 30px;
 			
 			display: flex;
+			min-height: $deck-cell-height;
 			margin: $margin 0 0 $margin;
 			
-			&,
 			> img {
 				height: $deck-cell-height;
 			}
@@ -178,8 +178,51 @@
 					$height: 2px;
 					
 					height: $height;
+					margin-right: $margin;
 					background: transparentize(#ddd, 0.5);
 					border-radius: $height / 2;
+				}
+				
+				> .stats {
+					display: flex;
+					align-items: center;
+					margin-top: 12px;
+					
+					> .divider {
+						width: 2px;
+						height: 25px;
+						margin: 0 20px;
+						background: transparentize(#ddd, 0.5);
+					}
+					
+					> .rating,
+					> .downloads,
+					> .current-users {
+						display: flex;
+						align-items: center;
+						
+						> p {
+							margin-left: 8px;
+							font-size: 17px;
+							font-weight: 600;
+							color: #9b9b9b;
+						}
+					}
+					
+					> .downloads,
+					> .current-users {
+						> svg {
+							margin-right: 4px;
+							transform: scale(1.7);
+						}
+					}
+					
+					> .cards {
+						margin-left: -2px;
+						font-size: 17px;
+						font-weight: 600;
+						color: #9b9b9b;
+					}
 				}
 			}
 		}

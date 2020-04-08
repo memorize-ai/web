@@ -130,6 +130,10 @@ export default (
 						<UsersIcon />
 						<p>({formatNumber(deck.numberOfCurrentUsers)})</p>
 					</div>
+					<div className="divider" />
+					<p className="cards">
+						{formatNumber(deck.numberOfCards)} card{deck.numberOfCards === 1 ? '' : 's'}
+					</p>
 				</div>
 			</div>
 		</div>
