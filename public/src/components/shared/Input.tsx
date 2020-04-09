@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react'
+import React, { forwardRef, HTMLAttributes } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -15,18 +15,13 @@ export interface InputProps {
 	setValue: (value: string) => void
 }
 
-export default ({
-	className,
-	required,
-	icon,
-	type,
-	placeholder,
-	value,
-	setValue,
-	...props
-}: InputProps & HTMLAttributes<HTMLDivElement>) => (
+export default forwardRef<HTMLInputElement | null, InputProps & HTMLAttributes<HTMLDivElement>>((
+	{ className, required, icon, type, placeholder, value, setValue, ...props },
+	ref
+) => (
 	<div {...props} className={cx('input', className)}>
 		<input
+			ref={ref}
 			required={required}
 			type={type}
 			placeholder={placeholder}
@@ -35,4 +30,4 @@ export default ({
 		/>
 		{icon && <FontAwesomeIcon icon={icon} />}
 	</div>
-)
+))

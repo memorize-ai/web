@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -57,6 +57,10 @@ export default () => {
 		setSortAlgorithm(DeckSortAlgorithm.Recommended)
 	}, [query]) // eslint-disable-line
 	
+	const onInputRef = useCallback((input: HTMLInputElement | null) => {
+		input?.focus()
+	}, [])
+	
 	const getDecks = async (pageNumber: number) => {
 		try {
 			const decks = await DeckSearch.search(query, {
@@ -85,6 +89,7 @@ export default () => {
 		<Dashboard selection={Selection.Market} className="market" gradientHeight="500px">
 			<div className="header">
 				<Input
+					ref={onInputRef}
 					className="search"
 					icon={faSearch}
 					type="name"
@@ -118,7 +123,11 @@ export default () => {
 				>
 					<div className="grid">
 						{decks.map(deck => (
-							<DeckCell key={deck.id} deck={deck} />
+							<DeckCell
+								key={deck.id}
+								deck={deck}
+								query={query}
+							/>
 						))}
 					</div>
 				</InfiniteScroll>

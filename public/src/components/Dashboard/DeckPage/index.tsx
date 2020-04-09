@@ -1,37 +1,48 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import Schema, { IndividualProduct } from 'schema.org-react'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection, selectionFromUrl } from '..'
 import Deck from '../../../models/Deck'
+import Counters, { Counter } from '../../../models/Counters'
 import useQuery from '../../../hooks/useQuery'
+import useDeck from '../../../hooks/useDeck'
 import BackButton from '../../shared/BackButton'
+import Input from '../../shared/Input'
 import Header from './Header'
 import Footer from './Footer'
 import Controls from './Controls'
 import Loader from '../../shared/Loader'
-import { urlWithQuery } from '../../../utils'
+import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'
-import useDeck from '../../../hooks/useDeck'
 
-export const urlForDeckPage = (deck: Deck, action: 'get' | null = null) => {
+export const urlForDeckPage = (
+	deck: Deck,
+	{ query = '', action = null }: { query?: string, action?: 'get' | null } = {}
+) => {
 	const { pathname, search } = window.location
 	
 	return urlWithQuery(`/d/${deck.slug}`, {
+		q: query,
 		prev: `${pathname}${search}`,
 		action
 	})
 }
 
 export default () => {
+	const history = useHistory()
 	const { slug } = useParams()
-	const query = useQuery()
+	const searchParams = useQuery()
 	
 	const { deck, hasDeck } = useDeck(slug)
 	
-	const previousUrl = query.get('prev')
+	const query = searchParams.get('q') ?? ''
+	const previousUrl = searchParams.get('prev')
+	
+	const numberOfDecks = Counters.get(Counter.Decks)
 	const selection = (previousUrl && selectionFromUrl(previousUrl)) || Selection.Market
 	
 	return (
@@ -47,7 +58,21 @@ export default () => {
 					'@type': 'AggregateRating'
 				}
 			}} />
-			<BackButton to={previousUrl || '/market'} />
+			<div className="header">
+				<BackButton to={previousUrl || '/market'} />
+				<Input
+					className="search"
+					icon={faSearch}
+					type="name"
+					placeholder={
+						`Explore ${numberOfDecks === null ? '...' : formatNumber(numberOfDecks)} decks`
+					}
+					value={query}
+					setValue={newQuery =>
+						history.push(urlWithQuery('/market', { q: newQuery }))
+					}
+				/>
+			</div>
 			<div className={cx('box', { loading: !deck })}>
 				{deck
 					? (

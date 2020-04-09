@@ -7,14 +7,40 @@
 	
 	display: grid;
 	grid:
-		'back-button' auto
+		'header' auto
 		'box' 1fr /
 		auto;
 	padding: 0 $margin;
 	
-	> .back-button {
-		grid-area: back-button;
-		margin: 12px 0;
+	> .header {
+		$inner-margin: 12px;
+		
+		grid-area: header;
+		display: flex;
+		margin: $inner-margin 0;
+		
+		> .search {
+			width: 100%;
+			margin-left: $inner-margin;
+			
+			> input {
+				padding: raw-repeat(3, 12px) 44px;
+				color: white;
+				background: transparentize(#eee, 0.8);
+				border: none;
+				border-radius: 100px;
+				
+				&::placeholder {
+					color: transparentize(#eee, 0.2);
+				}
+			}
+			
+			> svg {
+				top: 16px;
+				left: 16px;
+				color: #eee;
+			}
+		}
 	}
 	
 	> .box {
@@ -309,7 +335,26 @@
 					border-radius: 8px;
 					
 					&.ratings {
+						> .divider {
+							$height: 2px;
+							
+							height: $height;
+							margin: 30px 0;
+							background: transparentize(#ddd, 0.5);
+							border-radius: $height / 2;
+						}
 						
+						> .bottom {
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							
+							> .rate-message {
+								font-size: 18px;
+								font-weight: bold;
+								color: #9b9b9b;
+							}
+						}
 					}
 					
 					&.info {

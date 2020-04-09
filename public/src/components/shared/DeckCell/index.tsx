@@ -16,7 +16,7 @@ import users from '../../../images/icons/users.svg'
 
 import '../../../scss/components/DeckCell/index.scss'
 
-export default ({ deck }: { deck: Deck }) => {
+export default ({ deck, query }: { deck: Deck, query?: string }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -32,7 +32,7 @@ export default ({ deck }: { deck: Deck }) => {
 		if (!currentUser)
 			return history.push(urlWithQuery('/auth', {
 				title: 'I heard that deck is great...',
-				next: urlForDeckPage(deck, 'get')
+				next: urlForDeckPage(deck, { action: 'get' })
 			}))
 		
 		try {
@@ -55,7 +55,7 @@ export default ({ deck }: { deck: Deck }) => {
 	}
 	
 	return (
-		<Base className="default" deck={deck} href={urlForDeckPage(deck)}>
+		<Base className="default" deck={deck} href={urlForDeckPage(deck, { query })}>
 			<div className="stats">
 				<div className="rating">
 					<Stars>{deck.averageRating}</Stars>
