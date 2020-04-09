@@ -11,7 +11,7 @@ export default ({ deck }: { deck: Deck }) => {
 	return (
 		<div className="footer">
 			<p className="description">
-				{deck.description || 'Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description '}
+				{deck.description}
 			</p>
 			<div className="topics">
 				{topics.map(topic => (

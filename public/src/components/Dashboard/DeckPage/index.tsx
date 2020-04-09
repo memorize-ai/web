@@ -9,6 +9,7 @@ import useQuery from '../../../hooks/useQuery'
 import BackButton from '../../shared/BackButton'
 import Header from './Header'
 import Footer from './Footer'
+import Controls from './Controls'
 import Loader from '../../shared/Loader'
 import { urlWithQuery } from '../../../utils'
 
@@ -37,7 +38,14 @@ export default () => {
 		<Dashboard selection={selection} className="deck-page" gradientHeight="500px">
 			<Schema<IndividualProduct> item={{
 				'@context': 'https://schema.org',
-				'@type': 'IndividualProduct'
+				'@type': 'IndividualProduct',
+				productID: deck?.slug,
+				name: deck?.name,
+				description: deck?.description,
+				url: `https://memorize.ai/d/${deck?.slug ?? ''}`,
+				aggregateRating: {
+					'@type': 'AggregateRating'
+				}
 			}} />
 			<BackButton to={previousUrl || '/market'} />
 			<div className={cx('box', { loading: !deck })}>
@@ -47,6 +55,7 @@ export default () => {
 							<Header deck={deck} hasDeck={hasDeck} />
 							<Footer deck={deck} />
 							<div className="divider" />
+							<Controls deck={deck} hasDeck={hasDeck} />
 						</>
 					)
 					: <Loader size="24px" thickness="4px" color="#582efe" />
