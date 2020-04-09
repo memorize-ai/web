@@ -31,9 +31,14 @@ export default () => {
 	
 	const numberOfDecks = Counters.get(Counter.Decks)
 	
-	useEffect(() => void (async () => {
+	useEffect(() => {
 		setIsLastPage(false)
-		setDecks(await getDecks(1))
+		
+		let shouldContinue = true
+		
+		getDecks(1).then(decks =>
+			shouldContinue && setDecks(decks)
+		)
 		
 		history.push(urlWithQuery('/market', {
 			q: query,
@@ -41,7 +46,9 @@ export default () => {
 				? null
 				: sortAlgorithm
 		}))
-	})(), [query, sortAlgorithm]) // eslint-disable-line
+		
+		return () => { shouldContinue = false }
+	}, [query, sortAlgorithm]) // eslint-disable-line
 	
 	useEffect(() => {
 		if (query || sortAlgorithm === DeckSortAlgorithm.Recommended)
