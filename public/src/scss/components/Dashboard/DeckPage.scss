@@ -65,7 +65,7 @@
 					> .left {
 						> .name {
 							font-size: 30px;
-							font-weight: 600;
+							font-weight: bold;
 							color: $dark-gray;
 						}
 						
@@ -284,6 +284,62 @@
 			margin: 20px $margin 0 $margin;
 			background: transparentize(#ddd, 0.5);
 			border-radius: $height / 2;
+		}
+		
+		> .controls {
+			display: flex;
+			margin: 16px $margin 0 $margin;
+			
+			> div {
+				width: 100%;
+				
+				> .title {
+					font-size: 24px;
+					font-weight: bold;
+					color: $dark-gray;
+				}
+				
+				> .box {
+					@include shadow-lg;
+					
+					margin-top: 6px;
+					background: white;
+					padding: 30px 20px;
+					border: 1px solid #eee;
+					border-radius: 8px;
+					
+					&.ratings {
+						
+					}
+					
+					&.info {
+						display: flex;
+						flex-direction: column;
+						justify-content: space-between;
+						height: 300px; // DEBUG
+						
+						> div {
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							font-size: 18px;
+							font-weight: bold;
+							
+							> :first-child {
+								color: #9b9b9b;
+							}
+							
+							> :last-child {
+								color: $dark-gray;
+							}
+						}
+					}
+				}
+				
+				&:not(:last-child) {
+					margin-right: $margin;
+				}
+			}
 		}
 	}
 }
