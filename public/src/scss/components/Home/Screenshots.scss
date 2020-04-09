@@ -35,18 +35,48 @@ $screenshot-height: 60vh;
 	> .content {
 		position: relative;
 		
-		> .scroll-indicator-container {
-			margin-top: calc(35vh - (100vw * #{tan(6deg)}));
-			font-size: 24px;
-			font-weight: 900;
+		> .scroll-message {
+			margin-top: calc(35vh - (100vw * #{tan(6deg)}) - 50px);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: white;
 			
-			> .scroll-indicator {
-				margin: 0 auto;
+			@media (min-width: 970px) and (max-width: 1100px) {
+				margin-top: calc(35vh - (100vw * #{tan(6deg)}) + 100px);
+			}
+			
+			> svg {
+				transform: scale(5);
+			}
+			
+			> .text-container {
+				margin: 0 40px;
+				text-align: center;
+				
+				> .title {
+					font-size: 24px;
+					font-weight: 900;
+					text-transform: uppercase;
+				}
+				
+				> .subtitle {
+					font-weight: bold;
+					text-transform: lowercase;
+					opacity: 0.8;
+				}
 			}
 		}
 		
 		> .background.fixed-container .background {
 			width: calc(100vw - 60px);
+		}
+		
+		> .root-anchor {
+			position: absolute;
+			top: 10vh;
+			right: 0;
+			left: 0;
 		}
 		
 		> .screenshots > div {

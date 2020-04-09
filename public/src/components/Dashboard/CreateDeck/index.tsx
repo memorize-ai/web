@@ -24,6 +24,7 @@ import ImagePicker from '../../shared/ImagePicker'
 import Input from '../../shared/Input'
 import TextArea from '../../shared/TextArea'
 import Button from '../../shared/Button'
+import { urlForAuth } from '../../Auth'
 import { urlWithQuery, compose } from '../../../utils'
 
 import '../../../scss/components/Dashboard/CreateDeck.scss'
@@ -70,7 +71,7 @@ export default () => {
 	
 	const create = async () => {
 		if (!currentUser)
-			return history.push(urlWithQuery('/auth', {
+			return history.push(urlForAuth({
 				title: 'Before you create your deck...',
 				next: urlWithQuery('/new', { action: 'create' })
 			}))

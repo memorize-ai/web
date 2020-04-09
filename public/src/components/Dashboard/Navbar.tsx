@@ -7,7 +7,8 @@ import useAuthState from '../../hooks/useAuthState'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import Tab from './NavbarTab'
 import Dropdown from '../shared/Dropdown'
-import { urlWithQuery, isNullish } from '../../utils'
+import { urlForAuth } from '../Auth'
+import { isNullish } from '../../utils'
 
 import { ReactComponent as Home } from '../../images/icons/home.svg'
 import { ReactComponent as Cart } from '../../images/icons/cart.svg'
@@ -119,10 +120,7 @@ export default ({ selection }: { selection: Selection }) => {
 				)
 				: (
 					<Link
-						to={urlWithQuery('/auth', {
-							title: 'Come and join us!',
-							next: '/market'
-						})}
+						to={urlForAuth({ title: 'Come and join us!' })}
 						className="auth-button"
 					>
 						Log in <span>/</span> Sign up

@@ -1,4 +1,6 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMobile } from '@fortawesome/free-solid-svg-icons'
 
 import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
 import Screenshot, { ScreenshotType } from '../shared/Screenshot'
@@ -13,8 +15,12 @@ export default () => (
 				memorization app
 			</h1>
 			<h3>Truly effective flashcards</h3>
-			<div className="app-store-download-button-container">
-				<AppStoreDownloadButton />
+			<div className="footer">
+				<AppStoreDownloadButton className="app-store-download-button" />
+				<a href="#screenshots" className="screenshots-button">
+					<FontAwesomeIcon icon={faMobile} />
+					<p>Screenshots</p>
+				</a>
 			</div>
 		</div>
 		<Screenshot type={ScreenshotType.Cram} className="screenshot" />

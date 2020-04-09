@@ -6,6 +6,7 @@
 @import 'animations';
 
 html {
+	scroll-behavior: smooth;
 	line-height: 1.15;
 	text-size-adjust: 100%;
 	background: $light-gray;

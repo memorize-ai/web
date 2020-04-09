@@ -8,6 +8,7 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import useImageUrl from '../../../hooks/useImageUrl'
 import Button from '../../shared/Button'
 import Stars from '../../shared/Stars'
+import { urlForAuth } from '../../Auth'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
@@ -33,7 +34,7 @@ export default (
 		if (!currentUser) {
 			query.set('action', 'get')
 			
-			return history.push(urlWithQuery('/auth', {
+			return history.push(urlForAuth({
 				title: 'I heard that deck is great...',
 				next: urlWithQuery(
 					window.location.pathname,

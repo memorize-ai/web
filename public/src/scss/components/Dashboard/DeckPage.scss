@@ -266,7 +266,7 @@
 			> .topics {
 				display: flex;
 				overflow-x: auto;
-				width: calc(100vw - #{$dashboard-sidebar-width} - #{$margin} * 2);
+				width: calc(100vw - #{$dashboard-sidebar-width} - #{$margin * 2});
 				margin-top: 20px;
 				padding: 0 $margin;
 				
@@ -412,7 +412,13 @@
 							}
 							
 							> .stars > svg {
+								cursor: pointer;
 								transform: scale(3);
+								transition: opacity 0.3s;
+								
+								&:hover {
+									opacity: 0.5;
+								}
 								
 								&:last-child {
 									margin-right: 12px;

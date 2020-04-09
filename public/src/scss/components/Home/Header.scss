@@ -80,11 +80,12 @@
 			}
 		}
 		
-		> .app-store-download-button-container {
+		> .footer {
 			display: flex;
+			align-items: flex-end;
 			margin: 40px 0 -50px 30px;
 			
-			> a {
+			> .app-store-download-button {
 				> svg {
 					transform: scale(1.5);
 					transition: transform 0.3s;
@@ -95,6 +96,36 @@
 					> svg {
 						transform: scale(1.7);
 					}
+				}
+			}
+			
+			> .screenshots-button {
+				display: flex;
+				align-items: center;
+				margin-left: 45px;
+				padding: 6px 8px;
+				color: white;
+				border: 2px solid transparent;
+				border-radius: 5px;
+				transform: translateY(9px);
+				transition: background 0.3s, border-color 0.3s;
+				
+				@media (min-width: 500px) and (max-width: 800px) {
+					background: #051e34;
+				}
+				
+				> svg {
+					margin-right: 10px;
+					transform: scale(1.3);
+				}
+				
+				> p {
+					font-weight: bold;
+				}
+				
+				&:hover,
+				&:focus {
+					border-color: white;
 				}
 			}
 		}

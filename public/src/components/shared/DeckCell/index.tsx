@@ -9,12 +9,13 @@ import Base from './Base'
 import Stars from '../Stars'
 import Button from '../Button'
 import { urlForDeckPage } from '../../Dashboard/DeckPage'
-import { urlWithQuery, formatNumber } from '../../../utils'
+import { formatNumber } from '../../../utils'
 
 import downloads from '../../../images/icons/download.svg'
 import users from '../../../images/icons/users.svg'
 
 import '../../../scss/components/DeckCell/index.scss'
+import { urlForAuth } from '../../Auth'
 
 export default ({ deck, query }: { deck: Deck, query?: string }) => {
 	const history = useHistory()
@@ -30,7 +31,7 @@ export default ({ deck, query }: { deck: Deck, query?: string }) => {
 		event.preventDefault()
 		
 		if (!currentUser)
-			return history.push(urlWithQuery('/auth', {
+			return history.push(urlForAuth({
 				title: 'I heard that deck is great...',
 				next: urlForDeckPage(deck, { action: 'get' })
 			}))

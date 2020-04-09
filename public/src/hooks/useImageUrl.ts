@@ -6,7 +6,7 @@ import LoadingState from '../models/LoadingState'
 import { setDeckImageUrl, setDeckImageUrlLoadingState } from '../actions'
 import { compose } from '../utils'
 
-export default (deck: Deck): [string | null, LoadingState] => {
+export default (deck: Deck) => {
 	const [{ [deck.id]: _state }, dispatch] = useContext(DeckImageUrlsContext)
 	
 	const state = _state ?? { url: null, loadingState: LoadingState.None }
@@ -21,5 +21,5 @@ export default (deck: Deck): [string | null, LoadingState] => {
 		})
 	}, [deck.hasImage, state.loadingState]) // eslint-disable-line
 	
-	return [state.url, state.loadingState]
+	return [state.url, state.loadingState] as const
 }

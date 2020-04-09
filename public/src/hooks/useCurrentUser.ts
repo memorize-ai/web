@@ -11,7 +11,7 @@ import {
 } from '../actions'
 import { compose } from '../utils'
 
-export default (): [User | null, LoadingState] => {
+export default () => {
 	const [
 		{ currentUser, currentUserLoadingState, isObservingCurrentUser },
 		dispatch
@@ -35,5 +35,5 @@ export default (): [User | null, LoadingState] => {
 		})
 	}, [currentUser, isObservingCurrentUser]) // eslint-disable-line
 	
-	return [currentUser, currentUserLoadingState]
+	return [currentUser, currentUserLoadingState] as const
 }

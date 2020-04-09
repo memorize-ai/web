@@ -357,6 +357,9 @@ export default class Deck implements DeckData {
 	numberOfCardsDueForSection = (section: Section) =>
 		this.userData?.sections[section.id] ?? 0
 	
+	countForRating = (rating: 1 | 2 | 3 | 4 | 5): number =>
+		(this as any)[`numberOf${rating}StarRatings`]
+	
 	rate = (uid: string, rating: 1 | 2 | 3 | 4 | 5 | null) =>
 		firestore.doc(`users/${uid}/decks/${this.id}`).update({
 			rating: rating ?? firebase.firestore.FieldValue.delete()

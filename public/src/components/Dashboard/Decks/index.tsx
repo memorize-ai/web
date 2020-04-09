@@ -10,7 +10,7 @@ import Content from './Content'
 import '../../../scss/components/Dashboard/Decks.scss'
 
 export default () => {
-	requiresAuth('/decks')
+	requiresAuth()
 	
 	const { slug } = useParams()
 	const history = useHistory()

@@ -14,7 +14,7 @@ import '../../../scss/components/Dashboard/Interests.scss'
 const auth = firebase.auth()
 
 export default () => {
-	requiresAuth('/interests')
+	requiresAuth()
 	
 	const history = useHistory()
 	

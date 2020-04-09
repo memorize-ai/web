@@ -1,9 +1,10 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
 import FixedContainer from './ScreenshotsFixedContainer'
 import Descriptions, { DescriptionsSide } from './ScreenshotsDescriptions'
 import Screenshot, { ScreenshotType } from '../shared/Screenshot'
-import ScrollIndicator from '../shared/ScrollIndicator'
 import backgroundImage from '../../images/home-screenshots-background.png'
 
 import '../../scss/components/Home/Screenshots.scss'
@@ -133,12 +134,21 @@ export default () => (
 		/>
 		<div id="home-screenshots-aos-anchor-first" className="content">
 			<div
-				className="scroll-indicator-container"
-				data-aos="fade-out"
+				className="scroll-message"
+				data-aos="disappear"
 				data-aos-anchor="#home-screenshots-background-aos-anchor"
 				data-aos-anchor-placement="top-top"
 			>
-				<ScrollIndicator />
+				<FontAwesomeIcon icon={faArrowDown} />
+				<div className="text-container">
+					<p className="title">
+						Scroll down
+					</p>
+					<p className="subtitle">
+						Screenshots below
+					</p>
+				</div>
+				<FontAwesomeIcon icon={faArrowDown} />
 			</div>
 			<FixedContainer outerClassName="background" anchor="#home-screenshots-aos-anchor-first">
 				<img
@@ -150,6 +160,7 @@ export default () => (
 					data-aos-anchor-placement="bottom-bottom"
 				/>
 			</FixedContainer>
+			<div id="screenshots" className="root-anchor" />
 			<div className="screenshots">
 				{screenshots.map(({ type, descriptions }, index) => (
 					<div key={index}>

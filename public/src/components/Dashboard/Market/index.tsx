@@ -65,7 +65,7 @@ export default () => {
 		try {
 			const decks = await DeckSearch.search(query, {
 				pageNumber,
-				pageSize: 20,
+				pageSize: 40,
 				sortAlgorithm,
 				filterForTopics: null
 			})

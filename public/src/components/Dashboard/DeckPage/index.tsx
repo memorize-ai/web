@@ -1,4 +1,5 @@
 import React from 'react'
+import Helmet from 'react-helmet'
 import { useHistory, useParams } from 'react-router-dom'
 import Schema, { IndividualProduct } from 'schema.org-react'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -47,6 +48,9 @@ export default () => {
 	
 	return (
 		<Dashboard selection={selection} className="deck-page" gradientHeight="500px">
+			<Helmet>
+				<title>memorize.ai{deck ? ` - ${deck.name}` : ''}</title>
+			</Helmet>
 			<Schema<IndividualProduct> item={{
 				'@context': 'https://schema.org',
 				'@type': 'IndividualProduct',

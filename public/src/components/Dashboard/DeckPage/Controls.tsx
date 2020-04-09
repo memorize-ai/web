@@ -40,8 +40,8 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 						</div>
 					</div>
 					<div className="sliders">
-						{[5, 4, 3, 2, 1].map(i => {
-							const count: number = (deck as any)[`numberOf${i}StarRatings`]
+						{([5, 4, 3, 2, 1] as const).map(i => {
+							const count = deck.countForRating(i)
 							
 							return (
 								<div key={i}>
@@ -49,7 +49,7 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 									<GrayStar />
 									<div className="slider">
 										<div style={{
-											width: `${100 * count / deck.numberOfRatings}%`
+											width: `${100 * count / (deck.numberOfRatings || 1)}%`
 										}} />
 									</div>
 									<p className="count">

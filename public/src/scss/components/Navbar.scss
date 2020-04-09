@@ -6,24 +6,33 @@
 	padding: 30px 30px 0 30px;
 	transition: padding 0.3s;
 	
+	@media (min-width: 500px) {
+		> a {
+			margin-right: 12px;
+			
+			> .logo {
+				min-width: 215px;
+			}
+		}
+		
+		> .items {
+			display: flex !important;
+		}
+	}
+	
 	@media (min-width: 945px) {
 		padding-left: 135px;
 		padding-right: 135px;
 	}
 	
-	> a {
-		margin-right: 12px;
+	> a > .logo {
+		@include raise-on-hover;
 		
-		> .logo {
-			@include raise-on-hover;
-			
-			min-width: 215px;
-			max-height: 60px;
-		}
+		max-height: 60px;
 	}
 	
 	> .items {
-		display: flex;
+		display: none;
 		align-items: flex-end;
 		overflow-x: auto;
 		margin-left: auto;
@@ -36,10 +45,13 @@
 			padding-right: 14px;
 		}
 		
+		> * {
+			flex-shrink: 0;
+		}
+		
 		> .market-tab {
 			display: flex;
 			align-items: center;
-			flex-shrink: 0;
 			padding: 0 20px 13px 14px;
 			color: white;
 			
