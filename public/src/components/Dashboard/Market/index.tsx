@@ -41,14 +41,14 @@ export default () => {
 				? null
 				: sortAlgorithm
 		}))
-	})(), [query, sortAlgorithm])
+	})(), [query, sortAlgorithm]) // eslint-disable-line
 	
 	useEffect(() => {
 		if (query || sortAlgorithm === DeckSortAlgorithm.Recommended)
 			return
 		
 		setSortAlgorithm(DeckSortAlgorithm.Recommended)
-	}, [query])
+	}, [query]) // eslint-disable-line
 	
 	const getDecks = async (pageNumber: number) => {
 		try {

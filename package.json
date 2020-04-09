@@ -3,13 +3,15 @@
 	"scripts": {
 		"start": "npm start -C public",
 		
-		"install:all": "npm run install:public && npm run install:functions",
+		"install:all": "npm run install:public && npm run install:functions && npm run install:scripts",
 		"install:public": "npm i -C public",
 		"install:functions": "npm i -C functions",
+		"install:scripts": "npm i -C scripts",
 		
-		"update": "npm run update:public && npm run update:functions",
+		"update": "npm run update:public && npm run update:functions && npm run update:scripts",
 		"update:public": "npm update -C public",
 		"update:functions": "npm update -C functions",
+		"update:scripts": "npm update -C scripts",
 		
 		"clean": "rm -rf .firebase *.log ios-libraries/lib && npm run clean:public && npm run clean:functions",
 		"clean:public": "rm -rf public/build",

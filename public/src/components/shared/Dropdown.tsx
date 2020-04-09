@@ -30,14 +30,14 @@ export default (
 			return
 		
 		setIsShowing(false)
-	}, [isShowing])
+	}, [isShowing]) // eslint-disable-line
 	
 	useEffect(() => {
 		document.body[isShowing ? 'addEventListener' : 'removeEventListener'](
 			'click',
 			eventListener
 		)
-	}, [isShowing])
+	}, [isShowing]) // eslint-disable-line
 	
 	return (
 		<div

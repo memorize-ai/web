@@ -24,7 +24,7 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => (
 			</div>
 			<div>
 				<p>Last updated</p>
-				<p>{moment(deck.lastUpdated).format('M d, YYYY')}</p>
+				<p>{moment(deck.lastUpdated).format('MMM D, YYYY')}</p>
 			</div>
 			<div>
 				<p>Date created</p>

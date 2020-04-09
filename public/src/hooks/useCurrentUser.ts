@@ -23,7 +23,7 @@ export default (): [User | null, LoadingState] => {
 				setCurrentUser: compose(dispatch, setCurrentUser),
 				setCurrentUserLoadingState: compose(dispatch, setCurrentUserLoadingState)
 			})
-	}, [currentUserLoadingState])
+	}, [currentUserLoadingState]) // eslint-disable-line
 	
 	useEffect(() => {
 		if (!currentUser || isObservingCurrentUser)
@@ -33,7 +33,7 @@ export default (): [User | null, LoadingState] => {
 			updateCurrentUser: compose(dispatch, updateCurrentUser),
 			setIsObservingCurrentUser: compose(dispatch, setIsObservingCurrentUser)
 		})
-	}, [currentUser, isObservingCurrentUser])
+	}, [currentUser, isObservingCurrentUser]) // eslint-disable-line
 	
 	return [currentUser, currentUserLoadingState]
 }

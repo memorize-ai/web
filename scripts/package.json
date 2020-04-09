@@ -2,7 +2,7 @@
 	"name": "scripts",
 	"dependencies": {
 		"firebase-admin": "^8.10.0",
-		"xmlbuilder2": "^2.1.1"
+		"xmlbuilder2": "^2.1.2"
 	},
 	"private": true
 }
