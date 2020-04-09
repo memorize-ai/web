@@ -6,10 +6,12 @@ import enLocale from 'javascript-time-ago/locale/en'
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import Control from './Control'
+import Stars from '../../shared/Stars'
 import { formatNumber } from '../../../utils'
 
 import { ReactComponent as OutlinedStar } from '../../../images/icons/outlined-star.svg'
 import { ReactComponent as FilledStar } from '../../../images/icons/filled-star.svg'
+import { ReactComponent as GrayStar } from '../../../images/icons/gray-star.svg'
 
 TimeAgo.addLocale(enLocale)
 
@@ -25,7 +27,38 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 		<div className="controls">
 			<Control title="Ratings" className="ratings">
 				<div className="top">
-					
+					<div className="left">
+						<Stars>{deck.averageRating}</Stars>
+						<div className="info">
+							<h3 className="rating">
+								{deck.averageRating.toFixed(1)}
+							</h3>
+							<p className="count">
+								<span>{formatNumber(deck.numberOfRatings)} </span>
+								review{deck.numberOfRatings === 1 ? '' : 's'}
+							</p>
+						</div>
+					</div>
+					<div className="sliders">
+						{[5, 4, 3, 2, 1].map(i => {
+							const count: number = (deck as any)[`numberOf${i}StarRatings`]
+							
+							return (
+								<div key={i}>
+									<p className="star">{i}</p>
+									<GrayStar />
+									<div className="slider">
+										<div style={{
+											width: `${100 * count / deck.numberOfRatings}%`
+										}} />
+									</div>
+									<p className="count">
+										{formatNumber(count)}
+									</p>
+								</div>
+							)
+						})}
+					</div>
 				</div>
 				{uid && hasDeck && (
 					<>
