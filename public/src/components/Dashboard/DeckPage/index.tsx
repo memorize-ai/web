@@ -8,6 +8,7 @@ import Deck from '../../../models/Deck'
 import useQuery from '../../../hooks/useQuery'
 import BackButton from '../../shared/BackButton'
 import Header from './Header'
+import Footer from './Footer'
 import Loader from '../../shared/Loader'
 import { urlWithQuery } from '../../../utils'
 
@@ -44,6 +45,8 @@ export default () => {
 					? (
 						<>
 							<Header deck={deck} hasDeck={hasDeck} />
+							<Footer deck={deck} />
+							<div className="divider" />
 						</>
 					)
 					: <Loader size="24px" thickness="4px" color="#582efe" />

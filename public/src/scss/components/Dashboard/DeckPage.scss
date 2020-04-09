@@ -3,12 +3,14 @@
 @import '../../functions';
 
 @include dashboard-content('deck-page') {
+	$margin: 30px;
+	
 	display: grid;
 	grid:
 		'back-button' auto
 		'box' 1fr /
 		auto;
-	padding: 0 30px;
+	padding: 0 $margin;
 	
 	> .back-button {
 		grid-area: back-button;
@@ -22,7 +24,7 @@
 		height: max-content;
 		background: white;
 		border-radius: 8px;
-		margin-bottom: 30px;
+		margin-bottom: $margin;
 		
 		&.loading {
 			display: grid;
@@ -32,8 +34,6 @@
 		}
 		
 		> .header {
-			$margin: 30px;
-			
 			display: flex;
 			min-height: $deck-cell-height;
 			margin: $margin 0 0 $margin;
@@ -225,6 +225,63 @@
 					}
 				}
 			}
+		}
+		
+		> .footer {
+			margin-top: 20px;
+			
+			> .description {
+				max-width: 800px;
+				margin: 0 $margin;
+				font-size: 16px;
+				color: #5c5c5c;
+			}
+			
+			> .topics {
+				display: flex;
+				overflow-x: auto;
+				margin-top: 20px;
+				padding: 0 $margin;
+				
+				> div {
+					$dimension: 90px;
+					
+					position: relative;
+					overflow: hidden;
+					width: $dimension;
+					height: $dimension;
+					background-size: cover;
+					background-position: center;
+					border-radius: 5px;
+					
+					> p {
+						$padding: 8px;
+						
+						position: absolute;
+						right: $padding;
+						bottom: $padding;
+						left: $padding;
+						text-align: center;
+						word-wrap: break-word;
+						font-size: 12px;
+						font-weight: bold;
+						color: white;
+					}
+					
+					&:not(:last-child) {
+						margin-right: 12px;
+					}
+				}
+			}
+		}
+		
+		> .divider {
+			$height: 2px;
+			
+			height: $height;
+			margin: 20px $margin 0 $margin;
+			background: transparentize(#ddd, 0.5);
+			border-radius: $height / 2;
 		}
 	}
 }
