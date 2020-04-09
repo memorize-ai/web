@@ -240,12 +240,14 @@
 			> .topics {
 				display: flex;
 				overflow-x: auto;
+				width: calc(100vw - #{$dashboard-sidebar-width} - #{$margin} * 2);
 				margin-top: 20px;
 				padding: 0 $margin;
 				
 				> div {
 					$dimension: 90px;
 					
+					flex-shrink: 0;
 					position: relative;
 					overflow: hidden;
 					width: $dimension;

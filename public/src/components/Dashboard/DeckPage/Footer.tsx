@@ -5,7 +5,7 @@ import useTopics from '../../../hooks/useTopics'
 
 export default ({ deck }: { deck: Deck }) => {
 	const topics = useTopics().filter(topic =>
-		true//deck.topics.includes(topic.id)
+		deck.topics.includes(topic.id)
 	)
 	
 	return (
