@@ -339,7 +339,7 @@
 							$height: 2px;
 							
 							height: $height;
-							margin: 30px 0;
+							margin-bottom: $margin;
 							background: transparentize(#ddd, 0.5);
 							border-radius: $height / 2;
 						}
@@ -350,9 +350,21 @@
 							align-items: center;
 							
 							> .rate-message {
-								font-size: 18px;
+								font-size: 20px;
 								font-weight: bold;
 								color: #9b9b9b;
+							}
+							
+							> .stars > svg {
+								transform: scale(3);
+								
+								&:last-child {
+									margin-right: 12px;
+								}
+								
+								&:not(:last-child) {
+									margin-right: 30px;
+								}
 							}
 						}
 					}

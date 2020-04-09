@@ -2,7 +2,6 @@ import React from 'react'
 import moment from 'moment'
 import TimeAgo from 'javascript-time-ago'
 import enLocale from 'javascript-time-ago/locale/en'
-import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
@@ -28,28 +27,32 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 				<div className="top">
 					
 				</div>
-				<div className="divider" />
-				<div className={cx('bottom', { disabled: !currentUser })}>
-					<p className="rate-message">
-						Click to rate
-					</p>
-					<div className="stars">
-						{[1, 2, 3, 4, 5].map(i => {
-							const props = {
-								key: i,
-								onClick: () =>
-									uid && deck.rate(
-										uid,
-										rating === i ? null : i as any
-									)
-							}
-							
-							return rating >= i
-								? <FilledStar {...props} />
-								: <OutlinedStar {...props} />
-						})}
-					</div>
-				</div>
+				{uid && hasDeck && (
+					<>
+						<div className="divider" />
+						<div className="bottom">
+							<p className="rate-message">
+								Click to rate
+							</p>
+							<div className="stars">
+								{[1, 2, 3, 4, 5].map(i => {
+									const props = {
+										key: i,
+										onClick: () =>
+											uid && deck.rate(
+												uid,
+												rating === i ? null : i as any
+											)
+									}
+									
+									return rating >= i
+										? <FilledStar {...props} />
+										: <OutlinedStar {...props} />
+								})}
+							</div>
+						</div>
+					</>
+				)}
 			</Control>
 			<Control title="Info" className="info">
 				<div>
