@@ -341,7 +341,7 @@
 							
 							> .left {
 								white-space: nowrap;
-								margin-right: $margin;
+								margin-right: $margin * 2;
 								
 								> .info {
 									display: flex;
