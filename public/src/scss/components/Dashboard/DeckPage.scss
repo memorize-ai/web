@@ -286,9 +286,9 @@
 						$padding: 8px;
 						
 						position: absolute;
-						right: $padding;
+						right: $padding / 2;
 						bottom: $padding;
-						left: $padding;
+						left: $padding / 2;
 						text-align: center;
 						word-wrap: break-word;
 						font-size: 12px;
@@ -366,26 +366,49 @@
 							
 							> .sliders {
 								width: 100%;
+								border-collapse: separate;
+								border-spacing: 6px 0;
 								
-								> div {
-									display: flex;
-									align-items: center;
+								> tbody > tr {
+									> .star,
+									> .count {
+										font-size: 18px;
+									}
+									
+									> .star {
+										color: #9b9b9b;
+									}
+									
+									> .icon {
+										transform: scale(1.5);
+									}
 									
 									> .slider {
-										$height: 4px;
-										
 										width: 100%;
-										background: transparentize(#4355f9, 0.7);
-										
-										&,
-										> div {
-											height: $height;
-											border-radius: $height / 2;
-										}
+										padding: 0 4px 0 6px;
 										
 										> div {
-											background: #4355f9;
+											$height: 4px;
+											
+											width: 100%;
+											background: transparentize(#4355f9, 0.7);
+											
+											&,
+											> div {
+												height: $height;
+												border-radius: $height / 2;
+											}
+											
+											> div {
+												background: #4355f9;
+												transition: width 0.3s;
+											}
 										}
+									}
+									
+									> .count {
+										text-align: right;
+										color: $dark-gray;
 									}
 								}
 							}
@@ -435,7 +458,7 @@
 						display: flex;
 						flex-direction: column;
 						justify-content: space-between;
-						height: 300px; // DEBUG
+						min-height: 300px;
 						
 						> div {
 							display: flex;
@@ -457,6 +480,99 @@
 				
 				&:not(:last-child) {
 					margin-right: $margin;
+				}
+			}
+		}
+		
+		> .sections-divider {
+			margin-top: 30px;
+		}
+		
+		> .sections {
+			margin: 16px $margin 0 $margin;
+			
+			> .title {
+				font-size: 24px;
+				font-weight: bold;
+				color: $dark-gray;
+			}
+			
+			> .box {
+				@include shadow-lg;
+				
+				margin-top: 6px;
+				background: white;
+				padding: $margin 20px;
+				border: 1px solid #eee;
+				border-radius: 8px;
+				
+				> .columns {
+					display: flex;
+					
+					> .column {
+						$border-width: 2px;
+						$border-padding: 20px;
+						
+						> div {
+							display: flex;
+							align-items: center;
+							
+							&.hidden {
+								display: none;
+							}
+							
+							> .name,
+							> .card-count {
+								font-size: 18px;
+								font-weight: bold;
+							}
+							
+							> .spacer {
+								$height: 2px;
+								
+								flex-grow: 1;
+								height: $height;
+								margin: 0 16px;
+								background: #ddd;
+								border-radius: $height / 2;
+							}
+							
+							> .card-count {
+								color: #9b9b9b;
+							}
+							
+							&:not(:last-child) {
+								margin-bottom: 12px;
+							}
+						}
+						
+						&:last-child {
+							width: 100%;
+						}
+						
+						&:not(:last-child) {
+							width: calc(100% + #{$border-padding + $border-width});
+							margin-right: $border-padding;
+							padding-right: $border-padding;
+							border-right: $border-width solid transparentize(#ddd, 0.5);
+						}
+					}
+				}
+				
+				> .toggle-expanded-button {
+					display: block;
+					margin: 20px auto 0 auto;
+					font-size: 18px;
+					font-weight: bold;
+					color: #582efe;
+				}
+				
+				> .no-sections-message {
+					font-size: 20px;
+					font-weight: bold;
+					text-align: center;
+					text-transform: lowercase;
+					color: $dark-gray;
 				}
 			}
 		}

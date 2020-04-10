@@ -39,26 +39,32 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 							</p>
 						</div>
 					</div>
-					<div className="sliders">
-						{([5, 4, 3, 2, 1] as const).map(i => {
-							const count = deck.countForRating(i)
-							
-							return (
-								<div key={i}>
-									<p className="star">{i}</p>
-									<GrayStar />
-									<div className="slider">
-										<div style={{
-											width: `${100 * count / (deck.numberOfRatings || 1)}%`
-										}} />
-									</div>
-									<p className="count">
-										{formatNumber(count)}
-									</p>
-								</div>
-							)
-						})}
-					</div>
+					<table className="sliders">
+						<tbody>
+							{([5, 4, 3, 2, 1] as const).map(i => {
+								const count = deck.countForRating(i)
+								
+								return (
+									<tr key={i}>
+										<td className="star">{i}</td>
+										<td className="icon">
+											<GrayStar />
+										</td>
+										<td className="slider">
+											<div>
+												<div style={{
+													width: `${100 * count / (deck.numberOfRatings || 1)}%`
+												}} />
+											</div>
+										</td>
+										<td className="count">
+											{formatNumber(count)}
+										</td>
+									</tr>
+								)
+							})}
+						</tbody>
+					</table>
 				</div>
 				{uid && hasDeck && (
 					<>

@@ -14,6 +14,7 @@ export const algorithms = [
 	{ title: 'Top', type: DeckSortAlgorithm.Top },
 	{ title: 'Rating', type: DeckSortAlgorithm.Rating },
 	{ title: 'Popularity', type: DeckSortAlgorithm.CurrentUsers },
+	{ title: 'Number of cards', type: DeckSortAlgorithm.NumberOfCards },
 	{ title: 'New', type: DeckSortAlgorithm.New },
 	{ title: 'Recently updated', type: DeckSortAlgorithm.RecentlyUpdated }
 ]

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
@@ -30,7 +30,9 @@ export default (
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	
-	const get = async () => {
+	const action = query.get('action')
+	
+	const get = useCallback(async () => {
 		if (!currentUser) {
 			query.set('action', 'get')
 			
@@ -49,13 +51,25 @@ export default (
 			await deck[hasDeck ? 'remove' : 'get'](currentUser.id)
 			
 			setGetLoadingState(LoadingState.Success)
+			
+			query.delete('action')
+			
+			history.push(urlWithQuery(
+				window.location.pathname,
+				Object.fromEntries(query)
+			))
 		} catch (error) {
 			setGetLoadingState(LoadingState.Fail)
 			
 			alert(error.message)
 			console.error(error)
 		}
-	}
+	}, [currentUser, deck, hasDeck, history, query])
+	
+	useEffect(() => {
+		if (action === 'get' && !hasDeck)
+			get()
+	}, [action, hasDeck, get])
 	
 	return (
 		<div className="header">

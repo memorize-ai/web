@@ -15,6 +15,7 @@ import Input from '../../shared/Input'
 import Header from './Header'
 import Footer from './Footer'
 import Controls from './Controls'
+import Sections from './Sections'
 import Loader from '../../shared/Loader'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
@@ -49,7 +50,7 @@ export default () => {
 	return (
 		<Dashboard selection={selection} className="deck-page" gradientHeight="500px">
 			<Helmet>
-				<title>memorize.ai{deck ? ` - ${deck.name}` : ''}</title>
+				<title>{deck ? `${deck.name} | ` : ''}memorize.ai</title>
 			</Helmet>
 			<Schema<IndividualProduct> item={{
 				'@context': 'https://schema.org',
@@ -85,6 +86,8 @@ export default () => {
 							<Footer deck={deck} />
 							<div className="divider" />
 							<Controls deck={deck} hasDeck={hasDeck} />
+							<div className="divider sections-divider" />
+							<Sections deck={deck} />
 						</>
 					)
 					: <Loader size="24px" thickness="4px" color="#582efe" />

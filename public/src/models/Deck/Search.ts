@@ -11,6 +11,7 @@ export enum DeckSortAlgorithm {
 	Top = 'top',
 	Rating = 'rating',
 	CurrentUsers = 'popularity',
+	NumberOfCards = 'card-count',
 	New = 'new',
 	RecentlyUpdated = 'recently-updated'
 }
@@ -27,6 +28,8 @@ export const decodeDeckSortAlgorithm = (string: string) => {
 			return DeckSortAlgorithm.Rating
 		case 'popularity':
 			return DeckSortAlgorithm.CurrentUsers
+		case 'card-count':
+			return DeckSortAlgorithm.NumberOfCards
 		case 'new':
 			return DeckSortAlgorithm.New
 		case 'recently-updated':
@@ -58,6 +61,8 @@ export default class Search {
 				return { average_rating: 'desc' }
 			case DeckSortAlgorithm.CurrentUsers:
 				return { current_user_count: 'desc' }
+			case DeckSortAlgorithm.NumberOfCards:
+				return { card_count: 'desc' }
 			case DeckSortAlgorithm.New:
 				return { created: 'desc' }
 			case DeckSortAlgorithm.RecentlyUpdated:

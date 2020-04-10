@@ -50,13 +50,6 @@ export default () => {
 		return () => { shouldContinue = false }
 	}, [query, sortAlgorithm]) // eslint-disable-line
 	
-	useEffect(() => {
-		if (query || sortAlgorithm === DeckSortAlgorithm.Recommended)
-			return
-		
-		setSortAlgorithm(DeckSortAlgorithm.Recommended)
-	}, [query]) // eslint-disable-line
-	
 	const onInputRef = useCallback((input: HTMLInputElement | null) => {
 		input?.focus()
 	}, [])
