@@ -10,11 +10,12 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	return (
 		<div className="similar-decks">
-			{similarDecks.map(deck => (
-				<p key={deck.id}>
-					{deck.name}
-				</p>
-			))}
+			<h2 className="title">
+				We think you'd like... <span>({similarDecks.length})</span>
+			</h2>
+			<div className="box">
+				
+			</div>
 		</div>
 	)
 }

@@ -525,10 +525,6 @@
 							display: flex;
 							align-items: center;
 							
-							&.hidden {
-								display: none;
-							}
-							
 							> .name,
 							> .card-count {
 								font-size: 18px;

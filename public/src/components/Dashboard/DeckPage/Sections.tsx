@@ -5,22 +5,21 @@ import cx from 'classnames'
 import Deck from '../../../models/Deck'
 import useSections from '../../../hooks/useSections'
 
-export const COLLAPSED_COLUMN_LIMIT = 4
+export const COLLAPSED_SECTION_LIMIT = 8
 
 export default ({ deck }: { deck: Deck }) => {
-	const sections = useSections(deck.id)
+	const _sections = useSections(deck.id)
 	const [isExpanded, setIsExpanded] = useState(false)
+	
+	const sections = isExpanded
+		? _sections
+		: _.take(_sections, COLLAPSED_SECTION_LIMIT)
 	
 	const chunks = _.chunk(sections, Math.ceil(sections.length / 2))
 	
 	const rowsForColumn = (column: number) =>
-		(chunks[column] ?? []).map((section, i) => (
-			<div
-				key={section.id}
-				className={cx({
-					hidden: !(isExpanded || i < COLLAPSED_COLUMN_LIMIT)
-				})}
-			>
+		(chunks[column] ?? []).map(section => (
+			<div key={section.id}>
 				<p className="name">
 					{section.name}
 				</p>
@@ -59,12 +58,12 @@ export default ({ deck }: { deck: Deck }) => {
 						</p>
 					)
 				}
-				{sections.length > COLLAPSED_COLUMN_LIMIT * 2 && (
+				{_sections.length > COLLAPSED_SECTION_LIMIT && (
 					<button
 						className="toggle-expanded-button"
 						onClick={() => setIsExpanded(!isExpanded)}
 					>
-						{isExpanded ? 'Hide' : `Show ${sections.length - COLLAPSED_COLUMN_LIMIT * 2} more`}
+						{isExpanded ? 'Hide' : `Show ${_sections.length - sections.length} more`}
 					</button>
 				)}
 			</div>
