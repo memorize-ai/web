@@ -323,6 +323,10 @@
 					font-size: 24px;
 					font-weight: bold;
 					color: $dark-gray;
+					
+					> span {
+						color: #582efe;
+					}
 				}
 				
 				> .box {
@@ -495,6 +499,10 @@
 				font-size: 24px;
 				font-weight: bold;
 				color: $dark-gray;
+				
+				> span {
+					color: #582efe;
+				}
 			}
 			
 			> .box {

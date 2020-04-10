@@ -9,6 +9,7 @@ import { DecksProvider } from './contexts/Decks'
 import { SectionsProvider } from './contexts/Sections'
 import { CardsProvider } from './contexts/Cards'
 import { DeckImageUrlsProvider } from './contexts/DeckImageUrls'
+import { SimilarDecksProvider } from './contexts/SimilarDecks'
 import { TopicsProvider } from './contexts/Topics'
 import { CreateDeckProvider } from './contexts/CreateDeck'
 import { ExpandedSectionsProvider } from './contexts/ExpandedSections'
@@ -34,15 +35,17 @@ ReactDOM.render((
 			<SectionsProvider>
 				<CardsProvider>
 					<DeckImageUrlsProvider>
-						<TopicsProvider>
-							<CreateDeckProvider>
-								<ExpandedSectionsProvider>
-									<CountersProvider>
-										<App />
-									</CountersProvider>
-								</ExpandedSectionsProvider>
-							</CreateDeckProvider>
-						</TopicsProvider>
+						<SimilarDecksProvider>
+							<TopicsProvider>
+								<CreateDeckProvider>
+									<ExpandedSectionsProvider>
+										<CountersProvider>
+											<App />
+										</CountersProvider>
+									</ExpandedSectionsProvider>
+								</CreateDeckProvider>
+							</TopicsProvider>
+						</SimilarDecksProvider>
 					</DeckImageUrlsProvider>
 				</CardsProvider>
 			</SectionsProvider>

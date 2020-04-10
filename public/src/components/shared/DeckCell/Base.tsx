@@ -20,7 +20,7 @@ export default (
 	
 	return (
 		<Link to={href} className={cx('deck-cell', className)}>
-			<img src={imageUrl ?? Deck.defaultImage} alt={deck.name} />
+			<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
 			<div className="content">
 				<p className="name">
 					{deck.name}

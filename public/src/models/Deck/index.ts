@@ -1,3 +1,6 @@
+import _ from 'lodash'
+
+import Search, { DeckSortAlgorithm as SortAlgorithm } from './Search'
 import UserData from './UserData'
 import Section from '../Section'
 import LoadingState from '../LoadingState'
@@ -47,7 +50,8 @@ export interface CreateDeckData {
 }
 
 export default class Deck implements DeckData {
-	static defaultImage: string = require('../../images/logos/icon.png')
+	static DEFAULT_IMAGE_URL: string = require('../../images/logos/icon.png')
+	static USELESS_WORDS_REGEX = /^(.|from|to|and|by|at|why|in)$/i
 	
 	/** Key is a user ID */
 	static isObservingOwned: Record<string, boolean> = {}
@@ -364,4 +368,39 @@ export default class Deck implements DeckData {
 		firestore.doc(`users/${uid}/decks/${this.id}`).update({
 			rating: rating ?? firebase.firestore.FieldValue.delete()
 		})
+	
+	loadSimilarDecks = async (chunkSize: number) => {
+		const chunks: Deck[][] = await Promise.all([
+			Search.search(this.name, {
+				pageNumber: 1,
+				pageSize: chunkSize,
+				sortAlgorithm: SortAlgorithm.Top,
+				filterForTopics: null
+			}),
+			Search.search(null, {
+				pageNumber: 1,
+				pageSize: chunkSize,
+				sortAlgorithm: SortAlgorithm.Top,
+				filterForTopics: this.topics
+			}),
+			..._.without(
+				this.name.split(/\s+/).map(word => {
+					const trimmed = word.trim()
+					
+					return trimmed && !Deck.USELESS_WORDS_REGEX.test(trimmed)
+						? Search.search(trimmed, {
+							pageNumber: 1,
+							pageSize: chunkSize / 2,
+							sortAlgorithm: SortAlgorithm.Top,
+							filterForTopics: null
+						})
+						: null
+				}),
+				null
+			)
+		]) as any[][]
+		
+		return _.uniqBy(_.flatten(chunks), 'id')
+			.filter(deck => deck.id !== this.id)
+	}
 }

@@ -25,7 +25,10 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 	
 	return (
 		<div className="controls">
-			<Control title="Ratings" className="ratings">
+			<Control
+				title={<>Ratings <span>({deck.numberOfRatings})</span></>}
+				className="ratings"
+			>
 				<div className="top">
 					<div className="left">
 						<Stars>{deck.averageRating}</Stars>

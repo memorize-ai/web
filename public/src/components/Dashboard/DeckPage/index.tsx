@@ -16,6 +16,7 @@ import Header from './Header'
 import Footer from './Footer'
 import Controls from './Controls'
 import Sections from './Sections'
+import SimilarDecks from './SimilarDecks'
 import Loader from '../../shared/Loader'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
@@ -88,6 +89,8 @@ export default () => {
 							<Controls deck={deck} hasDeck={hasDeck} />
 							<div className="divider sections-divider" />
 							<Sections deck={deck} />
+							<div className="divider" />
+							<SimilarDecks deck={deck} />
 						</>
 					)
 					: <Loader size="24px" thickness="4px" color="#582efe" />

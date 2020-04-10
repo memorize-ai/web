@@ -73,7 +73,7 @@ export default (
 	
 	return (
 		<div className="header">
-			<img src={imageUrl ?? Deck.defaultImage} alt={deck.name} />
+			<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
 			<div className="content">
 				<div className="top">
 					<div className="left">

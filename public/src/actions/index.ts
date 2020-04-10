@@ -73,6 +73,18 @@ export const setDeckImageUrlLoadingState = (deckId: string, loadingState: Loadin
 	payload: { deckId, loadingState }
 })
 
+// Similar decks
+
+export const initializeSimilarDecks = (deckId: string) => ({
+	type: ActionType.InitializeSimilarDecks,
+	payload: deckId
+})
+
+export const setSimilarDecks = (deckId: string, decks: Deck[]) => ({
+	type: ActionType.SetSimilarDecks,
+	payload: { deckId, decks }
+})
+
 // Sections
 
 export const initializeSections = (deckId: string) => ({

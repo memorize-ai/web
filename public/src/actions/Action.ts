@@ -19,6 +19,9 @@ export enum ActionType {
 	SetDeckImageUrl = 'SET_DECK_IMAGE_URL',
 	SetDeckImageUrlLoadingState = 'SET_DECK_IMAGE_URL_LOADING_STATE',
 	
+	InitializeSimilarDecks = 'INITIALIZE_SIMILAR_DECKS',
+	SetSimilarDecks = 'SET_SIMILAR_DECKS',
+	
 	InitializeSections = 'INITIALIZE_SECTIONS',
 	AddSection = 'ADD_SECTION',
 	UpdateSection = 'UPDATE_SECTION',

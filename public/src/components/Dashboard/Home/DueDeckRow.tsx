@@ -12,7 +12,7 @@ export default ({ deck }: { deck: Deck }) => {
 	return (
 		<Link to={`/decks/${deck.slug}`}>
 			{imageUrlLoadingState === LoadingState.Loading || (
-				<img src={imageUrl ?? Deck.defaultImage} alt={deck.name} />
+				<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
 			)}
 			<p className="title">
 				{deck.name}

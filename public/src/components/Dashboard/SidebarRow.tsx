@@ -20,7 +20,7 @@ export default ({ deck }: { deck: Deck }) => {
 			})}
 		>
 			{imageUrlLoadingState === LoadingState.Loading || (
-				<img src={imageUrl ?? Deck.defaultImage} alt={deck.name} />
+				<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
 			)}
 			<p className="title">
 				{deck.name}

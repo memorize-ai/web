@@ -1,9 +1,9 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, ReactNode } from 'react'
 import cx from 'classnames'
 
 export default (
 	{ title, className, children }: PropsWithChildren<{
-		title: string
+		title: ReactNode
 		className: string
 	}>
 ) => (
