@@ -3,6 +3,7 @@ import _ from 'lodash'
 
 import Deck from '../../../models/Deck'
 import useSections from '../../../hooks/useSections'
+import { formatNumber } from '../../../utils'
 
 export const COLLAPSED_SECTION_LIMIT = 8
 
@@ -24,7 +25,7 @@ export default ({ deck }: { deck: Deck }) => {
 				</p>
 				<div className="spacer" />
 				<p className="card-count">
-					({section.numberOfCards} card{section.numberOfCards === 1 ? '' : 's'})
+					({formatNumber(section.numberOfCards)} card{section.numberOfCards === 1 ? '' : 's'})
 				</p>
 			</div>
 		))
@@ -35,7 +36,7 @@ export default ({ deck }: { deck: Deck }) => {
 	return (
 		<div id="sections" className="sections">
 			<h2 className="title">
-				Sections <span>({sections.length})</span>
+				Sections <span>({formatNumber(sections.length)})</span>
 			</h2>
 			<div className="box">
 				{sections.length
@@ -62,7 +63,10 @@ export default ({ deck }: { deck: Deck }) => {
 						className="toggle-expanded-button"
 						onClick={() => setIsExpanded(!isExpanded)}
 					>
-						{isExpanded ? 'Hide' : `Show ${_sections.length - sections.length} more`}
+						{isExpanded
+							? 'Hide'
+							: `Show ${formatNumber(_sections.length - sections.length)} more`
+						}
 					</button>
 				)}
 			</div>

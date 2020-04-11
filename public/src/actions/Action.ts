@@ -28,6 +28,7 @@ export enum ActionType {
 	RemoveSection = 'REMOVE_SECTION',
 	
 	InitializeCards = 'INITIALIZE_CARDS',
+	SetCards = 'SET_CARDS',
 	AddCard = 'ADD_CARD',
 	UpdateCard = 'UPDATE_CARD',
 	UpdateCardUserData = 'UPDATE_CARD_USER_DATA',

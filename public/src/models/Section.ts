@@ -12,6 +12,8 @@ export interface SectionData {
 }
 
 export default class Section implements SectionData {
+	static observers: Record<string, boolean> = {}
+	
 	id: string
 	name: string
 	index: number

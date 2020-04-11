@@ -18,6 +18,7 @@ export interface CardData {
 
 export default class Card implements CardData {
 	static snapshotListeners: Record<string, () => void> = {}
+	static observers: Record<string, boolean> = {}
 	
 	id: string
 	sectionId: string | null
@@ -66,11 +67,11 @@ export default class Card implements CardData {
 			deckId: string
 			sectionId: string
 			uid: string
-			initializeCards: (sectionId: string) => void
-			addCard: (sectionId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
-			updateCard: (sectionId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
-			updateCardUserData: (sectionId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
-			removeCard: (sectionId: string, cardId: string) => void
+			initializeCards: (parentId: string) => void
+			addCard: (parentId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
+			updateCard: (parentId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
+			updateCardUserData: (parentId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
+			removeCard: (parentId: string, cardId: string) => void
 		}
 	) =>
 		firestore.collection(`decks/${deckId}/cards`).where('section', '==', sectionId).onSnapshot(
@@ -108,6 +109,11 @@ export default class Card implements CardData {
 				console.error(error)
 			}
 		)
+	
+	static getAllForDeck = async (deckId: string) =>
+		(await firestore.collection(`decks/${deckId}/cards`).get())
+			.docs
+			.map(snapshot => Card.fromSnapshot(snapshot, null))
 	
 	static create = async (
 		{ deck, section, ...data }: {

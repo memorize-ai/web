@@ -15,8 +15,10 @@ export default (deckId: string | null | undefined) => {
 	const sections = deckId ? _sections[deckId] : null
 	
 	useEffect(() => {
-		if (!deckId || sections)
+		if (!deckId || Section.observers[deckId] || sections)
 			return
+		
+		Section.observers[deckId] = true
 		
 		dispatch(initializeSections(deckId))
 		

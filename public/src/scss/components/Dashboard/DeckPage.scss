@@ -596,7 +596,6 @@
 		}
 		
 		> .similar-decks {
-			width: 100%;
 			margin-top: 16px;
 			
 			> .title {
@@ -617,7 +616,7 @@
 				$padding-top: 4px;
 				
 				margin-top: $margin-top - $padding-top;
-				padding: $padding-top $margin 0 $margin;
+				padding: $padding-top $margin 16px $margin;
 				
 				> div {
 					display: flex;
@@ -633,6 +632,25 @@
 					&:not(:last-child) {
 						margin-bottom: 12px;
 					}
+				}
+			}
+		}
+		
+		> .cards-divider {
+			margin-top: 14px;
+		}
+		
+		> .cards {
+			margin-top: 16px;
+			
+			> .title {
+				margin: 0 $margin;
+				font-size: 24px;
+				font-weight: bold;
+				color: $dark-gray;
+				
+				> span {
+					color: #582efe;
 				}
 			}
 		}

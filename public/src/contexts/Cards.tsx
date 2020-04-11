@@ -7,6 +7,7 @@ export type CardsState = Record<string, Card[]>
 
 export type CardsAction = Action<
 	| string // InitializeCards
+	| { parentId: string, cards: Card[] } // AddCards
 	| { parentId: string, snapshot: firebase.firestore.DocumentSnapshot } // AddCard, UpdateCard, UpdateCardUserData
 	| { parentId: string, cardId: string } // RemoveCard
 >
@@ -21,6 +22,17 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 			return {
 				...state,
 				[parentId]: state[parentId] ?? []
+			}
+		}
+		case ActionType.SetCards: {
+			const { parentId, cards } = payload as {
+				parentId: string
+				cards: Card[]
+			}
+			
+			return {
+				...state,
+				[parentId]: cards
 			}
 		}
 		case ActionType.AddCard: {

@@ -19,6 +19,7 @@ import Footer from './Footer'
 import Controls from './Controls'
 import Sections from './Sections'
 import SimilarDecks from './SimilarDecks'
+import Cards from './Cards'
 import Loader from '../../shared/Loader'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
@@ -99,6 +100,8 @@ export default () => {
 							<Sections deck={deck} />
 							<div className="divider similar-decks-divider" />
 							<SimilarDecks deck={deck} />
+							<div className="divider cards-divider" />
+							<Cards deck={deck} />
 						</>
 					)
 					: <Loader size="24px" thickness="4px" color="#582efe" />

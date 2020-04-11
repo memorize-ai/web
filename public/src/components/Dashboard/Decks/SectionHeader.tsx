@@ -10,7 +10,10 @@ import TripleDots from '../../shared/TripleDots'
 
 export default ({ deck, section }: { deck: Deck, section: Section }) => {
 	const [currentUser] = useCurrentUser()
-	const [isExpanded, toggleExpanded] = useExpandedSections(deck)
+	const [isExpanded, toggleExpanded] = useExpandedSections(deck, {
+		isOwned: true,
+		defaultExpanded: false
+	})
 	
 	const isUnlocked = deck.isSectionUnlocked(section)
 	

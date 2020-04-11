@@ -4,12 +4,32 @@ import Deck from '../models/Deck'
 import ExpandedSectionsContext from '../contexts/ExpandedSections'
 import { toggleSectionExpanded } from '../actions'
 
-export default (deck: Deck) => {
-	const [{ [deck.id]: _sections }, dispatch] = useContext(ExpandedSectionsContext)
-	const sections = _sections ?? []
+export default (
+	deck: Deck,
+	{ isOwned, defaultExpanded }: {
+		isOwned: boolean
+		defaultExpanded: boolean
+	}
+) => {
+	const key = isOwned ? 'ownedDecks' : 'decks'
+	
+	const [
+		{ [key]: { [deck.id]: _sections } },
+		dispatch
+	] = useContext(ExpandedSectionsContext)
+	
+	const sections = _sections ?? {}
 	
 	return [
-		sections.includes.bind(sections),
-		(sectionId: string) => dispatch(toggleSectionExpanded(deck.id, sectionId))
+		(sectionId: string) => {
+			const isExpanded = sections[sectionId]
+			
+			return isExpanded === undefined
+				? defaultExpanded
+				: defaultExpanded
+					? !isExpanded
+					: isExpanded
+		},
+		(sectionId: string) => dispatch(toggleSectionExpanded(deck.id, sectionId, isOwned))
 	] as const
 }

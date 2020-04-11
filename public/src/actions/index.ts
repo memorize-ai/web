@@ -1,6 +1,7 @@
 import { ActionType } from './Action'
 import firebase from '../firebase'
 import Deck from '../models/Deck'
+import Card from '../models/Card'
 import LoadingState from '../models/LoadingState'
 import { Counter } from '../models/Counters'
 import { SearchActionPayload } from '../contexts/Search'
@@ -115,6 +116,11 @@ export const initializeCards = (parentId: string) => ({
 	payload: parentId
 })
 
+export const setCards = (parentId: string, cards: Card[]) => ({
+	type: ActionType.SetCards,
+	payload: { parentId, cards }
+})
+
 export const addCard = (parentId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
 	type: ActionType.AddCard,
 	payload: { parentId, snapshot }
@@ -181,9 +187,9 @@ export const setCreateDeckTopics = (value: string[]) => ({
 
 // Expanded sections
 
-export const toggleSectionExpanded = (deckId: string, sectionId: string) => ({
+export const toggleSectionExpanded = (deckId: string, sectionId: string, isOwned: boolean) => ({
 	type: ActionType.ToggleSectionExpanded,
-	payload: { deckId, sectionId }
+	payload: { deckId, sectionId, isOwned }
 })
 
 // Counters

@@ -9,7 +9,12 @@ import CardBox from '../../shared/CardBox'
 import Loader from '../../shared/Loader'
 
 export default ({ deck, section }: { deck: Deck, section: Section }) => {
-	const isExpanded = useExpandedSections(deck)[0](section.id)
+	const [isSectionExpanded] = useExpandedSections(deck, {
+		isOwned: true,
+		defaultExpanded: false
+	})
+	
+	const isExpanded = isSectionExpanded(section.id)
 	const cards = useCards(deck, section, isExpanded)
 	
 	return (

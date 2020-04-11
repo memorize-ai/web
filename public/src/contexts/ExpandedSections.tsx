@@ -2,25 +2,42 @@ import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'r
 
 import Action, { ActionType } from '../actions/Action'
 
-export type ExpandedSectionsState = Record<string, string[]>
-export type ExpandedSectionsAction = Action<{ deckId: string, sectionId: string }>
+export interface ExpandedSectionsState {
+	decks: Record<string, Record<string, boolean>>
+	ownedDecks: Record<string, Record<string, boolean>>
+}
 
-const initialState: ExpandedSectionsState = {}
+export type ExpandedSectionsAction = Action<{
+	deckId: string
+	sectionId: string
+	isOwned: boolean
+}>
+
+const initialState: ExpandedSectionsState = {
+	decks: {},
+	ownedDecks: {}
+}
 
 const reducer = (
 	state: ExpandedSectionsState,
-	{ type, payload: { deckId, sectionId } }: ExpandedSectionsAction
+	{ type, payload: { deckId, sectionId, isOwned } }: ExpandedSectionsAction
 ) => {
 	if (type !== ActionType.ToggleSectionExpanded)
 		return state
 	
-	const sections = state[deckId] ?? []
+	const key = isOwned ? 'ownedDecks' : 'decks'
+	const decks = state[key]
+	const sections = decks[deckId] ?? []
 	
 	return {
 		...state,
-		[deckId]: sections.includes(sectionId)
-			? sections.filter(_sectionId => _sectionId !== sectionId)
-			: [...sections, sectionId]
+		[key]: {
+			...decks,
+			[deckId]: {
+				...sections,
+				[sectionId]: !sections[sectionId]
+			}
+		}
 	}
 }
 

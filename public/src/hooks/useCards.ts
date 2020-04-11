@@ -20,8 +20,10 @@ export default (deck: Deck, section: Section, shouldLoadCards: boolean): Card[] 
 	const [currentUser] = useCurrentUser()
 	
 	useEffect(() => {
-		if (!shouldLoadCards || cards || !currentUser)
+		if (!shouldLoadCards || Card.observers[section.id] || cards || !currentUser)
 			return
+		
+		Card.observers[section.id] = true
 		
 		Card.observe({
 			deckId: deck.id,
