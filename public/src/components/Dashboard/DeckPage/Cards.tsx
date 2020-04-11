@@ -23,9 +23,10 @@ export default ({ deck }: { deck: Deck }) => {
 			? cards
 				.filter(card => card.sectionId === section.id)
 				.map(card => (
-					<div key={card.id}>
-						{card.front}
-					</div>
+					<div
+						key={card.id}
+						dangerouslySetInnerHTML={{ __html: card.front }}
+					/>
 				))
 			: <Loader size="24px" thickness="4px" color="#582efe" />
 	
