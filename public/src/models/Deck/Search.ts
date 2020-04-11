@@ -16,6 +16,8 @@ export enum DeckSortAlgorithm {
 	RecentlyUpdated = 'recently-updated'
 }
 
+export const DEFAULT_DECK_SORT_ALGORITHM = DeckSortAlgorithm.Recommended
+
 export const decodeDeckSortAlgorithm = (string: string) => {
 	switch (string) {
 		case 'relevance':

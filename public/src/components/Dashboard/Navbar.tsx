@@ -8,6 +8,7 @@ import useCurrentUser from '../../hooks/useCurrentUser'
 import Tab from './NavbarTab'
 import Dropdown from '../shared/Dropdown'
 import { urlForAuth } from '../Auth'
+import { urlForMarket } from './Market'
 import { isNullish } from '../../utils'
 
 import { ReactComponent as Home } from '../../images/icons/home.svg'
@@ -65,7 +66,7 @@ export default ({ selection }: { selection: Selection }) => {
 					<Home />
 				</Tab>
 				<Tab
-					href="/market"
+					href={urlForMarket()}
 					title="Market"
 					isSelected={selection === Selection.Market}
 					isDisabled={false}

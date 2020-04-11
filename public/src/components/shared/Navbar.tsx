@@ -6,6 +6,7 @@ import cx from 'classnames'
 
 import useAuthState from '../../hooks/useAuthState'
 import Logo, { LogoType } from './Logo'
+import { urlForMarket } from '../Dashboard/Market'
 import { DEFAULT_DECK_COUNT } from '../../constants'
 
 import '../../scss/components/Navbar.scss'
@@ -34,7 +35,7 @@ export default (
 					)
 					: (
 						<>
-							<Link to="/market" className="market-tab">
+							<Link to={urlForMarket()} className="market-tab">
 								<FontAwesomeIcon icon={faSearch} />
 								<p>Explore {DEFAULT_DECK_COUNT} decks</p>
 							</Link>

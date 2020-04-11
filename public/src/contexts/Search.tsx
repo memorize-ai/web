@@ -2,7 +2,7 @@ import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'r
 import _ from 'lodash'
 
 import Action, { ActionType } from '../actions/Action'
-import { DeckSortAlgorithm } from '../models/Deck/Search'
+import { DeckSortAlgorithm, DEFAULT_DECK_SORT_ALGORITHM } from '../models/Deck/Search'
 
 export interface SearchState {
 	query: string
@@ -18,7 +18,7 @@ export type SearchAction = Action<SearchActionPayload>
 
 const initialState: SearchState = {
 	query: '',
-	sortAlgorithm: DeckSortAlgorithm.Recommended
+	sortAlgorithm: DEFAULT_DECK_SORT_ALGORITHM
 }
 
 const reducer = (state: SearchState, { type, payload }: SearchAction) =>

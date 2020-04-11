@@ -10,6 +10,7 @@ import useSearchState from '../../../hooks/useSearchState'
 import Deck from '../../../models/Deck'
 import DeckSearch, {
 	DeckSortAlgorithm,
+	DEFAULT_DECK_SORT_ALGORITHM,
 	decodeDeckSortAlgorithm,
 	nameForDeckSortAlgorithm
 } from '../../../models/Deck/Search'
@@ -22,6 +23,17 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Market.scss'
 
+export const urlForMarket = () => {
+	const [{ query, sortAlgorithm }] = useSearchState() // eslint-disable-line
+	
+	return urlWithQuery('/market', {
+		q: query,
+		s: sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+			? null
+			: sortAlgorithm
+	})
+}
+
 export default () => {
 	const history = useHistory()
 	const searchParams = useQuery()
@@ -31,7 +43,7 @@ export default () => {
 	const query = searchParams.get('q') ?? ''
 	const sortAlgorithm = decodeDeckSortAlgorithm(
 		searchParams.get('s') ?? ''
-	) ?? DeckSortAlgorithm.Recommended
+	) ?? DEFAULT_DECK_SORT_ALGORITHM
 	
 	const [decks, setDecks] = useState([] as Deck[])
 	const [isLastPage, setIsLastPage] = useState(false)
@@ -107,7 +119,7 @@ export default () => {
 					setValue={newQuery =>
 						history.push(urlWithQuery('/market', {
 							q: newQuery,
-							s: sortAlgorithm === DeckSortAlgorithm.Recommended
+							s: sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
 								? null
 								: sortAlgorithm
 						}))
@@ -120,7 +132,7 @@ export default () => {
 					setAlgorithm={newSortAlgorithm =>
 						history.push(urlWithQuery('/market', {
 							q: query,
-							s: newSortAlgorithm === DeckSortAlgorithm.Recommended
+							s: newSortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
 								? null
 								: newSortAlgorithm
 						}))

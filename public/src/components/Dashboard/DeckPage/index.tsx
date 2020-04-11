@@ -7,6 +7,7 @@ import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import Deck from '../../../models/Deck'
+import { DEFAULT_DECK_SORT_ALGORITHM } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
 import useSearchState from '../../../hooks/useSearchState'
 import useDeck from '../../../hooks/useDeck'
@@ -22,10 +23,7 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'
 
-export const urlForDeckPage = (
-	deck: Deck,
-	action: 'get' | null = null
-) =>
+export const urlForDeckPage = (deck: Deck, action: 'get' | null = null) =>
 	urlWithQuery(`/d/${deck.slug}`, { action })
 
 export default () => {
@@ -67,7 +65,9 @@ export default () => {
 					setValue={newQuery =>
 						history.push(urlWithQuery('/market', {
 							q: newQuery,
-							s: sortAlgorithm
+							s: sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+								? null
+								: sortAlgorithm
 						}))
 					}
 				/>
@@ -78,7 +78,9 @@ export default () => {
 					setAlgorithm={newSortAlgorithm =>
 						history.push(urlWithQuery('/market', {
 							q: query,
-							s: newSortAlgorithm
+							s: newSortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+								? null
+								: newSortAlgorithm
 						}))
 					}
 				/>
