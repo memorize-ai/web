@@ -33,7 +33,7 @@ export default ({ deck }: { deck: Deck }) => {
 	const rowsForColumn2 = rowsForColumn(1)
 	
 	return (
-		<div className="sections">
+		<div id="sections" className="sections">
 			<h2 className="title">
 				Sections <span>({sections.length})</span>
 			</h2>

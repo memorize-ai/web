@@ -9,7 +9,7 @@ export default ({ deck }: { deck: Deck }) => {
 	)
 	
 	return (
-		<div className="footer">
+		<div id="description" className="footer">
 			<p className="description">
 				{deck.description}
 			</p>

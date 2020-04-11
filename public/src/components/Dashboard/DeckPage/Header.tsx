@@ -131,24 +131,24 @@ export default (
 				</div>
 				<div className="divider" />
 				<div className="stats">
-					<div className="rating">
+					<a className="rating" href="#ratings">
 						<Stars>{deck.averageRating}</Stars>
 						<p>({formatNumber(deck.numberOfRatings)})</p>
-					</div>
+					</a>
 					<div className="divider" />
-					<div className="downloads">
+					<a className="downloads" href="#info">
 						<DownloadIcon />
 						<p>({formatNumber(deck.numberOfDownloads)})</p>
-					</div>
+					</a>
 					<div className="divider" />
-					<div className="current-users">
+					<a className="current-users" href="#info">
 						<UsersIcon />
 						<p>({formatNumber(deck.numberOfCurrentUsers)})</p>
-					</div>
+					</a>
 					<div className="divider" />
-					<p className="cards">
+					<a className="cards" href="#cards">
 						{formatNumber(deck.numberOfCards)} card{deck.numberOfCards === 1 ? '' : 's'}
-					</p>
+					</a>
 				</div>
 			</div>
 		</div>

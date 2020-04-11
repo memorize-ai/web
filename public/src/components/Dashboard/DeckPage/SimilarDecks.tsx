@@ -17,7 +17,7 @@ export default ({ deck }: { deck: Deck }) => {
 			))
 	
 	return (
-		<div className="similar-decks">
+		<div id="similar" className="similar-decks">
 			<h2 className="title">
 				We think you'd like... <span>({similarDecks.length})</span>
 			</h2>

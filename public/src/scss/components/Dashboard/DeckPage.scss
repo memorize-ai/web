@@ -15,6 +15,7 @@
 		'header' auto
 		'box' 1fr /
 		auto;
+	scroll-behavior: smooth;
 	padding: 0 $margin;
 	
 	> .header {

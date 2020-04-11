@@ -27,6 +27,7 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 		<div className="controls">
 			<Control
 				title={<>Ratings <span>({deck.numberOfRatings})</span></>}
+				id="ratings"
 				className="ratings"
 			>
 				<div className="top">
@@ -96,7 +97,7 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 					</>
 				)}
 			</Control>
-			<Control title="Info" className="info">
+			<Control id="info" title="Info" className="info">
 				<div>
 					<p>Active users</p>
 					<p>{formatNumber(deck.numberOfCurrentUsers)}</p>
