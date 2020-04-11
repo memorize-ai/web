@@ -2,6 +2,11 @@
 @import '../../mixins';
 @import '../../functions';
 
+@mixin horizontal-scrolling-container($margin) {
+	overflow-x: auto;
+	width: calc(100vw - #{$dashboard-sidebar-width} - #{$margin * 2});
+}
+
 @include dashboard-content('deck-page') {
 	$margin: 30px;
 	
@@ -17,11 +22,11 @@
 		
 		grid-area: header;
 		display: flex;
+		align-items: center;
 		margin: $inner-margin 0;
 		
 		> .search {
 			width: 100%;
-			margin-left: $inner-margin;
 			
 			> input {
 				padding: raw-repeat(3, 12px) 44px;
@@ -40,6 +45,10 @@
 				left: 16px;
 				color: #eee;
 			}
+		}
+		
+		> .sort-dropdown {
+			margin-left: 16px;
 		}
 	}
 	
@@ -264,9 +273,9 @@
 			}
 			
 			> .topics {
+				@include horizontal-scrolling-container($margin);
+				
 				display: flex;
-				overflow-x: auto;
-				width: calc(100vw - #{$dashboard-sidebar-width} - #{$margin * 2});
 				margin-top: 20px;
 				padding: 0 $margin;
 				
@@ -577,6 +586,52 @@
 					text-align: center;
 					text-transform: lowercase;
 					color: $dark-gray;
+				}
+			}
+		}
+		
+		> .similar-decks-divider {
+			margin-top: 30px;
+		}
+		
+		> .similar-decks {
+			width: 100%;
+			margin-top: 16px;
+			
+			> .title {
+				margin: 0 $margin;
+				font-size: 24px;
+				font-weight: bold;
+				color: $dark-gray;
+				
+				> span {
+					color: #582efe;
+				}
+			}
+			
+			> .rows {
+				@include horizontal-scrolling-container($margin);
+				
+				$margin-top: 12px;
+				$padding-top: 4px;
+				
+				margin-top: $margin-top - $padding-top;
+				padding: $padding-top $margin 0 $margin;
+				
+				> div {
+					display: flex;
+					
+					> .deck-cell {
+						flex-shrink: 0;
+						
+						&:not(:last-child) {
+							margin-right: 12px;
+						}
+					}
+					
+					&:not(:last-child) {
+						margin-bottom: 12px;
+					}
 				}
 			}
 		}

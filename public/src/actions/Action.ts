@@ -45,5 +45,7 @@ export enum ActionType {
 	
 	ToggleSectionExpanded = 'TOGGLE_SECTION_EXPANDED',
 	
-	SetCounterKey = 'SET_COUNTER_KEY'
+	SetCounterKey = 'SET_COUNTER_KEY',
+	
+	SetSearchState = 'SET_SEARCH_STATE'
 }

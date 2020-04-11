@@ -33,7 +33,7 @@ export default ({ deck, query }: { deck: Deck, query?: string }) => {
 		if (!currentUser)
 			return history.push(urlForAuth({
 				title: 'I heard that deck is great...',
-				next: urlForDeckPage(deck, { action: 'get' })
+				next: urlForDeckPage(deck, 'get')
 			}))
 		
 		try {
@@ -56,7 +56,7 @@ export default ({ deck, query }: { deck: Deck, query?: string }) => {
 	}
 	
 	return (
-		<Base className="default" deck={deck} href={urlForDeckPage(deck, { query })}>
+		<Base className="default" deck={deck} href={urlForDeckPage(deck)}>
 			<div className="stats">
 				<div className="rating">
 					<Stars>{deck.averageRating}</Stars>

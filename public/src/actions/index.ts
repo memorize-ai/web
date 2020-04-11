@@ -3,6 +3,7 @@ import firebase from '../firebase'
 import Deck from '../models/Deck'
 import LoadingState from '../models/LoadingState'
 import { Counter } from '../models/Counters'
+import { SearchActionPayload } from '../contexts/Search'
 
 // Current user
 
@@ -190,4 +191,11 @@ export const toggleSectionExpanded = (deckId: string, sectionId: string) => ({
 export const setCounterKey = (key: Counter, value: number | null) => ({
 	type: ActionType.SetCounterKey,
 	payload: { key, value }
+})
+
+// Search
+
+export const setSearchState = (state: SearchActionPayload) => ({
+	type: ActionType.SetSearchState,
+	payload: state
 })

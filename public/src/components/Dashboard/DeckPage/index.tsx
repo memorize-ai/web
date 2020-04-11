@@ -1,17 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Helmet from 'react-helmet'
 import { useHistory, useParams } from 'react-router-dom'
 import Schema, { IndividualProduct } from 'schema.org-react'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import Dashboard, { DashboardNavbarSelection as Selection, selectionFromUrl } from '..'
+import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import Deck from '../../../models/Deck'
 import Counters, { Counter } from '../../../models/Counters'
-import useQuery from '../../../hooks/useQuery'
+import useSearchState from '../../../hooks/useSearchState'
 import useDeck from '../../../hooks/useDeck'
-import BackButton from '../../shared/BackButton'
 import Input from '../../shared/Input'
+import SortDropdown from '../../shared/SortDropdown'
 import Header from './Header'
 import Footer from './Footer'
 import Controls from './Controls'
@@ -24,32 +24,23 @@ import '../../../scss/components/Dashboard/DeckPage.scss'
 
 export const urlForDeckPage = (
 	deck: Deck,
-	{ query = '', action = null }: { query?: string, action?: 'get' | null } = {}
-) => {
-	const { pathname, search } = window.location
-	
-	return urlWithQuery(`/d/${deck.slug}`, {
-		'prev-q': query,
-		prev: `${pathname}${search}`,
-		action
-	})
-}
+	action: 'get' | null = null
+) =>
+	urlWithQuery(`/d/${deck.slug}`, { action })
 
 export default () => {
 	const history = useHistory()
 	const { slug } = useParams()
-	const searchParams = useQuery()
+	const [{ query, sortAlgorithm }] = useSearchState()
 	
 	const { deck, hasDeck } = useDeck(slug)
 	
-	const query = searchParams.get('prev-q') ?? ''
-	const previousUrl = searchParams.get('prev')
+	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
 	
 	const numberOfDecks = Counters.get(Counter.Decks)
-	const selection = (previousUrl && selectionFromUrl(previousUrl)) || Selection.Market
 	
 	return (
-		<Dashboard selection={selection} className="deck-page" gradientHeight="500px">
+		<Dashboard selection={Selection.Market} className="deck-page" gradientHeight="500px">
 			<Helmet>
 				<title>{deck ? `${deck.name} | ` : ''}memorize.ai</title>
 			</Helmet>
@@ -65,7 +56,6 @@ export default () => {
 				}
 			}} />
 			<div className="header">
-				<BackButton to={previousUrl || '/market'} />
 				<Input
 					className="search"
 					icon={faSearch}
@@ -75,7 +65,21 @@ export default () => {
 					}
 					value={query}
 					setValue={newQuery =>
-						history.push(urlWithQuery('/market', { q: newQuery }))
+						history.push(urlWithQuery('/market', {
+							q: newQuery,
+							s: sortAlgorithm
+						}))
+					}
+				/>
+				<SortDropdown
+					isShowing={isSortDropdownShowing}
+					setIsShowing={setIsSortDropdownShowing}
+					algorithm={sortAlgorithm}
+					setAlgorithm={newSortAlgorithm =>
+						history.push(urlWithQuery('/market', {
+							q: query,
+							s: newSortAlgorithm
+						}))
 					}
 				/>
 			</div>
@@ -89,7 +93,7 @@ export default () => {
 							<Controls deck={deck} hasDeck={hasDeck} />
 							<div className="divider sections-divider" />
 							<Sections deck={deck} />
-							<div className="divider" />
+							<div className="divider similar-decks-divider" />
 							<SimilarDecks deck={deck} />
 						</>
 					)

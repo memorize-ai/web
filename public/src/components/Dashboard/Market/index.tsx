@@ -6,11 +6,16 @@ import InfiniteScroll from 'react-infinite-scroller'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useQuery from '../../../hooks/useQuery'
+import useSearchState from '../../../hooks/useSearchState'
 import Deck from '../../../models/Deck'
-import DeckSearch, { DeckSortAlgorithm, decodeDeckSortAlgorithm, nameForDeckSortAlgorithm } from '../../../models/Deck/Search'
+import DeckSearch, {
+	DeckSortAlgorithm,
+	decodeDeckSortAlgorithm,
+	nameForDeckSortAlgorithm
+} from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
 import Input from '../../shared/Input'
-import SortDropdown from './SortDropdown'
+import SortDropdown from '../../shared/SortDropdown'
 import DeckCell from '../../shared/DeckCell'
 import Loader from '../../shared/Loader'
 import { urlWithQuery, formatNumber } from '../../../utils'
@@ -21,10 +26,12 @@ export default () => {
 	const history = useHistory()
 	const searchParams = useQuery()
 	
-	const [query, setQuery] = useState(searchParams.get('q') ?? '')
-	const [sortAlgorithm, setSortAlgorithm] = useState(
-		decodeDeckSortAlgorithm(searchParams.get('s') ?? '') ?? DeckSortAlgorithm.Recommended
-	)
+	const [, setSearchState] = useSearchState()
+	
+	const query = searchParams.get('q') ?? ''
+	const sortAlgorithm = decodeDeckSortAlgorithm(
+		searchParams.get('s') ?? ''
+	) ?? DeckSortAlgorithm.Recommended
 	
 	const [decks, setDecks] = useState([] as Deck[])
 	const [isLastPage, setIsLastPage] = useState(false)
@@ -41,12 +48,7 @@ export default () => {
 			shouldContinue && setDecks(decks)
 		)
 		
-		history.push(urlWithQuery('/market', {
-			q: query,
-			s: sortAlgorithm === DeckSortAlgorithm.Recommended
-				? null
-				: sortAlgorithm
-		}))
+		setSearchState({ query, sortAlgorithm })
 		
 		return () => { shouldContinue = false }
 	}, [query, sortAlgorithm]) // eslint-disable-line
@@ -102,13 +104,27 @@ export default () => {
 						`Explore ${numberOfDecks === null ? '...' : formatNumber(numberOfDecks)} decks`
 					}
 					value={query}
-					setValue={setQuery}
+					setValue={newQuery =>
+						history.push(urlWithQuery('/market', {
+							q: newQuery,
+							s: sortAlgorithm === DeckSortAlgorithm.Recommended
+								? null
+								: sortAlgorithm
+						}))
+					}
 				/>
 				<SortDropdown
 					isShowing={isSortDropdownShowing}
 					setIsShowing={setIsSortDropdownShowing}
 					algorithm={sortAlgorithm}
-					setAlgorithm={setSortAlgorithm}
+					setAlgorithm={newSortAlgorithm =>
+						history.push(urlWithQuery('/market', {
+							q: query,
+							s: newSortAlgorithm === DeckSortAlgorithm.Recommended
+								? null
+								: newSortAlgorithm
+						}))
+					}
 				/>
 			</div>
 			<div className="decks">

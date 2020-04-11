@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import { DeckSortAlgorithm, nameForDeckSortAlgorithm } from '../../../models/Deck/Search'
-import Dropdown from '../../shared/Dropdown'
+import { DeckSortAlgorithm, nameForDeckSortAlgorithm } from '../../models/Deck/Search'
+import Dropdown from './Dropdown'
 
-import { ReactComponent as SortIcon } from '../../../images/icons/sort.svg'
+import { ReactComponent as SortIcon } from '../../images/icons/sort.svg'
+
+import '../../scss/components/SortDropdown.scss'
 
 export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 	title: nameForDeckSortAlgorithm(type),
