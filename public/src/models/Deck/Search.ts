@@ -39,6 +39,27 @@ export const decodeDeckSortAlgorithm = (string: string) => {
 	}
 }
 
+export const nameForDeckSortAlgorithm = (algorithm: DeckSortAlgorithm) => {
+	switch (algorithm) {
+		case DeckSortAlgorithm.Relevance:
+			return 'Relevance'
+		case DeckSortAlgorithm.Recommended:
+			return 'Recommended'
+		case DeckSortAlgorithm.Top:
+			return 'Top'
+		case DeckSortAlgorithm.Rating:
+			return 'Rating'
+		case DeckSortAlgorithm.CurrentUsers:
+			return 'Popularity'
+		case DeckSortAlgorithm.NumberOfCards:
+			return 'Number of cards'
+		case DeckSortAlgorithm.New:
+			return 'New'
+		case DeckSortAlgorithm.RecentlyUpdated:
+			return 'Recently updated'
+	}
+}
+
 type RawSearchResultItemData = Record<string, { raw: any }>
 
 export default class Search {

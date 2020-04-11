@@ -7,13 +7,16 @@ const { firestore } = require('../firebase-admin')
 if (require.main === module)
 	(async () => {
 		const urls = {
-			'': { type: 'base' },
-			'/market': { type: 'base' }
+			'': { type: 'max' },
+			'/auth': { type: 'base' },
+			'/market': { type: 'high' },
+			'/decks': { type: 'low' },
+			'/interests': { type: 'low' }
 		}
 		
 		for (const deck of (await firestore.collection('decks').get()).docs)
 			urls[`/d/${deck.get('slug')}`] = {
-				type: 'deck',
+				type: 'max',
 				lastmod: deck.get('updated').toDate().toISOString()
 			}
 		
@@ -35,10 +38,14 @@ if (require.main === module)
 						}`
 						
 						switch (type) {
+							case 'low':
+								return { loc, priority: 0.2, ...data }
 							case 'base':
 								return { loc, ...data }
-							case 'deck':
+							case 'high':
 								return { loc, priority: 0.8, ...data }
+							case 'max':
+								return { loc, priority: 1, ...data }
 						}
 					})
 				}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import Helmet from 'react-helmet'
 import { useHistory } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -6,7 +7,7 @@ import InfiniteScroll from 'react-infinite-scroller'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useQuery from '../../../hooks/useQuery'
 import Deck from '../../../models/Deck'
-import DeckSearch, { DeckSortAlgorithm, decodeDeckSortAlgorithm } from '../../../models/Deck/Search'
+import DeckSearch, { DeckSortAlgorithm, decodeDeckSortAlgorithm, nameForDeckSortAlgorithm } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
 import Input from '../../shared/Input'
 import SortDropdown from './SortDropdown'
@@ -80,6 +81,17 @@ export default () => {
 	
 	return (
 		<Dashboard selection={Selection.Market} className="market" gradientHeight="500px">
+			<Helmet>
+				<title>
+					{
+						query && `${query} | `
+					}{
+						sortAlgorithm === DeckSortAlgorithm.Relevance
+							? ''
+							: `${nameForDeckSortAlgorithm(sortAlgorithm)} | `
+					}memorize.ai
+				</title>
+			</Helmet>
 			<div className="header">
 				<Input
 					ref={onInputRef}

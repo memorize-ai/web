@@ -29,7 +29,7 @@ export const urlForDeckPage = (
 	const { pathname, search } = window.location
 	
 	return urlWithQuery(`/d/${deck.slug}`, {
-		q: query,
+		'prev-q': query,
 		prev: `${pathname}${search}`,
 		action
 	})
@@ -42,7 +42,7 @@ export default () => {
 	
 	const { deck, hasDeck } = useDeck(slug)
 	
-	const query = searchParams.get('q') ?? ''
+	const query = searchParams.get('prev-q') ?? ''
 	const previousUrl = searchParams.get('prev')
 	
 	const numberOfDecks = Counters.get(Counter.Decks)

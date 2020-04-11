@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import _ from 'lodash'
-import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
 import useSections from '../../../hooks/useSections'
