@@ -13,6 +13,7 @@ import useSearchState from '../../../hooks/useSearchState'
 import useDeck from '../../../hooks/useDeck'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
+import { DropdownShadow } from '../../shared/Dropdown'
 import Header from './Header'
 import Footer from './Footer'
 import Controls from './Controls'
@@ -72,6 +73,7 @@ export default () => {
 					}
 				/>
 				<SortDropdown
+					shadow={DropdownShadow.Around}
 					isShowing={isSortDropdownShowing}
 					setIsShowing={setIsSortDropdownShowing}
 					algorithm={sortAlgorithm}

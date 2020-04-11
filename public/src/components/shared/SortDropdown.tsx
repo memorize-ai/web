@@ -4,7 +4,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import { DeckSortAlgorithm, nameForDeckSortAlgorithm } from '../../models/Deck/Search'
-import Dropdown from './Dropdown'
+import Dropdown, { DropdownShadow } from './Dropdown'
 
 import { ReactComponent as SortIcon } from '../../images/icons/sort.svg'
 
@@ -16,7 +16,8 @@ export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 }))
 
 export default (
-	{ isShowing, setIsShowing, algorithm, setAlgorithm }: {
+	{ shadow, isShowing, setIsShowing, algorithm, setAlgorithm }: {
+		shadow: DropdownShadow
 		isShowing: boolean
 		setIsShowing: (isShowing: boolean) => void
 		algorithm: DeckSortAlgorithm
@@ -25,6 +26,7 @@ export default (
 ) => (
 	<Dropdown
 		className="sort-dropdown"
+		shadow={shadow}
 		trigger={
 			<>
 				<SortIcon />

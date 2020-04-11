@@ -3,9 +3,16 @@ import cx from 'classnames'
 
 import '../../scss/components/Dropdown.scss'
 
+export enum DropdownShadow {
+	None = 'none',
+	Around = 'around',
+	Screen = 'screen'
+}
+
 export default (
 	{
 		className,
+		shadow,
 		isRightAligned = true,
 		topMargin = '8px',
 		trigger,
@@ -14,6 +21,7 @@ export default (
 		children
 	}: PropsWithChildren<{
 		className?: string
+		shadow: DropdownShadow
 		isRightAligned?: boolean
 		topMargin?: string
 		trigger: JSX.Element
@@ -52,7 +60,10 @@ export default (
 			</button>
 			{isShowing && (
 				<div
-					className={cx('content', { 'right-aligned': isRightAligned })}
+					className={cx('content', {
+						[`shadow-${shadow}`]: shadow !== DropdownShadow.None,
+						'right-aligned': isRightAligned
+					})}
 					style={{ top: `calc(100% + ${topMargin})` }}
 				>
 					{children}

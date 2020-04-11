@@ -17,6 +17,7 @@ import DeckSearch, {
 import Counters, { Counter } from '../../../models/Counters'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
+import { DropdownShadow } from '../../shared/Dropdown'
 import DeckCell from '../../shared/DeckCell'
 import Loader from '../../shared/Loader'
 import { urlWithQuery, formatNumber } from '../../../utils'
@@ -126,6 +127,7 @@ export default () => {
 					}
 				/>
 				<SortDropdown
+					shadow={DropdownShadow.Screen}
 					isShowing={isSortDropdownShowing}
 					setIsShowing={setIsSortDropdownShowing}
 					algorithm={sortAlgorithm}

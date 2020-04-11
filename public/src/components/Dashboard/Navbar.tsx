@@ -6,7 +6,7 @@ import { DashboardNavbarSelection as Selection } from '.'
 import useAuthState from '../../hooks/useAuthState'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import Tab from './NavbarTab'
-import Dropdown from '../shared/Dropdown'
+import Dropdown, { DropdownShadow } from '../shared/Dropdown'
 import { urlForAuth } from '../Auth'
 import { urlForMarket } from './Market'
 import { isNullish } from '../../utils'
@@ -94,6 +94,7 @@ export default ({ selection }: { selection: Selection }) => {
 				? (
 					<Dropdown
 						className="profile-dropdown"
+						shadow={DropdownShadow.Screen}
 						trigger={<User />}
 						isShowing={isProfileDropdownShowing}
 						setIsShowing={setIsProfileDropdownShowing}
