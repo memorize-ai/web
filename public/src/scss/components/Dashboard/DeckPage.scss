@@ -655,9 +655,27 @@
 			}
 			
 			> .sections {
-				margin-top: 8px;
+				margin-top: 10px;
 				
 				> div {
+					> .cards,
+					> .loader {
+						margin-top: 12px;
+					}
+					
+					> .cards {
+						column-count: 1;
+						column-gap: 16px;
+						
+						@media (min-width: 1000px) {
+							column-count: 2;
+						}
+						
+						> .card-cell {
+							margin-bottom: 16px;
+						}
+					}
+					
 					&:not(:last-child) {
 						margin-bottom: 12px;
 					}

@@ -6,6 +6,7 @@ import useSections from '../../../hooks/useSections'
 import useExpandedSections from '../../../hooks/useExpandedSections'
 import useAllCards from '../../../hooks/useAllCards'
 import SectionHeader from '../../shared/SectionHeader'
+import CardCell from '../../shared/CardCell'
 import Loader from '../../shared/Loader'
 import { formatNumber } from '../../../utils'
 
@@ -23,10 +24,7 @@ export default ({ deck }: { deck: Deck }) => {
 			? cards
 				.filter(card => card.sectionId === section.id)
 				.map(card => (
-					<div
-						key={card.id}
-						dangerouslySetInnerHTML={{ __html: card.front }}
-					/>
+					<CardCell key={card.id} card={card} />
 				))
 			: <Loader size="24px" thickness="4px" color="#582efe" />
 	

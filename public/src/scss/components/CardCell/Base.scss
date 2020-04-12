@@ -1,0 +1,26 @@
+.card-cell {
+	break-inside: avoid;
+	
+	> .sides {
+		display: grid;
+		grid: auto / 1fr 1px 1fr;
+		
+		> .side {
+			> div {
+				padding: 8px;
+			}
+			
+			> p {
+				margin-bottom: 8px;
+				text-align: center;
+				text-transform: uppercase;
+				color: #9b9b9b;
+			}
+		}
+		
+		> .divider {
+			width: 2px;
+			background: #eee;
+		}
+	}
+}
