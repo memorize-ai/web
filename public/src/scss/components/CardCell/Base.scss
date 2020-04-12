@@ -1,3 +1,5 @@
+@import '../../functions';
+
 .card-cell {
 	break-inside: avoid;
 	
@@ -6,12 +8,15 @@
 		grid: auto / 1fr 1px 1fr;
 		
 		> .side {
+			display: flex;
+			flex-direction: column;
+			
 			> div {
 				padding: 8px;
 			}
 			
 			> p {
-				margin-bottom: 8px;
+				margin: auto raw-repeat(3, 8px);
 				text-align: center;
 				text-transform: uppercase;
 				color: #9b9b9b;
@@ -20,6 +25,7 @@
 		
 		> .divider {
 			width: 2px;
+			margin: 8px 0;
 			background: #eee;
 		}
 	}

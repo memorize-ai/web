@@ -15,6 +15,7 @@ import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
 import { DropdownShadow } from '../../shared/Dropdown'
 import Header from './Header'
+import Preview from './Preview'
 import Footer from './Footer'
 import Controls from './Controls'
 import Sections from './Sections'
@@ -93,6 +94,8 @@ export default () => {
 					? (
 						<>
 							<Header deck={deck} hasDeck={hasDeck} />
+							<div className="divider" />
+							{deck.numberOfCards > 0 && <Preview deck={deck} />}
 							<Footer deck={deck} />
 							<div className="divider" />
 							<Controls deck={deck} hasDeck={hasDeck} />

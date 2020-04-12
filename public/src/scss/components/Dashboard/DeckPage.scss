@@ -264,6 +264,65 @@
 			}
 		}
 		
+		> .preview {
+			margin: 20px $margin 0 $margin;
+			
+			> div {
+				width: max-content;
+				margin: 0 auto;
+				
+				> .section-select {
+					width: 200px;
+				}
+				
+				> .box {
+					position: relative;
+					width: 641px;
+					height: 381px;
+					margin: 12px 0;
+					border: 1px solid #eee;
+					border-radius: 5px;
+					
+					> .content,
+					> .toggle {
+						position: absolute;
+					}
+					
+					> .content {
+						$inset: 8px;
+						
+						top: $inset;
+						right: $inset;
+						bottom: $inset;
+						left: $inset;
+					}
+					
+					> .toggle {
+						$inset: 16px;
+						
+						display: flex;
+						align-items: flex-end;
+						right: $inset;
+						bottom: $inset;
+						
+						> .side {
+							text-transform: uppercase;
+						}
+						
+						> button {
+							transition: transform 0.3s;
+						}
+					}
+				}
+				
+				> .footer {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+		}
+		
 		> .footer {
 			margin-top: 20px;
 			

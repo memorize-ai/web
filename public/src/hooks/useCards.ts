@@ -15,9 +15,10 @@ import useCurrentUser from './useCurrentUser'
 import { compose } from '../utils'
 
 export default (deck: Deck, section: Section, shouldLoadCards: boolean): Card[] | null => {
-	const [{ [section.id]: cards }, dispatch] = useContext(CardsContext)
+	const [state, dispatch] = useContext(CardsContext)
 	
 	const [currentUser] = useCurrentUser()
+	const cards: Card[] = state[section.id] as any
 	
 	useEffect(() => {
 		if (!shouldLoadCards || Card.observers[section.id] || cards || !currentUser)

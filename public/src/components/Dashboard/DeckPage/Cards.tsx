@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -17,7 +18,8 @@ export default ({ deck }: { deck: Deck }) => {
 		toggleSectionExpanded
 	] = useExpandedSections(deck, { isOwned: false, defaultExpanded: true })
 	
-	const cards = useAllCards(deck.id)
+	const _cards = useAllCards(deck.id)
+	const cards = _cards && _.flatten(Object.values(_cards))
 	
 	const cardsForSection = (section: Section) =>
 		cards

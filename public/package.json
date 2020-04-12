@@ -24,6 +24,7 @@
 		"react-modal": "^3.11.2",
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "^3.4.1",
+		"react-select": "^3.1.0",
 		"schema-dts": "^0.5.2",
 		"schema.org-react": "^1.0.0"
 	},
@@ -41,6 +42,7 @@
 		"@types/react-infinite-scroller": "^1.2.1",
 		"@types/react-modal": "^3.10.5",
 		"@types/react-router-dom": "^5.1.4",
+		"@types/react-select": "^3.0.11",
 		"tslint": "^5.20.1",
 		"typescript": "^3.8.3"
 	},

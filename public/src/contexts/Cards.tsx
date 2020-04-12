@@ -3,11 +3,11 @@ import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'r
 import Action, { ActionType } from '../actions/Action'
 import Card from '../models/Card'
 
-export type CardsState = Record<string, Card[]>
+export type CardsState = Record<string, Card[] | Record<string, Card[]>>
 
 export type CardsAction = Action<
 	| string // InitializeCards
-	| { parentId: string, cards: Card[] } // AddCards
+	| { parentId: string, cards: Card[] } // SetCards
 	| { parentId: string, snapshot: firebase.firestore.DocumentSnapshot } // AddCard, UpdateCard, UpdateCardUserData
 	| { parentId: string, cardId: string } // RemoveCard
 >
@@ -32,7 +32,13 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 			
 			return {
 				...state,
-				[parentId]: cards
+				[parentId]: cards.reduce((acc, card) => ({
+					...acc,
+					[card.sectionId ?? '']: [
+						...acc[card.sectionId ?? ''] ?? [],
+						card
+					]
+				}), {} as Record<string, Card[]>)
 			}
 		}
 		case ActionType.AddCard: {
@@ -44,7 +50,7 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 			return {
 				...state,
 				[parentId]: [
-					...state[parentId] ?? [],
+					...(state[parentId] as Card[] | undefined) ?? [],
 					Card.fromSnapshot(snapshot, null)
 				]
 			}
@@ -54,10 +60,11 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 				parentId: string
 				snapshot: firebase.firestore.DocumentSnapshot
 			}
+			const cards = (state[parentId] as Card[] | undefined) ?? []
 			
 			return {
 				...state,
-				[parentId]: state[parentId]?.map(card =>
+				[parentId]: cards.map(card =>
 					card.id === snapshot.id
 						? card.updateFromSnapshot(snapshot)
 						: card
@@ -69,10 +76,11 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 				parentId: string
 				snapshot: firebase.firestore.DocumentSnapshot
 			}
+			const cards = (state[parentId] as Card[] | undefined) ?? []
 			
 			return {
 				...state,
-				[parentId]: state[parentId]?.map(card =>
+				[parentId]: cards.map(card =>
 					card.id === snapshot.id
 						? card.updateUserDataFromSnapshot(snapshot)
 						: card
@@ -84,10 +92,11 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 				parentId: string
 				cardId: string
 			}
+			const cards = (state[parentId] as Card[] | undefined) ?? []
 			
 			return {
 				...state,
-				[parentId]: state[parentId]?.filter(card =>
+				[parentId]: cards.filter(card =>
 					card.id !== cardId
 				)
 			}

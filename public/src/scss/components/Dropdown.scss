@@ -17,6 +17,7 @@
 		}
 		
 		&.shadow-around {
+			border: 1px solid #dcdcdc;
 			box-shadow: 0 0 80px 20px transparentize(black, 0.7);
 		}
 		

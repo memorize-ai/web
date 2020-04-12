@@ -134,6 +134,10 @@ export default class Card implements CardData {
 			})
 		).id
 	
+	get isUnsectioned() {
+		return this.sectionId === ''
+	}
+	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.sectionId = snapshot.get('section') || null
 		this.front = snapshot.get('front')
