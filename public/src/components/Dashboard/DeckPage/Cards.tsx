@@ -44,7 +44,7 @@ export default ({ deck }: { deck: Deck }) => {
 							<SectionHeader
 								section={section}
 								isExpanded={isExpanded}
-								toggleIsExpanded={() => toggleSectionExpanded(section.id)}
+								toggleExpanded={() => toggleSectionExpanded(section.id)}
 							/>
 							{isExpanded && (
 								<div className="cards">

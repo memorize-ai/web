@@ -61,6 +61,7 @@
 		background: white;
 		border-radius: 8px;
 		margin-bottom: $margin;
+		padding-bottom: $margin;
 		
 		&.loading {
 			display: grid;
@@ -89,7 +90,7 @@
 			
 			> .content {
 				flex-grow: 1;
-				margin-left: 20px;
+				margin: 0 20px;
 				
 				> .top {
 					&,
@@ -641,16 +642,25 @@
 		}
 		
 		> .cards {
-			margin-top: 16px;
+			margin: 16px $margin 0 $margin;
 			
 			> .title {
-				margin: 0 $margin;
 				font-size: 24px;
 				font-weight: bold;
 				color: $dark-gray;
 				
 				> span {
 					color: #582efe;
+				}
+			}
+			
+			> .sections {
+				margin-top: 8px;
+				
+				> div {
+					&:not(:last-child) {
+						margin-bottom: 12px;
+					}
 				}
 			}
 		}

@@ -1,0 +1,49 @@
+@import '../../variables';
+
+.section-header {
+	$margin: 12px;
+	
+	display: flex;
+	align-items: center;
+	font-size: 18px;
+	
+	> .name {
+		font-weight: bold;
+		color: $dark-gray;
+	}
+	
+	> .divider {
+		$height: 2px;
+		
+		flex-grow: 1;
+		height: $height;
+		margin: 0 12px;
+		background: #ddd;
+		border-radius: $height / 2;
+	}
+	
+	> .card-count {
+		font-weight: bold;
+		color: #582efe;
+		transform: translateY(-2px);
+	}
+	
+	> .toggle-expanded-button {
+		$dimension: 30px;
+		
+		width: $dimension;
+		height: $dimension;
+		margin-left: 12px;
+		border: 1.5px solid #ddd;
+		border-radius: 50%;
+		transition: opacity 0.3s, transform 0.3s;
+		
+		> svg {
+			color: #582efe;
+		}
+		
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+}
