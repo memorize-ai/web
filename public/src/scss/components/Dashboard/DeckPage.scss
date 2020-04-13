@@ -283,6 +283,15 @@
 					border: 1px solid #eee;
 					border-radius: 5px;
 					
+					&.loading {
+						display: grid;
+						align-items: center;
+						
+						> .loader {
+							margin: 0 auto;
+						}
+					}
+					
 					> .content,
 					> .toggle {
 						position: absolute;

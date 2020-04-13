@@ -15,12 +15,18 @@ export default (
 		<div className={cx('card-cell', className)}>
 			<div className="sides">
 				<div className="side">
-					<div dangerouslySetInnerHTML={{ __html: card.front }} />
+					<div
+						className="ck-display"
+						dangerouslySetInnerHTML={{ __html: card.front }}
+					/>
 					<p>Front</p>
 				</div>
 				<div className="divider" />
 				<div className="side">
-					<div dangerouslySetInnerHTML={{ __html: card.back }} />
+					<div
+						className="ck-display"
+						dangerouslySetInnerHTML={{ __html: card.back }}
+					/>
 					<p>Back</p>
 				</div>
 			</div>

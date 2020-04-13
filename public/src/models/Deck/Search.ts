@@ -143,7 +143,7 @@ export default class Search {
 		if (encodedSortAlgorithm)
 			options.sort = encodedSortAlgorithm
 		
-		if (filterForTopics)
+		if (filterForTopics?.length)
 			options.filters = { topics: filterForTopics }
 		
 		return ((await Search.client.search(query ?? '', options)).results as { data: RawSearchResultItemData }[])

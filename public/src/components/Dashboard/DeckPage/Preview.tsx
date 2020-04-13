@@ -8,6 +8,7 @@ import Section from '../../../models/Section'
 import Card from '../../../models/Card'
 import useAllCards from '../../../hooks/useAllCards'
 import useSections from '../../../hooks/useSections'
+import Loader from '../../shared/Loader'
 
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 import { ReactComponent as LeftArrowHead } from '../../../images/icons/gray-left-arrow-head.svg'
@@ -42,8 +43,11 @@ export default ({ deck }: { deck: Deck }) => {
 	}, [cards])
 	
 	const incrementIndex = (increment: number) => {
-		if (cardIndex !== undefined)
-			setCard(cards![cardIndex + increment])
+		if (cardIndex === undefined)
+			return
+		
+		setCard(cards![cardIndex + increment])
+		setIsFront(true)
 	}
 	
 	useEffect(() => {
@@ -79,20 +83,23 @@ export default ({ deck }: { deck: Deck }) => {
 					onChange={setSection as any}
 				/>
 				<button
-					className="box"
+					className={cx('box', { loading: !card })}
 					onClick={() => {
 						setIsFront(!isFront)
 						setToggleButtonDegrees(toggleButtonDegrees + 360)
 					}}
 				>
-					{card && (
-						<div
-							className="content"
-							dangerouslySetInnerHTML={{
-								__html: card[isFront ? 'front' : 'back']
-							}}
-						/>
-					)}
+					{card
+						? (
+							<div
+								className="content ck-display"
+								dangerouslySetInnerHTML={{
+									__html: card[isFront ? 'front' : 'back']
+								}}
+							/>
+						)
+						: <Loader size="24px" thickness="4px" color="#582efe" />
+					}
 					<div className="toggle">
 						<p className="side">
 							{isFront ? 'Front' : 'Back'}
