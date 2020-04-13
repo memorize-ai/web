@@ -18,7 +18,7 @@ import users from '../../../images/icons/users.svg'
 import '../../../scss/components/DeckCell/index.scss'
 import User from '../../../models/User'
 
-export default ({ deck, query }: { deck: Deck, query?: string }) => {
+export default ({ deck }: { deck: Deck }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()

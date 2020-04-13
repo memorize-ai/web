@@ -44,27 +44,178 @@
 	}
 	
 	> .decks {
-		$top-padding: 4px;
-		
 		grid-area: decks;
 		overflow-y: auto;
 		margin-top: 12px;
-		padding: $top-padding raw-repeat(3, 30px);
-		
-		@media (min-width: 1473px) and (max-width: 1540px) {
-			padding: $top-padding raw-repeat(3, 4px);
-			
-			> div > .grid {
-				gap: 16px !important;
-			}
-		}
+		padding: 4px raw-repeat(3, 30px);
 		
 		> div {
-			> .grid {
-				display: grid;
-				grid: none / repeat(auto-fill, $deck-cell-width);
-				gap: 30px;
-				justify-content: center;
+			> .deck-row {
+				$height: 300px;
+				
+				@include raise-on-hover;
+				
+				display: flex;
+				overflow: hidden;
+				height: $height;
+				background: white;
+				border: 1px solid #eee;
+				border-radius: 8px;
+				box-shadow: 0 5px 10px 0 transparentize(black, 0.9);
+				
+				> img {
+					width: $height;
+					height: $height;
+					object-fit: cover;
+					box-shadow: 0 0 20px 0 transparentize(black, 0.9);
+				}
+				
+				> .content {
+					display: flex;
+					flex-direction: column;
+					flex-grow: 1;
+					padding: 16px;
+					
+					> .name {
+						font-size: 30px;
+						font-weight: 800;
+						color: $dark-gray;
+					}
+					
+					> .subtitle,
+					> .creator {
+						color: #9b9b9b;
+					}
+					
+					> .subtitle {
+						font-size: 24px;
+						font-weight: 700;
+					}
+					
+					> .creator {
+						display: flex;
+						align-items: center;
+						margin: 10px 0 10px 6px;
+						
+						> svg {
+							margin-right: 14px;
+							transform: scale(2.2);
+						}
+						
+						> p {
+							font-size: 20px;
+							font-weight: 600;
+						}
+					}
+					
+					> .stats {
+						--star-height: 30px;
+						
+						display: flex;
+						align-items: center;
+						margin-top: auto;
+						
+						> .divider {
+							width: 3px;
+							height: 28px;
+							margin: 0 20px;
+							background: transparentize(#ddd, 0.5);
+						}
+						
+						> .rating,
+						> .downloads,
+						> .current-users {
+							display: flex;
+							align-items: center;
+							
+							> p {
+								margin-left: 8px;
+								font-size: 24px;
+								font-weight: 600;
+								color: #9b9b9b;
+							}
+						}
+						
+						> .downloads,
+						> .current-users {
+							> svg {
+								margin: 0 8px 0 6px;
+								transform: scale(2.2);
+							}
+						}
+						
+						> .current-users {
+							margin-right: -4px;
+						}
+						
+						> .cards {
+							margin-left: -4px;
+							font-size: 24px;
+							font-weight: 600;
+							color: #9b9b9b;
+						}
+					}
+					
+					> .buttons {
+						display: flex;
+						align-items: center;
+						margin-top: 18px;
+						
+						> button {
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							width: 100%;
+							height: 45px;
+							font-size: 20px;
+							font-weight: bold;
+							text-transform: uppercase;
+							border-radius: 8px;
+							transition: color 0.3s, background 0.3s;
+							
+							&:hover,
+							&:focus {
+								color: white;
+							}
+						}
+						
+						> .get {
+							color: white;
+							background: #4355f9;
+							
+							&:hover,
+							&:focus {
+								background: #00d388;
+							}
+						}
+						
+						> .remove {
+							margin-right: 8px;
+							color: #4355f9;
+							border: 1.5px solid #4355f9;
+							
+							&:hover,
+							&:focus {
+								background: #4355f9;
+							}
+						}
+						
+						> .open {
+							margin-left: 8px;
+							color: white;
+							background: #00d388;
+							
+							&:hover,
+							&:focus {
+								background: #051e34;
+							}
+						}
+					}
+				}
+				
+				&:not(:last-child) {
+					margin-bottom: 8px;
+				}
 			}
 			
 			> .loader {

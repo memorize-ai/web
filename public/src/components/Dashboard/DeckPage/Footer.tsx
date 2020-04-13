@@ -1,7 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
+import { DeckSortAlgorithm } from '../../../models/Deck/Search'
 import useTopics from '../../../hooks/useTopics'
+import { urlWithQuery } from '../../../utils'
 
 export default ({ deck }: { deck: Deck }) => {
 	const topics = useTopics().filter(topic =>
@@ -15,14 +18,18 @@ export default ({ deck }: { deck: Deck }) => {
 			</p>
 			<div className="topics">
 				{topics.map(topic => (
-					<div
+					<Link
 						key={topic.id}
+						to={urlWithQuery('/market', {
+							q: topic.name,
+							s: DeckSortAlgorithm.Top
+						})}
 						style={{
 							backgroundImage: `linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8)), url('${topic.imageUrl}')`
 						}}
 					>
 						<p>{topic.name}</p>
-					</div>
+					</Link>
 				))}
 			</div>
 		</div>

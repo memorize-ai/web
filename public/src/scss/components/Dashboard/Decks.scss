@@ -1,3 +1,4 @@
+@import '../../variables';
 @import '../../mixins';
 @import '../../functions';
 
@@ -88,6 +89,66 @@
 				> .loader {
 					margin: 0 auto;
 				}
+			}
+		}
+	}
+}
+
+@include modal-content('deck-intro') {
+	overflow: hidden;
+	margin: 30px;
+	background: white;
+	border-radius: 8px;
+	
+	@media (min-width: 750px) {
+		width: calc(200vw / 3);
+	}
+	
+	@media (min-width: 1250px) {
+		width: 50vw;
+	}
+	
+	> .header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 30px;
+		color: white;
+		background: #051e34;
+		
+		> .title {
+			font-size: 26px;
+		}
+		
+		> button {
+			margin-right: 8px;
+			transform: scale(2);
+			transition: opacity 0.3s;
+			
+			&:hover {
+				opacity: 0.5;
+			}
+		}
+	}
+	
+	> .content {
+		display: flex;
+		justify-content: space-between;
+		margin: 20px;
+		
+		> .left {
+			> a {
+				color: $blue-400;
+			}
+		}
+		
+		> .right {
+			width: 300px;
+			transform: rotate(6deg);
+			transition: transform 0.3s;
+			
+			&:hover {
+				transform: none;
 			}
 		}
 	}

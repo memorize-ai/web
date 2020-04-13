@@ -9,7 +9,6 @@ import useQuery from '../../../hooks/useQuery'
 import useSearchState from '../../../hooks/useSearchState'
 import Deck from '../../../models/Deck'
 import DeckSearch, {
-	DeckSortAlgorithm,
 	DEFAULT_DECK_SORT_ALGORITHM,
 	decodeDeckSortAlgorithm,
 	nameForDeckSortAlgorithm
@@ -18,7 +17,7 @@ import Counters, { Counter } from '../../../models/Counters'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
 import { DropdownShadow } from '../../shared/Dropdown'
-import DeckCell from '../../shared/DeckCell'
+import DeckRow from './DeckRow'
 import Loader from '../../shared/Loader'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
@@ -101,7 +100,7 @@ export default () => {
 					{
 						query && `${query} | `
 					}{
-						sortAlgorithm === DeckSortAlgorithm.Relevance
+						sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
 							? ''
 							: `${nameForDeckSortAlgorithm(sortAlgorithm)} | `
 					}memorize.ai
@@ -156,15 +155,9 @@ export default () => {
 					}
 					useWindow={false}
 				>
-					<div className="grid">
-						{decks.map(deck => (
-							<DeckCell
-								key={deck.id}
-								deck={deck}
-								query={query}
-							/>
-						))}
-					</div>
+					{decks.map(deck => (
+						<DeckRow key={deck.id} deck={deck} />
+					))}
 				</InfiniteScroll>
 			</div>
 		</Dashboard>

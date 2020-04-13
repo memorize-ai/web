@@ -92,7 +92,7 @@ export default () => {
 		<Modal className="auth" isShowing={isShowing} setIsShowing={setIsShowing}>
 			<div className="header">
 				<h2 className="title">
-					Change your life today, for free
+					Change your life today
 				</h2>
 				<button
 					className="hide"
@@ -102,6 +102,12 @@ export default () => {
 				</button>
 			</div>
 			<div className="content">
+				<p className="intro">
+					Improve your memory by spending just <b>minutes</b> a day.
+					We use <b>spaced repetition</b> that learns as you learn.
+					<br />
+					Each attempt will be met with <b>consistent struggle</b>, which you won't find anywhere else.
+				</p>
 				<div className="toggle">
 					<Button
 						className={cx({

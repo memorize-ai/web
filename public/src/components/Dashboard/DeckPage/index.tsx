@@ -26,8 +26,8 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'
 
-export const urlForDeckPage = (deck: Deck, action: 'get' | null = null) =>
-	urlWithQuery(`/d/${deck.slug}`, { action })
+export const urlForDeckPage = (deck: Deck) =>
+	`/d/${deck.slug}`
 
 export default () => {
 	const history = useHistory()
@@ -94,16 +94,11 @@ export default () => {
 					? (
 						<>
 							<Header deck={deck} hasDeck={hasDeck} />
-							<div className="divider" />
 							{deck.numberOfCards > 0 && <Preview deck={deck} />}
 							<Footer deck={deck} />
-							<div className="divider" />
 							<Controls deck={deck} hasDeck={hasDeck} />
-							<div className="divider sections-divider" />
 							<Sections deck={deck} />
-							<div className="divider similar-decks-divider" />
 							<SimilarDecks deck={deck} />
-							<div className="divider cards-divider" />
 							<Cards deck={deck} />
 						</>
 					)

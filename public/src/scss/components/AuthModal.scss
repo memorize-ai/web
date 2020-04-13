@@ -41,9 +41,16 @@
 	> .content {
 		margin: 20px;
 		
+		> .intro {
+			margin-bottom: 20px;
+			font-size: 15px;
+			font-weight: 600;
+			color: $dark-gray;
+		}
+		
 		> .toggle {
 			display: flex;
-			margin-bottom: 1rem;
+			margin-bottom: 20px;
 			
 			> button {
 				width: 100%;

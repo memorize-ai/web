@@ -6,13 +6,13 @@
 	
 	> div {
 		$aspect-ratio: 26.2px / 25px;
-		$height: 25px;
+		$default-height: 25px;
 		
 		@include stack;
 		
 		flex-shrink: 0;
-		width: $aspect-ratio * $height;
-		height: $height;
+		width: calc(#{$aspect-ratio} * var(--star-height, #{$default-height}));
+		height: var(--star-height, $default-height);
 		
 		> div {
 			background: #00d388;

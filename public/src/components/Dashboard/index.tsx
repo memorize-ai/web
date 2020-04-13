@@ -14,22 +14,6 @@ export enum DashboardNavbarSelection {
 	Interests = 'Interests'
 }
 
-export const selectionFromUrl = (url: string) => {
-	if (url === '/')
-		return DashboardNavbarSelection.Home
-	
-	if (url.startsWith('/market'))
-		return DashboardNavbarSelection.Market
-	
-	if (url.startsWith('/decks'))
-		return DashboardNavbarSelection.Decks
-	
-	if (url.startsWith('/interests'))
-		return DashboardNavbarSelection.Interests
-	
-	return null
-}
-
 export default (
 	{ selection, className, gradientHeight, children }: PropsWithChildren<{
 		selection: DashboardNavbarSelection

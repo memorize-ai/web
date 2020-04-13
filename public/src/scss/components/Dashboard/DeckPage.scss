@@ -54,6 +54,8 @@
 	}
 	
 	> .box {
+		$light-gray-background: transparentize(#eee, 0.7);
+		
 		@include shadow-lg;
 		
 		grid-area: box;
@@ -71,16 +73,15 @@
 		}
 		
 		> .header {
+			$height: 200px;
+			
 			display: flex;
-			min-height: $deck-cell-height;
+			min-height: $height;
 			margin: $margin 0 0 $margin;
 			
 			> img {
-				height: $deck-cell-height;
-			}
-			
-			> img {
-				width: $deck-cell-height;
+				width: $height;
+				height: $height;
 				object-fit: cover;
 				border-radius: 8px;
 				box-shadow:
@@ -89,20 +90,19 @@
 			}
 			
 			> .content {
+				display: flex;
+				flex-direction: column;
 				flex-grow: 1;
 				margin: 0 20px;
 				
 				> .top {
-					&,
-					> .right {
-						display: flex;
-						align-items: center;
-					}
+					display: flex;
+					flex-grow: 1;
 					
 					> .left {
 						> .name {
 							font-size: 30px;
-							font-weight: bold;
+							font-weight: 800;
 							color: $dark-gray;
 						}
 						
@@ -111,25 +111,31 @@
 							color: #9b9b9b;
 						}
 						
-						> .subtitle,
-						> .creator > p {
+						> .subtitle {
 							font-size: 24px;
-							font-weight: 500;
+							font-weight: 700;
 						}
 						
 						> .creator {
 							display: flex;
 							align-items: center;
-							margin: 6px 0 16px 8px;
+							margin: 10px 0 10px 6px;
 							
 							> svg {
-								margin-right: 16px;
-								transform: scale(2);
+								margin-right: 14px;
+								transform: scale(2.2);
+							}
+							
+							> p {
+								font-size: 20px;
+								font-weight: 600;
 							}
 						}
 					}
 					
 					> .right {
+						display: flex;
+						align-items: center;
 						margin: 0 $margin 0 auto;
 						transform: translateY(-$margin / 2);
 						
@@ -215,19 +221,21 @@
 					$height: 2px;
 					
 					height: $height;
-					margin-right: $margin;
+					margin: auto $margin 0 0;
 					background: transparentize(#ddd, 0.5);
 					border-radius: $height / 2;
 				}
 				
 				> .stats {
+					--star-height: 30px;
+					
 					display: flex;
 					align-items: center;
 					margin-top: 12px;
 					
 					> .divider {
-						width: 2px;
-						height: 25px;
+						width: 3px;
+						height: 28px;
 						margin: 0 20px;
 						background: transparentize(#ddd, 0.5);
 					}
@@ -240,7 +248,7 @@
 						
 						> p {
 							margin-left: 8px;
-							font-size: 17px;
+							font-size: 24px;
 							font-weight: 600;
 							color: #9b9b9b;
 						}
@@ -249,14 +257,18 @@
 					> .downloads,
 					> .current-users {
 						> svg {
-							margin-right: 4px;
-							transform: scale(1.7);
+							margin: 0 8px 0 6px;
+							transform: scale(2.2);
 						}
 					}
 					
+					> .current-users {
+						margin-right: -4px;
+					}
+					
 					> .cards {
-						margin-left: -2px;
-						font-size: 17px;
+						margin-left: -4px;
+						font-size: 24px;
 						font-weight: 600;
 						color: #9b9b9b;
 					}
@@ -265,7 +277,9 @@
 		}
 		
 		> .preview {
-			margin: 20px $margin 0 $margin;
+			margin: 30px 0;
+			padding: $margin;
+			background: $light-gray-background;
 			
 			> div {
 				width: max-content;
@@ -282,6 +296,7 @@
 					width: 641px;
 					height: 381px;
 					margin: 12px 0;
+					background: white;
 					border: 1px solid #eee;
 					border-radius: 5px;
 					
@@ -360,7 +375,7 @@
 				margin-top: 20px;
 				padding: 0 $margin;
 				
-				> div {
+				> a {
 					$dimension: 90px;
 					
 					flex-shrink: 0;
@@ -393,18 +408,10 @@
 			}
 		}
 		
-		> .divider {
-			$height: 2px;
-			
-			height: $height;
-			margin: 20px $margin 0 $margin;
-			background: transparentize(#ddd, 0.5);
-			border-radius: $height / 2;
-		}
-		
 		> .controls {
 			display: flex;
-			margin: 16px $margin 0 $margin;
+			margin: 24px 0 16px 0;
+			padding: $margin;
 			
 			> div {
 				width: 100%;
@@ -671,12 +678,9 @@
 			}
 		}
 		
-		> .similar-decks-divider {
-			margin-top: 30px;
-		}
-		
 		> .similar-decks {
-			margin-top: 16px;
+			margin: 24px 0 16px 0;
+			padding: $margin 0;
 			
 			> .title {
 				margin: 0 $margin;
