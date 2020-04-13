@@ -77,7 +77,6 @@ export default () => {
 	}
 	
 	useEffect(() => {
-		console.log(currentUser, isShowing, callback)
 		if (!(currentUser && isShowing))
 			return
 		
@@ -157,9 +156,22 @@ export default () => {
 					>
 						Next
 					</Button>
-					<p hidden={!errorMessage}>
-						{errorMessage}
-					</p>
+					{errorMessage
+						? (
+							<p className="error-message">
+								{errorMessage}
+							</p>
+						)
+						: (
+							<a
+								className="screenshots"
+								href="/#screenshots"
+								onClick={() => setIsShowing(false)}
+							>
+								Why are we different?
+							</a>
+						)
+					}
 				</div>
 			</div>
 		</Modal>

@@ -27,6 +27,10 @@ body ::after {
 body {
 	margin: 0;
 	overscroll-behavior: none;
+	
+	&.clipped {
+		overflow: hidden;
+	}
 }
 
 hr {

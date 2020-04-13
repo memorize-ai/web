@@ -11,21 +11,6 @@ import '../../scss/components/Home/Screenshots.scss'
 
 export const screenshots = [
 	{
-		type: ScreenshotType.Market,
-		descriptions: [
-			{
-				title: 'Share your knowledge',
-				body: 'With 45,000+ decks, we are a community of learners that create decks for one another; all decks are public, and anyone can use them.',
-				margin: 20
-			},
-			{
-				title: 'Easy to find what you\'re looking for',
-				body: 'Recommendations and search results are ranked based on what you like, popularity, and ratings. Earn XP based on the popularity of your decks.',
-				margin: 32
-			}
-		]
-	},
-	{
 		type: ScreenshotType.Review,
 		descriptions: [
 			{
@@ -73,6 +58,21 @@ export const screenshots = [
 					• And more!
 				`,
 				margin: 20
+			}
+		]
+	},
+	{
+		type: ScreenshotType.Market,
+		descriptions: [
+			{
+				title: 'Share your knowledge',
+				body: 'With 47,000+ decks, we are a community of learners that create decks for one another; all decks are public, and anyone can use them.',
+				margin: 20
+			},
+			{
+				title: 'Easy to find what you\'re looking for',
+				body: 'Recommendations and search results are ranked based on what you like, popularity, and ratings. Earn XP based on the popularity of your decks.',
+				margin: 32
 			}
 		]
 	},

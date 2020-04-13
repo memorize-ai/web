@@ -52,9 +52,13 @@ export default (
 			setIsShowing(false)
 		}
 		
+		body.classList.add('clipped')
 		body.addEventListener('click', onClick)
 		
-		return () => body.removeEventListener('click', onClick)
+		return () => {
+			body.classList.remove('clipped')
+			body.removeEventListener('click', onClick)
+		}
 	}, [isShowing, setIsShowing])
 	
 	useEffect(() => {

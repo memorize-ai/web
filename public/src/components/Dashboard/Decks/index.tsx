@@ -25,7 +25,7 @@ export default () => {
 	
 	useEffect(() => {
 		if (!slug && selectedDeck)
-			history.push(`/decks/${selectedDeck.slug}`)
+			history.replace(`/decks/${selectedDeck.slug}`)
 	}, [slug, selectedDeck]) // eslint-disable-line
 	
 	useEffect(() => {

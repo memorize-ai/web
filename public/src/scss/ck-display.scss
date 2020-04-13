@@ -7,7 +7,11 @@
 	--ck-highlight-pen-red: #e91313;
 	--ck-image-style-spacing: 1.5em;
 	--ck-todo-list-checkmark-size: 16px;
-
+	
+	* {
+		font-weight: initial;
+	}
+	
 	.todo-list {
 		list-style: none;
 	}

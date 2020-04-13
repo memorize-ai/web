@@ -276,6 +276,8 @@
 				}
 				
 				> .box {
+					@include shadow-lg;
+					
 					position: relative;
 					width: 641px;
 					height: 381px;
@@ -328,6 +330,15 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					
+					> .progress {
+						margin: 0 12px;
+						font-weight: bold;
+						
+						> span {
+							opacity: 0.5;
+						}
+					}
 				}
 			}
 		}
