@@ -12,7 +12,11 @@ import Loader from '../../shared/Loader'
 import { formatNumber } from '../../../utils'
 
 export default ({ deck }: { deck: Deck }) => {
-	const sections = useSections(deck.id)
+	const _sections = useSections(deck.id)
+	const sections = deck.numberOfUnsectionedCards > 0
+		? [deck.unsectionedSection, ..._sections]
+		: _sections
+	
 	const [
 		isSectionExpanded,
 		toggleSectionExpanded

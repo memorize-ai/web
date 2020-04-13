@@ -8,7 +8,11 @@ import { formatNumber } from '../../../utils'
 export const COLLAPSED_SECTION_LIMIT = 8
 
 export default ({ deck }: { deck: Deck }) => {
-	const _sections = useSections(deck.id)
+	const __sections = useSections(deck.id)
+	const _sections = deck.numberOfUnsectionedCards > 0
+		? [deck.unsectionedSection, ...__sections]
+		: __sections
+	
 	const [isExpanded, setIsExpanded] = useState(false)
 	
 	const sections = isExpanded

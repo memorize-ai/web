@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useHistory, Link } from 'react-router-dom'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle, faLink } from '@fortawesome/free-solid-svg-icons'
 
 import Deck from '../../../models/Deck'
 import LoadingState from '../../../models/LoadingState'
@@ -31,6 +34,7 @@ export default (
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
+	const [didCopyShareLink, setDidCopyShareLink] = useState(false)
 	
 	const action = query.get('action')
 	
@@ -160,7 +164,34 @@ export default (
 				isShowing={isShareModalShowing}
 				setIsShowing={setIsShareModalShowing}
 			>
-				abc
+				<div className="header">
+					<h2 className="title">
+						{currentUser?.id === deck.creatorId
+							? 'Promote your deck!'
+							: 'Like this deck? Share it!'
+						}
+					</h2>
+					<button
+						className="hide"
+						onClick={() => setIsShareModalShowing(false)}
+					>
+						<FontAwesomeIcon icon={faTimesCircle} />
+					</button>
+				</div>
+				<div className="content">
+					<div className="box">
+						<FontAwesomeIcon icon={faLink} />
+						<p>https://memorize.ai/d/{deck.slug}</p>
+					</div>
+					<CopyToClipboard text={`https://memorize.ai/d/${deck.slug}`}>
+						<button
+							className="copy"
+							onClick={() => setDidCopyShareLink(true)}
+						>
+							{didCopyShareLink ? 'Copied!' : 'Copy'}
+						</button>
+					</CopyToClipboard>
+				</div>
 			</Modal>
 		</div>
 	)

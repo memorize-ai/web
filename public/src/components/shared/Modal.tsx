@@ -13,6 +13,8 @@ export default (
 	}>
 ) => {
 	const element = useRef(document.createElement('div'))
+	const content = useRef(null as HTMLDivElement | null)
+	
 	const shouldHide = useKeyPress(27)
 	
 	useEffect(() => {
@@ -35,7 +37,25 @@ export default (
 		isShowing
 			? current.removeAttribute('aria-hidden')
 			: current.setAttribute('aria-hidden', 'true')
-	}, [isShowing])
+		
+		if (!isShowing)
+			return
+		
+		const { body } = document
+		
+		const onClick = ({ target }: Event) => {
+			const { current } = content
+			
+			if (!current || target === current || current.contains(target as Node | null))
+				return
+			
+			setIsShowing(false)
+		}
+		
+		body.addEventListener('click', onClick)
+		
+		return () => body.removeEventListener('click', onClick)
+	}, [isShowing, setIsShowing])
 	
 	useEffect(() => {
 		if (shouldHide)
@@ -43,6 +63,8 @@ export default (
 	}, [shouldHide, setIsShowing])
 	
 	return createPortal((
-		<div className="content">{children}</div>
+		<div ref={content} className="content">
+			{children}
+		</div>
 	), element.current)
 }
