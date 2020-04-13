@@ -8,6 +8,7 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import useImageUrl from '../../../hooks/useImageUrl'
 import Button from '../../shared/Button'
 import Stars from '../../shared/Stars'
+import Modal from '../../shared/Modal'
 import { urlForAuth } from '../../Auth'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
@@ -29,6 +30,7 @@ export default (
 	const [imageUrl] = useImageUrl(deck)
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
+	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
 	
 	const action = query.get('action')
 	
@@ -124,7 +126,9 @@ export default (
 								</Button>
 							)
 						}
-						<button className="share" onClick={() => console.log('Share')}>
+						<button
+							className="share"
+							onClick={() => setIsShareModalShowing(true)}>
 							<ShareIcon />
 						</button>
 					</div>
@@ -151,6 +155,13 @@ export default (
 					</a>
 				</div>
 			</div>
+			<Modal
+				className="share-deck"
+				isShowing={isShareModalShowing}
+				setIsShowing={setIsShareModalShowing}
+			>
+				abc
+			</Modal>
 		</div>
 	)
 }

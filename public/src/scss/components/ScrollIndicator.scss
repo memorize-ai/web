@@ -15,14 +15,16 @@
 }
 
 @keyframes scroll-indicator {
-	0% {
+	from {
 		opacity: 0;
 	}
+	
 	10% {
 		transform: translateY(0);
 		opacity: 1;
 	}
-	100% {
+	
+	to {
 		transform: translateY(15px);
 		opacity: 0;
 	}

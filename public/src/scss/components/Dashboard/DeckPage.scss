@@ -752,3 +752,7 @@
 		}
 	}
 }
+
+@include modal-content('share-deck') {
+	background: white;
+}

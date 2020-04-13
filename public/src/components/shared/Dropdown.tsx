@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useRef, useEffect, useCallback } from 'react'
+import React, { PropsWithChildren, useRef, useEffect } from 'react'
 import cx from 'classnames'
 
 import '../../scss/components/Dropdown.scss'
@@ -30,22 +30,23 @@ export default (
 	}>
 ) => {
 	const ref = useRef(null as HTMLDivElement | null)
-	const eventListener = useCallback((event: Event) => {
-		const { current } = ref
-		const { target } = event
-		
-		if (!current || target === current || current.contains(target as Node | null) || !isShowing)
-			return
-		
-		setIsShowing(false)
-	}, [isShowing]) // eslint-disable-line
 	
 	useEffect(() => {
-		document.body[isShowing ? 'addEventListener' : 'removeEventListener'](
-			'click',
-			eventListener
-		)
-	}, [isShowing]) // eslint-disable-line
+		const onClick = ({ target }: Event) => {
+			const { current } = ref
+			
+			if (!current || target === current || current.contains(target as Node | null) || !isShowing)
+				return
+			
+			setIsShowing(false)
+		}
+		
+		const { body } = document
+		
+		body.addEventListener('click', onClick)
+		
+		return () => body.removeEventListener('click', onClick)
+	}, [isShowing, setIsShowing])
 	
 	return (
 		<div
