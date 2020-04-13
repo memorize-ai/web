@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle, faLink } from '@fortawesome/free-solid-svg-icons'
 
+import User from '../../../models/User'
 import Deck from '../../../models/Deck'
 import LoadingState from '../../../models/LoadingState'
-import useQuery from '../../../hooks/useQuery'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useImageUrl from '../../../hooks/useImageUrl'
+import useAuthModal from '../../../hooks/useAuthModal'
 import Button from '../../shared/Button'
 import Stars from '../../shared/Stars'
 import Modal from '../../shared/Modal'
-import { urlForAuth } from '../../Auth'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
@@ -27,55 +27,43 @@ export default (
 	}
 ) => {
 	const history = useHistory()
-	const query = useQuery()
 	
 	const [currentUser] = useCurrentUser()
 	const [imageUrl] = useImageUrl(deck)
+	
+	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
 	const [didCopyShareLink, setDidCopyShareLink] = useState(false)
 	
-	const action = query.get('action')
-	
-	const get = useCallback(async () => {
-		if (!currentUser) {
-			query.set('action', 'get')
-			
-			return history.push(urlForAuth({
-				title: 'I heard that deck is great...',
-				next: urlWithQuery(
-					window.location.pathname,
-					Object.fromEntries(query)
-				)
-			}))
+	const get = useCallback(() => {
+		const callback = async (user: User) => {
+			try {
+				setGetLoadingState(LoadingState.Loading)
+				
+				await deck[hasDeck ? 'remove' : 'get'](user.id)
+				
+				setGetLoadingState(LoadingState.Success)
+				
+				history.push(urlWithQuery(`/decks/${deck.slug}`, {
+					new: '1'
+				}))
+			} catch (error) {
+				setGetLoadingState(LoadingState.Fail)
+				
+				alert(error.message)
+				console.error(error)
+			}
 		}
 		
-		try {
-			setGetLoadingState(LoadingState.Loading)
-			
-			await deck[hasDeck ? 'remove' : 'get'](currentUser.id)
-			
-			setGetLoadingState(LoadingState.Success)
-			
-			query.delete('action')
-			
-			history.push(urlWithQuery(
-				window.location.pathname,
-				Object.fromEntries(query)
-			))
-		} catch (error) {
-			setGetLoadingState(LoadingState.Fail)
-			
-			alert(error.message)
-			console.error(error)
+		if (currentUser)
+			callback(currentUser)
+		else {
+			setAuthModalIsShowing(true)
+			setAuthModalCallback(callback)
 		}
-	}, [currentUser, deck, hasDeck, history, query])
-	
-	useEffect(() => {
-		if (action === 'get' && !hasDeck)
-			get()
-	}, [action, hasDeck, get])
+	}, [setAuthModalIsShowing, setAuthModalCallback, currentUser, deck, hasDeck, history])
 	
 	return (
 		<div className="header">

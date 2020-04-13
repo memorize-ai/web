@@ -1,5 +1,6 @@
 import { ActionType } from './Action'
 import firebase from '../firebase'
+import User from '../models/User'
 import Deck from '../models/Deck'
 import Card from '../models/Card'
 import LoadingState from '../models/LoadingState'
@@ -204,4 +205,16 @@ export const setCounterKey = (key: Counter, value: number | null) => ({
 export const setSearchState = (state: SearchActionPayload) => ({
 	type: ActionType.SetSearchState,
 	payload: state
+})
+
+// Auth modal
+
+export const setAuthModalIsShowing = (isShowing: boolean) => ({
+	type: ActionType.SetAuthModalIsShowing,
+	payload: isShowing
+})
+
+export const setAuthModalCallback = (callback: ((user: User) => void) | null) => ({
+	type: ActionType.SetAuthModalCallback,
+	payload: callback
 })

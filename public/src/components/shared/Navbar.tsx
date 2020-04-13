@@ -5,6 +5,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import useAuthState from '../../hooks/useAuthState'
+import AuthButton from '../shared/AuthButton'
 import Logo, { LogoType } from './Logo'
 import { urlForMarket } from '../Dashboard/Market'
 import { DEFAULT_DECK_COUNT } from '../../constants'
@@ -40,9 +41,9 @@ export default (
 								<p>Explore {DEFAULT_DECK_COUNT} decks</p>
 							</Link>
 							{hasAuthButton && (
-								<Link to="/auth" className="auth-button">
+								<AuthButton className="auth-button">
 									Log in <span>/</span> Sign up
-								</Link>
+								</AuthButton>
 							)}
 						</>
 					)

@@ -15,6 +15,7 @@ import { CreateDeckProvider } from './contexts/CreateDeck'
 import { ExpandedSectionsProvider } from './contexts/ExpandedSections'
 import { CountersProvider } from './contexts/Counters'
 import { SearchProvider } from './contexts/Search'
+import { AuthModalProvider } from './contexts/AuthModal'
 import App from './components/App'
 import firebase from './firebase'
 
@@ -42,7 +43,9 @@ ReactDOM.render((
 									<ExpandedSectionsProvider>
 										<CountersProvider>
 											<SearchProvider>
-												<App />
+												<AuthModalProvider>
+													<App />
+												</AuthModalProvider>
 											</SearchProvider>
 										</CountersProvider>
 									</ExpandedSectionsProvider>

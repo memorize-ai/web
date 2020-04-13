@@ -5,6 +5,7 @@ import Deck from '../../../models/Deck'
 import LoadingState from '../../../models/LoadingState'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
+import useAuthModal from '../../../hooks/useAuthModal'
 import Base from './Base'
 import Stars from '../Stars'
 import Button from '../Button'
@@ -15,13 +16,15 @@ import downloads from '../../../images/icons/download.svg'
 import users from '../../../images/icons/users.svg'
 
 import '../../../scss/components/DeckCell/index.scss'
-import { urlForAuth } from '../../Auth'
+import User from '../../../models/User'
 
 export default ({ deck, query }: { deck: Deck, query?: string }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
 	const decks = useDecks()
+	
+	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	
@@ -30,23 +33,26 @@ export default ({ deck, query }: { deck: Deck, query?: string }) => {
 	const get = async (event: MouseEvent) => {
 		event.preventDefault()
 		
-		if (!currentUser)
-			return history.push(urlForAuth({
-				title: 'I heard that deck is great...',
-				next: urlForDeckPage(deck, 'get')
-			}))
+		const callback = async (user: User) => {
+			try {
+				setGetLoadingState(LoadingState.Loading)
+				
+				await deck[hasDeck ? 'remove' : 'get'](user.id)
+				
+				setGetLoadingState(LoadingState.Success)
+			} catch (error) {
+				setGetLoadingState(LoadingState.Fail)
+				
+				alert(error.message)
+				console.error(error)
+			}
+		}
 		
-		try {
-			setGetLoadingState(LoadingState.Loading)
-			
-			await deck[hasDeck ? 'remove' : 'get'](currentUser.id)
-			
-			setGetLoadingState(LoadingState.Success)
-		} catch (error) {
-			setGetLoadingState(LoadingState.Fail)
-			
-			alert(error.message)
-			console.error(error)
+		if (currentUser)
+			callback(currentUser)
+		else {
+			setAuthModalIsShowing(true)
+			setAuthModalCallback(callback)
 		}
 	}
 	

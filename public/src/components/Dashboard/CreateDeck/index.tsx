@@ -7,7 +7,7 @@ import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import CreateDeckContext from '../../../contexts/CreateDeck'
-import useQuery from '../../../hooks/useQuery'
+import useAuthModal from '../../../hooks/useAuthModal'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useTopics from '../../../hooks/useTopics'
 import Deck from '../../../models/Deck'
@@ -24,8 +24,7 @@ import ImagePicker from '../../shared/ImagePicker'
 import Input from '../../shared/Input'
 import TextArea from '../../shared/TextArea'
 import Button from '../../shared/Button'
-import { urlForAuth } from '../../Auth'
-import { urlWithQuery, compose } from '../../../utils'
+import { compose } from '../../../utils'
 
 import '../../../scss/components/Dashboard/CreateDeck.scss'
 
@@ -36,7 +35,8 @@ export default () => {
 	] = useContext(CreateDeckContext)
 	
 	const history = useHistory()
-	const shouldCreate = useQuery().get('action') === 'create'
+	
+	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
 	
 	const [currentUser] = useCurrentUser()
 	const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone()
@@ -56,11 +56,6 @@ export default () => {
 		setImageUrl(image && URL.createObjectURL(image))
 	}, [image])
 	
-	useEffect(() => {
-		if (shouldCreate && name)
-			create()
-	}, [shouldCreate]) // eslint-disable-line
-	
 	const reset = () => {
 		dispatch(setCreateDeckImage(null))
 		dispatch(setCreateDeckName(''))
@@ -70,11 +65,12 @@ export default () => {
 	}
 	
 	const create = async () => {
-		if (!currentUser)
-			return history.push(urlForAuth({
-				title: 'Before you create your deck...',
-				next: urlWithQuery('/new', { action: 'create' })
-			}))
+		if (!currentUser) {
+			setAuthModalIsShowing(true)
+			setAuthModalCallback(create)
+			
+			return
+		}
 		
 		try {
 			setCreateLoadingState(LoadingState.Loading)

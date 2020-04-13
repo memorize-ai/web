@@ -1,19 +1,19 @@
 import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
-import useCurrentUser from './useCurrentUser'
-import LoadingState from '../models/LoadingState'
-import { expectsSignIn } from '../utils'
-import { urlForAuth } from '../components/Auth'
+import useAuthState from './useAuthState'
+import { urlWithQuery } from '../utils'
 
 export default (next: string | null = null) => {
 	const history = useHistory()
-	const [currentUser, currentUserLoadingState] = useCurrentUser()
+	const isSignedIn = useAuthState()
 	
 	useEffect(() => {
-		if (currentUserLoadingState === LoadingState.Success ? currentUser : expectsSignIn())
+		if (isSignedIn)
 			return
 		
-		history.push(urlForAuth({ next }))
-	}, [currentUser, currentUserLoadingState]) // eslint-disable-line
+		history.push(urlWithQuery('/', {
+			next: next ?? `${window.location.pathname}${window.location.search}`
+		}))
+	}, [isSignedIn, history, next])
 }

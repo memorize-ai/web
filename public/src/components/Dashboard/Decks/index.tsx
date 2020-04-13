@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import requiresAuth from '../../../hooks/requiresAuth'
+import useQuery from '../../../hooks/useQuery'
 import useSelectedDeck from '../../../hooks/useSelectedDeck'
 import useDecks from '../../../hooks/useDecks'
 import Content from './Content'
+import Modal from '../../shared/Modal'
 
 import '../../../scss/components/Dashboard/Decks.scss'
 
@@ -17,6 +19,9 @@ export default () => {
 	
 	const [selectedDeck, setSelectedDeck] = useSelectedDeck()
 	const decks = useDecks()
+	
+	const isNew = useQuery().get('new') === '1'
+	const [isIntroModalShowing, setIsIntroModalShowing] = useState(isNew)
 	
 	useEffect(() => {
 		if (!slug && selectedDeck)
@@ -32,12 +37,24 @@ export default () => {
 		deck && setSelectedDeck(deck)
 	}, [selectedDeck, slug, decks]) // eslint-disable-line
 	
+	useEffect(() => {
+		if (isNew && !isIntroModalShowing)
+			history.replace(window.location.pathname)
+	}, [isNew, isIntroModalShowing, history])
+	
 	return (
 		<Dashboard selection={Selection.Decks} className="decks" gradientHeight="350px">
 			{selectedDeck
 				? <Content deck={selectedDeck} />
 				: 'Loading...'
 			}
+			<Modal
+				className="deck-intro"
+				isShowing={isIntroModalShowing}
+				setIsShowing={setIsIntroModalShowing}
+			>
+				Intro
+			</Modal>
 		</Dashboard>
 	)
 }

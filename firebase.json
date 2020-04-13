@@ -10,7 +10,7 @@
 		]
 	},
 	"hosting": {
-		"public": "blank",
+		"public": "public/build",
 		"ignore": [
 			"firebase.json",
 			"**/.*",
@@ -19,7 +19,7 @@
 		"rewrites": [
 			{
 				"source": "**",
-				"function": "app"
+				"destination": "/index.html"
 			}
 		]
 	},

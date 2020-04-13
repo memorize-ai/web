@@ -48,5 +48,8 @@ export enum ActionType {
 	
 	SetCounterKey = 'SET_COUNTER_KEY',
 	
-	SetSearchState = 'SET_SEARCH_STATE'
+	SetSearchState = 'SET_SEARCH_STATE',
+	
+	SetAuthModalIsShowing = 'SET_AUTH_MODAL_IS_SHOWING',
+	SetAuthModalCallback = 'SET_AUTH_MODAL_CALLBACK'
 }

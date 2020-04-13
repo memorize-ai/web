@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 
 import firebase from '../../firebase'
 import { DashboardNavbarSelection as Selection } from '.'
@@ -7,7 +6,7 @@ import useAuthState from '../../hooks/useAuthState'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import Tab from './NavbarTab'
 import Dropdown, { DropdownShadow } from '../shared/Dropdown'
-import { urlForAuth } from '../Auth'
+import AuthButton from '../shared/AuthButton'
 import { urlForMarket } from './Market'
 import { isNullish } from '../../utils'
 
@@ -121,12 +120,9 @@ export default ({ selection }: { selection: Selection }) => {
 					</Dropdown>
 				)
 				: (
-					<Link
-						to={urlForAuth({ title: 'Come and join us!' })}
-						className="auth-button"
-					>
+					<AuthButton className="auth-button">
 						Log in <span>/</span> Sign up
-					</Link>
+					</AuthButton>
 				)
 			}
 		</div>

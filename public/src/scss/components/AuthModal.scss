@@ -1,0 +1,111 @@
+@import '../variables';
+@import '../mixins';
+
+@include modal-content('auth') {
+	overflow: hidden;
+	margin: 30px;
+	background: white;
+	border-radius: 8px;
+	
+	@media (min-width: 750px) {
+		width: calc(200vw / 3);
+	}
+	
+	@media (min-width: 1250px) {
+		width: 50vw;
+	}
+	
+	> .header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 30px;
+		color: white;
+		background: #051e34;
+		
+		> .title {
+			font-size: 26px;
+		}
+		
+		> button {
+			margin-right: 8px;
+			transform: scale(2);
+			transition: opacity 0.3s;
+			
+			&:hover {
+				opacity: 0.5;
+			}
+		}
+	}
+	
+	> .content {
+		margin: 20px;
+		
+		> .toggle {
+			display: flex;
+			margin-bottom: 1rem;
+			
+			> button {
+				width: 100%;
+				height: 35px;
+				font-size: 18px;
+				font-weight: bold;
+				color: $blue-400;
+				border: 2px solid $blue-400;
+				border-radius: 4px;
+				transition: color 0.2s, background 0.2s;
+				
+				&:hover,
+				&:focus,
+				&.selected {
+					color: white;
+					background: $blue-400;
+				}
+				
+				&:not(:last-child) {
+					margin-right: 12px;
+				}
+			}
+		}
+		
+		> .inputs {
+			margin: 20px 0;
+			
+			> .input:not(:last-child) {
+				margin-bottom: 0.5rem;
+			}
+		}
+		
+		> .footer {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			
+			> button {
+				height: 35px;
+				padding: 0 30px;
+				font-size: 18px;
+				font-weight: bold;
+				color: $blue-400;
+				border: 2px solid $blue-400;
+				border-radius: 4px;
+				
+				&.disabled {
+					color: $blue-200;
+					border-color: $blue-200;
+				}
+				
+				&:not(.disabled):not(.loading):hover {
+					color: white;
+					background: $blue-400;
+				}
+			}
+			
+			> p {
+				margin-left: 12px;
+				font-weight: bold;
+				color: $red-600;
+			}
+		}
+	}
+}

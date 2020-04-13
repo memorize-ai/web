@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import Helmet from 'react-helmet'
 
+import useQuery from '../../hooks/useQuery'
+import useAuthModal from '../../hooks/useAuthModal'
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
 import Header from './Header'
@@ -17,6 +20,19 @@ import '../../scss/components/Home/index.scss'
 const analytics = firebase.analytics()
 
 export default () => {
+	const history = useHistory()
+	const next = useQuery().get('next')
+	
+	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
+	
+	useEffect(() => {
+		if (!next)
+			return
+		
+		setAuthModalIsShowing(true)
+		setAuthModalCallback(() => history.push(next))
+	}, [next, setAuthModalIsShowing, setAuthModalCallback, history])
+	
 	analytics.setCurrentScreen('home')
 	
 	return (

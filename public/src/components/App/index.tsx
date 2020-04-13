@@ -5,8 +5,6 @@ import Root from './Root'
 import Privacy from '../Privacy'
 import Support from '../Support'
 
-import Auth from '../Auth'
-
 import CreateDeck from '../Dashboard/CreateDeck'
 import Market from '../Dashboard/Market'
 import Decks from '../Dashboard/Decks'
@@ -14,11 +12,11 @@ import Interests from '../Dashboard/Interests'
 
 import DeckPage from '../Dashboard/DeckPage'
 
-import CreateCardPopUp from '../CreateCardPopUp'
-
 import Unsubscribe from '../Unsubscribe'
 
 import CatchAll from '../404'
+
+import AuthModal from '../shared/AuthModal'
 
 export default () => (
 	<BrowserRouter>
@@ -27,8 +25,6 @@ export default () => (
 			<Route exact path="/privacy" component={Privacy} />
 			<Route exact path="/support" component={Support} />
 			
-			<Route exact path="/auth" component={Auth} />
-			
 			<Route exact path="/new" component={CreateDeck} />
 			<Route exact path="/market" component={Market} />
 			<Route exact path={['/decks', '/decks/:slug']} component={Decks} />
@@ -36,19 +32,10 @@ export default () => (
 			
 			<Route exact path="/d/:slug" component={DeckPage} />
 			
-			<Route
-				exact
-				path={[
-					'/create-card-pop-up',
-					'/create-card-pop-up/d/:deckId',
-					'/create-card-pop-up/d/:deckId/s/:sectionId'
-				]}
-				component={CreateCardPopUp}
-			/>
-			
 			<Route exact path="/unsubscribe/:uid/:type" component={Unsubscribe} />
 			
 			<Route status={404} component={CatchAll} />
 		</Switch>
+		<AuthModal />
 	</BrowserRouter>
 )

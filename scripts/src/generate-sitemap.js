@@ -8,7 +8,6 @@ if (require.main === module)
 	(async () => {
 		const urls = {
 			'': { type: 'max' },
-			'/auth': { type: 'base' },
 			'/market': { type: 'high' },
 			'/decks': { type: 'low' },
 			'/interests': { type: 'low' }
