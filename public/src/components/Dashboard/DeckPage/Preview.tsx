@@ -13,7 +13,9 @@ import Loader from '../../shared/Loader'
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 import { ReactComponent as LeftArrowHead } from '../../../images/icons/gray-left-arrow-head.svg'
 import { ReactComponent as RightArrowHead } from '../../../images/icons/gray-right-arrow-head.svg'
-import { formatNumber } from '../../../utils'
+import { sleep, formatNumber } from '../../../utils'
+
+const BOX_TRANSFORM_X_LENGTH = 50
 
 export default ({ deck }: { deck: Deck }) => {
 	const _sections = [deck.unsectionedSection, ...useSections(deck.id)]
@@ -34,6 +36,9 @@ export default ({ deck }: { deck: Deck }) => {
 	const [isFront, setIsFront] = useState(true)
 	const [toggleButtonDegrees, setToggleButtonDegrees] = useState(0)
 	
+	const [boxTransform, setBoxTransform] = useState(undefined as string | undefined)
+	const [boxOpacity, setBoxOpacity] = useState(1)
+	
 	const section = card && sections[card.sectionId ?? '']
 	const cardIndex = cards?.findIndex(({ id }) => id === card?.id)
 	
@@ -42,12 +47,33 @@ export default ({ deck }: { deck: Deck }) => {
 		newCard && setCard(newCard)
 	}, [cards])
 	
-	const incrementIndex = (increment: number) => {
+	const toggleSide = async () => {
+		setIsFront(!isFront)
+		setToggleButtonDegrees(toggleButtonDegrees + 180)
+		
+		setBoxTransform('rotate3d(0, 1, 0, 90deg)')
+	}
+	
+	const nextCard = async (isRight: boolean) => {
 		if (cardIndex === undefined)
 			return
 		
-		setCard(cards![cardIndex + increment])
+		const direction = isRight ? 1 : -1
+		
+		setBoxOpacity(0)
+		setBoxTransform(`translateX(${-direction * BOX_TRANSFORM_X_LENGTH}px)`)
+		
+		await sleep(200)
+		
+		setCard(cards![cardIndex + direction])
 		setIsFront(true)
+		
+		setBoxTransform(`translateX(${direction * BOX_TRANSFORM_X_LENGTH}px)`)
+		
+		await sleep(200)
+		
+		setBoxOpacity(1)
+		setBoxTransform(undefined)
 	}
 	
 	useEffect(() => {
@@ -84,9 +110,10 @@ export default ({ deck }: { deck: Deck }) => {
 				/>
 				<button
 					className={cx('box', { loading: !card })}
-					onClick={() => {
-						setIsFront(!isFront)
-						setToggleButtonDegrees(toggleButtonDegrees + 360)
+					onClick={toggleSide}
+					style={{
+						opacity: boxOpacity,
+						transform: boxTransform
 					}}
 				>
 					{card
@@ -105,9 +132,9 @@ export default ({ deck }: { deck: Deck }) => {
 							{isFront ? 'Front' : 'Back'}
 						</p>
 						<ToggleIcon
-							className="toggle-button"
+							className="icon"
 							style={{
-								transform: `scale(${toggleButtonDegrees}deg)`
+								transform: `rotate(${toggleButtonDegrees}deg)`
 							}}
 						/>
 					</div>
@@ -116,7 +143,7 @@ export default ({ deck }: { deck: Deck }) => {
 					<button
 						className="left"
 						disabled={!cardIndex}
-						onClick={() => incrementIndex(-1)}
+						onClick={() => nextCard(false)}
 					>
 						<LeftArrowHead />
 					</button>
@@ -126,7 +153,7 @@ export default ({ deck }: { deck: Deck }) => {
 					<button
 						className="right"
 						disabled={cardIndex === undefined || cardIndex >= cards!.length - 1}
-						onClick={() => incrementIndex(1)}
+						onClick={() => nextCard(true)}
 					>
 						<RightArrowHead />
 					</button>

@@ -7,6 +7,9 @@ export const compose = <T extends any[], U, V>(
 	a: (...args: T) => U
 ) => (...args: T) => b(a(...args))
 
+export const sleep = (ms: number) =>
+	new Promise(resolve => setTimeout(resolve, ms))
+
 export const expectsSignIn = () =>
 	localStorage.getItem(EXPECTS_SIGN_IN_KEY) !== null
 
