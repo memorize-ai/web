@@ -18,7 +18,6 @@ import Header from './Header'
 import Preview from './Preview'
 import Footer from './Footer'
 import Controls from './Controls'
-import Sections from './Sections'
 import SimilarDecks from './SimilarDecks'
 import Cards from './Cards'
 import Loader from '../../shared/Loader'
@@ -97,7 +96,6 @@ export default () => {
 							{deck.numberOfCards > 0 && <Preview deck={deck} />}
 							<Footer deck={deck} />
 							<Controls deck={deck} hasDeck={hasDeck} />
-							<Sections deck={deck} />
 							<SimilarDecks deck={deck} />
 							<Cards deck={deck} />
 						</>

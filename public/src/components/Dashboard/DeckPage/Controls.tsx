@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import moment from 'moment'
 import TimeAgo from 'javascript-time-ago'
 import enLocale from 'javascript-time-ago/locale/en'
@@ -19,6 +19,8 @@ const timeAgo = new TimeAgo('en-US')
 
 export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 	const [currentUser] = useCurrentUser()
+	
+	const [hoverRating, setHoverRating] = useState(null as 1 | 2 | 3 | 4 | 5 | null)
 	
 	const uid = currentUser?.id
 	const rating = deck.userData?.rating ?? 0
@@ -78,17 +80,21 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 								Click to rate
 							</p>
 							<div className="stars">
-								{[1, 2, 3, 4, 5].map(i => {
+								{([1, 2, 3, 4, 5] as const).map(i => {
 									const props = {
 										key: i,
 										onClick: () =>
 											uid && deck.rate(
 												uid,
-												rating === i ? null : i as any
-											)
+												rating === i ? null : i
+											),
+										onMouseEnter: () =>
+											setHoverRating(i),
+										onMouseLeave: () =>
+											setHoverRating(null)
 									}
 									
-									return rating >= i
+									return (hoverRating ?? rating) >= i
 										? <FilledStar {...props} />
 										: <OutlinedStar {...props} />
 								})}

@@ -51,5 +51,8 @@ export enum ActionType {
 	SetSearchState = 'SET_SEARCH_STATE',
 	
 	SetAuthModalIsShowing = 'SET_AUTH_MODAL_IS_SHOWING',
-	SetAuthModalCallback = 'SET_AUTH_MODAL_CALLBACK'
+	SetAuthModalCallback = 'SET_AUTH_MODAL_CALLBACK',
+	
+	UpdateCreator = 'UPDATE_CREATOR',
+	RemoveCreator = 'REMOVE_CREATOR',
 }

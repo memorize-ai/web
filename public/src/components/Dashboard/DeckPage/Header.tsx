@@ -9,6 +9,7 @@ import Deck from '../../../models/Deck'
 import LoadingState from '../../../models/LoadingState'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useImageUrl from '../../../hooks/useImageUrl'
+import useCreator from '../../../hooks/useCreator'
 import useAuthModal from '../../../hooks/useAuthModal'
 import Button from '../../shared/Button'
 import Stars from '../../shared/Stars'
@@ -30,6 +31,7 @@ export default (
 	
 	const [currentUser] = useCurrentUser()
 	const [imageUrl] = useImageUrl(deck)
+	const creator = useCreator(deck.creatorId)
 	
 	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
 	
@@ -77,12 +79,10 @@ export default (
 						<p className="subtitle">
 							{deck.subtitle}
 						</p>
-						{(deck.creatorName = '...') && (
-							<div className="creator">
-								<UserIcon />
-								<p>{deck.creatorName}</p>
-							</div>
-						)}
+						<div className="creator">
+							<UserIcon />
+							<p>{creator?.name ?? '...'}</p>
+						</div>
 					</div>
 					<div className="right">
 						{hasDeck

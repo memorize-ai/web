@@ -36,8 +36,8 @@ export default ({ deck }: { deck: Deck }) => {
 	const [isFront, setIsFront] = useState(true)
 	const [toggleButtonDegrees, setToggleButtonDegrees] = useState(0)
 	
-	const [boxTransform, setBoxTransform] = useState(undefined as string | undefined)
 	const [boxOpacity, setBoxOpacity] = useState(1)
+	const [boxTransform, setBoxTransform] = useState(undefined as string | undefined)
 	
 	const section = card && sections[card.sectionId ?? '']
 	const cardIndex = cards?.findIndex(({ id }) => id === card?.id)
@@ -48,10 +48,16 @@ export default ({ deck }: { deck: Deck }) => {
 	}, [cards])
 	
 	const toggleSide = async () => {
+		setBoxOpacity(0)
+		setBoxTransform('translateY(-16px)')
+		
+		await sleep(150)
+		
 		setIsFront(!isFront)
 		setToggleButtonDegrees(toggleButtonDegrees + 180)
 		
-		setBoxTransform('rotate3d(0, 1, 0, 90deg)')
+		setBoxOpacity(1)
+		setBoxTransform(undefined)
 	}
 	
 	const nextCard = async (isRight: boolean) => {
@@ -61,16 +67,12 @@ export default ({ deck }: { deck: Deck }) => {
 		const direction = isRight ? 1 : -1
 		
 		setBoxOpacity(0)
-		setBoxTransform(`translateX(${-direction * BOX_TRANSFORM_X_LENGTH}px)`)
+		setBoxTransform(`translateX(${direction * BOX_TRANSFORM_X_LENGTH}px)`)
 		
-		await sleep(200)
+		await sleep(150)
 		
 		setCard(cards![cardIndex + direction])
 		setIsFront(true)
-		
-		setBoxTransform(`translateX(${direction * BOX_TRANSFORM_X_LENGTH}px)`)
-		
-		await sleep(200)
 		
 		setBoxOpacity(1)
 		setBoxTransform(undefined)
@@ -134,7 +136,7 @@ export default ({ deck }: { deck: Deck }) => {
 						<ToggleIcon
 							className="icon"
 							style={{
-								transform: `rotate(${toggleButtonDegrees}deg)`
+								transform: `scale(2) rotate(${toggleButtonDegrees}deg)`
 							}}
 						/>
 					</div>
@@ -147,9 +149,12 @@ export default ({ deck }: { deck: Deck }) => {
 					>
 						<LeftArrowHead />
 					</button>
-					<p className={cx('progress', { disabled: cardIndex === undefined })}>
-						{formatNumber((cardIndex ?? 0) + 1)} <span>/</span> {formatNumber(deck.numberOfCards)}
-					</p>
+					<div className={cx('progress', { disabled: cardIndex === undefined })}>
+						<div className="slider">
+							<div style={{ width: `${100 * ((cardIndex ?? 0) + 1) / deck.numberOfCards}%` }} />
+						</div>
+						<p>{formatNumber((cardIndex ?? 0) + 1)} <span>/</span> {formatNumber(deck.numberOfCards)}</p>
+					</div>
 					<button
 						className="right"
 						disabled={cardIndex === undefined || cardIndex >= cards!.length - 1}

@@ -16,6 +16,7 @@ import { ExpandedSectionsProvider } from './contexts/ExpandedSections'
 import { CountersProvider } from './contexts/Counters'
 import { SearchProvider } from './contexts/Search'
 import { AuthModalProvider } from './contexts/AuthModal'
+import { CreatorsProvider } from './contexts/Creators'
 import App from './components/App'
 import firebase from './firebase'
 
@@ -44,7 +45,9 @@ ReactDOM.render((
 										<CountersProvider>
 											<SearchProvider>
 												<AuthModalProvider>
-													<App />
+													<CreatorsProvider>
+														<App />
+													</CreatorsProvider>
 												</AuthModalProvider>
 											</SearchProvider>
 										</CountersProvider>

@@ -8,21 +8,56 @@ import 'firebase/firestore'
 const auth = firebase.auth()
 const firestore = firebase.firestore()
 
-export default class User {
+export interface UserData {
+	name: string | null
+	email: string | null
+	numberOfDecks: number | null
+	xp: number | null
+	interestIds: string[] | null
+	allDecks: string[] | null
+}
+
+export default class User implements UserData {
+	static creatorObservers: Record<string, boolean> = {}
+	
 	id: string
 	name: string | null
 	email: string | null
 	
-	numberOfDecks: number | null = null
-	xp: number | null = null
-	interestIds: string[] | null = null
-	allDecks: string[] | null = null
+	numberOfDecks: number | null
+	xp: number | null
+	interestIds: string[] | null
+	allDecks: string[] | null
 	
-	constructor(firebaseUser: firebase.User) {
-		this.id = firebaseUser.uid
-		this.name = firebaseUser.displayName
-		this.email = firebaseUser.email
+	constructor(id: string, data: UserData) {
+		this.id = id
+		this.name = data.name
+		this.email = data.email
+		this.numberOfDecks = data.numberOfDecks
+		this.xp = data.xp
+		this.interestIds = data.interestIds
+		this.allDecks = data.allDecks
 	}
+	
+	static fromFirebaseUser = (user: firebase.User) =>
+		new User(user.uid, {
+			name: user.displayName,
+			email: user.email,
+			numberOfDecks: null,
+			xp: null,
+			interestIds: null,
+			allDecks: null
+		})
+	
+	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) =>
+		new User(snapshot.id, {
+			name: snapshot.get('name'),
+			email: snapshot.get('email'),
+			numberOfDecks: snapshot.get('deckCount') ?? 0,
+			xp: snapshot.get('xp') ?? 0,
+			interestIds: snapshot.get('topics') ?? [],
+			allDecks: snapshot.get('allDecks') ?? []
+		})
 	
 	static initialize = (
 		{ setCurrentUser, setCurrentUserLoadingState }: {
@@ -46,6 +81,24 @@ export default class User {
 			}
 		)
 	}
+	
+	static loadCreatorForDeckWithId = (
+		uid: string,
+		{ updateCreator, removeCreator }: {
+			updateCreator: (uid: string, snapshot: firebase.firestore.DocumentSnapshot) => void
+			removeCreator: (uid: string) => void
+		}
+	) =>
+		firestore.doc(`users/${uid}`).onSnapshot(
+			snapshot =>
+				snapshot.exists
+					? updateCreator(uid, snapshot)
+					: removeCreator(uid),
+			error => {
+				alert(error.message)
+				console.error(error)
+			}
+		)
 	
 	static xpNeededForLevel = (level: number): number => {
 		switch (level) {

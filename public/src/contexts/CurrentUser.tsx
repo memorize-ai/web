@@ -30,7 +30,7 @@ const reducer = (state: CurrentUserState, { type, payload }: CurrentUserAction) 
 			
 			return {
 				...state,
-				currentUser: user && new User(user),
+				currentUser: user && User.fromFirebaseUser(user),
 				isObservingCurrentUser: user ? state.isObservingCurrentUser : false // Reset if you signed out
 			}
 		}

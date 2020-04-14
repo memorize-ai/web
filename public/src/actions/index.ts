@@ -218,3 +218,15 @@ export const setAuthModalCallback = (callback: ((user: User) => void) | null) =>
 	type: ActionType.SetAuthModalCallback,
 	payload: callback
 })
+
+// Creator
+
+export const updateCreator = (uid: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
+	type: ActionType.UpdateCreator,
+	payload: { uid, snapshot }
+})
+
+export const removeCreator = (uid: string) => ({
+	type: ActionType.RemoveCreator,
+	payload: uid
+})
