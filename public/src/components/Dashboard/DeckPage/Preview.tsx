@@ -15,7 +15,7 @@ import { ReactComponent as LeftArrowHead } from '../../../images/icons/gray-left
 import { ReactComponent as RightArrowHead } from '../../../images/icons/gray-right-arrow-head.svg'
 import { sleep, formatNumber } from '../../../utils'
 
-const BOX_TRANSFORM_X_LENGTH = 50
+const BOX_TRANSFORM_X_LENGTH = 20
 
 export default ({ deck }: { deck: Deck }) => {
 	const _sections = [deck.unsectionedSection, ...useSections(deck.id)]
@@ -39,7 +39,7 @@ export default ({ deck }: { deck: Deck }) => {
 	const [boxOpacity, setBoxOpacity] = useState(1)
 	const [boxTransform, setBoxTransform] = useState(undefined as string | undefined)
 	
-	const section = card && sections[card.sectionId ?? '']
+	const section = card && sections[card.sectionId]
 	const cardIndex = cards?.findIndex(({ id }) => id === card?.id)
 	
 	const setSection = useCallback((section: Section) => {
@@ -99,17 +99,22 @@ export default ({ deck }: { deck: Deck }) => {
 	return (
 		<div className="preview">
 			<div>
-				<Select
-					className="section-select"
-					options={_sections}
-					getOptionLabel={_.property('name')}
-					getOptionValue={_.property('id')}
-					isOptionDisabled={section => !section.numberOfCards}
-					placeholder="Loading..."
-					isLoading={!section}
-					value={section}
-					onChange={setSection as any}
-				/>
+				<div className="header">
+					<Select
+						className="section-select"
+						options={_sections}
+						getOptionLabel={_.property('name')}
+						getOptionValue={_.property('id')}
+						isOptionDisabled={section => !section.numberOfCards}
+						placeholder="Loading..."
+						isLoading={!section}
+						value={section}
+						onChange={setSection as any}
+					/>
+					<h3 className="message">
+						Preview this deck
+					</h3>
+				</div>
 				<button
 					className={cx('box', { loading: !card })}
 					onClick={toggleSide}

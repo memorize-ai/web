@@ -243,6 +243,17 @@
 					
 					> .rating,
 					> .downloads,
+					> .current-users,
+					> .cards {
+						transition: opacity 0.3s;
+						
+						&:hover {
+							opacity: 0.5;
+						}
+					}
+					
+					> .rating,
+					> .downloads,
 					> .current-users {
 						display: flex;
 						align-items: center;
@@ -286,14 +297,25 @@
 				width: max-content;
 				margin: 0 auto;
 				
-				> .section-select {
-					width: 200px;
+				> .header {
+					display: flex;
+					justify-content: space-between;
+					align-items: flex-end;
+					
+					> .section-select {
+						width: 200px;
+					}
+					
+					> .message {
+						font-size: 14px;
+						text-transform: uppercase;
+						color: #9b9b9b;
+						transform: translate(-8px, 4px);
+					}
 				}
 				
 				> .box {
 					$transition-duration: 150ms;
-					
-					@include shadow-lg;
 					
 					position: relative;
 					width: 641px;
@@ -302,6 +324,7 @@
 					background: white;
 					border: 1px solid #eee;
 					border-radius: 5px;
+					box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.1);
 					transition:
 						opacity $transition-duration,
 						transform $transition-duration;
@@ -323,6 +346,9 @@
 					> .content {
 						$inset: 8px;
 						
+						display: grid;
+						justify-content: center;
+						align-content: center;
 						top: $inset;
 						right: $inset;
 						bottom: $inset;
@@ -330,7 +356,7 @@
 					}
 					
 					> .toggle {
-						$inset: 16px;
+						$inset: 20px;
 						
 						display: flex;
 						align-items: flex-end;
@@ -342,7 +368,7 @@
 							font-weight: bold;
 							text-transform: uppercase;
 							opacity: 0.5;
-							transform: translateY(10px);
+							transform: translateY(8px);
 						}
 						
 						> .icon {

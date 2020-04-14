@@ -34,8 +34,8 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 				...state,
 				[parentId]: cards.reduce((acc, card) => ({
 					...acc,
-					[card.sectionId ?? '']: [
-						...acc[card.sectionId ?? ''] ?? [],
+					[card.sectionId]: [
+						...acc[card.sectionId] ?? [],
 						card
 					]
 				}), {} as Record<string, Card[]>)

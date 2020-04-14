@@ -8,7 +8,7 @@ import 'firebase/firestore'
 const firestore = firebase.firestore()
 
 export interface CardData {
-	sectionId: string | null
+	sectionId: string
 	front: string
 	back: string
 	numberOfViews: number
@@ -21,7 +21,7 @@ export default class Card implements CardData {
 	static observers: Record<string, boolean> = {}
 	
 	id: string
-	sectionId: string | null
+	sectionId: string
 	front: string
 	back: string
 	numberOfViews: number
@@ -44,7 +44,7 @@ export default class Card implements CardData {
 	
 	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot, userData: UserData | null) =>
 		new Card(snapshot.id, {
-			sectionId: snapshot.get('section') || null,
+			sectionId: snapshot.get('section') ?? '',
 			front: snapshot.get('front'),
 			back: snapshot.get('back'),
 			numberOfViews: snapshot.get('viewCount') ?? 0,
@@ -139,7 +139,7 @@ export default class Card implements CardData {
 	}
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
-		this.sectionId = snapshot.get('section') || null
+		this.sectionId = snapshot.get('section') ?? ''
 		this.front = snapshot.get('front')
 		this.back = snapshot.get('back')
 		this.numberOfViews = snapshot.get('viewCount') ?? 0
