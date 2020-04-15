@@ -5,7 +5,8 @@ $overlay-z-index: 1000;
 $dashboard-sidebar-width: 305px;
 $dashboard-navbar-height: 71px;
 
-$deck-cell-width: 572px;
+$deck-cell-min-width: 572px;
+$deck-cell-max-width: $deck-cell-min-width + 100px;
 $deck-cell-height: 195px;
 
 $screen-size-sm: 640px;

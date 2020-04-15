@@ -6,7 +6,8 @@
 	
 	display: flex;
 	overflow: hidden;
-	width: $deck-cell-width;
+	min-width: $deck-cell-min-width;
+	max-width: $deck-cell-max-width;
 	height: $deck-cell-height;
 	background: white;
 	border: 1px solid #eee;
