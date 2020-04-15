@@ -73,7 +73,9 @@ export default () => {
 			)}
 			{recommendedDecks.length === 0 || (
 				<div className="recommended-decks">
-					<h1>Recommended decks</h1>
+					<h1 style={{ color: decks.length ? 'black' : 'white' }}>
+						Recommended decks
+					</h1>
 					<div className="decks">
 						<div>
 							{recommendedDecks

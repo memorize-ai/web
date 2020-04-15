@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,6 +8,7 @@ import cx from 'classnames'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import CreateDeckContext from '../../../contexts/CreateDeck'
 import useAuthModal from '../../../hooks/useAuthModal'
+import useAuthState from '../../../hooks/useAuthState'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useTopics from '../../../hooks/useTopics'
 import Deck from '../../../models/Deck'
@@ -19,7 +20,6 @@ import {
 	setCreateDeckDescription,
 	setCreateDeckTopics
 } from '../../../actions'
-import BackButton from '../../shared/BackButton'
 import ImagePicker from '../../shared/ImagePicker'
 import Input from '../../shared/Input'
 import TextArea from '../../shared/TextArea'
@@ -36,6 +36,7 @@ export default () => {
 	
 	const history = useHistory()
 	
+	const isSignedIn = useAuthState()
 	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
 	
 	const [currentUser] = useCurrentUser()
@@ -55,6 +56,10 @@ export default () => {
 	useEffect(() => {
 		setImageUrl(image && URL.createObjectURL(image))
 	}, [image])
+	
+	const focusNameInput = useCallback((input: HTMLInputElement | null) => {
+		input?.focus()
+	}, [])
 	
 	const reset = () => {
 		dispatch(setCreateDeckImage(null))
@@ -84,8 +89,8 @@ export default () => {
 			})
 			
 			setCreateLoadingState(LoadingState.Success)
-			
 			reset()
+			
 			history.push(`/decks/${slug}`)
 		} catch (error) {
 			setCreateLoadingState(LoadingState.Fail)
@@ -96,9 +101,13 @@ export default () => {
 	}
 	
 	return (
-		<Dashboard selection={Selection.Home} className="create-deck" gradientHeight="500px">
+		<Dashboard
+			selection={isSignedIn ? Selection.Home : Selection.Market}
+			className="create-deck"
+			gradientHeight="500px"
+		>
 			<div className="header">
-				<BackButton to="/" />
+				<h1>Create deck</h1>
 				<Button
 					loaderSize="16px"
 					loaderThickness="3px"
@@ -111,7 +120,7 @@ export default () => {
 				</Button>
 			</div>
 			<div className="content">
-				<div>
+				<div className="box">
 					<ImagePicker
 						rootProps={getRootProps()}
 						inputProps={getInputProps()}
@@ -119,59 +128,65 @@ export default () => {
 						url={imageUrl}
 						removeImage={() => setImageUrl(null)}
 					/>
-					<div className="inputs">
-						<Input
-							icon={faSignature}
-							type="name"
-							placeholder="Name (required)"
-							value={name}
-							setValue={compose(dispatch, setCreateDeckName)}
-						/>
-						<Input
-							icon={faSignature}
-							type="name"
-							placeholder="Subtitle (optional)"
-							value={subtitle}
-							setValue={compose(dispatch, setCreateDeckSubtitle)}
-						/>
-						<TextArea
-							minHeight={100}
-							placeholder="Description (optional)"
-							value={description}
-							setValue={compose(dispatch, setCreateDeckDescription)}
-						/>
-					</div>
-					{selectedTopics.length === 0 && (
-						<p className="no-topics-message">
-							You must select relevant topics for your deck to be recommended
-						</p>
-					)}
-					<div className="topics">
-						{useTopics().map(topic => {
-							const isSelected = selectedTopics.includes(topic.id)
-							
-							return (
-								<button
-									key={topic.id}
-									className={cx({ selected: isSelected })}
-									onClick={() =>
-										dispatch(setCreateDeckTopics(
-											isSelected
-												? selectedTopics.filter(topicId => topicId !== topic.id)
-												: [...selectedTopics, topic.id]
-										))
-									}
-									style={{
-										backgroundImage: `linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8)), url('${topic.imageUrl}')`
-									}}
-								>
-									<div className="check">
-										<FontAwesomeIcon icon={faCheck} />
-									</div>
-									<p>{topic.name}</p>
-								</button>
-							)
-						})}
+					<div className="right">
+						<div className="inputs">
+							<label>Name (eg. SAT Math Prep)</label>
+							<Input
+								ref={focusNameInput}
+								icon={faSignature}
+								type="name"
+								placeholder="Required"
+								value={name}
+								setValue={compose(dispatch, setCreateDeckName)}
+							/>
+							<label>Subtitle (eg. The best way to study for the SAT)</label>
+							<Input
+								icon={faSignature}
+								type="name"
+								placeholder="Optional"
+								value={subtitle}
+								setValue={compose(dispatch, setCreateDeckSubtitle)}
+							/>
+							<label>Description</label>
+							<TextArea
+								minHeight={100}
+								placeholder="Optional"
+								value={description}
+								setValue={compose(dispatch, setCreateDeckDescription)}
+							/>
+						</div>
+						{selectedTopics.length === 0 && (
+							<p className="no-topics-message">
+								You must select relevant topics for your deck to be recommended
+							</p>
+						)}
+						<div className="topics">
+							{useTopics().map(topic => {
+								const isSelected = selectedTopics.includes(topic.id)
+								
+								return (
+									<button
+										key={topic.id}
+										className={cx({ selected: isSelected })}
+										onClick={() =>
+											dispatch(setCreateDeckTopics(
+												isSelected
+													? selectedTopics.filter(topicId => topicId !== topic.id)
+													: [...selectedTopics, topic.id]
+											))
+										}
+										style={{
+											backgroundImage: `linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8)), url('${topic.imageUrl}')`
+										}}
+									>
+										<div className="check">
+											<FontAwesomeIcon icon={faCheck} />
+										</div>
+										<p>{topic.name}</p>
+									</button>
+								)
+							})}
+						</div>
 					</div>
 				</div>
 			</div>

@@ -17,10 +17,12 @@
 		grid-area: header;
 		display: flex;
 		align-items: center;
-		margin: 12px 0;
+		margin: 12px 4px;
 		
-		> a {
-			margin: 0 auto 0 8px;
+		> h1 {
+			margin-right: auto;
+			font-weight: 900;
+			color: white;
 		}
 		
 		> button {
@@ -52,87 +54,100 @@
 		overflow-y: auto;
 		padding-bottom: 30px;
 		
-		> div {
+		> .box {
 			@include shadow-lg;
 			
-			max-width: 900px;
-			margin: 0 auto;
+			display: flex;
 			padding: 30px;
 			background: white;
 			border-radius: 8px;
 			
-			> .inputs {
-				margin-top: 18px;
+			> .image-picker {
+				flex-shrink: 0;
+				margin-right: 30px;
+			}
+			
+			> .right {
+				flex-grow: 1;
 				
-				> :not(:first-child) {
-					margin-top: 12px;
+				> .inputs {
+					> label {
+						display: block;
+						margin-bottom: 6px;
+						font-weight: bold;
+						color: #9b9b9b;
+						
+						&:not(:first-child) {
+							margin-top: 20px;
+						}
+					}
 				}
-			}
-			
-			> .no-topics-message {
-				margin-top: 8px;
-				font-weight: bold;
-				color: $red-600;
-			}
-			
-			> .topics {
-				$cell-dimension: 150px;
 				
-				display: grid;
-				grid-template-columns: repeat(auto-fill, $cell-dimension);
-				gap: 12px;
-				justify-content: center;
-				margin-top: 16px;
+				> .no-topics-message {
+					margin-top: 8px;
+					font-weight: bold;
+					color: $red-600;
+				}
 				
-				> button {
-					position: relative;
-					overflow: hidden;
-					width: $cell-dimension;
-					height: $cell-dimension;
-					border-radius: 8px;
-					background-size: cover;
-					background-position: center;
+				> .topics {
+					$cell-dimension: 150px;
 					
-					> .check,
-					> p {
-						position: absolute;
-					}
+					display: grid;
+					grid-template-columns: repeat(auto-fill, $cell-dimension);
+					gap: 12px;
+					justify-content: center;
+					margin-top: 16px;
 					
-					> .check {
-						$dimension: 30px;
+					> button {
+						position: relative;
+						overflow: hidden;
+						width: $cell-dimension;
+						height: $cell-dimension;
+						border-radius: 8px;
+						background-size: cover;
+						background-position: center;
 						
-						top: 12px;
-						right: 12px;
-						width: $dimension;
-						height: $dimension;
-						background: transparentize(white, 0.5);
-						border: 1px solid white;
-						border-radius: 50%;
-						transition: background 0.3s, border 0.3s;
+						> .check,
+						> p {
+							position: absolute;
+						}
 						
-						> svg {
+						> .check {
+							$dimension: 30px;
+							
+							top: 12px;
+							right: 12px;
+							width: $dimension;
+							height: $dimension;
+							background: transparentize(white, 0.5);
+							border: 1px solid white;
+							border-radius: 50%;
+							transition: background 0.3s, border 0.3s;
+							
+							> svg {
+								color: white;
+								opacity: 0;
+								transform: translateY(2.5px);
+								transition: opacity 0.3s;
+							}
+						}
+						
+						&.selected > .check {
+							background: #00d388;
+							border-color: #00d388;
+							
+							> svg {
+								opacity: 1;
+							}
+						}
+						
+						> p {
+							right: 8px;
+							bottom: 12px;
+							left: 8px;
+							text-align: center;
 							color: white;
-							opacity: 0;
-							transform: translateY(2.5px);
-							transition: opacity 0.3s;
 						}
-					}
-					
-					&.selected > .check {
-						background: #00d388;
-						border-color: #00d388;
-						
-						> svg {
-							opacity: 1;
-						}
-					}
-					
-					> p {
-						right: 8px;
-						bottom: 12px;
-						left: 8px;
-						text-align: center;
-						color: white;
 					}
 				}
 			}

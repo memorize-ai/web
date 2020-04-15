@@ -42,9 +42,9 @@ export default () => {
 	}, [selectedDeck, slug, decks]) // eslint-disable-line
 	
 	useEffect(() => {
-		if (isNew && !isIntroModalShowing)
+		if (isNew)
 			history.replace(window.location.pathname)
-	}, [isNew, isIntroModalShowing, history])
+	}, [isNew, history])
 	
 	return (
 		<Dashboard selection={Selection.Decks} className="decks" gradientHeight="350px">

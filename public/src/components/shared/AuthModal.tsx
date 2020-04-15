@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle, faUser, faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -23,6 +24,8 @@ const firestore = firebase.firestore()
 const analytics = firebase.analytics()
 
 export default () => {
+	const history = useHistory()
+	
 	const [currentUser] = useCurrentUser()
 	const [[isShowing, setIsShowing], [callback, setCallback]] = useAuthModal()
 	
@@ -66,6 +69,8 @@ export default () => {
 						joined: firebase.firestore.FieldValue.serverTimestamp()
 					})
 					
+					history.push('/interests')
+					
 					break
 			}
 			
@@ -103,10 +108,10 @@ export default () => {
 			</div>
 			<div className="content">
 				<p className="intro">
-					Improve your memory by spending just <b>minutes</b> a day.
-					We use <b>spaced repetition</b> that learns as you learn.
+					Improve your memory by spending just <strong>minutes</strong> a day.
+					We use <strong>spaced repetition</strong> that learns as you learn.
 					<br />
-					Each attempt will be met with <b>consistent struggle</b>, which you won't find anywhere else.
+					Each attempt will be met with <strong>consistent struggle</strong>, which you won't find anywhere else.
 				</p>
 				<div className="toggle">
 					<Button
