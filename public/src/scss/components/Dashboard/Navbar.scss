@@ -33,6 +33,10 @@
 				transition: opacity 0.3s;
 			}
 			
+			> svg {
+				fill: white;
+			}
+			
 			> p {
 				margin-left: 10px;
 				font-weight: bold;
@@ -78,8 +82,17 @@
 			border-radius: 50%;
 			transition: background 0.3s;
 			
+			> svg {
+				fill: #582efe;
+				transition: fill 0.3s;
+			}
+			
 			&:hover {
 				background: #051e34;
+				
+				> svg {
+					fill: white;
+				}
 			}
 		}
 		

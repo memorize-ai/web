@@ -52,17 +52,31 @@ export default () => {
 						<>
 							<Section
 								title="Due"
-								decks={decks.filter(deck => deck.userData?.isDue ?? false)}
+								decks={
+									decks
+										.filter(deck => deck.userData?.isDue ?? false)
+										.sort((a, b) =>
+											(b.userData?.numberOfDueCards ?? 0) - (a.userData?.numberOfDueCards ?? 0)
+										)
+								}
 								query={query}
 								includesDivider
 							/>
 							<Section
 								title="Favorites"
-								decks={decks.filter(deck => deck.userData?.isFavorite ?? false)}
+								decks={
+									decks
+										.filter(deck => deck.userData?.isFavorite ?? false)
+										.sort((a, b) => a.name.localeCompare(b.name))
+								}
 								query={query}
 								includesDivider
 							/>
-							<Section title="All" decks={decks} query={query} />
+							<Section
+								title="All"
+								decks={decks.sort((a, b) => a.name.localeCompare(b.name))}
+								query={query}
+							/>
 						</>
 					)
 				}

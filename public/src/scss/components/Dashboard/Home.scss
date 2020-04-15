@@ -2,185 +2,55 @@
 @import '../../mixins';
 
 @include dashboard-content('home') {
-	> .create-deck-container {
+	> .header {
 		display: flex;
-		justify-content: flex-end;
-		padding: 16px 40px 0 0;
+		justify-content: space-between;
+		align-items: center;
+		margin: 16px 30px 0 30px;
 		
-		> a {
+		> .left {
+			color: white;
+			
+			> .title {
+				font-weight: 900;
+			}
+			
+			> .subtitle {
+				opacity: 0.7;
+			}
+		}
+		
+		> .create-deck-link {
 			display: flex;
-			justify-content: center;
 			align-items: center;
-			height: 42px;
-			padding: 0 12px;
-			font-weight: 800;
+			padding: 12px 16px;
 			color: #582efe;
 			background: white;
-			text-transform: uppercase;
 			border-radius: 8px;
 			transition: color 0.3s, background 0.3s;
 			
 			> svg {
-				margin-right: 8px;
+				margin-right: 10px;
 			}
 			
-			&:hover,
-			&:focus {
+			> p {
+				font-weight: 900;
+				text-transform: uppercase;
+			}
+			
+			&:hover {
 				color: white;
 				background: #051e34;
 			}
 		}
 	}
 	
-	> .due-decks {
-		margin: 16px 30px 0 30px;
-		background: transparentize(white, 0.1);
-		border: 1px solid #eee;
-		border-radius: 8px;
-		box-shadow: 0 5px 10px 0 transparentize(black, 0.9);
-		
-		> .greeting,
-		> .count-message,
-		> .download-link-container {
-			margin: 0 20px;
-		}
-		
-		> .greeting,
-		> .count-message {
-			text-align: center;
-			word-wrap: break-word;
-		}
-		
-		> .greeting {
-			margin-top: 4px;
-			font-weight: 600;
-		}
-		
-		> .count-message {
-			color: $dark-gray;
-		}
-		
-		> .download-link-container {
-			display: flex;
-			justify-content: center;
-			margin-top: 10px;
-			
-			> a {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				padding: 8px 16px;
-				font-size: 18px;
-				font-weight: bold;
-				color: white;
-				background: #00d388;
-				text-transform: uppercase;
-				border-radius: 8px;
-				transition: background 0.3s;
-				
-				> svg {
-					margin-right: 14px;
-					transform: scale(1.4);
-				}
-				
-				> p {
-					word-wrap: break-word;
-				}
-				
-				&:hover,
-				&:focus {
-					background: #051e34;
-				}
-			}
-		}
-		
-		> .decks {
-			display: flex;
-			overflow-x: auto;
-			margin: 20px 0 10px 0;
-			padding-left: 16px;
-			
-			> .column {
-				flex-shrink: 0;
-				padding-right: 16px;
-				
-				> a {
-					display: flex;
-					align-items: center;
-					min-width: 200px;
-					padding: 6px 0;
-					transition: background 0.3s;
-					
-					> img {
-						$dimension: 50px;
-						
-						width: $dimension;
-						height: $dimension;
-						object-fit: cover;
-						border-radius: 5px;
-						box-shadow: 0 0 10px 0 transparentize(black, 0.9);
-					}
-					
-					> .title {
-						margin: 0 12px;
-						color: $dark-gray;
-						opacity: 0.8;
-						transition: font-weight 0.3s, opacity 0.3s;
-					}
-					
-					> .badge {
-						$min-width: 35px;
-						$height: 25px;
-						$horizontal-padding: 8px;
-						
-						min-width: $min-width;
-						height: $height;
-						margin-left: auto;
-						padding: 0 $horizontal-padding;
-						text-align: center;
-						font-weight: bold;
-						line-height: $height;
-						color: white;
-						background: #00d388;
-						border-radius: 4px;
-					}
-					
-					&:hover,
-					&:focus {
-						> .title {
-							font-weight: 800;
-							opacity: 1;
-						}
-					}
-					
-					&:not(:last-child) {
-						margin-bottom: 8px;
-					}
-				}
-				
-				&:not(:first-child) {
-					padding-left: 16px;
-				}
-				
-				&:not(:last-of-type) {
-					border-right: 2px solid transparentize(#ddd, 0.5);
-				}
-			}
-		}
-	}
-	
 	> .my-decks,
 	> .recommended-decks {
-		margin-top: 16px;
-		
 		> h1 {
-			width: max-content;
 			margin: 0 30px;
-			padding: 2px 12px;
 			font-size: 25px;
-			font-weight: 600;
-			background: transparentize(black, 0.9674);
-			border-radius: 5px;
+			font-weight: 800;
 		}
 		
 		> .decks {
@@ -204,5 +74,17 @@
 				}
 			}
 		}
+	}
+	
+	> .my-decks {
+		margin-top: 20px;
+		
+		> h1 {
+			color: white;
+		}
+	}
+	
+	> .recommended-decks {
+		margin-top: 16px;
 	}
 }
