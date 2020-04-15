@@ -48,9 +48,10 @@ export default (
 				
 				setGetLoadingState(LoadingState.Success)
 				
-				history.push(urlWithQuery(`/decks/${deck.slug}`, {
-					new: '1'
-				}))
+				if (!hasDeck)
+					history.push(urlWithQuery(`/decks/${deck.slug}`, {
+						new: '1'
+					}))
 			} catch (error) {
 				setGetLoadingState(LoadingState.Fail)
 				
