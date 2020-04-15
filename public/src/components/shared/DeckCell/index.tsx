@@ -62,7 +62,14 @@ export default ({ deck }: { deck: Deck }) => {
 	}
 	
 	return (
-		<Base className="default" deck={deck} href={urlForDeckPage(deck)}>
+		<Base
+			className="default"
+			deck={deck}
+			href={urlForDeckPage(deck)}
+			nameProps={{
+				style: { WebkitLineClamp: deck.subtitle ? 1 : 2 }
+			}}
+		>
 			<div className="stats">
 				<div className="rating">
 					<Stars>{deck.averageRating}</Stars>

@@ -25,7 +25,14 @@ export default ({ deck }: { deck: Deck }) => {
 	}
 	
 	return (
-		<Base className="owned" deck={deck} href={`/decks/${deck.slug}`}>
+		<Base
+			className="owned"
+			deck={deck}
+			href={`/decks/${deck.slug}`}
+			nameProps={{
+				style: { WebkitLineClamp: deck.subtitle ? 2 : 3 }
+			}}
+		>
 			<p className="due-cards-message">
 				{hasDueCards
 					? `${numberOfDueCards} card${numberOfDueCards === 1 ? '' : 's'} due in ${numberOfSections} section${numberOfSections === 1 ? '' : 's'}`

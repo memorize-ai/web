@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, HTMLAttributes } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -10,10 +10,11 @@ import { ReactComponent as User } from '../../../images/icons/user.svg'
 import '../../../scss/components/DeckCell/Base.scss'
 
 export default (
-	{ className, deck, href, children }: PropsWithChildren<{
+	{ className, deck, href, nameProps, children }: PropsWithChildren<{
 		className?: string
 		deck: Deck
 		href: string
+		nameProps?: HTMLAttributes<HTMLParagraphElement>
 	}>
 ) => {
 	const [imageUrl] = useImageUrl(deck)
@@ -22,7 +23,7 @@ export default (
 		<Link to={href} className={cx('deck-cell', className)}>
 			<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
 			<div className="content">
-				<p className="name">
+				<p {...nameProps} className="name">
 					{deck.name}
 				</p>
 				<p className="subtitle">
