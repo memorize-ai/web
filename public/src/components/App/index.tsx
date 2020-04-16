@@ -36,6 +36,7 @@ export default () => (
 			
 			<Route status={404} component={CatchAll} />
 		</Switch>
+		
 		<AuthModal />
 	</BrowserRouter>
 )

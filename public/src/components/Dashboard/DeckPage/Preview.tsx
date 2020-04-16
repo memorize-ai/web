@@ -8,6 +8,7 @@ import Section from '../../../models/Section'
 import Card from '../../../models/Card'
 import useAllCards from '../../../hooks/useAllCards'
 import useSections from '../../../hooks/useSections'
+import CardSide from '../../shared/CardSide'
 import Loader from '../../shared/Loader'
 
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
@@ -125,12 +126,9 @@ export default ({ deck }: { deck: Deck }) => {
 				>
 					{card
 						? (
-							<div
-								className="content ck-display"
-								dangerouslySetInnerHTML={{
-									__html: card[isFront ? 'front' : 'back']
-								}}
-							/>
+							<CardSide className="content">
+								{card[isFront ? 'front' : 'back']}
+							</CardSide>
 						)
 						: <Loader size="24px" thickness="4px" color="#582efe" />
 					}

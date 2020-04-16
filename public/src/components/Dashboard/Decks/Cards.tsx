@@ -5,7 +5,7 @@ import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import useExpandedSections from '../../../hooks/useExpandedSections'
 import useCards from '../../../hooks/useCards'
-import CardBox from '../../shared/CardBox'
+import CardCell from '../../shared/CardCell'
 import Loader from '../../shared/Loader'
 
 export default ({ deck, section }: { deck: Deck, section: Section }) => {
@@ -22,7 +22,7 @@ export default ({ deck, section }: { deck: Deck, section: Section }) => {
 			{isExpanded
 				? cards
 					? cards.map(card => (
-						<CardBox key={card.id} card={card} />
+						<CardCell key={card.id} card={card} />
 					))
 					: <Loader size="24px" thickness="4px" color="#582efe" />
 				: null

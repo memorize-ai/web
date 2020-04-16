@@ -1,10 +1,11 @@
 // autoprefixer grid: autoplace
 
 @import '~aos/dist/aos';
+@import '~katex/dist/katex.min';
+@import '~prismjs/themes/prism-okaidia';
 
 @import 'variables';
 @import 'animations';
-@import 'ck-display';
 
 html {
 	scroll-behavior: smooth;
@@ -17,16 +18,15 @@ body,
 body *,
 body ::before,
 body ::after {
-	font-family: $font-family;
-	text-rendering: optimizeLegibility;
 	box-sizing: border-box;
+	text-rendering: optimizeLegibility;
 	outline: none !important;
-	border: 0 solid #e2e8f0;
 }
 
 body {
 	margin: 0;
 	overscroll-behavior: none;
+	font-family: $font-family;
 	
 	&.clipped {
 		overflow: hidden;
