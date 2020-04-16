@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin'
+import admin from 'firebase-admin'
 
 import { EmailTemplate } from '../Email'
 
@@ -39,7 +39,7 @@ export default class User {
 	static resetUnsubscribed = (uid: string) =>
 		firestore.doc(`users/${uid}`).update({
 			unsubscribed: {
-				[EmailTemplate.DueCards]: false
+				[EmailTemplate.DueCardsNotification]: false
 			}
 		})
 	

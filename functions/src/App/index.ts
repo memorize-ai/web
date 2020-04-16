@@ -1,6 +1,6 @@
-import * as functions from 'firebase-functions'
-import * as express from 'express'
-import * as cors from 'cors'
+import functions from 'firebase-functions'
+import express from 'express'
+import cors from 'cors'
 
 import handleAPI from './API'
 

@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin'
+import admin from 'firebase-admin'
 
 import Deck from '../Deck'
 import Section from '../Section'

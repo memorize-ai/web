@@ -1,5 +1,5 @@
-import * as functions from 'firebase-functions'
-import * as _ from 'lodash'
+import functions from 'firebase-functions'
+import _ from 'lodash'
 
 import Deck from '..'
 

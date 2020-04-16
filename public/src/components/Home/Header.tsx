@@ -11,8 +11,8 @@ export default () => (
 	<div className="home header">
 		<div className="left">
 			<h1>
-				The ultimate<br />
-				memorization app
+				Do less.<br />
+				Learn more.
 			</h1>
 			<h3>Truly effective flashcards</h3>
 			<div className="footer">

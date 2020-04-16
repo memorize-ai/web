@@ -14,13 +14,13 @@ export const screenshots = [
 		type: ScreenshotType.Review,
 		descriptions: [
 			{
-				title: 'Flashcards done right',
-				body: 'Rate your performance only after you\'ve seen the back of the card.',
+				title: 'Flashcards that know you',
+				body: 'Rate your performance so that we learn how YOU learn! No more time wasted.',
 				margin: 20
 			},
 			{
 				title: 'Revolutionary spaced repetition algorithm',
-				body: 'Our algorithm learns as you learn. Over time, memorize.ai will get to know you so well that it can predict the perfect memorization timing far better than you could yourself!',
+				body: 'Over time, memorize.ai can predict exactly when you\'re about to forget far better than you could yourself!',
 				margin: 35
 			}
 		]
