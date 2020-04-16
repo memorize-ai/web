@@ -16,7 +16,6 @@ export default () => {
 	return (
 		<div className="page-404">
 			<Helmet>
-				<meta name="prerender-status-code" content="404" />
 				<meta name="description" content="The ultimate memorization tool. Download on the App Store" />
 				<title>memorize.ai - 404</title>
 			</Helmet>

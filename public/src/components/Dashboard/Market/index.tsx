@@ -112,6 +112,7 @@ export default () => {
 					className="search"
 					icon={faSearch}
 					type="name"
+					name="search_term_string"
 					placeholder={
 						`Explore ${numberOfDecks === null ? '...' : formatNumber(numberOfDecks)} decks`
 					}

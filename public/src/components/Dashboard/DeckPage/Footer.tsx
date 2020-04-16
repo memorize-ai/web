@@ -25,7 +25,7 @@ export default ({ deck }: { deck: Deck }) => {
 							s: DeckSortAlgorithm.Top
 						})}
 						style={{
-							backgroundImage: `linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8)), url('${topic.imageUrl}')`
+							backgroundImage: `url('${topic.imageUrl}')`
 						}}
 					>
 						<p>{topic.name}</p>

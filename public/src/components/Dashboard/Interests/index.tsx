@@ -41,7 +41,7 @@ export default () => {
 						})}
 						onClick={() => currentUser?.toggleInterest(topic.id)}
 						style={{
-							backgroundImage: `linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8)), url('${topic.imageUrl}')`
+							backgroundImage: `url('${topic.imageUrl}')`
 						}}
 					>
 						<div className="check">
