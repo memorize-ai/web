@@ -15,7 +15,7 @@ export default (
 	const element = useRef(document.createElement('div'))
 	const content = useRef(null as HTMLDivElement | null)
 	
-	const shouldHide = useKeyPress(27)
+	const shouldHide = useKeyPress(27) // Escape
 	
 	useEffect(() => {
 		const { body } = document
