@@ -1,4 +1,4 @@
-import functions from 'firebase-functions'
+import * as functions from 'firebase-functions'
 
 import CardUserData from '../UserData'
 import Algorithm from '../../Algorithm'

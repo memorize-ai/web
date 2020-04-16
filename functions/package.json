@@ -16,7 +16,7 @@
 	"main": "lib/src/index.js",
 	"dependencies": {
 		"@elastic/app-search-node": "^7.6.0",
-		"@sendgrid/mail": "^7.0.0",
+		"@sendgrid/mail": "^7.0.1",
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"firebase-admin": "^8.10.0",

@@ -1,5 +1,5 @@
-import functions from 'firebase-functions'
-import admin from 'firebase-admin'
+import * as functions from 'firebase-functions'
+import * as admin from 'firebase-admin'
 
 import Deck from '..'
 import User from '../../User'

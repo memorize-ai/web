@@ -1,5 +1,5 @@
 import { config } from 'firebase-functions'
-import Client from '@elastic/app-search-node'
+import * as Client from '@elastic/app-search-node'
 
 export const ENGINE_NAME = 'memorize-ai-decks'
 export const PRIVATE_KEY = config().app_search.decks_private_key
