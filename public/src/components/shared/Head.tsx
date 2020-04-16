@@ -8,9 +8,12 @@ export interface HeadProps<SchemaItems extends Thing[]> {
 	ogType?: string
 	title: string
 	ogTitle?: string
+	twitterTitle?: string
 	description: string
 	ogDescription?: string
+	twitterDescription?: string
 	ogImage: string
+	twitterImage?: string
 	schemaItems: SchemaItems
 }
 
@@ -19,25 +22,40 @@ export default <SchemaItems extends Thing[]>({
 	ogUrl,
 	ogType,
 	title,
-	ogTitle,
+	ogTitle: _ogTitle,
+	twitterTitle,
 	description,
-	ogDescription,
+	ogDescription: _ogDescription,
+	twitterDescription,
 	ogImage,
+	twitterImage,
 	schemaItems
 }: HeadProps<SchemaItems>) => {
 	const canonical = _canonical ?? window.location.href
+	
+	const ogTitle = _ogTitle ?? title
+	const ogDescription = _ogDescription ?? description
 	
 	return (
 		<>
 			<Helmet>
 				<meta name="description" content={description} />
+				
 				<meta property="og:url" content={ogUrl ?? canonical} />
 				<meta property="og:site_name" content="memorize.ai" />
 				<meta property="og:type" content={ogType ?? 'website'} />
-				<meta property="og:title" content={ogTitle ?? title} />
+				<meta property="og:title" content={ogTitle} />
 				<meta property="og:description" content={ogDescription ?? description} />
 				<meta property="og:image" content={ogImage} />
+				
+				<meta name="twitter:card" content="summary" />
+				<meta name="twitter:site" content="@memorize_ai" />
+				<meta name="twitter:title" content={twitterTitle ?? ogTitle} />
+				<meta name="twitter:description" content={twitterDescription ?? ogDescription} />
+				<meta name="twitter:image" content={twitterImage ?? ogImage} />
+				
 				<link rel="canonical" href={canonical} />
+				
 				<title>{title}</title>
 			</Helmet>
 			<Schema item={{
