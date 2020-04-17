@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import Helmet from 'react-helmet'
 import { useHistory } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -35,6 +35,9 @@ export const urlForMarket = () => {
 }
 
 export default () => {
+	const isLoading = useRef(true)
+	const scrollingContainerRef = useRef(null as HTMLDivElement | null)
+	
 	const history = useHistory()
 	const searchParams = useQuery()
 	
@@ -52,17 +55,31 @@ export default () => {
 	const numberOfDecks = Counters.get(Counter.Decks)
 	
 	useEffect(() => {
+		isLoading.current = true
+		
 		setIsLastPage(false)
 		
 		let shouldContinue = true
 		
-		getDecks(1).then(decks =>
-			shouldContinue && setDecks(decks)
-		)
+		getDecks(1).then(decks => {
+			if (!shouldContinue)
+				return
+			
+			setDecks(decks)
+			isLoading.current = false
+			
+			const container = scrollingContainerRef.current
+			
+			if (container)
+				container.scrollTop = 0
+		})
 		
 		setSearchState({ query, sortAlgorithm })
 		
-		return () => { shouldContinue = false }
+		return () => {
+			shouldContinue = false
+			isLoading.current = false
+		}
 	}, [query, sortAlgorithm]) // eslint-disable-line
 	
 	const onInputRef = useCallback((input: HTMLInputElement | null) => {
@@ -90,8 +107,16 @@ export default () => {
 		}
 	}
 	
-	const loadMoreDecks = async (pageNumber: number) =>
+	const loadMoreDecks = async (pageNumber: number) => {
+		if (isLoading.current)
+			return
+		
+		isLoading.current = true
+		
 		setDecks([...decks, ...await getDecks(pageNumber)])
+		
+		isLoading.current = false
+	}
 	
 	return (
 		<Dashboard selection={Selection.Market} className="market" gradientHeight="500px">
@@ -141,9 +166,8 @@ export default () => {
 					}
 				/>
 			</div>
-			<div className="decks">
+			<div ref={scrollingContainerRef} className="decks">
 				<InfiniteScroll
-					pageStart={1}
 					loadMore={loadMoreDecks}
 					hasMore={!isLastPage}
 					loader={
