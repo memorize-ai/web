@@ -128,7 +128,7 @@ export default () => {
 						sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
 							? ''
 							: `${nameForDeckSortAlgorithm(sortAlgorithm)} | `
-					}memorize.ai
+					}memorize.ai - Market
 				</title>
 			</Helmet>
 			<div className="header">

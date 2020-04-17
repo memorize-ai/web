@@ -12,7 +12,7 @@ export default () => {
 	const history = useHistory()
 	
 	const isNew = useQuery().get('new') === '1'
-	const [isIntroModalShowing, setIsIntroModalShowing] = useState(isNew)
+	const [isShowing, setIsShowing] = useState(isNew)
 	
 	useEffect(() => {
 		if (isNew)
@@ -22,8 +22,8 @@ export default () => {
 	return (
 		<Modal
 			className="deck-intro"
-			isShowing={isIntroModalShowing}
-			setIsShowing={setIsIntroModalShowing}
+			isShowing={isShowing}
+			setIsShowing={setIsShowing}
 		>
 			<div className="header">
 				<h2 className="title">
@@ -31,7 +31,7 @@ export default () => {
 				</h2>
 				<button
 					className="hide"
-					onClick={() => setIsIntroModalShowing(false)}
+					onClick={() => setIsShowing(false)}
 				>
 					<FontAwesomeIcon icon={faTimesCircle} />
 				</button>

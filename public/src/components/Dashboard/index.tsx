@@ -1,5 +1,4 @@
 import React, { PropsWithChildren, useEffect } from 'react'
-import Helmet from 'react-helmet'
 import cx from 'classnames'
 
 import Sidebar from './Sidebar'
@@ -31,9 +30,6 @@ export default (
 	
 	return (
 		<div className="dashboard">
-			<Helmet>
-				<title>memorize.ai - {selection}</title>
-			</Helmet>
 			<Sidebar />
 			<div className="content">
 				<div className="background" style={{ height: gradientHeight }} />
