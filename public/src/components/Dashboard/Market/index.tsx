@@ -175,7 +175,7 @@ export default () => {
 							key={0}
 							size="24px"
 							thickness="4px"
-							color="#582efe"
+							color={decks.length ? '#582efe' : 'white'}
 						/>
 					}
 					useWindow={false}
