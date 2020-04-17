@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Modal from 'react-modal'
 import AOS from 'aos'
 
 import * as serviceWorker from './serviceWorker'
@@ -25,12 +24,9 @@ import 'firebase/analytics'
 import './scss/index.scss'
 
 const analytics = firebase.analytics()
-const root = document.getElementById('root') ?? document.body
 
 analytics.logEvent('start')
 AOS.init()
-
-Modal.setAppElement(root)
 
 ReactDOM.render((
 	<CurrentUserProvider>
@@ -60,6 +56,6 @@ ReactDOM.render((
 			</SectionsProvider>
 		</DecksProvider>
 	</CurrentUserProvider>
-), root)
+), document.getElementById('root'))
 
 serviceWorker.register()
