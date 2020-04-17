@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 import Helmet from 'react-helmet'
 import cx from 'classnames'
 
@@ -20,20 +20,30 @@ export default (
 		className: string
 		gradientHeight: string
 	}>
-) => (
-	<div className="dashboard">
-		<Helmet>
-			<title>memorize.ai - {selection}</title>
-		</Helmet>
-		<Sidebar />
-		<div className="content">
-			<div className="background" style={{ height: gradientHeight }} />
-			<div className="container">
-				<Navbar selection={selection} />
-				<div className={cx('foreground', className)}>
-					{children}
+) => {
+	useEffect(() => {
+		const { body } = document
+		
+		body.classList.add('clipped')
+		
+		return () => body.classList.remove('clipped')
+	}, [])
+	
+	return (
+		<div className="dashboard">
+			<Helmet>
+				<title>memorize.ai - {selection}</title>
+			</Helmet>
+			<Sidebar />
+			<div className="content">
+				<div className="background" style={{ height: gradientHeight }} />
+				<div className="container">
+					<Navbar selection={selection} />
+					<div className={cx('foreground', className)}>
+						{children}
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-)
+	)
+}

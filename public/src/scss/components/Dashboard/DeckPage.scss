@@ -714,7 +714,7 @@
 		}
 		
 		> .cards {
-			margin: 0 $margin $margin $margin;
+			margin: 0 $margin 0 $margin;
 			
 			> .title {
 				font-size: 24px;
@@ -730,13 +730,19 @@
 				margin-top: 20px;
 				
 				> div {
+					&,
+					> .cards > .card-cell {
+						&:not(:last-child) {
+							margin-bottom: 16px;
+						}
+					}
+					
 					> .cards,
 					> .loader {
 						margin-top: 12px;
 					}
 					
 					> .cards > .card-cell {
-						margin-bottom: 16px;
 						background: white;
 						box-shadow:
 							0 0 15px -3px rgba(0, 0, 0, 0.1),
