@@ -1,8 +1,5 @@
 import React, { useState, useCallback } from 'react'
 import { useHistory, Link } from 'react-router-dom'
-import CopyToClipboard from 'react-copy-to-clipboard'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimesCircle, faLink } from '@fortawesome/free-solid-svg-icons'
 
 import User from '../../../models/User'
 import Deck from '../../../models/Deck'
@@ -13,7 +10,7 @@ import useCreator from '../../../hooks/useCreator'
 import useAuthModal from '../../../hooks/useAuthModal'
 import Button from '../../shared/Button'
 import Stars from '../../shared/Stars'
-import Modal from '../../shared/Modal'
+import ShareDeckModal from '../../shared/ShareDeckModal'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
@@ -37,7 +34,6 @@ export default (
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
-	const [didCopyShareLink, setDidCopyShareLink] = useState(false)
 	
 	const get = useCallback(() => {
 		const callback = async (user: User) => {
@@ -148,40 +144,11 @@ export default (
 					</a>
 				</div>
 			</div>
-			<Modal
-				className="share-deck"
+			<ShareDeckModal
+				deck={deck}
 				isShowing={isShareModalShowing}
 				setIsShowing={setIsShareModalShowing}
-			>
-				<div className="header">
-					<h2 className="title">
-						{currentUser?.id === deck.creatorId
-							? 'Promote your deck!'
-							: 'Like this deck? Share it!'
-						}
-					</h2>
-					<button
-						className="hide"
-						onClick={() => setIsShareModalShowing(false)}
-					>
-						<FontAwesomeIcon icon={faTimesCircle} />
-					</button>
-				</div>
-				<div className="content">
-					<div className="box">
-						<FontAwesomeIcon icon={faLink} />
-						<p>https://memorize.ai/d/{deck.slug}</p>
-					</div>
-					<CopyToClipboard text={`https://memorize.ai/d/${deck.slug}`}>
-						<button
-							className="copy"
-							onClick={() => setDidCopyShareLink(true)}
-						>
-							{didCopyShareLink ? 'Copied!' : 'Copy'}
-						</button>
-					</CopyToClipboard>
-				</div>
-			</Modal>
+			/>
 		</div>
 	)
 }

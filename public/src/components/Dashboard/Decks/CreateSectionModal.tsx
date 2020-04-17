@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimesCircle, faSignature } from '@fortawesome/free-solid-svg-icons'
+import React, { useState, useCallback } from 'react'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import LoadingState from '../../../models/LoadingState'
 import Modal from '../../shared/Modal'
-import Input from '../../shared/Input'
 import Button from '../../shared/Button'
 import useSections from '../../../hooks/useSections'
+
+import { ReactComponent as TimesIcon } from '../../../images/icons/times.svg'
 
 export default (
 	{ deck, isShowing, setIsShowing }: {
@@ -32,6 +31,8 @@ export default (
 			await Section.createForDeck(deck, name, sections.length)
 			
 			setLoadingState(LoadingState.Success)
+			
+			setName('')
 			setIsShowing(false)
 		} catch (error) {
 			setLoadingState(LoadingState.Fail)
@@ -40,6 +41,10 @@ export default (
 			console.error(error)
 		}
 	}
+	
+	const onNameInputRef = useCallback((input: HTMLInputElement | null) => {
+		input && input[isShowing ? 'focus' : 'blur']()
+	}, [isShowing])
 	
 	return (
 		<Modal
@@ -55,17 +60,15 @@ export default (
 					className="hide"
 					onClick={() => setIsShowing(false)}
 				>
-					<FontAwesomeIcon icon={faTimesCircle} />
+					<TimesIcon />
 				</button>
 			</div>
 			<div className="content">
-				<label>Section name (eg. Advanced words)</label>
-				<Input
-					icon={faSignature}
-					type="name"
-					placeholder="Required"
+				<input
+					ref={onNameInputRef}
+					placeholder="Name"
 					value={name}
-					setValue={setName}
+					onChange={({ target }) => setName(target.value)}
 				/>
 				<Button
 					loaderSize="16px"

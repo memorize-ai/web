@@ -1,5 +1,6 @@
 @import '../../variables';
 @import '../../mixins';
+@import '../../functions';
 
 @include dashboard-content('decks') {
 	display: grid;
@@ -154,35 +155,29 @@
 }
 
 @include modal-content('create-section') {
-	overflow: hidden;
-	margin: 30px;
+	width: 500px;
 	background: white;
 	border-radius: 8px;
 	
-	@media (min-width: 750px) {
-		width: calc(200vw / 3);
-	}
-	
-	@media (min-width: 1250px) {
-		width: 50vw;
-	}
-	
 	> .header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 30px;
-		color: white;
-		background: #051e34;
+		display: grid;
+		position: relative;
+		justify-content: center;
+		align-content: center;
+		height: 100px;
 		
 		> .title {
 			font-size: 26px;
-			font-weight: 900;
 		}
 		
-		> button {
-			margin-right: 8px;
-			transform: scale(2);
+		> .hide {
+			$inset: 16px;
+			
+			position: absolute;
+			top: $inset;
+			right: $inset;
+			color: #4355f9;
+			transform: scale(1.4);
 			transition: opacity 0.3s;
 			
 			&:hover {
@@ -192,43 +187,43 @@
 	}
 	
 	> .content {
-		padding: 30px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+		margin: 0 raw-repeat(3, 30px);
+		border-radius: 8px;
 		
-		> label {
-			display: block;
-			margin-bottom: 8px;
-			font-size: 18px;
-			font-weight: bold;
-			color: #9b9b9b;
+		> input,
+		> button {
+			height: 50px;
 		}
 		
-		> .input {
-			margin-bottom: 30px;
+		> input {
+			flex-grow: 1;
+			padding: 0 4px 0 12px;
+			background: transparentize(#f0f1f8, 0.32);
 		}
 		
 		> button {
-			display: block;
-			height: 42px;
-			margin: 0 auto;
-			padding: 0 12px;
-			font-weight: 800;
-			color: #582efe;
-			background: white;
+			display: flex;
+			justify-content: center;
+			flex-shrink: 0;
+			width: 101.5px;
+			font-weight: bold;
 			text-transform: uppercase;
-			border: 1.5px solid #582efe;
-			border-radius: 8px;
-			transition: color 0.3s, background 0.3s, border-color 0.3s, opacity 0.3s;
+			color: white;
+			background: #4355f9;
+			transition: background 0.3s, opacity 0.3s;
 			
 			&.disabled {
-				opacity: 0.8;
+				opacity: 0.5;
 			}
 			
 			&:not(.disabled):not(.loading) {
 				&:hover,
 				&:focus {
-					color: white;
 					background: #051e34;
-					border-color: #051e34;
 				}
 			}
 		}

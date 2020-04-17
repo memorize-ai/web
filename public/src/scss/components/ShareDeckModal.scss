@@ -1,0 +1,91 @@
+@import '../mixins';
+
+@include modal-content('share-deck') {
+	overflow: hidden;
+	margin: 30px;
+	background: white;
+	border-radius: 8px;
+	
+	@media (min-width: 750px) {
+		width: calc(200vw / 3);
+	}
+	
+	@media (min-width: 1250px) {
+		width: 50vw;
+	}
+	
+	> .header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 30px;
+		color: white;
+		background: #051e34;
+		
+		> .title {
+			font-size: 26px;
+			font-weight: 900;
+		}
+		
+		> button {
+			margin-right: 8px;
+			transform: scale(2);
+			transition: opacity 0.3s;
+			
+			&:hover {
+				opacity: 0.5;
+			}
+		}
+	}
+	
+	> .content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		overflow-y: auto;
+		padding: 30px;
+		
+		> .box {
+			display: flex;
+			align-items: center;
+			overflow-x: auto;
+			padding: 6px 14px;
+			color: #4355f9;
+			border: 2px solid #ddd;
+			border-radius: 8px;
+			
+			> svg {
+				margin-right: 12px;
+				transform: scale(1.2);
+			}
+			
+			> p {
+				flex-shrink: 0;
+				font-family: monospace, sans-serif;
+				font-size: 20px;
+			}
+		}
+		
+		> .copy {
+			$height: 60px;
+			
+			height: $height;
+			margin-top: 20px;
+			padding: 0 30px;
+			font-size: 20px;
+			font-weight: bold;
+			color: white;
+			background: #00d388;
+			border-radius: $height / 2;
+			transition: background 0.3s, transform 0.3s;
+			
+			&:hover {
+				background: #582efe;
+			}
+			
+			&:active {
+				transform: scale(0.95);
+			}
+		}
+	}
+}

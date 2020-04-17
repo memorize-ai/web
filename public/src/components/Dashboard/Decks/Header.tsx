@@ -6,9 +6,10 @@ import cx from 'classnames'
 import Deck from '../../../models/Deck'
 import useImageUrl from '../../../hooks/useImageUrl'
 import CreateSectionModal from './CreateSectionModal'
+import ShareDeckModal from '../../shared/ShareDeckModal'
+import Dropdown, { DropdownShadow } from '../../shared/Dropdown'
 
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
-import Dropdown, { DropdownShadow } from '../../shared/Dropdown'
 
 export default ({ deck }: { deck: Deck | null }) => {
 	const [imageUrl] = useImageUrl(deck)
@@ -39,11 +40,18 @@ export default ({ deck }: { deck: Deck | null }) => {
 				Options
 			</Dropdown>
 			{deck && (
-				<CreateSectionModal
-					deck={deck}
-					isShowing={isCreateSectionModalShowing}
-					setIsShowing={setIsCreateSectionModalShowing}
-				/>
+				<>
+					<CreateSectionModal
+						deck={deck}
+						isShowing={isCreateSectionModalShowing}
+						setIsShowing={setIsCreateSectionModalShowing}
+					/>
+					<ShareDeckModal
+						deck={deck}
+						isShowing={isShareModalShowing}
+						setIsShowing={setIsShareModalShowing}
+					/>
+				</>
 			)}
 		</div>
 	)
