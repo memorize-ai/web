@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLock, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { faUnlock, faLock, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -22,8 +23,12 @@ export default (
 		onShare: () => void
 	}
 ) => {
+	const [isHoveringLock, setIsHoveringLock] = useState(false)
 	const [degrees, setDegrees] = useState(0)
 	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(false)
+	
+	const isUnlocked = deck.isSectionUnlocked(section)
+	const numberOfDueCards = deck.numberOfCardsDueForSection(section)
 	
 	const onClick = () => {
 		toggleExpanded()
@@ -31,21 +36,28 @@ export default (
 	}
 	
 	return (
-		<div className="section-header owned" onClick={onClick}>
-			{deck.isSectionUnlocked(section) || (
+		<div className={cx('section-header', 'owned', { due: numberOfDueCards > 0 })} onClick={onClick}>
+			{isUnlocked || (
 				<button
 					className="unlock"
 					onClick={event => {
 						event.stopPropagation()
 						onUnlock()
 					}}
+					onMouseEnter={() => setIsHoveringLock(true)}
+					onMouseLeave={() => setIsHoveringLock(false)}
 				>
-					<FontAwesomeIcon icon={faLock} />
+					<FontAwesomeIcon icon={isHoveringLock ? faUnlock : faLock} />
 				</button>
 			)}
-			<p className="name">
-				{section.name}
-			</p>
+			<div className="name">
+				<p>{section.name}</p>
+				{numberOfDueCards > 0 && (
+					<p className="badge">
+						{formatNumber(numberOfDueCards)} due
+					</p>
+				)}
+			</div>
 			<div className="divider" />
 			<p className="card-count">
 				({formatNumber(section.numberOfCards)} card{section.numberOfCards === 1 ? '' : 's'})

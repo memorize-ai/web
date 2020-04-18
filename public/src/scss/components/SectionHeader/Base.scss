@@ -8,11 +8,6 @@
 	cursor: pointer;
 	font-size: 18px;
 	
-	> .name {
-		font-weight: bold;
-		color: $dark-gray;
-	}
-	
 	> .divider {
 		$height: 2px;
 		
@@ -44,7 +39,7 @@
 		}
 		
 		&:hover {
-			opacity: 0.8;
+			opacity: 0.5;
 		}
 	}
 	

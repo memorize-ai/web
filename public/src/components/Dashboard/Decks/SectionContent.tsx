@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
+import useCurrentUser from '../../../hooks/useCurrentUser'
 import SectionHeader from '../../shared/SectionHeader/Owned'
 import useCards from '../../../hooks/useCards'
 import CardCell from '../../shared/CardCell'
@@ -17,10 +18,11 @@ export default (
 		setSelectedSection: (action: 'share' | 'unlock') => void
 	}
 ) => {
+	const [currentUser] = useCurrentUser()
 	const cards = useCards(deck, section, isExpanded)
 	
 	return (
-		<div>
+		<div className="section">
 			<SectionHeader
 				deck={deck}
 				section={section}
@@ -29,9 +31,11 @@ export default (
 				onUnlock={() => setSelectedSection('unlock')}
 				onShare={() => setSelectedSection('share')}
 			/>
-			<Link to={`/decks/${deck.slug}/add${section.isUnsectioned ? '' : `/${section.id}`}`}>
-				Add cards
-			</Link>
+			{currentUser?.id === deck.creatorId && (
+				<Link to={`/decks/${deck.slug}/add${section.isUnsectioned ? '' : `/${section.id}`}`}>
+					Add cards
+				</Link>
+			)}
 			{isExpanded && (
 				cards
 					? (

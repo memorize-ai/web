@@ -120,6 +120,37 @@
 				align-content: center;
 				height: auto;
 			}
+			
+			> .section {
+				> a {
+					display: block;
+					width: max-content;
+					margin: 12px auto 0 auto;
+					padding: 8px 14px;
+					font-weight: 900;
+					text-align: center;
+					color: white;
+					background: #582efe;
+					border-radius: 8px;
+					transition: background 0.3s;
+					
+					&:hover {
+						background: #051e34;
+					}
+				}
+				
+				> .cards {
+					margin: 20px 0;
+				}
+			
+				> .loader {
+					margin: 12px auto;
+				}
+				
+				&:not(:last-child) {
+					margin-bottom: 12px;
+				}
+			}
 		}
 	}
 }
