@@ -3,6 +3,8 @@
 @import '../../functions';
 
 @include dashboard-content('decks') {
+	$margin: 30px;
+	
 	display: grid;
 	grid:
 		'header' auto
@@ -14,7 +16,7 @@
 		grid-area: header;
 		display: flex;
 		align-items: center;
-		margin: 12px 30px;
+		margin: 12px $margin;
 		
 		> img {
 			width: 70px;
@@ -90,6 +92,26 @@
 	
 	> .content {
 		grid-area: content;
+		display: grid;
+		grid: 1fr / auto;
+		overflow-y: auto;
+		
+		> .box {
+			@include shadow-lg;
+			
+			height: max-content;
+			background: white;
+			border-radius: 8px;
+			margin: 0 raw-repeat(3, $margin);
+			padding: $margin;
+			
+			&.loading {
+				display: grid;
+				justify-content: center;
+				align-content: center;
+				height: auto;
+			}
+		}
 	}
 }
 
