@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import _ from 'lodash'
 
 import Deck from '../../../models/Deck'
@@ -9,6 +9,7 @@ import useAllCards from '../../../hooks/useAllCards'
 import SectionHeader from '../../shared/SectionHeader'
 import CardCell from '../../shared/CardCell'
 import Loader from '../../shared/Loader'
+import ShareSectionModal from '../../shared/ShareSectionModal'
 import { formatNumber } from '../../../utils'
 
 export default ({ deck }: { deck: Deck }) => {
@@ -24,6 +25,9 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	const _cards = useAllCards(deck.id)
 	const cards = _cards && _.flatten(Object.values(_cards))
+	
+	const [selectedSection, setSelectedSection] = useState(null as Section | null)
+	const [isShareSectionModalShowing, setIsShareSectionModalShowing] = useState(false)
 	
 	const cardsForSection = (section: Section) =>
 		cards
@@ -49,6 +53,10 @@ export default ({ deck }: { deck: Deck }) => {
 								section={section}
 								isExpanded={isExpanded}
 								toggleExpanded={() => toggleSectionExpanded(section.id)}
+								onShare={() => {
+									setSelectedSection(section)
+									setIsShareSectionModalShowing(true)
+								}}
 							/>
 							{isExpanded && (
 								<div className="cards">
@@ -59,6 +67,12 @@ export default ({ deck }: { deck: Deck }) => {
 					)
 				})}
 			</div>
+			<ShareSectionModal
+				deck={deck}
+				section={selectedSection}
+				isShowing={isShareSectionModalShowing}
+				setIsShowing={setIsShareSectionModalShowing}
+			/>
 		</div>
 	)
 }

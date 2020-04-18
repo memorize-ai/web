@@ -55,7 +55,10 @@ export default (
 		>
 			<button
 				className="trigger"
-				onClick={() => setIsShowing(!isShowing)}
+				onClick={event => {
+					event.stopPropagation()
+					setIsShowing(!isShowing)
+				}}
 			>
 				{trigger}
 			</button>

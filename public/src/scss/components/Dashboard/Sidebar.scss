@@ -91,6 +91,11 @@ $divider-color: transparentize(#ddd, 0.8);
 				padding: 8px 20px;
 				transition: background 0.3s;
 				
+				> img,
+				> .badge {
+					flex-shrink: 0;
+				}
+				
 				> img {
 					$dimension: 50px;
 					

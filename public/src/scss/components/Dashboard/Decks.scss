@@ -9,7 +9,7 @@
 	grid:
 		'header' auto
 		'content' 1fr /
-		auto;
+		calc(100vw - #{$dashboard-sidebar-width});
 	overflow: visible;
 	
 	> .header {
@@ -28,14 +28,23 @@
 		
 		> .name {
 			height: 50px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 			margin: 0 auto 0 12px;
 			font-weight: 900;
 			color: white;
 		}
 		
+		> .create-section,
+		> .share,
+		> .options {
+			flex-shrink: 0;
+		}
+		
 		> .create-section {
 			height: 40px;
-			margin-right: 12px;
+			margin: 0 12px;
 			padding: 0 12px;
 			font-weight: 900;
 			text-transform: uppercase;
@@ -190,6 +199,7 @@
 		
 		> .title {
 			font-size: 26px;
+			text-align: center;
 		}
 		
 		> .hide {
