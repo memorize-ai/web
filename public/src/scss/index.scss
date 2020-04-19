@@ -1,7 +1,8 @@
-// autoprefixer grid: autoplace
+/* autoprefixer grid: autoplace */
 
+@import '~balloon-css/src/balloon';
 @import '~aos/dist/aos';
-@import '~katex/dist/katex.min';
+@import '~katex/dist/katex';
 @import '~prismjs/themes/prism-okaidia';
 
 @import 'variables';

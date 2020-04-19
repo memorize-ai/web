@@ -36,7 +36,10 @@ export default (
 	}
 	
 	return (
-		<div className={cx('section-header', 'owned', { due: numberOfDueCards > 0 })} onClick={onClick}>
+		<div
+			className={cx('section-header', 'owned', { due: numberOfDueCards > 0 })}
+			onClick={onClick}
+		>
 			{isUnlocked || (
 				<button
 					className="unlock"

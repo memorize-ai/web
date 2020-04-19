@@ -27,26 +27,24 @@ export default (
 ) => {
 	const [currentUser] = useCurrentUser()
 	
+	const { userData, isDue } = card
 	const isOwner = currentUser?.id === deck.creatorId
-	const isNew = card.userData?.isNew ?? true
+	const isNew = userData?.isNew ?? true
 	
 	return (
 		<Base
 			className={cx('owned', { owner: isOwner })}
 			card={card}
 			onClick={() => isOwner && onClick()}
+			aria-label={isDue ? 'Download our iOS app to review' : undefined}
+			data-balloon-pos={isDue ? 'up' : undefined}
 		>
-			{card.isDue && (
-				<div
-					className="due-badge"
-					title="This card is due"
-				/>
-			)}
-			{(card.userData || isOwner) && (
-				<div className={cx('footer', { 'has-user-data': card.userData })}>
-					{card.userData && (
+			{isDue && <div className="due-badge" />}
+			{(userData || isOwner) && (
+				<div className={cx('footer', { 'has-user-data': userData })}>
+					{userData && (
 						<p className="due-date">
-							Due {timeAgo.format(card.userData?.dueDate)}
+							Due {timeAgo.format(userData?.dueDate)}
 						</p>
 					)}
 					{isOwner && (
@@ -55,14 +53,14 @@ export default (
 							<p>Click to edit</p>
 						</div>
 					)}
-					{card.userData && (
+					{userData && (
 						<p className={cx('stats', { new: isNew })}>
 							{isNew
 								? 'You haven\'t seen this card before'
 								: (
 									<>
 										<FontAwesomeIcon icon={faBolt} />
-										{card.userData?.streak ?? 1}x streak
+										{userData?.streak ?? 1}x streak
 									</>
 								)
 							}
