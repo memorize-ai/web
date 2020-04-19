@@ -2,7 +2,7 @@ const { writeFileSync } = require('fs')
 const { join } = require('path')
 const { create } = require('xmlbuilder2')
 
-const { firestore } = require('../firebase-admin')
+const { firestore } = require('../utils/firebase-admin')
 
 if (require.main === module)
 	(async () => {

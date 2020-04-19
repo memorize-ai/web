@@ -1,0 +1,63 @@
+<mjml>
+	<mj-head>
+		<mj-font
+			name="Muli"
+			href="https://fonts.googleapis.com/css2?family=Muli:wght@400;600;800&display=swap"
+		/>
+		<mj-attributes>
+			<mj-text
+				padding="0 30px"
+				font-family="Muli, Ubuntu, Arial, Helvetica, sans-serif"
+				color="#4a4a4a"
+			/>
+		</mj-attributes>
+		<mj-title>
+			Reset your password for %APP_NAME%
+		</mj-title>
+		<mj-preview>
+			Click here to reset your password for %EMAIL%
+		</mj-preview>
+	</mj-head>
+	<mj-body background-color="#f5f6fb">
+		<mj-section>
+			<mj-column>
+				<mj-image
+					width="400px"
+					href="https://memorize.ai"
+					src="https://memorize.ai/images/logos/capital-inverted.png"
+					alt="Logo"
+				/>
+			</mj-column>
+		</mj-section>
+		<mj-section>
+			<mj-column>
+				<mj-text
+					align="center"
+					padding-bottom="30px"
+					font-size="30px"
+					font-weight="800"
+				>
+					<a
+						href="%LINK%"
+						style="text-decoration: none; color: #3794ff;">
+						Click here to reset your password for %EMAIL%
+					</a>
+				</mj-text>
+			</mj-column>
+		</mj-section>
+		<mj-section background-color="#efeefa">
+			<mj-column>
+				<mj-image
+					width="200px"
+					href="https://memorize.ai"
+					src="https://memorize.ai/images/logos/capital-inverted-grayscale.png"
+					alt="Download on the App Store"
+				/>
+				<mj-text align="center" padding="12px">
+					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
+					All rights reserved.
+				</mj-text>
+			</mj-column>
+		</mj-section>
+	</mj-body>
+</mjml>
