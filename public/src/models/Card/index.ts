@@ -138,6 +138,14 @@ export default class Card implements CardData {
 		return this.sectionId === ''
 	}
 	
+	get isDue() {
+		const { userData } = this
+		
+		return Boolean(
+			userData && (userData.isNew || userData.dueDate.getTime() <= Date.now())
+		)
+	}
+	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.sectionId = snapshot.get('section') ?? ''
 		this.front = snapshot.get('front')
@@ -150,9 +158,12 @@ export default class Card implements CardData {
 	}
 	
 	updateUserDataFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
-		this.userData?.updateFromSnapshot(snapshot) ?? (
-			this.userData = UserData.fromSnapshot(snapshot)
-		)
+		snapshot.exists
+			? this.userData?.updateFromSnapshot(snapshot) ?? (
+				this.userData = UserData.fromSnapshot(snapshot)
+			)
+			: this.userData = null
+		
 		return this
 	}
 }

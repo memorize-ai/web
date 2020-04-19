@@ -6,7 +6,7 @@ import Section from '../../../models/Section'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import SectionHeader from '../../shared/SectionHeader/Owned'
 import useCards from '../../../hooks/useCards'
-import CardCell from '../../shared/CardCell'
+import CardCell from '../../shared/CardCell/Owned'
 import Loader from '../../shared/Loader'
 
 export default (
@@ -36,12 +36,17 @@ export default (
 					Add cards
 				</Link>
 			)}
-			{isExpanded && (
+			{isExpanded && (!cards || cards.length > 0) && (
 				cards
 					? (
 						<div className="cards">
 							{cards.map(card => (
-								<CardCell key={card.id} card={card} />
+								<CardCell
+									key={card.id}
+									deck={deck}
+									card={card}
+									onClick={() => console.log('Edit card')}
+								/>
 							))}
 						</div>
 					)

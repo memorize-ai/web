@@ -30,8 +30,8 @@ export default ({ deck }: { deck: Deck }) => {
 		<>
 			{sections.map(section => (
 				<SectionContent
-					deck={deck}
 					key={section.id}
+					deck={deck}
 					section={section}
 					isExpanded={isExpanded(section.id)}
 					toggleExpanded={() => toggleExpanded(section.id)}

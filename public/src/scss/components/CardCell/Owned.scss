@@ -1,0 +1,76 @@
+@import '../../variables';
+
+.card-cell.owned {
+	position: relative;
+	
+	&.owner {
+		cursor: pointer;
+		
+		> .footer:not(.has-user-data) {
+			justify-content: center;
+		}
+	}
+	
+	> .due-badge {
+		$dimension: 14px;
+		$inset: -$dimension / 2;
+		
+		position: absolute;
+		top: $inset;
+		left: $inset;
+		width: $dimension;
+		height: $dimension;
+		background: #4355f9;
+		border-radius: 50%;
+		opacity: 0.5;
+	}
+	
+	> .footer {
+		display: flex;
+		align-items: center;
+		margin: 0 10px;
+		padding: 16px 10px;
+		border-top: 2px solid #eee;
+		
+		&.has-user-data {
+			justify-content: space-between;
+		}
+		
+		> .due-date,
+		> .stats {
+			padding: 2px 8px;
+			font-weight: bold;
+			color: #4355f9;
+			background: transparentize(#4355f9, 0.9649);
+			border-radius: 5px;
+		}
+		
+		> .edit-message {
+			$color: $dark-gray;
+			
+			display: flex;
+			align-items: center;
+			opacity: 0.7;
+			
+			> svg {
+				margin-right: 8px;
+				fill: $color;
+				transform: scale(1.2);
+			}
+			
+			> p {
+				font-weight: bold;
+				color: $color;
+			}
+		}
+		
+		> .stats {
+			display: flex;
+			align-items: center;
+			
+			> svg {
+				margin-right: 6px;
+			}
+		}
+	}
+}

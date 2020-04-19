@@ -22,13 +22,15 @@ export default class CardUserData implements CardUserDataConstructor {
 	}
 	
 	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) =>
-		new CardUserData({
-			isNew: snapshot.get('new') ?? true,
-			sectionId: snapshot.get('section') ?? '',
-			dueDate: snapshot.get('due')?.toDate() ?? new Date(),
-			streak: snapshot.get('streak') ?? 0,
-			isMastered: snapshot.get('mastered') ?? false
-		})
+		snapshot.exists
+			? new CardUserData({
+				isNew: snapshot.get('new') ?? true,
+				sectionId: snapshot.get('section') ?? '',
+				dueDate: snapshot.get('due')?.toDate() ?? new Date(),
+				streak: snapshot.get('streak') ?? 0,
+				isMastered: snapshot.get('mastered') ?? false
+			})
+		: null
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.isNew = snapshot.get('new') ?? true
