@@ -106,6 +106,10 @@
 					> svg {
 						color: #4355f9;
 						
+						&.destructive {
+							color: #e53e3e;
+						}
+						
 						&.star {
 							margin-right: 12px;
 							transform: scale(1.5);

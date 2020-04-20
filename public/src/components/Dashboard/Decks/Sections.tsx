@@ -6,7 +6,7 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import useSections from '../../../hooks/useSections'
 import useExpandedSections from '../../../hooks/useExpandedSections'
 import SectionContent from './SectionContent'
-import UnlockSectionModal from '../../shared/UnlockSectionModal'
+import ConfirmationModal from '../../shared/ConfirmationModal'
 import ShareSectionModal from '../../shared/ShareSectionModal'
 
 export default ({ deck }: { deck: Deck }) => {
@@ -53,9 +53,20 @@ export default ({ deck }: { deck: Deck }) => {
 					}}
 				/>
 			))}
-			<UnlockSectionModal
-				deck={deck}
-				section={selectedSection}
+			<ConfirmationModal
+				title="Unlock section"
+				message={
+					<>Are you sure you want to unlock <span>{selectedSection?.name ?? '...'}</span>?</>
+				}
+				onConfirm={() => {
+					if (!(currentUser && selectedSection))
+						return
+					
+					deck.unlockSectionForUserWithId(currentUser.id, selectedSection)
+					setIsUnlockSectionModalShowing(false)
+				}}
+				buttonText="Unlock"
+				buttonBackground="#4355f9"
 				isShowing={isUnlockSectionModalShowing}
 				setIsShowing={setIsUnlockSectionModalShowing}
 			/>

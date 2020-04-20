@@ -10,6 +10,7 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import useImageUrl from '../../../hooks/useImageUrl'
 import CreateSectionModal from './CreateSectionModal'
 import ShareDeckModal from '../../shared/ShareDeckModal'
+import ConfirmationModal from '../../shared/ConfirmationModal'
 import Dropdown, { DropdownShadow } from '../../shared/Dropdown'
 import { formatNumber } from '../../../utils'
 
@@ -23,6 +24,7 @@ export default ({ deck }: { deck: Deck | null }) => {
 	
 	const [isCreateSectionModalShowing, setIsCreateSectionModalShowing] = useState(false)
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
+	const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false)
 	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(false)
 	
 	const isFavorite = deck?.userData?.isFavorite ?? false
@@ -71,12 +73,12 @@ export default ({ deck }: { deck: Deck | null }) => {
 				)}
 				<div className="divider" />
 				<button onClick={() => console.log('Remove from library')}>
-					<FontAwesomeIcon icon={faTimes} className="remove" />
+					<FontAwesomeIcon icon={faTimes} className="destructive remove" />
 					<p>Remove from library</p>
 				</button>
 				{isOwner && (
-					<button onClick={() => console.log('Permanently delete')}>
-						<FontAwesomeIcon icon={faTrash} className="delete" />
+					<button onClick={() => setIsDeleteModalShowing(true)}>
+						<FontAwesomeIcon icon={faTrash} className="destructive delete" />
 						<p>Permanently delete</p>
 					</button>
 				)}
@@ -93,6 +95,22 @@ export default ({ deck }: { deck: Deck | null }) => {
 						isShowing={isShareModalShowing}
 						setIsShowing={setIsShareModalShowing}
 					/>
+					{isOwner && currentUser && (
+						<ConfirmationModal
+							title="Permanently delete deck"
+							message="Are you sure? You cannot recover this deck."
+							onConfirm={() => {
+								deck.delete(currentUser.id)
+								
+								setIsOptionsDropdownShowing(false)
+								setIsDeleteModalShowing(false)
+							}}
+							buttonText="Delete"
+							buttonBackground="#e53e3e"
+							isShowing={isDeleteModalShowing}
+							setIsShowing={setIsDeleteModalShowing}
+						/>
+					)}
 				</>
 			)}
 		</div>

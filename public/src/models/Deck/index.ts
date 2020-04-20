@@ -426,4 +426,16 @@ export default class Deck implements DeckData {
 		
 		return batch.commit()
 	}
+	
+	delete = (uid: string) => {
+		if (this.creatorId !== uid)
+			return
+		
+		const batch = firestore.batch()
+		
+		batch.delete(firestore.doc(`decks/${this.id}`))
+		batch.delete(firestore.doc(`users/${uid}/decks/${this.id}`))
+		
+		return batch.commit()
+	}
 }

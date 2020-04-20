@@ -36,6 +36,9 @@ export default (
 	const numberOfDueCards = deck.numberOfCardsDueForSection(section)
 	const isOwner = deck.creatorId === currentUser?.id
 	
+	const canReorderUp = section.index > 0
+	const canReorderDown = section.index < numberOfSections - 1
+	
 	const onClick = () => {
 		toggleExpanded()
 		setDegrees(degrees + 180)
@@ -59,9 +62,9 @@ export default (
 					<FontAwesomeIcon icon={isHoveringLock ? faUnlock : faLock} />
 				</button>
 			)}
-			{isOwner && !section.isUnsectioned && (
+			{isOwner && (canReorderUp || canReorderDown) && (
 				<div className="reorder">
-					{section.index === 0 || (
+					{canReorderUp && (
 						<button onClick={event => {
 							event.stopPropagation()
 							reorder(-1)
@@ -69,7 +72,7 @@ export default (
 							<FontAwesomeIcon icon={faAngleUp} />
 						</button>
 					)}
-					{section.index < numberOfSections - 1 && (
+					{canReorderDown && (
 						<button onClick={event => {
 							event.stopPropagation()
 							reorder(1)

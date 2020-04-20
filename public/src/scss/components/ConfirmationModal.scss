@@ -2,7 +2,7 @@
 @import '../mixins';
 @import '../functions';
 
-@include modal-content('unlock-section') {
+@include modal-content('confirmation') {
 	background: white;
 	border-radius: 8px;
 	
@@ -69,12 +69,11 @@
 			font-weight: bold;
 			text-transform: uppercase;
 			color: white;
-			background: #4355f9;
 			transition: background 0.3s;
 			
 			&:hover,
 			&:focus {
-				background: #051e34;
+				background: #051e34 !important;
 			}
 		}
 	}
