@@ -94,7 +94,12 @@ export default () => {
 	}, [currentUser, isShowing, callback, setIsShowing, setCallback])
 	
 	return (
-		<Modal className="auth" isShowing={isShowing} setIsShowing={setIsShowing}>
+		<Modal
+			className="auth"
+			isLazy={false}
+			isShowing={isShowing}
+			setIsShowing={setIsShowing}
+		>
 			<div className="header">
 				<h2 className="title">
 					Change your life today

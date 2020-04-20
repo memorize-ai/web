@@ -22,6 +22,7 @@ export default (
 	return (
 		<Modal
 			className="share-section"
+			isLazy={false}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>
@@ -42,10 +43,10 @@ export default (
 				</p>
 				<div className="box">
 					<FontAwesomeIcon icon={faLink} />
-					<p>https://memorize.ai/d/{deck.slug}/u/{section?.id ?? '...'}</p>
+					<p>https://memorize.ai/d/{deck.slugId}/{deck.slug}/u/{section?.id ?? '...'}</p>
 				</div>
 				<CopyToClipboard
-					text={`https://memorize.ai/d/${deck.slug}/u/${section?.id ?? '...'}`}
+					text={`https://memorize.ai/d/${deck.slugId}/${deck.slug}/u/${section?.id ?? '...'}`}
 				>
 					<button className="copy" onClick={() => setDidCopy(true)}>
 						{didCopy ? 'Copied!' : 'Copy'}

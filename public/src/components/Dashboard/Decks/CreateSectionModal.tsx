@@ -49,6 +49,7 @@ export default (
 	return (
 		<Modal
 			className="create-section"
+			isLazy={true}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>

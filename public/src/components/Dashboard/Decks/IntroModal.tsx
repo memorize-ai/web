@@ -22,6 +22,7 @@ export default () => {
 	return (
 		<Modal
 			className="deck-intro"
+			isLazy={true}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useRef, useEffect } from 'react'
+import React, { PropsWithChildren, useRef, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import useKeyPress from '../../hooks/useKeyPress'
@@ -6,8 +6,9 @@ import useKeyPress from '../../hooks/useKeyPress'
 import '../../scss/components/Modal.scss'
 
 export default (
-	{ className, isShowing, setIsShowing, children }: PropsWithChildren<{
+	{ className, isLazy, isShowing, setIsShowing, children }: PropsWithChildren<{
 		className?: string
+		isLazy: boolean
 		isShowing: boolean
 		setIsShowing: (isShowing: boolean) => void
 	}>
@@ -16,6 +17,7 @@ export default (
 	const content = useRef(null as HTMLDivElement | null)
 	
 	const shouldHide = useKeyPress(27) // Escape
+	const [shouldShowContent, setShouldShowContent] = useState(!isLazy)
 	
 	useEffect(() => {
 		const { body } = document
@@ -40,6 +42,8 @@ export default (
 		
 		if (!isShowing)
 			return
+		
+		setShouldShowContent(true)
 		
 		const { body } = document
 		
@@ -68,7 +72,7 @@ export default (
 	
 	return createPortal((
 		<div ref={content} className="content">
-			{children}
+			{shouldShowContent && children}
 		</div>
 	), element.current)
 }
