@@ -26,14 +26,14 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 import '../../../scss/components/Dashboard/DeckPage.scss'
 
 export const urlForDeckPage = (deck: Deck) =>
-	`/d/${deck.slug}`
+	`/d/${deck.slugId}/${deck.slug}`
 
 export default () => {
 	const history = useHistory()
-	const { slug } = useParams()
+	const { slugId } = useParams()
 	const [{ query, sortAlgorithm }] = useSearchState()
 	
-	const { deck, hasDeck } = useDeck(slug)
+	const { deck, hasDeck } = useDeck(slugId)
 	
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
 	

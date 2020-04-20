@@ -45,7 +45,7 @@ export default (
 				setGetLoadingState(LoadingState.Success)
 				
 				if (!hasDeck)
-					history.push(urlWithQuery(`/decks/${deck.slug}`, {
+					history.push(urlWithQuery(`/decks/${deck.slugId}/${deck.slug}`, {
 						new: '1'
 					}))
 			} catch (error) {
@@ -96,7 +96,7 @@ export default (
 									>
 										Remove
 									</Button>
-									<Link to={`/decks/${deck.slug}`} className="open">
+									<Link to={`/decks/${deck.slugId}/${deck.slug}`} className="open">
 										Open
 									</Link>
 								</>

@@ -61,7 +61,7 @@ export default ({ deck }: { deck: Deck | null }) => {
 					/>
 					<p>{isFavorite ? 'Unf' : 'F'}avorite ({formatNumber(deck?.numberOfFavorites ?? 0)})</p>
 				</button>
-				<Link to={`/d/${deck?.slug ?? ''}`}>
+				<Link to={`/d/${deck?.slugId ?? ''}/${deck?.slug ?? ''}`}>
 					<CartIcon className="cart" />
 					<p>Visit page</p>
 				</Link>

@@ -59,7 +59,7 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	const open = (event: MouseEvent) => {
 		event.preventDefault()
-		history.push(`/decks/${deck.slug}`)
+		history.push(`/decks/${deck.slugId}/${deck.slug}`)
 	}
 	
 	return (

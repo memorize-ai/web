@@ -9,21 +9,21 @@ import 'firebase/firestore'
 
 const firestore = firebase.firestore()
 
-export default (slug: string | null | undefined) => {
+export default (slugId: string | null | undefined) => {
 	const [{ decks, ownedDecks }, dispatch] = useContext(DecksContext)
 	
-	const deck = ownedDecks.find(deck => deck.slug === slug)
-		?? decks.find(deck => deck.slug === slug)
+	const deck = ownedDecks.find(deck => deck.slugId === slugId)
+		?? decks.find(deck => deck.slugId === slugId)
 	
 	useEffect(() => {
-		if (deck || !slug || Deck.isObserving[slug])
+		if (deck || !slugId || Deck.isObserving[slugId])
 			return
 		
-		Deck.isObserving[slug] = true
+		Deck.isObserving[slugId] = true
 		
 		firestore
 			.collection('decks')
-			.where('slug', '==', slug)
+			.where('slugId', '==', slugId)
 			.limit(1)
 			.onSnapshot(
 				snapshot => {
@@ -43,10 +43,10 @@ export default (slug: string | null | undefined) => {
 					console.error(error)
 				}
 			)
-	}, [deck, slug]) // eslint-disable-line
+	}, [deck, slugId]) // eslint-disable-line
 	
 	return {
 		deck: deck ?? null,
-		hasDeck: ownedDecks.some(deck => deck.slug === slug)
+		hasDeck: ownedDecks.some(deck => deck.slugId === slugId)
 	}
 }

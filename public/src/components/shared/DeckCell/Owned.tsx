@@ -28,7 +28,7 @@ export default ({ deck }: { deck: Deck }) => {
 		<Base
 			className="owned"
 			deck={deck}
-			href={`/decks/${deck.slug}`}
+			href={`/decks/${deck.slugId}/${deck.slug}`}
 			nameProps={{
 				style: { WebkitLineClamp: deck.subtitle ? 2 : 3 }
 			}}

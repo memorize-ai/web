@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { nanoid } from 'nanoid'
 
 import Search, { DeckSortAlgorithm as SortAlgorithm } from './Search'
 import UserData from './UserData'
@@ -14,6 +15,7 @@ const firestore = firebase.firestore()
 const storage = firebase.storage().ref()
 
 export interface DeckData {
+	slugId: string
 	slug: string
 	topics: string[]
 	hasImage: boolean
@@ -52,17 +54,19 @@ export interface CreateDeckData {
 export default class Deck implements DeckData {
 	static DEFAULT_IMAGE_URL: string = require('../../images/logos/icon.png')
 	static USELESS_WORDS_REGEX = /^(.|from|to|and|by|at|why|in)$/i
+	static SLUG_ID_LENGTH = 10
 	
 	/** Key is a user ID */
 	static isObservingOwned: Record<string, boolean> = {}
 	
-	/** Key is a deck slug */
+	/** Key is a deck slug ID */
 	static isObserving: Record<string, boolean> = {}
 	
 	/** Key is a deck ID */
 	static snapshotListeners: Record<string, () => void> = {}
 	
 	id: string
+	slugId: string
 	slug: string
 	topics: string[]
 	hasImage: boolean
@@ -94,6 +98,7 @@ export default class Deck implements DeckData {
 	
 	constructor(id: string, data: DeckData, userData: UserData | null = null) {
 		this.id = id
+		this.slugId = data.slugId
 		this.slug = data.slug
 		this.topics = data.topics
 		this.hasImage = data.hasImage
@@ -132,6 +137,7 @@ export default class Deck implements DeckData {
 		userData: UserData | null = null
 	) =>
 		new Deck(snapshot.id, {
+			slugId: snapshot.get('slugId'),
 			slug: snapshot.get('slug'),
 			topics: snapshot.get('topics'),
 			hasImage: snapshot.get('hasImage'),
@@ -211,14 +217,19 @@ export default class Deck implements DeckData {
 			}
 		)
 	
+	static createSlug = (name: string) => ({
+		slugId: nanoid(Deck.SLUG_ID_LENGTH),
+		slug: slugify(name)
+	})
+	
 	/** @returns The deck's slug */
 	static createForUserWithId = async (uid: string, data: CreateDeckData) => {
 		const doc = firestore.collection('decks').doc()
 		const deckId = doc.id
-		const slug = Deck.createSlug(deckId, data.name)
+		const slugParts = Deck.createSlug(data.name)
 		
 		await doc.set({
-			slug,
+			...slugParts,
 			topics: data.topics,
 			hasImage: Boolean(data.image),
 			name: data.name,
@@ -254,11 +265,8 @@ export default class Deck implements DeckData {
 			added: firebase.firestore.FieldValue.serverTimestamp()
 		})
 		
-		return slug
+		return slugParts
 	}
-	
-	static createSlug = (id: string, name: string) =>
-		`${slugify(name)}-${id}`
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.topics = snapshot.get('topics')

@@ -14,7 +14,7 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	return (
 		<Link
-			to={`/decks/${deck.slug}`}
+			to={`/decks/${deck.slugId}/${deck.slug}`}
 			className={cx({
 				selected: selectedDeck?.id === deck.id
 			})}

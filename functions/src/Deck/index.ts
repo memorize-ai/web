@@ -10,6 +10,7 @@ const storage = admin.storage().bucket()
 
 export default class Deck {
 	id: string
+	slugId: string
 	slug: string
 	topics: string[]
 	hasImage: boolean
@@ -37,6 +38,7 @@ export default class Deck {
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
 		this.id = snapshot.id
+		this.slugId = snapshot.get('slugId')
 		this.slug = snapshot.get('slug')
 		this.topics = snapshot.get('topics')
 		this.hasImage = snapshot.get('hasImage')
@@ -283,6 +285,7 @@ export default class Deck {
 		
 		return {
 			id: this.id,
+			slug_id: this.slugId,
 			slug: this.slug,
 			score: this.score,
 			topics: this.topics,

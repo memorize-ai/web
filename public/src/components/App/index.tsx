@@ -27,10 +27,10 @@ export default () => (
 			
 			<Route exact path="/new" component={CreateDeck} />
 			<Route exact path="/market" component={Market} />
-			<Route exact path={['/decks', '/decks/:slug']} component={Decks} />
+			<Route exact path={['/decks', '/decks/:slugId/:slug']} component={Decks} />
 			<Route exact path="/interests" component={Interests} />
 			
-			<Route exact path="/d/:slug" component={DeckPage} />
+			<Route exact path="/d/:slugId/:slug" component={DeckPage} />
 			
 			<Route exact path="/unsubscribe/:uid/:type" component={Unsubscribe} />
 			

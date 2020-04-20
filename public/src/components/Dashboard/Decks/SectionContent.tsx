@@ -36,7 +36,7 @@ export default (
 				reorder={reorder}
 			/>
 			{currentUser?.id === deck.creatorId && (
-				<Link to={`/decks/${deck.slug}/add${section.isUnsectioned ? '' : `/${section.id}`}`}>
+				<Link to={`/decks/${deck.slugId}/${deck.slug}/add${section.isUnsectioned ? '' : `/${section.id}`}`}>
 					Add cards
 				</Link>
 			)}

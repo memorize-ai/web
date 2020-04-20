@@ -80,7 +80,7 @@ export default () => {
 		try {
 			setCreateLoadingState(LoadingState.Loading)
 			
-			const slug = await Deck.createForUserWithId(currentUser.id, {
+			const { slugId, slug } = await Deck.createForUserWithId(currentUser.id, {
 				image,
 				name,
 				subtitle,
@@ -91,7 +91,7 @@ export default () => {
 			setCreateLoadingState(LoadingState.Success)
 			reset()
 			
-			history.push(`/decks/${slug}`)
+			history.push(`/decks/${slugId}/${slug}`)
 		} catch (error) {
 			setCreateLoadingState(LoadingState.Fail)
 			

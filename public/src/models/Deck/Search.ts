@@ -95,6 +95,7 @@ export default class Search {
 	
 	private static createDeckFromRawData = (data: RawSearchResultItemData) =>
 		new Deck(data.id.raw, {
+			slugId: data.slug_id?.raw,
 			slug: data.slug?.raw,
 			topics: data.topics?.raw,
 			hasImage: data.has_image?.raw === 'true',
