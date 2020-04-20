@@ -81,7 +81,11 @@ export default () => {
 					)
 				}
 			</div>
-			<div className="bottom">
+			<div
+				className="bottom"
+				aria-label="Earn XP by gaining popularity on your decks"
+				data-balloon-pos="up"
+			>
 				<div className="divider" />
 				<div className="content">
 					<p className="stats">

@@ -82,7 +82,12 @@ export default (
 						<div className="creator">
 							<UserIcon />
 							<p>{creatorName}</p>
-							<p>(lvl {creatorLevel})</p>
+							<p
+								aria-label="Earn XP by gaining popularity on your decks"
+								data-balloon-pos="up"
+							>
+								(lvl {creatorLevel})
+							</p>
 						</div>
 					</div>
 					<div className="right">
