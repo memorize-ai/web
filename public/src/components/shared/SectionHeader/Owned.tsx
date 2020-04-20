@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUnlock, faLock, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { faUnlock, faLock, faEllipsisV, faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
+import useCurrentUser from '../../../hooks/useCurrentUser'
 import ToggleExpandedButton from './ToggleExpandedButton'
 import Dropdown, { DropdownShadow } from '../Dropdown'
 import { formatNumber } from '../../../utils'
@@ -14,21 +15,26 @@ import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 import '../../../scss/components/SectionHeader/Owned.scss'
 
 export default (
-	{ deck, section, isExpanded, toggleExpanded, onUnlock, onShare }: {
+	{ deck, section, isExpanded, toggleExpanded, onUnlock, onShare, numberOfSections, reorder }: {
 		deck: Deck
 		section: Section
 		isExpanded: boolean
 		toggleExpanded: () => void
 		onUnlock: () => void
 		onShare: () => void
+		numberOfSections: number
+		reorder: (delta: number) => void
 	}
 ) => {
+	const [currentUser] = useCurrentUser()
+	
 	const [isHoveringLock, setIsHoveringLock] = useState(false)
 	const [degrees, setDegrees] = useState(0)
 	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(false)
 	
 	const isUnlocked = deck.isSectionUnlocked(section)
 	const numberOfDueCards = deck.numberOfCardsDueForSection(section)
+	const isOwner = deck.creatorId === currentUser?.id
 	
 	const onClick = () => {
 		toggleExpanded()
@@ -52,6 +58,26 @@ export default (
 				>
 					<FontAwesomeIcon icon={isHoveringLock ? faUnlock : faLock} />
 				</button>
+			)}
+			{isOwner && !section.isUnsectioned && (
+				<div className="reorder">
+					{section.index === 0 || (
+						<button onClick={event => {
+							event.stopPropagation()
+							reorder(-1)
+						}}>
+							<FontAwesomeIcon icon={faAngleUp} />
+						</button>
+					)}
+					{section.index < numberOfSections - 1 && (
+						<button onClick={event => {
+							event.stopPropagation()
+							reorder(1)
+						}}>
+							<FontAwesomeIcon icon={faAngleDown} />
+						</button>
+					)}
+				</div>
 			)}
 			<div className="name">
 				<p>{section.name}</p>

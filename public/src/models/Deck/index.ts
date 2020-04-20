@@ -408,4 +408,22 @@ export default class Deck implements DeckData {
 		firestore.doc(`users/${uid}/decks/${this.id}`).update({
 			favorite: !this.userData?.isFavorite
 		})
+	
+	reorderSection = (sections: Section[], section: Section, delta: number) => {
+		const sectionIds = sections.map(({ id }) => id)
+		
+		sectionIds.splice(section.index, 1)
+		sectionIds.splice(section.index + delta, 0, section.id)
+		
+		const batch = firestore.batch()
+		
+		sectionIds.forEach((sectionId, i) =>
+			batch.update(
+				firestore.doc(`decks/${this.id}/sections/${sectionId}`),
+				{ index: i }
+			)
+		)
+		
+		return batch.commit()
+	}
 }

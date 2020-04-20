@@ -11,6 +11,7 @@ import useImageUrl from '../../../hooks/useImageUrl'
 import CreateSectionModal from './CreateSectionModal'
 import ShareDeckModal from '../../shared/ShareDeckModal'
 import Dropdown, { DropdownShadow } from '../../shared/Dropdown'
+import { formatNumber } from '../../../utils'
 
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
@@ -56,7 +57,7 @@ export default ({ deck }: { deck: Deck | null }) => {
 						icon={isFavorite ? faStarFilled : faStarOutlined}
 						className="star"
 					/>
-					<p>{isFavorite ? 'Unf' : 'F'}avorite</p>
+					<p>{isFavorite ? 'Unf' : 'F'}avorite ({formatNumber(deck?.numberOfFavorites ?? 0)})</p>
 				</button>
 				<Link to={`/d/${deck?.slug ?? ''}`}>
 					<CartIcon className="cart" />

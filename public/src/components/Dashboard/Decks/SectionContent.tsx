@@ -10,12 +10,14 @@ import CardCell from '../../shared/CardCell/Owned'
 import Loader from '../../shared/Loader'
 
 export default (
-	{ deck, section, isExpanded, toggleExpanded, setSelectedSection }: {
+	{ deck, section, isExpanded, toggleExpanded, setSelectedSection, numberOfSections, reorder }: {
 		deck: Deck
 		section: Section
 		isExpanded: boolean
 		toggleExpanded: () => void
 		setSelectedSection: (action: 'share' | 'unlock') => void
+		numberOfSections: number
+		reorder: (delta: number) => void
 	}
 ) => {
 	const [currentUser] = useCurrentUser()
@@ -30,6 +32,8 @@ export default (
 				toggleExpanded={toggleExpanded}
 				onUnlock={() => setSelectedSection('unlock')}
 				onShare={() => setSelectedSection('share')}
+				numberOfSections={numberOfSections}
+				reorder={reorder}
 			/>
 			{currentUser?.id === deck.creatorId && (
 				<Link to={`/decks/${deck.slug}/add${section.isUnsectioned ? '' : `/${section.id}`}`}>

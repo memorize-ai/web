@@ -47,6 +47,10 @@ export default ({ deck }: { deck: Deck }) => {
 								break
 						}
 					}}
+					numberOfSections={_sections.length}
+					reorder={delta => {
+						deck.reorderSection(_sections, section, delta)
+					}}
 				/>
 			))}
 			<UnlockSectionModal

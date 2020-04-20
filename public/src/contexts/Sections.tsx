@@ -37,7 +37,7 @@ const reducer = (state: SectionsState, { type, payload }: SectionsAction) => {
 				])
 			}
 		}
-		case ActionType.UpdateCard: {
+		case ActionType.UpdateSection: {
 			const { deckId, snapshot } = payload as {
 				deckId: string
 				snapshot: firebase.firestore.DocumentSnapshot
@@ -54,7 +54,7 @@ const reducer = (state: SectionsState, { type, payload }: SectionsAction) => {
 				)
 			}
 		}
-		case ActionType.RemoveCard: {
+		case ActionType.RemoveSection: {
 			const { deckId, sectionId } = payload as {
 				deckId: string
 				sectionId: string

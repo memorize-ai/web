@@ -8,7 +8,7 @@
 	}
 	
 	> .unlock {
-		margin-right: 12px;
+		margin-right: 16px;
 		color: $dark-gray;
 		transform: scale(1.2);
 		transition: color 0.3s;
@@ -16,6 +16,35 @@
 		&:hover,
 		&:focus {
 			color: #4355f9;
+		}
+	}
+	
+	> .reorder {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-right: 12px;
+		
+		> button {
+			> svg {
+				color: $dark-gray;
+				transform: scale(1.2);
+				transition: color 0.3s, opacity 0.3s;
+			}
+			
+			&:hover > svg {
+				color: #4355f9;
+				opacity: 0.5;
+			}
+			
+			&:first-child {
+				margin-bottom: -5px;
+			}
+			
+			&:last-child {
+				margin-top: -5px;
+			}
 		}
 	}
 	
