@@ -18,7 +18,7 @@ import users from '../../../images/icons/users.svg'
 import '../../../scss/components/DeckCell/index.scss'
 import User from '../../../models/User'
 
-export default ({ deck }: { deck: Deck }) => {
+export default ({ deck, onRemove }: { deck: Deck, onRemove: () => void }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -37,7 +37,7 @@ export default ({ deck }: { deck: Deck }) => {
 			try {
 				setGetLoadingState(LoadingState.Loading)
 				
-				await deck[hasDeck ? 'remove' : 'get'](user.id)
+				await deck.get(user.id)
 				
 				setGetLoadingState(LoadingState.Success)
 			} catch (error) {
@@ -97,7 +97,10 @@ export default ({ deck }: { deck: Deck }) => {
 								loaderColor="white"
 								loading={getLoadingState === LoadingState.Loading}
 								disabled={false}
-								onClick={get}
+								onClick={event => {
+									event.preventDefault()
+									onRemove()
+								}}
 							>
 								Remove
 							</Button>

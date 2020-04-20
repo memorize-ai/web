@@ -11,6 +11,7 @@ import { DEFAULT_DECK_SORT_ALGORITHM } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
 import useSearchState from '../../../hooks/useSearchState'
 import useDeck from '../../../hooks/useDeck'
+import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
 import { DropdownShadow } from '../../shared/Dropdown'
@@ -21,6 +22,7 @@ import Controls from './Controls'
 import SimilarDecks from './SimilarDecks'
 import Cards from './Cards'
 import Loader from '../../shared/Loader'
+import RemoveDeckModal from '../../shared/RemoveDeckModal'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'
@@ -34,6 +36,7 @@ export default () => {
 	const [{ query, sortAlgorithm }] = useSearchState()
 	
 	const { deck, hasDeck } = useDeck(slugId)
+	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
 	
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
 	
@@ -92,17 +95,18 @@ export default () => {
 				{deck
 					? (
 						<>
-							<Header deck={deck} hasDeck={hasDeck} />
+							<Header deck={deck} hasDeck={hasDeck} removeDeck={() => removeDeck(deck)} />
 							{deck.numberOfCards > 0 && <Preview deck={deck} />}
 							<Footer deck={deck} />
 							<Controls deck={deck} hasDeck={hasDeck} />
-							<SimilarDecks deck={deck} />
+							<SimilarDecks deck={deck} removeDeck={removeDeck} />
 							<Cards deck={deck} />
 						</>
 					)
 					: <Loader size="24px" thickness="4px" color="#582efe" />
 				}
 			</div>
+			<RemoveDeckModal {...removeDeckModalProps} />
 		</Dashboard>
 	)
 }

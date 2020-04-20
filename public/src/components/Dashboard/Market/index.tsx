@@ -7,6 +7,7 @@ import InfiniteScroll from 'react-infinite-scroller'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useQuery from '../../../hooks/useQuery'
 import useSearchState from '../../../hooks/useSearchState'
+import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
 import Deck from '../../../models/Deck'
 import DeckSearch, {
 	DEFAULT_DECK_SORT_ALGORITHM,
@@ -19,6 +20,7 @@ import SortDropdown from '../../shared/SortDropdown'
 import { DropdownShadow } from '../../shared/Dropdown'
 import DeckRow from './DeckRow'
 import Loader from '../../shared/Loader'
+import RemoveDeckModal from '../../shared/RemoveDeckModal'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Market.scss'
@@ -42,6 +44,7 @@ export default () => {
 	const searchParams = useQuery()
 	
 	const [, setSearchState] = useSearchState()
+	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
 	
 	const query = searchParams.get('q') ?? ''
 	const sortAlgorithm = decodeDeckSortAlgorithm(
@@ -181,10 +184,15 @@ export default () => {
 					useWindow={false}
 				>
 					{decks.map(deck => (
-						<DeckRow key={deck.id} deck={deck} />
+						<DeckRow
+							key={deck.id}
+							deck={deck}
+							remove={() => removeDeck(deck)}
+						/>
 					))}
 				</InfiniteScroll>
 			</div>
+			<RemoveDeckModal {...removeDeckModalProps} />
 		</Dashboard>
 	)
 }

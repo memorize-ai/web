@@ -19,9 +19,10 @@ import { ReactComponent as DownloadIcon } from '../../../images/icons/download.s
 import { ReactComponent as UsersIcon } from '../../../images/icons/users.svg'
 
 export default (
-	{ deck, hasDeck }: {
+	{ deck, hasDeck, removeDeck }: {
 		deck: Deck
 		hasDeck: boolean
+		removeDeck: () => void
 	}
 ) => {
 	const history = useHistory()
@@ -43,14 +44,13 @@ export default (
 			try {
 				setGetLoadingState(LoadingState.Loading)
 				
-				await deck[hasDeck ? 'remove' : 'get'](user.id)
+				await deck.get(user.id)
 				
 				setGetLoadingState(LoadingState.Success)
 				
-				if (!hasDeck)
-					history.push(urlWithQuery(`/decks/${deck.slugId}/${deck.slug}`, {
-						new: '1'
-					}))
+				history.push(urlWithQuery(`/decks/${deck.slugId}/${deck.slug}`, {
+					new: '1'
+				}))
 			} catch (error) {
 				setGetLoadingState(LoadingState.Fail)
 				
@@ -65,7 +65,7 @@ export default (
 			setAuthModalIsShowing(true)
 			setAuthModalCallback(callback)
 		}
-	}, [setAuthModalIsShowing, setAuthModalCallback, currentUser, deck, hasDeck, history])
+	}, [setAuthModalIsShowing, setAuthModalCallback, currentUser, deck, history])
 	
 	return (
 		<div className="header">
@@ -101,7 +101,7 @@ export default (
 										loaderColor="white"
 										loading={getLoadingState === LoadingState.Loading}
 										disabled={false}
-										onClick={get}
+										onClick={removeDeck}
 									>
 										Remove
 									</Button>

@@ -7,8 +7,10 @@ import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
 import useRecommendedDecks from '../../../hooks/useRecommendedDecks'
+import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
 import OwnedDeckCell from '../../shared/DeckCell/Owned'
 import DeckCell from '../../shared/DeckCell'
+import RemoveDeckModal from '../../shared/RemoveDeckModal'
 import { formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Home.scss'
@@ -18,6 +20,7 @@ export default () => {
 	
 	const decks = useDecks()
 	const recommendedDecks = useRecommendedDecks(20)
+	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
 	
 	const dueCards = decks
 		.filter(deck => deck.userData?.numberOfDueCards)
@@ -81,7 +84,11 @@ export default () => {
 							{recommendedDecks
 								.filter((_, i) => !(i & 1))
 								.map(deck => (
-									<DeckCell key={deck.id} deck={deck} />
+									<DeckCell
+										key={deck.id}
+										deck={deck}
+										onRemove={() => removeDeck(deck)}
+									/>
 								))
 							}
 						</div>
@@ -89,13 +96,18 @@ export default () => {
 							{recommendedDecks
 								.filter((_, i) => i & 1)
 								.map(deck => (
-									<DeckCell key={deck.id} deck={deck} />
+									<DeckCell
+										key={deck.id}
+										deck={deck}
+										onRemove={() => removeDeck(deck)}
+									/>
 								))
 							}
 						</div>
 					</div>
 				</div>
 			)}
+			<RemoveDeckModal {...removeDeckModalProps} />
 		</Dashboard>
 	)
 }

@@ -17,7 +17,7 @@ import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
 import { ReactComponent as DownloadIcon } from '../../../images/icons/download.svg'
 import { ReactComponent as UsersIcon } from '../../../images/icons/users.svg'
 
-export default ({ deck }: { deck: Deck }) => {
+export default ({ deck, remove }: { deck: Deck, remove: () => void }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -38,7 +38,7 @@ export default ({ deck }: { deck: Deck }) => {
 			try {
 				setGetLoadingState(LoadingState.Loading)
 				
-				await deck[hasDeck ? 'remove' : 'get'](user.id)
+				await deck.get(user.id)
 				
 				setGetLoadingState(LoadingState.Success)
 			} catch (error) {
@@ -109,7 +109,10 @@ export default ({ deck }: { deck: Deck }) => {
 									loaderColor="white"
 									loading={getLoadingState === LoadingState.Loading}
 									disabled={false}
-									onClick={get}
+									onClick={event => {
+										event.preventDefault()
+										remove()
+									}}
 								>
 									Remove
 								</Button>

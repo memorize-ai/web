@@ -7,14 +7,14 @@ import { formatNumber } from '../../../utils'
 
 export const SIMILAR_DECKS_CHUNK_SIZE = 10
 
-export default ({ deck }: { deck: Deck }) => {
+export default ({ deck, removeDeck }: { deck: Deck, removeDeck: (deck: Deck) => void }) => {
 	const similarDecks = useSimilarDecks(deck, SIMILAR_DECKS_CHUNK_SIZE)
 	
 	const withFilter = (filter: (i: number) => any) =>
 		similarDecks
 			.filter((_, i) => filter(i))
 			.map(deck => (
-				<DeckCell key={deck.id} deck={deck} />
+				<DeckCell key={deck.id} deck={deck} onRemove={() => removeDeck(deck)} />
 			))
 	
 	return (

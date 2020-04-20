@@ -8,10 +8,12 @@ import cx from 'classnames'
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useImageUrl from '../../../hooks/useImageUrl'
+import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
 import CreateSectionModal from './CreateSectionModal'
 import ShareDeckModal from '../../shared/ShareDeckModal'
 import ConfirmationModal from '../../shared/ConfirmationModal'
 import Dropdown, { DropdownShadow } from '../../shared/Dropdown'
+import RemoveDeckModal from '../../shared/RemoveDeckModal'
 import { formatNumber } from '../../../utils'
 
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
@@ -26,6 +28,8 @@ export default ({ deck }: { deck: Deck | null }) => {
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
 	const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false)
 	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(false)
+	
+	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
 	
 	const isFavorite = deck?.userData?.isFavorite ?? false
 	const isOwner = currentUser && deck?.creatorId === currentUser.id
@@ -72,7 +76,7 @@ export default ({ deck }: { deck: Deck | null }) => {
 					</button>
 				)}
 				<div className="divider" />
-				<button onClick={() => console.log('Remove from library')}>
+				<button onClick={() => deck && removeDeck(deck)}>
 					<FontAwesomeIcon icon={faTimes} className="destructive remove" />
 					<p>Remove from library</p>
 				</button>
@@ -95,6 +99,7 @@ export default ({ deck }: { deck: Deck | null }) => {
 						isShowing={isShareModalShowing}
 						setIsShowing={setIsShareModalShowing}
 					/>
+					<RemoveDeckModal {...removeDeckModalProps} />
 					{isOwner && currentUser && (
 						<ConfirmationModal
 							title="Permanently delete deck"
