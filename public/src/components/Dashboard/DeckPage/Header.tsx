@@ -35,6 +35,9 @@ export default (
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
 	
+	const creatorName = creator?.name ?? '...'
+	const creatorLevel = creator ? formatNumber(creator.level ?? 0) : '...'
+	
 	const get = useCallback(() => {
 		const callback = async (user: User) => {
 			try {
@@ -78,7 +81,8 @@ export default (
 						</p>
 						<div className="creator">
 							<UserIcon />
-							<p>{creator?.name ?? '...'}</p>
+							<p>{creatorName}</p>
+							<p>(lvl {creatorLevel})</p>
 						</div>
 					</div>
 					<div className="right">

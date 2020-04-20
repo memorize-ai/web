@@ -129,8 +129,17 @@
 							}
 							
 							> p {
-								font-size: 20px;
-								font-weight: 600;
+								&:first-of-type {
+									font-size: 20px;
+									font-weight: 600;
+								}
+								
+								&:last-of-type {
+									margin-left: 8px;
+									font-size: 15px;
+									font-weight: bold;
+									color: #582efe;
+								}
 							}
 						}
 					}
