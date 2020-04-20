@@ -62,7 +62,7 @@ export default (
 					<FontAwesomeIcon icon={isHoveringLock ? faUnlock : faLock} />
 				</button>
 			)}
-			{isOwner && (canReorderUp || canReorderDown) && (
+			{isOwner && !section.isUnsectioned && (canReorderUp || canReorderDown) && (
 				<div className="reorder">
 					{canReorderUp && (
 						<button onClick={event => {
