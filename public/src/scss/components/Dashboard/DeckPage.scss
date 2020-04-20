@@ -625,7 +625,8 @@
 							
 							> .stars > svg {
 								cursor: pointer;
-								transform: scale(3);
+								color: #00d388;
+								transform: scale(2.5);
 								transition: opacity 0.3s;
 								
 								&:hover {

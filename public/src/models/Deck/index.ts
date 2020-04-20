@@ -403,4 +403,9 @@ export default class Deck implements DeckData {
 		return _.uniqBy(_.flatten(chunks), 'id')
 			.filter(deck => deck.id !== this.id)
 	}
+	
+	toggleFavorite = (uid: string) =>
+		firestore.doc(`users/${uid}/decks/${this.id}`).update({
+			favorite: !this.userData?.isFavorite
+		})
 }

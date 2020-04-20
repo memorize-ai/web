@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar as faStarFilled } from '@fortawesome/free-solid-svg-icons'
+import { faStar as faStarOutlined } from '@fortawesome/free-regular-svg-icons'
 import moment from 'moment'
 import TimeAgo from 'javascript-time-ago'
 import enLocale from 'javascript-time-ago/locale/en'
@@ -9,8 +12,6 @@ import Control from './Control'
 import Stars from '../../shared/Stars'
 import { formatNumber } from '../../../utils'
 
-import { ReactComponent as OutlinedStar } from '../../../images/icons/outlined-star.svg'
-import { ReactComponent as FilledStar } from '../../../images/icons/filled-star.svg'
 import { ReactComponent as GrayStar } from '../../../images/icons/gray-star.svg'
 
 TimeAgo.addLocale(enLocale)
@@ -94,9 +95,16 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 											setHoverRating(null)
 									}
 									
-									return (hoverRating ?? rating) >= i
-										? <FilledStar {...props} />
-										: <OutlinedStar {...props} />
+									return (
+										<FontAwesomeIcon
+											{...props}
+											icon={
+												(hoverRating ?? rating) >= i
+													? faStarFilled
+													: faStarOutlined
+											}
+										/>
+									)
 								})}
 							</div>
 						</div>
