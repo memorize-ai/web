@@ -75,6 +75,14 @@ export default <SchemaItems extends Thing[]>({
 						],
 						inLanguage: 'en-US'
 					},
+					{
+						'@type': 'Organization',
+						url: 'https://memorize.ai',
+						logo: 'https://memorize.ai/square.png',
+						sameAs: [
+							'https://twitter.com/memorize_ai'
+						]
+					},
 					...schemaItems
 				]
 			} as any} />
