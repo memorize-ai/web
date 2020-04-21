@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import requiresAuth from '../../../hooks/requiresAuth'
@@ -11,8 +12,9 @@ import useImageUrl from '../../../hooks/useImageUrl'
 import LoadingState from '../../../models/LoadingState'
 import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
 import { setDeckImageUrl, setDeckImageUrlLoadingState } from '../../../actions'
-import PublishDeckContent from '../../shared/PublishDeckContent'
 import Button from '../../shared/Button'
+import PublishDeckContent from '../../shared/PublishDeckContent'
+import Loader from '../../shared/Loader'
 
 import '../../../scss/components/Dashboard/EditDeck.scss'
 
@@ -108,7 +110,7 @@ export default () => {
 			gradientHeight="500px"
 		>
 			<div className="header">
-				<Link to={closeUrl}>
+				<Link to={closeUrl} className="close">
 					<FontAwesomeIcon icon={faTimes} />
 				</Link>
 				<h1>Edit <span>{deck?.name ?? 'deck'}</span></h1>
@@ -124,23 +126,29 @@ export default () => {
 				</Button>
 			</div>
 			<div className="content">
-				<div className="box">
-					<PublishDeckContent
-						imageUrl={imageUrl}
-						name={name}
-						subtitle={subtitle}
-						description={description}
-						topics={topics}
-						
-						setImage={image => {
-							setImageUrl(image && URL.createObjectURL(image))
-							setImage(image)
-						}}
-						setName={setName}
-						setSubtitle={setSubtitle}
-						setDescription={setDescription}
-						setTopics={setTopics}
-					/>
+				<div className={cx('box', { loading: !deck })}>
+					{deck
+						? (
+							<PublishDeckContent
+								isImageLoading={existingImageUrlLoadingState === LoadingState.Loading}
+								imageUrl={imageUrl}
+								name={name}
+								subtitle={subtitle}
+								description={description}
+								topics={topics}
+								
+								setImage={image => {
+									setImageUrl(image && URL.createObjectURL(image))
+									setImage(image)
+								}}
+								setName={setName}
+								setSubtitle={setSubtitle}
+								setDescription={setDescription}
+								setTopics={setTopics}
+							/>
+						)
+						: <Loader size="24px" thickness="4px" color="#582efe" />
+					}
 				</div>
 			</div>
 		</Dashboard>

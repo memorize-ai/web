@@ -57,6 +57,7 @@
 		> .box {
 			@include shadow-lg;
 			
+			height: max-content;
 			padding: 30px;
 			background: white;
 			border-radius: 8px;
