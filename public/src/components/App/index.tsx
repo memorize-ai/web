@@ -27,7 +27,15 @@ export default () => (
 			
 			<Route exact path="/new" component={CreateDeck} />
 			<Route exact path="/market" component={Market} />
-			<Route exact path={['/decks', '/decks/:slugId/:slug']} component={Decks} />
+			<Route
+				exact
+				path={[
+					'/decks',
+					'/decks/:slugId/:slug',
+					'/decks/:slugId/:slug/u/:sectionId'
+				]}
+				component={Decks}
+			/>
 			<Route exact path="/interests" component={Interests} />
 			
 			<Route exact path="/d/:slugId/:slug" component={DeckPage} />
@@ -36,7 +44,6 @@ export default () => (
 			
 			<Route status={404} component={CatchAll} />
 		</Switch>
-		
 		<AuthModal />
 	</BrowserRouter>
 )

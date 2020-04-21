@@ -14,7 +14,7 @@ if (require.main === module)
 		}
 		
 		for (const deck of (await firestore.collection('decks').get()).docs)
-			urls[`/d/${deck.get('slug')}`] = {
+			urls[`/d/${deck.get('slugId')}/${deck.get('slug')}`] = {
 				type: 'max',
 				lastmod: deck.get('updated').toDate().toISOString()
 			}
