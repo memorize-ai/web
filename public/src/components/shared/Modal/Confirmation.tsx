@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react'
 
-import Modal from './Modal'
+import Modal from '.'
 
-import { ReactComponent as TimesIcon } from '../../images/icons/times.svg'
+import { ReactComponent as TimesIcon } from '../../../images/icons/times.svg'
 
-import '../../scss/components/ConfirmationModal.scss'
+import '../../../scss/components/Modal/Confirmation.scss'
 
 export default (
 	{ title, message, onConfirm, buttonText, buttonBackground, isShowing, setIsShowing }: {

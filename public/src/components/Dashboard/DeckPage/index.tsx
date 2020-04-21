@@ -22,7 +22,7 @@ import Controls from './Controls'
 import SimilarDecks from './SimilarDecks'
 import Cards from './Cards'
 import Loader from '../../shared/Loader'
-import RemoveDeckModal from '../../shared/RemoveDeckModal'
+import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'

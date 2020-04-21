@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 import useQuery from '../../../hooks/useQuery'
-import Modal from '../../shared/Modal'
-import Screenshot, { ScreenshotType } from '../../shared/Screenshot'
-import {APP_STORE_URL } from '../../../constants'
+import Modal from '.'
+import Screenshot, { ScreenshotType } from '../Screenshot'
+import { APP_STORE_URL } from '../../../constants'
+
+import '../../../scss/components/Modal/DeckIntro.scss'
 
 export default () => {
 	const history = useHistory()

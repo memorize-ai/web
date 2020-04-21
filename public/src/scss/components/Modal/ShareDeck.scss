@@ -1,7 +1,6 @@
-@import '../variables';
-@import '../mixins';
+@import '../../mixins';
 
-@include modal-content('share-section') {
+@include modal-content('share-deck') {
 	overflow: hidden;
 	margin: 30px;
 	background: white;
@@ -45,16 +44,6 @@
 		align-items: center;
 		overflow-y: auto;
 		padding: 30px;
-		
-		> .message {
-			width: 100%;
-			margin-bottom: 12px;
-			color: $dark-gray;
-			
-			> span {
-				font-weight: bold;
-			}
-		}
 		
 		> .box {
 			display: flex;

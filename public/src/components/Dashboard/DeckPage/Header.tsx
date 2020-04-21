@@ -10,7 +10,7 @@ import useCreator from '../../../hooks/useCreator'
 import useAuthModal from '../../../hooks/useAuthModal'
 import Button from '../../shared/Button'
 import Stars from '../../shared/Stars'
-import ShareDeckModal from '../../shared/ShareDeckModal'
+import ShareDeckModal from '../../shared/Modal/ShareDeck'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'

@@ -16,7 +16,7 @@ import Unsubscribe from '../Unsubscribe'
 
 import CatchAll from '../404'
 
-import AuthModal from '../shared/AuthModal'
+import AuthModal from '../shared/Modal/Auth'
 
 export default () => (
 	<BrowserRouter>

@@ -6,8 +6,9 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import useSections from '../../../hooks/useSections'
 import useExpandedSections from '../../../hooks/useExpandedSections'
 import SectionContent from './SectionContent'
-import ConfirmationModal from '../../shared/ConfirmationModal'
-import ShareSectionModal from '../../shared/ShareSectionModal'
+import ConfirmationModal from '../../shared/Modal/Confirmation'
+import RenameSectionModal from '../../shared/Modal/RenameSection'
+import ShareSectionModal from '../../shared/Modal/ShareSection'
 
 export default ({ deck }: { deck: Deck }) => {
 	const [currentUser] = useCurrentUser()
@@ -77,6 +78,12 @@ export default ({ deck }: { deck: Deck }) => {
 				buttonBackground="#4355f9"
 				isShowing={isUnlockSectionModalShowing}
 				setIsShowing={setIsUnlockSectionModalShowing}
+			/>
+			<RenameSectionModal
+				deck={deck}
+				section={selectedSection}
+				isShowing={isRenameSectionModalShowing}
+				setIsShowing={setIsRenameSectionModalShowing}
 			/>
 			<ConfirmationModal
 				title="Delete section"

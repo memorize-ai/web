@@ -4,20 +4,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle, faUser, faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import firebase from '../../firebase'
-import LoadingState from '../../models/LoadingState'
-import AuthenticationMode from '../../models/AuthenticationMode'
-import useAuthModal from '../../hooks/useAuthModal'
-import useCurrentUser from '../../hooks/useCurrentUser'
-import Modal from './Modal'
-import Button from './Button'
-import Input from './Input'
+import firebase from '../../../firebase'
+import LoadingState from '../../../models/LoadingState'
+import AuthenticationMode from '../../../models/AuthenticationMode'
+import useAuthModal from '../../../hooks/useAuthModal'
+import useCurrentUser from '../../../hooks/useCurrentUser'
+import Modal from '.'
+import Button from '../Button'
+import Input from '../Input'
 
 import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/analytics'
 
-import '../../scss/components/AuthModal.scss'
+import '../../../scss/components/Modal/Auth.scss'
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()

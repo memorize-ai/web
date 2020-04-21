@@ -1,9 +1,9 @@
 import React, { PropsWithChildren, useRef, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-import useKeyPress from '../../hooks/useKeyPress'
+import useKeyPress from '../../../hooks/useKeyPress'
 
-import '../../scss/components/Modal.scss'
+import '../../../scss/components/Modal/index.scss'
 
 export default (
 	{ className, isLazy, isShowing, setIsShowing, children }: PropsWithChildren<{

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Deck from '../../models/Deck'
-import useCurrentUser from '../../hooks/useCurrentUser'
-import ConfirmationModal from './ConfirmationModal'
+import Deck from '../../../models/Deck'
+import useCurrentUser from '../../../hooks/useCurrentUser'
+import ConfirmationModal from './Confirmation'
 
 export interface RemoveDeckModalProps {
 	deck: Deck | null

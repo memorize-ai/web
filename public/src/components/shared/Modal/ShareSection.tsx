@@ -3,35 +3,32 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle, faLink } from '@fortawesome/free-solid-svg-icons'
 
-import Deck from '../../models/Deck'
-import useCurrentUser from '../../hooks/useCurrentUser'
-import Modal from './Modal'
+import Deck from '../../../models/Deck'
+import Section from '../../../models/Section'
+import Modal from '.'
 
-import '../../scss/components/ShareDeckModal.scss'
+import '../../../scss/components/Modal/ShareSection.scss'
 
 export default (
-	{ deck, isShowing, setIsShowing }: {
+	{ deck, section, isShowing, setIsShowing }: {
 		deck: Deck
+		section: Section | null
 		isShowing: boolean
 		setIsShowing: (isShowing: boolean) => void
 	}
 ) => {
-	const [currentUser] = useCurrentUser()
 	const [didCopy, setDidCopy] = useState(false)
 	
 	return (
 		<Modal
-			className="share-deck"
+			className="share-section"
 			isLazy={false}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>
 			<div className="header">
 				<h2 className="title">
-					{currentUser?.id === deck.creatorId
-						? 'Promote your deck!'
-						: 'Like this deck? Share it!'
-					}
+					Share unlock link
 				</h2>
 				<button
 					className="hide"
@@ -41,11 +38,16 @@ export default (
 				</button>
 			</div>
 			<div className="content">
+				<p className="message">
+					This link unlocks <span>{section?.name ?? '...'}</span> when visited.
+				</p>
 				<div className="box">
 					<FontAwesomeIcon icon={faLink} />
-					<p>https://memorize.ai/d/{deck.slugId}/{deck.slug}</p>
+					<p>https://memorize.ai/d/{deck.slugId}/{deck.slug}/u/{section?.id ?? '...'}</p>
 				</div>
-				<CopyToClipboard text={`https://memorize.ai/d/${deck.slugId}/${deck.slug}`}>
+				<CopyToClipboard
+					text={`https://memorize.ai/d/${deck.slugId}/${deck.slug}/u/${section?.id ?? '...'}`}
+				>
 					<button className="copy" onClick={() => setDidCopy(true)}>
 						{didCopy ? 'Copied!' : 'Copy'}
 					</button>

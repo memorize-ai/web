@@ -9,7 +9,7 @@ import useAllCards from '../../../hooks/useAllCards'
 import SectionHeader from '../../shared/SectionHeader'
 import CardCell from '../../shared/CardCell'
 import Loader from '../../shared/Loader'
-import ShareSectionModal from '../../shared/ShareSectionModal'
+import ShareSectionModal from '../../shared/Modal/ShareSection'
 import { formatNumber } from '../../../utils'
 
 export default ({ deck }: { deck: Deck }) => {

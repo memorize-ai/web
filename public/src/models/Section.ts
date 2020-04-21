@@ -97,6 +97,9 @@ export default class Section implements SectionData {
 		return this
 	}
 	
+	rename = (deck: Deck, name: string) =>
+		firestore.doc(`decks/${deck.id}/sections/${this.id}`).update({ name })
+	
 	delete = (deck: Deck) =>
 		firestore.doc(`decks/${deck.id}/sections/${this.id}`).delete()
 }

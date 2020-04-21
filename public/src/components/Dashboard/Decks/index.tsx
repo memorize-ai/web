@@ -9,7 +9,7 @@ import useDecks from '../../../hooks/useDecks'
 import Header from './Header'
 import Sections from './Sections'
 import Loader from '../../shared/Loader'
-import IntroModal from './IntroModal'
+import IntroModal from '../../shared/Modal/DeckIntro'
 
 import '../../../scss/components/Dashboard/Decks.scss'
 

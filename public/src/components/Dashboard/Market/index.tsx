@@ -20,7 +20,7 @@ import SortDropdown from '../../shared/SortDropdown'
 import { DropdownShadow } from '../../shared/Dropdown'
 import DeckRow from './DeckRow'
 import Loader from '../../shared/Loader'
-import RemoveDeckModal from '../../shared/RemoveDeckModal'
+import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Market.scss'

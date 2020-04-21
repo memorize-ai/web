@@ -10,7 +10,7 @@ import useRecommendedDecks from '../../../hooks/useRecommendedDecks'
 import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
 import OwnedDeckCell from '../../shared/DeckCell/Owned'
 import DeckCell from '../../shared/DeckCell'
-import RemoveDeckModal from '../../shared/RemoveDeckModal'
+import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
 import { formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Home.scss'

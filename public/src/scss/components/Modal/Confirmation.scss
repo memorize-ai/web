@@ -1,6 +1,6 @@
-@import '../variables';
-@import '../mixins';
-@import '../functions';
+@import '../../variables';
+@import '../../mixins';
+@import '../../functions';
 
 @include modal-content('confirmation') {
 	background: white;
