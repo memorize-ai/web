@@ -8,9 +8,7 @@ if (require.main === module)
 	(async () => {
 		const urls = {
 			'': { type: 'max' },
-			'/market': { type: 'high' },
-			'/decks': { type: 'low' },
-			'/interests': { type: 'low' }
+			'/market': { type: 'high' }
 		}
 		
 		for (const deck of (await firestore.collection('decks').get()).docs)
