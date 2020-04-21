@@ -51,8 +51,8 @@ export default class User implements UserData {
 	
 	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) =>
 		new User(snapshot.id, {
-			name: snapshot.get('name'),
-			email: snapshot.get('email'),
+			name: snapshot.get('name') ?? '(error)',
+			email: snapshot.get('email') ?? '(error)',
 			numberOfDecks: snapshot.get('deckCount') ?? 0,
 			xp: snapshot.get('xp') ?? 0,
 			interestIds: snapshot.get('topics') ?? [],

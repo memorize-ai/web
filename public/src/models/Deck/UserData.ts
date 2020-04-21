@@ -29,7 +29,7 @@ export default class DeckUserData implements DeckUserDataConstructor {
 	
 	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) =>
 		new DeckUserData({
-			dateAdded: snapshot.get('added')?.toDate(),
+			dateAdded: snapshot.get('added')?.toDate() ?? new Date(),
 			isFavorite: snapshot.get('favorite') ?? false,
 			numberOfDueCards: snapshot.get('dueCardCount') ?? 0,
 			numberOfUnsectionedDueCards: snapshot.get('unsectionedDueCardCount') ?? 0,

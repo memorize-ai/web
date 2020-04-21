@@ -28,8 +28,8 @@ export default class Section implements SectionData {
 	
 	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) =>
 		new Section(snapshot.id, {
-			name: snapshot.get('name'),
-			index: snapshot.get('index'),
+			name: snapshot.get('name') ?? '(error)',
+			index: snapshot.get('index') ?? 0,
 			numberOfCards: snapshot.get('cardCount') ?? 0
 		})
 	

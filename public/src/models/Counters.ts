@@ -19,7 +19,7 @@ export default class Counters {
 		
 		if (currentValue === null)
 			firestore.doc(`counters/${key}`).get().then(snapshot =>
-				dispatch(setCounterKey(key, snapshot.get('value')))
+				dispatch(setCounterKey(key, snapshot.get('value') ?? 0))
 			)
 		
 		return currentValue
