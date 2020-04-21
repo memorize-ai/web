@@ -1,5 +1,7 @@
 import React from 'react'
 import { DropzoneRootProps, DropzoneInputProps } from 'react-dropzone'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import '../../scss/components/ImagePicker.scss'
@@ -29,7 +31,7 @@ export default (
 						event.stopPropagation()
 						removeImage()
 					}}>
-						&times;
+						<FontAwesomeIcon icon={faTimesCircle} />
 					</button>
 				</>
 			)

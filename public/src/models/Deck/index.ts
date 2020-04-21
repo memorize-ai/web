@@ -440,7 +440,7 @@ export default class Deck implements DeckData {
 	 * - `image = null`: Remove image
 	 * - `image = undefined`: Do nothing
 	 */
-	edit = (
+	edit = async (
 		uid: string,
 		{ image, name, subtitle, description, topics }: {
 			image: File | null | undefined
@@ -450,7 +450,10 @@ export default class Deck implements DeckData {
 			topics: string[]
 		}
 	) => {
-		const didChangeImage = image !== undefined
+		const storageChild = image === undefined
+			? undefined
+			: storage.child(`/decks/${this.id}`)
+		
 		const updateData: Record<string, any> = {
 			topics,
 			name,
@@ -458,16 +461,14 @@ export default class Deck implements DeckData {
 			description
 		}
 		
-		if (didChangeImage)
+		if (storageChild)
 			updateData.hasImage = image !== null
 		
 		const promises: PromiseLike<any>[] = [
 			firestore.doc(`decks/${this.id}`).update(updateData)
 		]
 		
-		if (didChangeImage) {
-			const storageChild = storage.child(`/decks/${this.id}`)
-			
+		if (storageChild)
 			promises.push(
 				image
 					? storageChild.put(image, {
@@ -476,9 +477,10 @@ export default class Deck implements DeckData {
 					})
 					: storageChild.delete()
 			)
-		}
 		
-		return Promise.all(promises)
+		await Promise.all(promises)
+		
+		return image && await storageChild!.getDownloadURL()
 	}
 	
 	delete = (uid: string) => {

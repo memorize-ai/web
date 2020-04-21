@@ -9,14 +9,11 @@
 	align-content: center;
 	width: $dimension;
 	height: $dimension;
+	cursor: pointer;
 	background: #eee;
 	
 	&.dragging {
 		animation: image-picker-pulse ease-in-out infinite alternate 0.3s;
-	}
-	
-	&:not(.has-image) {
-		cursor: pointer;
 	}
 	
 	&,
@@ -48,18 +45,19 @@
 	}
 	
 	> button {
-		$spacing: 8px;
-		$dimension: 30px;
-		
 		position: absolute;
-		top: $spacing;
-		right: $spacing;
-		width: $dimension;
-		height: $dimension;
-		line-height: $dimension;
-		color: white;
-		background: transparentize($red-400, 0.25);
-		border-radius: 50%;
+		top: 12px;
+		right: 15px;
+		
+		> svg {
+			color: transparentize($red-400, 0.25);
+			transform: scale(1.8);
+			transition: transform 0.3s;
+		}
+		
+		&:hover > svg {
+			transform: scale(2.2);
+		}
 	}
 }
 
