@@ -435,6 +435,52 @@ export default class Deck implements DeckData {
 		return batch.commit()
 	}
 	
+	/**
+	 * - `image = File`: Update image
+	 * - `image = null`: Remove image
+	 * - `image = undefined`: Do nothing
+	 */
+	edit = (
+		uid: string,
+		{ image, name, subtitle, description, topics }: {
+			image: File | null | undefined
+			name: string
+			subtitle: string
+			description: string
+			topics: string[]
+		}
+	) => {
+		const didChangeImage = image !== undefined
+		const updateData: Record<string, any> = {
+			topics,
+			name,
+			subtitle,
+			description
+		}
+		
+		if (didChangeImage)
+			updateData.hasImage = image !== null
+		
+		const promises: PromiseLike<any>[] = [
+			firestore.doc(`decks/${this.id}`).update(updateData)
+		]
+		
+		if (didChangeImage) {
+			const storageChild = storage.child(`/decks/${this.id}`)
+			
+			promises.push(
+				image
+					? storageChild.put(image, {
+						contentType: image.type,
+						customMetadata: { owner: uid }
+					})
+					: storageChild.delete()
+			)
+		}
+		
+		return Promise.all(promises)
+	}
+	
 	delete = (uid: string) => {
 		if (this.creatorId !== uid)
 			return

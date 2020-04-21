@@ -70,10 +70,10 @@ export default ({ deck }: { deck: Deck | null }) => {
 					<p>Visit page</p>
 				</Link>
 				{isOwner && (
-					<button onClick={() => console.log('Edit deck')}>
+					<Link to={`/edit/${deck?.slugId ?? ''}/${deck?.slug ?? ''}`}>
 						<EditIcon className="edit" />
 						<p>Edit deck</p>
-					</button>
+					</Link>
 				)}
 				<div className="divider" />
 				<button onClick={() => deck && removeDeck(deck)}>
