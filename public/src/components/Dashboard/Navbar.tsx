@@ -117,6 +117,9 @@ export default ({ selection }: { selection: Selection }) => {
 						<button className="sign-out" onClick={signOut}>
 							Sign out
 						</button>
+						<a href="mailto:support@memorize.ai" className="contact-us">
+							Contact us at <span>support@memorize.ai</span>
+						</a>
 					</Dropdown>
 				)
 				: (
