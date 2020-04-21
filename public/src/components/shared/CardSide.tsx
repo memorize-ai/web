@@ -12,6 +12,13 @@ export default ({ className, children, ...props }: { children: string } & HTMLAt
 		
 		renderMathInElement(element)
 		highlightAllUnder(element)
+		
+		element.querySelectorAll('figure.image').forEach(figure => {
+			const image = figure.querySelector('img')
+			
+			if (image)
+				image.onerror = figure.remove.bind(figure)
+		})
 	}, [children]) // eslint-disable-line
 	
 	return (
