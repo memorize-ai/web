@@ -1,4 +1,4 @@
-import Category, { categoryFromString, imageUrlFromCategory } from './Category'
+import Category, { categoryFromString, imageUrlFromCategory, defaultCategory } from './Category'
 import firebase from '../../firebase'
 
 import 'firebase/firestore'
@@ -23,8 +23,8 @@ export default class Topic {
 	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) =>
 		new Topic(
 			snapshot.id,
-			snapshot.get('name'),
-			snapshot.get('category')
+			snapshot.get('name') ?? '(error)',
+			snapshot.get('category') ?? defaultCategory
 		)
 	
 	static observeAll = (
