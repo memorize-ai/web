@@ -24,6 +24,8 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	const [selectedSection, setSelectedSection] = useState(null as Section | null)
 	const [isUnlockSectionModalShowing, setIsUnlockSectionModalShowing] = useState(false)
+	const [isRenameSectionModalShowing, setIsRenameSectionModalShowing] = useState(false)
+	const [isDeleteSectionModalShowing, setIsDeleteSectionModalShowing] = useState(false)
 	const [isShareSectionModalShowing, setIsShareSectionModalShowing] = useState(false)
 	
 	return (
@@ -41,6 +43,12 @@ export default ({ deck }: { deck: Deck }) => {
 						switch (action) {
 							case 'unlock':
 								setIsUnlockSectionModalShowing(true)
+								break
+							case 'rename':
+								setIsRenameSectionModalShowing(true)
+								break
+							case 'delete':
+								setIsDeleteSectionModalShowing(true)
 								break
 							case 'share':
 								setIsShareSectionModalShowing(true)
@@ -69,6 +77,23 @@ export default ({ deck }: { deck: Deck }) => {
 				buttonBackground="#4355f9"
 				isShowing={isUnlockSectionModalShowing}
 				setIsShowing={setIsUnlockSectionModalShowing}
+			/>
+			<ConfirmationModal
+				title="Delete section"
+				message={
+					<>Are you sure you want to delete <span>{selectedSection?.name ?? '...'}</span>?</>
+				}
+				onConfirm={() => {
+					if (!(deck && selectedSection))
+						return
+					
+					selectedSection.delete(deck)
+					setIsDeleteSectionModalShowing(false)
+				}}
+				buttonText="Delete"
+				buttonBackground="#e53e3e"
+				isShowing={isDeleteSectionModalShowing}
+				setIsShowing={setIsDeleteSectionModalShowing}
 			/>
 			<ShareSectionModal
 				deck={deck}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUnlock, faLock, faEllipsisV, faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { faUnlock, faLock, faEllipsisV, faAngleUp, faAngleDown, faTrash } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
@@ -11,16 +11,19 @@ import Dropdown, { DropdownShadow } from '../Dropdown'
 import { formatNumber } from '../../../utils'
 
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
+import { ReactComponent as PencilIcon } from '../../../images/icons/pencil.svg'
 
 import '../../../scss/components/SectionHeader/Owned.scss'
 
 export default (
-	{ deck, section, isExpanded, toggleExpanded, onUnlock, onShare, numberOfSections, reorder }: {
+	{ deck, section, isExpanded, toggleExpanded, onUnlock, onRename, onDelete, onShare, numberOfSections, reorder }: {
 		deck: Deck
 		section: Section
 		isExpanded: boolean
 		toggleExpanded: () => void
 		onUnlock: () => void
+		onRename: () => void
+		onDelete: () => void
 		onShare: () => void
 		numberOfSections: number
 		reorder: (delta: number) => void
@@ -108,15 +111,44 @@ export default (
 					>
 						<ShareIcon />
 					</button>
-					<Dropdown
-						className="options"
-						shadow={DropdownShadow.Around}
-						trigger={<FontAwesomeIcon icon={faEllipsisV} />}
-						isShowing={isOptionsDropdownShowing}
-						setIsShowing={setIsOptionsDropdownShowing}
-					>
-						Options
-					</Dropdown>
+					{(isOwner || !isUnlocked) && (
+						<Dropdown
+							className="options"
+							shadow={DropdownShadow.Around}
+							trigger={<FontAwesomeIcon icon={faEllipsisV} />}
+							isShowing={isOptionsDropdownShowing}
+							setIsShowing={setIsOptionsDropdownShowing}
+						>
+							{isUnlocked || (
+								<button
+									onClick={onUnlock}
+									onMouseEnter={() => setIsHoveringLock(true)}
+									onMouseLeave={() => setIsHoveringLock(false)}
+								>
+									<FontAwesomeIcon
+										icon={isHoveringLock ? faUnlock : faLock}
+										className="unlock"
+									/>
+									<p>Unlock</p>
+								</button>
+							)}
+							{isOwner && !isUnlocked && (
+								<div className="divider" />
+							)}
+							{isOwner && (
+								<>
+									<button onClick={onRename}>
+										<PencilIcon className="rename" />
+										<p>Rename</p>
+									</button>
+									<button onClick={onDelete}>
+										<FontAwesomeIcon icon={faTrash} className="delete" />
+										<p>Delete</p>
+									</button>
+								</>
+							)}
+						</Dropdown>
+					)}
 				</>
 			)}
 		</div>

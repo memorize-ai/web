@@ -9,13 +9,15 @@ import useCards from '../../../hooks/useCards'
 import CardCell from '../../shared/CardCell/Owned'
 import Loader from '../../shared/Loader'
 
+export type SetSelectedSectionAction = 'unlock' | 'rename' | 'delete' | 'share'
+
 export default (
 	{ deck, section, isExpanded, toggleExpanded, setSelectedSection, numberOfSections, reorder }: {
 		deck: Deck
 		section: Section
 		isExpanded: boolean
 		toggleExpanded: () => void
-		setSelectedSection: (action: 'share' | 'unlock') => void
+		setSelectedSection: (action: SetSelectedSectionAction) => void
 		numberOfSections: number
 		reorder: (delta: number) => void
 	}
@@ -31,6 +33,8 @@ export default (
 				isExpanded={isExpanded}
 				toggleExpanded={toggleExpanded}
 				onUnlock={() => setSelectedSection('unlock')}
+				onRename={() => setSelectedSection('rename')}
+				onDelete={() => setSelectedSection('delete')}
 				onShare={() => setSelectedSection('share')}
 				numberOfSections={numberOfSections}
 				reorder={reorder}

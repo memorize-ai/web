@@ -96,4 +96,7 @@ export default class Section implements SectionData {
 		
 		return this
 	}
+	
+	delete = (deck: Deck) =>
+		firestore.doc(`decks/${deck.id}/sections/${this.id}`).delete()
 }
