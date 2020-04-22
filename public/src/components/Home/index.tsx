@@ -38,7 +38,7 @@ export default () => {
 		
 		setAuthModalIsShowing(true)
 		setAuthModalCallback(() => history.push(next))
-	}, [next, setAuthModalIsShowing, setAuthModalCallback, history])
+	}, [next]) // eslint-disable-line
 	
 	return (
 		<div className="home-root">

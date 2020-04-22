@@ -46,7 +46,7 @@ export default ({ selection }: { selection: Selection }) => {
 		try {
 			await auth.signOut()
 			
-			window.location.reload()
+			window.location.href = '/'
 		} catch (error) {
 			alert(error.message)
 			console.error(error)
