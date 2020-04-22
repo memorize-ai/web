@@ -4,5 +4,7 @@ import Card from '../../../models/Card'
 import Base from './Base'
 
 export default ({ card }: { card: Card }) => (
-	<Base className="default" card={card} />
+	<div className="card-cell default">
+		<Base card={card} />
+	</div>
 )

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
 import TimeAgo from 'javascript-time-ago'
@@ -18,27 +19,22 @@ TimeAgo.addLocale(enLocale)
 
 const timeAgo = new TimeAgo('en-US')
 
-export default (
-	{ deck, card, onClick }: {
-		deck: Deck
-		card: Card
-		onClick: () => void
-	}
-) => {
+export default ({ deck, card }: { deck: Deck, card: Card }) => {
 	const [currentUser] = useCurrentUser()
 	
 	const { userData, isDue } = card
 	const isOwner = currentUser?.id === deck.creatorId
 	const isNew = userData?.isNew ?? true
 	
-	return (
-		<Base
-			className={cx('owned', { owner: isOwner })}
-			card={card}
-			onClick={() => isOwner && onClick()}
-			aria-label={isDue ? 'Download our iOS app to review' : undefined}
-			data-balloon-pos={isDue ? 'up' : undefined}
-		>
+	const props = {
+		className: cx('card-cell', 'owned', { owner: isOwner }),
+		'aria-label': isDue ? 'Download our iOS app to review' : undefined,
+		'data-balloon-pos': isDue ? 'up' : undefined
+	}
+	
+	const content = (
+		<>
+			<Base card={card} />
 			{isDue && <div className="due-badge" />}
 			{(userData || isOwner) && (
 				<div className={cx('footer', { 'has-user-data': userData })}>
@@ -68,6 +64,17 @@ export default (
 					)}
 				</div>
 			)}
-		</Base>
+		</>
 	)
+	
+	return isOwner
+		? (
+			<Link
+				{...props}
+				to={`/decks/${deck.slugId}/${deck.slug}/edit/${card.id}`}
+			>
+				{content}
+			</Link>
+		)
+		: <div {...props}>{content}</div>
 }

@@ -8,6 +8,9 @@ import Support from '../Support'
 import CreateDeck from '../Dashboard/CreateDeck'
 import EditDeck from '../Dashboard/EditDeck'
 
+import AddCards from '../Dashboard/AddCards'
+import EditCard from '../Dashboard/EditCard'
+
 import Market from '../Dashboard/Market'
 import Decks from '../Dashboard/Decks'
 import Interests from '../Dashboard/Interests'
@@ -29,6 +32,16 @@ export default () => (
 			
 			<Route exact path="/new" component={CreateDeck} />
 			<Route exact path="/edit/:slugId/:slug" component={EditDeck} />
+			
+			<Route
+				exact
+				path={[
+					'/decks/:slugId/:slug/add',
+					'/decks/:slugId/:slug/add/:sectionId'
+				]}
+				component={AddCards}
+			/>
+			<Route exact path="/decks/:slugId/:slug/edit/:cardId" component={EditCard} />
 			
 			<Route exact path="/market" component={Market} />
 			<Route

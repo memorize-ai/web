@@ -1,6 +1,8 @@
 @import '../../functions';
 
 .card-cell {
+	display: block;
+	color: inherit;
 	background: white;
 	border: 2px solid #eee;
 	border-radius: 5px;

@@ -49,12 +49,7 @@ export default (
 					? (
 						<div className="cards">
 							{cards.map(card => (
-								<CardCell
-									key={card.id}
-									deck={deck}
-									card={card}
-									onClick={() => console.log('Edit card')}
-								/>
+								<CardCell key={card.id} deck={deck} card={card} />
 							))}
 						</div>
 					)

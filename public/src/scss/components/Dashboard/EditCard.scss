@@ -1,0 +1,110 @@
+@import '../../variables';
+@import '../../mixins';
+
+@include dashboard-content('edit-card') {
+	display: grid;
+	grid:
+		'header' auto
+		'content' 1fr /
+		auto;
+	
+	> .header,
+	> .content {
+		padding: 0 30px;
+	}
+	
+	> .header {
+		$height: 42px;
+		
+		grid-area: header;
+		display: flex;
+		align-items: center;
+		margin: 12px 4px;
+		
+		> .close {
+			display: grid;
+			justify-content: center;
+			align-content: center;
+			width: $height * 1.2;
+			height: $height;
+			margin-right: 12px;
+			border: 1.5px solid transparentize(#eee, 0.8376);
+			border-radius: 8px;
+			
+			> svg {
+				color: white;
+				transform: scale(1.3);
+				transition: opacity 0.3s;
+			}
+			
+			&:hover > svg {
+				opacity: 0.5;
+			}
+		}
+		
+		> h1 {
+			margin-right: auto;
+			font-weight: 900;
+			color: white;
+		}
+		
+		> .save,
+		> .delete {
+			height: $height;
+			border-radius: 8px;
+			transition: color 0.3s, background 0.3s, opacity 0.3s;
+			
+			&.disabled {
+				opacity: 0.8;
+			}
+			
+			&:not(.disabled):not(.loading) {
+				&:hover,
+				&:focus {
+					color: white;
+					background: #051e34;
+				}
+			}
+		}
+		
+		> .save {
+			margin-right: 12px;
+			padding: 0 12px;
+			font-weight: 800;
+			text-transform: uppercase;
+			color: #582efe;
+			background: white;
+		}
+		
+		> .delete {
+			width: $height;
+			color: white;
+			background: #e53e3e;
+			
+			> svg {
+				transform: scale(1.2);
+			}
+		}
+	}
+	
+	> .content {
+		grid-area: content;
+		overflow-y: auto;
+		padding-bottom: 30px;
+		
+		> .box {
+			@include shadow-lg;
+			
+			padding: 30px;
+			background: white;
+			border-radius: 8px;
+			
+			&.loading {
+				display: grid;
+				justify-content: center;
+				align-content: center;
+				height: 100%;
+			}
+		}
+	}
+}
