@@ -35,9 +35,10 @@ body {
 }
 
 #root {
-	transition: filter 0.3s;
+	transition: transform 0.3s, filter 0.3s;
 	
 	&.blurred {
+		transform: scale(1.005);
 		filter: blur(4px);
 	}
 }
