@@ -12,7 +12,8 @@ import Deck from '../../../models/Deck'
 import DeckSearch, {
 	DEFAULT_DECK_SORT_ALGORITHM,
 	decodeDeckSortAlgorithm,
-	nameForDeckSortAlgorithm
+	nameForDeckSortAlgorithm,
+	DeckSortAlgorithm
 } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
 import Input from '../../shared/Input'
@@ -148,9 +149,13 @@ export default () => {
 					setValue={newQuery =>
 						history.push(urlWithQuery('/market', {
 							q: newQuery,
-							s: sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-								? null
-								: sortAlgorithm
+							s: newQuery
+								? sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+									? DeckSortAlgorithm.Relevance
+									: sortAlgorithm
+								: sortAlgorithm === DeckSortAlgorithm.Relevance
+									? DEFAULT_DECK_SORT_ALGORITHM
+									: sortAlgorithm
 						}))
 					}
 				/>

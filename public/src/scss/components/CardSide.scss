@@ -1,4 +1,6 @@
 .card-side {
+	@import '~prismjs/themes/prism-okaidia';
+	
 	--ck-highlight-marker-blue: #72cdfd;
 	--ck-highlight-marker-green: #63f963;
 	--ck-highlight-marker-pink: #fc7999;

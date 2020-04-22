@@ -3,7 +3,6 @@
 @import '~balloon-css/src/balloon';
 @import '~aos/dist/aos';
 @import '~katex/dist/katex';
-@import '~prismjs/themes/prism-okaidia';
 
 @import 'variables';
 @import 'animations';
@@ -242,13 +241,6 @@ button {
 }
 
 fieldset {
-	margin: 0;
-	padding: 0;
-}
-
-ol,
-ul {
-	list-style: none;
 	margin: 0;
 	padding: 0;
 }
