@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useRef, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import useKeyPress from '../../../hooks/useKeyPress'
+import { ROOT_ELEMENT } from '../../../constants'
 
 import '../../../scss/components/Modal/index.scss'
 
@@ -57,10 +58,14 @@ export default (
 		}
 		
 		body.classList.add('clipped')
+		ROOT_ELEMENT?.classList.add('blurred')
+		
 		body.addEventListener('click', onClick)
 		
 		return () => {
 			body.classList.remove('clipped')
+			ROOT_ELEMENT?.classList.remove('blurred')
+			
 			body.removeEventListener('click', onClick)
 		}
 	}, [isShowing, setIsShowing])

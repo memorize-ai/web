@@ -52,7 +52,7 @@ export default (
 		<div
 			ref={newRef => ref.current = newRef}
 			className={cx('dropdown', className, { showing: isShowing })}
-			onClick={event => {event.stopPropagation();event.preventDefault()}}
+			onClick={event => event.stopPropagation()}
 		>
 			<button
 				className="trigger"

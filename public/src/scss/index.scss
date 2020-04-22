@@ -34,6 +34,14 @@ body {
 	}
 }
 
+#root {
+	transition: filter 0.3s;
+	
+	&.blurred {
+		filter: blur(4px);
+	}
+}
+
 hr {
 	border: none;
 	height: 2px;

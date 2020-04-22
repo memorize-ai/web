@@ -6,7 +6,7 @@
 	
 	> .content {
 		position: absolute;
-		z-index: $overlay-z-index;
+		z-index: $dropdown-z-index;
 		animation: dropdown-fade-in linear 0.1s;
 		
 		&:not(.right-aligned) {

@@ -18,6 +18,7 @@ import { AuthModalProvider } from './contexts/AuthModal'
 import { CreatorsProvider } from './contexts/Creators'
 import App from './components/App'
 import firebase from './firebase'
+import { ROOT_ELEMENT } from './constants'
 
 import 'firebase/analytics'
 
@@ -56,6 +57,6 @@ ReactDOM.render((
 			</SectionsProvider>
 		</DecksProvider>
 	</CurrentUserProvider>
-), document.getElementById('root'))
+), ROOT_ELEMENT)
 
 serviceWorker.register()
