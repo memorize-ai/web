@@ -53,7 +53,7 @@ export default () => {
 				productID: deck?.slug,
 				name: deck?.name,
 				description: deck?.description,
-				url: `https://memorize.ai/d/${deck?.slug ?? ''}`,
+				url: `https://memorize.ai/d/${deck?.slugId ?? ''}/${deck?.slug ?? ''}`,
 				aggregateRating: {
 					'@type': 'AggregateRating'
 				}
