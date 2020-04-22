@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -20,6 +20,8 @@ import '../../../scss/components/Dashboard/EditDeck.scss'
 
 export default () => {
 	requiresAuth()
+	
+	const didUpdateFromDeck = useRef(false)
 	
 	const { slugId, slug } = useParams()
 	const history = useHistory()
@@ -48,8 +50,10 @@ export default () => {
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
 	
 	useEffect(() => {
-		if (!deck)
+		if (!deck || didUpdateFromDeck.current)
 			return
+		
+		didUpdateFromDeck.current = true
 		
 		setName(deck.name)
 		setSubtitle(deck.subtitle)

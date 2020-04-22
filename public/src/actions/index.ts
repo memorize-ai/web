@@ -122,6 +122,11 @@ export const setCards = (parentId: string, cards: Card[]) => ({
 	payload: { parentId, cards }
 })
 
+export const setCard = (snapshot: firebase.firestore.DocumentSnapshot) => ({
+	type: ActionType.SetCard,
+	payload: snapshot
+})
+
 export const addCard = (parentId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
 	type: ActionType.AddCard,
 	payload: { parentId, snapshot }

@@ -23,23 +23,32 @@ body ::after {
 	outline: none !important;
 }
 
+body,
+.ck :not(pre):not(code) {
+	font-family: $font-family !important;
+}
+
 body {
 	margin: 0;
 	overscroll-behavior: none;
-	font-family: $font-family;
 	
-	&.clipped {
+	&.clipped,
+	&.modal-showing {
 		overflow: hidden;
+	}
+	
+	&.modal-showing #root {
+		transform: scale(1.005);
+		filter: blur(4px);
 	}
 }
 
 #root {
 	transition: transform 0.3s, filter 0.3s;
-	
-	&.blurred {
-		transform: scale(1.005);
-		filter: blur(4px);
-	}
+}
+
+.ck.ck-content * {
+	font-weight: initial;
 }
 
 hr {
@@ -79,7 +88,7 @@ abbr[title] {
 
 b,
 strong {
-	font-weight: bolder;
+	font-weight: bolder !important;
 }
 
 code,

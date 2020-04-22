@@ -17,6 +17,7 @@ export interface CardData {
 }
 
 export default class Card implements CardData {
+	static isObserving: Record<string, boolean> = {}
 	static snapshotListeners: Record<string, () => void> = {}
 	static observers: Record<string, boolean> = {}
 	
@@ -166,4 +167,23 @@ export default class Card implements CardData {
 		
 		return this
 	}
+	
+	edit = (
+		{ deck, section, front, back }: {
+			deck: Deck
+			section: Section | null
+			front: string
+			back: string
+		}
+	) => {
+		const data: Record<string, any> = { front, back }
+		
+		if (section)
+			data.section = section.id
+		
+		return firestore.doc(`decks/${deck.id}/cards/${this.id}`).update(data)
+	}
+	
+	delete = (deck: Deck) =>
+		firestore.doc(`decks/${deck.id}/cards/${this.id}`).delete()
 }

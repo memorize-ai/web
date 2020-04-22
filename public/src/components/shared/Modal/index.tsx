@@ -2,7 +2,6 @@ import React, { PropsWithChildren, useRef, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import useKeyPress from '../../../hooks/useKeyPress'
-import { ROOT_ELEMENT } from '../../../constants'
 
 import '../../../scss/components/Modal/index.scss'
 
@@ -57,15 +56,11 @@ export default (
 			setIsShowing(false)
 		}
 		
-		body.classList.add('clipped')
-		ROOT_ELEMENT?.classList.add('blurred')
-		
+		body.classList.add('modal-showing')
 		body.addEventListener('click', onClick)
 		
 		return () => {
-			body.classList.remove('clipped')
-			ROOT_ELEMENT?.classList.remove('blurred')
-			
+			body.classList.remove('modal-showing')
 			body.removeEventListener('click', onClick)
 		}
 	}, [isShowing, setIsShowing])

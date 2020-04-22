@@ -3,11 +3,12 @@ import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'r
 import Action, { ActionType } from '../actions/Action'
 import Card from '../models/Card'
 
-export type CardsState = Record<string, Card[] | Record<string, Card[]>>
+export type CardsState = Record<string, Card | Card[] | Record<string, Card[]>>
 
 export type CardsAction = Action<
 	| string // InitializeCards
 	| { parentId: string, cards: Card[] } // SetCards
+	| firebase.firestore.DocumentSnapshot // SetCard
 	| { parentId: string, snapshot: firebase.firestore.DocumentSnapshot } // AddCard, UpdateCard, UpdateCardUserData
 	| { parentId: string, cardId: string } // RemoveCard
 >
@@ -40,6 +41,14 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 					]
 				}), {} as Record<string, Card[]>)
 			}
+		}
+		case ActionType.SetCard: {
+			const card = Card.fromSnapshot(
+				payload as firebase.firestore.DocumentSnapshot,
+				null
+			)
+			
+			return { ...state, [card.id]: card }
 		}
 		case ActionType.AddCard: {
 			const { parentId, snapshot } = payload as {

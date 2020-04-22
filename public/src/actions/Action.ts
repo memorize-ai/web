@@ -29,6 +29,7 @@ export enum ActionType {
 	
 	InitializeCards = 'INITIALIZE_CARDS',
 	SetCards = 'SET_CARDS',
+	SetCard = 'SET_CARD',
 	AddCard = 'ADD_CARD',
 	UpdateCard = 'UPDATE_CARD',
 	UpdateCardUserData = 'UPDATE_CARD_USER_DATA',
