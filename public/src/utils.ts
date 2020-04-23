@@ -48,10 +48,10 @@ export const formatNumber = (number: number) => {
 		toOneDecimalPlace(number / Math.pow(10, Math.min(3, Math.floor(logResult))))
 	
 	const formattedDecimalResult =
-		(isInt(decimalResult) ? Math.floor(decimalResult) : decimalResult).toString()
+		(Number.isInteger(decimalResult) ? Math.floor(decimalResult) : decimalResult).toString()
 	
 	if (logResult < 3)
-		return (isInt(number) ? Math.floor(number) : toOneDecimalPlace(number)).toString()
+		return (Number.isInteger(number) ? Math.floor(number) : toOneDecimalPlace(number)).toString()
 	
 	if (logResult < 6)
 		return `${formattedDecimalResult}k`
@@ -72,9 +72,6 @@ export const formatNumberAsInt = (number: number) =>
 
 export const toOneDecimalPlace = (number: number) =>
 	Math.round(number * 10) / 10
-
-export const isInt = (number: number) =>
-	number === Math.floor(number)
 
 export const randomEmoji = () =>
 	_.sample(EMOJIS) ?? EMOJIS[0]
