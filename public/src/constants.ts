@@ -1,6 +1,7 @@
 export const DEBUG = false
 
-export const EXPECTS_SIGN_IN_KEY = 'expectsSignIn'
+export const LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY = 'ai.memorize.expectsSignIn'
+export const LOCAL_STORAGE_IS_EDITOR_IN_ROW_KEY = 'ai.memorize.isEditorInRow'
 
 export const APP_STORE_URL = 'https://apps.apple.com/app/id1462251805'
 

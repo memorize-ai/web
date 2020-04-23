@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 import _ from 'lodash'
 
@@ -14,11 +14,13 @@ import useDecks from '../../../hooks/useDecks'
 import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
 import useCard from '../../../hooks/useCard'
+import useLocalStorageBoolean from '../../../hooks/useLocalStorageBoolean'
 import CKEditor from '../../shared/CKEditor'
 import Loader from '../../shared/Loader'
 import ConfirmationModal from '../../shared/Modal/Confirmation'
 
 import '../../../scss/components/Dashboard/EditCard.scss'
+import { LOCAL_STORAGE_IS_EDITOR_IN_ROW_KEY } from '../../../constants'
 
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
 
@@ -52,8 +54,16 @@ export default () => {
 	const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false)
 	const [isCloseModalShowing, setIsCloseModalShowing] = useState(false)
 	
+	const [isEditorInRow, setIsEditorInRow] = useLocalStorageBoolean(
+		LOCAL_STORAGE_IS_EDITOR_IN_ROW_KEY
+	)
+	
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
-	const isSameContent = front === card?.front && back === card?.back
+	const isSameContent = (
+		section?.id === card?.sectionId &&
+		front === card?.front &&
+		back === card?.back
+	)
 	
 	useEffect(() => {
 		if (!card)
@@ -136,6 +146,14 @@ export default () => {
 					className="save"
 					disabled={!(front && back) || isSameContent}
 					onClick={save}
+					aria-label={
+						front && back
+							? isSameContent
+								? 'You didn\'t change anything!'
+								: undefined
+							: 'Cards must have a front and a back'
+					}
+					data-balloon-pos="left"
 				>
 					Save
 				</button>
@@ -145,6 +163,21 @@ export default () => {
 			</div>
 			<div className="content">
 				<div className={cx('box', { loading: !(card && didUpdateFromCard) })}>
+					<div className="header">
+						<p className="name">
+							{deck?.name ?? 'Loading...'}
+						</p>
+						<button
+							className="row-toggle"
+							onClick={() => setIsEditorInRow(!isEditorInRow)}
+						>
+							<div className={cx('check', { on: isEditorInRow })}>
+								<FontAwesomeIcon icon={faCheck} />
+							</div>
+							<p>Side by side</p>
+						</button>
+					</div>
+					<label>Choose section</label>
 					<Select
 						className="section-select"
 						options={sections}
@@ -155,15 +188,35 @@ export default () => {
 						value={section}
 						onChange={setSection as any}
 					/>
-					{card && didUpdateFromCard
-						? (
-							<>
-								<CKEditor data={front} setData={setFront} />
-								<CKEditor data={back} setData={setBack} />
-							</>
-						)
-						: <Loader size="24px" thickness="4px" color="#582efe" />
-					}
+					<div className={cx('sides', { row: isEditorInRow })}>
+						{card && didUpdateFromCard
+							? (
+								<>
+									<div>
+										<div className="header">
+											<FontAwesomeIcon
+												className={cx({ valid: front })}
+												icon={front ? faCheck : faTimes}
+											/>
+											<label>Front</label>
+										</div>
+										<CKEditor data={front} setData={setFront} />
+									</div>
+									<div>
+										<div className="header">
+											<FontAwesomeIcon
+												className={cx({ valid: back })}
+												icon={back ? faCheck : faTimes}
+											/>
+											<label>Back</label>
+										</div>
+										<CKEditor data={back} setData={setBack} />
+									</div>
+								</>
+							)
+							: <Loader size="24px" thickness="4px" color="#582efe" />
+						}
+					</div>
 				</div>
 			</div>
 			<ConfirmationModal

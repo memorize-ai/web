@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { EXPECTS_SIGN_IN_KEY, EMOJIS } from './constants'
+import { LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, EMOJIS } from './constants'
 
 export const compose = <T extends any[], U, V>(
 	b: (u: U) => V,
@@ -11,12 +11,12 @@ export const sleep = (ms: number) =>
 	new Promise(resolve => setTimeout(resolve, ms))
 
 export const expectsSignIn = () =>
-	localStorage.getItem(EXPECTS_SIGN_IN_KEY) !== null
+	localStorage.getItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY) !== null
 
 export const setExpectsSignIn = (value: boolean) =>
 	value
-		? localStorage.setItem(EXPECTS_SIGN_IN_KEY, '1')
-		: localStorage.removeItem(EXPECTS_SIGN_IN_KEY)
+		? localStorage.setItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, '1')
+		: localStorage.removeItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY)
 
 export const urlWithQuery = (url: string, params: Record<string, string | null>) => {
 	const extension = Object.entries(params)

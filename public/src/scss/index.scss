@@ -5,6 +5,7 @@
 @import '~katex/dist/katex';
 
 @import 'variables';
+@import 'mixins';
 @import 'animations';
 
 html {
@@ -52,6 +53,22 @@ body {
 
 .ck.ck-content * {
 	font-weight: initial;
+}
+
+.ck.ck-editor {
+	height: 100%;
+}
+
+.ck.ck-editor__main {
+	height: calc(100% - 40.2px);
+}
+
+.ck.ck-editor__editable {
+	height: 100%;
+}
+
+@include ck-editor-dropdown {
+	flex-wrap: wrap;
 }
 
 pre,

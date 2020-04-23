@@ -1,7 +1,10 @@
 @import '../../variables';
 @import '../../mixins';
+@import '../../functions';
 
 @include dashboard-content('edit-card') {
+	$margin: 30px;
+	
 	display: grid;
 	grid:
 		'header' auto
@@ -10,7 +13,7 @@
 	
 	> .header,
 	> .content {
-		padding: 0 30px;
+		padding: 0 $margin;
 	}
 	
 	> .header {
@@ -83,6 +86,11 @@
 			text-transform: uppercase;
 			color: #582efe;
 			background: white;
+			
+			&::before,
+			&::after {
+				text-transform: none;
+			}
 		}
 		
 		> .delete {
@@ -99,20 +107,165 @@
 	> .content {
 		grid-area: content;
 		overflow-y: auto;
-		padding-bottom: 30px;
+		padding-bottom: $margin;
 		
 		> .box {
+			$min-row-width: 1350px;
+			
 			@include shadow-lg;
 			
-			padding: 30px;
+			padding: 16px raw-repeat(3, $margin);
 			background: white;
 			border-radius: 8px;
 			
 			&.loading {
-				display: grid;
-				justify-content: center;
-				align-content: center;
 				height: 100%;
+				
+				> .sides {
+					display: grid;
+					justify-content: center;
+					align-content: center;
+				}
+			}
+			
+			> .header > .name,
+			> .header > .row-toggle > p,
+			> label {
+				font-weight: bold;
+				color: $dark-gray;
+			}
+			
+			> .header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding-bottom: 16px;
+				margin-bottom: 16px;
+				border-bottom: 2px solid #eee;
+				
+				> .name {
+					font-size: larger;
+					font-weight: 900;
+				}
+				
+				> .row-toggle {
+					display: none;
+					align-items: center;
+					
+					@media (min-width: $min-row-width) {
+						display: flex;
+					}
+					
+					> .check {
+						$dimension: 25px;
+						
+						width: $dimension;
+						height: $dimension;
+						margin-right: 8px;
+						background: transparentize(#eee, 0.5);
+						border: 1px solid #ddd;
+						border-radius: 50%;
+						transition: background 0.3s, border 0.3s;
+						
+						> svg {
+							color: white;
+							opacity: 0;
+							transform: scale(0.9) translateX(0.5px);
+							transition: opacity 0.3s;
+						}
+						
+						&.on {
+							background: $green-400;
+							border-color: $green-400;
+							
+							> svg {
+								opacity: 1;
+							}
+						}
+					}
+				}
+			}
+			
+			> label {
+				display: block;
+				margin-bottom: 4px;
+			}
+			
+			> .section-select {
+				z-index: $dropdown-z-index;
+			}
+			
+			> hr {
+				margin: 20px 0;
+			}
+			
+			> .sides {
+				$space-between: 8px;
+				
+				display: flex;
+				flex-direction: column;
+				align-items: stretch;
+				
+				&.row {
+					@media (min-width: $min-row-width) {
+						flex-direction: row;
+						
+						> div {
+							width: 50%;
+							margin-top: 16px;
+							
+							> .ck.ck-editor {
+								@include ck-editor-dropdown {
+									width: calc(
+										(100vw - #{
+											$dashboard-sidebar-width + $margin * 4
+										}) / 2 -
+										#{16px + $space-between}
+									);
+								}
+							}
+							
+							&:not(:last-child) {
+								margin-right: $space-between;
+							}
+						}
+					}
+				}
+				
+				> div {
+					display: flex;
+					flex-direction: column;
+					margin-top: 18px;
+					
+					> .header {
+						display: flex;
+						align-items: center;
+						margin-bottom: 4px;
+						
+						> svg {
+							margin-right: 8px;
+							color: $red-600;
+							transform: scale(1.1);
+							
+							&.valid {
+								margin-right: 6px;
+								color: $green-400;
+								transform: none;
+							}
+						}
+						
+						> label {
+							font-weight: bold;
+							color: $dark-gray;
+						}
+					}
+					
+					> .ck.ck-editor {
+						@include ck-editor-dropdown {
+							width: calc(100vw - #{$dashboard-sidebar-width + $margin * 4 + 20px});
+						}
+					}
+				}
 			}
 		}
 	}
