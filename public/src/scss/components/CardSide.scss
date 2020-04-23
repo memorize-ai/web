@@ -10,6 +10,11 @@
 	--ck-image-style-spacing: 1.5em;
 	--ck-todo-list-checkmark-size: 16px;
 	
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	height: 100%;
+	
 	* {
 		font-weight: initial;
 	}

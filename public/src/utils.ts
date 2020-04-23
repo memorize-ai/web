@@ -80,8 +80,9 @@ export const randomEmoji = () =>
 	_.sample(EMOJIS) ?? EMOJIS[0]
 
 export const slugify = (string: string, delimiter: string = '-') =>
-	string
+	(string
 		.replace(/[\s\:\/\?#@\[\]\-_!\$&'\(\)\*\+\.\,;=]+/g, ' ') // eslint-disable-line
 		.trim()
 		.replace(/\s+/g, delimiter)
-		.toLowerCase() || delimiter
+		.toLowerCase()
+	) || delimiter.repeat(string.length)

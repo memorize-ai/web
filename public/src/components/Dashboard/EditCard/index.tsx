@@ -20,6 +20,8 @@ import ConfirmationModal from '../../shared/Modal/Confirmation'
 
 import '../../../scss/components/Dashboard/EditCard.scss'
 
+const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
+
 export default () => {
 	requiresAuth()
 	
@@ -50,6 +52,9 @@ export default () => {
 	const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false)
 	const [isCloseModalShowing, setIsCloseModalShowing] = useState(false)
 	
+	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
+	const isSameContent = front === card?.front && back === card?.back
+	
 	useEffect(() => {
 		if (!card)
 			return
@@ -69,8 +74,14 @@ export default () => {
 		}
 	}, [card, didUpdateFromCard, section, sections])
 	
-	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
-	const isSameContent = front === card?.front && back === card?.back
+	useEffect(() => {
+		if (isSameContent)
+			return
+		
+		window.onbeforeunload = () => CONFIRM_CLOSE_MESSAGE
+		
+		return () => { window.onbeforeunload = null }
+	}, [isSameContent])
 	
 	const close = () =>
 		history.push(closeUrl)
@@ -134,19 +145,19 @@ export default () => {
 			</div>
 			<div className="content">
 				<div className={cx('box', { loading: !(card && didUpdateFromCard) })}>
+					<Select
+						className="section-select"
+						options={sections}
+						getOptionLabel={_.property('name')}
+						getOptionValue={_.property('id')}
+						placeholder="Loading..."
+						isLoading={!section}
+						value={section}
+						onChange={setSection as any}
+					/>
 					{card && didUpdateFromCard
 						? (
 							<>
-								<Select
-									className="section-select"
-									options={sections}
-									getOptionLabel={_.property('name')}
-									getOptionValue={_.property('id')}
-									placeholder="Loading..."
-									isLoading={!section}
-									value={section}
-									onChange={setSection as any}
-								/>
 								<CKEditor data={front} setData={setFront} />
 								<CKEditor data={back} setData={setBack} />
 							</>
@@ -157,7 +168,7 @@ export default () => {
 			</div>
 			<ConfirmationModal
 				title="Go back"
-				message="Are you sure? You have unsaved changes that will be lost."
+				message={CONFIRM_CLOSE_MESSAGE}
 				onConfirm={() => {
 					setIsCloseModalShowing(false)
 					close()

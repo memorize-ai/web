@@ -3,20 +3,40 @@
 	src: url('../Muli-Regular.ttf') format('truetype');
 }
 
-body {
-	font-family: Muli, Arial, Helvetica, sans-serif !important;
-	margin-left: 12px !important;
-	margin-right: 12px !important;
+html {
+	line-height: 1.5;
 }
 
-body * {
+body,
+body *,
+body ::before,
+body ::after {
+	box-sizing: border-box;
+	text-rendering: optimizeLegibility;
+	border: none;
+	outline: none;
+}
+
+body,
+body ::before,
+body ::after,
+body :not(pre):not(code) {
 	font-family: Muli, Arial, Helvetica, sans-serif !important;
+}
+
+body {
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	min-height: 100vh;
+	margin: 0;
+	padding: 0 12px;
 }
 
 img {
-	max-width: calc(100vw - 12px * 2) !important;
+	max-width: 100%;
 }
 
 :focus {
-	outline: none !important;
+	outline: none;
 }

@@ -14,21 +14,6 @@ html {
 	background: $light-gray;
 }
 
-body,
-body *,
-body ::before,
-body ::after {
-	box-sizing: border-box;
-	text-rendering: optimizeLegibility;
-	border: none;
-	outline: none;
-}
-
-body,
-.ck :not(pre):not(code) {
-	font-family: $font-family !important;
-}
-
 body {
 	margin: 0;
 	overscroll-behavior: none;
@@ -41,6 +26,23 @@ body {
 	&.modal-showing #root {
 		transform: scale(1.005);
 		filter: blur(4px);
+	}
+	
+	&,
+	*,
+	::before,
+	::after {
+		box-sizing: border-box;
+		text-rendering: optimizeLegibility;
+		border: none;
+		outline: none;
+	}
+	
+	&,
+	::before,
+	::after,
+	:not(pre):not(code) {
+		font-family: $font-family !important;
 	}
 }
 

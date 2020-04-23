@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 
-export default (targetKeyCode: number) => {
+export default (...targetKeyCodes: number[]) => {
 	const [isPressed, setIsPressed] = useState(false)
 	
 	useEffect(() => {
 		const keyDown = ({ keyCode }: KeyboardEvent) =>
-			keyCode === targetKeyCode && setIsPressed(true)
+			targetKeyCodes.includes(keyCode) && setIsPressed(true)
 		
 		const keyUp = ({ keyCode }: KeyboardEvent) =>
-			keyCode === targetKeyCode && setIsPressed(false)
+			targetKeyCodes.includes(keyCode) && setIsPressed(false)
 		
 		window.addEventListener('keydown', keyDown)
 		window.addEventListener('keyup', keyUp)
@@ -17,7 +17,7 @@ export default (targetKeyCode: number) => {
 			window.removeEventListener('keydown', keyDown)
 			window.removeEventListener('keyup', keyUp)
 		}
-	}, [targetKeyCode])
+	}, [targetKeyCodes])
 	
 	return isPressed
 }

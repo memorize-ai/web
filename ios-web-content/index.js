@@ -4,32 +4,38 @@ const {
 	readFileSync: readFile,
 	writeFileSync: writeFile
 } = require('fs')
+const babelMinify = require('babel-minify')
 
-const minifyCss = require('uglifycss').processString
-const minifyJs = require('babel-minify')
+const minifyCSS = require('uglifycss').processFiles
+
+const minifyJS = paths =>
+	babelMinify(
+		paths.map(path => readFile(path).toString()).join('\n'),
+		{ mangle: false }
+	).code || '' 
 
 mkdir(join(__dirname, 'lib'))
 
 const bundles = {
 	display: {
 		css: [
-			readFile(join(__dirname, 'src/display/css/ckeditor-content-styles.css')).toString(),
-			readFile(join(__dirname, 'src/display/css/katex.css')).toString(),
-			readFile(join(__dirname, 'src/display/css/prism.css')).toString(),
-			readFile(join(__dirname, 'src/display/css/custom.css')).toString()
+			join(__dirname, 'src/display/css/ckeditor-content-styles.css'),
+			join(__dirname, 'src/display/css/katex.css'),
+			join(__dirname, 'src/display/css/prism.css'),
+			join(__dirname, 'src/display/css/custom.css')
 		],
 		js: [
-			readFile(join(__dirname, 'src/display/js/katex.js')).toString(),
-			readFile(join(__dirname, 'src/display/js/auto-render.js')).toString(),
-			readFile(join(__dirname, 'src/display/js/prism.js')).toString()
+			join(__dirname, 'src/display/js/katex.js'),
+			join(__dirname, 'src/display/js/auto-render.js'),
+			join(__dirname, 'src/display/js/prism.js')
 		]
 	},
 	editor: {
 		css: [
-			readFile(join(__dirname, 'src/editor/css/custom.css')).toString()
+			join(__dirname, 'src/editor/css/custom.css')
 		],
 		js: [
-			readFile(join(__dirname, 'src/editor/js/ckeditor.js')).toString()
+			join(__dirname, 'node_modules/ckeditor5-memorize.ai/build/ckeditor.js')
 		]
 	}
 }
@@ -39,10 +45,11 @@ for (const [bundle, { css, js }] of Object.entries(bundles)) {
 	
 	writeFile(
 		join(__dirname, `lib/${bundle}/index.css`),
-		minifyCss(css.join('\n'))
+		minifyCSS(css)
 	)
+	
 	writeFile(
 		join(__dirname, `lib/${bundle}/index.js`),
-		minifyJs(js.join('\n'), { mangle: false }).code || ''
+		minifyJS(js)
 	)
 }

@@ -15,6 +15,7 @@ import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 import { ReactComponent as LeftArrowHead } from '../../../images/icons/gray-left-arrow-head.svg'
 import { ReactComponent as RightArrowHead } from '../../../images/icons/gray-right-arrow-head.svg'
 import { sleep, formatNumber } from '../../../utils'
+import useKeyPress from '../../../hooks/useKeyPress'
 
 const BOX_TRANSFORM_X_LENGTH = 20
 
@@ -42,6 +43,13 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	const section = card && sections[card.sectionId]
 	const cardIndex = cards?.findIndex(({ id }) => id === card?.id)
+	
+	const shouldFlip = useKeyPress(38, 40, 32) // Up arrow, down arrow, space
+	const shouldGoLeft = useKeyPress(37) // Left arrow
+	const shouldGoRight = useKeyPress(39) // Right arrow
+	
+	const isLeftDisabled = !cardIndex
+	const isRightDisabled = cardIndex === undefined || cardIndex >= cards!.length - 1
 	
 	const setSection = useCallback((section: Section) => {
 		const newCard = cards?.find(card => card.sectionId === section.id)
@@ -95,7 +103,22 @@ export default ({ deck }: { deck: Deck }) => {
 			if (section.numberOfCards > 0)
 				return setSection(section)
 		}
-	}, [card, cards, deck, _sections, setSection])
+	}, [card, cards, deck, _sections]) // eslint-disable-line
+	
+	useEffect(() => {
+		if (shouldFlip)
+			toggleSide()
+	}, [shouldFlip]) // eslint-disable-line
+	
+	useEffect(() => {
+		if (shouldGoLeft && !isLeftDisabled)
+			nextCard(false)
+	}, [shouldGoLeft, isLeftDisabled]) // eslint-disable-line
+	
+	useEffect(() => {
+		if (shouldGoRight && !isRightDisabled)
+			nextCard(true)
+	}, [shouldGoRight, isRightDisabled]) // eslint-disable-line
 	
 	return (
 		<div className="preview">
@@ -147,7 +170,7 @@ export default ({ deck }: { deck: Deck }) => {
 				<div className="footer">
 					<button
 						className="left"
-						disabled={!cardIndex}
+						disabled={isLeftDisabled}
 						onClick={() => nextCard(false)}
 					>
 						<LeftArrowHead />
@@ -160,7 +183,7 @@ export default ({ deck }: { deck: Deck }) => {
 					</div>
 					<button
 						className="right"
-						disabled={cardIndex === undefined || cardIndex >= cards!.length - 1}
+						disabled={isRightDisabled}
 						onClick={() => nextCard(true)}
 					>
 						<RightArrowHead />

@@ -3,17 +3,33 @@
 	src: url('../Muli-Regular.ttf') format('truetype');
 }
 
-body {
-	font-family: Muli, Arial, Helvetica, sans-serif !important;
-	margin: 0 !important;
+html {
+	line-height: 1.5;
 }
 
-body * {
+body,
+body *,
+body ::before,
+body ::after {
+	box-sizing: border-box;
+	text-rendering: optimizeLegibility;
+	border: none;
+	outline: none;
+}
+
+body,
+body ::before,
+body ::after,
+body :not(pre):not(code) {
 	font-family: Muli, Arial, Helvetica, sans-serif !important;
+}
+
+body {
+	margin: 0;
 }
 
 .ck.ck-dropdown__panel.ck-dropdown__panel_sw > .ck.ck-toolbar > .ck.ck-toolbar__items {
-	width: calc(100vw - 10px * 2) !important;
+	width: calc(100vw - 20px) !important;
 	flex-wrap: wrap !important;
 }
 

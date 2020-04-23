@@ -348,27 +348,15 @@
 						}
 					}
 					
-					> .content,
-					> .toggle {
-						position: absolute;
-					}
-					
 					> .content {
-						$inset: 8px;
-						
-						display: grid;
-						justify-content: center;
-						align-content: center;
-						top: $inset;
-						right: $inset;
-						bottom: $inset;
-						left: $inset;
+						padding: 8px;
 					}
 					
 					> .toggle {
 						$inset: 20px;
 						
 						display: flex;
+						position: absolute;
 						align-items: flex-end;
 						right: $inset;
 						bottom: $inset;

@@ -5,7 +5,10 @@
 		"uglifycss": "^0.0.29"
 	},
 	"scripts": {
-		"build": "rm -rf lib && node . && cp -r src/display/fonts lib/display/fonts"
+		"build": "npm i && npm update && rm -rf lib && node . && cp -r src/display/fonts lib/display/fonts"
+	},
+	"dependencies": {
+		"ckeditor5-memorize.ai": "^1.0.3"
 	},
 	"private": true
 }
