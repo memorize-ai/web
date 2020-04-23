@@ -20,7 +20,7 @@ import Loader from '../../shared/Loader'
 import ConfirmationModal from '../../shared/Modal/Confirmation'
 
 import '../../../scss/components/Dashboard/EditCard.scss'
-import { LOCAL_STORAGE_IS_EDITOR_IN_ROW_KEY } from '../../../constants'
+import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from '../../../constants'
 
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
 
@@ -54,8 +54,8 @@ export default () => {
 	const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false)
 	const [isCloseModalShowing, setIsCloseModalShowing] = useState(false)
 	
-	const [isEditorInRow, setIsEditorInRow] = useLocalStorageBoolean(
-		LOCAL_STORAGE_IS_EDITOR_IN_ROW_KEY
+	const [isEditorStacked, setIsEditorStacked] = useLocalStorageBoolean(
+		LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY
 	)
 	
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
@@ -169,9 +169,9 @@ export default () => {
 						</p>
 						<button
 							className="row-toggle"
-							onClick={() => setIsEditorInRow(!isEditorInRow)}
+							onClick={() => setIsEditorStacked(!isEditorStacked)}
 						>
-							<div className={cx('check', { on: isEditorInRow })}>
+							<div className={cx('check', { on: !isEditorStacked })}>
 								<FontAwesomeIcon icon={faCheck} />
 							</div>
 							<p>Side by side</p>
@@ -188,7 +188,7 @@ export default () => {
 						value={section}
 						onChange={setSection as any}
 					/>
-					<div className={cx('sides', { row: isEditorInRow })}>
+					<div className={cx('sides', { row: !isEditorStacked })}>
 						{card && didUpdateFromCard
 							? (
 								<>
