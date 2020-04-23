@@ -48,6 +48,7 @@ export default () => {
 	const [back, setBack] = useState(card?.back ?? '')
 	
 	const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false)
+	const [isCloseModalShowing, setIsCloseModalShowing] = useState(false)
 	
 	useEffect(() => {
 		if (!card)
@@ -69,6 +70,7 @@ export default () => {
 	}, [card, didUpdateFromCard, section, sections])
 	
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
+	const isSameContent = front === card?.front && back === card?.back
 	
 	const close = () =>
 		history.push(closeUrl)
@@ -104,14 +106,24 @@ export default () => {
 			gradientHeight="500px"
 		>
 			<div className="header">
-				<Link to={closeUrl} className="close">
+				<Link
+					className="close"
+					to={closeUrl}
+					onClick={event => {
+						if (isSameContent)
+							return
+						
+						event.preventDefault()
+						setIsCloseModalShowing(true)
+					}}
+				>
 					<FontAwesomeIcon icon={faTimes} />
 				</Link>
 				<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt="Deck" />
 				<h1>Edit card</h1>
 				<button
 					className="save"
-					disabled={!(front && back) || (front === card?.front && back === card?.back)}
+					disabled={!(front && back) || isSameContent}
 					onClick={save}
 				>
 					Save
@@ -143,6 +155,18 @@ export default () => {
 					}
 				</div>
 			</div>
+			<ConfirmationModal
+				title="Go back"
+				message="Are you sure? You have unsaved changes that will be lost."
+				onConfirm={() => {
+					setIsCloseModalShowing(false)
+					close()
+				}}
+				buttonText="I don't care"
+				buttonBackground="#e53e3e"
+				isShowing={isCloseModalShowing}
+				setIsShowing={setIsCloseModalShowing}
+			/>
 			<ConfirmationModal
 				title="Delete card"
 				message="Are you sure? You can't go back!"
