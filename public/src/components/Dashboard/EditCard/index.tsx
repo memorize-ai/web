@@ -109,7 +109,11 @@ export default () => {
 				</Link>
 				<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt="Deck" />
 				<h1>Edit card</h1>
-				<button className="save" disabled={!(front && back)} onClick={save}>
+				<button
+					className="save"
+					disabled={!(front && back) || (front === card?.front && back === card?.back)}
+					onClick={save}
+				>
 					Save
 				</button>
 				<button className="delete" onClick={() => setIsDeleteModalShowing(true)}>

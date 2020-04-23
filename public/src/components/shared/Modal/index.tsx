@@ -26,6 +26,8 @@ export default (
 		current.classList.add('modal')
 		className && current.classList.add(className)
 		
+		current.setAttribute('role', 'presentation')
+		
 		body.appendChild(current)
 		
 		return () => void body.removeChild(current)
