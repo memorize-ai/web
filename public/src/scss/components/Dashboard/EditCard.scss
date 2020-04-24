@@ -114,12 +114,17 @@
 			
 			@include shadow-lg;
 			
+			display: flex;
+			flex-direction: column;
 			padding: 16px raw-repeat(3, $margin);
 			background: white;
 			border-radius: 8px;
 			
 			&.loading {
-				height: 100%;
+				&,
+				> .sides {
+					height: 100%;
+				}
 				
 				> .sides {
 					display: grid;
