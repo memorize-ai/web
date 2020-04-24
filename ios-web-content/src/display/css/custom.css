@@ -4,6 +4,7 @@
 }
 
 html {
+	text-size-adjust: 100%;
 	line-height: 1.5;
 }
 
@@ -17,13 +18,6 @@ body ::after {
 	outline: none;
 }
 
-body,
-body ::before,
-body ::after,
-body :not(pre):not(code) {
-	font-family: Muli, Arial, Helvetica, sans-serif !important;
-}
-
 body {
 	display: grid;
 	justify-content: center;
@@ -31,6 +25,14 @@ body {
 	min-height: 100vh;
 	margin: 0;
 	padding: 0 12px;
+	font-family: Muli, Arial, Helvetica, sans-serif;
+}
+
+pre,
+code,
+kbd,
+samp {
+	font-family: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
 }
 
 img {

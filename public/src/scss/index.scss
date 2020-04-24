@@ -19,6 +19,16 @@ body {
 	margin: 0;
 	overscroll-behavior: none;
 	
+	&,
+	.ck.ck-editor * {
+		font-family: $font-family;
+	}
+	
+	::before,
+	::after {
+		font-family: $font-family !important;
+	}
+	
 	&.clipped,
 	&.modal-showing {
 		overflow: hidden;
@@ -37,13 +47,6 @@ body {
 		text-rendering: optimizeLegibility;
 		border: none;
 		outline: none;
-	}
-	
-	&,
-	::before,
-	::after,
-	:not(pre):not(code) {
-		font-family: $font-family !important;
 	}
 }
 
@@ -96,11 +99,6 @@ h1 {
 	margin: 0.67em 0;
 }
 
-pre {
-	font-family: monospace, monospace;
-	font-size: 1em;
-}
-
 a {
 	background-color: transparent;
 }
@@ -114,13 +112,6 @@ abbr[title] {
 b,
 strong {
 	font-weight: bolder !important;
-}
-
-code,
-kbd,
-samp {
-	font-family: monospace, monospace;
-	font-size: 1em;
 }
 
 small {
@@ -241,8 +232,7 @@ h5,
 h6,
 hr,
 figure,
-p,
-pre {
+p {
 	margin: 0;
 }
 
@@ -303,7 +293,7 @@ pre,
 code,
 kbd,
 samp {
-	font-family: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+	font-family: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
 }
 
 img,

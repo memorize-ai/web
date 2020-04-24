@@ -4,6 +4,7 @@
 }
 
 html {
+	text-size-adjust: 100%;
 	line-height: 1.5;
 }
 
@@ -18,14 +19,16 @@ body ::after {
 }
 
 body,
-body ::before,
-body ::after,
-body :not(pre):not(code) {
-	font-family: Muli, Arial, Helvetica, sans-serif !important;
+.ck.ck-editor * {
+	margin: 0;
+	font-family: Muli, Arial, Helvetica, sans-serif;
 }
 
-body {
-	margin: 0;
+pre,
+code,
+kbd,
+samp {
+	font-family: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
 }
 
 .ck.ck-dropdown__panel.ck-dropdown__panel_sw > .ck.ck-toolbar > .ck.ck-toolbar__items {
