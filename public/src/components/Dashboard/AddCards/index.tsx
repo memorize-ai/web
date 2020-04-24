@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useContext } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faTrash, faCheck, faPlus } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 import _ from 'lodash'
 
@@ -71,6 +71,10 @@ export default () => {
 	
 	const [cards, dispatch] = useContext(AddCardsContext)
 	
+	const hasDrafts = useMemo(() => (
+		cards.some(({ front, back }) => front || back)
+	), [cards])
+	
 	const numberOfValidCards = useMemo(() => (
 		cards.reduce((acc, { front, back }) => (
 			acc + (front && back ? 1 : 0)
@@ -130,7 +134,7 @@ export default () => {
 					className="close"
 					to={closeUrl}
 					onClick={event => {
-						if (!cards.some(({ front, back }) => front || back))
+						if (!hasDrafts)
 							return
 						
 						event.preventDefault()
@@ -140,7 +144,7 @@ export default () => {
 					<FontAwesomeIcon icon={faTimes} />
 				</Link>
 				<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt="Deck" />
-				<h1>Edit card</h1>
+				<h1>Add cards</h1>
 				<button
 					className="save"
 					disabled={!canPublish}
@@ -156,6 +160,7 @@ export default () => {
 				</button>
 				<button
 					className="delete"
+					disabled={cards.length <= 1 && !hasDrafts}
 					onClick={() => setIsDeleteDraftsModalShowing(true)}
 				>
 					<FontAwesomeIcon icon={faTrash} />
@@ -188,29 +193,50 @@ export default () => {
 						value={section}
 						onChange={setSection as any}
 					/>
-					<div className={cx('cards', { row: !isEditorStacked })}>
+					<div className="content">
 						{deck
 							? (
 								<>
-									{cards.map(({ id, front, back }) => (
-										<div key={id} className="card">
-											<button onClick={() => dispatch(remove(id))}>
-												<FontAwesomeIcon icon={faTrash} />
-											</button>
-											<div className="sides">
-												<CKEditor
-													data={front}
-													setData={front => dispatch(update(id, { front }))}
-												/>
-												<CKEditor
-													data={back}
-													setData={back => dispatch(update(id, { back }))}
-												/>
+									<div className={cx('cards', { row: !isEditorStacked })}>
+										{cards.map(({ id, front, back }) => (
+											<div key={id} className="card">
+												<button onClick={() => dispatch(remove(id))}>
+													<FontAwesomeIcon icon={faTrash} />
+												</button>
+												<div className="sides">
+													<div>
+														<div className="header">
+															<FontAwesomeIcon
+																className={cx({ valid: front })}
+																icon={front ? faCheck : faTimes}
+															/>
+															<label>Front</label>
+														</div>
+														<CKEditor
+															data={front}
+															setData={front => dispatch(update(id, { front }))}
+														/>
+													</div>
+													<div>
+														<div className="header">
+															<FontAwesomeIcon
+																className={cx({ valid: back })}
+																icon={back ? faCheck : faTimes}
+															/>
+															<label>Back</label>
+														</div>
+														<CKEditor
+															data={back}
+															setData={back => dispatch(update(id, { back }))}
+														/>
+													</div>
+												</div>
 											</div>
-										</div>
-									))}
+										))}
+									</div>
 									<button onClick={compose(dispatch, add)}>
-										Add card
+										<FontAwesomeIcon icon={faPlus} />
+										<p>Add card</p>
 									</button>
 								</>
 							)
