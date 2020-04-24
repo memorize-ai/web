@@ -2,18 +2,13 @@
 @import '../../mixins';
 
 @include modal-content('share-section') {
+	$max-width: 800px;
+	$margin: 20px;
+	
+	width: calc(min(100vw - #{$margin * 2}, #{$max-width}));
 	overflow: hidden;
-	margin: 30px;
 	background: white;
 	border-radius: 8px;
-	
-	@media (min-width: 750px) {
-		width: calc(200vw / 3);
-	}
-	
-	@media (min-width: 1250px) {
-		width: 50vw;
-	}
 	
 	> .header {
 		display: flex;

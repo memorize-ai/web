@@ -2,7 +2,11 @@
 @import '../../functions';
 
 @include modal-content('input-modal') {
-	width: 500px;
+	$max-width: 500px;
+	$margin: 8px;
+	
+	width: calc(min(100vw - #{$margin * 2}, #{$max-width}));
+	margin: $margin;
 	background: white;
 	border-radius: 8px;
 	

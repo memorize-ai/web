@@ -3,6 +3,9 @@
 @import '../../functions';
 
 @include modal-content('confirmation') {
+	$margin: 8px;
+	
+	margin: $margin;
 	background: white;
 	border-radius: 8px;
 	
