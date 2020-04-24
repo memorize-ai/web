@@ -1,3 +1,5 @@
+import stripHtml from 'string-strip-html'
+
 import firebase from '../../firebase'
 import Deck from '../Deck'
 import Section from '../Section'
@@ -145,6 +147,9 @@ export default class Card implements CardData {
 				skipCount: 0
 			})
 		).id
+	
+	static getSummary = (text: string) =>
+		stripHtml(text)
 	
 	get isUnsectioned() {
 		return this.sectionId === ''

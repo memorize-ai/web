@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -41,7 +43,8 @@ export default (
 			/>
 			{currentUser?.id === deck.creatorId && (
 				<Link to={`/decks/${deck.slugId}/${deck.slug}/add${section.isUnsectioned ? '' : `/${section.id}`}`}>
-					Add cards
+					<FontAwesomeIcon icon={faPlus} />
+					<p>Add cards to <i>{section.name}</i></p>
 				</Link>
 			)}
 			{isExpanded && (!cards || cards.length > 0) && (

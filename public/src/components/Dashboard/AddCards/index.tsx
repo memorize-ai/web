@@ -16,7 +16,7 @@ import useDecks from '../../../hooks/useDecks'
 import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
 import useLocalStorageBoolean from '../../../hooks/useLocalStorageBoolean'
-import CKEditor from '../../shared/CKEditor'
+import CardRow from './CardRow'
 import Loader from '../../shared/Loader'
 import ConfirmationModal from '../../shared/Modal/Confirmation'
 import {
@@ -156,7 +156,7 @@ export default () => {
 					}
 					data-balloon-pos="left"
 				>
-					Publish{numberOfValidCards ? ` ${numberOfValidCards}` : ''}
+					Publish{numberOfValidCards ? ` ${numberOfValidCards} card` : ''}
 				</button>
 				<button
 					className="delete"
@@ -199,44 +199,20 @@ export default () => {
 								<>
 									<div className={cx('cards', { row: !isEditorStacked })}>
 										{cards.map(({ id, front, back }) => (
-											<div key={id} className="card">
-												<button onClick={() => dispatch(remove(id))}>
-													<FontAwesomeIcon icon={faTrash} />
-												</button>
-												<div className="sides">
-													<div>
-														<div className="header">
-															<FontAwesomeIcon
-																className={cx({ valid: front })}
-																icon={front ? faCheck : faTimes}
-															/>
-															<label>Front</label>
-														</div>
-														<CKEditor
-															data={front}
-															setData={front => dispatch(update(id, { front }))}
-														/>
-													</div>
-													<div>
-														<div className="header">
-															<FontAwesomeIcon
-																className={cx({ valid: back })}
-																icon={back ? faCheck : faTimes}
-															/>
-															<label>Back</label>
-														</div>
-														<CKEditor
-															data={back}
-															setData={back => dispatch(update(id, { back }))}
-														/>
-													</div>
-												</div>
-											</div>
+											<CardRow
+												key={id}
+												front={front}
+												back={back}
+												canRemove={hasDrafts}
+												remove={() => dispatch(remove(id))}
+												updateFront={front => dispatch(update(id, { front }))}
+												updateBack={back => dispatch(update(id, { back }))}
+											/>
 										))}
 									</div>
 									<button onClick={compose(dispatch, add)}>
 										<FontAwesomeIcon icon={faPlus} />
-										<p>Add card</p>
+										<p>Card below</p>
 									</button>
 								</>
 							)

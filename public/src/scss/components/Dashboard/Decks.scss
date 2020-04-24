@@ -199,16 +199,24 @@
 			
 			> .section {
 				> a {
-					display: block;
+					display: flex;
+					align-items: center;
 					width: max-content;
 					margin: 12px auto 0 auto;
 					padding: 8px 14px;
-					font-weight: 900;
-					text-align: center;
 					color: white;
 					background: #582efe;
 					border-radius: 8px;
 					transition: background 0.3s;
+					
+					> svg {
+						margin-right: 10px;
+						transform: scale(1.2);
+					}
+					
+					> p {
+						font-weight: 900;
+					}
 					
 					&:hover {
 						background: #051e34;

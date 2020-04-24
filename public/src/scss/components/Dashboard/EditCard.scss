@@ -197,7 +197,7 @@
 			}
 			
 			> .section-select {
-				z-index: $dropdown-z-index;
+				z-index: $dropdown-z-index - 1;
 			}
 			
 			> .sides {
