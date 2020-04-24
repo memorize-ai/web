@@ -37,7 +37,8 @@ export interface CardDraft {
 	back: string
 }
 
-const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
+const GO_BACK_MESSAGE = 'Your drafts will be kept during this session.'
+const CONFIRM_CLOSE_MESSAGE = 'Are you sure? Your drafts will be lost.'
 
 export default () => {
 	requiresAuth()
@@ -129,7 +130,7 @@ export default () => {
 					className="close"
 					to={closeUrl}
 					onClick={event => {
-						if (!canPublish)
+						if (!cards.some(({ front, back }) => front || back))
 							return
 						
 						event.preventDefault()
@@ -220,12 +221,12 @@ export default () => {
 			</div>
 			<ConfirmationModal
 				title="Go back"
-				message={CONFIRM_CLOSE_MESSAGE}
+				message={GO_BACK_MESSAGE}
 				onConfirm={() => {
 					setIsCloseModalShowing(false)
 					close()
 				}}
-				buttonText="I don't care"
+				buttonText="Ok, take me back"
 				buttonBackground="#e53e3e"
 				isShowing={isCloseModalShowing}
 				setIsShowing={setIsCloseModalShowing}
