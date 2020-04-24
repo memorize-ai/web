@@ -129,7 +129,7 @@ export default () => {
 					className="close"
 					to={closeUrl}
 					onClick={event => {
-						if (canPublish)
+						if (!canPublish)
 							return
 						
 						event.preventDefault()
