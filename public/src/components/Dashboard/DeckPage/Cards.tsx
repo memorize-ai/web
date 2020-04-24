@@ -38,41 +38,43 @@ export default ({ deck }: { deck: Deck }) => {
 				))
 			: <Loader size="24px" thickness="4px" color="#582efe" />
 	
-	return (
-		<div id="cards" className="cards">
-			<h2 className="title">
-				Cards <span>({formatNumber(deck.numberOfCards)})</span>
-			</h2>
-			<div className="sections">
-				{sections.map(section => {
-					const isExpanded = isSectionExpanded(section.id)
-					
-					return (
-						<div key={section.id}>
-							<SectionHeader
-								section={section}
-								isExpanded={isExpanded}
-								toggleExpanded={() => toggleSectionExpanded(section.id)}
-								onShare={() => {
-									setSelectedSection(section)
-									setIsShareSectionModalShowing(true)
-								}}
-							/>
-							{isExpanded && (
-								<div className="cards">
-									{cardsForSection(section)}
-								</div>
-							)}
-						</div>
-					)
-				})}
+	return sections.length
+		? (
+			<div id="cards" className="cards">
+				<h2 className="title">
+					Cards <span>({formatNumber(deck.numberOfCards)})</span>
+				</h2>
+				<div className="sections">
+					{sections.map(section => {
+						const isExpanded = isSectionExpanded(section.id)
+						
+						return (
+							<div key={section.id}>
+								<SectionHeader
+									section={section}
+									isExpanded={isExpanded}
+									toggleExpanded={() => toggleSectionExpanded(section.id)}
+									onShare={() => {
+										setSelectedSection(section)
+										setIsShareSectionModalShowing(true)
+									}}
+								/>
+								{isExpanded && (
+									<div className="cards">
+										{cardsForSection(section)}
+									</div>
+								)}
+							</div>
+						)
+					})}
+				</div>
+				<ShareSectionModal
+					deck={deck}
+					section={selectedSection}
+					isShowing={isShareSectionModalShowing}
+					setIsShowing={setIsShareSectionModalShowing}
+				/>
 			</div>
-			<ShareSectionModal
-				deck={deck}
-				section={selectedSection}
-				isShowing={isShareSectionModalShowing}
-				setIsShowing={setIsShareSectionModalShowing}
-			/>
-		</div>
-	)
+		)
+		: null
 }
