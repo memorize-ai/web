@@ -122,11 +122,11 @@
 			
 			&.loading {
 				&,
-				> .cards {
+				> .content {
 					height: 100%;
 				}
 				
-				> .cards {
+				> .content {
 					display: grid;
 					justify-content: center;
 					align-content: center;
@@ -251,6 +251,7 @@
 								}
 								
 								> p {
+									margin-top: -2px;
 									font-weight: bold;
 								}
 							}
