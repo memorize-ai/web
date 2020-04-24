@@ -14,3 +14,5 @@ export const DECKS_ENGINE_NAME = 'memorize-ai-decks'
 export const EMOJIS = ['😃', '😇', '😌', '😘', '🥳', '💪']
 
 export const DEFAULT_DECK_COUNT = '47k'
+
+export const FIRESTORE_BATCH_LIMIT = 500

@@ -16,6 +16,7 @@ import { CountersProvider } from './contexts/Counters'
 import { SearchProvider } from './contexts/Search'
 import { AuthModalProvider } from './contexts/AuthModal'
 import { CreatorsProvider } from './contexts/Creators'
+import { AddCardsProvider } from './contexts/AddCards'
 import App from './components/App'
 import firebase from './firebase'
 import { ROOT_ELEMENT } from './constants'
@@ -43,7 +44,9 @@ ReactDOM.render((
 											<SearchProvider>
 												<AuthModalProvider>
 													<CreatorsProvider>
-														<App />
+														<AddCardsProvider>
+															<App />
+														</AddCardsProvider>
 													</CreatorsProvider>
 												</AuthModalProvider>
 											</SearchProvider>

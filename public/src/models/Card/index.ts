@@ -7,6 +7,17 @@ import 'firebase/firestore'
 
 const firestore = firebase.firestore()
 
+export interface CardDraft {
+	id: string
+	front: string
+	back: string
+}
+
+export interface CardDraftUpdateObject {
+	front?: string
+	back?: string
+}
+
 export interface CardData {
 	sectionId: string
 	front: string

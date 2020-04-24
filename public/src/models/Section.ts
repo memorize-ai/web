@@ -1,5 +1,9 @@
+import _ from 'lodash'
+
 import firebase from '../firebase'
 import Deck from './Deck'
+import { CardDraft } from './Card'
+import { FIRESTORE_BATCH_LIMIT } from '../constants'
 
 import 'firebase/firestore'
 
@@ -102,4 +106,24 @@ export default class Section implements SectionData {
 	
 	delete = (deck: Deck) =>
 		firestore.doc(`decks/${deck.id}/sections/${this.id}`).delete()
+	
+	publishCards = (deck: Deck, cards: CardDraft[]) => {
+		const chunks = _.chunk(cards, FIRESTORE_BATCH_LIMIT)
+		
+		return Promise.all(chunks.map(chunk => {
+			const batch = firestore.batch()
+			
+			for (const { front, back } of chunk)
+				batch.set(firestore.collection(`decks/${deck.id}/cards`).doc(), {
+					section: this.id,
+					front,
+					back,
+					viewCount: 0,
+					reviewCount: 0,
+					skipCount: 0
+				})
+			
+			return batch.commit()
+		}))
+	}
 }

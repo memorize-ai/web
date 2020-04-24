@@ -3,6 +3,11 @@ export default interface Action<Payload> {
 	payload: Payload
 }
 
+export interface OptionalAction<Payload> {
+	type: ActionType
+	payload?: Payload
+}
+
 export enum ActionType {
 	SetCurrentUser,
 	UpdateCurrentUser,
@@ -55,5 +60,11 @@ export enum ActionType {
 	SetAuthModalCallback,
 	
 	UpdateCreator,
-	RemoveCreator
+	RemoveCreator,
+	
+	AddCardsSet,
+	AddCardsAdd,
+	AddCardsUpdate,
+	AddCardsRemove,
+	AddCardsRemoveAll
 }

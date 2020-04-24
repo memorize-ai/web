@@ -2,7 +2,7 @@ import { ActionType } from './Action'
 import firebase from '../firebase'
 import User from '../models/User'
 import Deck from '../models/Deck'
-import Card from '../models/Card'
+import Card, { CardDraft, CardDraftUpdateObject } from '../models/Card'
 import LoadingState from '../models/LoadingState'
 import { Counter } from '../models/Counters'
 import { SearchActionPayload } from '../contexts/Search'
@@ -234,4 +234,29 @@ export const updateCreator = (uid: string, snapshot: firebase.firestore.Document
 export const removeCreator = (uid: string) => ({
 	type: ActionType.RemoveCreator,
 	payload: uid
+})
+
+// Add cards
+
+export const addCardsSet = (cards: CardDraft[]) => ({
+	type: ActionType.AddCardsSet,
+	payload: cards
+})
+
+export const addCardsAdd = () => ({
+	type: ActionType.AddCardsAdd
+})
+
+export const addCardsUpdate = (id: string, card: CardDraftUpdateObject) => ({
+	type: ActionType.AddCardsUpdate,
+	payload: { id, card }
+})
+
+export const addCardsRemove = (id: string) => ({
+	type: ActionType.AddCardsRemove,
+	payload: id
+})
+
+export const addCardsRemoveAll = () => ({
+	type: ActionType.AddCardsRemoveAll
 })
