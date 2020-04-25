@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory, Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faStar as faStarFilled, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarOutlined } from '@fortawesome/free-regular-svg-icons'
@@ -9,7 +9,6 @@ import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useImageUrl from '../../../hooks/useImageUrl'
 import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
-import useQuery from '../../../hooks/useQuery'
 import CreateSectionModal from '../../shared/Modal/CreateSection'
 import ShareDeckModal from '../../shared/Modal/ShareDeck'
 import ConfirmationModal from '../../shared/Modal/Confirmation'
@@ -23,35 +22,22 @@ import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
 import { ReactComponent as EditIcon } from '../../../images/icons/edit.svg'
 
 export default ({ deck }: { deck: Deck | null }) => {
-	const history = useHistory()
-	
 	const [currentUser] = useCurrentUser()
 	const [imageUrl] = useImageUrl(deck)
-	
-	const isNew = useQuery().get('new') === '1'
 	
 	const [isCreateSectionModalShowing, setIsCreateSectionModalShowing] = useState(false)
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
 	const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false)
 	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(false)
-	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(isNew)
+	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)
 	
 	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
-	const [downloadAppMessage, setDownloadAppMessage] = useState(
-		isNew
-			? 'To start learning, download memorize.ai on the App Store!'
-			: ''
-	)
+	const [downloadAppMessage, setDownloadAppMessage] = useState('')
 	
 	const isFavorite = deck?.userData?.isFavorite ?? false
 	const isOwner = currentUser && deck?.creatorId === currentUser.id
 	const numberOfDueCards = deck?.userData?.numberOfDueCards ?? 0
 	const numberOfDueCardsFormatted = formatNumber(numberOfDueCards)
-	
-	useEffect(() => {
-		if (isNew && isDownloadAppModalShowing)
-			history.replace(window.location.pathname)
-	}, [isNew, isDownloadAppModalShowing]) // eslint-disable-line
 	
 	return (
 		<div className={cx('header', { loading: !deck })}>

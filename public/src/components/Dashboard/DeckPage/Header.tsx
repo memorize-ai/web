@@ -11,7 +11,7 @@ import useAuthModal from '../../../hooks/useAuthModal'
 import Button from '../../shared/Button'
 import Stars from '../../shared/Stars'
 import ShareDeckModal from '../../shared/Modal/ShareDeck'
-import { urlWithQuery, formatNumber } from '../../../utils'
+import { formatNumber } from '../../../utils'
 
 import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
@@ -48,9 +48,7 @@ export default (
 				
 				setGetLoadingState(LoadingState.Success)
 				
-				history.push(urlWithQuery(`/decks/${deck.slugId}/${deck.slug}`, {
-					new: '1'
-				}))
+				history.push(`/decks/${deck.slugId}/${deck.slug}`)
 			} catch (error) {
 				setGetLoadingState(LoadingState.Fail)
 				
