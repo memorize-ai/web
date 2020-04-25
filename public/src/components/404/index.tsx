@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
 
 import TopGradient from '../shared/TopGradient'
@@ -11,7 +11,9 @@ import '../../scss/components/404.scss'
 const analytics = firebase.analytics()
 
 export default () => {
-	analytics.logEvent('404')
+	useEffect(() => {
+		analytics.logEvent('404')
+	}, [])
 	
 	return (
 		<div className="page-404">

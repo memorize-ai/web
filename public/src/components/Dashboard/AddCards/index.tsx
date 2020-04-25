@@ -47,9 +47,13 @@ export default () => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
-	const deck = useDecks().find(deck =>
-		deck.slugId === slugId && deck.creatorId === currentUser?.id
-	)
+	const decks = useDecks()
+	
+	const deck = useMemo(() => (
+		decks.find(deck =>
+			deck.slugId === slugId && deck.creatorId === currentUser?.id
+		)
+	), [decks, slugId, currentUser])
 	
 	const [imageUrl] = useImageUrl(deck)
 	

@@ -4,6 +4,7 @@ import firebase from '../../firebase'
 import { DashboardNavbarSelection as Selection } from '.'
 import useAuthState from '../../hooks/useAuthState'
 import useCurrentUser from '../../hooks/useCurrentUser'
+import useDecks from '../../hooks/useDecks'
 import Tab from './NavbarTab'
 import Dropdown, { DropdownShadow } from '../shared/Dropdown'
 import AuthButton from '../shared/AuthButton'
@@ -25,6 +26,7 @@ const auth = firebase.auth()
 export default ({ selection }: { selection: Selection }) => {
 	const isSignedIn = useAuthState()
 	const [currentUser] = useCurrentUser()
+	const decks = useDecks()
 	
 	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(false)
 	
@@ -76,7 +78,7 @@ export default ({ selection }: { selection: Selection }) => {
 					href="/decks"
 					title="Decks"
 					isSelected={selection === Selection.Decks}
-					isDisabled={!isSignedIn}
+					isDisabled={!decks.length}
 				>
 					<Decks />
 				</Tab>

@@ -69,7 +69,8 @@ export default () => {
 						joined: firebase.firestore.FieldValue.serverTimestamp()
 					})
 					
-					history.push('/interests')
+					if (!callback)
+						history.push('/interests')
 					
 					break
 			}
