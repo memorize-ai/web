@@ -69,149 +69,168 @@
 		}
 	}
 	
-	> .profile-dropdown,
-	> .auth-button {
-		grid-area: right;
-		margin: 0 raw-repeat(3, 10px);
-	}
-	
-	> .profile-dropdown {
-		> .trigger {
-			padding: 10px;
-			background: white;
-			border-radius: 50%;
-			transition: background 0.3s;
+	> .right {
+		display: flex;
+		align-items: center;
+		
+		> .download-app {
+			margin-right: 20px;
 			
 			> svg {
-				fill: #582efe;
-				transition: fill 0.3s;
+				color: white;
+				transform: scale(2.7) translateY(-1.7px);
+				transition: opacity 0.3s;
 			}
 			
-			&:hover {
-				background: #051e34;
-				
-				> svg {
-					fill: white;
-				}
+			&:hover > svg {
+				opacity: 0.5;
 			}
 		}
 		
-		> .content {
-			width: 400px;
-			padding: 20px;
-			background: white;
-			
-			&,
-			> .settings,
-			> .settings > .name-input,
-			> button {
-				border-radius: 4px;
-			}
-			
-			> .settings,
-			> button {
-				width: 100%;
-			}
-			
-			> .settings,
-			> .forgot-password {
-				border: 1px solid #ddd;
-			}
-			
-			> .settings {
-				display: flex;
-				flex-direction: column;
-				padding: 20px 16px;
-				
-				> label {
-					margin-bottom: 4px;
-					font-size: 14px;
-					font-weight: bold;
-					color: #9b9b9b;
-				}
-				
-				> .name-input,
-				> .email {
-					color: $dark-gray;
-				}
-				
-				> .name-input {
-					margin-bottom: 14px;
-					padding: 8px 10px;
-					background: transparentize(#f0f1f8, 1 / 3)
-				}
-				
-				> .email {
-					margin-top: -4px;
-					font-size: 17px;
-				}
-			}
-			
-			> button {
-				height: 40px;
-				margin-top: 12px;
-			}
-			
-			> .forgot-password {
-				color: #4355f9;
-				transition: color 0.3s, background 0.3s, border 0.3s;
-				
-				&:hover,
-				&:focus {
-					color: white;
-					background: #051e34;
-					border: none;
-				}
-			}
-			
-			> .sign-out {
-				color: white;
-				background: #f55d23;
+		> .profile-dropdown,
+		> .auth-button {
+			grid-area: right;
+			margin: 0 raw-repeat(3, 10px);
+		}
+		
+		> .profile-dropdown {
+			> .trigger {
+				padding: 10px;
+				background: white;
+				border-radius: 50%;
 				transition: background 0.3s;
 				
-				&:hover,
+				> svg {
+					fill: #582efe;
+					transition: fill 0.3s;
+				}
+				
 				&:hover {
 					background: #051e34;
+					
+					> svg {
+						fill: white;
+					}
 				}
 			}
 			
-			> .contact-us {
-				display: inline-block;
-				margin-top: 18px;
-				color: $dark-gray;
-				transition: opacity 0.3s;
+			> .content {
+				width: 400px;
+				padding: 20px;
+				background: white;
 				
-				> span {
-					font-weight: bold;
-					color: #582efe;
+				&,
+				> .settings,
+				> .settings > .name-input,
+				> button {
+					border-radius: 4px;
 				}
 				
-				&:hover {
-					opacity: 0.5;
+				> .settings,
+				> button {
+					width: 100%;
+				}
+				
+				> .settings,
+				> .forgot-password {
+					border: 1px solid #ddd;
+				}
+				
+				> .settings {
+					display: flex;
+					flex-direction: column;
+					padding: 20px 16px;
+					
+					> label {
+						margin-bottom: 4px;
+						font-size: 14px;
+						font-weight: bold;
+						color: #9b9b9b;
+					}
+					
+					> .name-input,
+					> .email {
+						color: $dark-gray;
+					}
+					
+					> .name-input {
+						margin-bottom: 14px;
+						padding: 8px 10px;
+						background: transparentize(#f0f1f8, 1 / 3)
+					}
+					
+					> .email {
+						margin-top: -4px;
+						font-size: 17px;
+					}
+				}
+				
+				> button {
+					height: 40px;
+					margin-top: 12px;
+				}
+				
+				> .forgot-password {
+					color: #4355f9;
+					transition: color 0.3s, background 0.3s, border 0.3s;
+					
+					&:hover,
+					&:focus {
+						color: white;
+						background: #051e34;
+						border: none;
+					}
+				}
+				
+				> .sign-out {
+					color: white;
+					background: #f55d23;
+					transition: background 0.3s;
+					
+					&:hover,
+					&:hover {
+						background: #051e34;
+					}
+				}
+				
+				> .contact-us {
+					display: inline-block;
+					margin-top: 18px;
+					color: $dark-gray;
+					transition: opacity 0.3s;
+					
+					> span {
+						font-weight: bold;
+						color: #582efe;
+					}
+					
+					&:hover {
+						opacity: 0.5;
+					}
 				}
 			}
 		}
-	}
-	
-	> .auth-button {
-		margin-right: 14px;
-		padding: 8px 14px;
-		font-size: larger;
-		font-weight: bold;
-		color: white;
-		background: #051e34;
-		border-radius: 8px;
-		white-space: nowrap;
-		transition: color 0.3s, background 0.3s;
 		
-		> span {
-			opacity: 0.7;
-		}
-		
-		&:hover,
-		&:focus {
-			color: #051e34;
-			background: white;
+		> .auth-button {
+			margin-right: 14px;
+			padding: 8px 14px;
+			font-size: larger;
+			font-weight: bold;
+			color: white;
+			background: #051e34;
+			border-radius: 8px;
+			white-space: nowrap;
+			transition: color 0.3s, background 0.3s;
+			
+			> span {
+				opacity: 0.7;
+			}
+			
+			&:hover,
+			&:focus {
+				color: #051e34;
+				background: white;
+			}
 		}
 	}
 }

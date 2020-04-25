@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faApple } from '@fortawesome/free-brands-svg-icons'
 
 import firebase from '../../firebase'
 import { DashboardNavbarSelection as Selection } from '.'
@@ -9,6 +11,7 @@ import Tab from './NavbarTab'
 import Dropdown, { DropdownShadow } from '../shared/Dropdown'
 import AuthButton from '../shared/AuthButton'
 import { urlForMarket } from './Market'
+import DownloadAppModal from '../shared/Modal/DownloadApp'
 import { isNullish } from '../../utils'
 
 import { ReactComponent as Home } from '../../images/icons/home.svg'
@@ -29,6 +32,7 @@ export default ({ selection }: { selection: Selection }) => {
 	const decks = useDecks()
 	
 	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(false)
+	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)
 	
 	const sendForgotPasswordEmail = async () => {
 		if (isNullish(currentUser?.email))
@@ -91,45 +95,58 @@ export default ({ selection }: { selection: Selection }) => {
 					<Topics />
 				</Tab>
 			</div>
-			{isSignedIn
-				? (
-					<Dropdown
-						className="profile-dropdown"
-						shadow={DropdownShadow.Screen}
-						trigger={<User />}
-						isShowing={isProfileDropdownShowing}
-						setIsShowing={setIsProfileDropdownShowing}
-					>
-						<div className="settings">
-							<label>Name{isNullish(currentUser?.name) ? ' (LOADING)' : ''}</label>
-							<input
-								className="name-input"
-								type="name"
-								value={currentUser?.name ?? ''}
-								onChange={({ target: { value } }) =>
-									currentUser?.updateName(value)
-								}
-							/>
-							<label>Email{isNullish(currentUser?.email) ? ' (LOADING)' : ''}</label>
-							<p className="email">{currentUser?.email ?? ''}</p>
-						</div>
-						<button className="forgot-password" onClick={sendForgotPasswordEmail}>
-							Forgot password
-						</button>
-						<button className="sign-out" onClick={signOut}>
-							Sign out
-						</button>
-						<a href="mailto:support@memorize.ai" className="contact-us">
-							Contact us at <span>support@memorize.ai</span>
-						</a>
-					</Dropdown>
-				)
-				: (
-					<AuthButton className="auth-button">
-						Log in <span>/</span> Sign up
-					</AuthButton>
-				)
-			}
+			<div className="right">
+				<button
+					className="download-app"
+					onClick={() => setIsDownloadAppModalShowing(true)}
+				>
+					<FontAwesomeIcon icon={faApple} />
+				</button>
+				{isSignedIn
+					? (
+						<Dropdown
+							className="profile-dropdown"
+							shadow={DropdownShadow.Screen}
+							trigger={<User />}
+							isShowing={isProfileDropdownShowing}
+							setIsShowing={setIsProfileDropdownShowing}
+						>
+							<div className="settings">
+								<label>Name{isNullish(currentUser?.name) ? ' (LOADING)' : ''}</label>
+								<input
+									className="name-input"
+									type="name"
+									value={currentUser?.name ?? ''}
+									onChange={({ target: { value } }) =>
+										currentUser?.updateName(value)
+									}
+								/>
+								<label>Email{isNullish(currentUser?.email) ? ' (LOADING)' : ''}</label>
+								<p className="email">{currentUser?.email ?? ''}</p>
+							</div>
+							<button className="forgot-password" onClick={sendForgotPasswordEmail}>
+								Forgot password
+							</button>
+							<button className="sign-out" onClick={signOut}>
+								Sign out
+							</button>
+							<a href="mailto:support@memorize.ai" className="contact-us">
+								Contact us at <span>support@memorize.ai</span>
+							</a>
+						</Dropdown>
+					)
+					: (
+						<AuthButton className="auth-button">
+							Log in <span>/</span> Sign up
+						</AuthButton>
+					)
+				}
+			</div>
+			<DownloadAppModal
+				message="To start learning, download memorize.ai on the App Store!"
+				isShowing={isDownloadAppModalShowing}
+				setIsShowing={setIsDownloadAppModalShowing}
+			/>
 		</div>
 	)
 }
