@@ -5,11 +5,10 @@ import { faApple } from '@fortawesome/free-brands-svg-icons'
 import Deck from '../../../models/Deck'
 import Base from './Base'
 import { randomEmoji } from '../../../utils'
-import { APP_STORE_URL } from '../../../constants'
 
 import '../../../scss/components/DeckCell/Owned.scss'
 
-export default ({ deck }: { deck: Deck }) => {
+export default ({ deck, downloadApp }: { deck: Deck, downloadApp: () => void }) => {
 	const { userData } = deck
 	
 	const numberOfDueCards = userData?.numberOfDueCards ?? 0
@@ -18,11 +17,6 @@ export default ({ deck }: { deck: Deck }) => {
 	const numberOfSections = Object.values(userData?.sections ?? {}).reduce((acc, count) => (
 		acc + (count ? 1 : 0)
 	), 0)
-	
-	const downloadApp = (event: MouseEvent) => {
-		event.preventDefault()
-		window.location.href = APP_STORE_URL
-	}
 	
 	return (
 		<Base
@@ -40,7 +34,13 @@ export default ({ deck }: { deck: Deck }) => {
 				}
 			</p>
 			{hasDueCards && (
-				<button className="download-app" onClick={downloadApp}>
+				<button
+					className="download-app"
+					onClick={event => {
+						event.preventDefault()
+						downloadApp()
+					}}
+				>
 					<FontAwesomeIcon icon={faApple} />
 					<p>Download app to review</p>
 				</button>

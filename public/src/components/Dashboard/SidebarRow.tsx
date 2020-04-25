@@ -12,6 +12,8 @@ export default ({ deck }: { deck: Deck }) => {
 	const [selectedDeck] = useSelectedDeck()
 	const [imageUrl, imageUrlLoadingState] = useImageUrl(deck)
 	
+	const numberOfDueCards = deck.userData?.numberOfDueCards ?? 0
+	
 	return (
 		<Link
 			to={`/decks/${deck.slugId}/${deck.slug}`}
@@ -25,9 +27,11 @@ export default ({ deck }: { deck: Deck }) => {
 			<p className="title">
 				{deck.name}
 			</p>
-			<p className="badge">
-				{deck.userData && formatNumber(deck.userData.numberOfDueCards)}
-			</p>
+			{numberOfDueCards > 0 && (
+				<p className="badge">
+					{formatNumber(numberOfDueCards)}
+				</p>
+			)}
 		</Link>
 	)
 }

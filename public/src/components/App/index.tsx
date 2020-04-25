@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import Root from './Root'
+import Home from '../Home'
 import Privacy from '../Privacy'
 import Support from '../Support'
 
@@ -27,6 +28,7 @@ export default () => (
 	<BrowserRouter>
 		<Switch>
 			<Route exact path="/" component={Root} />
+			<Route exact path="/landing" component={Home} />
 			<Route exact path="/privacy" component={Privacy} />
 			<Route exact path="/support" component={Support} />
 			

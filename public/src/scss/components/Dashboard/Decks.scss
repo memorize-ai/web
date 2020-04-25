@@ -37,9 +37,31 @@
 		}
 		
 		> .create-section,
+		> .review,
 		> .share,
 		> .options {
 			flex-shrink: 0;
+		}
+		
+		> .review {
+			height: 40px;
+			margin-left: 12px;
+			padding: 0 12px;
+			font-weight: 900;
+			text-transform: uppercase;
+			color: #582efe;
+			background: white;
+			border-radius: 8px;
+			transition: color 0.3s, background 0.3s, opacity 0.3s;
+			
+			&:disabled {
+				opacity: 0.5
+			}
+			
+			&:not(:disabled):hover {
+				color: white;
+				background: #051e34;
+			}
 		}
 		
 		> .create-section {
@@ -51,7 +73,7 @@
 			color: #582efe;
 			background: white;
 			border-radius: 8px;
-			transition: color 0.3s, background 0.3s, opacity 0.3s;
+			transition: color 0.3s, background 0.3s;
 			
 			&:hover {
 				color: white;
