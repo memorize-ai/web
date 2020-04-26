@@ -46,7 +46,7 @@ export default (
 		body.addEventListener('click', onClick)
 		
 		return () => body.removeEventListener('click', onClick)
-	}, [isShowing, setIsShowing])
+	}, [isShowing]) // eslint-disable-line
 	
 	return (
 		<div

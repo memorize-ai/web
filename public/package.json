@@ -30,7 +30,7 @@
 		"react-scripts": "^3.4.1",
 		"react-select": "^3.1.0",
 		"schema.org-react": "^1.0.0",
-		"string-strip-html": "^4.3.22",
+		"string-strip-html": "^4.4.0",
 		"uuid": "^7.0.3"
 	},
 	"devDependencies": {
@@ -47,7 +47,7 @@
 		"@types/react-fontawesome": "^1.6.4",
 		"@types/react-helmet": "^5.0.15",
 		"@types/react-infinite-scroller": "^1.2.1",
-		"@types/react-router-dom": "^5.1.4",
+		"@types/react-router-dom": "^5.1.5",
 		"@types/react-select": "^3.0.11",
 		"@types/string-strip-html": "^4.3.0",
 		"@types/uuid": "^7.0.3",

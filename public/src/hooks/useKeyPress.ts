@@ -21,7 +21,7 @@ export default (...targetKeyCodes: number[]) => {
 			window.removeEventListener('keydown', keyDown)
 			window.removeEventListener('keyup', keyUp)
 		}
-	}, [targetKeyCodes])
+	}, []) // eslint-disable-line
 	
 	return isPressed
 }

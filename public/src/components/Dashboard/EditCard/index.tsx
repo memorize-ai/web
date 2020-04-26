@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -33,9 +33,11 @@ export default () => {
 	const [imageUrl] = useImageUrl(deck)
 	
 	const _sections = useSections(deck?.id)
-	const sections = deck
-		? [deck.unsectionedSection, ..._sections]
-		: _sections
+	const sections = useMemo(() => (
+		deck
+			? [deck.unsectionedSection, ..._sections]
+			: _sections
+	), [deck, _sections])
 	
 	const card = useCard(deck?.id, cardId)
 	const [didUpdateFromCard, setDidUpdateFromCard] = useState(false)

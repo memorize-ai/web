@@ -65,12 +65,12 @@ export default (
 			body.classList.remove('modal-showing')
 			body.removeEventListener('click', onClick)
 		}
-	}, [isShowing, setIsShowing])
+	}, [isShowing]) // eslint-disable-line
 	
 	useEffect(() => {
 		if (shouldHide)
 			setIsShowing(false)
-	}, [shouldHide, setIsShowing])
+	}, [shouldHide]) // eslint-disable-line
 	
 	return createPortal((
 		<div ref={content} className="content">

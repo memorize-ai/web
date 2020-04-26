@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Select from 'react-select'
 import cx from 'classnames'
 import _ from 'lodash'
@@ -20,18 +20,28 @@ import { ReactComponent as RightArrowHead } from '../../../images/icons/gray-rig
 const BOX_TRANSFORM_X_LENGTH = 20
 
 export default ({ deck }: { deck: Deck }) => {
-	const _sections = [deck.unsectionedSection, ...useSections(deck.id)]
-	const sections = _.keyBy(_sections, 'id')
+	const __sections = useSections(deck.id)
+	
+	const _sections = useMemo(() => [
+		deck.unsectionedSection,
+		...__sections
+	], [deck, __sections])
+	
+	const sections = useMemo(() => (
+		_.keyBy(_sections, 'id')
+	), [_sections])
 	
 	const _cards = useAllCards(deck.id)
-	const cards = _cards && _.chain(_cards)
-		.toPairs()
-		.sort(([a], [b]) =>
-			sections[a].index - sections[b].index
-		)
-		.map('1')
-		.flatten()
-		.value()
+	const cards = useMemo(() => (
+		_cards && _.chain(_cards)
+			.toPairs()
+			.sort(([a], [b]) =>
+				sections[a].index - sections[b].index
+			)
+			.map('1')
+			.flatten()
+			.value()
+	), [_cards, sections])
 	
 	const [card, setCard] = useState(null as Card | null)
 	

@@ -92,7 +92,7 @@ export default () => {
 			setCallback(null)
 			callback(currentUser)
 		}
-	}, [currentUser, isShowing, callback, setIsShowing, setCallback])
+	}, [currentUser, isShowing, callback]) // eslint-disable-line
 	
 	return (
 		<Modal

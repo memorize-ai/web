@@ -48,7 +48,7 @@ export default (deckId: string | null | undefined, cardId: string | null | undef
 				console.error(error)
 			}
 		)
-	}, [card, deckId, cardId, dispatch])
+	}, [card, deckId, cardId]) // eslint-disable-line
 	
 	return card
 }

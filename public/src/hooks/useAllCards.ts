@@ -15,8 +15,9 @@ export default (deckId: string): Record<string, Card[]> | null => {
 		
 		Card.observers[deckId] = true
 		
-		Card.getAllForDeck(deckId).then(cards => dispatch(setCards(deckId, cards)))
-	}, [sections, deckId, dispatch])
+		Card.getAllForDeck(deckId)
+			.then(cards => dispatch(setCards(deckId, cards)))
+	}, [sections, deckId]) // eslint-disable-line
 	
 	return sections ?? null
 }

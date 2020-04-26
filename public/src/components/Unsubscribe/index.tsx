@@ -20,23 +20,20 @@ export default () => {
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
 	
-	useEffect(() => void (async () => {
+	useEffect(() => {
 		if (!(uid && type))
 			return
 		
 		analytics.logEvent('unsubscribe', { uid, type })
 		
-		try {
-			await firestore.doc(`users/${uid}`).update({
-				[`unsubscribed.${type}`]: true
+		firestore.doc(`users/${uid}`)
+			.update({ [`unsubscribed.${type}`]: true })
+			.then(() => setLoadingState(LoadingState.Success))
+			.catch(error => {
+				setErrorMessage(error.message)
+				setLoadingState(LoadingState.Fail)
 			})
-			
-			setLoadingState(LoadingState.Success)
-		} catch (error) {
-			setErrorMessage(error.message)
-			setLoadingState(LoadingState.Fail)
-		}
-	})(), [uid, type])
+	}, [uid, type])
 	
 	return (
 		<div
