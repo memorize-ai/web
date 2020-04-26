@@ -4,6 +4,7 @@ export const LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY = 'ai.memorize.expectsSignIn'
 export const LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY = 'ai.memorize.isCardEditorStacked'
 
 export const APP_STORE_URL = 'https://apps.apple.com/app/id1462251805'
+export const APP_SCREENSHOT_URL = 'https://memorize.ai/images/screenshots/review.png'
 
 export const ROOT_ELEMENT = document.getElementById('root')
 

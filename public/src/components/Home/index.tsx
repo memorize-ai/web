@@ -12,9 +12,7 @@ import Screenshots from './Screenshots'
 import Integrations from './Integrations'
 import Footer from './Footer'
 import firebase from '../../firebase'
-import { APP_STORE_URL } from '../../constants'
-
-import reviewScreenshot from '../../images/screenshots/review.png'
+import { APP_STORE_URL, APP_SCREENSHOT_URL } from '../../constants'
 
 import 'firebase/analytics'
 
@@ -30,8 +28,6 @@ export default () => {
 	
 	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
 	
-	const image = `https://memorize.ai${reviewScreenshot}`
-	
 	useEffect(() => {
 		if (!next)
 			return
@@ -43,16 +39,17 @@ export default () => {
 	return (
 		<div className="home-root">
 			<Head<[MobileApplication]>
+				canonical="https://memorize.ai"
 				title="memorize.ai: Do less, learn more"
 				description="Do less. Learn more. Download on the app store for free, and change your life today."
-				ogImage={image}
+				ogImage={APP_SCREENSHOT_URL}
 				schemaItems={[
 					{
 						'@type': 'MobileApplication',
 						name: 'memorize.ai',
 						operatingSystem: 'iOS',
 						softwareVersion: '3.1.2',
-						screenshot: image,
+						screenshot: APP_SCREENSHOT_URL,
 						downloadUrl: APP_STORE_URL,
 						installUrl: APP_STORE_URL,
 						author: 'memorize.ai',
