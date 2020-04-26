@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import Helmet from 'react-helmet'
-import { useHistory } from 'react-router-dom'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { useHistory, Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroller'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
@@ -136,6 +137,14 @@ export default () => {
 				</title>
 			</Helmet>
 			<div className="header">
+				<Link
+					className="create"
+					to="/new"
+					aria-label="Create your own deck!"
+					data-balloon-pos="right"
+				>
+					<FontAwesomeIcon icon={faPlus} />
+				</Link>
 				<Input
 					ref={onInputRef}
 					className="search"

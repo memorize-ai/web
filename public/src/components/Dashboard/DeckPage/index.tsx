@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Helmet from 'react-helmet'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory, useParams, Link } from 'react-router-dom'
 import Schema, { IndividualProduct } from 'schema.org-react'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
@@ -59,6 +60,14 @@ export default () => {
 				}
 			}} />
 			<div className="header">
+				<Link
+					className="create"
+					to="/new"
+					aria-label="Create your own deck!"
+					data-balloon-pos="right"
+				>
+					<FontAwesomeIcon icon={faPlus} />
+				</Link>
 				<Input
 					className="search"
 					icon={faSearch}
