@@ -163,7 +163,7 @@ export default () => {
 									? DeckSortAlgorithm.Relevance
 									: sortAlgorithm
 								: sortAlgorithm === DeckSortAlgorithm.Relevance
-									? DEFAULT_DECK_SORT_ALGORITHM
+									? null
 									: sortAlgorithm
 						}))
 					}

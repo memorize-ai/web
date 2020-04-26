@@ -47,9 +47,8 @@ export default () => {
 			return
 		
 		setDownloadAppMessage(
-			`Download memorize.ai on the App Store to review ${formatNumber(numberOfDueCards)} cards!`
+			`Download memorize.ai on the App Store to review ${formatNumber(numberOfDueCards)} card${numberOfDueCards === 1 ? '' : 's'}!`
 		)
-		
 		setIsDownloadAppModalShowing(true)
 	}, [])
 	
@@ -63,6 +62,19 @@ export default () => {
 					<h3 className="subtitle">
 						You have {dueCards ? formatNumber(dueCards) : 'no'} card{dueCards === 1 ? '' : 's'} due
 					</h3>
+					{dueCards > 0 && (
+						<button
+							className="review"
+							onClick={() => {
+								setDownloadAppMessage(
+									`Download memorize.ai on the App Store to review ${formatNumber(dueCards)} card${dueCards === 1 ? '' : 's'}!`
+								)
+								setIsDownloadAppModalShowing(true)
+							}}
+						>
+							Review all
+						</button>
+					)}
 				</div>
 				<Link to="/new" className="create-deck-link">
 					<FontAwesomeIcon icon={faPlus} />

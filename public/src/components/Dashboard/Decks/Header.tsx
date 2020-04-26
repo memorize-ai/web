@@ -50,7 +50,7 @@ export default ({ deck }: { deck: Deck | null }) => {
 				disabled={!numberOfDueCards}
 				onClick={() => {
 					setDownloadAppMessage(
-						`Download memorize.ai on the App Store to review ${numberOfDueCardsFormatted} cards!`
+						`Download memorize.ai on the App Store to review ${numberOfDueCardsFormatted} card${numberOfDueCards === 1 ? '' : 's'}!`
 					)
 					setIsDownloadAppModalShowing(true)
 				}}
