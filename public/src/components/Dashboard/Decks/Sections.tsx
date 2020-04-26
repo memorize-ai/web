@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -11,12 +12,18 @@ import RenameSectionModal from '../../shared/Modal/RenameSection'
 import ShareSectionModal from '../../shared/Modal/ShareSection'
 
 export default ({ deck }: { deck: Deck }) => {
+	const { unlockSectionId } = useParams()
+	const history = useHistory()
+	
 	const [currentUser] = useCurrentUser()
 	
 	const _sections = useSections(deck.id)
-	const sections = deck.numberOfUnsectionedCards > 0 || currentUser?.id === deck.creatorId
-		? [deck.unsectionedSection, ..._sections]
-		: _sections
+	
+	const sections = useMemo(() => (
+		deck.numberOfUnsectionedCards > 0 || currentUser?.id === deck.creatorId
+			? [deck.unsectionedSection, ..._sections]
+			: _sections
+	), [deck, currentUser, _sections])
 	
 	const [isExpanded, toggleExpanded] = useExpandedSections(deck, {
 		isOwned: true,
@@ -24,10 +31,37 @@ export default ({ deck }: { deck: Deck }) => {
 	})
 	
 	const [selectedSection, setSelectedSection] = useState(null as Section | null)
-	const [isUnlockSectionModalShowing, setIsUnlockSectionModalShowing] = useState(false)
+	const [isUnlockSectionModalShowing, _setIsUnlockSectionModalShowing] = useState(false)
 	const [isRenameSectionModalShowing, setIsRenameSectionModalShowing] = useState(false)
 	const [isDeleteSectionModalShowing, setIsDeleteSectionModalShowing] = useState(false)
 	const [isShareSectionModalShowing, setIsShareSectionModalShowing] = useState(false)
+	
+	const backToBaseUrl = useCallback(() => (
+		history.replace(`/decks/${deck.slugId}/${deck.slug}`)
+	), [deck]) // eslint-disable-line
+	
+	const setIsUnlockSectionModalShowing = useCallback((isShowing: boolean) => {
+		_setIsUnlockSectionModalShowing(isShowing)
+		
+		if (!isShowing && unlockSectionId)
+			backToBaseUrl()
+	}, [unlockSectionId, backToBaseUrl]) // eslint-disable-line
+	
+	useEffect(() => {
+		if (!unlockSectionId || selectedSection)
+			return
+		
+		const section = sections.find(({ id }) => id === unlockSectionId)
+		
+		if (!section)
+			return
+		
+		if (deck.isSectionUnlocked(section))
+			return backToBaseUrl()
+		
+		setSelectedSection(section)
+		setIsUnlockSectionModalShowing(true)
+	}, [unlockSectionId, selectedSection, sections, deck, backToBaseUrl, setIsUnlockSectionModalShowing])
 	
 	return (
 		<>

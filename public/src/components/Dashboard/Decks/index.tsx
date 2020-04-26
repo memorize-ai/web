@@ -28,13 +28,11 @@ export default () => {
 	}, [slugId, selectedDeck]) // eslint-disable-line
 	
 	useEffect(() => {
-		if (!(slugId && slug))
-			return
-		
-		if (selectedDeck?.slugId === slugId)
-			return
-		
-		if (decksLoadingState !== LoadingState.Success)
+		if (
+			!(slugId && slug) ||
+			selectedDeck?.slugId === slugId ||
+			decksLoadingState !== LoadingState.Success
+		)
 			return
 		
 		const deck = decks.find(deck => deck.slugId === slugId)
@@ -42,7 +40,7 @@ export default () => {
 		deck
 			? setSelectedDeck(deck)
 			: history.replace(`/d/${slugId}/${slug}`)
-	}, [slugId, slug, selectedDeck, decks]) // eslint-disable-line
+	}, [slugId, slug, selectedDeck, decksLoadingState, decks]) // eslint-disable-line
 	
 	return (
 		<Dashboard selection={Selection.Decks} className="decks" gradientHeight="500px">
