@@ -22,7 +22,7 @@ export default ({ deck, onRemove }: { deck: Deck, onRemove: () => void }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
-	const decks = useDecks()
+	const [decks] = useDecks()
 	
 	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
 	

@@ -36,6 +36,11 @@ export const setSelectedDeck = (deck: Deck) => ({
 	payload: deck
 })
 
+export const setDecksLoadingState = (loadingState: LoadingState) => ({
+	type: ActionType.SetDecksLoadingState,
+	payload: loadingState
+})
+
 export const updateOwnedDeck = (
 	snapshot: firebase.firestore.DocumentSnapshot,
 	userDataSnapshot: firebase.firestore.DocumentSnapshot

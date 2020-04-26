@@ -9,8 +9,6 @@ import _ from 'lodash'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import Deck from '../../../models/Deck'
 import requiresAuth from '../../../hooks/requiresAuth'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import useDecks from '../../../hooks/useDecks'
 import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
 import useCard from '../../../hooks/useCard'
@@ -21,6 +19,7 @@ import ConfirmationModal from '../../shared/Modal/Confirmation'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from '../../../constants'
 
 import '../../../scss/components/Dashboard/EditCard.scss'
+import useCreatedDeck from '../../../hooks/useCreatedDeck'
 
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
 
@@ -30,11 +29,7 @@ export default () => {
 	const { slugId, slug, cardId } = useParams()
 	const history = useHistory()
 	
-	const [currentUser] = useCurrentUser()
-	const deck = useDecks().find(deck =>
-		deck.slugId === slugId && deck.creatorId === currentUser?.id
-	)
-	
+	const deck = useCreatedDeck(slugId, slug)
 	const [imageUrl] = useImageUrl(deck)
 	
 	const _sections = useSections(deck?.id)

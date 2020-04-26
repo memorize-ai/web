@@ -51,7 +51,7 @@ export default () => (
 				path={[
 					'/decks',
 					'/decks/:slugId/:slug',
-					'/decks/:slugId/:slug/u/:sectionId'
+					'/d/:slugId/:slug/u/:sectionId'
 				]}
 				component={Decks}
 			/>

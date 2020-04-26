@@ -3,15 +3,18 @@ import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'r
 import Action, { ActionType } from '../actions/Action'
 import Deck from '../models/Deck'
 import DeckUserData from '../models/Deck/UserData'
+import LoadingState from '../models/LoadingState'
 
 export interface DecksState {
 	decks: Deck[]
 	ownedDecks: Deck[]
+	decksLoadingState: LoadingState
 	selectedDeck: Deck | null
 }
 
 export type DecksAction = Action<
 	| Deck // SetSelectedDeck
+	| LoadingState // SetDecksLoadingState
 	| { snapshot: firebase.firestore.DocumentSnapshot, userDataSnapshot: firebase.firestore.DocumentSnapshot } // UpdateOwnedDeck
 	| firebase.firestore.DocumentSnapshot // UpdateDeck, UpdateDeckUserData
 	| string // RemoveDeck, RemoveOwnedDeck
@@ -20,6 +23,7 @@ export type DecksAction = Action<
 const initialState: DecksState = {
 	decks: [],
 	ownedDecks: [],
+	decksLoadingState: LoadingState.None,
 	selectedDeck: null
 }
 
@@ -27,6 +31,11 @@ const reducer = (state: DecksState, { type, payload }: DecksAction) => {
 	switch (type) {
 		case ActionType.SetSelectedDeck:
 			return { ...state, selectedDeck: payload as Deck }
+		case ActionType.SetDecksLoadingState:
+			return {
+				...state,
+				decksLoadingState: payload as LoadingState
+			}
 		case ActionType.UpdateOwnedDeck: {
 			const { snapshot, userDataSnapshot } = payload as {
 				snapshot: firebase.firestore.DocumentSnapshot

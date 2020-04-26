@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
+import LoadingState from '../../../models/LoadingState'
 import requiresAuth from '../../../hooks/requiresAuth'
 import useSelectedDeck from '../../../hooks/useSelectedDeck'
 import useDecks from '../../../hooks/useDecks'
@@ -15,11 +16,11 @@ import '../../../scss/components/Dashboard/Decks.scss'
 export default () => {
 	requiresAuth()
 	
-	const { slugId } = useParams()
+	const { slugId, slug } = useParams()
 	const history = useHistory()
 	
 	const [selectedDeck, setSelectedDeck] = useSelectedDeck()
-	const decks = useDecks()
+	const [decks, decksLoadingState] = useDecks()
 	
 	useEffect(() => {
 		if (!slugId && selectedDeck)
@@ -27,13 +28,21 @@ export default () => {
 	}, [slugId, selectedDeck]) // eslint-disable-line
 	
 	useEffect(() => {
-		if (selectedDeck && selectedDeck.slugId === slugId)
+		if (!(slugId && slug))
+			return
+		
+		if (selectedDeck?.slugId === slugId)
+			return
+		
+		if (decksLoadingState !== LoadingState.Success)
 			return
 		
 		const deck = decks.find(deck => deck.slugId === slugId)
 		
-		deck && setSelectedDeck(deck)
-	}, [selectedDeck, slugId, decks]) // eslint-disable-line
+		deck
+			? setSelectedDeck(deck)
+			: history.replace(`/d/${slugId}/${slug}`)
+	}, [slugId, slug, selectedDeck, decks]) // eslint-disable-line
 	
 	return (
 		<Dashboard selection={Selection.Decks} className="decks" gradientHeight="500px">

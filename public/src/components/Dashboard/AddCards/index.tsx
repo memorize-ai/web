@@ -11,8 +11,7 @@ import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import AddCardsContext from '../../../contexts/AddCards'
 import requiresAuth from '../../../hooks/requiresAuth'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import useDecks from '../../../hooks/useDecks'
+import useCreatedDeck from '../../../hooks/useCreatedDeck'
 import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
 import useLocalStorageBoolean from '../../../hooks/useLocalStorageBoolean'
@@ -46,15 +45,7 @@ export default () => {
 	const { slugId, slug, sectionId } = useParams()
 	const history = useHistory()
 	
-	const [currentUser] = useCurrentUser()
-	const decks = useDecks()
-	
-	const deck = useMemo(() => (
-		decks.find(deck =>
-			deck.slugId === slugId && deck.creatorId === currentUser?.id
-		)
-	), [decks, slugId, currentUser])
-	
+	const deck = useCreatedDeck(slugId, slug)
 	const [imageUrl] = useImageUrl(deck)
 	
 	const _sections = useSections(deck?.id)

@@ -15,6 +15,7 @@ export enum ActionType {
 	SetIsObservingCurrentUser,
 	
 	SetSelectedDeck,
+	SetDecksLoadingState,
 	UpdateDeck,
 	UpdateOwnedDeck,
 	UpdateDeckUserData,

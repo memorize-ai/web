@@ -7,7 +7,7 @@ import cx from 'classnames'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import requiresAuth from '../../../hooks/requiresAuth'
 import useCurrentUser from '../../../hooks/useCurrentUser'
-import useDecks from '../../../hooks/useDecks'
+import useCreatedDeck from '../../../hooks/useCreatedDeck'
 import useImageUrl from '../../../hooks/useImageUrl'
 import LoadingState from '../../../models/LoadingState'
 import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
@@ -29,9 +29,7 @@ export default () => {
 	const [, dispatchDeckImageUrls] = useContext(DeckImageUrlsContext)
 	
 	const [currentUser] = useCurrentUser()
-	const deck = useDecks().find(deck =>
-		deck.slugId === slugId && deck.creatorId === currentUser?.id
-	)
+	const deck = useCreatedDeck(slugId, slug)
 	
 	const [existingImageUrl, existingImageUrlLoadingState] = useImageUrl(deck)
 	const [imageUrl, setImageUrl] = useState(null as string | null)

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
+import LoadingState from '../../models/LoadingState'
 import useAuthState from '../../hooks/useAuthState'
 import useDecks from '../../hooks/useDecks'
 import useCurrentUser from '../../hooks/useCurrentUser'
@@ -15,7 +16,7 @@ import '../../scss/components/Dashboard/Sidebar.scss'
 export default () => {
 	const isSignedIn = useAuthState()
 	
-	const decks = useDecks()
+	const [decks, decksLoadingState] = useDecks()
 	const [currentUser] = useCurrentUser()
 	
 	const [query, setQuery] = useState('')
@@ -28,7 +29,10 @@ export default () => {
 	
 	const sliderPercent = (currentUser?.percentToNextLevel ?? 0) * 100
 	
-	const hasNoDecks = !isSignedIn || (currentUser && !(decks.length || currentUser.numberOfDecks))
+	const hasNoDecks = !isSignedIn || (
+		(decksLoadingState === LoadingState.Success) &&
+		!decks.length
+	)
 	
 	return (
 		<div className="sidebar">
@@ -53,7 +57,7 @@ export default () => {
 							<Section
 								title="Due"
 								decks={
-									decks
+									(decks ?? [])
 										.filter(deck => deck.userData?.isDue ?? false)
 										.sort((a, b) =>
 											(b.userData?.numberOfDueCards ?? 0) - (a.userData?.numberOfDueCards ?? 0)
@@ -65,7 +69,7 @@ export default () => {
 							<Section
 								title="Favorites"
 								decks={
-									decks
+									(decks ?? [])
 										.filter(deck => deck.userData?.isFavorite ?? false)
 										.sort((a, b) => a.name.localeCompare(b.name))
 								}
@@ -74,7 +78,7 @@ export default () => {
 							/>
 							<Section
 								title="All"
-								decks={decks.sort((a, b) => a.name.localeCompare(b.name))}
+								decks={(decks ?? []).sort((a, b) => a.name.localeCompare(b.name))}
 								query={query}
 							/>
 						</>

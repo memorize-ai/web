@@ -29,7 +29,7 @@ const auth = firebase.auth()
 export default ({ selection }: { selection: Selection }) => {
 	const isSignedIn = useAuthState()
 	const [currentUser] = useCurrentUser()
-	const decks = useDecks()
+	const [decks] = useDecks()
 	
 	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(false)
 	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)

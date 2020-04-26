@@ -74,11 +74,11 @@
 		align-items: center;
 		
 		> .download-app {
-			margin-right: 20px;
+			margin: 0 20px;
 			
 			> svg {
 				color: white;
-				transform: scale(2.7) translateY(-1.7px);
+				transform: scale(2.7) translateY(-2px);
 				transition: opacity 0.3s;
 			}
 			

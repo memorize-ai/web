@@ -177,7 +177,8 @@ export default class Deck implements DeckData {
 	
 	static observeForUserWithId = (
 		uid: string,
-		{ updateDeck, updateDeckUserData, removeDeck }: {
+		{ setLoadingState, updateDeck, updateDeckUserData, removeDeck }: {
+			setLoadingState: (loadingState: LoadingState) => void
 			updateDeck: (
 				snapshot: firebase.firestore.DocumentSnapshot,
 				userDataSnapshot: firebase.firestore.DocumentSnapshot
@@ -185,22 +186,41 @@ export default class Deck implements DeckData {
 			updateDeckUserData: (snapshot: firebase.firestore.DocumentSnapshot) => void
 			removeDeck: (id: string) => void
 		}
-	) =>
+	) => {
+		setLoadingState(LoadingState.Loading)
+		
 		firestore.collection(`users/${uid}/decks`).onSnapshot(
 			snapshot => {
-				for (const { type, doc } of snapshot.docChanges())
+				const changes = snapshot.docChanges()
+				
+				if (!changes.length)
+					return setLoadingState(LoadingState.Success)
+				
+				let pendingAdded = 0
+				
+				const updatePendingAdded = (amount: 1 | -1) => {
+					pendingAdded += amount
+					
+					if (pendingAdded <= 0)
+						setLoadingState(LoadingState.Success)
+				}
+				
+				for (const { type, doc } of changes)
 					switch (type) {
 						case 'added':
+							updatePendingAdded(1)
+							
 							Deck.addSnapshotListener(
 								doc.id,
 								firestore.doc(`decks/${doc.id}`).onSnapshot(
-									snapshot => updateDeck(snapshot, doc),
-									error => {
-										alert(error.message)
-										console.error(error)
-									}
+									snapshot => {
+										updateDeck(snapshot, doc)
+										updatePendingAdded(-1)
+									},
+									console.error
 								)
 							)
+							
 							break
 						case 'modified':
 							updateDeckUserData(doc)
@@ -212,10 +232,13 @@ export default class Deck implements DeckData {
 					}
 			},
 			error => {
+				setLoadingState(LoadingState.Fail)
+				
 				alert(error.message)
 				console.error(error)
 			}
 		)
+	}
 	
 	static createSlug = (name: string) => ({
 		slugId: nanoid(Deck.SLUG_ID_LENGTH),

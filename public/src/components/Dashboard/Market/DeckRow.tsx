@@ -21,7 +21,7 @@ export default ({ deck, remove }: { deck: Deck, remove: () => void }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
-	const decks = useDecks()
+	const [decks] = useDecks()
 	
 	const [imageUrl] = useImageUrl(deck)
 	

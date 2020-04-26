@@ -20,7 +20,7 @@ import '../../../scss/components/Dashboard/Home.scss'
 export default () => {
 	const [currentUser] = useCurrentUser()
 	
-	const decks = useDecks()
+	const [decks] = useDecks()
 	const recommendedDecks = useRecommendedDecks(20)
 	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
 	
