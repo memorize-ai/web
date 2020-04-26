@@ -54,7 +54,6 @@ export default ({ deck }: { deck: Deck }) => {
 	const section = card && sections[card.sectionId]
 	const cardIndex = cards?.findIndex(({ id }) => id === card?.id)
 	
-	const shouldFlip = useKeyPress(38, 40, 32) // Up arrow, down arrow, space
 	const shouldGoLeft = useKeyPress(37) // Left arrow
 	const shouldGoRight = useKeyPress(39) // Right arrow
 	
@@ -114,11 +113,6 @@ export default ({ deck }: { deck: Deck }) => {
 				return setSection(section)
 		}
 	}, [card, cards, deck, _sections]) // eslint-disable-line
-	
-	useEffect(() => {
-		if (shouldFlip)
-			toggleSide()
-	}, [shouldFlip]) // eslint-disable-line
 	
 	useEffect(() => {
 		if (shouldGoLeft && !isLeftDisabled)
