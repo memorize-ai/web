@@ -6,16 +6,16 @@ import _ from 'lodash'
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import Card from '../../../models/Card'
-import useAllCards from '../../../hooks/useAllCards'
 import useSections from '../../../hooks/useSections'
+import useAllCards from '../../../hooks/useAllCards'
+import useKeyPress from '../../../hooks/useKeyPress'
 import CardSide from '../../shared/CardSide'
 import Loader from '../../shared/Loader'
+import { sleep, formatNumber } from '../../../utils'
 
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 import { ReactComponent as LeftArrowHead } from '../../../images/icons/gray-left-arrow-head.svg'
 import { ReactComponent as RightArrowHead } from '../../../images/icons/gray-right-arrow-head.svg'
-import { sleep, formatNumber } from '../../../utils'
-import useKeyPress from '../../../hooks/useKeyPress'
 
 const BOX_TRANSFORM_X_LENGTH = 20
 

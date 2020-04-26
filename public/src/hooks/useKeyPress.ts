@@ -4,11 +4,15 @@ export default (...targetKeyCodes: number[]) => {
 	const [isPressed, setIsPressed] = useState(false)
 	
 	useEffect(() => {
-		const keyDown = ({ keyCode }: KeyboardEvent) =>
-			targetKeyCodes.includes(keyCode) && setIsPressed(true)
+		const keyDown = (event: KeyboardEvent) => {
+			event.preventDefault()
+			targetKeyCodes.includes(event.keyCode) && setIsPressed(true)
+		}
 		
-		const keyUp = ({ keyCode }: KeyboardEvent) =>
-			targetKeyCodes.includes(keyCode) && setIsPressed(false)
+		const keyUp = (event: KeyboardEvent) => {
+			event.preventDefault()
+			targetKeyCodes.includes(event.keyCode) && setIsPressed(false)
+		}
 		
 		window.addEventListener('keydown', keyDown)
 		window.addEventListener('keyup', keyUp)
