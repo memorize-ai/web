@@ -12,10 +12,13 @@ export interface HeadProps<SchemaItems extends Thing[]> {
 	description: string
 	ogDescription?: string
 	twitterDescription?: string
-	ogImage: string
+	ogImage?: string
 	twitterImage?: string
 	schemaItems: SchemaItems
 }
+
+export const LOGO_URL = 'https://memorize.ai/square.png'
+export const APP_STORE_DESCRIPTION = 'Do less. Learn more. Download on the app store for free, and change your life today.'
 
 export default <SchemaItems extends Thing[]>({
 	canonical: _canonical,
@@ -27,7 +30,7 @@ export default <SchemaItems extends Thing[]>({
 	description,
 	ogDescription: _ogDescription,
 	twitterDescription,
-	ogImage,
+	ogImage: _ogImage,
 	twitterImage,
 	schemaItems
 }: HeadProps<SchemaItems>) => {
@@ -35,6 +38,7 @@ export default <SchemaItems extends Thing[]>({
 	
 	const ogTitle = _ogTitle ?? title
 	const ogDescription = _ogDescription ?? description
+	const ogImage = _ogImage ?? LOGO_URL
 	
 	return (
 		<>
@@ -78,7 +82,7 @@ export default <SchemaItems extends Thing[]>({
 					{
 						'@type': 'Organization',
 						url: 'https://memorize.ai',
-						logo: 'https://memorize.ai/square.png',
+						logo: LOGO_URL,
 						sameAs: [
 							'https://twitter.com/memorize_ai'
 						]

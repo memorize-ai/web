@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import useQuery from '../../hooks/useQuery'
 import useAuthModal from '../../hooks/useAuthModal'
-import Head, { MobileApplication } from '../shared/Head'
+import Head, { MobileApplication, APP_STORE_DESCRIPTION } from '../shared/Head'
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
 import Header from './Header'
@@ -41,7 +41,7 @@ export default () => {
 			<Head<[MobileApplication]>
 				canonical="https://memorize.ai"
 				title="memorize.ai: Do less, learn more"
-				description="Do less. Learn more. Download on the app store for free, and change your life today."
+				description={APP_STORE_DESCRIPTION}
 				ogImage={APP_SCREENSHOT_URL}
 				schemaItems={[
 					{

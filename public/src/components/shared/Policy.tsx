@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from 'react'
-import Helmet from 'react-helmet'
+import React, { PropsWithChildren, useEffect } from 'react'
 
 import firebase from '../../firebase'
+import Head, { APP_STORE_DESCRIPTION } from './Head'
 
 import 'firebase/analytics'
 
@@ -10,22 +10,29 @@ import '../../scss/components/Policy.scss'
 const analytics = firebase.analytics()
 
 export default (
-	{ id, title, children }: PropsWithChildren<{
+	{ id, title, description, children }: PropsWithChildren<{
 		id: string
+		description: string
 		title: string
 	}>
 ) => {
-	analytics.setCurrentScreen(id)
+	useEffect(() => {
+		analytics.setCurrentScreen(id)
+	}, [id])
 	
 	return (
 		<div className="policy">
-			<Helmet>
-				<meta
-					name="description"
-					content="The ultimate memorization tool. Download on the App Store"
-				/>
-				<title>memorize.ai - {title}</title>
-			</Helmet>
+			<Head
+				title={`memorize.ai - ${title}`}
+				description={`${description} ${APP_STORE_DESCRIPTION}`}
+				schemaItems={[
+					{
+						'@type': 'Article',
+						headline: title,
+						name: title
+					}
+				]}
+			/>
 			<h1 className="title">{title}</h1>
 			<hr />
 			{children}
