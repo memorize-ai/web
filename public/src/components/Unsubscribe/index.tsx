@@ -4,6 +4,7 @@ import cx from 'classnames'
 
 import firebase from '../../firebase'
 import LoadingState from '../../models/LoadingState'
+import Head from '../shared/Head'
 import Content from './Content'
 
 import 'firebase/analytics'
@@ -42,6 +43,21 @@ export default () => {
 				fail: loadingState === LoadingState.Fail
 			})}
 		>
+			<Head
+				title="memorize.ai - Unsubscribe"
+				description="Unsubscribe from our mailing list"
+				breadcrumbs={[
+					{
+						name: 'Unsubscribe',
+						url: window.location.href
+					}
+				]}
+				schemaItems={[
+					{
+						'@type': 'UnRegisterAction'
+					}
+				]}
+			/>
 			<Content
 				loadingState={loadingState}
 				errorMessage={errorMessage}
