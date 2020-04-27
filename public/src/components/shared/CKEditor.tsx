@@ -6,7 +6,8 @@ import '../../types/ckeditor5-react.d'
 import '../../types/ckeditor5-memorize.ai.d'
 
 export default (
-	{ data, setData }: {
+	{ uploadUrl, data, setData }: {
+		uploadUrl: string
 		data: string
 		setData: (data: string) => void
 	}
@@ -14,6 +15,9 @@ export default (
 	<CKEditor
 		editor={Editor}
 		data={data}
+		config={{
+			simpleUpload: { uploadUrl }
+		}}
 		onChange={(_event: any, editor: any) =>
 			setData(editor.getData())
 		}

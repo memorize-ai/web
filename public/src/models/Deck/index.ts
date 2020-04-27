@@ -517,4 +517,7 @@ export default class Deck implements DeckData {
 		
 		return batch.commit()
 	}
+	
+	uploadUrl = (uid: string) =>
+		`https://memorize.ai/_api/upload-deck-asset?user=${uid}&deck=${this.id}`
 }

@@ -7,7 +7,8 @@ import Card from '../../../models/Card'
 import CKEditor from '../../shared/CKEditor'
 
 export default (
-	{ front, back, canRemove, remove, updateFront, updateBack }: {
+	{ uploadUrl, front, back, canRemove, remove, updateFront, updateBack }: {
+		uploadUrl: string
 		front: string
 		back: string
 		canRemove: boolean
@@ -47,7 +48,11 @@ export default (
 						/>
 						<label>Front</label>
 					</div>
-					<CKEditor data={front} setData={updateFront} />
+					<CKEditor
+						uploadUrl={uploadUrl}
+						data={front}
+						setData={updateFront}
+					/>
 				</div>
 				<div>
 					<div className="header">
@@ -57,7 +62,11 @@ export default (
 						/>
 						<label>Back</label>
 					</div>
-					<CKEditor data={back} setData={updateBack} />
+					<CKEditor
+						uploadUrl={uploadUrl}
+						data={back}
+						setData={updateBack}
+					/>
 				</div>
 			</div>
 		</div>

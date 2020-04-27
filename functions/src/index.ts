@@ -6,7 +6,7 @@ initializeApp({
 	storageBucket: DEFAULT_STORAGE_BUCKET
 })
 
-export { default as app } from './App'
+export { default as api } from './API'
 
 export * from './User/functions'
 export * from './Deck/functions'

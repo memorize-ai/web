@@ -11,6 +11,7 @@ import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import AddCardsContext from '../../../contexts/AddCards'
 import requiresAuth from '../../../hooks/requiresAuth'
+import useCurrentUser from '../../../hooks/useCurrentUser'
 import useCreatedDeck from '../../../hooks/useCreatedDeck'
 import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
@@ -44,6 +45,8 @@ export default () => {
 	
 	const { slugId, slug, sectionId } = useParams()
 	const history = useHistory()
+	
+	const [currentUser] = useCurrentUser()
 	
 	const deck = useCreatedDeck(slugId, slug)
 	const [imageUrl] = useImageUrl(deck)
@@ -196,6 +199,11 @@ export default () => {
 										{cards.map(({ id, front, back }) => (
 											<CardRow
 												key={id}
+												uploadUrl={
+													currentUser
+														? deck.uploadUrl(currentUser.id)
+														: ''
+												}
 												front={front}
 												back={back}
 												canRemove={hasDrafts}

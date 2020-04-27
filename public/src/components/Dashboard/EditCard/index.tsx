@@ -9,6 +9,8 @@ import _ from 'lodash'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import Deck from '../../../models/Deck'
 import requiresAuth from '../../../hooks/requiresAuth'
+import useCurrentUser from '../../../hooks/useCurrentUser'
+import useCreatedDeck from '../../../hooks/useCreatedDeck'
 import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
 import useCard from '../../../hooks/useCard'
@@ -19,7 +21,6 @@ import ConfirmationModal from '../../shared/Modal/Confirmation'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from '../../../constants'
 
 import '../../../scss/components/Dashboard/EditCard.scss'
-import useCreatedDeck from '../../../hooks/useCreatedDeck'
 
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
 
@@ -28,6 +29,8 @@ export default () => {
 	
 	const { slugId, slug, cardId } = useParams()
 	const history = useHistory()
+	
+	const [currentUser] = useCurrentUser()
 	
 	const deck = useCreatedDeck(slugId, slug)
 	const [imageUrl] = useImageUrl(deck)
@@ -55,7 +58,12 @@ export default () => {
 		LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY
 	)
 	
+	const uploadUrl = useMemo(() => (
+		deck && currentUser && deck.uploadUrl(currentUser.id)
+	), [deck, currentUser])
+	
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
+	
 	const isSameContent = (
 		section?.id === card?.sectionId &&
 		front === card?.front &&
@@ -186,7 +194,7 @@ export default () => {
 						onChange={setSection as any}
 					/>
 					<div className={cx('sides', { row: !isEditorStacked })}>
-						{card && didUpdateFromCard
+						{card && didUpdateFromCard && uploadUrl
 							? (
 								<>
 									<div>
@@ -197,7 +205,11 @@ export default () => {
 											/>
 											<label>Front</label>
 										</div>
-										<CKEditor data={front} setData={setFront} />
+										<CKEditor
+											uploadUrl={uploadUrl}
+											data={front}
+											setData={setFront}
+										/>
 									</div>
 									<div>
 										<div className="header">
@@ -207,7 +219,11 @@ export default () => {
 											/>
 											<label>Back</label>
 										</div>
-										<CKEditor data={back} setData={setBack} />
+										<CKEditor
+											uploadUrl={uploadUrl}
+											data={back}
+											setData={setBack}
+										/>
 									</div>
 								</>
 							)
