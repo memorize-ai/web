@@ -25,11 +25,18 @@ export default (
 			<Head
 				title={`memorize.ai - ${title}`}
 				description={`${description} ${APP_STORE_DESCRIPTION}`}
+				breadcrumbs={[
+					{
+						name: title,
+						url: window.location.href
+					}
+				]}
 				schemaItems={[
 					{
 						'@type': 'Article',
 						headline: title,
-						name: title
+						name: title,
+						description
 					}
 				]}
 			/>

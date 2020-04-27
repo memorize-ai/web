@@ -43,6 +43,12 @@ export default () => {
 				title="memorize.ai: Do less, learn more"
 				description={APP_STORE_DESCRIPTION}
 				ogImage={APP_SCREENSHOT_URL}
+				breadcrumbs={[
+					{
+						name: 'Home',
+						url: 'https://memorize.ai'
+					}
+				]}
 				schemaItems={[
 					{
 						'@type': 'MobileApplication',

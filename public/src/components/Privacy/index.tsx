@@ -1,13 +1,12 @@
 import React from 'react'
 
 import Policy from '../shared/Policy'
-import { APP_STORE_DESCRIPTION } from '../shared/Head'
 
 export default () => (
 	<Policy
 		id="privacy"
 		title="Privacy"
-		description={`Review memorize.ai's Privacy Policy to learn how your information is being used. ${APP_STORE_DESCRIPTION}`}
+		description="Review memorize.ai's Privacy Policy to learn how your information is being used."
 	>
 		Last updated February 25, 2020<br /><br />
 		Thank you for choosing to be part of our community at memorize.ai ("Company", "we", "us", or "our"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our notice, or our practices with regards to your personal information, please contact us at support@memorize.ai.<br /><br />

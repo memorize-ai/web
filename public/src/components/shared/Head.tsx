@@ -2,6 +2,11 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import Schema, { Thing } from 'schema.org-react'
 
+export interface Breadcrumb {
+	name: string
+	url: string
+}
+
 export interface HeadProps<SchemaItems extends Thing[]> {
 	canonical?: string
 	ogUrl?: string
@@ -14,6 +19,7 @@ export interface HeadProps<SchemaItems extends Thing[]> {
 	twitterDescription?: string
 	ogImage?: string
 	twitterImage?: string
+	breadcrumbs: Breadcrumb[]
 	schemaItems: SchemaItems
 }
 
@@ -32,6 +38,7 @@ export default <SchemaItems extends Thing[]>({
 	twitterDescription,
 	ogImage: _ogImage,
 	twitterImage,
+	breadcrumbs,
 	schemaItems
 }: HeadProps<SchemaItems>) => {
 	const canonical = _canonical ?? window.location.href
@@ -86,6 +93,15 @@ export default <SchemaItems extends Thing[]>({
 						sameAs: [
 							'https://twitter.com/memorize_ai'
 						]
+					},
+					{
+						'@type': 'BreadcrumbList',
+						itemListElement: breadcrumbs.map(({ name, url }, i) => ({
+							'@type': 'ListItem',
+							position: i + 1,
+							name,
+							item: url
+						}))
 					},
 					...schemaItems
 				]
