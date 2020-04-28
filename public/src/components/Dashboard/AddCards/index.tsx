@@ -16,6 +16,7 @@ import useCreatedDeck from '../../../hooks/useCreatedDeck'
 import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
 import useLocalStorageBoolean from '../../../hooks/useLocalStorageBoolean'
+import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import CardRow from './CardRow'
 import Loader from '../../shared/Loader'
 import ConfirmationModal from '../../shared/Modal/Confirmation'
@@ -80,6 +81,8 @@ export default () => {
 	), [cards])
 	
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
+	const headDescription = `Add cards to ${deck?.name ?? 'your deck'}. ${APP_DESCRIPTION}`
+	
 	const canPublish = numberOfValidCards > 0
 	
 	useEffect(() => {
@@ -127,6 +130,36 @@ export default () => {
 			className="add-cards"
 			gradientHeight="500px"
 		>
+			<Head
+				title={`Add cards${deck ? ` to ${deck.name}` : ''} | memorize.ai`}
+				description={headDescription}
+				breadcrumbs={[
+					[
+						{
+							name: 'Decks',
+							url: 'https://memorize.ai/decks'
+						},
+						{
+							name: deck?.name ?? 'Deck',
+							url: `https://memorize.ai/decks/${deck?.slugId ?? '...'}/${deck?.slug ?? '...'}`
+						},
+						{
+							name: 'Add cards',
+							url: window.location.href
+						}
+					]
+				]}
+				schemaItems={[
+					{
+						'@type': 'CreateAction',
+						name: `Add cards${deck ? ` to ${deck.name}` : ''}`,
+						description: headDescription,
+						result: {
+							'@type': 'SomeProducts'
+						}
+					}
+				]}
+			/>
 			<div className="header">
 				<Link
 					className="close"

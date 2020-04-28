@@ -127,7 +127,7 @@ export default () => {
 							url: `https://memorize.ai/decks/${deck?.slugId ?? '...'}/${deck?.slug ?? '...'}`
 						},
 						{
-							name: `Edit ${deck?.name ?? 'deck'}`,
+							name: 'Edit',
 							url: window.location.href
 						}
 					]
