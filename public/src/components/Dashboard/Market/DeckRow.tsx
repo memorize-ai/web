@@ -98,8 +98,10 @@ export default ({ deck, remove }: { deck: Deck, remove: () => void }) => {
 						itemScope
 						itemType="https://schema.org/AggregateRating"
 					>
-						<p hidden itemProp="ratingValue">{deck.averageRating}</p>
-						<p hidden itemProp="reviewCount">{deck.numberOfRatings}</p>
+						<meta itemProp="ratingValue" content={deck.averageRating.toString()} />
+						<meta itemProp="reviewCount" content={(deck.numberOfRatings || 1).toString()} />
+						<meta itemProp="worstRating" content={deck.worstRating.toString()} />
+						<meta itemProp="bestRating" content={deck.bestRating.toString()} />
 						<Stars>{deck.averageRating}</Stars>
 						<p>({formatNumber(deck.numberOfRatings)})</p>
 					</div>

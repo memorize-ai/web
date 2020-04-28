@@ -117,16 +117,6 @@ export default () => {
 						}
 					]
 				]}
-				schemaItems={[
-					{
-						'@type': 'CreateAction',
-						name: 'Create deck',
-						description: HEAD_DESCRIPTION,
-						result: {
-							'@type': 'IndividualProduct'
-						}
-					}
-				]}
 			/>
 			<div className="header">
 				<h1>Create deck</h1>

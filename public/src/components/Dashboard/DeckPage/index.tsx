@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
-import Helmet from 'react-helmet'
+import React, { useState, useContext } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
-import Schema, { IndividualProduct } from 'schema.org-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -10,9 +8,11 @@ import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import Deck from '../../../models/Deck'
 import { DEFAULT_DECK_SORT_ALGORITHM } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
+import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
 import useSearchState from '../../../hooks/useSearchState'
 import useDeck from '../../../hooks/useDeck'
 import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
+import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
 import { DropdownShadow } from '../../shared/Dropdown'
@@ -32,6 +32,8 @@ export const urlForDeckPage = (deck: Deck) =>
 	`/d/${deck.slugId}/${deck.slug}`
 
 export default () => {
+	const [imageUrls] = useContext(DeckImageUrlsContext)
+	
 	const history = useHistory()
 	const { slugId } = useParams()
 	const [{ query, sortAlgorithm }] = useSearchState()
@@ -45,20 +47,33 @@ export default () => {
 	
 	return (
 		<Dashboard selection={Selection.Market} className="deck-page" gradientHeight="500px">
-			<Helmet>
-				<title>{deck ? `${deck.name} | ` : ''}memorize.ai</title>
-			</Helmet>
-			<Schema<IndividualProduct> item={{
-				'@context': 'https://schema.org',
-				'@type': 'IndividualProduct',
-				productID: deck?.slug,
-				name: deck?.name,
-				description: deck?.description,
-				url: `https://memorize.ai/d/${deck?.slugId ?? ''}/${deck?.slug ?? ''}`,
-				aggregateRating: {
-					'@type': 'AggregateRating'
+			<Head
+				title={`${deck ? `${deck.name} | ` : ''}memorize.ai`}
+				description={
+					`Get ${deck?.name ?? 'this deck'} on memorize.ai, with ${
+						formatNumber(deck?.numberOfCards ?? 0)
+					} card${deck?.numberOfCards === 1 ? '' : 's'}. ${APP_DESCRIPTION}`
 				}
-			}} />
+				ogImage={(deck && imageUrls[deck.id]?.url) ?? Deck.DEFAULT_IMAGE_URL}
+				breadcrumbs={[
+					[
+						{
+							name: 'Market',
+							url: 'https://memorize.ai/market'
+						},
+						{
+							name: deck?.name ?? 'Deck',
+							url: window.location.href
+						}
+					]
+				]}
+				schemaItems={[
+					{
+						'@type': 'IndividualProduct',
+						
+					}
+				]}
+			/>
 			<div className="header">
 				<Link
 					className="create"

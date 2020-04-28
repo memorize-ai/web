@@ -55,12 +55,25 @@ export default class Topic {
 			}
 		)
 	
-	get schemaProps() {
+	static get schemaProps() {
 		return {
 			itemScope: true,
-			itemType: 'https://schema.org/Thing'
+			itemType: 'https://schema.org/ItemList'
 		}
 	}
+	
+	get schemaProps() {
+		return {
+			itemProp: 'itemListElement',
+			itemScope: true,
+			itemType: 'https://schema.org/ListItem'
+		}
+	}
+	
+	positionSchemaProps = (index: number) => ({
+		itemProp: 'position',
+		content: index.toString()
+	})
 	
 	get imageSchemaProps() {
 		return {

@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
+import Deck from '../../../models/Deck'
 import LoadingState from '../../../models/LoadingState'
+import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
 import requiresAuth from '../../../hooks/requiresAuth'
 import useSelectedDeck from '../../../hooks/useSelectedDeck'
 import useDecks from '../../../hooks/useDecks'
@@ -11,11 +13,14 @@ import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import Header from './Header'
 import Sections from './Sections'
 import Loader from '../../shared/Loader'
+import { urlForDeckPage } from '../DeckPage'
 
 import '../../../scss/components/Dashboard/Decks.scss'
 
 export default () => {
 	requiresAuth()
+	
+	const [imageUrls] = useContext(DeckImageUrlsContext)
 	
 	const { slugId, slug } = useParams()
 	const history = useHistory()
@@ -46,7 +51,7 @@ export default () => {
 	return (
 		<Dashboard selection={Selection.Decks} className="decks" gradientHeight="500px">
 			<Head
-				title={`My decks | memorize.ai`}
+				title="My decks | memorize.ai"
 				description={`Your decks on memorize.ai. ${APP_DESCRIPTION}`}
 				breadcrumbs={[
 					[
@@ -59,7 +64,18 @@ export default () => {
 				schemaItems={[
 					{
 						'@type': 'IndividualProduct',
-						name: selectedDeck?.name ?? 'Deck'
+						productID: selectedDeck?.slugId ?? '...',
+						image: (selectedDeck && imageUrls[selectedDeck.id]?.url) ?? Deck.DEFAULT_IMAGE_URL,
+						name: selectedDeck?.name ?? 'Deck',
+						description: selectedDeck?.description ?? '',
+						url: `https://memorize.ai${selectedDeck ? urlForDeckPage(selectedDeck) : ''}`,
+						aggregateRating: {
+							'@type': 'AggregateRating',
+							ratingValue: selectedDeck?.averageRating ?? 0,
+							reviewCount: selectedDeck?.numberOfRatings || 1,
+							worstRating: selectedDeck?.worstRating ?? 0,
+							bestRating: selectedDeck?.bestRating ?? 0
+						}
 					}
 				]}
 			/>

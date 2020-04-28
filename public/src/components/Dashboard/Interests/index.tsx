@@ -5,6 +5,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
+import Topic from '../../../models/Topic'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useTopics from '../../../hooks/useTopics'
 import Head, { APP_DESCRIPTION, APP_SCHEMA } from '../../shared/Head'
@@ -48,8 +49,8 @@ export default () => {
 					<p>Your recommendations</p>
 				</Link>
 			</div>
-			<div className="topics">
-				{useTopics().map(topic => (
+			<div className="topics" {...Topic.schemaProps}>
+				{useTopics().map((topic, i) => (
 					<button
 						key={topic.id}
 						className={cx({
@@ -61,6 +62,7 @@ export default () => {
 						}}
 						{...topic.schemaProps}
 					>
+						<meta {...topic.positionSchemaProps(i)} />
 						<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
 						<div className="check">
 							<FontAwesomeIcon icon={faCheck} />

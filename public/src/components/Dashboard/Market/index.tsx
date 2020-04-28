@@ -143,10 +143,10 @@ export default () => {
 					}memorize.ai Marketplace`
 				}
 				description={
-					`Search the Marketplace ${query && `for ${query}`}${
+					`Search the Marketplace${query && ` for ${query}`}${
 						shouldHideSortAlgorithm
 							? ''
-							: `by ${nameForDeckSortAlgorithm(sortAlgorithm).toLowerCase()}`
+							: ` by ${nameForDeckSortAlgorithm(sortAlgorithm).toLowerCase()}`
 					} on memorize.ai. Unlock your true potential by using Artificial Intelligence to help you learn. ${APP_DESCRIPTION}`
 				}
 				breadcrumbs={[
@@ -163,17 +163,12 @@ export default () => {
 						numberOfItems: decks.length,
 						itemListOrder: 'Descending',
 						itemListElement: decks.map((deck, i) => ({
-							'@type': 'IndividualProduct',
+							'@type': 'ListItem',
 							position: i + 1,
 							image: imageUrls[deck.id]?.url ?? Deck.DEFAULT_IMAGE_URL,
 							name: deck.name,
 							description: deck.description,
-							url: `https://memorize.ai${urlForDeckPage(deck)}`,
-							aggregateRating: {
-								'@type': 'AggregateRating',
-								ratingValue: deck.averageRating,
-								reviewCount: deck.numberOfRatings
-							}
+							url: `https://memorize.ai${urlForDeckPage(deck)}`
 						}))
 					}
 				]}

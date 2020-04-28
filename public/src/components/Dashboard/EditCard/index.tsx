@@ -152,16 +152,6 @@ export default () => {
 						}
 					]
 				]}
-				schemaItems={[
-					{
-						'@type': 'UpdateAction',
-						name: `Edit a card in ${deck?.name ?? 'your deck'}`,
-						description: headDescription,
-						result: {
-							'@type': 'IndividualProduct'
-						}
-					}
-				]}
 			/>
 			<div className="header">
 				<Link

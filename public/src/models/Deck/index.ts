@@ -291,6 +291,22 @@ export default class Deck implements DeckData {
 		return slugParts
 	}
 	
+	get worstRating() {
+		for (const rating of [1, 2, 3, 4, 5])
+			if ((this as any)[`numberOf${rating}StarRatings`] > 0)
+				return rating
+		
+		return 0
+	}
+	
+	get bestRating() {
+		for (const rating of [5, 4, 3, 2, 1])
+			if ((this as any)[`numberOf${rating}StarRatings`] > 0)
+				return rating
+		
+		return 0
+	}
+	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.topics = snapshot.get('topics')
 		this.hasImage = snapshot.get('hasImage')

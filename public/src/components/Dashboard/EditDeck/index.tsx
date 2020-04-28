@@ -132,16 +132,6 @@ export default () => {
 						}
 					]
 				]}
-				schemaItems={[
-					{
-						'@type': 'UpdateAction',
-						name: `Edit ${deck?.name ?? 'deck'}`,
-						description: headDescription,
-						result: {
-							'@type': 'IndividualProduct'
-						}
-					}
-				]}
 			/>
 			<div className="header">
 				<Link to={closeUrl} className="close">

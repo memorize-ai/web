@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignature, faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
+import Topic from '../../models/Topic'
 import useTopics from '../../hooks/useTopics'
 import ImagePicker from './ImagePicker'
 import Input from './Input'
@@ -93,8 +94,8 @@ export default ({
 						You must select relevant topics for your deck to be recommended
 					</p>
 				)}
-				<div className="topics">
-					{useTopics().map(topic => {
+				<div className="topics" {...Topic.schemaProps}>
+					{useTopics().map((topic, i) => {
 						const isSelected = topics.includes(topic.id)
 						
 						return (
@@ -113,6 +114,7 @@ export default ({
 								}}
 								{...topic.schemaProps}
 							>
+								<meta {...topic.positionSchemaProps(i)} />
 								<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
 								<div className="check">
 									<FontAwesomeIcon icon={faCheck} />

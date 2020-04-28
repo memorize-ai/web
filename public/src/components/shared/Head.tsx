@@ -22,7 +22,7 @@ export interface HeadProps<SchemaItems extends Thing[]> {
 	ogImage?: string
 	twitterImage?: string
 	breadcrumbs: Breadcrumb[][]
-	schemaItems: SchemaItems
+	schemaItems?: SchemaItems
 }
 
 export const LOGO_URL = 'https://memorize.ai/square.png'
@@ -83,7 +83,7 @@ export default <SchemaItems extends Thing[]>({
 				<meta property="og:site_name" content="memorize.ai" />
 				<meta property="og:type" content={ogType ?? 'website'} />
 				<meta property="og:title" content={ogTitle} />
-				<meta property="og:description" content={ogDescription ?? description} />
+				<meta property="og:description" content={ogDescription} />
 				<meta property="og:image" content={ogImage} />
 				
 				<meta name="twitter:card" content="summary" />
@@ -103,7 +103,7 @@ export default <SchemaItems extends Thing[]>({
 						'@type': 'WebSite',
 						url: 'https://memorize.ai',
 						name: 'memorize.ai',
-						description: 'Do less. Learn more. Download on the app store for free, and change your life today.',
+						description: APP_DESCRIPTION,
 						potentialAction: [
 							{
 								'@type': 'SearchAction',
@@ -121,7 +121,7 @@ export default <SchemaItems extends Thing[]>({
 							'https://twitter.com/memorize_ai'
 						]
 					},
-					breadcrumbs.map(list => ({
+					...breadcrumbs.map(list => ({
 						'@type': 'BreadcrumbList',
 						itemListElement: list.map(({ name, url }, i) => ({
 							'@type': 'ListItem',
@@ -130,7 +130,7 @@ export default <SchemaItems extends Thing[]>({
 							item: url
 						}))
 					})),
-					...schemaItems
+					...(schemaItems ?? [])
 				]
 			} as any} />
 		</>
