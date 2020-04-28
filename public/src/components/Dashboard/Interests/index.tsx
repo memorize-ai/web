@@ -63,6 +63,7 @@ export default () => {
 						{...topic.schemaProps}
 					>
 						<meta {...topic.positionSchemaProps(i)} />
+						<meta {...topic.urlSchemaProps} />
 						<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
 						<div className="check">
 							<FontAwesomeIcon icon={faCheck} />

@@ -1,5 +1,7 @@
+import { DeckSortAlgorithm } from '../Deck/Search'
 import Category, { categoryFromString, imageUrlFromCategory, defaultCategory } from './Category'
 import firebase from '../../firebase'
+import { urlWithQuery } from '../../utils'
 
 import 'firebase/firestore'
 
@@ -72,8 +74,15 @@ export default class Topic {
 	
 	positionSchemaProps = (index: number) => ({
 		itemProp: 'position',
-		content: index.toString()
+		content: (index + 1).toString()
 	})
+	
+	get urlSchemaProps() {
+		return {
+			itemProp: 'url',
+			content: `https://memorize.ai${this.marketUrl}`
+		}
+	}
 	
 	get imageSchemaProps() {
 		return {
@@ -88,6 +97,13 @@ export default class Topic {
 		return {
 			itemProp: 'name'
 		}
+	}
+	
+	get marketUrl() {
+		return urlWithQuery('/market', {
+			q: this.name,
+			s: DeckSortAlgorithm.Top
+		})
 	}
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {

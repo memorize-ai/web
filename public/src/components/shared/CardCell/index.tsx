@@ -8,7 +8,7 @@ export default ({ card }: { card: Card }) => (
 		className="card-cell default"
 		itemScope
 		itemID={card.id}
-		itemType="https://schema.org/IndividualProduct"
+		itemType="https://schema.org/Thing"
 	>
 		<Base card={card} />
 	</div>

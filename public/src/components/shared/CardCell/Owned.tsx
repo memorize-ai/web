@@ -30,7 +30,7 @@ export default ({ deck, card }: { deck: Deck, card: Card }) => {
 		className: cx('card-cell', 'owned', { owner: isOwner }),
 		itemScope: true,
 		itemID: card.id,
-		itemType: 'https://schema.org/IndividualProduct',
+		itemType: 'https://schema.org/Thing',
 		'aria-label': isDue ? 'Download our iOS app to review' : undefined,
 		'data-balloon-pos': isDue ? 'up' : undefined
 	}
