@@ -16,11 +16,14 @@ import {
 	setCreateDeckDescription,
 	setCreateDeckTopics
 } from '../../../actions'
+import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import PublishDeckContent from '../../shared/PublishDeckContent'
 import Button from '../../shared/Button'
 import { compose } from '../../../utils'
 
 import '../../../scss/components/Dashboard/CreateDeck.scss'
+
+const HEAD_DESCRIPTION = `Create your own deck and change your life today. ${APP_DESCRIPTION}`
 
 export default () => {
 	const [
@@ -89,6 +92,42 @@ export default () => {
 			className="create-deck"
 			gradientHeight="500px"
 		>
+			<Head
+				title="Create deck | memorize.ai"
+				description={HEAD_DESCRIPTION}
+				breadcrumbs={[
+					[
+						{
+							name: 'Market',
+							url: 'https://memorize.ai/market'
+						},
+						{
+							name: 'Create deck',
+							url: window.location.href
+						}
+					],
+					[
+						{
+							name: 'Home',
+							url: 'https://memorize.ai'
+						},
+						{
+							name: 'Create deck',
+							url: window.location.href
+						}
+					]
+				]}
+				schemaItems={[
+					{
+						'@type': 'CreateAction',
+						name: 'Create deck',
+						description: HEAD_DESCRIPTION,
+						result: {
+							'@type': 'IndividualProduct'
+						}
+					}
+				]}
+			/>
 			<div className="header">
 				<h1>Create deck</h1>
 				<Button

@@ -111,11 +111,13 @@ export default ({
 								style={{
 									backgroundImage: `url('${topic.imageUrl}')`
 								}}
+								{...topic.schemaProps}
 							>
+								<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
 								<div className="check">
 									<FontAwesomeIcon icon={faCheck} />
 								</div>
-								<p>{topic.name}</p>
+								<p {...topic.nameSchemaProps}>{topic.name}</p>
 							</button>
 						)
 					})}

@@ -44,10 +44,12 @@ export default () => {
 				description={APP_DESCRIPTION}
 				ogImage={APP_SCREENSHOT_URL}
 				breadcrumbs={[
-					{
-						name: 'Home',
-						url: 'https://memorize.ai'
-					}
+					[
+						{
+							name: 'Home',
+							url: 'https://memorize.ai'
+						}
+					]
 				]}
 				schemaItems={[
 					APP_SCHEMA

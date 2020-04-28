@@ -47,10 +47,12 @@ export default () => {
 				title="memorize.ai - Unsubscribe"
 				description="Unsubscribe from our mailing list"
 				breadcrumbs={[
-					{
-						name: 'Unsubscribe',
-						url: window.location.href
-					}
+					[
+						{
+							name: 'Unsubscribe',
+							url: window.location.href
+						}
+					]
 				]}
 				schemaItems={[
 					{

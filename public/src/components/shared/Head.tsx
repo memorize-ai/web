@@ -21,7 +21,7 @@ export interface HeadProps<SchemaItems extends Thing[]> {
 	twitterDescription?: string
 	ogImage?: string
 	twitterImage?: string
-	breadcrumbs: Breadcrumb[]
+	breadcrumbs: Breadcrumb[][]
 	schemaItems: SchemaItems
 }
 
@@ -121,15 +121,15 @@ export default <SchemaItems extends Thing[]>({
 							'https://twitter.com/memorize_ai'
 						]
 					},
-					{
+					breadcrumbs.map(list => ({
 						'@type': 'BreadcrumbList',
-						itemListElement: breadcrumbs.map(({ name, url }, i) => ({
+						itemListElement: list.map(({ name, url }, i) => ({
 							'@type': 'ListItem',
 							position: i + 1,
 							name,
 							item: url
 						}))
-					},
+					})),
 					...schemaItems
 				]
 			} as any} />

@@ -26,10 +26,12 @@ export default (
 				title={`memorize.ai - ${title}`}
 				description={`${description} ${APP_DESCRIPTION}`}
 				breadcrumbs={[
-					{
-						name: title,
-						url: window.location.href
-					}
+					[
+						{
+							name: title,
+							url: window.location.href
+						}
+					]
 				]}
 				schemaItems={[
 					{

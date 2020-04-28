@@ -12,6 +12,7 @@ import useImageUrl from '../../../hooks/useImageUrl'
 import LoadingState from '../../../models/LoadingState'
 import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
 import { setDeckImageUrl, setDeckImageUrlLoadingState } from '../../../actions'
+import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import Button from '../../shared/Button'
 import PublishDeckContent from '../../shared/PublishDeckContent'
 import Loader from '../../shared/Loader'
@@ -46,6 +47,7 @@ export default () => {
 	const isDisabled = !name
 	
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
+	const headDescription = `Edit ${deck?.name ?? 'your deck'} on memorize.ai. ${APP_DESCRIPTION}`
 	
 	useEffect(() => {
 		if (!deck || didUpdateFromDeck.current)
@@ -111,6 +113,36 @@ export default () => {
 			className="edit-deck"
 			gradientHeight="500px"
 		>
+			<Head
+				title={`Edit ${deck?.name ?? 'deck'} | memorize.ai`}
+				description={headDescription}
+				breadcrumbs={[
+					[
+						{
+							name: 'Decks',
+							url: 'https://memorize.ai/decks'
+						},
+						{
+							name: deck?.name ?? 'Deck',
+							url: `https://memorize.ai/decks/${deck?.slugId ?? '...'}/${deck?.slug ?? '...'}`
+						},
+						{
+							name: `Edit ${deck?.name ?? 'deck'}`,
+							url: window.location.href
+						}
+					]
+				]}
+				schemaItems={[
+					{
+						'@type': 'UpdateAction',
+						name: `Edit ${deck?.name ?? 'deck'}`,
+						description: headDescription,
+						result: {
+							'@type': 'IndividualProduct'
+						}
+					}
+				]}
+			/>
 			<div className="header">
 				<Link to={closeUrl} className="close">
 					<FontAwesomeIcon icon={faTimes} />

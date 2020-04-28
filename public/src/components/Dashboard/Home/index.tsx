@@ -59,10 +59,12 @@ export default () => {
 				title="memorize.ai"
 				description={APP_DESCRIPTION}
 				breadcrumbs={[
-					{
-						name: 'Dashboard',
-						url: window.location.href
-					}
+					[
+						{
+							name: 'Dashboard',
+							url: window.location.href
+						}
+					]
 				]}
 				schemaItems={[
 					APP_SCHEMA

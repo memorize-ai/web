@@ -21,10 +21,12 @@ export default () => {
 				title="memorize.ai - 404"
 				description="Oops! Looks like you have the wrong URL."
 				breadcrumbs={[
-					{
-						name: '404',
-						url: window.location.href
-					}
+					[
+						{
+							name: '404',
+							url: window.location.href
+						}
+					]
 				]}
 				schemaItems={[
 					APP_SCHEMA

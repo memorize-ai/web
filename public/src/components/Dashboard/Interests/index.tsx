@@ -23,10 +23,12 @@ export default () => {
 				title="memorize.ai - Interests"
 				description={`Choose your interests so we can show you recommendations. ${APP_DESCRIPTION}`}
 				breadcrumbs={[
-					{
-						name: 'Interests',
-						url: window.location.href
-					}
+					[
+						{
+							name: 'Interests',
+							url: window.location.href
+						}
+					]
 				]}
 				schemaItems={[
 					APP_SCHEMA
