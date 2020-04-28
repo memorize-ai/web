@@ -9,6 +9,7 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
 import useRecommendedDecks from '../../../hooks/useRecommendedDecks'
 import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
+import Head, { APP_DESCRIPTION, APP_SCHEMA } from '../../shared/Head'
 import OwnedDeckCell from '../../shared/DeckCell/Owned'
 import DeckCell from '../../shared/DeckCell'
 import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
@@ -54,6 +55,19 @@ export default () => {
 	
 	return (
 		<Dashboard selection={Selection.Home} className="home" gradientHeight="500px">
+			<Head
+				title="memorize.ai"
+				description={APP_DESCRIPTION}
+				breadcrumbs={[
+					{
+						name: 'Dashboard',
+						url: window.location.href
+					}
+				]}
+				schemaItems={[
+					APP_SCHEMA
+				]}
+			/>
 			<div className="header">
 				<div className="left">
 					<h1 className="title">

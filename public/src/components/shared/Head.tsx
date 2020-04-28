@@ -1,6 +1,8 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import Schema, { Thing } from 'schema.org-react'
+import Schema, { Thing, MobileApplication } from 'schema.org-react'
+
+import { APP_SCREENSHOT_URL, APP_STORE_URL } from '../../constants'
 
 export interface Breadcrumb {
 	name: string
@@ -24,7 +26,32 @@ export interface HeadProps<SchemaItems extends Thing[]> {
 }
 
 export const LOGO_URL = 'https://memorize.ai/square.png'
-export const APP_STORE_DESCRIPTION = 'Do less. Learn more. Download on the app store for free, and change your life today.'
+export const APP_DESCRIPTION = 'Do less. Learn more. Download on the app store for free, and change your life today.'
+
+export const APP_SCHEMA: MobileApplication = {
+	'@type': 'MobileApplication',
+	name: 'memorize.ai',
+	operatingSystem: 'iOS',
+	softwareVersion: '3.1.6',
+	screenshot: APP_SCREENSHOT_URL,
+	downloadUrl: APP_STORE_URL,
+	installUrl: APP_STORE_URL,
+	author: 'memorize.ai',
+	aggregateRating: {
+		'@type': 'AggregateRating',
+		ratingValue: 5,
+		ratingCount: 1,
+		bestRating: 5,
+		worstRating: 5
+	},
+	applicationCategory: 'Education',
+	offers: {
+		'@type': 'Offer',
+		price: 0,
+		priceCurrency: 'USD',
+		seller: 'memorize.ai'
+	}
+}
 
 export default <SchemaItems extends Thing[]>({
 	canonical: _canonical,

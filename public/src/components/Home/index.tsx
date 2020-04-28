@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import useQuery from '../../hooks/useQuery'
 import useAuthModal from '../../hooks/useAuthModal'
-import Head, { MobileApplication, APP_STORE_DESCRIPTION } from '../shared/Head'
+import Head, { APP_DESCRIPTION, APP_SCHEMA } from '../shared/Head'
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
 import Header from './Header'
@@ -12,7 +12,7 @@ import Screenshots from './Screenshots'
 import Integrations from './Integrations'
 import Footer from './Footer'
 import firebase from '../../firebase'
-import { APP_STORE_URL, APP_SCREENSHOT_URL } from '../../constants'
+import { APP_SCREENSHOT_URL } from '../../constants'
 
 import 'firebase/analytics'
 
@@ -38,10 +38,10 @@ export default () => {
 	
 	return (
 		<div className="home-root">
-			<Head<[MobileApplication]>
+			<Head
 				canonical="https://memorize.ai"
 				title="memorize.ai: Do less, learn more"
-				description={APP_STORE_DESCRIPTION}
+				description={APP_DESCRIPTION}
 				ogImage={APP_SCREENSHOT_URL}
 				breadcrumbs={[
 					{
@@ -50,30 +50,7 @@ export default () => {
 					}
 				]}
 				schemaItems={[
-					{
-						'@type': 'MobileApplication',
-						name: 'memorize.ai',
-						operatingSystem: 'iOS',
-						softwareVersion: '3.1.2',
-						screenshot: APP_SCREENSHOT_URL,
-						downloadUrl: APP_STORE_URL,
-						installUrl: APP_STORE_URL,
-						author: 'memorize.ai',
-						aggregateRating: {
-							'@type': 'AggregateRating',
-							ratingValue: 5,
-							ratingCount: 1,
-							bestRating: 5,
-							worstRating: 5
-						},
-						applicationCategory: 'Education',
-						offers: {
-							'@type': 'Offer',
-							price: 0,
-							priceCurrency: 'USD',
-							seller: 'memorize.ai'
-						}
-					}
+					APP_SCHEMA
 				]}
 			/>
 			<TopGradient>

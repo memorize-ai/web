@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useEffect } from 'react'
 
 import firebase from '../../firebase'
-import Head, { APP_STORE_DESCRIPTION } from './Head'
+import Head, { APP_DESCRIPTION } from './Head'
 
 import 'firebase/analytics'
 
@@ -24,7 +24,7 @@ export default (
 		<div className="policy">
 			<Head
 				title={`memorize.ai - ${title}`}
-				description={`${description} ${APP_STORE_DESCRIPTION}`}
+				description={`${description} ${APP_DESCRIPTION}`}
 				breadcrumbs={[
 					{
 						name: title,
