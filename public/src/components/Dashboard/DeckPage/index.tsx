@@ -44,17 +44,20 @@ export default () => {
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
 	
 	const numberOfDecks = Counters.get(Counter.Decks)
+	const imageUrl = (deck && imageUrls[deck.id]?.url) ?? Deck.DEFAULT_IMAGE_URL
 	
 	return (
 		<Dashboard selection={Selection.Market} className="deck-page" gradientHeight="500px">
 			<Head
 				title={`${deck ? `${deck.name} | ` : ''}memorize.ai`}
 				description={
-					`Get ${deck?.name ?? 'this deck'} on memorize.ai, with ${
+					deck?.description || `Get ${
+						deck?.name ?? 'this deck'
+					} on memorize.ai, with ${
 						formatNumber(deck?.numberOfCards ?? 0)
 					} card${deck?.numberOfCards === 1 ? '' : 's'}. ${APP_DESCRIPTION}`
 				}
-				ogImage={(deck && imageUrls[deck.id]?.url) ?? Deck.DEFAULT_IMAGE_URL}
+				ogImage={imageUrl}
 				breadcrumbs={[
 					[
 						{
@@ -70,7 +73,18 @@ export default () => {
 				schemaItems={[
 					{
 						'@type': 'IndividualProduct',
-						
+						productID: deck?.slugId ?? '...',
+						image: imageUrl,
+						name: deck?.name ?? 'Deck',
+						description: deck?.description ?? '',
+						url: window.location.href,
+						aggregateRating: {
+							'@type': 'AggregateRating',
+							ratingValue: deck?.averageRating ?? 0,
+							reviewCount: deck?.numberOfRatings || 1,
+							worstRating: deck?.worstRating ?? 0,
+							bestRating: deck?.bestRating ?? 0
+						}
 					}
 				]}
 			/>
