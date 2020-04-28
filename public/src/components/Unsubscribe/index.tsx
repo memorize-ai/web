@@ -44,7 +44,7 @@ export default () => {
 			})}
 		>
 			<Head
-				title="memorize.ai - Unsubscribe"
+				title="Unsubscribe | memorize.ai"
 				description="Unsubscribe from our mailing list"
 				breadcrumbs={[
 					[

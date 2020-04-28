@@ -7,6 +7,7 @@ import LoadingState from '../../../models/LoadingState'
 import requiresAuth from '../../../hooks/requiresAuth'
 import useSelectedDeck from '../../../hooks/useSelectedDeck'
 import useDecks from '../../../hooks/useDecks'
+import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import Header from './Header'
 import Sections from './Sections'
 import Loader from '../../shared/Loader'
@@ -44,6 +45,24 @@ export default () => {
 	
 	return (
 		<Dashboard selection={Selection.Decks} className="decks" gradientHeight="500px">
+			<Head
+				title={`My decks | memorize.ai`}
+				description={`Your decks on memorize.ai. ${APP_DESCRIPTION}`}
+				breadcrumbs={[
+					[
+						{
+							name: 'Decks',
+							url: window.location.href
+						}
+					]
+				]}
+				schemaItems={[
+					{
+						'@type': 'IndividualProduct',
+						name: selectedDeck?.name ?? 'Deck'
+					}
+				]}
+			/>
 			<Header deck={selectedDeck} />
 			<div className="content">
 				<div className={cx('box', { loading: !selectedDeck })}>

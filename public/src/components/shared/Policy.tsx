@@ -23,7 +23,7 @@ export default (
 	return (
 		<div className="policy">
 			<Head
-				title={`memorize.ai - ${title}`}
+				title={`${title} | memorize.ai`}
 				description={`${description} ${APP_DESCRIPTION}`}
 				breadcrumbs={[
 					[

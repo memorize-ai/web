@@ -20,7 +20,7 @@ export default () => {
 	return (
 		<Dashboard selection={Selection.Interests} className="interests" gradientHeight="500px">
 			<Head
-				title="memorize.ai - Interests"
+				title="Interests | memorize.ai"
 				description={`Choose your interests so we can show you recommendations. ${APP_DESCRIPTION}`}
 				breadcrumbs={[
 					[

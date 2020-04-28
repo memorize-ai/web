@@ -18,7 +18,7 @@ export default () => {
 	return (
 		<div className="page-404">
 			<Head
-				title="memorize.ai - 404"
+				title="404 | memorize.ai"
 				description="Oops! Looks like you have the wrong URL."
 				breadcrumbs={[
 					[
