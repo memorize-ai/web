@@ -15,6 +15,7 @@ import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
 import useCard from '../../../hooks/useCard'
 import useLocalStorageBoolean from '../../../hooks/useLocalStorageBoolean'
+import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import CKEditor from '../../shared/CKEditor'
 import Loader from '../../shared/Loader'
 import ConfirmationModal from '../../shared/Modal/Confirmation'
@@ -63,6 +64,7 @@ export default () => {
 	), [deck, currentUser])
 	
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
+	const headDescription = `Edit a card in ${deck?.name ?? 'your deck'}. ${APP_DESCRIPTION}`
 	
 	const isSameContent = (
 		section?.id === card?.sectionId &&
@@ -131,6 +133,36 @@ export default () => {
 			className="edit-card"
 			gradientHeight="500px"
 		>
+			<Head
+				title={`Edit card${deck ? ` | ${deck.name}` : ''} | memorize.ai`}
+				description={headDescription}
+				breadcrumbs={[
+					[
+						{
+							name: 'Decks',
+							url: 'https://memorize.ai/decks'
+						},
+						{
+							name: deck?.name ?? 'Deck',
+							url: `https://memorize.ai/decks/${deck?.slugId ?? '...'}/${deck?.slug ?? '...'}`
+						},
+						{
+							name: 'Edit card',
+							url: window.location.href
+						}
+					]
+				]}
+				schemaItems={[
+					{
+						'@type': 'UpdateAction',
+						name: `Edit a card in ${deck?.name ?? 'your deck'}`,
+						description: headDescription,
+						result: {
+							'@type': 'IndividualProduct'
+						}
+					}
+				]}
+			/>
 			<div className="header">
 				<Link
 					className="close"
