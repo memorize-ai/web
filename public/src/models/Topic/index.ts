@@ -55,6 +55,28 @@ export default class Topic {
 			}
 		)
 	
+	get schemaProps() {
+		return {
+			itemScope: true,
+			itemType: 'https://schema.org/Thing'
+		}
+	}
+	
+	get imageSchemaProps() {
+		return {
+			hidden: true,
+			itemProp: 'image',
+			src: this.imageUrl,
+			alt: this.name
+		}
+	}
+	
+	get nameSchemaProps() {
+		return {
+			itemProp: 'name'
+		}
+	}
+	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.name = snapshot.get('name')
 		this.category = categoryFromString(snapshot.get('category'))

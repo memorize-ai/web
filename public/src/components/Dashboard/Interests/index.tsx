@@ -7,6 +7,7 @@ import cx from 'classnames'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useTopics from '../../../hooks/useTopics'
+import Head, { APP_DESCRIPTION, APP_SCHEMA } from '../../shared/Head'
 import { urlForMarket } from '../Market'
 
 import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
@@ -18,6 +19,19 @@ export default () => {
 	
 	return (
 		<Dashboard selection={Selection.Interests} className="interests" gradientHeight="500px">
+			<Head
+				title="memorize.ai - Interests"
+				description={`Choose your interests so we can show you recommendations. ${APP_DESCRIPTION}`}
+				breadcrumbs={[
+					{
+						name: 'Interests',
+						url: window.location.href
+					}
+				]}
+				schemaItems={[
+					APP_SCHEMA
+				]}
+			/>
 			<div className="header">
 				<div className="left">
 					<h1 className="title">
@@ -43,11 +57,13 @@ export default () => {
 						style={{
 							backgroundImage: `url('${topic.imageUrl}')`
 						}}
+						{...topic.schemaProps}
 					>
+						<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
 						<div className="check">
 							<FontAwesomeIcon icon={faCheck} />
 						</div>
-						<p>{topic.name}</p>
+						<p {...topic.nameSchemaProps}>{topic.name}</p>
 					</button>
 				))}
 			</div>
