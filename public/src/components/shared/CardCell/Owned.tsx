@@ -28,6 +28,9 @@ export default ({ deck, card }: { deck: Deck, card: Card }) => {
 	
 	const props = {
 		className: cx('card-cell', 'owned', { owner: isOwner }),
+		itemScope: true,
+		itemID: card.id,
+		itemType: 'https://schema.org/IndividualProduct',
 		'aria-label': isDue ? 'Download our iOS app to review' : undefined,
 		'data-balloon-pos': isDue ? 'up' : undefined
 	}

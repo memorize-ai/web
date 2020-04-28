@@ -8,7 +8,9 @@ import '../../../scss/components/CardCell/Base.scss'
 export default ({ card }: { card: Card }) => (
 	<div className="sides">
 		<div className="side">
-			<CardSide>{card.front}</CardSide>
+			<CardSide itemProp="name">
+				{card.front}
+			</CardSide>
 			<p>Front</p>
 		</div>
 		<div className="divider" />

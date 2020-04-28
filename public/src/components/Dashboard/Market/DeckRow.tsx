@@ -63,14 +63,27 @@ export default ({ deck, remove }: { deck: Deck, remove: () => void }) => {
 	}
 	
 	return (
-		<Link to={urlForDeckPage(deck)} className="deck-row">
-			<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
+		<Link
+			to={urlForDeckPage(deck)}
+			className="deck-row"
+			itemScope
+			itemID={deck.id}
+			itemType="https://schema.org/IndividualProduct"
+		>
+			<img
+				itemProp="image"
+				src={imageUrl ?? Deck.DEFAULT_IMAGE_URL}
+				alt={deck.name}
+			/>
 			<div className="content">
-				<p className="name">
+				<p className="name" itemProp="name">
 					{deck.name}
 				</p>
 				<p className="subtitle">
 					{deck.subtitle}
+				</p>
+				<p hidden itemProp="description">
+					{deck.description}
 				</p>
 				{deck.creatorName && (
 					<div className="creator">
@@ -79,7 +92,14 @@ export default ({ deck, remove }: { deck: Deck, remove: () => void }) => {
 					</div>
 				)}
 				<div className="stats">
-					<div className="rating">
+					<div
+						className="rating"
+						itemProp="aggregateRating"
+						itemScope
+						itemType="https://schema.org/AggregateRating"
+					>
+						<p hidden itemProp="ratingValue">{deck.averageRating}</p>
+						<p hidden itemProp="reviewCount">{deck.numberOfRatings}</p>
 						<Stars>{deck.averageRating}</Stars>
 						<p>({formatNumber(deck.numberOfRatings)})</p>
 					</div>

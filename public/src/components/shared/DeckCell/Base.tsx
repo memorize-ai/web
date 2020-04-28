@@ -20,14 +20,27 @@ export default (
 	const [imageUrl] = useImageUrl(deck)
 	
 	return (
-		<Link to={href} className={cx('deck-cell', className)}>
-			<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
+		<Link
+			to={href}
+			className={cx('deck-cell', className)}
+			itemScope
+			itemID={deck.id}
+			itemType="https://schema.org/IndividualProduct"
+		>
+			<img
+				itemProp="image"
+				src={imageUrl ?? Deck.DEFAULT_IMAGE_URL}
+				alt={deck.name}
+			/>
 			<div className="content">
-				<p {...nameProps} className="name">
+				<p {...nameProps} className="name" itemProp="name">
 					{deck.name}
 				</p>
 				<p className="subtitle">
 					{deck.subtitle}
+				</p>
+				<p hidden itemProp="description">
+					{deck.description}
 				</p>
 				{deck.creatorName && (
 					<div className="creator">

@@ -71,7 +71,14 @@ export default ({ deck, onRemove }: { deck: Deck, onRemove: () => void }) => {
 			}}
 		>
 			<div className="stats">
-				<div className="rating">
+				<div
+					className="rating"
+					itemProp="aggregateRating"
+					itemScope
+					itemType="https://schema.org/AggregateRating"
+				>
+					<p hidden itemProp="ratingValue">{deck.averageRating}</p>
+					<p hidden itemProp="reviewCount">{deck.numberOfRatings}</p>
 					<Stars>{deck.averageRating}</Stars>
 					<p>({formatNumber(deck.numberOfRatings)})</p>
 				</div>

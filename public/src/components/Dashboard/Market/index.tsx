@@ -1,11 +1,11 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react'
-import Helmet from 'react-helmet'
+import React, { useRef, useState, useEffect, useCallback, useContext } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroller'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
+import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
 import useQuery from '../../../hooks/useQuery'
 import useSearchState from '../../../hooks/useSearchState'
 import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
@@ -17,12 +17,14 @@ import DeckSearch, {
 	DeckSortAlgorithm
 } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
+import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
 import { DropdownShadow } from '../../shared/Dropdown'
 import DeckRow from './DeckRow'
 import Loader from '../../shared/Loader'
 import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
+import { urlForDeckPage } from '../DeckPage'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Market.scss'
@@ -39,6 +41,8 @@ export const urlForMarket = () => {
 }
 
 export default () => {
+	const [imageUrls] = useContext(DeckImageUrlsContext)
+	
 	const isLoading = useRef(true)
 	const scrollingContainerRef = useRef(null as HTMLDivElement | null)
 	
@@ -58,6 +62,11 @@ export default () => {
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
 	
 	const numberOfDecks = Counters.get(Counter.Decks)
+	
+	const shouldHideSortAlgorithm = (
+		sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM ||
+		sortAlgorithm === DeckSortAlgorithm.Relevance
+	)
 	
 	useEffect(() => {
 		isLoading.current = true
@@ -125,17 +134,50 @@ export default () => {
 	
 	return (
 		<Dashboard selection={Selection.Market} className="market" gradientHeight="500px">
-			<Helmet>
-				<title>
-					{
-						query && `${query} | `
-					}{
-						sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+			<Head
+				title={
+					`${query && `${query} | `}${
+						shouldHideSortAlgorithm
 							? ''
 							: `${nameForDeckSortAlgorithm(sortAlgorithm)} | `
-					}memorize.ai - Market
-				</title>
-			</Helmet>
+					}memorize.ai Marketplace`
+				}
+				description={
+					`Search the Marketplace ${query && `for ${query}`}${
+						shouldHideSortAlgorithm
+							? ''
+							: `by ${nameForDeckSortAlgorithm(sortAlgorithm).toLowerCase()}`
+					} on memorize.ai. Unlock your true potential by using Artificial Intelligence to help you learn. ${APP_DESCRIPTION}`
+				}
+				breadcrumbs={[
+					[
+						{
+							name: 'Market',
+							url: window.location.href
+						}
+					]
+				]}
+				schemaItems={[
+					{
+						'@type': 'ItemList',
+						numberOfItems: decks.length,
+						itemListOrder: 'Descending',
+						itemListElement: decks.map((deck, i) => ({
+							'@type': 'IndividualProduct',
+							position: i + 1,
+							image: imageUrls[deck.id]?.url ?? Deck.DEFAULT_IMAGE_URL,
+							name: deck.name,
+							description: deck.description,
+							url: `https://memorize.ai${urlForDeckPage(deck)}`,
+							aggregateRating: {
+								'@type': 'AggregateRating',
+								ratingValue: deck.averageRating,
+								reviewCount: deck.numberOfRatings
+							}
+						}))
+					}
+				]}
+			/>
 			<div className="header">
 				<Link
 					className="create"
