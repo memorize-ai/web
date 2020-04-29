@@ -162,11 +162,14 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
+				width: calc(100vw - var(--sidebar-width) - #{$margin * 4});
 				padding-bottom: 16px;
 				margin-bottom: 16px;
 				border-bottom: 2px solid #eee;
 				
 				> .name {
+					@include overflow-ellipsis;
+					
 					font-size: larger;
 					font-weight: 900;
 				}
@@ -256,7 +259,13 @@
 					> .header {
 						display: flex;
 						align-items: center;
+						overflow: hidden;
 						margin-bottom: 4px;
+						
+						> svg,
+						> label {
+							flex-shrink: 0;
+						}
 						
 						> svg {
 							margin-right: 8px;

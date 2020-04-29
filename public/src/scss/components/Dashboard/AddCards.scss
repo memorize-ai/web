@@ -2,6 +2,8 @@
 @import '../../mixins';
 @import '../../functions';
 
+@include dashboard-sidebar-collapse('add-cards', 842px);
+
 @include dashboard-content('add-cards') {
 	$margin: 30px;
 	
@@ -23,6 +25,13 @@
 		display: flex;
 		align-items: center;
 		margin: 12px 4px;
+		
+		> .close,
+		> img,
+		> .save,
+		> .delete {
+			flex-shrink: 0;
+		}
 		
 		> .close {
 			display: grid;
@@ -55,9 +64,17 @@
 		}
 		
 		> h1 {
-			margin-right: auto;
+			@include overflow-ellipsis;
+			
+			width: 0;
+			margin: 0 auto 0 -12px;
 			font-weight: 900;
 			color: white;
+			
+			@media (min-width: 460px) {
+				width: auto;
+				margin-left: 0;
+			}
 		}
 		
 		> .save,
@@ -80,7 +97,7 @@
 		}
 		
 		> .save {
-			margin-right: 12px;
+			margin: 0 12px;
 			padding: 0 12px;
 			font-weight: 800;
 			text-transform: uppercase;
@@ -140,6 +157,11 @@
 				color: $dark-gray;
 			}
 			
+			> .header,
+			> .content > .cards > .card > .header {
+				width: calc(100vw - var(--sidebar-width) - #{$margin * 4});
+			}
+			
 			> .header {
 				display: flex;
 				justify-content: space-between;
@@ -149,6 +171,8 @@
 				border-bottom: 2px solid #eee;
 				
 				> .name {
+					@include overflow-ellipsis;
+					
 					font-size: larger;
 					font-weight: 900;
 				}
@@ -240,6 +264,7 @@
 							border-bottom: 1.5px solid #eee;
 							
 							> .summary {
+								width: calc(100% - 65px);
 								color: $dark-gray;
 								
 								> label {
@@ -249,12 +274,15 @@
 								}
 								
 								> p {
+									@include overflow-ellipsis;
+									
 									margin-top: -2px;
 									font-weight: bold;
 								}
 							}
 							
 							> .remove {
+								flex-shrink: 0;
 								width: 50px;
 								height: 30px;
 								color: white;
@@ -285,7 +313,13 @@
 								> .header {
 									display: flex;
 									align-items: center;
+									overflow: hidden;
 									margin-bottom: 4px;
+									
+									> svg,
+									> label {
+										flex-shrink: 0;
+									}
 									
 									> svg {
 										margin-right: 8px;
