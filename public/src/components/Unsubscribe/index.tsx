@@ -31,8 +31,10 @@ export default () => {
 			.update({ [`unsubscribed.${type}`]: true })
 			.then(() => setLoadingState(LoadingState.Success))
 			.catch(error => {
-				setErrorMessage(error.message)
+				setErrorMessage('An unknown error occurred')
 				setLoadingState(LoadingState.Fail)
+				
+				console.error(error)
 			})
 	}, [uid, type])
 	
