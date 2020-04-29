@@ -2,6 +2,8 @@
 @import '../../mixins';
 @import '../../functions';
 
+@include dashboard-sidebar-collapse('decks', 980px);
+
 @include dashboard-content('decks') {
 	$margin: 30px;
 	
@@ -9,14 +11,24 @@
 	grid:
 		'header' auto
 		'content' 1fr /
-		calc(100vw - var(--sidebar-width));
+		auto;
 	overflow: visible;
 	
 	> .header {
 		grid-area: header;
 		display: flex;
 		align-items: center;
+		overflow-x: auto;
 		margin: 12px $margin;
+		
+		@media (min-width: 650px) {
+			overflow-x: hidden;
+			
+			> .name {
+				flex-shrink: 1 !important;
+				max-width: none !important;
+			}
+		}
 		
 		> img {
 			width: 70px;
@@ -29,6 +41,8 @@
 		> .name {
 			@include overflow-ellipsis;
 			
+			flex-shrink: 0;
+			max-width: 400px;
 			height: 50px;
 			margin: 0 auto 0 12px;
 			font-weight: 900;
@@ -205,11 +219,12 @@
 		> .box {
 			@include shadow-lg;
 			
+			width: calc(100vw - var(--sidebar-width) - #{$margin * 2});
 			height: max-content;
-			background: white;
-			border-radius: 8px;
 			margin: 0 raw-repeat(3, $margin);
 			padding: $margin;
+			background: white;
+			border-radius: 8px;
 			
 			&.loading {
 				display: grid;
@@ -219,28 +234,32 @@
 			}
 			
 			> .section {
-				> a {
+				> .add-cards-container {
 					display: flex;
-					align-items: center;
-					width: max-content;
-					margin: 12px auto 0 auto;
-					padding: 8px 14px;
-					color: white;
-					background: #582efe;
-					border-radius: 8px;
-					transition: background 0.3s;
+					justify-content: center;
+					margin-top: 12px;
 					
-					> svg {
-						margin-right: 10px;
-						transform: scale(1.2);
-					}
-					
-					> p {
-						font-weight: 900;
-					}
-					
-					&:hover {
-						background: #051e34;
+					> a {
+						display: flex;
+						align-items: center;
+						padding: 8px 14px;
+						color: white;
+						background: #582efe;
+						border-radius: 8px;
+						transition: background 0.3s;
+						
+						> svg {
+							margin-right: 10px;
+							transform: scale(1.2);
+						}
+						
+						> p {
+							font-weight: 900;
+						}
+						
+						&:hover {
+							background: #051e34;
+						}
 					}
 				}
 				

@@ -42,10 +42,20 @@ export default (
 				reorder={reorder}
 			/>
 			{currentUser?.id === deck.creatorId && (
-				<Link to={`/decks/${deck.slugId}/${deck.slug}/add${section.isUnsectioned ? '' : `/${section.id}`}`}>
-					<FontAwesomeIcon icon={faPlus} />
-					<p>Add cards to <i>{section.name}</i></p>
-				</Link>
+				<div className="add-cards-container">
+					<Link to={
+						`/decks/${
+							deck.slugId
+						}/${
+							deck.slug
+						}/add${
+							section.isUnsectioned ? '' : `/${section.id}`
+						}`
+					}>
+						<FontAwesomeIcon icon={faPlus} />
+						<p>Add cards to <i>{section.name}</i></p>
+					</Link>
+				</div>
 			)}
 			{isExpanded && (!cards || cards.length > 0) && (
 				cards

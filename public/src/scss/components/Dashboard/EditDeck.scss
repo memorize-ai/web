@@ -80,6 +80,7 @@
 		> .box {
 			@include shadow-lg;
 			
+			width: calc(100vw - var(--sidebar-width) - #{30px * 2});
 			padding: 30px;
 			background: white;
 			border-radius: 8px;

@@ -8,10 +8,15 @@
 	cursor: pointer;
 	font-size: 18px;
 	
+	> :not(.name) {
+		flex-shrink: 0;
+	}
+	
 	> .divider {
 		$height: 2px;
 		
 		flex-grow: 1;
+		min-width: 30px;
 		height: $height;
 		margin: 0 12px;
 		background: #ddd;
@@ -19,9 +24,14 @@
 	}
 	
 	> .card-count {
+		display: none;
 		font-weight: bold;
 		color: #582efe;
 		transform: translateY(-2px);
+		
+		@media (min-width: 470px) {
+			display: block;
+		}
 	}
 	
 	> .toggle-expanded-button {

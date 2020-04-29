@@ -51,8 +51,18 @@ export default () => {
 	return (
 		<Dashboard selection={Selection.Decks} className="decks" gradientHeight="500px">
 			<Head
-				title="My decks | memorize.ai"
-				description={`Your decks on memorize.ai. ${APP_DESCRIPTION}`}
+				title={
+					`${selectedDeck
+							? `${selectedDeck.name} | `
+							: ''
+					}My decks | memorize.ai`
+				}
+				description={
+					`${selectedDeck
+						? `${selectedDeck.name} - `
+						: ''
+					}My decks on memorize.ai. ${APP_DESCRIPTION}`
+				}
 				breadcrumbs={[
 					[
 						{

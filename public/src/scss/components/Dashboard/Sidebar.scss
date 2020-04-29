@@ -29,14 +29,20 @@ $divider-color: transparentize(#ddd, 0.8);
 	> .top {
 		grid-area: top;
 		
-		> a > img {
+		> a {
 			$left-margin: 12px;
 			$vertical-margin: 15px;
 			
 			@include raise-on-hover;
 			
+			display: block;
+			width: max-content;
 			height: 41px;
 			margin: $vertical-margin 0 $vertical-margin $left-margin;
+			
+			> img {
+				height: 100%;
+			}
 		}
 		
 		> .divider {

@@ -12,7 +12,17 @@
 	
 	> .sides {
 		display: grid;
-		grid: auto / 1fr 1px 1fr;
+		grid: auto 2px auto / auto;
+		
+		@media (min-width: 650px) {
+			grid: auto / 1fr 2px 1fr;
+			
+			> .divider {
+				width: 2px;
+				height: auto !important;
+				margin: 8px 0 !important;
+			}
+		}
 		
 		> .side {
 			display: flex;
@@ -31,8 +41,8 @@
 		}
 		
 		> .divider {
-			width: 2px;
-			margin: 8px 0;
+			height: 2px;
+			margin: 0 10px 8px 10px;
 			background: #eee;
 		}
 	}
