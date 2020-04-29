@@ -28,14 +28,9 @@ export default () => {
 	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)
 	const [downloadAppMessage, setDownloadAppMessage] = useState('')
 	
-	const dueCards = decks
-		.filter(deck => deck.userData?.numberOfDueCards)
-		.sort(({ userData: a }, { userData: b }) =>
-			a!.numberOfDueCards - b!.numberOfDueCards
-		)
-		.reduce((acc, deck) => (
-			acc + deck.userData!.numberOfDueCards
-		), 0)
+	const dueCards = decks.reduce((acc, deck) => (
+		acc + (deck.userData?.numberOfDueCards ?? 0)
+	), 0)
 	
 	const decksByCardsDue = decks.sort((a, b) =>
 		(b.userData?.numberOfDueCards ?? 0) - (a.userData?.numberOfDueCards ?? 0)
