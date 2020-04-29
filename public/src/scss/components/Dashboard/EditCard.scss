@@ -2,6 +2,8 @@
 @import '../../mixins';
 @import '../../functions';
 
+@include dashboard-sidebar-collapse('edit-card', 795px);
+
 @include dashboard-content('edit-card') {
 	$margin: 30px;
 	
@@ -22,7 +24,15 @@
 		grid-area: header;
 		display: flex;
 		align-items: center;
-		margin: 12px 4px;
+		margin: 12px $margin;
+		padding: 0 4px;
+		
+		> .close,
+		> img,
+		> .save,
+		> .delete {
+			flex-shrink: 0;
+		}
 		
 		> .close {
 			display: grid;
@@ -55,9 +65,17 @@
 		}
 		
 		> h1 {
-			margin-right: auto;
+			@include overflow-ellipsis;
+			
+			width: 0;
+			margin: 0 auto 0 -12px;
 			font-weight: 900;
 			color: white;
+			
+			@media (min-width: 420px) {
+				width: auto;
+				margin-left: 0;
+			}
 		}
 		
 		> .save,
@@ -80,7 +98,7 @@
 		}
 		
 		> .save {
-			margin-right: 12px;
+			margin: 0 12px;
 			padding: 0 12px;
 			font-weight: 800;
 			text-transform: uppercase;

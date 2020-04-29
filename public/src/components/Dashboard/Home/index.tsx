@@ -43,8 +43,11 @@ export default () => {
 			return
 		
 		setDownloadAppMessage(
-			`Download memorize.ai on the App Store to review ${formatNumber(numberOfDueCards)} card${numberOfDueCards === 1 ? '' : 's'}!`
+			`Download memorize.ai on the App Store to review ${
+				formatNumber(numberOfDueCards)
+			} card${numberOfDueCards === 1 ? '' : 's'}!`
 		)
+		
 		setIsDownloadAppModalShowing(true)
 	}, [])
 	
