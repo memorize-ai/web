@@ -28,8 +28,8 @@
 		> .name,
 		> .subtitle,
 		> .creator > p {
-			display: -webkit-box;
-			-webkit-box-orient: vertical;
+			@include prepare-for-line-limit;
+			
 			overflow: hidden;
 		}
 		

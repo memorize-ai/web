@@ -1,15 +1,38 @@
 @import '../../variables';
 @import '../../mixins';
 
+@include dashboard-sidebar-collapse('home', 780px);
+
 @include dashboard-content('home') {
 	> .header {
+		--right-offset: 0px;
+		
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		margin: 16px 30px 0 30px;
 		
+		@media (min-width: 450px) {
+			--right-offset: 180px;
+			
+			> .create-deck-link {
+				display: flex !important;
+			}
+		}
+		
+		> .left,
+		> .create-deck-link {
+			flex-shrink: 0;
+		}
+		
 		> .left {
+			width: calc(100vw - var(--sidebar-width) - #{30px * 2} - var(--right-offset));
 			color: white;
+			
+			> .title,
+			> .subtitle {
+				@include overflow-ellipsis;
+			}
 			
 			> .title {
 				font-weight: 900;
@@ -37,7 +60,7 @@
 		}
 		
 		> .create-deck-link {
-			display: flex;
+			display: none;
 			align-items: center;
 			padding: 10px 16px;
 			color: #582efe;

@@ -29,13 +29,13 @@ export default (
 	}, [])
 	
 	return (
-		<div className="dashboard">
+		<div className={cx('dashboard', className)}>
 			<Sidebar />
 			<div className="content">
 				<div className="background" style={{ height: gradientHeight }} />
 				<div className="container">
 					<Navbar selection={selection} />
-					<div className={cx('foreground', className)}>
+					<div className="foreground">
 						{children}
 					</div>
 				</div>

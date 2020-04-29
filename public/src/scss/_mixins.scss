@@ -37,8 +37,20 @@
 	transform-origin: top if($is-right, right, left);
 }
 
+@mixin dashboard-sidebar-collapse($class, $max-width) {
+	@media (max-width: $max-width) {
+		.dashboard.#{$class} {
+			--sidebar-width: 0px;
+			
+			> .sidebar {
+				display: none;
+			}
+		}
+	}
+}
+
 @mixin dashboard-content($class) {
-	.dashboard > .content > .container > .foreground.#{$class} {
+	.dashboard.#{$class} > .content > .container > .foreground {
 		@content;
 	}
 }
@@ -53,4 +65,21 @@
 	.ck.ck-dropdown__panel.ck-dropdown__panel_sw > .ck.ck-toolbar > .ck.ck-toolbar__items {
 		@content;
 	}
+}
+
+@mixin overflow-ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+@mixin prepare-for-line-limit {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+@mixin line-limit($lines) {
+	@include prepare-for-line-limit;
+	
+	-webkit-line-clamp: $lines;
 }

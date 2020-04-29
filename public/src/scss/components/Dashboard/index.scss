@@ -2,10 +2,12 @@
 @import '../../mixins';
 
 .dashboard {
+	--sidebar-width: 305px;
+	
 	display: grid;
 	grid:
 		'sidebar content' auto /
-		#{$dashboard-sidebar-width} auto;
+		var(--sidebar-width) auto;
 	height: 100vh;
 	
 	> .content {

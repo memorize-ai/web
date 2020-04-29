@@ -4,7 +4,7 @@
 
 @mixin horizontal-scrolling-container($margin) {
 	overflow-x: auto;
-	width: calc(100vw - #{$dashboard-sidebar-width} - #{$margin * 2});
+	width: calc(100vw - var(--sidebar-width) - #{$margin * 2});
 }
 
 @include dashboard-content('deck-page') {

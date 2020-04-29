@@ -217,9 +217,7 @@
 									> .ck.ck-editor {
 										@include ck-editor-dropdown {
 											width: calc(
-												(100vw - #{
-													$dashboard-sidebar-width + $margin * 4
-												}) / 2 -
+												(100vw - var(--sidebar-width) - #{$margin * 4}) / 2 -
 												#{16px + $space-between}
 											);
 										}
@@ -309,7 +307,7 @@
 								
 								> .ck.ck-editor {
 									@include ck-editor-dropdown {
-										width: calc(100vw - #{$dashboard-sidebar-width + $margin * 4 + 20px});
+										width: calc(100vw - var(--sidebar-width) - #{$margin * 4 + 20px});
 									}
 								}
 							}
