@@ -177,7 +177,7 @@ export default () => {
 					}
 					data-balloon-pos="left"
 				>
-					Publish{numberOfValidCards ? ` ${numberOfValidCards} card` : ''}
+					Publish{numberOfValidCards ? ` ${numberOfValidCards} card${numberOfValidCards === 1 ? '' : 's'}` : ''}
 				</button>
 				<button
 					className="delete"

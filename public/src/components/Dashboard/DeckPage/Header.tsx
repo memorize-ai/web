@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { useHistory, Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faComment } from '@fortawesome/free-solid-svg-icons'
 
 import User from '../../../models/User'
 import Deck from '../../../models/Deck'
@@ -10,6 +12,7 @@ import useCreator from '../../../hooks/useCreator'
 import useAuthModal from '../../../hooks/useAuthModal'
 import Button from '../../shared/Button'
 import Stars from '../../shared/Stars'
+import { DisqusCommentCount } from '../../shared/Disqus'
 import ShareDeckModal from '../../shared/Modal/ShareDeck'
 import { formatNumber } from '../../../utils'
 
@@ -148,6 +151,11 @@ export default (
 					<div className="divider" />
 					<a className="cards" href="#cards">
 						{formatNumber(deck.numberOfCards)} card{deck.numberOfCards === 1 ? '' : 's'}
+					</a>
+					<div className="divider" />
+					<a className="comments" href="#comments">
+						<FontAwesomeIcon icon={faComment} />
+						<p>(<DisqusCommentCount {...deck.disqusProps} />)</p>
 					</a>
 				</div>
 			</div>

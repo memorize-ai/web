@@ -22,6 +22,7 @@ import Footer from './Footer'
 import Controls from './Controls'
 import SimilarDecks from './SimilarDecks'
 import Cards from './Cards'
+import Comments from './Comments'
 import Loader from '../../shared/Loader'
 import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
 import { urlWithQuery, formatNumber } from '../../../utils'
@@ -139,6 +140,7 @@ export default () => {
 							<Controls deck={deck} hasDeck={hasDeck} />
 							<SimilarDecks deck={deck} removeDeck={removeDeck} />
 							<Cards deck={deck} />
+							<Comments deck={deck} />
 						</>
 					)
 					: <Loader size="24px" thickness="4px" color="#582efe" />

@@ -24,9 +24,9 @@ const updateDueCardCounts = async (uid: string, deckUserData: FirebaseFirestore.
 	const dueCards = await getDueCards(uid, deckId)
 	
 	const cardCountOfSection = (sectionId: string) =>
-		dueCards.reduce((acc, card) =>
+		dueCards.reduce((acc, card) => (
 			acc + Number(card.get('section') === sectionId)
-		, 0)
+		), 0)
 	
 	return firestore.doc(`users/${uid}/decks/${deckId}`).update({
 		dueCardCount: dueCards.length,

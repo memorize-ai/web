@@ -5,6 +5,7 @@ import Search, { DeckSortAlgorithm as SortAlgorithm } from './Search'
 import UserData from './UserData'
 import Section from '../Section'
 import LoadingState from '../LoadingState'
+import { DisqusProps } from '../../components/shared/Disqus'
 import { slugify } from '../../utils'
 import firebase from '../../firebase'
 
@@ -305,6 +306,14 @@ export default class Deck implements DeckData {
 				return rating
 		
 		return 0
+	}
+	
+	get disqusProps(): DisqusProps {
+		return {
+			url: `https://memorize.ai/d/${this.slugId}/${this.slug}`,
+			id: this.id,
+			title: this.name
+		}
 	}
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {

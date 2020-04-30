@@ -277,7 +277,8 @@
 					> .rating,
 					> .downloads,
 					> .current-users,
-					> .cards {
+					> .cards,
+					> .comments {
 						transition: opacity 0.3s;
 						
 						&:hover {
@@ -287,7 +288,8 @@
 					
 					> .rating,
 					> .downloads,
-					> .current-users {
+					> .current-users,
+					> .comments {
 						display: flex;
 						align-items: center;
 						
@@ -316,6 +318,20 @@
 						font-size: 24px;
 						font-weight: 600;
 						color: #9b9b9b;
+					}
+					
+					> .comments {
+						margin-left: 6px;
+						
+						> svg {
+							color: #9b9b9b;
+							transform: scale(1.5);
+						}
+						
+						> p {
+							margin-left: 13px;
+							transform: translateY(-2px);
+						}
 					}
 				}
 			}
@@ -418,7 +434,7 @@
 					display: flex;
 					justify-content: center;
 					align-items: flex-start;
-					margin-top: 12px;
+					margin-top: 20px;
 					
 					> .left,
 					> .right {
@@ -775,6 +791,21 @@
 					&:not(:last-child) {
 						margin-bottom: 12px;
 					}
+				}
+			}
+		}
+		
+		> .comments {
+			margin: 20px $margin 0 $margin;
+			
+			> .title {
+				margin-bottom: 12px;
+				font-size: 24px;
+				font-weight: bold;
+				color: $dark-gray;
+				
+				> span {
+					color: #582efe;
 				}
 			}
 		}

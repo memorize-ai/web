@@ -83,3 +83,9 @@
 	
 	-webkit-line-clamp: $lines;
 }
+
+@mixin disqus {
+	#disqus_thread {
+		@content;
+	}
+}
