@@ -22,7 +22,7 @@
 		margin: 12px $margin;
 		
 		@media (min-width: 650px) {
-			overflow-x: hidden;
+			overflow: visible;
 			
 			> .name {
 				flex-shrink: 1 !important;
