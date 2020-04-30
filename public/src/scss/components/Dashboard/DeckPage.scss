@@ -16,7 +16,6 @@
 		'box' 1fr /
 		calc(100vw - var(--sidebar-width));
 	scroll-behavior: smooth;
-	padding: 0 $margin;
 	
 	> .header {
 		$horizontal-margin: 16px;
@@ -25,7 +24,7 @@
 		grid-area: header;
 		display: flex;
 		align-items: center;
-		margin: $vertical-margin 0;
+		margin: $vertical-margin $margin;
 		
 		> .create {
 			$dimension: 45px;
@@ -86,7 +85,7 @@
 		height: max-content;
 		background: white;
 		border-radius: 8px;
-		margin-bottom: $margin;
+		margin: 0 raw-repeat(3, $margin);
 		padding-bottom: $margin;
 		
 		&.loading {
