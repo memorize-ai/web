@@ -5,5 +5,8 @@ import Disqus from '../../shared/Disqus'
 
 export default ({ deck }: { deck: Deck }) =>
 	useMemo(() => (
-		<Disqus {...deck.disqusProps} />
+		<>
+			<div id="comments" />
+			<Disqus {...deck.disqusProps} />
+		</>
 	), [deck])
