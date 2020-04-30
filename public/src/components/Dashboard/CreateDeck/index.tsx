@@ -89,7 +89,7 @@ export default () => {
 	return (
 		<Dashboard
 			selection={isSignedIn ? Selection.Home : Selection.Market}
-			className="create-deck"
+			className="create-deck publish-deck"
 			gradientHeight="500px"
 		>
 			<Head

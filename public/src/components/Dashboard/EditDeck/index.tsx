@@ -110,7 +110,7 @@ export default () => {
 	return (
 		<Dashboard
 			selection={Selection.Decks}
-			className="edit-deck"
+			className="edit-deck publish-deck"
 			gradientHeight="500px"
 		>
 			<Head
