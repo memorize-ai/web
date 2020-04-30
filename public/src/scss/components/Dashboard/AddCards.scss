@@ -11,7 +11,7 @@
 	grid:
 		'header' auto
 		'content' 1fr /
-		auto;
+		calc(100vw - var(--sidebar-width));
 	
 	> .header,
 	> .content {
@@ -133,7 +133,6 @@
 			
 			display: flex;
 			flex-direction: column;
-			width: calc(100vw - var(--sidebar-width) - #{$margin * 2});
 			padding: 16px raw-repeat(3, $margin);
 			background: white;
 			border-radius: 8px;
@@ -179,6 +178,7 @@
 				}
 				
 				> .row-toggle {
+					flex-shrink: 0;
 					display: none;
 					align-items: center;
 					

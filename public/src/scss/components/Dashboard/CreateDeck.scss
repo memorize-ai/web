@@ -2,15 +2,17 @@
 @import '../../mixins';
 
 @include dashboard-content('create-deck') {
+	$margin: 30px;
+	
 	display: grid;
 	grid:
 		'header' auto
 		'content' 1fr /
-		auto;
+		calc(100vw - var(--sidebar-width));
 	
 	> .header,
 	> .content {
-		padding: 0 30px;
+		padding: 0 $margin;
 	}
 	
 	> .header {
@@ -52,13 +54,13 @@
 	> .content {
 		grid-area: content;
 		overflow-y: auto;
-		padding-bottom: 30px;
+		padding-bottom: $margin;
 		
 		> .box {
 			@include shadow-lg;
 			
 			height: max-content;
-			padding: 30px;
+			padding: $margin;
 			background: white;
 			border-radius: 8px;
 		}

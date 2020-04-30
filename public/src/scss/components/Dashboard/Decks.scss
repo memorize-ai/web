@@ -11,15 +11,20 @@
 	grid:
 		'header' auto
 		'content' 1fr /
-		auto;
+		calc(100vw - var(--sidebar-width));
 	overflow: visible;
+	
+	> .header,
+	> .content {
+		padding: 0 $margin;
+	}
 	
 	> .header {
 		grid-area: header;
 		display: flex;
 		align-items: center;
 		overflow-x: auto;
-		margin: 12px $margin;
+		margin: 12px 0;
 		
 		@media (min-width: 650px) {
 			overflow: visible;
@@ -219,9 +224,8 @@
 		> .box {
 			@include shadow-lg;
 			
-			width: calc(100vw - var(--sidebar-width) - #{$margin * 2});
 			height: max-content;
-			margin: 0 raw-repeat(3, $margin);
+			margin-bottom: 30px;
 			padding: $margin;
 			background: white;
 			border-radius: 8px;

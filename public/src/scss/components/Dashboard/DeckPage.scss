@@ -14,7 +14,7 @@
 	grid:
 		'header' auto
 		'box' 1fr /
-		auto;
+		calc(100vw - var(--sidebar-width));
 	scroll-behavior: smooth;
 	padding: 0 $margin;
 	
