@@ -795,19 +795,8 @@
 			}
 		}
 		
-		> .comments {
-			margin: 20px $margin 0 $margin;
-			
-			> .title {
-				margin-bottom: 12px;
-				font-size: 24px;
-				font-weight: bold;
-				color: $dark-gray;
-				
-				> span {
-					color: #582efe;
-				}
-			}
+		@include disqus {
+			margin: $margin $margin 0 $margin;
 		}
 	}
 }
