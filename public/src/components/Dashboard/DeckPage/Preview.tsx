@@ -143,7 +143,7 @@ export default ({ deck }: { deck: Deck }) => {
 						Preview this deck
 					</h3>
 				</div>
-				<button
+				<div
 					className={cx('box', { loading: !card })}
 					onClick={toggleSide}
 					style={{
@@ -153,9 +153,11 @@ export default ({ deck }: { deck: Deck }) => {
 				>
 					{card
 						? (
-							<CardSide className="content">
-								{card[isFront ? 'front' : 'back']}
-							</CardSide>
+							<div className="content-container">
+								<CardSide className="content">
+									{card[isFront ? 'front' : 'back']}
+								</CardSide>
+							</div>
 						)
 						: <Loader size="24px" thickness="4px" color="#582efe" />
 					}
@@ -170,7 +172,7 @@ export default ({ deck }: { deck: Deck }) => {
 							}}
 						/>
 					</div>
-				</button>
+				</div>
 				<div className="footer">
 					<button
 						className="left"

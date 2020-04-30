@@ -26,7 +26,7 @@
 	}
 	
 	> .footer {
-		display: flex;
+		display: none;
 		flex-direction: column;
 		align-items: flex-start;
 		overflow-x: auto;
@@ -43,7 +43,16 @@
 			}
 		}
 		
+		@media (min-width: 650px) {
+			display: flex;
+			
+			> .edit-message {
+				display: flex !important;
+			}
+		}
+		
 		&.has-user-data {
+			display: flex;
 			justify-content: space-between;
 		}
 		
@@ -70,10 +79,6 @@
 			display: none;
 			align-items: center;
 			opacity: 0.7;
-			
-			@media (min-width: 650px) {
-				display: flex;
-			}
 			
 			> svg {
 				margin-right: 8px;

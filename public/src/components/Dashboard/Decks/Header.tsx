@@ -57,7 +57,7 @@ export default ({ deck }: { deck: Deck | null }) => {
 					setIsDownloadAppModalShowing(true)
 				}}
 			>
-				Review{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted} cards`}
+				Review{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted} card${numberOfDueCards === 1 ? '' : 's'}`}
 			</button>
 			{currentUser && currentUser?.id === deck?.creatorId && (
 				<button
