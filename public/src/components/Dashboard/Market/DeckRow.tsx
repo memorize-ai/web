@@ -17,7 +17,7 @@ import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
 import { ReactComponent as DownloadIcon } from '../../../images/icons/download.svg'
 import { ReactComponent as UsersIcon } from '../../../images/icons/users.svg'
 
-export default ({ deck, remove }: { deck: Deck, remove: () => void }) => {
+export default ({ deck }: { deck: Deck }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -125,30 +125,14 @@ export default ({ deck, remove }: { deck: Deck, remove: () => void }) => {
 				<div className="buttons">
 					{hasDeck
 						? (
-							<>
-								<Button
-									className="remove"
-									loaderSize="16px"
-									loaderThickness="3px"
-									loaderColor="white"
-									loading={getLoadingState === LoadingState.Loading}
-									disabled={false}
-									onClick={event => {
-										event.preventDefault()
-										remove()
-									}}
-								>
-									Remove
-								</Button>
-								<Button
-									className="open"
-									loading={false}
-									disabled={false}
-									onClick={open}
-								>
-									Open
-								</Button>
-							</>
+							<Button
+								className="open"
+								loading={false}
+								disabled={false}
+								onClick={open}
+							>
+								Open
+							</Button>
 						)
 						: (
 							<Button
