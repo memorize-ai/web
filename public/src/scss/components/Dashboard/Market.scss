@@ -265,7 +265,8 @@
 						display: flex;
 						align-items: center;
 						
-						> button {
+						> .get,
+						> .open {
 							display: flex;
 							justify-content: center;
 							align-items: center;
@@ -290,17 +291,6 @@
 							&:hover,
 							&:focus {
 								background: #00d388;
-							}
-						}
-						
-						> .remove {
-							margin-right: 8px;
-							color: #4355f9;
-							border: 1.5px solid #4355f9;
-							
-							&:hover,
-							&:focus {
-								background: #4355f9;
 							}
 						}
 						
