@@ -2,63 +2,64 @@ rules_version = '2'
 
 service cloud.firestore {
 	match /databases/{database}/documents {
-		match /{allPaths=**} {
-			allow read, write
+		match /users/{uid} {
+			allow read
+			allow create, update: if isSignedInWith(uid)
+			
+			match /decks/{deckId} {
+				allow read, write: if isSignedInWith(uid)
+				
+				match /drafts/{draftId} {
+					allow read, write: if isSignedInWith(uid)
+				}
+				
+				match /cards/{cardId} {
+					allow read: if isSignedInWith(uid)
+				}
+			}
 		}
 		
-		// match /users/{user} {
-		// 	allow read, create, update: if signedInWith(user)
+		match /topics/{topicId} {
+			allow read
+		}
+		
+		match /decks/{deckId} {
+			allow read
+			allow write: if isSignedInAsCreator(getOldData())
 			
-		// 	match /decks/{deck} {
-		// 		allow read, write: if signedInWith(user)
-				
-		// 		match /drafts/{draft} {
-		// 			allow read, write: if signedInWith(user)
-		// 		}
-				
-		// 		match /cards/{card} {
-		// 			allow read: if signedInWith(user)
-		// 		}
-		// 	}
-		// }
-		
-		// match /topics/{topic} {
-		// 	allow read
-		// }
-		
-		// match /decks/{deck} {
-		// 	allow read
-		// 	allow write: if signedInWith(oldData().creator)
+			match /sections/{sectionId} {
+				allow read
+				allow write: if isSignedInAsCreator(getDeck(deckId))
+			}
 			
-		// 	match /sections/{section} {
-		// 		allow read
-		// 		allow write: if signedInWith(getDeck(deck).creator)
-		// 	}
-			
-		// 	match /cards/{card} {
-		// 		allow read
-		// 		allow write: if signedInWith(getDeck(deck).creator)
-		// 	}
-		// }
+			match /cards/{cardId} {
+				allow read
+				allow write: if isSignedInAsCreator(getDeck(deckId))
+			}
+		}
 		
-		// function signedIn() {
-		// 	return request.auth != null
-		// }
+		function isSignedIn() {
+			return request.auth != null
+		}
 		
-		// function signedInWith(uid) {
-		// 	return signedIn() && request.auth.uid == uid
-		// }
+		function isSignedInWith(uid) {
+			return isSignedIn() && request.auth.uid == uid
+		}
 		
-		// function data() {
-		// 	return request.resource.data
-		// }
+		function getNewData() {
+			return request.resource.data
+		}
 		
-		// function oldData() {
-		// 	return resource.data
-		// }
+		function getOldData() {
+			return resource.data
+		}
 		
-		// function getDeck(deck) {
-		// 	return get(/databases/$(database)/documents/decks/$(deck)).data
-		// }
+		function isSignedInAsCreator(deck) {
+			return isSignedInWith(deck.creator)
+		}
+		
+		function getDeck(deckId) {
+			return get(/databases/$(database)/documents/decks/$(deckId)).data
+		}
 	}
 }
