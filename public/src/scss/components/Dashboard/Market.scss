@@ -91,12 +91,12 @@
 					'image' auto
 					'content' auto
 					'footer' auto /
-					calc(100vw - var(--sidebar-width) - #{30px * 2});
+					#{calc(100vw - var(--sidebar-width) - #{30px * 2})};
 				overflow: hidden;
 				background: white;
 				border-radius: 8px;
 				
-				@media (min-width: 550px) {
+				@media (min-width: 700px) {
 					grid:
 						'image content' #{$image-dimension}
 						'footer footer' auto /
