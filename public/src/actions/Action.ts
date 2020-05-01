@@ -25,11 +25,9 @@ export enum ActionType {
 	SetDeckImageUrl,
 	SetDeckImageUrlLoadingState,
 	
-	InitializeSimilarDecks,
 	SetSimilarDecks,
 	
-	InitializeSections,
-	AddSection,
+	AddSections,
 	UpdateSection,
 	RemoveSection,
 	
@@ -41,7 +39,7 @@ export enum ActionType {
 	UpdateCardUserData,
 	RemoveCard,
 	
-	AddTopic,
+	AddTopics,
 	UpdateTopic,
 	RemoveTopic,
 	

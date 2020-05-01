@@ -1,23 +1,24 @@
 import { useContext, useEffect } from 'react'
 
 import SimilarDecksContext from '../contexts/SimilarDecks'
-import { initializeSimilarDecks, setSimilarDecks } from '../actions'
+import { setSimilarDecks } from '../actions'
 import Deck from '../models/Deck'
 
-export default (deck: Deck, chunkSize: number) => {
-	const [{ [deck.id]: similarDecks }, dispatch] = useContext(SimilarDecksContext)
+export default (deck: Deck | null | undefined, chunkSize: number) => {
+	const [state, dispatch] = useContext(SimilarDecksContext)
+	const similarDecks = (deck && state[deck.id]) || null
 	
 	useEffect(() => {
-		if (similarDecks)
+		if (!deck || Deck.similarDeckObservers[deck.id] || similarDecks)
 			return
 		
-		dispatch(initializeSimilarDecks(deck.id))
+		Deck.similarDeckObservers[deck.id] = true
 		
 		deck.loadSimilarDecks(chunkSize)
 			.then(newSimilarDecks =>
 				dispatch(setSimilarDecks(deck.id, newSimilarDecks))
 			)
-	}, [similarDecks, deck, chunkSize]) // eslint-disable-line
+	}, [deck, similarDecks, chunkSize]) // eslint-disable-line
 	
-	return similarDecks ?? []
+	return similarDecks
 }

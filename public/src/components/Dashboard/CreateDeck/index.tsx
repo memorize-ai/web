@@ -6,6 +6,7 @@ import CreateDeckContext from '../../../contexts/CreateDeck'
 import useAuthModal from '../../../hooks/useAuthModal'
 import useAuthState from '../../../hooks/useAuthState'
 import useCurrentUser from '../../../hooks/useCurrentUser'
+import useTopics from '../../../hooks/useTopics'
 import User from '../../../models/User'
 import Deck from '../../../models/Deck'
 import LoadingState from '../../../models/LoadingState'
@@ -39,6 +40,7 @@ export default () => {
 	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
 	
 	const [currentUser] = useCurrentUser()
+	const topics = useTopics()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	
@@ -93,6 +95,7 @@ export default () => {
 			gradientHeight="500px"
 		>
 			<Head
+				isPrerenderReady={topics !== null}
 				title="Create deck | memorize.ai"
 				description={HEAD_DESCRIPTION}
 				breadcrumbs={[
@@ -138,7 +141,8 @@ export default () => {
 						name={name}
 						subtitle={subtitle}
 						description={description}
-						topics={selectedTopics}
+						topics={topics}
+						selectedTopics={selectedTopics}
 						
 						setImage={image => {
 							imageUrl.current = image && URL.createObjectURL(image)
@@ -147,7 +151,7 @@ export default () => {
 						setName={compose(dispatch, setCreateDeckName)}
 						setSubtitle={compose(dispatch, setCreateDeckSubtitle)}
 						setDescription={compose(dispatch, setCreateDeckDescription)}
-						setTopics={compose(dispatch, setCreateDeckTopics)}
+						setSelectedTopics={compose(dispatch, setCreateDeckTopics)}
 					/>
 				</div>
 			</div>

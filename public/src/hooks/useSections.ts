@@ -1,18 +1,13 @@
 import { useContext, useEffect } from 'react'
 
 import SectionsContext from '../contexts/Sections'
-import {
-	initializeSections,
-	addSection,
-	updateSection,
-	removeSection
-} from '../actions'
+import { addSections, updateSection, removeSection } from '../actions'
 import Section from '../models/Section'
 import { compose } from '../utils'
 
 export default (deckId: string | null | undefined) => {
 	const [_sections, dispatch] = useContext(SectionsContext)
-	const sections = deckId ? _sections[deckId] : null
+	const sections = (deckId && _sections[deckId]) || null
 	
 	useEffect(() => {
 		if (!deckId || Section.observers[deckId] || sections)
@@ -20,15 +15,12 @@ export default (deckId: string | null | undefined) => {
 		
 		Section.observers[deckId] = true
 		
-		dispatch(initializeSections(deckId))
-		
 		Section.observeForDeckWithId(deckId, {
-			initializeSections: compose(dispatch, initializeSections),
-			addSection: compose(dispatch, addSection),
+			addSections: compose(dispatch, addSections),
 			updateSection: compose(dispatch, updateSection),
 			removeSection: compose(dispatch, removeSection)
 		})
 	}, [deckId, sections]) // eslint-disable-line
 	
-	return sections ?? []
+	return sections
 }

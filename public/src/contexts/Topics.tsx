@@ -5,21 +5,22 @@ import Topic from '../models/Topic'
 
 export type TopicsAction = Action<
 	| boolean // SetIsObservingTopics
-	| firebase.firestore.DocumentSnapshot // AddTopic, UpdateTopic
+	| firebase.firestore.DocumentSnapshot[] // AddTopics
+	| firebase.firestore.DocumentSnapshot // UpdateTopic
 	| string // RemoveTopic
 >
 
-const reducer = (topics: Topic[], { type, payload }: TopicsAction) => {
+const reducer = (topics: Topic[] | null, { type, payload }: TopicsAction) => {
 	switch (type) {
-		case ActionType.AddTopic:
+		case ActionType.AddTopics:
 			return [
-				...topics,
-				Topic.fromSnapshot(payload as firebase.firestore.DocumentSnapshot)
+				...(topics ?? []),
+				...(payload as firebase.firestore.DocumentSnapshot[]).map(Topic.fromSnapshot)
 			].sort(({ name: a }, { name: b }) => a.localeCompare(b))
 		case ActionType.UpdateTopic: {
 			const snapshot = payload as firebase.firestore.DocumentSnapshot
 			
-			return topics
+			return topics && topics
 				.map(topic =>
 					topic.id === snapshot.id
 						? topic.updateFromSnapshot(snapshot)
@@ -30,18 +31,18 @@ const reducer = (topics: Topic[], { type, payload }: TopicsAction) => {
 		case ActionType.RemoveTopic: {
 			const id = payload as string
 			
-			return topics.filter(topic => topic.id !== id)
+			return topics && topics.filter(topic => topic.id !== id)
 		}
 		default:
 			return topics
 	}
 }
 
-const Context = createContext<[Topic[], Dispatch<TopicsAction>]>([[], console.log])
+const Context = createContext<[Topic[] | null, Dispatch<TopicsAction>]>([null, console.log])
 export default Context
 
 export const TopicsProvider = ({ children }: PropsWithChildren<{}>) => (
-	<Context.Provider value={useReducer(reducer, [])}>
+	<Context.Provider value={useReducer(reducer, null)}>
 		{children}
 	</Context.Provider>
 )

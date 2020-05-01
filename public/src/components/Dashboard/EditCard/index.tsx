@@ -36,7 +36,7 @@ export default () => {
 	const deck = useCreatedDeck(slugId, slug)
 	const [imageUrl] = useImageUrl(deck)
 	
-	const _sections = useSections(deck?.id)
+	const _sections = useSections(deck?.id) ?? []
 	const sections = useMemo(() => (
 		deck
 			? [deck.unsectionedSection, ..._sections]

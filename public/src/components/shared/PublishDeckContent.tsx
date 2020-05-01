@@ -5,7 +5,6 @@ import { faSignature, faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Topic from '../../models/Topic'
-import useTopics from '../../hooks/useTopics'
 import ImagePicker from './ImagePicker'
 import Input from './Input'
 import TextArea from './TextArea'
@@ -18,13 +17,14 @@ export interface PublishDeckContentProps {
 	name: string
 	subtitle: string
 	description: string
-	topics: string[]
+	topics: Topic[] | null
+	selectedTopics: string[]
 	
 	setImage: (image: File | null) => void
 	setName: (name: string) => void
 	setSubtitle: (subtitle: string) => void
 	setDescription: (description: string) => void
-	setTopics: (topics: string[]) => void
+	setSelectedTopics: (topics: string[]) => void
 }
 
 export default ({
@@ -34,12 +34,13 @@ export default ({
 	subtitle,
 	description,
 	topics,
+	selectedTopics,
 	
 	setImage,
 	setName,
 	setSubtitle,
 	setDescription,
-	setTopics
+	setSelectedTopics
 }: PublishDeckContentProps) => {
 	const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone()
 	
@@ -89,24 +90,24 @@ export default ({
 						setValue={setDescription}
 					/>
 				</div>
-				{topics.length === 0 && (
+				{selectedTopics.length === 0 && (
 					<p className="no-topics-message">
 						You must select relevant topics for your deck to be recommended
 					</p>
 				)}
 				<div className="topics" {...Topic.schemaProps}>
-					{useTopics().map((topic, i) => {
-						const isSelected = topics.includes(topic.id)
+					{topics?.map((topic, i) => {
+						const isSelected = selectedTopics.includes(topic.id)
 						
 						return (
 							<button
 								key={topic.id}
 								className={cx({ selected: isSelected })}
 								onClick={() =>
-									setTopics(
+									setSelectedTopics(
 										isSelected
-											? topics.filter(topicId => topicId !== topic.id)
-											: [...topics, topic.id]
+											? selectedTopics.filter(topicId => topicId !== topic.id)
+											: [...selectedTopics, topic.id]
 									)
 								}
 								style={{

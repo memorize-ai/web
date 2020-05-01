@@ -64,6 +64,9 @@ export default class Deck implements DeckData {
 	static isObserving: Record<string, boolean> = {}
 	
 	/** Key is a deck ID */
+	static similarDeckObservers: Record<string, boolean> = {}
+	
+	/** Key is a deck ID */
 	static snapshotListeners: Record<string, () => void> = {}
 	
 	id: string

@@ -22,13 +22,15 @@ const BOX_TRANSFORM_X_LENGTH = 20
 export default ({ deck }: { deck: Deck }) => {
 	const __sections = useSections(deck.id)
 	
-	const _sections = useMemo(() => [
-		deck.unsectionedSection,
-		...__sections
-	], [deck, __sections])
+	const _sections = useMemo(() => (
+		__sections && [
+			deck.unsectionedSection,
+			...__sections
+		]
+	), [deck, __sections])
 	
 	const sections = useMemo(() => (
-		_.keyBy(_sections, 'id')
+		_.keyBy(_sections ?? [], 'id')
 	), [_sections])
 	
 	const _cards = useAllCards(deck.id)
@@ -103,15 +105,12 @@ export default ({ deck }: { deck: Deck }) => {
 		if (deck.numberOfUnsectionedCards > 0)
 			return setSection(deck.unsectionedSection)
 		
-		let i = -1
+		if (!_sections)
+			return
 		
-		for (const section of _sections) {
-			if (section.index !== i++)
-				return // The sections aren't in order, which means they haven't all been loaded
-			
+		for (const section of _sections)
 			if (section.numberOfCards > 0)
 				return setSection(section)
-		}
 	}, [card, cards, deck, _sections]) // eslint-disable-line
 	
 	useEffect(() => {
@@ -130,7 +129,7 @@ export default ({ deck }: { deck: Deck }) => {
 				<div className="header">
 					<Select
 						className="section-select"
-						options={_sections}
+						options={_sections ?? []}
 						getOptionLabel={_.property('name')}
 						getOptionValue={_.property('id')}
 						isOptionDisabled={section => !section.numberOfCards}

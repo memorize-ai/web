@@ -6,7 +6,7 @@ import useTopics from '../../../hooks/useTopics'
 import Topic from '../../../models/Topic'
 
 export default ({ deck }: { deck: Deck }) => {
-	const topics = useTopics().filter(topic =>
+	const topics = useTopics()?.filter(topic =>
 		deck.topics.includes(topic.id)
 	)
 	
@@ -16,7 +16,7 @@ export default ({ deck }: { deck: Deck }) => {
 				{deck.description}
 			</p>
 			<div className="topics" {...Topic.schemaProps}>
-				{topics.map((topic, i) => (
+				{topics?.map((topic, i) => (
 					<Link
 						key={topic.id}
 						to={topic.marketUrl}

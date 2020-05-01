@@ -17,7 +17,7 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	const [currentUser] = useCurrentUser()
 	
-	const _sections = useSections(deck.id)
+	const _sections = useSections(deck.id) ?? []
 	
 	const sections = useMemo(() => (
 		deck.numberOfUnsectionedCards > 0 || currentUser?.id === deck.creatorId

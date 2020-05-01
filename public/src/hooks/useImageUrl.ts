@@ -12,10 +12,13 @@ export default (deck: Deck | null | undefined) => {
 	const state = (deck && imageUrls[deck.id]) ?? { url: null, loadingState: LoadingState.None }
 	
 	useEffect(() => {
-		if (!(deck?.hasImage && state.loadingState === LoadingState.None))
+		if (!(deck && (state.loadingState === LoadingState.None)))
 			return
 		
-		deck?.loadImageUrl({
+		if (!deck.hasImage)
+			return dispatch(setDeckImageUrlLoadingState(deck.id, LoadingState.Success))
+		
+		deck.loadImageUrl({
 			setImageUrl: compose(dispatch, setDeckImageUrl),
 			setImageUrlLoadingState: compose(dispatch, setDeckImageUrlLoadingState)
 		})

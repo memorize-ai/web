@@ -6,8 +6,8 @@ import Section from '../models/Section'
 export type SectionsState = Record<string, Section[]>
 
 export type SectionsAction = Action<
-	| string // InitializeSections
-	| { deckId: string, snapshot: firebase.firestore.DocumentSnapshot } // AddSection, UpdateSection
+	| { deckId: string, snapshots: firebase.firestore.DocumentSnapshot[] } // AddSection
+	| { deckId: string, snapshot: firebase.firestore.DocumentSnapshot } // UpdateSection
 	| { deckId: string, sectionId: string } // RemoveSection
 >
 
@@ -15,25 +15,17 @@ const initialState: SectionsState = {}
 
 const reducer = (state: SectionsState, { type, payload }: SectionsAction) => {
 	switch (type) {
-		case ActionType.InitializeSections: {
-			const deckId = payload as string
-			
-			return {
-				...state,
-				[deckId]: state[deckId] ?? []
-			}
-		}
-		case ActionType.AddSection: {
-			const { deckId, snapshot } = payload as {
+		case ActionType.AddSections: {
+			const { deckId, snapshots } = payload as {
 				deckId: string
-				snapshot: firebase.firestore.DocumentSnapshot
+				snapshots: firebase.firestore.DocumentSnapshot[]
 			}
 			
 			return {
 				...state,
 				[deckId]: Section.sort([
-					...state[deckId] ?? [],
-					Section.fromSnapshot(snapshot)
+					...(state[deckId] ?? []),
+					...snapshots.map(Section.fromSnapshot)
 				])
 			}
 		}

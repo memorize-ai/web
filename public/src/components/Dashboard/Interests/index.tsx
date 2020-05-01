@@ -17,10 +17,12 @@ import '../../../scss/components/Dashboard/Interests.scss'
 
 export default () => {
 	const [currentUser] = useCurrentUser()
+	const topics = useTopics()
 	
 	return (
 		<Dashboard selection={Selection.Interests} className="interests" gradientHeight="500px">
 			<Head
+				isPrerenderReady={topics !== null}
 				title="Interests | memorize.ai"
 				description={`Choose your interests so we can show you recommendations. ${APP_DESCRIPTION}`}
 				breadcrumbs={[
@@ -50,7 +52,7 @@ export default () => {
 				</Link>
 			</div>
 			<div className="topics" {...Topic.schemaProps}>
-				{useTopics().map((topic, i) => (
+				{topics?.map((topic, i) => (
 					<button
 						key={topic.id}
 						className={cx({

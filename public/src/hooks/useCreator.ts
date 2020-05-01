@@ -5,11 +5,12 @@ import User from '../models/User'
 import { updateCreator, removeCreator } from '../actions'
 import { compose } from '../utils'
 
-export default (uid: string): User | null => {
-	const [{ [uid]: creator }, dispatch] = useContext(CreatorContext)
+export default (uid: string | null | undefined): User | null => {
+	const [creators, dispatch] = useContext(CreatorContext)
+	const creator = (uid && creators[uid]) || null
 	
 	useEffect(() => {
-		if (User.creatorObservers[uid])
+		if (!uid || User.creatorObservers[uid] || creator)
 			return
 		
 		User.creatorObservers[uid] = true
@@ -18,7 +19,7 @@ export default (uid: string): User | null => {
 			updateCreator: compose(dispatch, updateCreator),
 			removeCreator: compose(dispatch, removeCreator)
 		})
-	}, [uid]) // eslint-disable-line
+	}, [uid, creator]) // eslint-disable-line
 	
-	return creator ?? null
+	return creator
 }

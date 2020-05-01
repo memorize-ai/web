@@ -46,21 +46,20 @@ export default class Section implements SectionData {
 	
 	static observeForDeckWithId = (
 		deckId: string,
-		{ initializeSections, addSection, updateSection, removeSection }: {
-			initializeSections: (deckId: string) => void
-			addSection: (deckId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
+		{ addSections, updateSection, removeSection }: {
+			addSections: (deckId: string, snapshots: firebase.firestore.DocumentSnapshot[]) => void
 			updateSection: (deckId: string, snapshot: firebase.firestore.DocumentSnapshot) => void
 			removeSection: (deckId: string, sectionId: string) => void
 		}
 	) =>
 		firestore.collection(`decks/${deckId}/sections`).onSnapshot(
 			snapshot => {
-				initializeSections(deckId)
+				const snapshots: firebase.firestore.DocumentSnapshot[] = []
 				
 				for (const { type, doc } of snapshot.docChanges())
 					switch (type) {
 						case 'added':
-							addSection(deckId, doc)
+							snapshots.push(doc)
 							break
 						case 'modified':
 							updateSection(deckId, doc)
@@ -69,6 +68,8 @@ export default class Section implements SectionData {
 							removeSection(deckId, doc.id)
 							break
 					}
+				
+				addSections(deckId, snapshots)
 			},
 			error => {
 				alert(error.message)

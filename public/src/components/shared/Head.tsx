@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, Fragment } from 'react'
 import Helmet from 'react-helmet'
 import Schema, { Thing, MobileApplication } from 'schema.org-react'
 
@@ -15,7 +15,9 @@ export interface Breadcrumb {
 }
 
 export interface HeadProps<SchemaItems extends Thing[]> {
-	canonical?: string
+	isPrerenderReady?: boolean
+	status?: number
+	canonicalUrl?: string
 	ogUrl?: string
 	twitterUrl?: string
 	ogType?: string
@@ -61,7 +63,9 @@ export const APP_SCHEMA: MobileApplication = {
 }
 
 export default <SchemaItems extends Thing[]>({
-	canonical: _canonical,
+	isPrerenderReady = true,
+	status,
+	canonicalUrl: _canonicalUrl,
 	ogUrl: _ogUrl,
 	twitterUrl,
 	ogType,
@@ -77,16 +81,24 @@ export default <SchemaItems extends Thing[]>({
 	breadcrumbs,
 	schemaItems
 }: HeadProps<SchemaItems>) => {
-	const canonical = _canonical ?? window.location.href
+	const canonicalUrl = _canonicalUrl ?? window.location.href
 	
-	const ogUrl = _ogUrl ?? canonical
+	const ogUrl = _ogUrl ?? canonicalUrl
 	const ogTitle = _ogTitle ?? title
 	const ogDescription = _ogDescription ?? description
 	const ogImage = _ogImage ?? LOGO_URL
 	
+	useEffect(() => {
+		(window as any).prerenderReady = isPrerenderReady
+	}, [isPrerenderReady])
+	
 	return (
 		<>
 			<Helmet>
+				{status && (
+					<meta name="prerender-status-code" content={status.toString()} />
+				)}
+				
 				<meta name="description" content={description} />
 				
 				<meta property="og:url" content={ogUrl} />
@@ -106,13 +118,13 @@ export default <SchemaItems extends Thing[]>({
 				<meta name="twitter:image" content={twitterImage ?? ogImage} />
 				
 				{labels?.map(({ name, value }, i) => (
-					<>
+					<Fragment key={name}>
 						<meta name={`twitter:label${i}`} content={name} />
 						<meta name={`twitter:data${i}`} content={value} />
-					</>
+					</Fragment>
 				))}
 				
-				<link rel="canonical" href={canonical} />
+				<link rel="canonical" href={canonicalUrl} />
 				
 				<title>{title}</title>
 			</Helmet>

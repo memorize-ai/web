@@ -18,6 +18,7 @@ export default () => {
 	return (
 		<div className="page-404">
 			<Head
+				status={404}
 				title="404 | memorize.ai"
 				description="Oops! Looks like you have the wrong URL."
 				breadcrumbs={[

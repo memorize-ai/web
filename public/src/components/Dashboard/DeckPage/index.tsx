@@ -11,6 +11,11 @@ import Counters, { Counter } from '../../../models/Counters'
 import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
 import useSearchState from '../../../hooks/useSearchState'
 import useDeck from '../../../hooks/useDeck'
+import useSections from '../../../hooks/useSections'
+import useAllCards from '../../../hooks/useAllCards'
+import useTopics from '../../../hooks/useTopics'
+import useCreator from '../../../hooks/useCreator'
+import useSimilarDecks from '../../../hooks/useSimilarDecks'
 import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
 import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import Input from '../../shared/Input'
@@ -20,7 +25,7 @@ import Header from './Header'
 import Preview from './Preview'
 import Footer from './Footer'
 import Controls from './Controls'
-import SimilarDecks from './SimilarDecks'
+import SimilarDecks, { SIMILAR_DECKS_CHUNK_SIZE } from './SimilarDecks'
 import Cards from './Cards'
 import Comments from './Comments'
 import Loader from '../../shared/Loader'
@@ -28,6 +33,7 @@ import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'
+import LoadingState from '../../../models/LoadingState'
 
 export const urlForDeckPage = (deck: Deck) =>
 	`/d/${deck.slugId}/${deck.slug}`
@@ -42,14 +48,27 @@ export default () => {
 	const { deck, hasDeck } = useDeck(slugId)
 	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
 	
+	const imageUrlObject = (deck && imageUrls[deck.id]) ?? null
+	
+	const hasImageUrlLoaded = imageUrlObject?.loadingState === LoadingState.Success
+	const imageUrl = imageUrlObject?.url ?? Deck.DEFAULT_IMAGE_URL
+	
+	const creator = useCreator(deck?.creatorId)
+	const sections = useSections(deck?.id)
+	const cards = useAllCards(deck?.id)
+	const topics = useTopics()
+	const similarDecks = useSimilarDecks(deck, SIMILAR_DECKS_CHUNK_SIZE)
+	
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
 	
 	const numberOfDecks = Counters.get(Counter.Decks)
-	const imageUrl = (deck && imageUrls[deck.id]?.url) ?? Deck.DEFAULT_IMAGE_URL
 	
 	return (
 		<Dashboard selection={Selection.Market} className="deck-page" gradientHeight="500px">
 			<Head
+				isPrerenderReady={Boolean(
+					deck && hasImageUrlLoaded && creator && sections && cards && topics && similarDecks
+				)}
 				title={`${deck ? `${deck.name} | ` : ''}memorize.ai`}
 				description={
 					deck?.description || `Get ${

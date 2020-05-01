@@ -30,18 +30,20 @@ export default class Topic {
 		)
 	
 	static observeAll = (
-		{ addTopic, updateTopic, removeTopic }: {
-			addTopic: (snapshot: firebase.firestore.DocumentSnapshot) => void
+		{ addTopics, updateTopic, removeTopic }: {
+			addTopics: (snapshots: firebase.firestore.DocumentSnapshot[]) => void
 			updateTopic: (snapshot: firebase.firestore.DocumentSnapshot) => void
 			removeTopic: (id: string) => void
 		}
 	) =>
 		firestore.collection('topics').onSnapshot(
 			snapshot => {
+				const snapshots: firebase.firestore.DocumentSnapshot[] = []
+				
 				for (const { type, doc } of snapshot.docChanges())
 					switch (type) {
 						case 'added':
-							addTopic(doc)
+							snapshots.push(doc)
 							break
 						case 'modified':
 							updateTopic(doc)
@@ -50,6 +52,8 @@ export default class Topic {
 							removeTopic(doc.id)
 							break
 					}
+				
+				addTopics(snapshots)
 			},
 			error => {
 				alert(error.message)

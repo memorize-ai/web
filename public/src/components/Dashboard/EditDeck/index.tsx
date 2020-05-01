@@ -9,6 +9,7 @@ import requiresAuth from '../../../hooks/requiresAuth'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useCreatedDeck from '../../../hooks/useCreatedDeck'
 import useImageUrl from '../../../hooks/useImageUrl'
+import useTopics from '../../../hooks/useTopics'
 import LoadingState from '../../../models/LoadingState'
 import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
 import { setDeckImageUrl, setDeckImageUrlLoadingState } from '../../../actions'
@@ -31,6 +32,7 @@ export default () => {
 	
 	const [currentUser] = useCurrentUser()
 	const deck = useCreatedDeck(slugId, slug)
+	const topics = useTopics()
 	
 	const [existingImageUrl, existingImageUrlLoadingState] = useImageUrl(deck)
 	const [imageUrl, setImageUrl] = useState(null as string | null)
@@ -39,7 +41,7 @@ export default () => {
 	const [name, setName] = useState(deck?.name ?? '')
 	const [subtitle, setSubtitle] = useState(deck?.subtitle ?? '')
 	const [description, setDescription] = useState(deck?.description ?? '')
-	const [topics, setTopics] = useState(deck?.topics ?? [])
+	const [selectedTopics, setSelectedTopics] = useState(deck?.topics ?? [])
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	
@@ -58,7 +60,7 @@ export default () => {
 		setName(deck.name)
 		setSubtitle(deck.subtitle)
 		setDescription(deck.description)
-		setTopics(deck.topics)
+		setSelectedTopics(deck.topics)
 	}, [deck])
 	
 	useEffect(() => {
@@ -83,7 +85,7 @@ export default () => {
 				name,
 				subtitle,
 				description,
-				topics
+				topics: selectedTopics
 			})
 			
 			if (imageUrl !== undefined)
@@ -160,6 +162,7 @@ export default () => {
 								subtitle={subtitle}
 								description={description}
 								topics={topics}
+								selectedTopics={selectedTopics}
 								
 								setImage={image => {
 									setImageUrl(image && URL.createObjectURL(image))
@@ -168,7 +171,7 @@ export default () => {
 								setName={setName}
 								setSubtitle={setSubtitle}
 								setDescription={setDescription}
-								setTopics={setTopics}
+								setSelectedTopics={setSelectedTopics}
 							/>
 						)
 						: <Loader size="24px" thickness="4px" color="#582efe" />

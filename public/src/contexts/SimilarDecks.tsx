@@ -5,34 +5,23 @@ import Deck from '../models/Deck'
 
 export type SimilarDecksState = Record<string, Deck[]>
 
-export type SimilarDecksAction = Action<
-	| string // InitializeSimilarDecks
-	| { deckId: string, decks: Deck[] } // SetSimilarDecks
->
+export type SimilarDecksAction = Action<{
+	deckId: string
+	decks: Deck[]
+}>
 
 const initialState: SimilarDecksState = {}
 
 const reducer = (state: SimilarDecksState, { type, payload }: SimilarDecksAction) => {
-	switch (type) {
-		case ActionType.InitializeSimilarDecks: {
-			const deckId = payload as string
-			
-			return {
-				...state,
-				[deckId]: state[deckId] ?? []
-			}
-		}
-		case ActionType.SetSimilarDecks: {
-			const { deckId, decks } = payload as {
-				deckId: string
-				decks: Deck[]
-			}
-			
-			return { ...state, [deckId]: decks }
-		}
-		default:
-			return state
+	if (type !== ActionType.SetSimilarDecks)
+		return state
+	
+	const { deckId, decks } = payload as {
+		deckId: string
+		decks: Deck[]
 	}
+	
+	return { ...state, [deckId]: decks }
 }
 
 const Context = createContext<[SimilarDecksState, Dispatch<SimilarDecksAction>]>([

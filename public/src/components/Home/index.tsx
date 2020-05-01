@@ -38,7 +38,7 @@ export default () => {
 	return (
 		<div className="home-root">
 			<Head
-				canonical="https://memorize.ai"
+				canonicalUrl="https://memorize.ai"
 				title="memorize.ai: Do less, learn more"
 				description={APP_DESCRIPTION}
 				ogImage={LOGO_URL}

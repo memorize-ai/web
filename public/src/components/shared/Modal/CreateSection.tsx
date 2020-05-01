@@ -21,6 +21,9 @@ export default (
 	}, [isShowing])
 	
 	const create = () => {
+		if (!sections)
+			return
+		
 		Section.createForDeck(deck, name, sections.length)
 			.catch(error => {
 				alert(error.message)

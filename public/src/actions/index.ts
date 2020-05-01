@@ -83,11 +83,6 @@ export const setDeckImageUrlLoadingState = (deckId: string, loadingState: Loadin
 
 // Similar decks
 
-export const initializeSimilarDecks = (deckId: string) => ({
-	type: ActionType.InitializeSimilarDecks,
-	payload: deckId
-})
-
 export const setSimilarDecks = (deckId: string, decks: Deck[]) => ({
 	type: ActionType.SetSimilarDecks,
 	payload: { deckId, decks }
@@ -95,14 +90,9 @@ export const setSimilarDecks = (deckId: string, decks: Deck[]) => ({
 
 // Sections
 
-export const initializeSections = (deckId: string) => ({
-	type: ActionType.InitializeSections,
-	payload: deckId
-})
-
-export const addSection = (deckId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
-	type: ActionType.AddSection,
-	payload: { deckId, snapshot }
+export const addSections = (deckId: string, snapshots: firebase.firestore.DocumentSnapshot[]) => ({
+	type: ActionType.AddSections,
+	payload: { deckId, snapshots }
 })
 
 export const updateSection = (deckId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
@@ -154,9 +144,9 @@ export const removeCard = (parentId: string, cardId: string) => ({
 
 // Topics
 
-export const addTopic = (snapshot: firebase.firestore.DocumentSnapshot) => ({
-	type: ActionType.AddTopic,
-	payload: snapshot
+export const addTopics = (snapshots: firebase.firestore.DocumentSnapshot[]) => ({
+	type: ActionType.AddTopics,
+	payload: snapshots
 })
 
 export const updateTopic = (snapshot: firebase.firestore.DocumentSnapshot) => ({

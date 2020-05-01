@@ -11,23 +11,21 @@ export default ({ deck, removeDeck }: { deck: Deck, removeDeck: (deck: Deck) => 
 	const similarDecks = useSimilarDecks(deck, SIMILAR_DECKS_CHUNK_SIZE)
 	
 	const withFilter = (filter: (i: number) => any) =>
-		similarDecks
+		similarDecks!
 			.filter((_, i) => filter(i))
 			.map(deck => (
 				<DeckCell key={deck.id} deck={deck} onRemove={() => removeDeck(deck)} />
 			))
 	
-	return similarDecks.length
-		? (
-			<div id="similar" className="similar-decks">
-				<h2 className="title">
-					We think you'd like... <span>({formatNumber(similarDecks.length)})</span>
-				</h2>
-				<div className="rows">
-					<div>{withFilter(i => !(i & 1))}</div>
-					<div>{withFilter(i => i & 1)}</div>
-				</div>
+	return similarDecks && (
+		<div id="similar" className="similar-decks">
+			<h2 className="title">
+				We think you'd like... <span>({formatNumber(similarDecks.length)})</span>
+			</h2>
+			<div className="rows">
+				<div>{withFilter(i => !(i & 1))}</div>
+				<div>{withFilter(i => i & 1)}</div>
 			</div>
-		)
-		: null
+		</div>
+	)
 }

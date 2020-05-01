@@ -58,6 +58,8 @@ export default () => {
 	const [isLastPage, setIsLastPage] = useState(false)
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
 	
+	const [didFinishLoadingDecks, setDidFinishLoadingDecks] = useState(false)
+	
 	const numberOfDecks = Counters.get(Counter.Decks)
 	
 	const shouldHideSortAlgorithm = (
@@ -83,6 +85,8 @@ export default () => {
 			
 			if (container)
 				container.scrollTop = 0
+			
+			setDidFinishLoadingDecks(true)
 		})
 		
 		setSearchState({ query, sortAlgorithm })
@@ -132,6 +136,7 @@ export default () => {
 	return (
 		<Dashboard selection={Selection.Market} className="market" gradientHeight="500px">
 			<Head
+				isPrerenderReady={didFinishLoadingDecks}
 				title={
 					`${query && `${query} | `}${
 						shouldHideSortAlgorithm
