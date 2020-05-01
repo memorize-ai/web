@@ -91,6 +91,8 @@ export default ({ deck, remove }: { deck: Deck, remove: () => void }) => {
 						<p>{deck.creatorName}</p>
 					</div>
 				)}
+			</div>
+			<div className="footer">
 				<div className="stats">
 					<div
 						className="rating"

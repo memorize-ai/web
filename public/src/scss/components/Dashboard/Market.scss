@@ -2,6 +2,8 @@
 @import '../../mixins';
 @import '../../functions';
 
+@include dashboard-sidebar-collapse('market', 1025px);
+
 @include dashboard-content('market') {
 	display: grid;
 	grid:
@@ -77,69 +79,146 @@
 		> div {
 			> .deck-row {
 				$height: 300px;
+				$image-margin: 16px;
+				$image-dimension: calc(var(--image-dimension) + #{$image-margin});
+				
+				--image-dimension: 150px;
 				
 				@include raise-on-hover;
 				
-				display: flex;
+				display: grid;
+				grid:
+					'image' auto
+					'content' auto
+					'footer' auto /
+					calc(100vw - var(--sidebar-width) - #{30px * 2});
 				overflow: hidden;
-				height: $height;
 				background: white;
-				border: 1px solid #eee;
 				border-radius: 8px;
-				box-shadow: 0 5px 10px 0 transparentize(black, 0.9);
+				
+				@media (min-width: 500px) {
+					grid:
+						'image content' #{$image-dimension}
+						'footer footer' auto /
+						#{$image-dimension}
+						calc(100vw - var(--sidebar-width) - #{30px * 2} - #{$image-dimension});
+					
+					> img {
+						margin: $image-margin 0 0 $image-margin;
+					}
+					
+					> .footer > .stats {
+						display: flex !important;
+					}
+				}
+				
+				@media (min-width: 1300px) {
+					--image-dimension: unset;
+					
+					grid:
+						'image content' auto
+						'image footer' 1fr /
+						#{$height}
+						calc(100vw - var(--sidebar-width) - #{30px * 2} - #{$height});
+					
+					> img {
+						margin: 0 !important;
+						border-radius: 0 !important;
+					}
+					
+					> .content {
+						> .name {
+							font-size: 26px !important;
+						}
+						
+						> .subtitle {
+							font-size: 24px !important;
+						}
+					}
+					
+					> .footer {
+						padding-top: 10px !important;
+					}
+				}
+				
+				&,
+				> img {
+					box-shadow: 0 0 5px 0 transparentize(black, 0.9);
+				}
 				
 				> img {
-					width: $height;
-					height: $height;
+					$dimension: var(--image-dimension, $height);
+					
+					grid-area: image;
+					width: $dimension;
+					height: $dimension;
+					margin: $image-margin auto 0 auto;
 					object-fit: cover;
 					background: white;
-					box-shadow: 0 0 20px 0 transparentize(black, 0.9);
+					border-radius: 8px;
 				}
 				
 				> .content {
-					display: flex;
-					flex-direction: column;
-					flex-grow: 1;
-					padding: 16px;
+					grid-area: content;
+					padding: 16px 16px 0 16px;
 					
 					> .name {
-						font-size: 30px;
+						@include line-limit(2);
+						
+						font-size: 25px;
 						font-weight: 800;
 						color: $dark-gray;
 					}
 					
-					> .subtitle,
-					> .creator {
-						color: #9b9b9b;
-					}
-					
 					> .subtitle {
-						font-size: 24px;
+						@include overflow-ellipsis;
+						
+						margin-top: 4px;
+						font-size: 20px;
 						font-weight: 700;
+						color: #9b9b9b;
 					}
 					
 					> .creator {
 						display: flex;
 						align-items: center;
+						width: 100%;
 						margin: 10px 0 10px 6px;
+						color: #9b9b9b;
 						
 						> svg {
+							flex-shrink: 0;
 							margin-right: 14px;
 							transform: scale(2.2);
 						}
 						
 						> p {
+							@include overflow-ellipsis;
+							
 							font-size: 20px;
 							font-weight: 600;
 						}
 					}
+				}
+				
+				> .footer {
+					grid-area: footer;
+					display: flex;
+					flex-direction: column;
+					flex-grow: 1;
+					padding: 16px;
 					
 					> .stats {
 						--star-height: 30px;
 						
-						display: flex;
+						display: none;
 						align-items: center;
-						margin-top: auto;
+						overflow-x: auto;
+						margin: auto 0 18px 0;
+						
+						> * {
+							flex-shrink: 0;
+						}
 						
 						> .divider {
 							width: 3px;
@@ -185,7 +264,6 @@
 					> .buttons {
 						display: flex;
 						align-items: center;
-						margin-top: 18px;
 						
 						> button {
 							display: flex;
@@ -240,7 +318,7 @@
 				}
 				
 				&:not(:last-child) {
-					margin-bottom: 8px;
+					margin-bottom: 12px;
 				}
 			}
 			

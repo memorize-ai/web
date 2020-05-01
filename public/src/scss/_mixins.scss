@@ -76,6 +76,7 @@
 @mixin prepare-for-line-limit {
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
 @mixin line-limit($lines) {
