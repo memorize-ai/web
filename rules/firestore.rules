@@ -2,64 +2,8 @@ rules_version = '2'
 
 service cloud.firestore {
 	match /databases/{database}/documents {
-		match /users/{uid} {
-			allow read
-			allow create, update: if isSignedInWith(uid)
-			
-			match /decks/{deckId} {
-				allow read, write: if isSignedInWith(uid)
-				
-				match /drafts/{draftId} {
-					allow read, write: if isSignedInWith(uid)
-				}
-				
-				match /cards/{cardId} {
-					allow read: if isSignedInWith(uid)
-				}
-			}
-		}
-		
-		match /topics/{topicId} {
-			allow read
-		}
-		
-		match /decks/{deckId} {
-			allow read
-			allow write: if isSignedInAsCreator(getOldData())
-			
-			match /sections/{sectionId} {
-				allow read
-				allow write: if isSignedInAsCreator(getDeck(deckId))
-			}
-			
-			match /cards/{cardId} {
-				allow read
-				allow write: if isSignedInAsCreator(getDeck(deckId))
-			}
-		}
-		
-		function isSignedIn() {
-			return request.auth != null
-		}
-		
-		function isSignedInWith(uid) {
-			return isSignedIn() && request.auth.uid == uid
-		}
-		
-		function getNewData() {
-			return request.resource.data
-		}
-		
-		function getOldData() {
-			return resource.data
-		}
-		
-		function isSignedInAsCreator(deck) {
-			return isSignedInWith(deck.creator)
-		}
-		
-		function getDeck(deckId) {
-			return get(/databases/$(database)/documents/decks/$(deckId)).data
+		match /{allPaths=**} {
+			allow read, write
 		}
 	}
 }

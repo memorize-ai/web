@@ -2,28 +2,8 @@ rules_version = '2'
 
 service firebase.storage {
 	match /b/{bucket}/o {
-		match /decks/{deckId} {
+		match /{allPaths=**} {
 			allow read, write
-		}
-		
-		match /deck-assets/{deckId}/{assetId} {
-			allow read
-		}
-		
-		function isSignedIn() {
-			return request.auth != null
-		}
-		
-		function isSignedInWith(uid) {
-			return isSignedIn() && request.auth.uid == uid
-		}
-		
-		function getMetadata() {
-			return request.resource.metadata
-		}
-		
-		function getOwner() {
-			return getMetadata().owner
 		}
 	}
 }
