@@ -96,7 +96,7 @@
 				background: white;
 				border-radius: 8px;
 				
-				@media (min-width: 500px) {
+				@media (min-width: 550px) {
 					grid:
 						'image content' #{$image-dimension}
 						'footer footer' auto /
@@ -104,7 +104,7 @@
 						calc(100vw - var(--sidebar-width) - #{30px * 2} - #{$image-dimension});
 					
 					> img {
-						margin: $image-margin 0 0 $image-margin;
+						margin: $image-margin 0 0 $image-margin !important;
 					}
 					
 					> .footer > .stats {
