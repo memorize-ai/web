@@ -15,7 +15,7 @@
 		
 		"clean": "rm -rf .firebase *.log ios-libraries/lib && npm run clean:public && npm run clean:functions",
 		"clean:public": "rm -rf public/build",
-		"clean:functions": "rm -rf functions/lib",
+		"clean:functions": "rm -rf functions/lib functions/public.html",
 		
 		"build": "npm run build:public && npm run build:functions",
 		"build:public": "npm run build -C public",

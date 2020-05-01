@@ -18,12 +18,8 @@
 		],
 		"rewrites": [
 			{
-				"source": "/_api/**",
-				"function": "api"
-			},
-			{
 				"source": "**",
-				"destination": "/index.html"
+				"function": "app"
 			}
 		],
 		"headers": [

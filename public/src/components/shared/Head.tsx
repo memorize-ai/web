@@ -4,6 +4,11 @@ import Schema, { Thing, MobileApplication } from 'schema.org-react'
 
 import { APP_SCREENSHOT_URL, APP_STORE_URL } from '../../constants'
 
+export interface Label {
+	name: string
+	value: string
+}
+
 export interface Breadcrumb {
 	name: string
 	url: string
@@ -12,6 +17,7 @@ export interface Breadcrumb {
 export interface HeadProps<SchemaItems extends Thing[]> {
 	canonical?: string
 	ogUrl?: string
+	twitterUrl?: string
 	ogType?: string
 	title: string
 	ogTitle?: string
@@ -21,6 +27,7 @@ export interface HeadProps<SchemaItems extends Thing[]> {
 	twitterDescription?: string
 	ogImage?: string
 	twitterImage?: string
+	labels?: Label[]
 	breadcrumbs: Breadcrumb[][]
 	schemaItems?: SchemaItems
 }
@@ -55,7 +62,8 @@ export const APP_SCHEMA: MobileApplication = {
 
 export default <SchemaItems extends Thing[]>({
 	canonical: _canonical,
-	ogUrl,
+	ogUrl: _ogUrl,
+	twitterUrl,
 	ogType,
 	title,
 	ogTitle: _ogTitle,
@@ -65,11 +73,13 @@ export default <SchemaItems extends Thing[]>({
 	twitterDescription,
 	ogImage: _ogImage,
 	twitterImage,
+	labels,
 	breadcrumbs,
 	schemaItems
 }: HeadProps<SchemaItems>) => {
 	const canonical = _canonical ?? window.location.href
 	
+	const ogUrl = _ogUrl ?? canonical
 	const ogTitle = _ogTitle ?? title
 	const ogDescription = _ogDescription ?? description
 	const ogImage = _ogImage ?? LOGO_URL
@@ -79,18 +89,28 @@ export default <SchemaItems extends Thing[]>({
 			<Helmet>
 				<meta name="description" content={description} />
 				
-				<meta property="og:url" content={ogUrl ?? canonical} />
+				<meta property="og:url" content={ogUrl} />
 				<meta property="og:site_name" content="memorize.ai" />
 				<meta property="og:type" content={ogType ?? 'website'} />
 				<meta property="og:title" content={ogTitle} />
 				<meta property="og:description" content={ogDescription} />
 				<meta property="og:image" content={ogImage} />
 				
-				<meta name="twitter:card" content="summary" />
+				<meta name="twitter:card" content="summary_large_image" />
 				<meta name="twitter:site" content="@memorize_ai" />
+				<meta name="twitter:creator" content="@memorize_ai" />
+				<meta name="twitter:domain" content="memorize.ai" />
+				<meta name="twitter:url" content={twitterUrl ?? ogUrl} />
 				<meta name="twitter:title" content={twitterTitle ?? ogTitle} />
 				<meta name="twitter:description" content={twitterDescription ?? ogDescription} />
 				<meta name="twitter:image" content={twitterImage ?? ogImage} />
+				
+				{labels?.map(({ name, value }, i) => (
+					<>
+						<meta name={`twitter:label${i}`} content={name} />
+						<meta name={`twitter:data${i}`} content={value} />
+					</>
+				))}
 				
 				<link rel="canonical" href={canonical} />
 				
