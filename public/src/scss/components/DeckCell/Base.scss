@@ -10,9 +10,8 @@
 	max-width: $deck-cell-max-width;
 	height: $deck-cell-height;
 	background: white;
-	border: 1px solid #eee;
 	border-radius: 8px;
-	box-shadow: 0 5px 10px 0 transparentize(black, 0.9);
+	box-shadow: 0 0 5px 0 transparentize(black, 0.9);
 	
 	> img {
 		width: $deck-cell-height;
