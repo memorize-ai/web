@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react'
+import React, { useState } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 
 import User from '../../../models/User'
@@ -31,9 +31,7 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	const hasDeck = decks.some(({ id }) => id === deck.id)
 	
-	const get = async (event: MouseEvent) => {
-		event.preventDefault()
-		
+	const get = async () => {
 		const callback = async (user: User) => {
 			try {
 				setGetLoadingState(LoadingState.Loading)
@@ -57,10 +55,8 @@ export default ({ deck }: { deck: Deck }) => {
 		}
 	}
 	
-	const open = (event: MouseEvent) => {
-		event.preventDefault()
+	const open = () =>
 		history.push(`/decks/${deck.slugId}/${deck.slug}`)
-	}
 	
 	return (
 		<Link
@@ -122,33 +118,20 @@ export default ({ deck }: { deck: Deck }) => {
 						{formatNumber(deck.numberOfCards)} card{deck.numberOfCards === 1 ? '' : 's'}
 					</p>
 				</div>
-				<div className="buttons">
-					{hasDeck
-						? (
-							<Button
-								className="open"
-								loading={false}
-								disabled={false}
-								onClick={open}
-							>
-								Open
-							</Button>
-						)
-						: (
-							<Button
-								className="get"
-								loaderSize="16px"
-								loaderThickness="3px"
-								loaderColor="white"
-								loading={getLoadingState === LoadingState.Loading}
-								disabled={false}
-								onClick={get}
-							>
-								Get
-							</Button>
-						)
-					}
-				</div>
+				<Button
+					className={hasDeck ? 'open' : 'get'}
+					loaderSize="16px"
+					loaderThickness="3px"
+					loaderColor="white"
+					loading={getLoadingState === LoadingState.Loading}
+					disabled={false}
+					onClick={event => {
+						event.preventDefault()
+						hasDeck ? open() : get()
+					}}
+				>
+					{hasDeck ? 'Open' : 'Get'}
+				</Button>
 			</div>
 		</Link>
 	)
