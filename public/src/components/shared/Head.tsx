@@ -117,11 +117,12 @@ export default <SchemaItems extends Thing[]>({
 				<meta name="twitter:description" content={twitterDescription ?? ogDescription} />
 				<meta name="twitter:image" content={twitterImage ?? ogImage} />
 				
+				{labels?.map(({ name }, i) => (
+					<meta key={`twitter:label${name}`} name={`twitter:label${i + 1}`} content={name} />
+				))}
+				
 				{labels?.map(({ name, value }, i) => (
-					<Fragment key={name}>
-						<meta name={`twitter:label${i}`} content={name} />
-						<meta name={`twitter:data${i}`} content={value} />
-					</Fragment>
+					<meta key={`twitter:data${name}`} name={`twitter:data${i + 1}`} content={value} />
 				))}
 				
 				<link rel="canonical" href={canonicalUrl} />

@@ -78,6 +78,22 @@ export default () => {
 					} card${deck?.numberOfCards === 1 ? '' : 's'}. ${APP_DESCRIPTION}`
 				}
 				ogImage={imageUrl}
+				labels={[
+					{
+						name: 'Rating',
+						value: deck?.numberOfRatings
+							? deck.averageRating.toFixed(1)
+							: 'No ratings'
+					},
+					{
+						name: 'Downloads',
+						value: formatNumber(deck?.numberOfDownloads ?? 0)
+					},
+					{
+						name: 'Cards',
+						value: formatNumber(deck?.numberOfCards ?? 0)
+					}
+				]}
 				breadcrumbs={[
 					[
 						{
