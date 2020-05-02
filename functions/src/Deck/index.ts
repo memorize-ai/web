@@ -1,9 +1,12 @@
 import * as admin from 'firebase-admin'
 import Batch from 'firestore-batch'
+import axios from 'axios'
+import * as _ from 'lodash'
 
 import decksClient from '../AppSearch/decks'
 import User from '../User'
 import Section from '../Section'
+import { PRERENDER_TOKEN } from '../constants'
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket()
@@ -183,10 +186,13 @@ export default class Deck {
 			downloadCount: admin.firestore.FieldValue.increment(1)
 		})
 	
-	updateLastUpdated = () =>
-		firestore.doc(`decks/${this.id}`).update({
+	updateLastUpdated = () => {
+		this.dateLastUpdated = new Date
+		
+		return firestore.doc(`decks/${this.id}`).update({
 			updated: admin.firestore.FieldValue.serverTimestamp()
 		})
+	}
 	
 	static updateRating = (
 		uid: string,
@@ -252,6 +258,10 @@ export default class Deck {
 	static decrementCounter = (amount: number = 1) =>
 		Deck.incrementCounter(-amount)
 	
+	get url() {
+		return `https://memorize.ai/d/${this.slugId}/${this.slug}`
+	}
+	
 	updateAverageRating = () => {
 		const sum = (
 			this.numberOf1StarRatings +
@@ -279,6 +289,37 @@ export default class Deck {
 	
 	deleteIndex = () =>
 		decksClient.deleteIndices(this.id)
+	
+	cache = () =>
+		axios.post('https://api.prerender.io/recache', {
+			prerenderToken: PRERENDER_TOKEN,
+			url: this.url
+		})
+	
+	wasUpdatedByUser = (newDeck: Deck) => !(
+		_.isEqual(this.topics, newDeck.topics) &&
+		this.hasImage === newDeck.hasImage &&
+		this.name === newDeck.name &&
+		this.subtitle === newDeck.subtitle &&
+		this.description === newDeck.description &&
+		this.numberOfCards === newDeck.numberOfCards
+	)
+	
+	shouldIndex = (newDeck: Deck) => !(
+		this.slugId === newDeck.slugId &&
+		this.slug === newDeck.slug &&
+		_.isEqual(this.topics, newDeck.topics) &&
+		this.hasImage === newDeck.hasImage &&
+		this.name === newDeck.name &&
+		this.subtitle === newDeck.subtitle &&
+		this.description === newDeck.description &&
+		this.numberOfRatings === newDeck.numberOfRatings &&
+		this.averageRating === newDeck.averageRating &&
+		this.numberOfCards === newDeck.numberOfCards &&
+		this.numberOfCurrentUsers === newDeck.numberOfCurrentUsers &&
+		this.creatorId === newDeck.creatorId &&
+		this.score === newDeck.score
+	)
 	
 	private transformDataForIndexing = async () => {
 		const creator = await User.fromId(this.creatorId)
