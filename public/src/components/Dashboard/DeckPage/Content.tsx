@@ -16,7 +16,6 @@ import useAllCards from '../../../hooks/useAllCards'
 import useTopics from '../../../hooks/useTopics'
 import useCreator from '../../../hooks/useCreator'
 import useSimilarDecks from '../../../hooks/useSimilarDecks'
-import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
 import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
@@ -29,7 +28,6 @@ import SimilarDecks, { SIMILAR_DECKS_CHUNK_SIZE } from './SimilarDecks'
 import Cards from './Cards'
 import Comments from './Comments'
 import Loader from '../../shared/Loader'
-import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'
@@ -42,7 +40,6 @@ export default () => {
 	const [{ query, sortAlgorithm }] = useSearchState()
 	
 	const { deck, hasDeck } = useDeck(slugId)
-	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
 	
 	const imageUrlObject = (deck && imageUrls[deck.id]) ?? null
 	
@@ -165,11 +162,11 @@ export default () => {
 				{deck
 					? (
 						<>
-							<Header deck={deck} hasDeck={hasDeck} removeDeck={() => removeDeck(deck)} />
+							<Header deck={deck} hasDeck={hasDeck} />
 							{deck.numberOfCards > 0 && <Preview deck={deck} />}
 							<Footer deck={deck} />
 							<Controls deck={deck} hasDeck={hasDeck} />
-							<SimilarDecks deck={deck} removeDeck={removeDeck} />
+							<SimilarDecks deck={deck} />
 							<Cards deck={deck} />
 							<Comments deck={deck} />
 						</>
@@ -177,7 +174,6 @@ export default () => {
 					: <Loader size="24px" thickness="4px" color="#582efe" />
 				}
 			</div>
-			<RemoveDeckModal {...removeDeckModalProps} />
 		</>
 	)
 }

@@ -37,30 +37,20 @@
 		}
 	}
 	
-	> .buttons {
+	> button {
 		display: flex;
+		justify-content: center;
 		align-items: center;
+		width: 100%;
+		height: 30px;
 		margin-top: 18px;
+		font-weight: bold;
+		text-transform: uppercase;
+		color: white;
+		border-radius: 8px;
+		transition: color 0.3s, background 0.3s;
 		
-		> button {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: 100%;
-			height: 30px;
-			font-weight: bold;
-			text-transform: uppercase;
-			border-radius: 8px;
-			transition: color 0.3s, background 0.3s;
-			
-			&:hover,
-			&:focus {
-				color: white;
-			}
-		}
-		
-		> .get {
-			color: white;
+		&.get {
 			background: #4355f9;
 			
 			&:hover,
@@ -69,20 +59,7 @@
 			}
 		}
 		
-		> .remove {
-			margin-right: 8px;
-			color: #4355f9;
-			border: 1.5px solid #4355f9;
-			
-			&:hover,
-			&:focus {
-				background: #4355f9;
-			}
-		}
-		
-		> .open {
-			margin-left: 8px;
-			color: white;
+		&.open {
 			background: #00d388;
 			
 			&:hover,

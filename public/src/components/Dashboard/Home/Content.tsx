@@ -7,11 +7,9 @@ import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
 import useRecommendedDecks from '../../../hooks/useRecommendedDecks'
-import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
 import Head, { APP_DESCRIPTION, APP_SCHEMA } from '../../shared/Head'
 import OwnedDeckCell from '../../shared/DeckCell/Owned'
 import DeckCell from '../../shared/DeckCell'
-import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
 import DownloadAppModal from '../../shared/Modal/DownloadApp'
 import { formatNumber } from '../../../utils'
 
@@ -22,7 +20,6 @@ export default () => {
 	
 	const [decks] = useDecks()
 	const recommendedDecks = useRecommendedDecks(20)
-	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
 	
 	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)
 	const [downloadAppMessage, setDownloadAppMessage] = useState('')
@@ -135,11 +132,7 @@ export default () => {
 							{recommendedDecks
 								.filter((_, i) => !(i & 1))
 								.map(deck => (
-									<DeckCell
-										key={deck.id}
-										deck={deck}
-										onRemove={() => removeDeck(deck)}
-									/>
+									<DeckCell key={deck.id} deck={deck} />
 								))
 							}
 						</div>
@@ -147,18 +140,13 @@ export default () => {
 							{recommendedDecks
 								.filter((_, i) => i & 1)
 								.map(deck => (
-									<DeckCell
-										key={deck.id}
-										deck={deck}
-										onRemove={() => removeDeck(deck)}
-									/>
+									<DeckCell key={deck.id} deck={deck} />
 								))
 							}
 						</div>
 					</div>
 				</div>
 			)}
-			<RemoveDeckModal {...removeDeckModalProps} />
 			<DownloadAppModal
 				message={downloadAppMessage}
 				isShowing={isDownloadAppModalShowing}

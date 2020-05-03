@@ -2,10 +2,7 @@
 @import '../../mixins';
 @import '../../functions';
 
-@mixin horizontal-scrolling-container($margin) {
-	overflow-x: auto;
-	width: calc(100vw - var(--sidebar-width) - #{$margin * 2});
-}
+@include dashboard-sidebar-collapse('deck-page', 1150px);
 
 @include dashboard-content('deck-page') {
 	$margin: 30px;
@@ -96,15 +93,20 @@
 		}
 		
 		> .header {
-			$height: 200px;
+			$image-dimension: 220px;
 			
-			display: flex;
-			min-height: $height;
+			display: grid;
+			grid:
+				'image content' #{$image-dimension}
+				'stats stats' auto /
+				#{$image-dimension}
+				calc(100vw - var(--sidebar-width) - #{$margin * 4 + $image-dimension});
 			margin: $margin 0 0 $margin;
+			width: 100%;
 			
 			> img {
-				width: $height;
-				height: $height;
+				grid-area: image;
+				height: 100%;
 				object-fit: cover;
 				background: white;
 				border-radius: 8px;
@@ -115,231 +117,210 @@
 			}
 			
 			> .content {
+				grid-area: content;
 				display: flex;
 				flex-direction: column;
-				flex-grow: 1;
-				margin: 0 20px;
+				margin-left: 20px;
 				
-				> .top {
+				> .name {
+					@include line-limit(2);
+					
+					font-size: 24px;
+					font-weight: 800;
+					color: $dark-gray;
+				}
+				
+				> .subtitle,
+				> .creator {
+					color: #9b9b9b;
+				}
+				
+				> .subtitle {
+					@include line-limit(1);
+					
+					margin-top: 6px;
+					font-size: 20px;
+					font-weight: 700;
+				}
+				
+				> .creator {
 					display: flex;
-					flex-grow: 1;
+					align-items: center;
+					margin: 10px 0 10px 6px;
 					
-					> .left {
-						> .name {
-							@include line-limit(2);
-							
-							font-size: 30px;
-							font-weight: 800;
-							color: $dark-gray;
-						}
-						
-						> .subtitle,
-						> .creator {
-							color: #9b9b9b;
-						}
-						
-						> .subtitle,
-						> .creator > p {
+					> svg {
+						flex-shrink: 0;
+						margin-right: 14px;
+						transform: scale(2.2);
+					}
+					
+					> p {
+						&:first-of-type {
 							@include overflow-ellipsis;
+							
+							font-size: 20px;
+							font-weight: 600;
 						}
 						
-						> .subtitle {
-							font-size: 24px;
-							font-weight: 700;
+						&:last-of-type {
+							flex-shrink: 0;
+							margin-left: 8px;
+							font-size: 15px;
+							font-weight: bold;
+							color: #582efe;
+						}
+					}
+				}
+				
+				> .buttons {
+					display: flex;
+					align-items: center;
+					margin: auto 0 12px 0;
+					
+					> .get,
+					> .open {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						height: 40px;
+						padding: 0 30px;
+						font-weight: bold;
+						text-transform: uppercase;
+						border-radius: 8px;
+						transition: color 0.3s, background 0.3s;
+						
+						&:hover,
+						&:focus {
+							color: white;
+						}
+					}
+					
+					> .get {
+						color: white;
+						background: #4355f9;
+						
+						&:hover,
+						&:focus {
+							background: #00d388;
+						}
+					}
+					
+					> .open {
+						color: white;
+						background: #00d388;
+						
+						&:hover,
+						&:focus {
+							background: #051e34;
+						}
+					}
+					
+					> .share {
+						height: 40px;
+						padding: 0 20px;
+						border: 1.5px solid transparentize(#ddd, 0.2);
+						border-radius: 5px;
+						transition: background 0.3s, border-color 0.3s;
+						
+						> svg {
+							fill: #4355f9;
+							transform: scale(1.3) translate(-0.5px, 0.5px);
+							transition: fill 0.3s;
 						}
 						
-						> .creator {
-							display: flex;
-							align-items: center;
-							margin: 10px 0 10px 6px;
+						&:hover {
+							background: #051e34;
+							border-color: #051e34;
 							
 							> svg {
-								flex-shrink: 0;
-								margin-right: 14px;
-								transform: scale(2.2);
-							}
-							
-							> p {
-								&:first-of-type {
-									font-size: 20px;
-									font-weight: 600;
-								}
-								
-								&:last-of-type {
-									margin-left: 8px;
-									font-size: 15px;
-									font-weight: bold;
-									color: #582efe;
-								}
+								fill: white;
 							}
 						}
 					}
 					
-					> .right {
-						display: flex;
-						align-items: center;
-						margin: 0 $margin 0 auto;
-						transform: translateY(-$margin / 2);
-						
-						> .get,
-						> .remove,
-						> .open {
-							display: flex;
-							justify-content: center;
-							align-items: center;
-							height: 40px;
-							padding: 0 30px;
-							font-weight: bold;
-							text-transform: uppercase;
-							border-radius: 8px;
-							transition: color 0.3s, background 0.3s;
-							
-							&:hover,
-							&:focus {
-								color: white;
-							}
-						}
-						
-						> .get {
-							color: white;
-							background: #4355f9;
-							
-							&:hover,
-							&:focus {
-								background: #00d388;
-							}
-						}
-						
-						> .remove {
-							color: #4355f9;
-							border: 1.5px solid #4355f9;
-							
-							&:hover,
-							&:focus {
-								background: #4355f9;
-							}
-						}
-						
-						> .open {
-							color: white;
-							background: #00d388;
-							
-							&:hover,
-							&:focus {
-								background: #051e34;
-							}
-						}
-						
-						> .share {
-							height: 40px;
-							padding: 0 20px;
-							border: 1.5px solid transparentize(#ddd, 0.2);
-							border-radius: 5px;
-							transition: background 0.3s, border-color 0.3s;
-							
-							> svg {
-								fill: #4355f9;
-								transform: scale(1.3) translate(-0.5px, 0.5px);
-								transition: fill 0.3s;
-							}
-							
-							&:hover {
-								background: #051e34;
-								border-color: #051e34;
-								
-								> svg {
-									fill: white;
-								}
-							}
-						}
-						
-						> :not(:last-child) {
-							margin-right: 16px;
-						}
+					> :not(:last-child) {
+						margin-right: 16px;
 					}
+				}
+			}
+			
+			> .stats {
+				--star-height: 30px;
+				
+				grid-area: stats;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-top: 25px;
+				
+				> * {
+					flex-shrink: 0;
 				}
 				
 				> .divider {
-					$height: 2px;
-					
-					height: $height;
-					margin: auto $margin 0 0;
+					width: 3px;
+					height: 28px;
+					margin: 0 20px;
 					background: transparentize(#ddd, 0.5);
-					border-radius: $height / 2;
 				}
 				
-				> .stats {
-					--star-height: 30px;
+				> .rating,
+				> .downloads,
+				> .current-users,
+				> .cards,
+				> .comments {
+					transition: opacity 0.3s;
 					
+					&:hover {
+						opacity: 0.5;
+					}
+				}
+				
+				> .rating,
+				> .downloads,
+				> .current-users,
+				> .comments {
 					display: flex;
 					align-items: center;
-					margin-top: 12px;
 					
-					> .divider {
-						width: 3px;
-						height: 28px;
-						margin: 0 20px;
-						background: transparentize(#ddd, 0.5);
-					}
-					
-					> .rating,
-					> .downloads,
-					> .current-users,
-					> .cards,
-					> .comments {
-						transition: opacity 0.3s;
-						
-						&:hover {
-							opacity: 0.5;
-						}
-					}
-					
-					> .rating,
-					> .downloads,
-					> .current-users,
-					> .comments {
-						display: flex;
-						align-items: center;
-						
-						> p {
-							margin-left: 8px;
-							font-size: 24px;
-							font-weight: 600;
-							color: #9b9b9b;
-						}
-					}
-					
-					> .downloads,
-					> .current-users {
-						> svg {
-							margin: 0 8px 0 6px;
-							transform: scale(2.2);
-						}
-					}
-					
-					> .current-users {
-						margin-right: -4px;
-					}
-					
-					> .cards {
-						margin-left: -4px;
+					> p {
+						margin-left: 8px;
 						font-size: 24px;
 						font-weight: 600;
 						color: #9b9b9b;
 					}
+				}
+				
+				> .downloads,
+				> .current-users {
+					> svg {
+						margin: 0 8px 0 6px;
+						transform: scale(2.2);
+					}
+				}
+				
+				> .current-users {
+					margin-right: -4px;
+				}
+				
+				> .cards {
+					margin-left: -4px;
+					font-size: 24px;
+					font-weight: 600;
+					color: #9b9b9b;
+				}
+				
+				> .comments {
+					margin-left: 6px;
 					
-					> .comments {
-						margin-left: 6px;
-						
-						> svg {
-							color: #9b9b9b;
-							transform: scale(1.5);
-						}
-						
-						> p {
-							margin-left: 13px;
-							transform: translateY(-2px);
-						}
+					> svg {
+						color: #9b9b9b;
+						transform: scale(1.5);
+					}
+					
+					> p {
+						margin-left: 13px;
+						transform: translateY(-2px);
 					}
 				}
 			}
@@ -348,7 +329,7 @@
 		> .preview {
 			margin: 30px 0;
 			padding: $margin;
-			background: $light-gray-background;
+			box-shadow: 0 0 10px 0 transparentize(black, 0.9);
 			
 			> div {
 				width: max-content;
@@ -510,9 +491,8 @@
 			}
 			
 			> .topics {
-				@include horizontal-scrolling-container($margin);
-				
 				display: flex;
+				overflow-x: auto;
 				margin-top: 20px;
 				padding: 0 $margin;
 				
@@ -741,11 +721,10 @@
 			}
 			
 			> .rows {
-				@include horizontal-scrolling-container($margin);
-				
 				$margin-top: 12px;
 				$padding-top: 4px;
 				
+				overflow-x: auto;
 				margin-top: $margin-top - $padding-top;
 				padding: $padding-top $margin 16px $margin;
 				

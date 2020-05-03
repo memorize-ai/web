@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
@@ -17,7 +17,7 @@ import users from '../../../images/icons/users.svg'
 import '../../../scss/components/DeckCell/index.scss'
 import User from '../../../models/User'
 
-export default ({ deck, onRemove }: { deck: Deck, onRemove: () => void }) => {
+export default ({ deck }: { deck: Deck }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -29,9 +29,7 @@ export default ({ deck, onRemove }: { deck: Deck, onRemove: () => void }) => {
 	
 	const hasDeck = decks.some(({ id }) => id === deck.id)
 	
-	const get = async (event: MouseEvent) => {
-		event.preventDefault()
-		
+	const get = async () => {
 		const callback = async (user: User) => {
 			try {
 				setGetLoadingState(LoadingState.Loading)
@@ -55,10 +53,8 @@ export default ({ deck, onRemove }: { deck: Deck, onRemove: () => void }) => {
 		}
 	}
 	
-	const open = (event: MouseEvent) => {
-		event.preventDefault()
+	const open = () =>
 		history.push(`/decks/${deck.slugId}/${deck.slug}`)
-	}
 	
 	return (
 		<Base
@@ -94,49 +90,20 @@ export default ({ deck, onRemove }: { deck: Deck, onRemove: () => void }) => {
 					<p>({formatNumber(deck.numberOfCurrentUsers)})</p>
 				</div>
 			</div>
-			<div className="buttons">
-				{hasDeck
-					? (
-						<>
-							<Button
-								className="remove"
-								loaderSize="16px"
-								loaderThickness="3px"
-								loaderColor="white"
-								loading={getLoadingState === LoadingState.Loading}
-								disabled={false}
-								onClick={event => {
-									event.preventDefault()
-									onRemove()
-								}}
-							>
-								Remove
-							</Button>
-							<Button
-								className="open"
-								loading={false}
-								disabled={false}
-								onClick={open}
-							>
-								Open
-							</Button>
-						</>
-					)
-					: (
-						<Button
-							className="get"
-							loaderSize="16px"
-							loaderThickness="3px"
-							loaderColor="white"
-							loading={getLoadingState === LoadingState.Loading}
-							disabled={false}
-							onClick={get}
-						>
-							Get
-						</Button>
-					)
-				}
-			</div>
+			<Button
+				className={hasDeck ? 'open' : 'get'}
+				loaderSize="16px"
+				loaderThickness="3px"
+				loaderColor="white"
+				loading={getLoadingState === LoadingState.Loading}
+				disabled={false}
+				onClick={event => {
+					event.preventDefault()
+					hasDeck ? open() : get()
+				}}
+			>
+				{hasDeck ? 'Open' : 'Get'}
+			</Button>
 		</Base>
 	)
 }
