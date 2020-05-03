@@ -1,9 +1,10 @@
 import React, { HTMLAttributes } from 'react'
+import cx from 'classnames'
 
 import '../../scss/components/Loader.scss'
 
 export default (
-	{ size, thickness, color, ...props }: {
+	{ className, size, thickness, color, ...props }: {
 		size: string
 		thickness: string
 		color: string
@@ -11,7 +12,7 @@ export default (
 ) => (
 	<div
 		{...props}
-		className="loader"
+		className={cx('loader', className)}
 		style={{
 			width: size,
 			height: size,

@@ -58,19 +58,6 @@ body {
 	font-weight: initial;
 }
 
-.ck.ck-editor {
-	height: 100% !important;
-}
-
-.ck.ck-editor__main {
-	height: calc(100% - 40.2px);
-}
-
-.ck.ck-editor__editable {
-	min-height: 200px;
-	height: 100%;
-}
-
 @include ck-editor-dropdown {
 	flex-wrap: wrap;
 }
