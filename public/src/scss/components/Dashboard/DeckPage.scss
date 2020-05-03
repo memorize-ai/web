@@ -126,6 +126,8 @@
 					
 					> .left {
 						> .name {
+							@include line-limit(2);
+							
 							font-size: 30px;
 							font-weight: 800;
 							color: $dark-gray;
@@ -134,6 +136,11 @@
 						> .subtitle,
 						> .creator {
 							color: #9b9b9b;
+						}
+						
+						> .subtitle,
+						> .creator > p {
+							@include overflow-ellipsis;
 						}
 						
 						> .subtitle {
@@ -147,6 +154,7 @@
 							margin: 10px 0 10px 6px;
 							
 							> svg {
+								flex-shrink: 0;
 								margin-right: 14px;
 								transform: scale(2.2);
 							}

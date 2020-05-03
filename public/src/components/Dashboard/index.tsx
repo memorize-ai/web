@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from 'react'
+import React, { PropsWithChildren, useEffect, Suspense } from 'react'
 import cx from 'classnames'
 
 import Sidebar from './Sidebar'
@@ -14,10 +14,9 @@ export enum DashboardNavbarSelection {
 }
 
 export default (
-	{ selection, className, gradientHeight, children }: PropsWithChildren<{
+	{ selection, className, children }: PropsWithChildren<{
 		selection: DashboardNavbarSelection
 		className: string
-		gradientHeight: string
 	}>
 ) => {
 	useEffect(() => {
@@ -32,11 +31,13 @@ export default (
 		<div className={cx('dashboard', className)}>
 			<Sidebar />
 			<div className="content">
-				<div className="background" style={{ height: gradientHeight }} />
+				<div className="background" />
 				<div className="container">
 					<Navbar selection={selection} />
 					<div className="foreground">
-						{children}
+						<Suspense fallback={null}>
+							{children}
+						</Suspense>
 					</div>
 				</div>
 			</div>

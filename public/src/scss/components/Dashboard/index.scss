@@ -18,7 +18,7 @@
 		> .background {
 			@include top-gradient($is-right: false);
 			
-			transition: height 0.3s;
+			height: 500px;
 		}
 		
 		> .container {

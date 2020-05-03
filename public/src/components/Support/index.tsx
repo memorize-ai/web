@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 
 import Policy from '../shared/Policy'
+
+const Content = lazy(() => import('./Content'))
 
 export default () => (
 	<Policy
@@ -8,10 +10,8 @@ export default () => (
 		title="Support"
 		description="Contact memorize.ai's support by emailing support@memorize.ai."
 	>
-		Email us at support@memorize.ai or by post to:<br /><br />
-		memorize.ai<br />
-		1717 Curtis Avenue<br />
-		Manhattan Beach, CA 90266<br />
-		United States
+		<Suspense fallback={null}>
+			<Content />
+		</Suspense>
 	</Policy>
 )

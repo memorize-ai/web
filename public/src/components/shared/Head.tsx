@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
 import Schema, { Thing, MobileApplication } from 'schema.org-react'
 

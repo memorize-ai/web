@@ -9,7 +9,6 @@ import useAuthModal from '../../../hooks/useAuthModal'
 import Base from './Base'
 import Stars from '../Stars'
 import Button from '../Button'
-import { urlForDeckPage } from '../../Dashboard/DeckPage'
 import { formatNumber } from '../../../utils'
 
 import downloads from '../../../images/icons/download.svg'
@@ -65,7 +64,7 @@ export default ({ deck, onRemove }: { deck: Deck, onRemove: () => void }) => {
 		<Base
 			className="default"
 			deck={deck}
-			href={urlForDeckPage(deck)}
+			href={deck.url}
 			nameProps={{
 				style: { WebkitLineClamp: deck.subtitle ? 1 : 2 }
 			}}

@@ -1,44 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { lazy, Suspense } from 'react'
 
-import firebase from '../../firebase'
-import Head, { APP_SCHEMA } from '../shared/Head'
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
 
-import 'firebase/analytics'
 import '../../scss/components/404.scss'
 
-const analytics = firebase.analytics()
+const Content = lazy(() => import('./Content'))
 
-export default () => {
-	useEffect(() => {
-		analytics.logEvent('404')
-	}, [])
-	
-	return (
-		<div className="page-404">
-			<Head
-				status={404}
-				title="404 | memorize.ai"
-				description="Oops! Looks like you have the wrong URL."
-				breadcrumbs={[
-					[
-						{
-							name: '404',
-							url: window.location.href
-						}
-					]
-				]}
-				schemaItems={[
-					APP_SCHEMA
-				]}
-			/>
-			<TopGradient>
-				<Navbar />
-				<h1 className="main-message">
-					We think you've got the wrong URL.
-				</h1>
-			</TopGradient>
-		</div>
-	)
-}
+export default () => (
+	<div className="page-404">
+		<TopGradient>
+			<Navbar />
+			<Suspense fallback={null}>
+				<Content />
+			</Suspense>
+		</TopGradient>
+	</div>
+)

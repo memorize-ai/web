@@ -295,6 +295,14 @@ export default class Deck implements DeckData {
 		return slugParts
 	}
 	
+	get url() {
+		return `/d/${this.slugId}/${this.slug}`
+	}
+	
+	get urlWithOrigin() {
+		return `https://memorize.ai${this.url}`
+	}
+	
 	get worstRating() {
 		for (const rating of [1, 2, 3, 4, 5])
 			if ((this as any)[`numberOf${rating}StarRatings`] > 0)

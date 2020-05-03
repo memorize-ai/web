@@ -10,7 +10,6 @@ import useImageUrl from '../../../hooks/useImageUrl'
 import useAuthModal from '../../../hooks/useAuthModal'
 import Stars from '../../shared/Stars'
 import Button from '../../shared/Button'
-import { urlForDeckPage } from '../../Dashboard/DeckPage'
 import { formatNumber } from '../../../utils'
 
 import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
@@ -60,7 +59,7 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	return (
 		<Link
-			to={urlForDeckPage(deck)}
+			to={deck.url}
 			className="deck-row"
 			itemScope
 			itemID={deck.id}

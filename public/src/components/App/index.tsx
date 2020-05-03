@@ -29,6 +29,7 @@ export default () => (
 		<Switch>
 			<Route exact path="/" component={Root} />
 			<Route exact path="/landing" component={Home} />
+			
 			<Route exact path="/privacy" component={Privacy} />
 			<Route exact path="/support" component={Support} />
 			
