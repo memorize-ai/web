@@ -1,9 +1,5 @@
 /* autoprefixer grid: autoplace */
 
-@import '~balloon-css/src/balloon';
-@import '~aos/dist/aos';
-@import '~katex/dist/katex';
-
 @import 'variables';
 @import 'mixins';
 @import 'animations';
@@ -52,14 +48,6 @@ body {
 
 #root {
 	transition: transform 0.3s, filter 0.3s;
-}
-
-.ck.ck-content * {
-	font-weight: initial;
-}
-
-@include ck-editor-dropdown {
-	flex-wrap: wrap;
 }
 
 pre,

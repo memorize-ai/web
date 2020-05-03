@@ -1,5 +1,11 @@
+@import '../mixins';
+
 $toolbar-height: 40.2px;
 $min-editable-height: 200px;
+
+@include ck-editor-dropdown {
+	flex-wrap: wrap;
+}
 
 .ck.ck-editor {
 	height: 100% !important;
@@ -12,6 +18,10 @@ $min-editable-height: 200px;
 		min-height: $min-editable-height;
 		height: 100%;
 	}
+}
+
+.ck.ck-content * {
+	font-weight: initial;
 }
 
 .ck-editor-loader {

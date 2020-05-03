@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import AOS from 'aos'
 
 import * as serviceWorker from './serviceWorker'
 import { CurrentUserProvider } from './contexts/CurrentUser'
@@ -28,7 +27,6 @@ import './scss/index.scss'
 const analytics = firebase.analytics()
 
 analytics.logEvent('start')
-AOS.init()
 
 ReactDOM.render((
 	<CurrentUserProvider>

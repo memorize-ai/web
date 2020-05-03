@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import AOS from 'aos'
 
 import firebase from '../../firebase'
 import useQuery from '../../hooks/useQuery'
@@ -11,6 +12,10 @@ import Integrations from './Integrations'
 import Footer from './Footer'
 
 import 'firebase/analytics'
+
+import 'aos/dist/aos.css'
+
+AOS.init()
 
 const analytics = firebase.analytics()
 
