@@ -95,6 +95,7 @@
 				overflow: hidden;
 				background: white;
 				border-radius: 8px;
+				box-shadow: 0 0 5px 0 transparentize(black, 0.9);
 				
 				@media (min-width: 700px) {
 					grid:
@@ -139,11 +140,6 @@
 					> .footer {
 						padding-top: 10px !important;
 					}
-				}
-				
-				&,
-				> img {
-					box-shadow: 0 0 5px 0 transparentize(black, 0.9);
 				}
 				
 				> img {

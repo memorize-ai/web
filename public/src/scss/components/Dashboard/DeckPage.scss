@@ -146,8 +146,8 @@ $sidebar-collapse-width: 1150px;
 				height: var(--image-dimension);
 				object-fit: cover;
 				background: white;
+				border: 1px solid #eee;
 				border-radius: 8px;
-				box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
 			}
 			
 			> .content {
@@ -403,8 +403,8 @@ $sidebar-collapse-width: 1150px;
 					cursor: pointer;
 					margin: 12px 0;
 					background: white;
-					border-radius: 5px;
-					box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+					border: 1px solid #eee;
+					border-radius: 8px;
 					transition:
 						opacity $transition-duration,
 						transform $transition-duration;
@@ -593,6 +593,7 @@ $sidebar-collapse-width: 1150px;
 			
 			> div {
 				width: 100%;
+				height: max-content;
 				background: white;
 				padding: 30px 20px;
 				border: 1px solid #eee;
@@ -774,7 +775,6 @@ $sidebar-collapse-width: 1150px;
 				&.info {
 					display: flex;
 					flex-direction: column;
-					height: max-content;
 					
 					> div {
 						display: flex;
@@ -845,6 +845,8 @@ $sidebar-collapse-width: 1150px;
 					
 					> .deck-cell {
 						flex-shrink: 0;
+						border: 1px solid #eee;
+						box-shadow: none;
 						
 						&:not(:last-child) {
 							margin-right: 12px;
