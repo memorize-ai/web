@@ -2,20 +2,24 @@
 @import '../../mixins';
 
 .deck-cell {
+	$min-width: 572px;
+	$max-width: $min-width + 100px;
+	$height: 195px;
+	
 	@include raise-on-hover;
 	
 	display: flex;
 	overflow: hidden;
-	min-width: $deck-cell-min-width;
-	max-width: $deck-cell-max-width;
-	height: $deck-cell-height;
+	min-width: $min-width;
+	max-width: $max-width;
+	height: $height;
 	background: white;
 	border-radius: 8px;
 	box-shadow: 0 0 5px 0 transparentize(black, 0.9);
 	
 	> img {
-		width: $deck-cell-height;
-		height: $deck-cell-height;
+		width: $height;
+		height: $height;
 		object-fit: cover;
 		background: white;
 		box-shadow: 0 0 20px 0 transparentize(black, 0.9);

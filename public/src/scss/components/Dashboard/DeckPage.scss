@@ -110,20 +110,40 @@ $sidebar-collapse-width: 1150px;
 		}
 		
 		> .header {
-			$image-dimension: 220px;
+			--image-dimension: 180px;
 			
 			display: grid;
 			grid:
-				'image content' #{$image-dimension}
-				'stats stats' auto /
-				#{$image-dimension}
-				calc(100vw - var(--sidebar-width) - #{$margin * 4 + $image-dimension});
-			margin: $margin 0 0 $margin;
+				'image' var(--image-dimension)
+				'content' auto
+				'stats' auto /
+				calc(100vw - var(--sidebar-width) - #{$margin * 4});
+			margin: $margin $margin 0 $margin;
 			width: 100%;
+			
+			@media (min-width: 700px) {
+				--image-dimension: 220px;
+				
+				grid:
+					'image content' var(--image-dimension)
+					'stats stats' auto /
+					var(--image-dimension)
+					calc(100vw - var(--sidebar-width) - #{$margin * 4} - var(--image-dimension));
+				
+				> .content {
+					margin: 0 0 0 20px !important;
+					
+					> .buttons {
+						margin: auto 0 12px 0 !important;
+					}
+				}
+			}
 			
 			> img {
 				grid-area: image;
-				height: 100%;
+				justify-self: center;
+				width: var(--image-dimension);
+				height: var(--image-dimension);
 				object-fit: cover;
 				background: white;
 				border-radius: 8px;
@@ -134,7 +154,7 @@ $sidebar-collapse-width: 1150px;
 				grid-area: content;
 				display: flex;
 				flex-direction: column;
-				margin-left: 20px;
+				margin-top: 20px;
 				
 				> .name {
 					@include line-limit(2);
@@ -189,7 +209,8 @@ $sidebar-collapse-width: 1150px;
 				> .buttons {
 					display: flex;
 					align-items: center;
-					margin: auto 0 12px 0;
+					overflow-x: auto;
+					margin-top: 10px;
 					
 					> .get,
 					> .open {
@@ -263,9 +284,11 @@ $sidebar-collapse-width: 1150px;
 				
 				grid-area: stats;
 				display: flex;
-				justify-content: center;
 				align-items: center;
-				margin-top: 25px;
+				max-width: 100%;
+				overflow-x: auto;
+				margin: 0 auto;
+				padding-top: 25px;
 				
 				> * {
 					flex-shrink: 0;
@@ -791,12 +814,21 @@ $sidebar-collapse-width: 1150px;
 			
 			> .title {
 				margin: 0 $margin;
-				font-size: 24px;
+				font-size: 20px;
 				font-weight: bold;
 				color: $dark-gray;
 				
+				@media (min-width: 425px) {
+					font-size: 24px;
+				}
+				
 				> span {
+					display: none;
 					color: #582efe;
+					
+					@media (min-width: 365px) {
+						display: initial;
+					}
 				}
 			}
 			
