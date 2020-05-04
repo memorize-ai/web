@@ -17,10 +17,22 @@ app.use(require('prerender-node').set('prerenderToken', PRERENDER_TOKEN))
 handleAPI(app)
 
 app.get('*', async ({ url }, res) => {
-	if (/\.(css|js|jpg|jpeg|gif|png|eot|otf|ttf|ttc|woff)$/i.test(url)) {
-		res.send(await storage.file(`${url.slice(url.lastIndexOf('/') + 1)}`).download())
+	if (!url.startsWith('/static')) {
+		res.set('Cache-Control', 'max-age=86400')
+		res.sendFile('/srv/public.html')
+		
 		return
 	}
 	
-	res.sendFile('/srv/public.html')
+	res.set('Cache-Control', 'max-age=31536000')
+	
+	try {
+		const [data] = await storage
+			.file(`public-assets/${url.slice(url.lastIndexOf('/') + 1)}`)
+			.download()
+		
+		res.send(data)
+	} catch (error) {
+		res.status(404).send(error.message)
+	}
 })

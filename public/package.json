@@ -18,8 +18,8 @@
 		"katex": "^0.11.1",
 		"lodash": "^4.17.15",
 		"moment": "~2.24.0",
-		"nanoid": "^3.1.3",
-		"node-sass": "^4.14.0",
+		"nanoid": "^3.1.4",
+		"node-sass": "^4.14.1",
 		"prismjs": "^1.20.0",
 		"react": "^16.13.0",
 		"react-copy-to-clipboard": "^5.0.2",
@@ -57,7 +57,7 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
-		"build": "react-scripts build && mv build/index.html ../functions/public.html",
+		"build": "react-scripts build && npm run save-public-assets -C .. && mv build/index.html ../functions/public.html",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},

@@ -247,8 +247,11 @@ export default class Deck {
 		return batch.commit()
 	}
 	
-	static deleteAssets = (deckId: string) =>
-		Promise.resolve(`${storage} ${deckId}`) // TODO: Delete assets from firebase storage
+	static deleteFromStorage = (deckId: string) =>
+		Promise.all([
+			storage.file(`decks/${deckId}`).delete(),
+			storage.deleteFiles({ directory: `deck-assets/${deckId}` })
+		])
 	
 	static incrementCounter = (amount: number = 1) =>
 		firestore.doc('counters/decks').update({

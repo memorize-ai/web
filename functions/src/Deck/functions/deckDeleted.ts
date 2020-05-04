@@ -6,7 +6,7 @@ export default functions.firestore.document('decks/{deckId}').onDelete((snapshot
 	Promise.all([
 		new Deck(snapshot).deleteIndex(),
 		Deck.delete(deckId),
-		Deck.deleteAssets(deckId),
+		Deck.deleteFromStorage(deckId),
 		Deck.decrementCounter()
 	])
 )
