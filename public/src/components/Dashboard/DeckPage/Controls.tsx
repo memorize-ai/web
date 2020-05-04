@@ -8,7 +8,6 @@ import enLocale from 'javascript-time-ago/locale/en'
 
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
-import Control from './Control'
 import Stars from '../../shared/Stars'
 import { formatNumber } from '../../../utils'
 
@@ -28,11 +27,7 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 	
 	return (
 		<div className="controls">
-			<Control
-				title={<>Ratings <span>({formatNumber(deck.numberOfRatings)})</span></>}
-				id="ratings"
-				className="ratings"
-			>
+			<div id="ratings" className="ratings">
 				<div className="top">
 					<div className="left">
 						<Stars>{deck.averageRating}</Stars>
@@ -110,8 +105,8 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 						</div>
 					</>
 				)}
-			</Control>
-			<Control id="info" title="Info" className="info">
+			</div>
+			<div id="info" className="info">
 				<div>
 					<p>Active users</p>
 					<p>{formatNumber(deck.numberOfCurrentUsers)}</p>
@@ -132,7 +127,7 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 					<p>Date created</p>
 					<p>{moment(deck.created).format('MMM D, YYYY')}</p>
 				</div>
-			</Control>
+			</div>
 		</div>
 	)
 }

@@ -153,7 +153,7 @@ export default ({ deck }: { deck: Deck }) => {
 					{card
 						? (
 							<div className="content-container">
-								<CardSide className="content">
+								<CardSide>
 									{card[isFront ? 'front' : 'back']}
 								</CardSide>
 							</div>

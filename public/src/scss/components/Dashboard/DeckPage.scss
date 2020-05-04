@@ -12,6 +12,14 @@ $sidebar-collapse-width: 1150px;
 	}
 }
 
+@mixin hide-rate-message {
+	justify-content: center;
+	
+	> .rate-message {
+		display: none !important;
+	}
+}
+
 @include dashboard-sidebar-collapse('deck-page', $sidebar-collapse-width);
 
 @include dashboard-content('deck-page') {
@@ -84,12 +92,11 @@ $sidebar-collapse-width: 1150px;
 	}
 	
 	> .box {
-		$light-gray-background: transparentize(#eee, 0.7);
-		
 		@include shadow-lg;
 		
 		grid-area: box;
 		height: max-content;
+		overflow: hidden;
 		background: white;
 		border-radius: 8px;
 		margin: 0 raw-repeat(3, $margin);
@@ -389,11 +396,17 @@ $sidebar-collapse-width: 1150px;
 					}
 					
 					> .content-container {
+						$padding: 20px;
+						
 						height: 100%;
 						overflow-y: auto;
-						padding: 20px;
+						padding: $padding;
 						
-						> .content {
+						@include card-side-katex-width(
+							calc(100vw - var(--sidebar-width) - #{$margin * 4 + $padding * 2})
+						);
+						
+						> .card-side {
 							min-height: 100%;
 							height: unset;
 						}
@@ -544,216 +557,231 @@ $sidebar-collapse-width: 1150px;
 		
 		> .controls {
 			display: flex;
+			flex-direction: column;
 			margin: 24px $margin 0 $margin;
+			
+			@media (min-width: 750px) {
+				flex-direction: row;
+				
+				> div:not(:last-child) {
+					margin: 0 16px 0 0 !important;
+				}
+			}
 			
 			> div {
 				width: 100%;
+				background: white;
+				padding: 30px 20px;
+				border: 1px solid #eee;
+				border-radius: 8px;
 				
-				> .title {
-					font-size: 24px;
-					font-weight: bold;
-					color: $dark-gray;
+				&.ratings {
+					> .top {
+						display: flex;
+						flex-direction: column;
+						align-content: center;
+						
+						@media (min-width: 850px) {
+							flex-direction: row;
+							
+							> .sliders {
+								margin: 0 0 0 $margin !important;
+							}
+						}
+						
+						> .left {
+							flex-shrink: 0;
+							margin-bottom: -16px;
+							
+							> .info {
+								display: flex;
+								align-items: flex-end;
+								
+								> .rating,
+								> .count > span {
+									color: $dark-gray;
+								}
+								
+								> .rating {
+									font-size: 45px;
+								}
+								
+								> .count {
+									margin: 0 0 10px 12px;
+									font-weight: bold;
+									color: #9b9b9b;
+								}
+							}
+						}
+						
+						> .sliders {
+							width: 100%;
+							margin-top: $margin;
+							border-collapse: separate;
+							border-spacing: 6px 0;
+							
+							@media (min-width: 1350px) {
+								margin-left: $margin * 2 !important;
+							}
+							
+							> tbody > tr {
+								> .star,
+								> .count {
+									font-size: 18px;
+								}
+								
+								> .star {
+									color: #9b9b9b;
+								}
+								
+								> .icon {
+									transform: scale(1.5);
+								}
+								
+								> .slider {
+									width: 100%;
+									padding: 0 4px 0 6px;
+									
+									> div {
+										$height: 4px;
+										
+										width: 100%;
+										background: transparentize(#4355f9, 0.7);
+										
+										&,
+										> div {
+											height: $height;
+											border-radius: $height / 2;
+										}
+										
+										> div {
+											background: #4355f9;
+											transition: width 0.3s;
+										}
+									}
+								}
+								
+								> .count {
+									text-align: right;
+									color: $dark-gray;
+								}
+							}
+						}
+					}
 					
-					> span {
-						color: #582efe;
+					> .divider {
+						$height: 2px;
+						
+						height: $height;
+						margin: $margin 0;
+						background: transparentize(#ddd, 0.5);
+						border-radius: $height / 2;
+					}
+					
+					> .bottom {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						
+						@media (min-width: 530px) {
+							@include show-rate-message;
+						}
+						
+						@media (min-width: 750px) {
+							@include hide-rate-message;
+						}
+						
+						@media (min-width: 970px) {
+							@include show-rate-message;
+						}
+						
+						@media (min-width: $sidebar-collapse-width) {
+							@include hide-rate-message;
+						}
+						
+						@media (min-width: 1275px) {
+							@include show-rate-message;
+						}
+						
+						> * {
+							flex-shrink: 0;
+						}
+						
+						> .rate-message {
+							display: none;
+							font-size: 20px;
+							font-weight: bold;
+							color: #9b9b9b;
+						}
+						
+						> .stars {
+							margin-left: 12px;
+							
+							> svg {
+								cursor: pointer;
+								color: #00d388;
+								transform: scale(2);
+								transition: opacity 0.3s;
+								
+								@media (min-width: 400px) {
+									margin-top: 20px;
+									transform: scale(2.5) translateY(-4px);
+									
+									&:not(:last-child) {
+										margin-right: 30px !important;
+									}
+								}
+								
+								&:hover {
+									opacity: 0.5;
+								}
+								
+								&:last-child {
+									margin-right: 12px;
+								}
+								
+								&:not(:last-child) {
+									margin-right: 20px;
+								}
+							}
+						}
 					}
 				}
 				
-				> .box {
-					@include shadow-lg;
+				&.info {
+					display: flex;
+					flex-direction: column;
+					height: max-content;
 					
-					margin-top: 6px;
-					background: white;
-					padding: 30px 20px;
-					border: 1px solid #eee;
-					border-radius: 8px;
-					
-					&.ratings {
-						> .top {
-							display: flex;
-							flex-direction: column;
-							align-content: center;
-							
-							@media (min-width: 850px) {
-								flex-direction: row;
-								
-								> .sliders {
-									margin: 0 0 0 $margin !important;
-								}
-							}
-							
-							> .left {
-								flex-shrink: 0;
-								margin-bottom: -16px;
-								
-								> .info {
-									display: flex;
-									align-items: flex-end;
-									
-									> .rating,
-									> .count > span {
-										color: $dark-gray;
-									}
-									
-									> .rating {
-										font-size: 45px;
-									}
-									
-									> .count {
-										margin: 0 0 10px 12px;
-										font-weight: bold;
-										color: #9b9b9b;
-									}
-								}
-							}
-							
-							> .sliders {
-								width: 100%;
-								margin-top: $margin;
-								border-collapse: separate;
-								border-spacing: 6px 0;
-								
-								@media (min-width: 1350px) {
-									margin-left: $margin * 2 !important;
-								}
-								
-								> tbody > tr {
-									> .star,
-									> .count {
-										font-size: 18px;
-									}
-									
-									> .star {
-										color: #9b9b9b;
-									}
-									
-									> .icon {
-										transform: scale(1.5);
-									}
-									
-									> .slider {
-										width: 100%;
-										padding: 0 4px 0 6px;
-										
-										> div {
-											$height: 4px;
-											
-											width: 100%;
-											background: transparentize(#4355f9, 0.7);
-											
-											&,
-											> div {
-												height: $height;
-												border-radius: $height / 2;
-											}
-											
-											> div {
-												background: #4355f9;
-												transition: width 0.3s;
-											}
-										}
-									}
-									
-									> .count {
-										text-align: right;
-										color: $dark-gray;
-									}
-								}
-							}
-						}
-						
-						> .divider {
-							$height: 2px;
-							
-							height: $height;
-							margin: $margin 0;
-							background: transparentize(#ddd, 0.5);
-							border-radius: $height / 2;
-						}
-						
-						> .bottom {
-							display: flex;
-							justify-content: center;
-							align-items: center;
-							
-							@media (min-width: 970px) {
-								@include show-rate-message;
-							}
-							
-							@media (min-width: $sidebar-collapse-width) {
-								justify-content: center;
-								
-								> .rate-message {
-									display: none !important;
-								}
-							}
-							
-							@media (min-width: 1275px) {
-								@include show-rate-message;
-							}
-							
-							> * {
-								flex-shrink: 0;
-							}
-							
-							> .rate-message {
-								display: none;
-								font-size: 20px;
-								font-weight: bold;
-								color: #9b9b9b;
-							}
-							
-							> .stars {
-								margin: 20px 0 0 12px;
-								
-								> svg {
-									cursor: pointer;
-									color: #00d388;
-									transform: scale(2.5) translateY(-4px);
-									transition: opacity 0.3s;
-									
-									&:hover {
-										opacity: 0.5;
-									}
-									
-									&:last-child {
-										margin-right: 12px;
-									}
-									
-									&:not(:last-child) {
-										margin-right: 30px;
-									}
-								}
-							}
-						}
-					}
-					
-					&.info {
+					> div {
 						display: flex;
-						flex-direction: column;
 						justify-content: space-between;
-						min-height: 300px;
+						align-items: center;
+						overflow-x: auto;
+						font-size: 18px;
+						font-weight: bold;
 						
-						> div {
-							display: flex;
-							justify-content: space-between;
-							align-items: center;
-							font-size: 18px;
-							font-weight: bold;
-							
-							> :first-child {
-								color: #9b9b9b;
-							}
-							
-							> :last-child {
-								color: $dark-gray;
-							}
+						> * {
+							flex-shrink: 0;
+						}
+						
+						> :first-child {
+							margin-right: 12px;
+							color: #9b9b9b;
+						}
+						
+						> :last-child {
+							color: $dark-gray;
+						}
+						
+						&:not(:last-child) {
+							padding-bottom: 20px;
 						}
 					}
 				}
 				
 				&:not(:last-child) {
-					margin-right: $margin;
+					margin-bottom: 16px;
 				}
 			}
 		}
