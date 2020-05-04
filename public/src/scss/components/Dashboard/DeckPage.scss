@@ -110,6 +110,8 @@ $sidebar-collapse-width: 1150px;
 		}
 		
 		> .header {
+			$full-width: calc(100vw - var(--sidebar-width) - #{$margin * 4});
+			
 			--image-dimension: 180px;
 			
 			display: grid;
@@ -117,18 +119,19 @@ $sidebar-collapse-width: 1150px;
 				'image' var(--image-dimension)
 				'content' auto
 				'stats' auto /
-				calc(100vw - var(--sidebar-width) - #{$margin * 4});
+				#{$full-width};
 			margin: $margin $margin 0 $margin;
 			width: 100%;
 			
 			@media (min-width: 700px) {
+				$partial-width: calc(100vw - var(--sidebar-width) - #{$margin * 4} - var(--image-dimension));
+				
 				--image-dimension: 220px;
 				
 				grid:
 					'image content' var(--image-dimension)
 					'stats stats' auto /
-					var(--image-dimension)
-					calc(100vw - var(--sidebar-width) - #{$margin * 4} - var(--image-dimension));
+					var(--image-dimension) #{$partial-width};
 				
 				> .content {
 					margin: 0 0 0 20px !important;
