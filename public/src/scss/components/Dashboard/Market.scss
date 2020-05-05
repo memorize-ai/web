@@ -124,6 +124,7 @@
 					
 					> img {
 						margin: 0 !important;
+						border: none !important;
 						border-radius: 0 !important;
 					}
 					
@@ -151,6 +152,7 @@
 					margin: $image-margin auto 0 auto;
 					object-fit: cover;
 					background: white;
+					border: 1px solid #eee;
 					border-radius: 8px;
 				}
 				
