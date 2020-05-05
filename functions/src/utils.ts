@@ -1,4 +1,16 @@
 import { DEFAULT_STORAGE_BUCKET } from './constants'
 
+export const cauterize = <Args extends any[], Result, Fallback>(
+	fn: (...args: Args) => Result,
+	fallback?: Fallback
+) => (...args: Args) => {
+	try {
+		return fn(...args)
+	} catch (error) {
+		console.error(error)
+		return fallback ?? Promise.resolve()
+	}
+}
+
 export const storageUrl = (pathComponents: string[], token: string) =>
 	`https://firebasestorage.googleapis.com/v0/b/${DEFAULT_STORAGE_BUCKET}/o/${pathComponents.join('%2F')}?alt=media&token=${token}`

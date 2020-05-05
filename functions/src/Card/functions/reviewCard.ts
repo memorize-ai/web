@@ -7,10 +7,12 @@ import CardUserData from '../UserData'
 import Section from '../../Section'
 import Deck from '../../Deck'
 import User from '../../User'
+import { cauterize } from '../../utils'
 
 const firestore = admin.firestore()
 
-export default functions.https.onCall(async (
+// Returns if the user newly mastered the card
+export default functions.https.onCall(cauterize(async (
 	{
 		deck: deckId,
 		section: sectionId,
@@ -54,7 +56,7 @@ export default functions.https.onCall(async (
 	return userData.isNew
 		? updateNewCard(cardRef, now, rating, viewTime)
 		: updateExistingCard(userData, cardRef, now, rating, viewTime)
-})
+}, Promise.resolve(false)))
 
 const updateNewCard = async (
 	ref: FirebaseFirestore.DocumentReference,

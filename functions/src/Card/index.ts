@@ -14,11 +14,14 @@ export default class Card {
 	numberOfSkips: number
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
+		if (!snapshot.exists)
+			throw new Error(`There are no cards with ID "${snapshot.id}"`)
+		
 		this.id = snapshot.id
 		this.sectionId = snapshot.get('section')
 		this.front = snapshot.get('front')
 		this.back = snapshot.get('back')
-		this.numberOfViews = snapshot.get('viewCount')
+		this.numberOfViews = snapshot.get('viewCount') ?? 0
 		this.numberOfSkips = snapshot.get('skipCount') ?? 0
 	}
 	

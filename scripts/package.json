@@ -3,7 +3,7 @@
 	"dependencies": {
 		"firebase-admin": "^8.11.0",
 		"glob": "^7.1.6",
-		"mjml": "^4.6.2",
+		"mjml": "^4.6.3",
 		"xmlbuilder2": "^2.1.2"
 	},
 	"private": true

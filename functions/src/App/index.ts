@@ -15,11 +15,15 @@ export default functions.https.onRequest(app as any)
 app.use(cors())
 
 app.get('/d/:slug', async ({ params: { slug } }, res) => {
-	const deck = await Deck.fromId(
-		slug.slice(slug.lastIndexOf('-') + 1)
-	)
-	
-	res.redirect(301, `https://memorize.ai/d/${deck.slugId}/${deck.slug}`)
+	try {
+		const deck = await Deck.fromId(
+			slug.slice(slug.lastIndexOf('-') + 1)
+		)
+		
+		res.redirect(301, `https://memorize.ai/d/${deck.slugId}/${deck.slug}`)
+	} catch (error) {
+		res.status(404).send(error)
+	}
 })
 
 app.use(require('prerender-node').set('prerenderToken', PRERENDER_TOKEN))
@@ -43,6 +47,6 @@ app.get('*', async ({ url }, res) => {
 		
 		res.send(data)
 	} catch (error) {
-		res.status(404).send(error.message)
+		res.status(404).send(error)
 	}
 })

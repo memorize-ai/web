@@ -12,6 +12,9 @@ export default class Section {
 	numberOfCards: number
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
+		if (!snapshot.exists)
+			throw new Error(`There are no sections with ID "${snapshot.id}"`)
+		
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
 		this.numberOfCards = snapshot.get('cardCount') ?? 0

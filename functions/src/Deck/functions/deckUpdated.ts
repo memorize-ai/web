@@ -1,8 +1,9 @@
 import * as functions from 'firebase-functions'
 
 import Deck from '..'
+import { cauterize } from '../../utils'
 
-export default functions.firestore.document('decks/{deckId}').onUpdate(({ before, after }) => {
+export default functions.firestore.document('decks/{deckId}').onUpdate(cauterize(({ before, after }) => {
 	const oldDeck = new Deck(before)
 	const newDeck = new Deck(after)
 	
@@ -20,4 +21,4 @@ export default functions.firestore.document('decks/{deckId}').onUpdate(({ before
 	promises.push(newDeck.cache())
 	
 	return Promise.all(promises)
-})
+}))

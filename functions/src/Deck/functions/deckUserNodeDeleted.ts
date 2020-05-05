@@ -1,16 +1,18 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+import Batch from 'firestore-batch'
 
 import Deck from '..'
 import User from '../../User'
-import Batch from 'firestore-batch'
+import { cauterize } from '../../utils'
 
 const firestore = admin.firestore()
 
 export default functions
 	.runWith({ timeoutSeconds: 540, memory: '2GB' })
 	.firestore
-	.document('users/{uid}/decks/{deckId}').onDelete((snapshot, { params: { uid, deckId } }) => {
+	.document('users/{uid}/decks/{deckId}')
+	.onDelete(cauterize((snapshot, { params: { uid, deckId } }) => {
 		const oldRating: number | undefined = snapshot.get('rating')
 		
 		return Promise.all([
@@ -22,7 +24,7 @@ export default functions
 			Deck.removeUserFromCurrentUsers(deckId, uid),
 			removeAllCardsAndHistory(uid, deckId)
 		])
-	})
+	}))
 
 const removeAllCardsAndHistory = async (uid: string, deckId: string) => {
 	const cards = await firestore.collection(`users/${uid}/decks/${deckId}/cards`).listDocuments()

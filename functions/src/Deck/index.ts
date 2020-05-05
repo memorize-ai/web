@@ -40,6 +40,9 @@ export default class Deck {
 	dateLastUpdated: Date
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
+		if (!snapshot.exists)
+			throw new Error(`There are no decks with ID "${snapshot.id}"`)
+		
 		this.id = snapshot.id
 		this.slugId = snapshot.get('slugId')
 		this.slug = snapshot.get('slug')

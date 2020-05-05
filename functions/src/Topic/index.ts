@@ -3,12 +3,13 @@ import * as admin from 'firebase-admin'
 const firestore = admin.firestore()
 
 export default class Topic {
-	static MAX_TOP_DECKS_LENGTH = 10
-	
 	id: string
 	name: string
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
+		if (!snapshot.exists)
+			throw new Error(`There are no topics with ID "${snapshot.id}"`)
+		
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
 	}

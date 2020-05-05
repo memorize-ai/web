@@ -2,11 +2,12 @@ import * as functions from 'firebase-functions'
 
 import Deck from '..'
 import User from '../../User'
+import { cauterize } from '../../utils'
 
 export default functions
 	.runWith({ timeoutSeconds: 540, memory: '2GB' })
 	.firestore
-	.document('users/{uid}/decks/{deckId}').onCreate(async (snapshot, { params: { uid, deckId } }) => {
+	.document('users/{uid}/decks/{deckId}').onCreate(cauterize(async (snapshot, { params: { uid, deckId } }) => {
 		const user = await User.fromId(uid)
 		
 		return Promise.all([
@@ -25,4 +26,4 @@ export default functions
 			),
 			User.addXP((await Deck.fromId(deckId)).creatorId, User.xp.deckDownload)
 		])
-	})
+	}))

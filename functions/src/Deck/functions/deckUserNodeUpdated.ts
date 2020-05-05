@@ -3,12 +3,13 @@ import * as admin from 'firebase-admin'
 
 import Deck from '..'
 import DeckUserData from '../UserData'
+import { cauterize } from '../../utils'
 
 const firestore = admin.firestore()
 
 export default functions.firestore
 	.document('users/{uid}/decks/{deckId}')
-	.onUpdate(({ before, after }, { params: { uid, deckId } }) =>
+	.onUpdate(cauterize(({ before, after }, { params: { uid, deckId } }) =>
 		Promise.all([
 			Deck.updateRating(
 				uid,
@@ -19,7 +20,7 @@ export default functions.firestore
 			updateFavorites(deckId, before, after),
 			addCardsToUserData(uid, deckId, new DeckUserData(before), new DeckUserData(after))
 		])
-	)
+	))
 
 const updateFavorites = (
 	deckId: string,

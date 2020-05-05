@@ -3,10 +3,11 @@ import * as admin from 'firebase-admin'
 
 import { DECK_DUE_CARD_COUNT_SCHEDULE } from '../../constants'
 import Section from '../../Section'
+import { cauterize } from '../../utils'
 
 const firestore = admin.firestore()
 
-export default functions.pubsub.schedule(DECK_DUE_CARD_COUNT_SCHEDULE).onRun(async () => {
+export default functions.pubsub.schedule(DECK_DUE_CARD_COUNT_SCHEDULE).onRun(cauterize(async () => {
 	const users = await firestore.collection('users').listDocuments()
 	
 	return Promise.all(users.map(async ({ id: uid }) => {
@@ -16,7 +17,7 @@ export default functions.pubsub.schedule(DECK_DUE_CARD_COUNT_SCHEDULE).onRun(asy
 			updateDueCardCounts(uid, userData)
 		))
 	}))
-})
+}))
 
 const updateDueCardCounts = async (uid: string, deckUserData: FirebaseFirestore.DocumentSnapshot) => {
 	const deckId = deckUserData.id

@@ -1,15 +1,16 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+import Batch from 'firestore-batch'
 
 import Card from '..'
 import Deck from '../../Deck'
-import Batch from 'firestore-batch'
+import { cauterize } from '../../utils'
 
 const firestore = admin.firestore()
 
 export default functions.firestore
 	.document('decks/{deckId}/cards/{cardId}')
-	.onUpdate(({ before, after }, { params: { deckId } }) => {
+	.onUpdate(cauterize(({ before, after }, { params: { deckId } }) => {
 		const oldCard = new Card(before)
 		const newCard = new Card(after)
 		
@@ -20,7 +21,7 @@ export default functions.firestore
 				newCard.incrementSectionCardCount(deckId),
 				updateUserNodeSections(deckId, newCard)
 			])
-	})
+	}))
 
 const updateUserNodeSections = async (deckId: string, card: Card) => {
 	const currentUserIds = await Deck.currentUsers(deckId)

@@ -5,12 +5,13 @@ import Batch from 'firestore-batch'
 import Card from '..'
 import CardUserData from '../UserData'
 import Deck from '../../Deck'
+import { cauterize } from '../../utils'
 
 const firestore = admin.firestore()
 
 export default functions.firestore
 	.document('decks/{deckId}/cards/{cardId}')
-	.onDelete(async (snapshot, { params: { deckId } }) => {
+	.onDelete(cauterize(async (snapshot, { params: { deckId } }) => {
 		const deck = await Deck.fromId(deckId)
 		const card = new Card(snapshot)
 		
@@ -19,7 +20,7 @@ export default functions.firestore
 			card.decrementDeckCardCount(deckId),
 			deleteUserNodeCards(deck, card)
 		])
-	})
+	}))
 
 const deleteUserNodeCards = async (deck: Deck, card: Card) => {
 	const currentUserIds = await Deck.currentUsers(deck.id)

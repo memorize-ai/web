@@ -4,12 +4,13 @@ import Batch from 'firestore-batch'
 
 import Card from '..'
 import Deck from '../../Deck'
+import { cauterize } from '../../utils'
 
 const firestore = admin.firestore()
 
 export default functions.firestore
 	.document('decks/{deckId}/cards/{cardId}')
-	.onCreate(async (snapshot, { params: { deckId } }) => {
+	.onCreate(cauterize(async (snapshot, { params: { deckId } }) => {
 		const deck = await Deck.fromId(deckId)
 		const card = new Card(snapshot)
 		
@@ -18,7 +19,7 @@ export default functions.firestore
 			card.incrementDeckCardCount(deckId),
 			createUserNodeCards(deck, card)
 		])
-	})
+	}))
 
 const createUserNodeCards = async (deck: Deck, card: Card) => {
 	const currentUserIds = await Deck.currentUsers(deck.id)

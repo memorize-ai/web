@@ -25,6 +25,9 @@ export default class User {
 	allDecks: string[]
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
+		if (!snapshot.exists)
+			throw new Error(`There are no users with ID "${snapshot.id}"`)
+		
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
