@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 
 import Logo, { LogoType } from '../shared/Logo'
 import ListItem from './IntegrationsListItem'
-import canvasImage from '../../images/home-integrations/canvas.png'
-import googleClassroomImage from '../../images/home-integrations/google-classroom.png'
-import schoologyImage from '../../images/home-integrations/schoology.png'
-import classdojoImage from '../../images/home-integrations/classdojo.png'
-import edmodoImage from '../../images/home-integrations/edmodo.png'
-import udemyImage from '../../images/home-integrations/udemy.png'
+import canvasImage from '../../images/home-integrations/canvas.webp'
+import googleClassroomImage from '../../images/home-integrations/google-classroom.webp'
+import schoologyImage from '../../images/home-integrations/schoology.webp'
+import classdojoImage from '../../images/home-integrations/classdojo.webp'
+import edmodoImage from '../../images/home-integrations/edmodo.webp'
+import udemyImage from '../../images/home-integrations/udemy.webp'
 
 import '../../scss/components/Home/Integrations.scss'
 

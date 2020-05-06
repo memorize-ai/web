@@ -1,6 +1,6 @@
 import React from 'react'
 
-import checkImage from '../../images/check.png'
+import checkImage from '../../images/check.webp'
 
 export default ({ title }: { title: string }) => (
 	<div>

@@ -1,13 +1,13 @@
 import React, { HTMLAttributes } from 'react'
 
 export enum ScreenshotType {
-	Cram = 'cram.png',
-	Decks = 'decks.png',
-	Editor = 'editor.png',
-	Home = 'home.png',
-	Market = 'market.png',
-	Recap = 'recap.png',
-	Review = 'review.png'
+	Cram = 'cram.webp',
+	Decks = 'decks.webp',
+	Editor = 'editor.webp',
+	Home = 'home.webp',
+	Market = 'market.webp',
+	Recap = 'recap.webp',
+	Review = 'review.webp'
 }
 
 export default ({ type, ...props }: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => (

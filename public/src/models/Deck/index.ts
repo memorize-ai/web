@@ -53,7 +53,7 @@ export interface CreateDeckData {
 }
 
 export default class Deck implements DeckData {
-	static DEFAULT_IMAGE_URL: string = require('../../images/logos/icon.png')
+	static DEFAULT_IMAGE_URL: string = require('../../images/logos/icon.webp')
 	static USELESS_WORDS_REGEX = /^(.|from|to|and|by|at|why|in)$/i
 	static SLUG_ID_LENGTH = 10
 	

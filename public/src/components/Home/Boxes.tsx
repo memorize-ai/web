@@ -1,12 +1,12 @@
 import React from 'react'
 
 import Box from './Box'
-import decksImage from '../../images/home-boxes/decks.png'
-import artificialIntelligenceImage from '../../images/home-boxes/artificial-intelligence.png'
-import fasterResultsImage from '../../images/home-boxes/faster-results.png'
-import communityImage from '../../images/home-boxes/community.png'
-import editorImage from '../../images/home-boxes/editor.png'
-import integrateImage from '../../images/home-boxes/integrate.png'
+import decksImage from '../../images/home-boxes/decks.webp'
+import artificialIntelligenceImage from '../../images/home-boxes/artificial-intelligence.webp'
+import fasterResultsImage from '../../images/home-boxes/faster-results.webp'
+import communityImage from '../../images/home-boxes/community.webp'
+import editorImage from '../../images/home-boxes/editor.webp'
+import integrateImage from '../../images/home-boxes/integrate.webp'
 
 import '../../scss/components/Home/Boxes.scss'
 

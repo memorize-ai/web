@@ -8,7 +8,7 @@ import AppStoreDownloadButton from '../AppStoreDownloadButton'
 import '../../../scss/components/Modal/DownloadApp.scss'
 
 const screenshots = [1, 2, 3, 4, 5, 6, 7].map(i =>
-	require(`../../../images/screenshots/framed/${i}.png`) as string
+	require(`../../../images/screenshots/framed/${i}.webp`) as string
 )
 
 export default (

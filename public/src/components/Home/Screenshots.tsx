@@ -5,7 +5,7 @@ import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import FixedContainer from './ScreenshotsFixedContainer'
 import Descriptions, { DescriptionsSide } from './ScreenshotsDescriptions'
 import Screenshot, { ScreenshotType } from '../shared/Screenshot'
-import backgroundImage from '../../images/home-screenshots-background.png'
+import backgroundImage from '../../images/home-screenshots-background.webp'
 
 import '../../scss/components/Home/Screenshots.scss'
 
