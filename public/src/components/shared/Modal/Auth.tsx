@@ -137,59 +137,70 @@ export default () => {
 						Sign up
 					</Button>
 				</div>
-				<div className="inputs">
-					{authenticationMode === AuthenticationMode.SignUp && (
+				<form onSubmit={event => event.preventDefault()}>
+					<div className="inputs">
+						{authenticationMode === AuthenticationMode.SignUp && (
+							<Input
+								icon={faUser}
+								type="name"
+								autoComplete="name"
+								placeholder="Name"
+								value={name}
+								setValue={setName}
+							/>
+						)}
 						<Input
-							icon={faUser}
-							type="name"
-							placeholder="Name"
-							value={name}
-							setValue={setName}
+							icon={faEnvelope}
+							type="email"
+							autoComplete="email"
+							placeholder="Email"
+							value={email}
+							setValue={setEmail}
 						/>
-					)}
-					<Input
-						icon={faEnvelope}
-						type="email"
-						placeholder="Email"
-						value={email}
-						setValue={setEmail}
-					/>
-					<Input
-						icon={faKey}
-						type="password"
-						placeholder="Password"
-						value={password}
-						setValue={setPassword}
-					/>
-				</div>
-				<div className="footer">
-					<Button
-						loaderSize="16px"
-						loaderThickness="3px"
-						loaderColor="#63b3ed"
-						loading={isAuthenticateButtonLoading}
-						disabled={isAuthenticateButtonDisabled}
-						onClick={authenticate}
-					>
-						Next
-					</Button>
-					{errorMessage
-						? (
-							<p className="error-message">
-								{errorMessage}
-							</p>
-						)
-						: (
-							<a
-								className="screenshots"
-								href="/#screenshots"
-								onClick={() => setIsShowing(false)}
-							>
-								Why are we different?
-							</a>
-						)
-					}
-				</div>
+						<Input
+							icon={faKey}
+							type="password"
+							autoComplete={
+								`${authenticationMode === AuthenticationMode.SignUp
+									? 'new'
+									: 'current'
+								}-password`
+							}
+							placeholder="Password"
+							value={password}
+							setValue={setPassword}
+						/>
+					</div>
+					<div className="footer">
+						<Button
+							type="submit"
+							loaderSize="16px"
+							loaderThickness="3px"
+							loaderColor="#63b3ed"
+							loading={isAuthenticateButtonLoading}
+							disabled={isAuthenticateButtonDisabled}
+							onClick={authenticate}
+						>
+							Next
+						</Button>
+						{errorMessage
+							? (
+								<p className="error-message">
+									{errorMessage}
+								</p>
+							)
+							: (
+								<a
+									className="screenshots"
+									href="/#screenshots"
+									onClick={() => setIsShowing(false)}
+								>
+									Why are we different?
+								</a>
+							)
+						}
+					</div>
+				</form>
 			</div>
 		</Modal>
 	)
