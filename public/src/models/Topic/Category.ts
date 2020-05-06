@@ -1,11 +1,11 @@
 enum Category {
-	Language = 'language.jpg',
-	Code = 'code.jpg',
-	Science = 'science.jpg',
-	Math = 'math.jpg',
-	Art = 'art.jpg',
-	Prep = 'prep.jpg',
-	Politics = 'politics.jpg'
+	Language = 'language.webp',
+	Code = 'code.webp',
+	Science = 'science.webp',
+	Math = 'math.webp',
+	Art = 'art.webp',
+	Prep = 'prep.webp',
+	Politics = 'politics.webp'
 }
 
 export default Category
@@ -35,7 +35,7 @@ export const categoryFromString = (string: string) => {
 
 export const imageUrlFromCategory = (category: Category, name: string) => {
 	try {
-		return require(`../../images/topics/${name}.jpg`)
+		return require(`../../images/topics/${name}.webp`)
 	} catch {
 		return require(`../../images/topics/${category}`)
 	}
