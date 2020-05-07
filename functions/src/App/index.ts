@@ -5,6 +5,7 @@ import * as cors from 'cors'
 
 import Deck from '../Deck'
 import { PRERENDER_TOKEN } from '../constants'
+import { setCacheControl } from '../utils'
 import handleAPI from './API'
 
 const storage = admin.storage().bucket()
@@ -32,13 +33,13 @@ handleAPI(app)
 
 app.get('*', async ({ url }, res) => {
 	if (!url.startsWith('/static')) {
-		res.set('Cache-Control', 'max-age=86400')
-		res.sendFile('/srv/public.html')
+		setCacheControl(res, 60 * 60 * 24) // 1 day
+			.sendFile('/srv/public.html')
 		
 		return
 	}
 	
-	res.set('Cache-Control', 'max-age=31536000')
+	setCacheControl(res, 60 * 60 * 24 * 365) // 1 year
 	
 	try {
 		const [data] = await storage
