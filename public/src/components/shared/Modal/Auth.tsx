@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FormEvent } from 'react'
 import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimesCircle, faUser, faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import firebase from '../../../firebase'
@@ -11,7 +11,6 @@ import useAuthModal from '../../../hooks/useAuthModal'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import Modal from '.'
 import Button from '../Button'
-import Input from '../Input'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -29,27 +28,29 @@ export default () => {
 	const [currentUser] = useCurrentUser()
 	const [[isShowing, setIsShowing], [callback, setCallback]] = useAuthModal()
 	
-	const [authenticationMode, setAuthenticationMode] = useState(AuthenticationMode.LogIn)
-	const [authenticationLoadingState, setAuthenticationLoadingState] = useState(LoadingState.None)
+	const [mode, setMode] = useState(AuthenticationMode.LogIn)
+	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
 	
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	
-	const isAuthenticateButtonDisabled = !(
-		(authenticationMode === AuthenticationMode.LogIn || name) &&
+	const isSubmitButtonDisabled = !(
+		(mode === AuthenticationMode.LogIn || name) &&
 		email &&
 		password
 	)
-	const isAuthenticateButtonLoading = authenticationLoadingState === LoadingState.Loading
+	const isSubmitButtonLoading = loadingState === LoadingState.Loading
 	
-	const authenticate = async () => {
+	const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault()
+		
 		try {
-			setAuthenticationLoadingState(LoadingState.Loading)
+			setLoadingState(LoadingState.Loading)
 			setErrorMessage(null)
 			
-			switch (authenticationMode) {
+			switch (mode) {
 				case AuthenticationMode.LogIn:
 					analytics.logEvent('login', { method: 'email', component: 'Auth' })
 					
@@ -75,9 +76,9 @@ export default () => {
 					break
 			}
 			
-			setAuthenticationLoadingState(LoadingState.Success)
+			setLoadingState(LoadingState.Success)
 		} catch (error) {
-			setAuthenticationLoadingState(LoadingState.Fail)
+			setLoadingState(LoadingState.Fail)
 			setErrorMessage(error.message)
 		}
 	}
@@ -101,107 +102,91 @@ export default () => {
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>
-			<div className="header">
-				<h2 className="title">
-					Change your life today
-				</h2>
-				<button
-					className="hide"
-					onClick={() => setIsShowing(false)}
-				>
-					<FontAwesomeIcon icon={faTimesCircle} />
-				</button>
-			</div>
-			<div className="content">
-				<p className="intro">
-					Improve your memory by spending just <strong>minutes</strong> a day.
-					We use <strong>spaced repetition</strong> that learns as you learn.
-					<br />
-					Each attempt will be met with <strong>consistent struggle</strong>, which you won't find anywhere else.
-				</p>
-				<div className="toggle">
-					<Button
-						className={cx({
-							selected: authenticationMode === AuthenticationMode.LogIn
-						})}
-						onClick={() => setAuthenticationMode(AuthenticationMode.LogIn)}
+			<div className="top">
+				<div className="header">
+					<h2 className="title">
+						Change your life today
+					</h2>
+					<button
+						className="hide"
+						onClick={() => setIsShowing(false)}
+					>
+						<FontAwesomeIcon icon={faTimes} />
+					</button>
+				</div>
+				<div className="tabs">
+					<button
+						className={cx({ selected: mode === AuthenticationMode.LogIn })}
+						onClick={() => setMode(AuthenticationMode.LogIn)}
 					>
 						Log in
-					</Button>
-					<Button
-						className={cx({
-							selected: authenticationMode === AuthenticationMode.SignUp
-						})}
-						onClick={() => setAuthenticationMode(AuthenticationMode.SignUp)}
+					</button>
+					<button
+						className={cx({ selected: mode === AuthenticationMode.SignUp })}
+						onClick={() => setMode(AuthenticationMode.SignUp)}
 					>
 						Sign up
-					</Button>
+					</button>
 				</div>
-				<form onSubmit={event => event.preventDefault()}>
-					<div className="inputs">
-						{authenticationMode === AuthenticationMode.SignUp && (
-							<Input
-								icon={faUser}
-								type="name"
-								autoComplete="name"
-								placeholder="Name"
-								value={name}
-								setValue={setName}
-							/>
-						)}
-						<Input
-							icon={faEnvelope}
-							type="email"
-							autoComplete="email"
-							placeholder="Email"
-							value={email}
-							setValue={setEmail}
-						/>
-						<Input
-							icon={faKey}
-							type="password"
-							autoComplete={
-								`${authenticationMode === AuthenticationMode.SignUp
-									? 'new'
-									: 'current'
-								}-password`
-							}
-							placeholder="Password"
-							value={password}
-							setValue={setPassword}
-						/>
-					</div>
-					<div className="footer">
-						<Button
-							type="submit"
-							loaderSize="16px"
-							loaderThickness="3px"
-							loaderColor="#63b3ed"
-							loading={isAuthenticateButtonLoading}
-							disabled={isAuthenticateButtonDisabled}
-							onClick={authenticate}
-						>
-							Next
-						</Button>
-						{errorMessage
-							? (
-								<p className="error-message">
-									{errorMessage}
-								</p>
-							)
-							: (
-								<a
-									className="screenshots"
-									href="/#screenshots"
-									onClick={() => setIsShowing(false)}
-								>
-									Why are we different?
-								</a>
-							)
-						}
-					</div>
-				</form>
 			</div>
+			<form onSubmit={onSubmit}>
+				{mode === AuthenticationMode.SignUp && (
+					<input
+						type="name"
+						autoComplete="name"
+						placeholder="Name"
+						value={name}
+						onChange={({ target: { value } }) => setName(value)}
+					/>
+				)}
+				<input
+					type="email"
+					autoComplete="email"
+					placeholder="Email"
+					value={email}
+					onChange={({ target: { value } }) => setEmail(value)}
+				/>
+				<input
+					type="password"
+					autoComplete={
+						`${mode === AuthenticationMode.SignUp
+							? 'new'
+							: 'current'
+						}-password`
+					}
+					placeholder="Password"
+					value={password}
+					onChange={({ target: { value } }) => setPassword(value)}
+				/>
+				<div className="footer">
+					<Button
+						type="submit"
+						loaderSize="20px"
+						loaderThickness="4px"
+						loaderColor="white"
+						loading={isSubmitButtonLoading}
+						disabled={isSubmitButtonDisabled}
+					>
+						Next
+					</Button>
+					{errorMessage
+						? (
+							<p className="error-message">
+								{errorMessage}
+							</p>
+						)
+						: (
+							<a
+								className="info"
+								href="/#screenshots"
+								onClick={() => setIsShowing(false)}
+							>
+								Why are we different?
+							</a>
+						)
+					}
+				</div>
+			</form>
 		</Modal>
 	)
 }

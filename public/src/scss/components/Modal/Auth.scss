@@ -5,65 +5,62 @@
 	$max-width: 800px;
 	$margin: 20px;
 	
+	display: flex;
+	flex-direction: column;
 	width: calc(min(100vw - #{$margin * 2}, #{$max-width}));
 	overflow: hidden;
 	margin: $margin;
 	background: white;
 	border-radius: 8px;
 	
-	> .header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 30px;
-		color: white;
-		background: #051e34;
+	> .top {
+		padding: 20px 30px;
+		background: linear-gradient(10deg, #5a2aff, #00e5f4);
 		
-		> .title {
-			font-size: 26px;
-			font-weight: 900;
-		}
-		
-		> button {
-			margin-right: 8px;
-			transform: scale(2);
-			transition: opacity 0.3s;
+		> .header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			color: white;
 			
-			&:hover {
-				opacity: 0.5;
+			> .title {
+				font-size: 30px;
+				font-weight: 900;
+			}
+			
+			> .hide {
+				margin-right: 8px;
+				transform: scale(2);
+				transition: opacity 0.3s;
+				
+				&:hover {
+					opacity: 0.5;
+				}
 			}
 		}
-	}
-	
-	> .content {
-		margin: 20px;
 		
-		> .intro {
-			margin-bottom: 20px;
-			font-size: 15px;
-			font-weight: 600;
-			color: $dark-gray;
-		}
-		
-		> .toggle {
+		> .tabs {
 			display: flex;
-			margin-bottom: 20px;
+			align-items: center;
+			margin-top: 10px;
 			
 			> button {
-				width: 100%;
-				height: 35px;
-				font-size: 18px;
-				font-weight: bold;
-				color: $blue-400;
-				border: 2px solid $blue-400;
-				border-radius: 4px;
-				transition: color 0.2s, background 0.2s;
+				padding: 0 10px 1px;
+				font-size: 20px;
+				font-weight: 900;
+				color: white;
+				opacity: 0.8;
+				border-bottom: 2px solid transparent;
+				transition: opacity 0.3s, border-color 0.3s;
 				
-				&:hover,
-				&:focus,
 				&.selected {
-					color: white;
-					background: $blue-400;
+					opacity: 1;
+					border-color: white;
+				}
+				
+				&:not(.selected):hover {
+					opacity: 1;
+					border-color: transparentize(white, 0.5);
 				}
 				
 				&:not(:last-child) {
@@ -71,59 +68,71 @@
 				}
 			}
 		}
+	}
+	
+	> form {
+		display: flex;
+		flex-direction: column;
+		padding: 30px;
 		
-		> form {
-			> .inputs {
-				margin: 20px 0;
+		> input {
+			padding: 12px 30px;
+			color: $dark-gray;
+			background: transparentize(#f0f1f8, 0.32);
+			border: none;
+			border-radius: 100px;
+			
+			&:not(:first-child) {
+				margin-top: 12px;
+			}
+		}
+		
+		> .footer {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+			margin-top: 24px;
+			
+			> button {
+				$small-dimension: 43px;
 				
-				> .input:not(:last-child) {
-					margin-bottom: 0.5rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 112px;
+				height: $small-dimension;
+				font-size: 18px;
+				font-weight: 900;
+				color: white;
+				background: #5a2aff;
+				border-radius: 100px;
+				transition: width 0.3s, background 0.3s, opacity 0.3s;
+				
+				&.loading {
+					width: $small-dimension;
+				}
+				
+				&.disabled {
+					opacity: 0.5;
+				}
+				
+				&:not(:disabled):hover {
+					background: #051e34;
 				}
 			}
 			
-			> .footer {
-				display: flex;
-				justify-content: space-between;
-				align-items: flex-end;
+			> .error-message {
+				font-weight: 900;
+				color: $red-600;
+			}
+			
+			> .info {
+				font-weight: 900;
+				color: #5a2aff;
+				transition: opacity 0.3s;
 				
-				> button {
-					height: 35px;
-					padding: 0 30px;
-					font-size: 18px;
-					font-weight: bold;
-					color: $blue-400;
-					border: 2px solid $blue-400;
-					border-radius: 4px;
-					
-					&.disabled {
-						color: $blue-200;
-						border-color: $blue-200;
-					}
-					
-					&:not(.disabled):not(.loading):hover {
-						color: white;
-						background: $blue-400;
-					}
-				}
-				
-				> .error-message,
-				> .screenshots {
-					margin-left: 12px;
-					font-weight: bold;
-				}
-				
-				> .error-message {
-					color: $red-600;
-				}
-				
-				> .screenshots {
-					color: #4355f9;
-					transition: opacity 0.3s;
-					
-					&:hover,
-					&:focus {
-						opacity: 0.5;
-					}
+				&:hover {
+					opacity: 0.5;
 				}
 			}
 		}
