@@ -24,12 +24,16 @@
 			color: white;
 			
 			> .title {
-				font-size: 30px;
+				font-size: 24px;
 				font-weight: 900;
+				
+				@media (min-width: 485px) {
+					font-size: 30px;
+				}
 			}
 			
 			> .hide {
-				margin-right: 8px;
+				margin: 0 8px;
 				transform: scale(2);
 				transition: opacity 0.3s;
 				
@@ -127,9 +131,14 @@
 			}
 			
 			> .info {
+				display: none;
 				font-weight: 900;
 				color: #5a2aff;
 				transition: opacity 0.3s;
+				
+				@media (min-width: 415px) {
+					display: initial;
+				}
 				
 				&:hover {
 					opacity: 0.5;
