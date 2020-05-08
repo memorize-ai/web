@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FormEvent } from 'react'
+import React, { useState, useCallback, useEffect, FormEvent } from 'react'
 import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -43,7 +43,7 @@ export default () => {
 	)
 	const isSubmitButtonLoading = loadingState === LoadingState.Loading
 	
-	const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+	const onSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		
 		try {
@@ -81,7 +81,17 @@ export default () => {
 			setLoadingState(LoadingState.Fail)
 			setErrorMessage(error.message)
 		}
-	}
+	}, [mode, name, email, password, callback]) // eslint-disable-line
+	
+	const onNameRef = useCallback((input: HTMLInputElement | null) => {
+		if (input && mode === AuthenticationMode.SignUp)
+			input[isShowing ? 'focus' : 'blur']()
+	}, [mode, isShowing])
+	
+	const onEmailRef = useCallback((input: HTMLInputElement | null) => {
+		if (input && mode === AuthenticationMode.LogIn)
+			input[isShowing ? 'focus' : 'blur']()
+	}, [mode, isShowing])
 	
 	useEffect(() => {
 		if (!(currentUser && isShowing))
@@ -132,6 +142,7 @@ export default () => {
 			<form onSubmit={onSubmit}>
 				{mode === AuthenticationMode.SignUp && (
 					<input
+						ref={onNameRef}
 						type="name"
 						autoComplete="name"
 						placeholder="Name"
@@ -140,6 +151,7 @@ export default () => {
 					/>
 				)}
 				<input
+					ref={onEmailRef}
 					type="email"
 					autoComplete="email"
 					placeholder="Email"
