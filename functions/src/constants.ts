@@ -12,4 +12,4 @@ export const DECK_DUE_CARD_COUNT_SCHEDULE = 'every 5 minutes'
 
 export const EMAIL_SCHEDULE = '0 12 * * *'
 
-export const PRERENDER_TOKEN = config.prerender.token
+export const PRERENDER_TOKEN: string = config.prerender.token
