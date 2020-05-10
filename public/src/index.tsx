@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 
 import * as serviceWorker from './serviceWorker'
@@ -29,35 +29,37 @@ const analytics = firebase.analytics()
 analytics.logEvent('start')
 
 ReactDOM.render((
-	<CurrentUserProvider>
-		<DecksProvider>
-			<SectionsProvider>
-				<CardsProvider>
-					<DeckImageUrlsProvider>
-						<SimilarDecksProvider>
-							<TopicsProvider>
-								<CreateDeckProvider>
-									<ExpandedSectionsProvider>
-										<CountersProvider>
-											<SearchProvider>
-												<AuthModalProvider>
-													<CreatorsProvider>
-														<AddCardsProvider>
-															<App />
-														</AddCardsProvider>
-													</CreatorsProvider>
-												</AuthModalProvider>
-											</SearchProvider>
-										</CountersProvider>
-									</ExpandedSectionsProvider>
-								</CreateDeckProvider>
-							</TopicsProvider>
-						</SimilarDecksProvider>
-					</DeckImageUrlsProvider>
-				</CardsProvider>
-			</SectionsProvider>
-		</DecksProvider>
-	</CurrentUserProvider>
+	<StrictMode>
+		<CurrentUserProvider>
+			<DecksProvider>
+				<SectionsProvider>
+					<CardsProvider>
+						<DeckImageUrlsProvider>
+							<SimilarDecksProvider>
+								<TopicsProvider>
+									<CreateDeckProvider>
+										<ExpandedSectionsProvider>
+											<CountersProvider>
+												<SearchProvider>
+													<AuthModalProvider>
+														<CreatorsProvider>
+															<AddCardsProvider>
+																<App />
+															</AddCardsProvider>
+														</CreatorsProvider>
+													</AuthModalProvider>
+												</SearchProvider>
+											</CountersProvider>
+										</ExpandedSectionsProvider>
+									</CreateDeckProvider>
+								</TopicsProvider>
+							</SimilarDecksProvider>
+						</DeckImageUrlsProvider>
+					</CardsProvider>
+				</SectionsProvider>
+			</DecksProvider>
+		</CurrentUserProvider>
+	</StrictMode>
 ), ROOT_ELEMENT)
 
 serviceWorker.register()
