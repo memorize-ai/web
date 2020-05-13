@@ -2,10 +2,11 @@ import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 import * as express from 'express'
 import * as cors from 'cors'
+import { getType } from 'mime'
 
 import Deck from '../Deck'
 import { PRERENDER_TOKEN } from '../constants'
-import { setCacheControl } from '../utils'
+import { setCacheControl, setContentType } from '../utils'
 import handleAPI from './API'
 
 const storage = admin.storage().bucket()
@@ -46,7 +47,7 @@ app.get('*', async ({ url }, res) => {
 			.file(`public-assets/${url.slice(url.lastIndexOf('/') + 1)}`)
 			.download()
 		
-		res.send(data)
+		setContentType(res, getType(url)).send(data)
 	} catch (error) {
 		res.status(404).send(error)
 	}
