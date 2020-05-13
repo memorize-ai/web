@@ -15,7 +15,7 @@ import DeckSearch, {
 	DeckSortAlgorithm
 } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
-import Head, { APP_DESCRIPTION } from '../../shared/Head'
+import Head from '../../shared/Head'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
 import { DropdownShadow } from '../../shared/Dropdown'
@@ -136,7 +136,7 @@ export default () => {
 						shouldHideSortAlgorithm
 							? ''
 							: ` by ${nameForDeckSortAlgorithm(sortAlgorithm).toLowerCase()}`
-					} on memorize.ai. Unlock your true potential by using Artificial Intelligence to help you learn. ${APP_DESCRIPTION}`
+					} on memorize.ai. Unlock your true potential by using Artificial Intelligence to help you learn.`
 				}
 				breadcrumbs={[
 					[

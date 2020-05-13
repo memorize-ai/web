@@ -7,7 +7,7 @@ import cx from 'classnames'
 import Topic from '../../../models/Topic'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useTopics from '../../../hooks/useTopics'
-import Head, { APP_DESCRIPTION, APP_SCHEMA } from '../../shared/Head'
+import Head, { APP_SCHEMA } from '../../shared/Head'
 import { urlForMarket } from '../Market'
 
 import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
@@ -23,7 +23,7 @@ export default () => {
 			<Head
 				isPrerenderReady={topics !== null}
 				title="Interests | memorize.ai"
-				description={`Choose your interests so we can show you recommendations. ${APP_DESCRIPTION}`}
+				description="Choose your interests so we can show you recommendations."
 				breadcrumbs={[
 					[
 						{

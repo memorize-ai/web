@@ -34,7 +34,7 @@ export interface HeadProps<SchemaItems extends Thing[]> {
 	schemaItems?: SchemaItems
 }
 
-export const LOGO_URL = 'https://memorize.ai/square.png'
+export const LOGO_URL = 'https://memorize.ai/images/logos/square.png'
 export const APP_DESCRIPTION = 'Do less. Learn more. Download on the app store for free, and change your life today.'
 
 export const APP_SCHEMA: MobileApplication = {

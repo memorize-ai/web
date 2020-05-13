@@ -14,7 +14,7 @@ import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
 import useCard from '../../../hooks/useCard'
 import useLocalStorageBoolean from '../../../hooks/useLocalStorageBoolean'
-import Head, { APP_DESCRIPTION } from '../../shared/Head'
+import Head from '../../shared/Head'
 import CKEditor from '../../shared/CKEditor'
 import Loader from '../../shared/Loader'
 import ConfirmationModal from '../../shared/Modal/Confirmation'
@@ -63,7 +63,7 @@ export default () => {
 	), [deck, currentUser])
 	
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
-	const headDescription = `Edit a card in ${deck?.name ?? 'your deck'}. ${APP_DESCRIPTION}`
+	const headDescription = `Edit a card in ${deck?.name ?? 'your deck'}.`
 	
 	const isSameContent = (
 		section?.id === card?.sectionId &&

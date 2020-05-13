@@ -15,14 +15,14 @@ import {
 	setCreateDeckDescription,
 	setCreateDeckTopics
 } from '../../../actions'
-import Head, { APP_DESCRIPTION } from '../../shared/Head'
+import Head from '../../shared/Head'
 import PublishDeckContent from '../../shared/PublishDeckContent'
 import Button from '../../shared/Button'
 import { compose, handleError } from '../../../utils'
 
 import '../../../scss/components/Dashboard/CreateDeck.scss'
 
-const HEAD_DESCRIPTION = `Create your own deck and change your life today. ${APP_DESCRIPTION}`
+const HEAD_DESCRIPTION = 'Create your own deck on memorize.ai.'
 
 export default () => {
 	const [

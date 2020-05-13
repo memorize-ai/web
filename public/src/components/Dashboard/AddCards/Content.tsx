@@ -15,7 +15,7 @@ import useCreatedDeck from '../../../hooks/useCreatedDeck'
 import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
 import useLocalStorageBoolean from '../../../hooks/useLocalStorageBoolean'
-import Head, { APP_DESCRIPTION } from '../../shared/Head'
+import Head from '../../shared/Head'
 import CardRow from './CardRow'
 import Loader from '../../shared/Loader'
 import ConfirmationModal from '../../shared/Modal/Confirmation'
@@ -74,7 +74,7 @@ export default () => {
 	), [cards])
 	
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
-	const headDescription = `Add cards to ${deck?.name ?? 'your deck'}. ${APP_DESCRIPTION}`
+	const headDescription = `Add cards to ${deck?.name ?? 'your deck'}.`
 	
 	const canPublish = numberOfValidCards > 0
 	

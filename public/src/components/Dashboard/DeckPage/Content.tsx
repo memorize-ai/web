@@ -16,7 +16,7 @@ import useAllCards from '../../../hooks/useAllCards'
 import useTopics from '../../../hooks/useTopics'
 import useCreator from '../../../hooks/useCreator'
 import useSimilarDecks from '../../../hooks/useSimilarDecks'
-import Head, { APP_DESCRIPTION } from '../../shared/Head'
+import Head from '../../shared/Head'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
 import { DropdownShadow } from '../../shared/Dropdown'
@@ -68,7 +68,7 @@ export default () => {
 						deck?.name ?? 'this deck'
 					} on memorize.ai, with ${
 						formatNumber(deck?.numberOfCards ?? 0)
-					} card${deck?.numberOfCards === 1 ? '' : 's'}. ${APP_DESCRIPTION}`
+					} card${deck?.numberOfCards === 1 ? '' : 's'}.`
 				}
 				ogImage={imageUrl}
 				labels={[
