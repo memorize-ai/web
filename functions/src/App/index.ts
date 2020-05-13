@@ -28,15 +28,16 @@ app.get('/d/:slug', async ({ params: { slug } }, res) => {
 	}
 })
 
-app.use(require('prerender-node').set('prerenderToken', PRERENDER_TOKEN))
-
 handleAPI(app)
+
+app.use(require('prerender-node').set('prerenderToken', PRERENDER_TOKEN))
 
 app.get('*', async ({ url }, res) => {
 	if (!url.startsWith('/static')) {
 		setCacheControl(res, 60 * 60 * 24) // 1 day
-			.sendFile('/srv/public.html')
+		setContentType(res, 'text/html')
 		
+		res.sendFile('/srv/public.html')
 		return
 	}
 	
