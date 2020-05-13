@@ -1,7 +1,7 @@
 import { DeckSortAlgorithm } from '../Deck/Search'
 import Category, { categoryFromString, imageUrlFromCategory, defaultCategory } from './Category'
 import firebase from '../../firebase'
-import { urlWithQuery } from '../../utils'
+import { urlWithQuery, handleError } from '../../utils'
 
 import 'firebase/firestore'
 
@@ -55,10 +55,7 @@ export default class Topic {
 				
 				addTopics(snapshots)
 			},
-			error => {
-				alert(error.message)
-				console.error(error)
-			}
+			handleError
 		)
 	
 	static get schemaProps() {

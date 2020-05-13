@@ -6,7 +6,7 @@ import UserData from './UserData'
 import Section from '../Section'
 import LoadingState from '../LoadingState'
 import { DisqusProps } from '../../components/shared/Disqus'
-import { slugify } from '../../utils'
+import { slugify, handleError } from '../../utils'
 import firebase from '../../firebase'
 
 import 'firebase/firestore'
@@ -221,7 +221,7 @@ export default class Deck implements DeckData {
 										updateDeck(snapshot, doc)
 										updatePendingAdded(-1)
 									},
-									console.error
+									handleError
 								)
 							)
 							
@@ -237,9 +237,7 @@ export default class Deck implements DeckData {
 			},
 			error => {
 				setLoadingState(LoadingState.Fail)
-				
-				alert(error.message)
-				console.error(error)
+				handleError(error)
 			}
 		)
 	}
@@ -375,7 +373,7 @@ export default class Deck implements DeckData {
 			setImageUrl(this.id, null)
 			setImageUrlLoadingState(this.id, LoadingState.Fail)
 			
-			console.error(error)
+			handleError(error)
 		}
 	}
 	

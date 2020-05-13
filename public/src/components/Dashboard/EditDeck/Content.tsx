@@ -16,6 +16,7 @@ import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import Button from '../../shared/Button'
 import PublishDeckContent from '../../shared/PublishDeckContent'
 import Loader from '../../shared/Loader'
+import { handleError } from '../../../utils'
 
 import '../../../scss/components/Dashboard/EditDeck.scss'
 
@@ -102,9 +103,7 @@ export default () => {
 			history.push(closeUrl)
 		} catch (error) {
 			setLoadingState(LoadingState.Fail)
-			
-			console.error(error)
-			alert(error.message)
+			handleError(error)
 		}
 	}
 	

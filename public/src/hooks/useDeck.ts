@@ -4,6 +4,7 @@ import firebase from '../firebase'
 import DecksContext from '../contexts/Decks'
 import { updateDeck, removeDeck } from '../actions'
 import Deck from '../models/Deck'
+import { handleError } from '../utils'
 
 import 'firebase/firestore'
 
@@ -38,10 +39,7 @@ export default (slugId: string | null | undefined) => {
 								break
 						}
 				},
-				error => {
-					alert(error.message)
-					console.error(error)
-				}
+				handleError
 			)
 	}, [deck, slugId]) // eslint-disable-line
 	

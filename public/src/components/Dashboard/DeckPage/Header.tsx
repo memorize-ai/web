@@ -14,7 +14,7 @@ import Button from '../../shared/Button'
 import Stars from '../../shared/Stars'
 import { DisqusCommentCount } from '../../shared/Disqus'
 import ShareDeckModal from '../../shared/Modal/ShareDeck'
-import { formatNumber } from '../../../utils'
+import { formatNumber, handleError } from '../../../utils'
 
 import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
@@ -48,9 +48,7 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 				history.push(`/decks/${deck.slugId}/${deck.slug}`)
 			} catch (error) {
 				setGetLoadingState(LoadingState.Fail)
-				
-				alert(error.message)
-				console.error(error)
+				handleError(error)
 			}
 		}
 		

@@ -1,6 +1,6 @@
 import firebase from '../firebase'
 import LoadingState from './LoadingState'
-import { setExpectsSignIn } from '../utils'
+import { setExpectsSignIn, handleError } from '../utils'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -76,8 +76,7 @@ export default class User implements UserData {
 			},
 			error => {
 				setCurrentUserLoadingState(LoadingState.Fail)
-				alert(error.message)
-				console.error(error)
+				handleError(error)
 			}
 		)
 	}
@@ -94,10 +93,7 @@ export default class User implements UserData {
 				snapshot.exists
 					? updateCreator(uid, snapshot)
 					: removeCreator(uid),
-			error => {
-				alert(error.message)
-				console.error(error)
-			}
+			handleError
 		)
 	
 	static xpNeededForLevel = (level: number): number => {
@@ -149,10 +145,7 @@ export default class User implements UserData {
 		
 		firestore.doc(`users/${this.id}`).onSnapshot(
 			updateCurrentUser,
-			error => {
-				alert(error.message)
-				console.error(error)
-			}
+			handleError
 		)
 		
 		return this

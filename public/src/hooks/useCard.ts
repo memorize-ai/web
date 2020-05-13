@@ -4,7 +4,7 @@ import firebase from '../firebase'
 import CardsContext from '../contexts/Cards'
 import { setCard } from '../actions'
 import Card from '../models/Card'
-import { compose } from '../utils'
+import { compose, handleError } from '../utils'
 
 import 'firebase/firestore'
 
@@ -43,10 +43,7 @@ export default (deckId: string | null | undefined, cardId: string | null | undef
 		
 		firestore.doc(`decks/${deckId}/cards/${cardId}`).onSnapshot(
 			compose(dispatch, setCard),
-			error => {
-				alert(error.message)
-				console.error(error)
-			}
+			handleError
 		)
 	}, [card, deckId, cardId]) // eslint-disable-line
 	

@@ -3,6 +3,7 @@ import _ from 'lodash'
 import firebase from '../firebase'
 import Deck from './Deck'
 import { CardDraft } from './Card'
+import { handleError } from '../utils'
 import { FIRESTORE_BATCH_LIMIT } from '../constants'
 
 import 'firebase/firestore'
@@ -71,10 +72,7 @@ export default class Section implements SectionData {
 				
 				addSections(deckId, snapshots)
 			},
-			error => {
-				alert(error.message)
-				console.error(error)
-			}
+			handleError
 		)
 	
 	static createForDeck = async (deck: Deck, name: string, numberOfSections: number) =>

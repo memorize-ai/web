@@ -1,8 +1,10 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 
 import Root from './Root'
 import Home from '../Home'
+
 import Privacy from '../Privacy'
 import Support from '../Support'
 
@@ -23,6 +25,8 @@ import Unsubscribe from '../Unsubscribe'
 import CatchAll from '../404'
 
 import AuthModal from '../shared/Modal/Auth'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 export default () => (
 	<BrowserRouter>
@@ -65,5 +69,6 @@ export default () => (
 			<Route status={404} component={CatchAll} />
 		</Switch>
 		<AuthModal />
+		<ToastContainer />
 	</BrowserRouter>
 )

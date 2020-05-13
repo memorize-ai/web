@@ -18,7 +18,7 @@ import {
 import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import PublishDeckContent from '../../shared/PublishDeckContent'
 import Button from '../../shared/Button'
-import { compose } from '../../../utils'
+import { compose, handleError } from '../../../utils'
 
 import '../../../scss/components/Dashboard/CreateDeck.scss'
 
@@ -71,9 +71,7 @@ export default () => {
 				history.push(`/decks/${slugId}/${slug}`)
 			} catch (error) {
 				setLoadingState(LoadingState.Fail)
-				
-				console.error(error)
-				alert(error.message)
+				handleError(error)
 			}
 		}
 		

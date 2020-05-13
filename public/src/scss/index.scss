@@ -62,6 +62,13 @@ hr {
 	background: #f5f5f5;
 }
 
+.toast {
+	font-family: $font-family !important;
+	font-weight: bold;
+	padding-left: 16px;
+	border-radius: 5px;
+}
+
 button:disabled {
 	cursor: not-allowed;
 }

@@ -4,6 +4,7 @@ import firebase from '../../firebase'
 import Deck from '../Deck'
 import Section from '../Section'
 import UserData from './UserData'
+import { handleError } from '../../utils'
 
 import 'firebase/firestore'
 
@@ -101,10 +102,7 @@ export default class Card implements CardData {
 								doc.id,
 								firestore.doc(`users/${uid}/decks/${deckId}/cards/${doc.id}`).onSnapshot(
 									userDataSnapshot => updateCardUserData(sectionId, userDataSnapshot),
-									error => {
-										alert(error.message)
-										console.error(error)
-									}
+									handleError
 								)
 							)
 							
@@ -118,10 +116,7 @@ export default class Card implements CardData {
 							break
 					}
 			},
-			error => {
-				alert(error.message)
-				console.error(error)
-			}
+			handleError
 		)
 	
 	static getAllForDeck = async (deckId: string) =>

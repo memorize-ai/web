@@ -12,7 +12,7 @@ import Dropdown, { DropdownShadow } from '../shared/Dropdown'
 import AuthButton from '../shared/AuthButton'
 import { urlForMarket } from './Market'
 import DownloadAppModal from '../shared/Modal/DownloadApp'
-import { isNullish } from '../../utils'
+import { isNullish, showSuccess, handleError } from '../../utils'
 
 import { ReactComponent as Home } from '../../images/icons/home.svg'
 import { ReactComponent as Cart } from '../../images/icons/cart.svg'
@@ -35,27 +35,25 @@ export default ({ selection }: { selection: Selection }) => {
 	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)
 	
 	const sendForgotPasswordEmail = async () => {
-		if (isNullish(currentUser?.email))
+		const email = currentUser?.email
+		
+		if (!email)
 			return
 		
 		try {
-			await auth.sendPasswordResetEmail(currentUser!.email)
-			
-			alert(`Sent. Check your email (${currentUser!.email})`)
+			await auth.sendPasswordResetEmail(email)
+			showSuccess('Sent password reset email.')
 		} catch (error) {
-			alert(error.message)
-			console.error(error)
+			handleError(error)
 		}
 	}
 	
 	const signOut = async () => {
 		try {
 			await auth.signOut()
-			
 			window.location.href = '/'
 		} catch (error) {
-			alert(error.message)
-			console.error(error)
+			handleError(error)
 		}
 	}
 	

@@ -10,7 +10,7 @@ import useImageUrl from '../../../hooks/useImageUrl'
 import useAuthModal from '../../../hooks/useAuthModal'
 import Stars from '../../shared/Stars'
 import Button from '../../shared/Button'
-import { formatNumber } from '../../../utils'
+import { formatNumber, handleError } from '../../../utils'
 
 import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
 import { ReactComponent as DownloadIcon } from '../../../images/icons/download.svg'
@@ -40,9 +40,7 @@ export default ({ deck }: { deck: Deck }) => {
 				setGetLoadingState(LoadingState.Success)
 			} catch (error) {
 				setGetLoadingState(LoadingState.Fail)
-				
-				alert(error.message)
-				console.error(error)
+				handleError(error)
 			}
 		}
 		

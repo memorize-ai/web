@@ -4,6 +4,7 @@ import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import InputModal from './Input'
 import useSections from '../../../hooks/useSections'
+import { handleError } from '../../../utils'
 
 export default (
 	{ deck, isShowing, setIsShowing }: {
@@ -25,10 +26,7 @@ export default (
 			return
 		
 		Section.createForDeck(deck, name, sections.length)
-			.catch(error => {
-				alert(error.message)
-				console.error(error)
-			})
+			.catch(handleError)
 		
 		setIsShowing(false)
 	}

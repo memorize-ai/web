@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import _ from 'lodash'
 
 import { LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, EMOJIS } from './constants'
@@ -26,6 +27,18 @@ export const urlWithQuery = (url: string, params: Record<string, string | null>)
 		.join('&')
 	
 	return `${url}${extension ? `?${extension}` : ''}`
+}
+
+export const showSuccess = (message: string) => {
+	toast.success(message, { className: 'toast' })
+}
+
+export const handleError = (error: { message: string }) => {
+	toast.error(
+		error?.message ?? 'An unknown error occurred',
+		{ className: 'toast' }
+	)
+	console.error(error)
 }
 
 export const isNullish = <T>(value: T | null | undefined): value is null | undefined =>

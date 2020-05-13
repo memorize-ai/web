@@ -9,7 +9,7 @@ import useAuthModal from '../../../hooks/useAuthModal'
 import Base from './Base'
 import Stars from '../Stars'
 import Button from '../Button'
-import { formatNumber } from '../../../utils'
+import { formatNumber, handleError } from '../../../utils'
 
 import downloads from '../../../images/icons/download.svg'
 import users from '../../../images/icons/users.svg'
@@ -39,9 +39,7 @@ export default ({ deck }: { deck: Deck }) => {
 				setGetLoadingState(LoadingState.Success)
 			} catch (error) {
 				setGetLoadingState(LoadingState.Fail)
-				
-				alert(error.message)
-				console.error(error)
+				handleError(error)
 			}
 		}
 		
