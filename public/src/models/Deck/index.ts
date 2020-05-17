@@ -372,8 +372,6 @@ export default class Deck implements DeckData {
 		} catch (error) {
 			setImageUrl(this.id, null)
 			setImageUrlLoadingState(this.id, LoadingState.Fail)
-			
-			handleError(error)
 		}
 	}
 	
