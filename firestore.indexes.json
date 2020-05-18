@@ -31,6 +31,20 @@
 					"order": "ASCENDING"
 				}
 			]
+		},
+		{
+			"collectionGroup": "decks",
+			"queryScope": "COLLECTION",
+			"fields": [
+				{
+					"fieldPath": "canPostCard",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "nextPostedCardIndex",
+					"order": "ASCENDING"
+				}
+			]
 		}
 	],
 	"fieldOverrides": []
