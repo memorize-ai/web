@@ -7,12 +7,6 @@ export default functions.firestore.document('decks/{deckId}').onUpdate(cauterize
 	const oldDeck = new Deck(before)
 	const newDeck = new Deck(after)
 	
-	if (
-		oldDeck.dateLastUpdated.getTime() !== newDeck.dateLastUpdated.getTime() ||
-		oldDeck.lastPostedCardIndex !== newDeck.lastPostedCardIndex
-	)
-		return Promise.resolve()
-	
 	const promises: Promise<any>[] = []
 	
 	if (oldDeck.wasUpdatedByUser(newDeck))
@@ -21,7 +15,11 @@ export default functions.firestore.document('decks/{deckId}').onUpdate(cauterize
 	if (oldDeck.shouldIndex(newDeck))
 		promises.push(newDeck.index())
 	
-	promises.push(newDeck.cache())
+	if (oldDeck.shouldCache(newDeck))
+		promises.push(newDeck.cache())
+	
+	if (oldDeck.shouldUpdateCanPostCard(newDeck))
+		promises.push(newDeck.updateCanPostCard())
 	
 	return Promise.all(promises)
 }))

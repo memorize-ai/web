@@ -9,7 +9,7 @@ export default functions.firestore.document('decks/{deckId}').onCreate(cauterize
 	return Promise.all([
 		deck.index(),
 		deck.cache(),
-		deck.initializeLastPostedCardIndex(),
+		deck.initializeNextPostedCard(),
 		Deck.incrementCounter()
 	])
 }))

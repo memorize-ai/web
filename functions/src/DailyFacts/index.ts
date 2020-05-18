@@ -6,6 +6,7 @@ import stripHtml = require('string-strip-html')
 import Deck from '../Deck'
 import Section from '../Section'
 import Card from '../Card'
+import User from '../User'
 
 const firestore = admin.firestore()
 
@@ -13,20 +14,25 @@ export interface Fact {
 	deck: Deck
 	section: Section | null
 	card: Card
+	creator: User
 }
 
 const twitter = new Twitter(
 	functions.config().twitter.dailyfacts
 )
 
-const factToTweetBody = ({ deck, section, card }: Fact) =>
-	`Section: ${
-		section?.name ?? 'Unsectioned'
-	}\nFront: ${
+const factToTweetBody = ({ deck, section, card, creator }: Fact) =>
+	`${
+		deck.name
+	} by ${
+		creator.name
+	}${
+		section ? ` (${section.name})` : ''
+	}\n\n${
 		stripHtml(card.front)
-	}\nBack: ${
+	}\n\n${
 		stripHtml(card.back)
-	}\nDeck: ${
+	}\n${
 		deck.url
 	}`
 
@@ -38,7 +44,8 @@ export const sendFact = (fact: Fact) =>
 const getNextDeck = async () => {
 	const { empty, docs } = await firestore
 		.collection('decks')
-		.orderBy('lastPostedCardIndex')
+		.where('canPostCard', '==', true)
+		.orderBy('nextPostedCardIndex')
 		.limit(1)
 		.get()
 	
@@ -51,7 +58,7 @@ const getNextDeck = async () => {
 const getNextCard = async (deck: Deck) => {
 	const { empty, docs } = await firestore
 		.collection(`decks/${deck.id}/cards`)
-		.limit(deck.lastPostedCardIndex + 1)
+		.limit(deck.nextPostedCardIndex + 1)
 		.get()
 	
 	if (empty)
@@ -64,13 +71,14 @@ export const getNextFact = async (): Promise<Fact> => {
 	const deck = await getNextDeck()
 	const card = await getNextCard(deck)
 	
-	return {
-		deck,
-		section: card.isUnsectioned
+	const [section, creator] = await Promise.all([
+		card.isUnsectioned
 			? null
-			: await Section.fromId(card.sectionId, deck.id),
-		card
-	}
+			: Section.fromId(card.sectionId, deck.id),
+		User.fromId(deck.creatorId)
+	])
+	
+	return { deck, section, card, creator }
 }
 
 export const sendNextFact = async () => {
@@ -78,6 +86,6 @@ export const sendNextFact = async () => {
 	
 	await Promise.all([
 		sendFact(fact),
-		fact.deck.incrementLastPostedCardIndex()
+		fact.deck.updateNextPostedCard()
 	])
 }

@@ -39,7 +39,8 @@ export default class Deck {
 	dateCreated: Date
 	dateLastUpdated: Date
 	
-	lastPostedCardIndex: number
+	canPostCard: number
+	nextPostedCardIndex: number
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
 		if (!snapshot.exists)
@@ -72,7 +73,8 @@ export default class Deck {
 		this.dateCreated = snapshot.get('created')?.toDate()
 		this.dateLastUpdated = snapshot.get('updated')?.toDate()
 		
-		this.lastPostedCardIndex = snapshot.get('lastPostedCardIndex') ?? 0
+		this.canPostCard = snapshot.get('canPostCard') ?? false
+		this.nextPostedCardIndex = snapshot.get('nextPostedCardIndex') ?? 0
 	}
 	
 	get score() {
@@ -294,14 +296,21 @@ export default class Deck {
 		})
 	}
 	
-	initializeLastPostedCardIndex = () =>
+	initializeNextPostedCard = () =>
 		firestore.doc(`decks/${this.id}`).update({
-			lastPostedCardIndex: 0
+			canPostCard: this.numberOfCards > 0,
+			nextPostedCardIndex: 0
 		})
 	
-	incrementLastPostedCardIndex = () =>
+	updateNextPostedCard = () =>
 		firestore.doc(`decks/${this.id}`).update({
-			lastPostedCardIndex: admin.firestore.FieldValue.increment(1)
+			canPostCard: this.numberOfCards > this.nextPostedCardIndex + 1,
+			nextPostedCardIndex: admin.firestore.FieldValue.increment(1)
+		})
+	
+	updateCanPostCard = () =>
+		firestore.doc(`decks/${this.id}`).update({
+			canPostCard: this.numberOfCards > this.nextPostedCardIndex
 		})
 	
 	index = async () =>
@@ -340,6 +349,27 @@ export default class Deck {
 		this.creatorId === newDeck.creatorId &&
 		this.score === newDeck.score
 	)
+	
+	shouldCache = (newDeck: Deck) => !(
+		this.slugId === newDeck.slugId &&
+		this.slug === newDeck.slug &&
+		_.isEqual(this.topics, newDeck.topics) &&
+		this.hasImage === newDeck.hasImage &&
+		this.name === newDeck.name &&
+		this.subtitle === newDeck.subtitle &&
+		this.description === newDeck.description &&
+		this.numberOfRatings === newDeck.numberOfRatings &&
+		this.averageRating === newDeck.averageRating &&
+		this.numberOfCards === newDeck.numberOfCards &&
+		this.numberOfDownloads === newDeck.numberOfDownloads &&
+		this.numberOfCards === newDeck.numberOfCards &&
+		this.numberOfUnsectionedCards === newDeck.numberOfUnsectionedCards &&
+		this.numberOfCurrentUsers === newDeck.numberOfCurrentUsers &&
+		this.creatorId === newDeck.creatorId
+	)
+	
+	shouldUpdateCanPostCard = (newDeck: Deck) =>
+		this.numberOfCards !== newDeck.numberOfCards
 	
 	private transformDataForIndexing = async () => {
 		const creator = await User.fromId(this.creatorId)
