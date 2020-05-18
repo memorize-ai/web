@@ -294,6 +294,11 @@ export default class Deck {
 		})
 	}
 	
+	initializeLastPostedCardIndex = () =>
+		firestore.doc(`decks/${this.id}`).update({
+			lastPostedCardIndex: 0
+		})
+	
 	incrementLastPostedCardIndex = () =>
 		firestore.doc(`decks/${this.id}`).update({
 			lastPostedCardIndex: admin.firestore.FieldValue.increment(1)
