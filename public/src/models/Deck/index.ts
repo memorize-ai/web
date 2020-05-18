@@ -173,9 +173,7 @@ export default class Deck implements DeckData {
 		Deck.snapshotListeners[id] = value
 	
 	static removeSnapshotListener = (id: string) => {
-		const listener = Deck.snapshotListeners[id]
-		listener && listener()
-		
+		Deck.snapshotListeners[id]?.()
 		delete Deck.snapshotListeners[id]
 	}
 	

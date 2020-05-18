@@ -39,6 +39,8 @@ export default class Deck {
 	dateCreated: Date
 	dateLastUpdated: Date
 	
+	lastPostedCardIndex: number
+	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
 		if (!snapshot.exists)
 			throw new Error(`There are no decks with ID "${snapshot.id}"`)
@@ -69,6 +71,8 @@ export default class Deck {
 		this.creatorId = snapshot.get('creator')
 		this.dateCreated = snapshot.get('created')?.toDate()
 		this.dateLastUpdated = snapshot.get('updated')?.toDate()
+		
+		this.lastPostedCardIndex = snapshot.get('lastPostedCardIndex') ?? 0
 	}
 	
 	get score() {
@@ -289,6 +293,11 @@ export default class Deck {
 				: 0
 		})
 	}
+	
+	incrementLastPostedCardIndex = () =>
+		firestore.doc(`decks/${this.id}`).update({
+			lastPostedCardIndex: admin.firestore.FieldValue.increment(1)
+		})
 	
 	index = async () =>
 		decksClient.createIndices(await this.transformDataForIndexing())

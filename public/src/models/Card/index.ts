@@ -71,9 +71,7 @@ export default class Card implements CardData {
 		Card.snapshotListeners[id] = value
 	
 	static removeSnapshotListener = (id: string) => {
-		const listener = Card.snapshotListeners[id]
-		listener && listener()
-		
+		Card.snapshotListeners[id]?.()
 		delete Card.snapshotListeners[id]
 	}
 	

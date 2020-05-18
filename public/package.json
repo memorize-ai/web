@@ -18,7 +18,7 @@
 		"katex": "^0.11.1",
 		"lodash": "^4.17.15",
 		"moment": "~2.24.0",
-		"nanoid": "^3.1.8",
+		"nanoid": "^3.1.9",
 		"node-sass": "^4.14.1",
 		"prismjs": "^1.20.0",
 		"react": "^16.13.0",
@@ -31,7 +31,7 @@
 		"react-select": "^3.1.0",
 		"react-toastify": "^6.0.4",
 		"schema.org-react": "^1.0.0",
-		"string-strip-html": "^4.4.4",
+		"string-strip-html": "^4.4.5",
 		"use-clipboard-copy": "^0.1.2",
 		"uuid": "^7.0.3"
 	},

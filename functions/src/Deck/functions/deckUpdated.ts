@@ -7,7 +7,10 @@ export default functions.firestore.document('decks/{deckId}').onUpdate(cauterize
 	const oldDeck = new Deck(before)
 	const newDeck = new Deck(after)
 	
-	if (oldDeck.dateLastUpdated.getTime() !== newDeck.dateLastUpdated.getTime())
+	if (
+		oldDeck.dateLastUpdated.getTime() !== newDeck.dateLastUpdated.getTime() ||
+		oldDeck.lastPostedCardIndex !== newDeck.lastPostedCardIndex
+	)
 		return Promise.resolve()
 	
 	const promises: Promise<any>[] = []
