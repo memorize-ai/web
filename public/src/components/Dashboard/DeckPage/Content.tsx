@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useMemo } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -56,6 +56,30 @@ export default () => {
 	
 	const numberOfDecks = Counters.get(Counter.Decks)
 	
+	const description = useMemo(() => (
+		deck?.description || `${
+			deck?.averageRating
+				? `${
+					deck.averageRating.toFixed(1)
+				} star${
+					deck.averageRating === 1 ? '' : 's'
+				} - `
+				: ''
+		}${
+			formatNumber(deck?.numberOfCards ?? 0)
+		} card${
+			deck?.numberOfCards === 1 ? '' : 's'
+		} - ${
+			formatNumber(deck?.numberOfDownloads ?? 0)
+		} download${
+			deck?.numberOfDownloads === 1 ? '' : 's'
+		}. Get ${
+			deck?.name ?? 'this deck'
+		} on memorize.ai${
+			creator ? ` by ${creator.name}` : ''
+		}.`
+	), [deck, creator])
+	
 	return (
 		<>
 			<Head
@@ -63,13 +87,7 @@ export default () => {
 					deck && hasImageUrlLoaded && creator && sections && cards && topics && similarDecks
 				)}
 				title={`${deck ? `${deck.name} | ` : ''}memorize.ai`}
-				description={
-					deck?.description || `Get ${
-						deck?.name ?? 'this deck'
-					} on memorize.ai, with ${
-						formatNumber(deck?.numberOfCards ?? 0)
-					} card${deck?.numberOfCards === 1 ? '' : 's'}.`
-				}
+				description={description}
 				ogImage={imageUrl}
 				labels={[
 					{
