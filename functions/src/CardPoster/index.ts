@@ -108,7 +108,7 @@ export const getNextFact = async (): Promise<Fact> => {
 export const sendNextFact = async () => {
 	const fact = await getNextFact()
 	
-	await Promise.all([
+	return Promise.all([
 		sendFact(fact),
 		fact.deck.updateNextPostedCard()
 	])
