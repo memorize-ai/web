@@ -14,4 +14,4 @@ export * from './Section/functions'
 export * from './Card/functions'
 export * from './Topic/functions'
 
-export * from './DailyFacts/functions'
+export * from './CardPoster/functions'
