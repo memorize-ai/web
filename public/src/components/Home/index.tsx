@@ -9,7 +9,7 @@ import '../../scss/components/Home/index.scss'
 const LazyContent = lazy(() => import('./LazyContent'))
 
 export default () => (
-	<div className="home-root">
+	<div className="home">
 		<TopGradient>
 			<Navbar />
 			<Header />

@@ -6,79 +6,110 @@
 	padding: 30px 30px 0 30px;
 	transition: padding 0.3s;
 	
-	@media (min-width: 500px) {
-		> a {
-			margin-right: 12px;
-			
-			> .logo {
-				min-width: 215px;
-			}
-		}
-		
-		> .items {
-			display: flex !important;
-		}
-	}
-	
-	@media (min-width: 945px) {
+	@media (min-width: 1010px) {
 		padding-left: 135px;
 		padding-right: 135px;
 	}
 	
-	> a > .logo {
-		@include raise-on-hover;
+	> .logo {
+		margin-right: 12px;
 		
-		max-height: 60px;
+		> img {
+			@include raise-on-hover;
+			
+			max-height: 60px;
+		}
 	}
 	
 	> .items {
-		display: none;
-		align-items: flex-end;
-		overflow-x: auto;
+		$height: 44px;
+		
+		display: flex;
+		align-items: center;
 		margin-left: auto;
 		
-		&:not(.signed-in) {
-			border-bottom: 2px solid transparentize(#ddd, 0.8);
-		}
-		
-		&:not(.has-auth-button) > .market-tab {
-			padding-right: 14px;
+		@media (min-width: 800px) {
+			> .search {
+				display: flex !important;
+			}
+			
+			> .market-link {
+				display: none !important;
+			}
 		}
 		
 		> * {
 			flex-shrink: 0;
+			height: $height;
 		}
 		
-		> .market-tab {
-			display: flex;
+		> .search {
+			display: none;
 			align-items: center;
-			padding: 0 20px 13px 14px;
-			color: white;
+			position: relative;
+			overflow: hidden;
+			border-radius: 8px;
 			
-			> svg,
-			> p {
-				opacity: 0.9;
-				transition: opacity 0.3s;
+			> svg {
+				position: absolute;
+				top: 14px;
+				left: 14px;
+				color: #eee;
+				pointer-events: none;
 			}
 			
-			> p {
-				margin-left: 10px;
-				font-weight: bold;
-			}
-			
-			&:hover,
-			&:focus {
-				> svg,
-				> p {
-					opacity: 1;
+			> input {
+				height: 100%;
+				width: 250px;
+				padding: 0 12px 0 40px;
+				color: white;
+				background: transparentize(#eee, 0.8);
+				
+				&::placeholder {
+					color: transparentize(#eee, 0.2);
 				}
+			}
+		}
+		
+		> .market-link {
+			line-height: $height;
+			font-size: larger;
+			background: transparentize(#eee, 0.8);
+			border-radius: 8px;
+			
+			&:hover > svg {
+				color: white;
+				transform: translateY(-2px);
+			}
+			
+			> svg {
+				width: $height;
+				color: #eee;
+				transition: color 0.3s, transform 0.3s;
+			}
+		}
+		
+		> .auth-button {
+			@media (min-width: 585px) {
+				> p {
+					display: block !important;
+				}
+				
+				> svg {
+					display: none;
+				}
+			}
+			
+			> p {
+				display: none;
 			}
 		}
 		
 		> .auth-button,
 		> .dashboard-button {
-			margin: 0 12px 10px 8px;
-			padding: 8px 14px;
+			margin-left: 12px;
+			padding: 0 14px;
+			line-height: $height;
 			font-size: larger;
 			font-weight: bold;
 			color: white;
@@ -86,7 +117,7 @@
 			border-radius: 8px;
 			transition: color 0.3s, background 0.3s;
 			
-			> span {
+			> p > span {
 				opacity: 0.7;
 			}
 			

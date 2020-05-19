@@ -1,26 +1,45 @@
-import React, { HTMLAttributes } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import { useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import cx from 'classnames'
+import { faSearch, faKey } from '@fortawesome/free-solid-svg-icons'
 
 import useAuthState from '../../hooks/useAuthState'
+import useSearchState from '../../hooks/useSearchState'
 import AuthButton from '../shared/AuthButton'
 import Logo, { LogoType } from './Logo'
+import { urlWithQuery } from '../../utils'
 import { urlForMarket } from '../Dashboard/Market'
-import { DEFAULT_DECK_COUNT } from '../../constants'
 
 import '../../scss/components/Navbar.scss'
 
-export default ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => {
+export default () => {
+	const history = useHistory()
+	
 	const isSignedIn = useAuthState()
+	const [{ query }] = useSearchState()
 	
 	return (
-		<div {...props} className={cx('navbar', className)}>
-			<Link to="/">
-				<Logo type={LogoType.Capital} className="logo" />
+		<div className="navbar">
+			<Link to="/" className="logo">
+				<Logo type={LogoType.Capital} />
 			</Link>
-			<div className={cx('items', { 'signed-in': isSignedIn })}>
+			<div className="items">
+				<div className="search">
+					<input
+						placeholder="Access unlimited decks"
+						value={query}
+						onChange={({ target: { value } }) =>
+							history.push(urlWithQuery('/market', {
+								q: value,
+								s: 'top'
+							}))
+						}
+					/>
+					<FontAwesomeIcon icon={faSearch} />
+				</div>
+				<Link to={urlForMarket()} className="market-link">
+					<FontAwesomeIcon icon={faSearch} />
+				</Link>
 				{isSignedIn
 					? (
 						<Link to="/" className="dashboard-button">
@@ -28,15 +47,10 @@ export default ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => {
 						</Link>
 					)
 					: (
-						<>
-							<Link to={urlForMarket()} className="market-tab">
-								<FontAwesomeIcon icon={faSearch} />
-								<p>Explore {DEFAULT_DECK_COUNT} decks</p>
-							</Link>
-							<AuthButton className="auth-button">
-								Log in <span>/</span> Sign up
-							</AuthButton>
-						</>
+						<AuthButton className="auth-button">
+							<p>Log in <span>/</span> Sign up</p>
+							<FontAwesomeIcon icon={faKey} />
+						</AuthButton>
 					)
 				}
 			</div>
