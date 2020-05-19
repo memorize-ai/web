@@ -27,15 +27,19 @@ export default functions
 	}))
 
 const removeAllCardsAndHistory = async (uid: string, deckId: string) => {
-	const cards = await firestore.collection(`users/${uid}/decks/${deckId}/cards`).listDocuments()
+	const { docs: cards } = await firestore
+		.collection(`users/${uid}/decks/${deckId}/cards`)
+		.get()
 	
 	const batch = new Batch(firestore)
 	
-	for (const card of cards) {
+	for (const { ref: card } of cards) {
 		batch.delete(card)
 		
-		;(await card.collection('history').listDocuments())
-			.forEach(batch.delete)
+		const { docs: historyNodes } = await card.collection('history').get()
+		
+		for (const { ref: history } of historyNodes)
+			batch.delete(history)
 	}
 	
 	return batch.commit()

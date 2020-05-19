@@ -8,7 +8,7 @@ import { cauterize } from '../../utils'
 const firestore = admin.firestore()
 
 export default functions.pubsub.schedule(DECK_DUE_CARD_COUNT_SCHEDULE).onRun(cauterize(async () => {
-	const users = await firestore.collection('users').listDocuments()
+	const { docs: users } = await firestore.collection('users').get()
 	
 	return Promise.all(users.map(async ({ id: uid }) => {
 		const { docs: decks } = await firestore.collection(`users/${uid}/decks`).get()

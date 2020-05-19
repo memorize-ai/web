@@ -108,7 +108,8 @@ export default class Deck {
 		firestore.doc(`decks/${deckId}/currentUsers/${uid}`).delete()
 	
 	static currentUsers = async (deckId: string) =>
-		(await firestore.collection(`decks/${deckId}/currentUsers`).listDocuments())
+		(await firestore.collection(`decks/${deckId}/currentUsers`).get())
+			.docs
 			.map(({ id }) => id)
 	
 	static addInitialCardsToUserNode = async (uid: string, deckId: string, sectionIds: string[]) => {
@@ -238,7 +239,8 @@ export default class Deck {
 	}
 	
 	static sectionIds = async (deckId: string) =>
-		(await firestore.collection(`decks/${deckId}/sections`).listDocuments())
+		(await firestore.collection(`decks/${deckId}/sections`).get())
+			.docs
 			.map(({ id }) => id)
 	
 	static delete = async (deckId: string) => {
