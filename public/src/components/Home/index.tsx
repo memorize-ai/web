@@ -1,21 +1,16 @@
-import React, { lazy, Suspense } from 'react'
+import React from 'react'
 
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
 import Header from './Header'
-
-import '../../scss/components/Home/index.scss'
-
-const LazyContent = lazy(() => import('./LazyContent'))
+import SpacedRepetition from './SpacedRepetition'
 
 export default () => (
 	<div className="home">
 		<TopGradient>
 			<Navbar />
 			<Header />
-			<Suspense fallback={null}>
-				<LazyContent />
-			</Suspense>
 		</TopGradient>
+		<SpacedRepetition />
 	</div>
 )

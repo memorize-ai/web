@@ -31,9 +31,9 @@
 		0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-@mixin top-gradient($is-right) {
+@mixin top-gradient($degrees, $is-right) {
 	background: linear-gradient(to bottom, #5a2aff, #00e5f4);
-	transform: skewY(if($is-right, 1, -1) * 6deg);
+	transform: skewY(if($is-right, 1, -1) * $degrees);
 	transform-origin: top if($is-right, right, left);
 }
 
@@ -49,8 +49,14 @@
 	}
 }
 
-@mixin home-content($class) {
+@mixin home-content-overlay-gradient($class) {
 	.home > .top-gradient > .content > .#{$class} {
+		@content;
+	}
+}
+
+@mixin home-content($class) {
+	.home > .#{$class} {
 		@content;
 	}
 }

@@ -18,7 +18,7 @@
 		grid-area: content;
 		
 		> .background {
-			@include top-gradient($is-right: false);
+			@include top-gradient(6deg, $is-right: false);
 			
 			height: 500px;
 		}

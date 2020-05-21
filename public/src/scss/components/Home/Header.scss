@@ -1,4 +1,6 @@
-.home.header {
+@import '../../mixins';
+
+@include home-content-overlay-gradient('header') {
 	display: flex;
 	padding: 30px 30px 0 30px;
 	transition: padding 0.3s;
@@ -83,7 +85,7 @@
 		> .footer {
 			display: flex;
 			align-items: flex-end;
-			margin: 40px 0 -50px 30px;
+			margin: 40px 0 10px 30px;
 			
 			> .app-store-download-button {
 				> svg {
@@ -108,11 +110,7 @@
 				border: 2px solid transparent;
 				border-radius: 5px;
 				transform: translateY(9px);
-				transition: background 0.3s, border-color 0.3s;
-				
-				@media (min-width: 500px) and (max-width: 800px) {
-					background: #051e34;
-				}
+				transition: border-color 0.3s;
 				
 				> svg {
 					margin-right: 10px;
@@ -133,14 +131,17 @@
 	
 	> .screenshot {
 		display: none;
-		width: 342px;
-		height: 683px;
+		width: 300px;
 		margin-left: auto;
 		transform: rotate(6deg);
-		transition: margin-right 0.3s, transform 0.3s;
+		transition: width 0.3s, margin-right 0.3s, transform 0.3s;
 		
 		@media (min-width: 970px) {
 			display: block;
+		}
+		
+		@media (min-width: 1100px) {
+			width: 342px;
 		}
 		
 		@media (min-width: 1500px) {
@@ -149,7 +150,7 @@
 		
 		&:hover,
 		&:focus {
-			transform: rotate(0);
+			transform: none;
 		}
 	}
 }
