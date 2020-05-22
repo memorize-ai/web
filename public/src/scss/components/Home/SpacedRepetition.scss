@@ -44,6 +44,10 @@
 		@media (min-width: 600px) {
 			width: 230px;
 			margin: 20px 0 0 50px;
+			
+			> .title {
+				text-align: left !important;
+			}
 		}
 		
 		@media (min-width: 730px) {
@@ -112,6 +116,7 @@
 		}
 		
 		> .title {
+			text-align: center;
 			font-size: 24px;
 			line-height: 30px;
 			color: #572efe;
