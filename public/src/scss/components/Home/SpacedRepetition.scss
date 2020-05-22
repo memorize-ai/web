@@ -1,10 +1,18 @@
 @import '../../variables';
 @import '../../mixins';
+@import '../../trigonometry';
 
 @include home-content('spaced-repetition') {
 	display: flex;
+	flex-direction: column-reverse;
 	justify-content: center;
 	align-items: center;
+	margin-top: calc(#{tan(6deg)} * 100vw);
+	
+	@media (min-width: 600px) {
+		flex-direction: row;
+		margin-top: 0;
+	}
 	
 	> .diagram {
 		max-width: calc(100vw - 60px);
@@ -30,13 +38,12 @@
 	}
 	
 	> .text {
-		display: none;
-		width: 230px;
-		margin: 20px 0 0 50px;
+		margin: 20px 30px;
 		transition: width 0.3s, margin 0.3s;
 		
 		@media (min-width: 600px) {
-			display: block;
+			width: 230px;
+			margin: 20px 0 0 50px;
 		}
 		
 		@media (min-width: 730px) {
