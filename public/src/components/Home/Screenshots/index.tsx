@@ -4,13 +4,15 @@ import cx from 'classnames'
 import useScreenshot from './useScreenshot'
 import Screenshot from '../../shared/Screenshot'
 
-import screenshotBackground from '../../../images/home/screenshot-background.webp'
+import { ReactComponent as ScreenshotBackground } from '../../../images/home/screenshot-background.svg'
 import { ReactComponent as LeftArrow } from '../../../images/icons/left-arrow.svg'
 
 import '../../../scss/components/Home/Screenshots.scss'
 
 export default () => {
 	const {
+		screenshots,
+		index,
 		setIndex,
 		screenshot: { type, title },
 		className,
@@ -23,7 +25,7 @@ export default () => {
 			<div className="background" />
 			<div className="content">
 				<div className="screenshot">
-					<img src={screenshotBackground} alt="Background" />
+					<ScreenshotBackground />
 					<Screenshot type={type} />
 				</div>
 				<div className="info">
@@ -37,7 +39,13 @@ export default () => {
 						</button>
 					</div>
 					<div className="gallery">
-						
+						{screenshots.map((_, i) => (
+							<button
+								key={i}
+								className={cx({ selected: index === i })}
+								onClick={() => setIndex(i)}
+							/>
+						))}
 					</div>
 				</div>
 			</div>

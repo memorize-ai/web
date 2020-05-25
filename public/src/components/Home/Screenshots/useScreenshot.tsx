@@ -132,9 +132,22 @@ export default () => {
 	}, [shouldGoRight, goRight])
 	
 	return {
-		setIndex: useCallback(async () => {
+		screenshots: SCREENSHOTS,
+		index,
+		setIndex: useCallback(async (newIndex: number) => {
+			if (newIndex === index)
+				return
 			
-		}, [index, setIndex]),
+			setClassName(newIndex > index ? 'right' : 'left')
+			
+			await sleep(ANIMATION_DURATION / 2)
+			
+			setIndex(newIndex)
+			
+			await sleep(ANIMATION_DURATION / 2)
+			
+			setClassName(undefined)
+		}, [index, setClassName, setIndex]),
 		screenshot: useMemo(() => SCREENSHOTS[index], [index]),
 		className,
 		goLeft,

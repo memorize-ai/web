@@ -98,6 +98,35 @@ $transform-length: 100px;
 					}
 				}
 			}
+			
+			> .gallery {
+				margin-top: 30px;
+				
+				> button {
+					$dimension: 20px;
+					
+					width: $dimension;
+					height: $dimension;
+					background: transparentize(white, 0.9);
+					border-radius: 50%;
+					transition: background 0.3s;
+					
+					&.selected {
+						background: transparentize(white, 0.2);
+					}
+					
+					&:not(.selected) {
+						&:hover,
+						&:focus {
+							background: transparentize(white, 0.7);
+						}
+					}
+					
+					&:not(:last-child) {
+						margin-right: 12px;
+					}
+				}
+			}
 		}
 	}
 	
