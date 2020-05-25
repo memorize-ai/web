@@ -52,6 +52,8 @@ $transform-length: 100px;
 			}
 			
 			> .screenshot {
+				height: 100% !important;
+				
 				> :first-child {
 					--dimension: calc(100vh - 200px * 2) !important;
 				}
