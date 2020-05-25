@@ -21,9 +21,13 @@ export default () => {
 	} = useScreenshot()
 	
 	return (
-		<div className={cx('screenshots', className)}>
+		<div
+			id="screenshots"
+			className={cx('screenshots', className)}
+		>
 			<div className="background" />
 			<div className="content">
+				<h2 className="title">{title}</h2>
 				<div className="screenshot">
 					<ScreenshotBackground />
 					<Screenshot type={type} />

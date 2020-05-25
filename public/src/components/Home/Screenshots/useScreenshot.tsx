@@ -19,7 +19,7 @@ export const SCREENSHOTS = [
 		)
 	},
 	{
-		type: ScreenshotType.Home,
+		type: ScreenshotType.Cram,
 		title: (
 			<>
 				Revolutionary<br />
