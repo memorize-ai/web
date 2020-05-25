@@ -10,7 +10,7 @@ export const TRANSFORM_LENGTH = 20
 export const SCREENSHOTS = [
 	{
 		type: ScreenshotType.Home,
-		title: () => (
+		title: (
 			<>
 				Revolutionary<br />
 				<strong>spaced repetition</strong><br />
@@ -20,7 +20,7 @@ export const SCREENSHOTS = [
 	},
 	{
 		type: ScreenshotType.Home,
-		title: () => (
+		title: (
 			<>
 				Revolutionary<br />
 				<strong>spaced repetition</strong><br />
@@ -30,7 +30,7 @@ export const SCREENSHOTS = [
 	},
 	{
 		type: ScreenshotType.Home,
-		title: () => (
+		title: (
 			<>
 				Revolutionary<br />
 				<strong>spaced repetition</strong><br />
@@ -40,7 +40,7 @@ export const SCREENSHOTS = [
 	},
 	{
 		type: ScreenshotType.Home,
-		title: () => (
+		title: (
 			<>
 				Revolutionary<br />
 				<strong>spaced repetition</strong><br />
@@ -50,7 +50,7 @@ export const SCREENSHOTS = [
 	},
 	{
 		type: ScreenshotType.Home,
-		title: () => (
+		title: (
 			<>
 				Revolutionary<br />
 				<strong>spaced repetition</strong><br />
@@ -60,7 +60,7 @@ export const SCREENSHOTS = [
 	},
 	{
 		type: ScreenshotType.Home,
-		title: () => (
+		title: (
 			<>
 				Revolutionary<br />
 				<strong>spaced repetition</strong><br />
@@ -70,7 +70,7 @@ export const SCREENSHOTS = [
 	},
 	{
 		type: ScreenshotType.Home,
-		title: () => (
+		title: (
 			<>
 				Revolutionary<br />
 				<strong>spaced repetition</strong><br />
@@ -148,10 +148,7 @@ export default () => {
 			
 			setClassName(undefined)
 		}, [index, setClassName, setIndex]),
-		screenshot: useMemo(() => {
-			const { type, title } = SCREENSHOTS[index]
-			return { type, title: title() }
-		}, [index]),
+		screenshot: useMemo(() => SCREENSHOTS[index], [index]),
 		className,
 		goLeft,
 		goRight
