@@ -4,6 +4,7 @@ import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
 import Header from './Header'
 import SpacedRepetition from './SpacedRepetition'
+import Screenshots from './Screenshots'
 
 export default () => (
 	<div className="home">
@@ -12,5 +13,6 @@ export default () => (
 			<Header />
 		</TopGradient>
 		<SpacedRepetition />
+		<Screenshots />
 	</div>
 )

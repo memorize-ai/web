@@ -1,205 +1,127 @@
 @import '../../mixins';
 @import '../../trigonometry';
 
-$number-of-screenshots: 7;
-$screenshot-height: 60vh;
+$animation-duration: 400ms;
+$transform-length: 100px;
 
-.home.screenshots {
+@include home-content('screenshots') {
+	$degrees: 6deg;
+	
 	@include stack;
 	
-	margin-top: 170px;
-	transition: margin 0.3s;
-	
-	@media (min-width: 800px) {
-		margin-top: 270px;
+	&.left > .content {
+		> .screenshot > :last-child,
+		> .info > .title {
+			animation: screenshots-left $animation-duration ease-in-out;
+		}
 	}
 	
-	@media (min-width: 970px) {
-		margin-top: -230px;
-	}
-	
-	@media (min-width: 1100px) {
-		margin-top: -80px;
+	&.right > .content {
+		> .screenshot > :last-child,
+		> .info > .title {
+			animation: screenshots-right $animation-duration ease-in-out;
+		}
 	}
 	
 	> .background {
-		height: calc(
-			(#{$number-of-screenshots} + 1) * #{$screenshot-height} +
-			#{tan(6deg)} * 200vw
-		);
-		background: #5a2aff;
-		transform: skewY(6deg);
-		transform-origin: top right;
+		@include top-gradient($degrees, $is-right: true);
+		
+		height: calc(100vh + #{tan($degrees)} * 100vw);
 	}
 	
 	> .content {
-		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 0;
+		transform: translateY(calc(#{tan($degrees)} * -50vw)); // Center it
 		
-		> .scroll-message {
-			margin-top: calc(35vh - (100vw * #{tan(6deg)}) - 50px);
-			display: flex;
-			justify-content: center;
+		> .screenshot {
+			@include stack;
+			
+			justify-items: center;
 			align-items: center;
-			color: white;
 			
-			@media (min-width: 970px) and (max-width: 1100px) {
-				margin-top: calc(35vh - (100vw * #{tan(6deg)}) + 100px);
+			> :first-child {
+				$dimension: calc(100vh - 100px * 2);
+				
+				width: $dimension;
+				height: $dimension;
 			}
 			
-			> svg {
-				transform: scale(5);
-			}
-			
-			> .text-container {
-				margin: 0 40px;
-				text-align: center;
-				
-				> .title {
-					font-size: 24px;
-					font-weight: 900;
-					text-transform: uppercase;
-				}
-				
-				> .subtitle {
-					font-weight: bold;
-					text-transform: lowercase;
-					opacity: 0.8;
-				}
+			> :last-child {
+				height: calc(100vh - 75px * 2);
 			}
 		}
 		
-		> .background.fixed-container .background {
-			width: calc(100vw - 60px);
-		}
-		
-		> .root-anchor {
-			position: absolute;
-			top: 10vh;
-			right: 0;
-			left: 0;
-		}
-		
-		> .screenshots > div {
-			> .anchor {
-				position: absolute;
-				left: 0;
-				right: 0;
+		> .info {
+			margin-left: 20px;
+			
+			> .title {
+				font-size: 58px;
+				line-height: 70px;
+				color: white;
 			}
 			
-			.screenshot-container {
-				gap: 20px;
-				padding: 0 30px;
+			> .navigation {
+				display: flex;
+				margin-top: 40px;
 				
-				@media (min-width: 1150px) and (min-height: 850px) {
-					grid-template-columns: 300px auto 300px;
-					gap: 0;
-				}
-				
-				> .descriptions {
-					display: flex;
-					flex-direction: column;
-					height: 100%;
+				> button {
+					$height: 50px;
+					$scale-factor: 1.3;
 					
-					> .description {
-						max-width: 300px;
-						margin: auto 0;
-						color: white;
+					width: 80px;
+					height: $height;
+					background: transparentize(white, 0.9);
+					border-radius: $height / 2;
+					transition: background 0.3s;
+					
+					> svg {
+						margin: 0 auto;
+					}
+					
+					&:first-child {
+						margin-right: 12px;
 						
-						@media (max-width: 300px) {
-							padding: 0 40px;
-						}
-						
-						@media (max-height: 800px) {
-							padding: 0 40px;
-						}
-						
-						@media (max-width: 1150px) {
-							margin: 0 !important;
-							padding: 0 30px;
-						}
-						
-						@media (max-height: 850px) {
-							margin: 0 !important;
-							padding: 0 30px;
-						}
-						
-						> h1,
-						> p {
-							transition: font-size 0.3s, line-height 0.3s;
-						}
-						
-						> h1 {
-							font-size: 17px;
-							font-weight: 700;
-							line-height: 21px;
-							margin-bottom: 12px;
-							
-							@media (min-width: 300px) and (min-height: 800px) {
-								font-size: 19px;
-								line-height: 23px;
-							}
-							
-							@media (min-width: 1150px) and (min-height: 850px) {
-								font-size: 21px;
-								line-height: 25px;
-							}
-						}
-						
-						> p {
-							font-size: 13px;
-							font-weight: 600;
-							line-height: 19px;
-							opacity: 0.8;
-							
-							@media (min-width: 300px) and (min-height: 800px) {
-								font-size: 15px;
-								line-height: 21px;
-							}
-							
-							@media (min-width: 1150px) and (min-height: 850px) {
-								font-size: 17px;
-								line-height: 23px;
-							}
+						> svg {
+							transform: scale($scale-factor);
 						}
 					}
-				}
-				
-				> .screenshot {
-					max-width: calc(min(500px, 100vw - 60px));
-					max-height: calc(100vh - 60px - 300px);
-					margin: 0 auto;
 					
-					@media (min-width: 1150px) and (min-height: 850px) {
-						max-height: calc(100vh - 60px);
+					&:last-child > svg {
+						transform: scale(-$scale-factor, $scale-factor);
+					}
+					
+					&:hover {
+						background: transparentize(white, 0.8);
 					}
 				}
 			}
 		}
-		
-		.fixed-container {
-			position: fixed;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			pointer-events: none;
-			
-			> .screenshot-container {
-				display: grid;
-				justify-content: center;
-				align-content: center;
-				height: 100vh;
-			}
+	}
+	
+	@keyframes screenshots-left {
+		50% {
+			opacity: 0;
+			transform: translateX($transform-length);
 		}
 		
-		> #home-screenshots-aos-anchor-last {
-			position: absolute;
-			top: calc(
-				(#{$number-of-screenshots} + 1) * #{$screenshot-height} +
-				#{tan(6deg)} * 100vw
-			);
-			left: 0;
-			right: 0;
+		50.01% {
+			opacity: 0;
+			transform: translateX(-$transform-length);
+		}
+	}
+	
+	@keyframes screenshots-right {
+		50% {
+			opacity: 0;
+			transform: translateX(-$transform-length);
+		}
+		
+		50.01% {
+			opacity: 0;
+			transform: translateX($transform-length);
 		}
 	}
 }

@@ -48,9 +48,9 @@ export default (app: Express) => {
 					public: true,
 					metadata: {
 						contentType: contentTypeMatch[1],
-						owner: uid,
 						metadata: {
-							firebaseStorageDownloadTokens: token
+							firebaseStorageDownloadTokens: token,
+							owner: uid
 						}
 					}
 				})
