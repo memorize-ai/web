@@ -1,31 +1,41 @@
 @import '../../mixins';
 
 @include home-content('classroom') {
+	@include stack;
 	
+	> .background {
+		background: #e6f0fa;
+		transform: skewY(6deg);
+	}
 	
-	> .text {
-		> .title {
-			color: #572efe;
-		}
+	> .content {
+		display: flex;
+		z-index: 0;
 		
-		> .list {
-			padding: 0;
-			list-style: none;
+		> .text {
+			> .title {
+				color: #572efe;
+			}
 			
-			> li {
-				display: flex;
+			> .list {
+				padding: 0;
+				list-style: none;
 				
-				> .bullet {
-					position: relative;
-					justify-items: center;
-					align-items: center;
+				> li {
+					display: flex;
 					
-					> p {
-						position: absolute;
-						top: 5px;
-						left: 11px;
-						font-weight: bold;
-						color: #4c4372;
+					> .bullet {
+						position: relative;
+						justify-items: center;
+						align-items: center;
+						
+						> p {
+							position: absolute;
+							top: 5px;
+							left: 11px;
+							font-weight: bold;
+							color: #4c4372;
+						}
 					}
 				}
 			}
