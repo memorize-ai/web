@@ -6,6 +6,7 @@ import Header from './Header'
 import SpacedRepetition from './SpacedRepetition'
 import Screenshots from './Screenshots'
 import Features from './Features'
+import Classroom from './Classroom'
 
 export default () => (
 	<div className="home">
@@ -16,5 +17,6 @@ export default () => (
 		<SpacedRepetition />
 		<Screenshots />
 		<Features />
+		<Classroom />
 	</div>
 )
