@@ -93,6 +93,18 @@ export default class Deck {
 	static fromId = async (id: string) =>
 		new Deck(await firestore.doc(`decks/${id}`).get())
 	
+	static fromSlugId = async (slugId: string) => {
+		const { empty, docs } = await firestore
+			.collection('decks')
+			.where('slugId', '==', slugId)
+			.get()
+		
+		if (empty)
+			throw new Error(`There are no decks with slugId "${slugId}"`)
+		
+		return new Deck(docs[0])
+	}
+	
 	static decrementDueCardCount = (uid: string, deckId: string) =>
 		firestore.doc(`users/${uid}/decks/${deckId}`).update({
 			dueCardCount: admin.firestore.FieldValue.increment(-1)
@@ -407,4 +419,35 @@ export default class Deck {
 			updated: this.dateLastUpdated
 		}
 	}
+	
+	toJSON = () => ({
+		id: this.id,
+		slug_id: this.slugId,
+		slug: this.slug,
+		topics: this.topics,
+		has_image: this.hasImage,
+		name: this.name,
+		subtitle: this.subtitle,
+		description: this.description,
+		ratings: {
+			average: this.averageRating,
+			total: this.numberOfRatings,
+			individual: [
+				this.numberOf1StarRatings,
+				this.numberOf2StarRatings,
+				this.numberOf3StarRatings,
+				this.numberOf4StarRatings,
+				this.numberOf5StarRatings
+			]
+		},
+		downloads: this.numberOfDownloads,
+		cards: this.numberOfCards,
+		unsectioned_cards: this.numberOfUnsectionedCards,
+		current_users: this.numberOfCurrentUsers,
+		all_time_users: this.numberOfAllTimeUsers,
+		favorites: this.numberOfFavorites,
+		creator_id: this.creatorId,
+		date_created: this.dateCreated.getTime(),
+		date_last_updated: this.dateLastUpdated.getTime()
+	})
 }

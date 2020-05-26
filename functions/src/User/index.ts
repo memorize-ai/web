@@ -88,4 +88,13 @@ export default class User {
 	
 	removeAuth = () =>
 		auth.deleteUser(this.id)
+	
+	toJSON = () => ({
+		id: this.id,
+		name: this.name,
+		email: this.email,
+		interests: this.interests,
+		decks: this.numberOfDecks,
+		all_decks: this.allDecks
+	})
 }

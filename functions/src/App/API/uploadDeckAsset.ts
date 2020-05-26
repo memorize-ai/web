@@ -2,8 +2,8 @@ import * as admin from 'firebase-admin'
 import { Express } from 'express'
 import { v4 as uuid } from 'uuid'
 
-import { API_PREFIX } from '../constants'
-import { storageUrl } from '../utils'
+import { API_PREFIX } from '../../constants'
+import { storageUrl } from '../../utils'
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket()
