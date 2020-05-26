@@ -1,0 +1,34 @@
+@import '../../mixins';
+
+@include home-content('classroom') {
+	
+	
+	> .text {
+		> .title {
+			color: #572efe;
+		}
+		
+		> .list {
+			padding: 0;
+			list-style: none;
+			
+			> li {
+				display: flex;
+				
+				> .bullet {
+					position: relative;
+					justify-items: center;
+					align-items: center;
+					
+					> p {
+						position: absolute;
+						top: 5px;
+						left: 11px;
+						font-weight: bold;
+						color: #4c4372;
+					}
+				}
+			}
+		}
+	}
+}
