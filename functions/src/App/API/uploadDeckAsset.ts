@@ -5,6 +5,8 @@ import { v4 as uuid } from 'uuid'
 import { API_PREFIX } from '../../constants'
 import { storageUrl } from '../../utils'
 
+const PATH = `/${API_PREFIX}/upload-deck-asset`
+
 const firestore = admin.firestore()
 const storage = admin.storage().bucket()
 
@@ -17,7 +19,7 @@ export interface UploadDeckAssetRequest {
 }
 
 export default (app: Express) => {
-	app.post(`/${API_PREFIX}/upload-deck-asset`, async (
+	app.post(PATH, async (
 		{ query: { user: uid, deck: deckId }, body: rawDataString }: UploadDeckAssetRequest,
 		res
 	) => {
