@@ -7,14 +7,14 @@ import '../../scss/components/Home/Footer.scss'
 
 export default () => (
 	<footer className="footer">
-		<div>
+		<div className="top">
 			<h1 className="text">
 				Download the ultimate<br />
 				memorization app
 			</h1>
 			<AppStoreDownloadButton />
 		</div>
-		<div>
+		<div className="bottom">
 			<Logo type={LogoType.Capital} />
 			<p>
 				Copyright &copy; 2020 <b>memorize.ai Inc</b>.

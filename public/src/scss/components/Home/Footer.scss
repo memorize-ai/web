@@ -1,0 +1,9 @@
+@import '../../mixins';
+
+@include home-content('footer') {
+	> .top {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
