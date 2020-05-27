@@ -11,17 +11,16 @@ export default (app: Express) => {
 		res
 	) => {
 		try {
-			if (typeof id === 'string') {
-				res.json((await Deck.fromId(id)).toJSON())
-				return
+			switch ('string') {
+				case typeof id:
+					res.json((await Deck.fromId(id)).toJSON())
+					break
+				case typeof shortId:
+					res.json((await Deck.fromSlugId(shortId)).toJSON())
+					break
+				default:
+					res.status(400).send('You must pass an "id" or "short_id" as query parameters')
 			}
-			
-			if (typeof shortId === 'string') {
-				res.json((await Deck.fromSlugId(shortId)).toJSON())
-				return
-			}
-			
-			res.status(400).send('You must pass an "id" or "short_id" as query parameters')
 		} catch (error) {
 			console.error(error)
 			res.status(404).send('Deck does not exist')
