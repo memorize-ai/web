@@ -1,0 +1,21 @@
+{
+	"name": "memorize.ai",
+	"short_name": "memorize.ai",
+	"start_url": "/",
+	"display": "standalone",
+	"theme_color": "#fff",
+	"background_color": "#fff",
+	"icons": [
+		{
+			"src": "favicon.png",
+			"sizes": "64x64 32x32 24x24 16x16",
+			"type": "image/png"
+		}
+	],
+	"related_applications": [
+		{
+			"platform": "itunes",
+			"url": "https://apps.apple.com/us/app/memorize-ai/id1462251805"
+		}
+	]
+}

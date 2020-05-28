@@ -12,7 +12,6 @@
 		"no-duplicate-variable": [true, "check-parameters"],
 		"no-shadowed-variable": true,
 		"no-empty": [true, "allow-empty-catch"],
-		"no-implicit-dependencies": true,
 		"no-invalid-this": true,
 		"no-string-throw": true,
 		"no-unsafe-finally": true,
