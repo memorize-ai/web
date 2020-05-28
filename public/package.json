@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build && next export",
+		"build": "next build && next export && mv .next ../functions",
 		"start": "next start"
 	},
 	"dependencies": {
