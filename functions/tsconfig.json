@@ -7,11 +7,12 @@
 		"sourceMap": true,
 		"strict": true,
 		"target": "es2017",
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"incremental": true,
+		"baseUrl": "src"
 	},
 	"compileOnSave": true,
 	"include": [
-		"src",
-		"tests"
+		"src"
 	]
 }

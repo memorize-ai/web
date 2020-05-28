@@ -3,14 +3,17 @@
 		"rules": "rules/firestore.rules",
 		"indexes": "firestore.indexes.json"
 	},
+	"storage": {
+		"rules": "rules/storage.rules"
+	},
 	"functions": {
 		"predeploy": [
 			"npm run lint -C \"$RESOURCE_DIR\"",
-			"npm test -C \"$RESOURCE_DIR\""
+			"npm run build -C \"$RESOURCE_DIR\""
 		]
 	},
 	"hosting": {
-		"public": "public/build",
+		"public": "public/out",
 		"ignore": [
 			"firebase.json",
 			"**/.*",
@@ -28,22 +31,10 @@
 				"headers": [
 					{
 						"key": "Cache-Control",
-						"value": "public, max-age=86400, s-maxage=86400"
-					}
-				]
-			},
-			{
-				"source": "static/**",
-				"headers": [
-					{
-						"key": "Cache-Control",
 						"value": "public, max-age=31536000, s-maxage=31536000"
 					}
 				]
 			}
 		]
-	},
-	"storage": {
-		"rules": "rules/storage.rules"
 	}
 }

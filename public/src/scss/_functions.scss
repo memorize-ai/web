@@ -1,9 +1,0 @@
-@function raw-repeat($count, $value, $delimiter: ' ') {
-	$acc: '';
-	
-	@for $i from 1 through $count {
-		$acc: '#{$acc}#{$delimiter}#{$value}';
-	}
-	
-	@return unquote($acc);
-}
