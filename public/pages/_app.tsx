@@ -1,5 +1,9 @@
 import { AppProps } from 'next/app'
 import Head from 'next/head'
+import { ToastContainer } from 'react-toastify'
+
+import Provider from 'context'
+import AuthModal from 'components/shared/Modal/Auth'
 
 import 'styles/global.scss'
 
@@ -25,6 +29,10 @@ export default ({ Component, pageProps }: AppProps) => (
 			/>
 			<title key="title">memorize.ai</title>
 		</Head>
-		<Component {...pageProps} />
+		<ToastContainer />
+		<Provider>
+			<AuthModal />
+			<Component {...pageProps} />
+		</Provider>
 	</>
 )
