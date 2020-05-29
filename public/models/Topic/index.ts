@@ -1,7 +1,7 @@
 import { DeckSortAlgorithm } from '../Deck/Search'
 import Category, { categoryFromString, imageUrlFromCategory, defaultCategory } from './Category'
 import firebase from 'lib/firebase'
-import { urlWithQuery, handleError } from 'lib/utils'
+import { handleError } from 'lib/utils'
 
 import 'firebase/firestore'
 
@@ -101,10 +101,13 @@ export default class Topic {
 	}
 	
 	get marketUrl() {
-		return urlWithQuery('/market', {
-			q: this.name,
-			s: DeckSortAlgorithm.Top
-		})
+		return {
+			pathname: '/market',
+			query: {
+				q: this.name,
+				s: DeckSortAlgorithm.Top
+			}
+		}
 	}
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
