@@ -1,6 +1,6 @@
 import React from 'react'
 
-import featuresImage from '../../images/home/features.webp'
+import featuresImage from 'images/home/features.webp'
 
 import '../../scss/components/Home/Features.scss'
 

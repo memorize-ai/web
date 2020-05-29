@@ -1,6 +1,6 @@
 import React from 'react'
 
-import spacedRepetitionImage from '../../images/home/spaced-repetition.png'
+import spacedRepetitionImage from 'images/home/spaced-repetition.png'
 
 import '../../scss/components/Home/SpacedRepetition.scss'
 

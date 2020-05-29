@@ -1,7 +1,7 @@
 import React from 'react'
 
-import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
-import Logo, { LogoType } from '../shared/Logo'
+import AppStoreDownloadButton from 'components/shared/AppStoreDownloadButton'
+import Logo, { LogoType } from 'components/shared/Logo'
 
 import '../../scss/components/Home/Footer.scss'
 

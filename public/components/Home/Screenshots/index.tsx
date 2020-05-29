@@ -2,10 +2,10 @@ import React from 'react'
 import cx from 'classnames'
 
 import useScreenshot from './useScreenshot'
-import Screenshot from '../../shared/Screenshot'
+import Screenshot from 'components/shared/Screenshot'
 
-import { ReactComponent as ScreenshotBackground } from '../../../images/home/screenshot-background.svg'
-import { ReactComponent as LeftArrow } from '../../../images/icons/left-arrow.svg'
+import ScreenshotBackground from 'images/home/screenshot-background.svg'
+import LeftArrow from 'images/icons/left-arrow.svg'
 
 import '../../../scss/components/Home/Screenshots.scss'
 

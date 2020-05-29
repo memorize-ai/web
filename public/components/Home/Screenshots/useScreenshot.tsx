@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 
-import { ScreenshotType } from '../../shared/Screenshot'
-import useKeyPress from '../../../hooks/useKeyPress'
-import { sleep } from '../../../utils'
+import { ScreenshotType } from 'components/shared/Screenshot'
+import useKeyPress from 'hooks/useKeyPress'
+import { sleep } from 'lib/utils'
 
 export const ANIMATION_DURATION = 400
 export const TRANSFORM_LENGTH = 20

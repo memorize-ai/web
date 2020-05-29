@@ -2,8 +2,8 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMobile } from '@fortawesome/free-solid-svg-icons'
 
-import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
-import Screenshot, { ScreenshotType } from '../shared/Screenshot'
+import AppStoreDownloadButton from 'components/shared/AppStoreDownloadButton'
+import Screenshot, { ScreenshotType } from 'components/shared/Screenshot'
 
 import '../../scss/components/Home/Header.scss'
 
