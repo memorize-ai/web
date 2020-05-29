@@ -1,15 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
-import Deck from '../../../models/Deck'
-import Section from '../../../models/Section'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import SectionHeader from '../../shared/SectionHeader/Owned'
-import useCards from '../../../hooks/useCards'
-import CardCell from '../../shared/CardCell/Owned'
-import Loader from '../../shared/Loader'
+import Deck from 'models/Deck'
+import Section from 'models/Section'
+import useCurrentUser from 'hooks/useCurrentUser'
+import SectionHeader from 'components/shared/SectionHeader/Owned'
+import useCards from 'hooks/useCards'
+import CardCell from 'components/shared/CardCell/Owned'
+import Loader from 'components/shared/Loader'
 
 export type SetSelectedSectionAction = 'unlock' | 'rename' | 'delete' | 'share'
 
@@ -43,17 +43,26 @@ export default (
 			/>
 			{currentUser?.id === deck.creatorId && (
 				<div className="add-cards-container">
-					<Link to={
-						`/decks/${
-							deck.slugId
-						}/${
-							deck.slug
-						}/add${
-							section.isUnsectioned ? '' : `/${section.id}`
-						}`
-					}>
-						<FontAwesomeIcon icon={faPlus} />
-						<p>Add cards to <i>{section.name}</i></p>
+					<Link
+						href={
+							`/decks/[slugId]/[slug]/add${
+								section.isUnsectioned ? '' : '/[sectionId]'
+							}`
+						}
+						as={
+							`/decks/${
+								deck.slugId
+							}/${
+								deck.slug
+							}/add${
+								section.isUnsectioned ? '' : `/${section.id}`
+							}`
+						}
+					>
+						<a>
+							<FontAwesomeIcon icon={faPlus} />
+							<p>Add cards to <i>{section.name}</i></p>
+						</a>
 					</Link>
 				</div>
 			)}

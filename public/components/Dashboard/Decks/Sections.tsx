@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useRouter } from 'next/router'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -12,8 +12,10 @@ import RenameSectionModal from '../../shared/Modal/RenameSection'
 import ShareSectionModal from '../../shared/Modal/ShareSection'
 
 export default ({ deck }: { deck: Deck }) => {
-	const { unlockSectionId } = useParams()
-	const history = useHistory()
+	const router = useRouter()
+	const { unlockSectionId } = router.query as {
+		unlockSectionId?: string
+	}
 	
 	const [currentUser] = useCurrentUser()
 	
@@ -36,9 +38,12 @@ export default ({ deck }: { deck: Deck }) => {
 	const [isDeleteSectionModalShowing, setIsDeleteSectionModalShowing] = useState(false)
 	const [isShareSectionModalShowing, setIsShareSectionModalShowing] = useState(false)
 	
-	const backToBaseUrl = useCallback(() => (
-		history.replace(`/decks/${deck.slugId}/${deck.slug}`)
-	), [deck]) // eslint-disable-line
+	const backToBaseUrl = useCallback(() => {
+		router.replace(
+			'/decks/[slugId]/[slug]',
+			`/decks/${deck.slugId}/${deck.slug}`
+		)
+	}, [deck]) // eslint-disable-line
 	
 	const setIsUnlockSectionModalShowing = useCallback((isShowing: boolean) => {
 		_setIsUnlockSectionModalShowing(isShowing)

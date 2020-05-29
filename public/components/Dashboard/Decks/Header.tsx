@@ -1,25 +1,25 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faStar as faStarFilled, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarOutlined } from '@fortawesome/free-regular-svg-icons'
 import cx from 'classnames'
 
-import Deck from '../../../models/Deck'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import useImageUrl from '../../../hooks/useImageUrl'
-import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
-import CreateSectionModal from '../../shared/Modal/CreateSection'
-import ShareDeckModal from '../../shared/Modal/ShareDeck'
-import ConfirmationModal from '../../shared/Modal/Confirmation'
-import Dropdown, { DropdownShadow } from '../../shared/Dropdown'
-import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
-import DownloadAppModal from '../../shared/Modal/DownloadApp'
-import { formatNumber } from '../../../utils'
+import Deck from 'models/Deck'
+import useCurrentUser from 'hooks/useCurrentUser'
+import useImageUrl from 'hooks/useImageUrl'
+import useRemoveDeckModal from 'hooks/useRemoveDeckModal'
+import CreateSectionModal from 'components/shared/Modal/CreateSection'
+import ShareDeckModal from 'components/shared/Modal/ShareDeck'
+import ConfirmationModal from 'components/shared/Modal/Confirmation'
+import Dropdown, { DropdownShadow } from 'components/shared/Dropdown'
+import RemoveDeckModal from 'components/shared/Modal/RemoveDeck'
+import DownloadAppModal from 'components/shared/Modal/DownloadApp'
+import { formatNumber } from 'lib/utils'
 
-import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
-import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
-import { ReactComponent as EditIcon } from '../../../images/icons/edit.svg'
+import ShareIcon from 'images/icons/share.svg'
+import CartIcon from 'images/icons/cart.svg'
+import EditIcon from 'images/icons/edit.svg'
 
 export default ({ deck }: { deck: Deck | null }) => {
 	const [currentUser] = useCurrentUser()
@@ -84,14 +84,18 @@ export default ({ deck }: { deck: Deck | null }) => {
 					/>
 					<p>{isFavorite ? 'Unf' : 'F'}avorite ({formatNumber(deck?.numberOfFavorites ?? 0)})</p>
 				</button>
-				<Link to={`/d/${deck?.slugId ?? ''}/${deck?.slug ?? ''}`}>
-					<CartIcon className="cart" />
-					<p>Visit page</p>
+				<Link href="/d/[slugId]/[slug]" as={`/d/${deck?.slugId ?? ''}/${deck?.slug ?? ''}`}>
+					<a>
+						<CartIcon className="cart" />
+						<p>Visit page</p>
+					</a>
 				</Link>
 				{isOwner && (
-					<Link to={`/edit/${deck?.slugId ?? ''}/${deck?.slug ?? ''}`}>
-						<EditIcon className="edit" />
-						<p>Edit deck</p>
+					<Link href="/edit/[slugId]/[slug]" as={`/edit/${deck?.slugId ?? ''}/${deck?.slug ?? ''}`}>
+						<a>
+							<EditIcon className="edit" />
+							<p>Edit deck</p>
+						</a>
 					</Link>
 				)}
 				<div className="divider" />
