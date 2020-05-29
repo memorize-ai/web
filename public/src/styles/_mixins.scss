@@ -1,10 +1,10 @@
 @mixin stack {
 	display: grid;
-	
-	> * {
-		grid-row: 1;
-		grid-column: 1;
-	}
+}
+
+@mixin stack-child {
+	grid-row: 1;
+	grid-column: 1;
 }
 
 @mixin raise-on-hover {

@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useRef, useEffect } from 'react'
 import cx from 'classnames'
 
-import '../../styles/components/Dropdown.scss'
+import styles from '../../styles/components/Dropdown.module.scss'
 
 export enum DropdownShadow {
 	None = 'none',
@@ -50,21 +50,23 @@ export default (
 	
 	return (
 		<div
-			ref={newRef => ref.current = newRef}
-			className={cx('dropdown', className, { showing: isShowing })}
+			ref={ref}
+			className={cx(styles.root, className)}
 			onClick={event => event.stopPropagation()}
 		>
 			<button
-				className="trigger"
+				className={cx(styles.trigger, {
+					[styles.showing]: isShowing
+				})}
 				onClick={() => setIsShowing(!isShowing)}
 			>
 				{trigger}
 			</button>
 			{isShowing && (
 				<div
-					className={cx('content', {
-						[`shadow-${shadow}`]: shadow !== DropdownShadow.None,
-						'right-aligned': isRightAligned
+					className={cx(styles.content, {
+						[styles[shadow]]: shadow !== DropdownShadow.None,
+						[styles.rightAligned]: isRightAligned
 					})}
 					style={{ top: `calc(100% + ${topMargin})` }}
 				>

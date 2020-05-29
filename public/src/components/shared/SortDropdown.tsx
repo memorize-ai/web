@@ -8,7 +8,7 @@ import Dropdown, { DropdownShadow } from './Dropdown'
 
 import { ReactComponent as SortIcon } from '../../images/icons/sort.svg'
 
-import '../../styles/components/SortDropdown.scss'
+import styles from '../../styles/components/SortDropdown.module.scss'
 
 export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 	title: nameForDeckSortAlgorithm(type),
@@ -16,7 +16,8 @@ export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 }))
 
 export default (
-	{ shadow, isShowing, setIsShowing, algorithm, setAlgorithm }: {
+	{ className, shadow, isShowing, setIsShowing, algorithm, setAlgorithm }: {
+		className?: string
 		shadow: DropdownShadow
 		isShowing: boolean
 		setIsShowing: (isShowing: boolean) => void
@@ -25,7 +26,7 @@ export default (
 	}
 ) => (
 	<Dropdown
-		className="sort-dropdown"
+		className={className}
 		shadow={shadow}
 		trigger={
 			<>

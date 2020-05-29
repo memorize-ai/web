@@ -1,0 +1,50 @@
+@import '../mixins';
+@import '../trigonometry';
+
+$degrees: 6deg;
+
+@mixin gradient-height($height) {
+	.root {
+		height: calc(#{$height} - #{tan($degrees)} * 100vw);
+	}
+	
+	.background {
+		height: $height;
+	}
+}
+
+@include gradient-height(420px);
+
+@media (min-width: 500px) {
+	@include gradient-height(500px);
+}
+
+@media (min-width: 800px) {
+	@include gradient-height(610px);
+}
+
+@media (min-width: 1100px) {
+	@include gradient-height(730px);
+}
+
+.root {
+	@include stack;
+}
+
+.root,
+.background {
+	transition: 0.3s height;
+}
+
+.background,
+.content {
+	@include stack-child;
+}
+
+.background {
+	@include top-gradient($degrees, $is-right: true);
+}
+
+.content {
+	z-index: 0;
+}

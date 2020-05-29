@@ -1,0 +1,40 @@
+@import '../variables';
+@import '../mixins';
+
+.root {
+	position: relative;
+}
+
+.trigger.showing {
+	cursor: default;
+}
+
+.content {
+	position: absolute;
+	z-index: $dropdown-z-index;
+	animation: dropdown-fade-in linear 0.1s;
+	
+	&:not(.rightAligned) {
+		left: 0;
+	}
+	
+	&.rightAligned {
+		right: 0;
+	}
+	
+	&.around {
+		border: 1px solid #eee;
+		box-shadow: 0 0 10px 2px transparentize(black, 0.9);
+	}
+	
+	&.screen {
+		box-shadow: 0 0 0 100vmax transparentize(black, 0.7);
+	}
+}
+
+@keyframes dropdown-fade-in {
+	from {
+		opacity: 0.5;
+		transform: translateX(-20px);
+	}
+}
