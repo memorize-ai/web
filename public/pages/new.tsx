@@ -1,38 +1,39 @@
 import React, { useContext, useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import Router from 'next/router'
 
-import CreateDeckContext from '../../../context/CreateDeck'
-import useAuthModal from '../../../hooks/useAuthModal'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import useTopics from '../../../hooks/useTopics'
-import User from '../../../models/User'
-import Deck from '../../../models/Deck'
-import LoadingState from '../../../models/LoadingState'
+import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import useAuthState from 'hooks/useAuthState'
+import CreateDeckContext from 'context/CreateDeck'
+import useAuthModal from 'hooks/useAuthModal'
+import useCurrentUser from 'hooks/useCurrentUser'
+import useTopics from 'hooks/useTopics'
+import User from 'models/User'
+import Deck from 'models/Deck'
+import LoadingState from 'models/LoadingState'
 import {
 	setCreateDeckImage,
 	setCreateDeckName,
 	setCreateDeckSubtitle,
 	setCreateDeckDescription,
 	setCreateDeckTopics
-} from '../../../actions'
-import Head from '../../shared/Head'
-import PublishDeckContent from '../../shared/PublishDeckContent'
-import Button from '../../shared/Button'
-import { compose, handleError } from '../../../utils'
+} from 'actions'
+import Head from 'components/shared/Head'
+import PublishDeckContent from 'components/shared/PublishDeckContent'
+import Button from 'components/shared/Button'
+import { compose, handleError } from 'lib/utils'
 
 import '../../../scss/components/Dashboard/CreateDeck.scss'
 
 const HEAD_DESCRIPTION = 'Create your own deck on memorize.ai.'
 
 export default () => {
+	const isSignedIn = useAuthState()
 	const [
 		{ image, name, subtitle, description, topics: selectedTopics },
 		dispatch
 	] = useContext(CreateDeckContext)
 	
 	const imageUrl = useRef(null as string | null)
-	
-	const history = useHistory()
 	
 	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
 	
@@ -68,7 +69,10 @@ export default () => {
 				setLoadingState(LoadingState.Success)
 				reset()
 				
-				history.push(`/decks/${slugId}/${slug}`)
+				Router.push(
+					'/decks/[slugId]/[slug]',
+					`/decks/${slugId}/${slug}`
+				)
 			} catch (error) {
 				setLoadingState(LoadingState.Fail)
 				handleError(error)
@@ -84,7 +88,10 @@ export default () => {
 	}
 	
 	return (
-		<>
+		<Dashboard
+			selection={isSignedIn ? Selection.Home : Selection.Market}
+			className="create-deck publish-deck"
+		>
 			<Head
 				isPrerenderReady={topics !== null}
 				title="Create deck | memorize.ai"
@@ -146,6 +153,6 @@ export default () => {
 					/>
 				</div>
 			</div>
-		</>
+		</Dashboard>
 	)
 }
