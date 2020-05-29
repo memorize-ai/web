@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, Suspense } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 import cx from 'classnames'
 
 import Sidebar from './Sidebar'
@@ -35,9 +35,7 @@ export default (
 				<div className="container">
 					<Navbar selection={selection} />
 					<div className="foreground">
-						<Suspense fallback={null}>
-							{children}
-						</Suspense>
+						{children}
 					</div>
 				</div>
 			</div>

@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify'
 import _ from 'lodash'
 
+import useSearchState from 'hooks/useSearchState'
 import { LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, EMOJIS } from './constants'
 
 export const compose = <T extends any[], U, V>(
@@ -86,3 +87,17 @@ export const slugify = (string: string, delimiter: string = '-') =>
 		.replace(/\s+/g, delimiter)
 		.toLowerCase()
 	) || delimiter.repeat(string.length)
+
+export const urlForMarket = () => {
+	const [{ query, sortAlgorithm }] = useSearchState()
+	
+	return {
+		pathname: '/market',
+		query: {
+			q: query,
+			s: sortAlgorithm === 'recommended'
+				? null
+				: sortAlgorithm
+		}
+	}
+}

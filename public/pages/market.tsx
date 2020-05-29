@@ -26,20 +26,6 @@ import { formatNumber } from 'lib/utils'
 
 import '../../../scss/components/Dashboard/Market.scss'
 
-export const urlForMarket = () => {
-	const [{ query, sortAlgorithm }] = useSearchState()
-	
-	return {
-		pathname: '/market',
-		query: {
-			q: query,
-			s: sortAlgorithm === 'recommended'
-				? null
-				: sortAlgorithm
-		}
-	}
-}
-
 export default () => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)
 	

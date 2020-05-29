@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Deck from '../../models/Deck'
-import { includesNormalized } from '../../utils'
+import Deck from 'models/Deck'
+import { includesNormalized } from 'lib/utils'
 import Row from './SidebarRow'
 
 export default (

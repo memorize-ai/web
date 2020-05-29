@@ -1,12 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import cx from 'classnames'
 
-import Deck from '../../models/Deck'
-import LoadingState from '../../models/LoadingState'
-import useSelectedDeck from '../../hooks/useSelectedDeck'
-import useImageUrl from '../../hooks/useImageUrl'
-import { formatNumber } from '../../utils'
+import Deck from 'models/Deck'
+import LoadingState from 'models/LoadingState'
+import useSelectedDeck from 'hooks/useSelectedDeck'
+import useImageUrl from 'hooks/useImageUrl'
+import { formatNumber } from 'lib/utils'
 
 export default ({ deck }: { deck: Deck }) => {
 	const [selectedDeck] = useSelectedDeck()
@@ -16,22 +16,22 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	return (
 		<Link
-			to={`/decks/${deck.slugId}/${deck.slug}`}
-			className={cx({
-				selected: selectedDeck?.id === deck.id
-			})}
+			href="/decks/[slugId]/[slug]"
+			as={`/decks/${deck.slugId}/${deck.slug}`}
 		>
-			{imageUrlLoadingState === LoadingState.Loading || (
-				<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
-			)}
-			<p className="title">
-				{deck.name}
-			</p>
-			{numberOfDueCards > 0 && (
-				<p className="badge">
-					{formatNumber(numberOfDueCards)}
+			<a className={cx({ selected: selectedDeck?.id === deck.id })}>
+				{imageUrlLoadingState === LoadingState.Loading || (
+					<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
+				)}
+				<p className="title">
+					{deck.name}
 				</p>
-			)}
+				{numberOfDueCards > 0 && (
+					<p className="badge">
+						{formatNumber(numberOfDueCards)}
+					</p>
+				)}
+			</a>
 		</Link>
 	)
 }

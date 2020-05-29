@@ -2,23 +2,22 @@ import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 
-import firebase from '../../firebase'
+import firebase from 'lib/firebase'
 import { DashboardNavbarSelection as Selection } from '.'
-import useAuthState from '../../hooks/useAuthState'
-import useCurrentUser from '../../hooks/useCurrentUser'
-import useDecks from '../../hooks/useDecks'
+import useAuthState from 'hooks/useAuthState'
+import useCurrentUser from 'hooks/useCurrentUser'
+import useDecks from 'hooks/useDecks'
 import Tab from './NavbarTab'
-import Dropdown, { DropdownShadow } from '../shared/Dropdown'
-import AuthButton from '../shared/AuthButton'
-import { urlForMarket } from './Market'
-import DownloadAppModal from '../shared/Modal/DownloadApp'
-import { isNullish, showSuccess, handleError } from '../../utils'
+import Dropdown, { DropdownShadow } from 'components/shared/Dropdown'
+import AuthButton from 'components/shared/AuthButton'
+import DownloadAppModal from 'components/shared/Modal/DownloadApp'
+import { urlForMarket, isNullish, showSuccess, handleError } from 'lib/utils'
 
-import { ReactComponent as Home } from '../../images/icons/home.svg'
-import { ReactComponent as Cart } from '../../images/icons/cart.svg'
-import { ReactComponent as Decks } from '../../images/icons/decks.svg'
-import { ReactComponent as Topics } from '../../images/icons/topics.svg'
-import { ReactComponent as User } from '../../images/icons/purple-user.svg'
+import Home from 'images/icons/home.svg'
+import Cart from 'images/icons/cart.svg'
+import Decks from 'images/icons/decks.svg'
+import Topics from 'images/icons/topics.svg'
+import User from 'images/icons/purple-user.svg'
 
 import 'firebase/auth'
 
@@ -69,7 +68,8 @@ export default ({ selection }: { selection: Selection }) => {
 					<Home />
 				</Tab>
 				<Tab
-					href={urlForMarket()}
+					href="/market"
+					as={urlForMarket()}
 					title="Market"
 					isSelected={selection === Selection.Market}
 					isDisabled={false}

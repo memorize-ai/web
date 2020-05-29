@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
-import LoadingState from '../../models/LoadingState'
-import useAuthState from '../../hooks/useAuthState'
-import useDecks from '../../hooks/useDecks'
-import useCurrentUser from '../../hooks/useCurrentUser'
-import Logo, { LogoType } from '../shared/Logo'
-import Input from '../shared/Input'
+import LoadingState from 'models/LoadingState'
+import useAuthState from 'hooks/useAuthState'
+import useDecks from 'hooks/useDecks'
+import useCurrentUser from 'hooks/useCurrentUser'
+import Logo, { LogoType } from 'components/shared/Logo'
+import Input from 'components/shared/Input'
 import Section from './SidebarSection'
-import { isNullish, formatNumber, formatNumberAsInt } from '../../utils'
+import { isNullish, formatNumber, formatNumberAsInt } from 'lib/utils'
 
 import '../../scss/components/Dashboard/Sidebar.scss'
 
@@ -37,7 +37,7 @@ export default () => {
 	return (
 		<div className="sidebar">
 			<div className="top">
-				<Link to="/">
+				<Link href="/">
 					<Logo type={LogoType.Capital} />
 				</Link>
 				<div className="divider" />
