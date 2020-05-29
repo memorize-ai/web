@@ -1,16 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import Topic from '../../../models/Topic'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import useTopics from '../../../hooks/useTopics'
-import Head, { APP_SCHEMA } from '../../shared/Head'
-import { urlForMarket } from '../Market'
+import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import Topic from 'models/Topic'
+import useCurrentUser from 'hooks/useCurrentUser'
+import useTopics from 'hooks/useTopics'
+import Head, { APP_SCHEMA } from 'components/shared/Head'
+import { urlForMarket } from 'components/Dashboard/Market'
 
-import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
+import CartIcon from '../../../images/icons/cart.svg'
 
 import '../../../scss/components/Dashboard/Interests.scss'
 
@@ -19,7 +20,7 @@ export default () => {
 	const topics = useTopics()
 	
 	return (
-		<>
+		<Dashboard selection={Selection.Interests} className="interests">
 			<Head
 				isPrerenderReady={topics !== null}
 				title="Interests | memorize.ai"
@@ -45,9 +46,11 @@ export default () => {
 						Your interests help us show you recommendations
 					</h3>
 				</div>
-				<Link to={urlForMarket()} className="market-link">
-					<CartIcon />
-					<p>Your recommendations</p>
+				<Link href="/market" as={urlForMarket()}>
+					<a className="market-link">
+						<CartIcon />
+						<p>Your recommendations</p>
+					</a>
 				</Link>
 			</div>
 			<div className="topics" {...Topic.schemaProps}>
@@ -73,6 +76,6 @@ export default () => {
 					</button>
 				))}
 			</div>
-		</>
+		</Dashboard>
 	)
 }
