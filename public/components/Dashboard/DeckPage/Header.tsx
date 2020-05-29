@@ -1,29 +1,28 @@
 import React, { useState, useCallback } from 'react'
-import { useHistory, Link } from 'react-router-dom'
+import Router from 'next/router'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 
-import User from '../../../models/User'
-import Deck from '../../../models/Deck'
-import LoadingState from '../../../models/LoadingState'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import useImageUrl from '../../../hooks/useImageUrl'
-import useCreator from '../../../hooks/useCreator'
-import useAuthModal from '../../../hooks/useAuthModal'
-import Button from '../../shared/Button'
-import Stars from '../../shared/Stars'
-import { DisqusCommentCount } from '../../shared/Disqus'
-import ShareDeckModal from '../../shared/Modal/ShareDeck'
-import { formatNumber, handleError } from '../../../utils'
+import User from 'models/User'
+import Deck from 'models/Deck'
+import LoadingState from 'models/LoadingState'
+import useCurrentUser from 'hooks/useCurrentUser'
+import useImageUrl from 'hooks/useImageUrl'
+import useCreator from 'hooks/useCreator'
+import useAuthModal from 'hooks/useAuthModal'
+import Button from 'components/shared/Button'
+import Stars from 'components/shared/Stars'
+import { DisqusCommentCount } from 'components/shared/Disqus'
+import ShareDeckModal from 'components/shared/Modal/ShareDeck'
+import { formatNumber, handleError } from 'lib/utils'
 
-import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
-import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
-import { ReactComponent as DownloadIcon } from '../../../images/icons/download.svg'
-import { ReactComponent as UsersIcon } from '../../../images/icons/users.svg'
+import UserIcon from 'images/icons/user.svg'
+import ShareIcon from 'images/icons/share.svg'
+import DownloadIcon from 'images/icons/download.svg'
+import UsersIcon from 'images/icons/users.svg'
 
 export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
-	const history = useHistory()
-	
 	const [currentUser] = useCurrentUser()
 	const [imageUrl] = useImageUrl(deck)
 	const creator = useCreator(deck.creatorId)
@@ -45,7 +44,10 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 				
 				setGetLoadingState(LoadingState.Success)
 				
-				history.push(`/decks/${deck.slugId}/${deck.slug}`)
+				Router.push(
+					'/decks/[slugId]/[slug]',
+					`/decks/${deck.slugId}/${deck.slug}`
+				)
 			} catch (error) {
 				setGetLoadingState(LoadingState.Fail)
 				handleError(error)
@@ -83,8 +85,11 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 				<div className="buttons">
 					{hasDeck
 						? (
-							<Link to={`/decks/${deck.slugId}/${deck.slug}`} className="open">
-								Open
+							<Link
+								href="/decks/[slugId]/[slug]"
+								as={`/decks/${deck.slugId}/${deck.slug}`}
+							>
+								<a className="open">Open</a>
 							</Link>
 						)
 						: (

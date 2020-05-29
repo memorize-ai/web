@@ -1,9 +1,9 @@
 import React from 'react'
 
-import Deck from '../../../models/Deck'
-import useSimilarDecks from '../../../hooks/useSimilarDecks'
-import DeckCell from '../../shared/DeckCell'
-import { formatNumber } from '../../../utils'
+import Deck from 'models/Deck'
+import useSimilarDecks from 'hooks/useSimilarDecks'
+import DeckCell from 'components/shared/DeckCell'
+import { formatNumber } from 'lib/utils'
 
 export const SIMILAR_DECKS_CHUNK_SIZE = 10
 

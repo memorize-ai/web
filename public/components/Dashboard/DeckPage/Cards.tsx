@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import _ from 'lodash'
 
-import Deck from '../../../models/Deck'
-import Section from '../../../models/Section'
-import useSections from '../../../hooks/useSections'
-import useExpandedSections from '../../../hooks/useExpandedSections'
-import useAllCards from '../../../hooks/useAllCards'
-import SectionHeader from '../../shared/SectionHeader'
-import CardCell from '../../shared/CardCell'
-import Loader from '../../shared/Loader'
-import ShareSectionModal from '../../shared/Modal/ShareSection'
-import { formatNumber } from '../../../utils'
+import Deck from 'models/Deck'
+import Section from 'models/Section'
+import useSections from 'hooks/useSections'
+import useExpandedSections from 'hooks/useExpandedSections'
+import useAllCards from 'hooks/useAllCards'
+import SectionHeader from 'components/shared/SectionHeader'
+import CardCell from 'components/shared/CardCell'
+import Loader from 'components/shared/Loader'
+import ShareSectionModal from 'components/shared/Modal/ShareSection'
+import { formatNumber } from 'lib/utils'
 
 export default ({ deck }: { deck: Deck }) => {
 	const _sections = useSections(deck.id) ?? []

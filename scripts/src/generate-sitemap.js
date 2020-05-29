@@ -9,6 +9,7 @@ if (require.main === module)
 		const urls = {
 			'': { type: 'max' },
 			'/landing': { type: 'max' },
+			'/new': { type: 'max' },
 			'/market': { type: 'high' }
 		}
 		

@@ -6,12 +6,12 @@ import moment from 'moment'
 import TimeAgo from 'javascript-time-ago'
 import enLocale from 'javascript-time-ago/locale/en'
 
-import Deck from '../../../models/Deck'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import Stars from '../../shared/Stars'
-import { formatNumber } from '../../../utils'
+import Deck from 'models/Deck'
+import useCurrentUser from 'hooks/useCurrentUser'
+import Stars from 'components/shared/Stars'
+import { formatNumber } from 'lib/utils'
 
-import { ReactComponent as GrayStar } from '../../../images/icons/gray-star.svg'
+import GrayStar from 'images/icons/gray-star.svg'
 
 TimeAgo.addLocale(enLocale)
 
