@@ -19,16 +19,6 @@ export const setExpectsSignIn = (value: boolean) =>
 		? localStorage.setItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, '1')
 		: localStorage.removeItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY)
 
-export const urlWithQuery = (url: string, params: Record<string, string | null>) => {
-	const extension = Object.entries(params)
-		.reduce((acc, [key, value]) => (
-			value ? [...acc, `${key}=${encodeURIComponent(value)}`] : acc
-		), [] as string[])
-		.join('&')
-	
-	return `${url}${extension ? `?${extension}` : ''}`
-}
-
 export const showSuccess = (message: string) => {
 	toast.success(message, { className: 'toast' })
 }

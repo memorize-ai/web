@@ -1,42 +1,45 @@
 import React, { useState, useContext, useMemo } from 'react'
-import { useHistory, useParams, Link } from 'react-router-dom'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import Deck from '../../../models/Deck'
-import { DEFAULT_DECK_SORT_ALGORITHM } from '../../../models/Deck/Search'
-import Counters, { Counter } from '../../../models/Counters'
-import LoadingState from '../../../models/LoadingState'
-import DeckImageUrlsContext from '../../../context/DeckImageUrls'
-import useSearchState from '../../../hooks/useSearchState'
-import useDeck from '../../../hooks/useDeck'
-import useSections from '../../../hooks/useSections'
-import useAllCards from '../../../hooks/useAllCards'
-import useTopics from '../../../hooks/useTopics'
-import useCreator from '../../../hooks/useCreator'
-import useSimilarDecks from '../../../hooks/useSimilarDecks'
-import Head from '../../shared/Head'
-import Input from '../../shared/Input'
-import SortDropdown from '../../shared/SortDropdown'
-import { DropdownShadow } from '../../shared/Dropdown'
-import Header from './Header'
-import Preview from './Preview'
-import Footer from './Footer'
-import Controls from './Controls'
-import SimilarDecks, { SIMILAR_DECKS_CHUNK_SIZE } from './SimilarDecks'
-import Cards from './Cards'
-import Comments from './Comments'
-import Loader from '../../shared/Loader'
-import { urlWithQuery, formatNumber } from '../../../utils'
+import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import Deck from 'models/Deck'
+import { DEFAULT_DECK_SORT_ALGORITHM } from 'models/Deck/Search'
+import Counters, { Counter } from 'models/Counters'
+import LoadingState from 'models/LoadingState'
+import DeckImageUrlsContext from 'context/DeckImageUrls'
+import useSearchState from 'hooks/useSearchState'
+import useDeck from 'hooks/useDeck'
+import useSections from 'hooks/useSections'
+import useAllCards from 'hooks/useAllCards'
+import useTopics from 'hooks/useTopics'
+import useCreator from 'hooks/useCreator'
+import useSimilarDecks from 'hooks/useSimilarDecks'
+import Head from 'components/shared/Head'
+import Input from 'components/shared/Input'
+import SortDropdown from 'components/shared/SortDropdown'
+import { DropdownShadow } from 'components/shared/Dropdown'
+import Header from 'components/Dashboard/DeckPage/Header'
+import Preview from 'components/Dashboard/DeckPage/Preview'
+import Footer from 'components/Dashboard/DeckPage/Footer'
+import Controls from 'components/Dashboard/DeckPage/Controls'
+import SimilarDecks, { SIMILAR_DECKS_CHUNK_SIZE } from 'components/Dashboard/DeckPage/SimilarDecks'
+import Cards from 'components/Dashboard/DeckPage/Cards'
+import Comments from 'components/Dashboard/DeckPage/Comments'
+import Loader from 'components/shared/Loader'
+import { formatNumber } from 'lib/utils'
 
-import '../../../scss/components/Dashboard/DeckPage.scss'
+import 'styles/components/Dashboard/DeckPage.scss'
 
 export default () => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)
 	
-	const history = useHistory()
-	const { slugId } = useParams()
+	const router = useRouter()
+	const { slugId } = router.query as { slugId: string }
+	
 	const [{ query, sortAlgorithm }] = useSearchState()
 	
 	const { deck, hasDeck } = useDeck(slugId)
@@ -81,7 +84,7 @@ export default () => {
 	), [deck, creator])
 	
 	return (
-		<>
+		<Dashboard selection={Selection.Market} className="deck-page">
 			<Head
 				isPrerenderReady={Boolean(
 					deck && hasImageUrlLoaded && creator && sections && cards && topics && similarDecks
@@ -137,12 +140,13 @@ export default () => {
 			/>
 			<div className="header">
 				<Link
-					className="create"
-					to="/new"
+					href="/new"
 					aria-label="Create your own deck!"
 					data-balloon-pos="right"
 				>
-					<FontAwesomeIcon icon={faPlus} />
+					<a className="create">
+						<FontAwesomeIcon icon={faPlus} />
+					</a>
 				</Link>
 				<Input
 					className="search"
@@ -153,12 +157,15 @@ export default () => {
 					}
 					value={query}
 					setValue={newQuery =>
-						history.push(urlWithQuery('/market', {
-							q: newQuery,
-							s: sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-								? null
-								: sortAlgorithm
-						}))
+						router.push({
+							pathname: '/market',
+							query: {
+								q: newQuery,
+								s: sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+									? null
+									: sortAlgorithm
+							}
+						})
 					}
 				/>
 				<SortDropdown
@@ -167,12 +174,15 @@ export default () => {
 					setIsShowing={setIsSortDropdownShowing}
 					algorithm={sortAlgorithm}
 					setAlgorithm={newSortAlgorithm =>
-						history.push(urlWithQuery('/market', {
-							q: query,
-							s: newSortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-								? null
-								: newSortAlgorithm
-						}))
+						router.push({
+							pathname: '/market',
+							query: {
+								q: query,
+								s: newSortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+									? null
+									: newSortAlgorithm
+							}
+						})
 					}
 				/>
 			</div>
@@ -192,6 +202,6 @@ export default () => {
 					: <Loader size="24px" thickness="4px" color="#582efe" />
 				}
 			</div>
-		</>
+		</Dashboard>
 	)
 }

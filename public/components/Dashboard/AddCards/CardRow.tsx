@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import Card from '../../../models/Card'
-import CKEditor from '../../shared/CKEditor'
+import Card from 'models/Card'
+import CKEditor from 'components/shared/CKEditor'
 
 export default (
 	{ uploadUrl, front, back, canRemove, remove, updateFront, updateBack }: {

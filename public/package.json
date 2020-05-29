@@ -8,6 +8,9 @@
 	},
 	"dependencies": {
 		"@elastic/app-search-javascript": "^7.7.0",
+		"@fortawesome/free-solid-svg-icons": "^5.13.0",
+		"@fortawesome/react-fontawesome": "^0.1.9",
+		"classnames": "^2.2.6",
 		"firebase": "^7.14.5",
 		"lodash": "^4.17.15",
 		"nanoid": "^3.1.9",
@@ -15,15 +18,18 @@
 		"next-pwa": "^2.4.1",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
+		"react-select": "^3.1.0",
 		"react-toastify": "^6.0.5",
 		"sass": "^1.26.5",
 		"string-strip-html": "^4.4.7",
 		"uuid": "^8.1.0"
 	},
 	"devDependencies": {
+		"@types/classnames": "^2.2.10",
 		"@types/lodash": "^4.14.153",
 		"@types/node": "^14.0.5",
 		"@types/react": "^16.9.35",
+		"@types/react-select": "^3.0.13",
 		"@types/string-strip-html": "^4.3.0",
 		"@types/uuid": "^8.0.0",
 		"tslint": "^6.1.2",
