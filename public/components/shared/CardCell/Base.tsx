@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Card from '../../../models/Card'
-import CardSide from '../CardSide'
+import Card from 'models/Card'
+import CardSide from 'components/shared/CardSide'
 
 import '../../../scss/components/CardCell/Base.scss'
 

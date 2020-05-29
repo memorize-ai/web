@@ -1,6 +1,6 @@
-import React, { lazy, Suspense } from 'react'
+import { DiscussionEmbed, CommentCount } from 'disqus-react'
 
-import { DISQUS_SHORTNAME } from '../../../constants'
+import { DISQUS_SHORTNAME } from 'lib/constants'
 
 export interface DisqusProps {
 	url: string
@@ -19,17 +19,10 @@ export const componentProps = (props: DisqusProps) => ({
 	config: configFromProps(props)
 })
 
-const DiscussionEmbed = lazy(() => import('./DiscussionEmbed'))
-const CommentCount = lazy(() => import('./CommentCount'))
-
 export default (props: DisqusProps) => (
-	<Suspense fallback={null}>
-		<DiscussionEmbed {...props} />
-	</Suspense>
+	<DiscussionEmbed {...componentProps(props)} />
 )
 
 export const DisqusCommentCount = (props: DisqusProps) => (
-	<Suspense fallback={null}>
-		<CommentCount {...props} />
-	</Suspense>
+	<CommentCount {...componentProps(props)} />
 )

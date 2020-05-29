@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import Helmet from 'react-helmet'
-import Schema, { Thing, MobileApplication } from 'schema.org-react'
+import Head from 'next/head'
+import { Thing, MobileApplication } from 'schema-dts'
 
-import { APP_SCREENSHOT_URL, APP_STORE_URL } from '../../constants'
+import { APP_SCREENSHOT_URL, APP_STORE_URL } from 'lib/constants'
 
 export interface Label {
 	name: string
@@ -62,6 +62,29 @@ export const APP_SCHEMA: MobileApplication = {
 	}
 }
 
+const entities = {
+	'&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    '\'': '&apos;'
+}
+
+const replacer = (_: string, value: any) => {
+	switch (typeof value) {
+		case 'object':
+			return value === null ? undefined : value
+		case 'number':
+		case 'boolean':
+		case 'bigint':
+			return value
+		case 'string':
+			return value.replace(/[&<>'"]/g, v => entities[v] ?? v)
+		default:
+			return undefined
+	}
+}
+
 export default <SchemaItems extends Thing[]>({
 	isPrerenderReady = true,
 	status,
@@ -93,81 +116,90 @@ export default <SchemaItems extends Thing[]>({
 	}, [isPrerenderReady])
 	
 	return (
-		<>
-			<Helmet>
-				{status && (
-					<meta name="prerender-status-code" content={status.toString()} />
-				)}
-				
-				<meta name="description" content={description} />
-				
-				<meta property="og:url" content={ogUrl} />
-				<meta property="og:site_name" content="memorize.ai" />
-				<meta property="og:type" content={ogType ?? 'website'} />
-				<meta property="og:title" content={ogTitle} />
-				<meta property="og:description" content={ogDescription} />
-				<meta property="og:image" content={ogImage} />
-				
-				<meta name="twitter:card" content="summary_large_image" />
-				<meta name="twitter:site" content="@memorize_ai" />
-				<meta name="twitter:creator" content="@memorize_ai" />
-				<meta name="twitter:domain" content="memorize.ai" />
-				<meta name="twitter:url" content={twitterUrl ?? ogUrl} />
-				<meta name="twitter:title" content={twitterTitle ?? ogTitle} />
-				<meta name="twitter:description" content={twitterDescription ?? ogDescription} />
-				<meta name="twitter:image" content={twitterImage ?? ogImage} />
-				
-				{labels?.map(({ name }, i) => (
-					<meta key={`twitter:label${name}`} name={`twitter:label${i + 1}`} content={name} />
-				))}
-				
-				{labels?.map(({ name, value }, i) => (
-					<meta key={`twitter:data${name}`} name={`twitter:data${i + 1}`} content={value} />
-				))}
-				
-				<link rel="canonical" href={canonicalUrl} />
-				
-				<title>{title}</title>
-			</Helmet>
-			<Schema item={{
-				'@context': 'https://schema.org',
-				'@graph': [
-					{
-						'@type': 'WebSite',
-						url: 'https://memorize.ai',
-						name: 'memorize.ai',
-						description: APP_DESCRIPTION,
-						potentialAction: [
+		<Head>
+			{status && (
+				<meta
+					key="meta-prerender-status-code"
+					name="prerender-status-code"
+					content={status.toString()}
+				/>
+			)}
+			
+			<meta key="meta-description" name="description" content={description} />
+			
+			<meta key="meta-og-url" property="og:url" content={ogUrl} />
+			<meta key="meta-og-site-name" property="og:site_name" content="memorize.ai" />
+			<meta key="meta-og-type" property="og:type" content={ogType ?? 'website'} />
+			<meta key="meta-og-title" property="og:title" content={ogTitle} />
+			<meta key="meta-og-description" property="og:description" content={ogDescription} />
+			<meta key="meta-og-image" property="og:image" content={ogImage} />
+			
+			<meta key="meta-twitter-card" name="twitter:card" content="summary_large_image" />
+			<meta key="meta-twitter-site" name="twitter:site" content="@memorize_ai" />
+			<meta key="meta-twitter-creator" name="twitter:creator" content="@memorize_ai" />
+			<meta key="meta-twitter-domain" name="twitter:domain" content="memorize.ai" />
+			<meta key="meta-twitter-url" name="twitter:url" content={twitterUrl ?? ogUrl} />
+			<meta key="meta-twitter-title" name="twitter:title" content={twitterTitle ?? ogTitle} />
+			<meta key="meta-twitter-description" name="twitter:description" content={twitterDescription ?? ogDescription} />
+			<meta key="meta-twitter-image" name="twitter:image" content={twitterImage ?? ogImage} />
+			
+			{labels?.map(({ name }, i) => (
+				<meta key={`twitter:label${name}`} name={`twitter:label${i + 1}`} content={name} />
+			))}
+			
+			{labels?.map(({ name, value }, i) => (
+				<meta key={`twitter:data${name}`} name={`twitter:data${i + 1}`} content={value} />
+			))}
+			
+			<link key="link-canonical" rel="canonical" href={canonicalUrl} />
+			
+			<title key="title">{title}</title>
+			
+			<script
+				key="script-schema"
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify({
+						'@context': 'https://schema.org',
+						'@graph': [
 							{
-								'@type': 'SearchAction',
-								target: 'https://memorize.ai/market?q={search_term_string}',
-								'query-input': 'required name=search_term_string'
-							}
-						],
-						inLanguage: 'en-US'
-					},
-					{
-						'@type': 'Organization',
-						url: 'https://memorize.ai',
-						logo: LOGO_URL,
-						sameAs: [
-							'https://twitter.com/memorize_ai'
+								'@type': 'WebSite',
+								url: 'https://memorize.ai',
+								name: 'memorize.ai',
+								description: APP_DESCRIPTION,
+								potentialAction: [
+									{
+										'@type': 'SearchAction',
+										target: 'https://memorize.ai/market?q={search_term_string}',
+										'query-input': 'required name=search_term_string'
+									}
+								],
+								inLanguage: 'en-US'
+							},
+							{
+								'@type': 'Organization',
+								url: 'https://memorize.ai',
+								logo: LOGO_URL,
+								sameAs: [
+									'https://twitter.com/memorize_ai'
+								]
+							},
+							...breadcrumbs.map(list => ({
+								'@type': 'BreadcrumbList',
+								itemListElement: list.map(({ name, url }, i) => ({
+									'@type': 'ListItem',
+									position: i + 1,
+									name,
+									item: url
+								}))
+							})),
+							...(schemaItems ?? [])
 						]
-					},
-					...breadcrumbs.map(list => ({
-						'@type': 'BreadcrumbList',
-						itemListElement: list.map(({ name, url }, i) => ({
-							'@type': 'ListItem',
-							position: i + 1,
-							name,
-							item: url
-						}))
-					})),
-					...(schemaItems ?? [])
-				]
-			} as any} />
-		</>
+					}, replacer)
+				}}
+			/>
+		</Head>
 	)
 }
 
-export * from 'schema.org-react'
+export * from 'schema-dts'

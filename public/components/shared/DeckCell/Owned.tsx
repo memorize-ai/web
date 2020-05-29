@@ -2,9 +2,9 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 
-import Deck from '../../../models/Deck'
+import Deck from 'models/Deck'
 import Base from './Base'
-import { randomEmoji } from '../../../utils'
+import { randomEmoji } from 'lib/utils'
 
 import '../../../scss/components/DeckCell/Owned.scss'
 
@@ -22,7 +22,8 @@ export default ({ deck, downloadApp }: { deck: Deck, downloadApp: () => void }) 
 		<Base
 			className="owned"
 			deck={deck}
-			href={`/decks/${deck.slugId}/${deck.slug}`}
+			href="/decks/[slugId]/[slug]"
+			as={`/decks/${deck.slugId}/${deck.slug}`}
 			nameProps={{
 				style: { WebkitLineClamp: deck.subtitle ? 2 : 3 }
 			}}

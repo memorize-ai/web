@@ -1,25 +1,23 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import Router from 'next/router'
 
-import Deck from '../../../models/Deck'
-import LoadingState from '../../../models/LoadingState'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import useDecks from '../../../hooks/useDecks'
-import useAuthModal from '../../../hooks/useAuthModal'
+import Deck from 'models/Deck'
+import User from 'models/User'
+import LoadingState from 'models/LoadingState'
+import useCurrentUser from 'hooks/useCurrentUser'
+import useDecks from 'hooks/useDecks'
+import useAuthModal from 'hooks/useAuthModal'
 import Base from './Base'
 import Stars from '../Stars'
 import Button from '../Button'
-import { formatNumber, handleError } from '../../../utils'
+import { formatNumber, handleError } from 'lib/utils'
 
-import downloads from '../../../images/icons/download.svg'
-import users from '../../../images/icons/users.svg'
+import DownloadsIcon from 'images/icons/download.svg'
+import UsersIcon from 'images/icons/users.svg'
 
 import '../../../scss/components/DeckCell/index.scss'
-import User from '../../../models/User'
 
 export default ({ deck }: { deck: Deck }) => {
-	const history = useHistory()
-	
 	const [currentUser] = useCurrentUser()
 	const [decks] = useDecks()
 	
@@ -52,13 +50,17 @@ export default ({ deck }: { deck: Deck }) => {
 	}
 	
 	const open = () =>
-		history.push(`/decks/${deck.slugId}/${deck.slug}`)
+		Router.push(
+			'/decks/[slugId]/[slug]',
+			`/decks/${deck.slugId}/${deck.slug}`
+		)
 	
 	return (
 		<Base
 			className="default"
 			deck={deck}
-			href={deck.url}
+			href="/d/[slugId]/[slug]"
+			as={deck.url}
 			nameProps={{
 				style: { WebkitLineClamp: deck.subtitle ? 1 : 2 }
 			}}
@@ -79,12 +81,12 @@ export default ({ deck }: { deck: Deck }) => {
 				</div>
 				<div className="divider" />
 				<div className="downloads">
-					<img src={downloads} alt="Downloads" />
+					<DownloadsIcon />
 					<p>({formatNumber(deck.numberOfDownloads)})</p>
 				</div>
 				<div className="divider" />
 				<div className="current-users">
-					<img src={users} alt="Current users" />
+					<UsersIcon />
 					<p>({formatNumber(deck.numberOfCurrentUsers)})</p>
 				</div>
 			</div>

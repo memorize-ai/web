@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 
 import Modal from '.'
 
-import { ReactComponent as TimesIcon } from '../../../images/icons/times.svg'
+import TimesIcon from 'images/icons/times.svg'
 
 import '../../../scss/components/Modal/Confirmation.scss'
 

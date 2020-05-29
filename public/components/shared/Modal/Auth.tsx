@@ -1,14 +1,14 @@
 import React, { useState, useCallback, useEffect, FormEvent } from 'react'
-import { useHistory } from 'react-router-dom'
+import Router from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import firebase from '../../../firebase'
-import LoadingState from '../../../models/LoadingState'
-import AuthenticationMode from '../../../models/AuthenticationMode'
-import useAuthModal from '../../../hooks/useAuthModal'
-import useCurrentUser from '../../../hooks/useCurrentUser'
+import firebase from 'lib/firebase'
+import LoadingState from 'models/LoadingState'
+import AuthenticationMode from 'models/AuthenticationMode'
+import useAuthModal from 'hooks/useAuthModal'
+import useCurrentUser from 'hooks/useCurrentUser'
 import Modal from '.'
 import Button from '../Button'
 
@@ -23,8 +23,6 @@ const firestore = firebase.firestore()
 const analytics = firebase.analytics()
 
 export default () => {
-	const history = useHistory()
-	
 	const [currentUser] = useCurrentUser()
 	const [[isShowing, setIsShowing], [callback, setCallback]] = useAuthModal()
 	
@@ -71,7 +69,7 @@ export default () => {
 					})
 					
 					if (!callback)
-						history.push('/interests')
+						Router.push('/interests')
 					
 					break
 			}

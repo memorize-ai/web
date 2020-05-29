@@ -1,17 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
 import TimeAgo from 'javascript-time-ago'
 import enLocale from 'javascript-time-ago/locale/en'
 import cx from 'classnames'
 
-import Deck from '../../../models/Deck'
-import Card from '../../../models/Card'
-import useCurrentUser from '../../../hooks/useCurrentUser'
+import Deck from 'models/Deck'
+import Card from 'models/Card'
+import useCurrentUser from 'hooks/useCurrentUser'
 import Base from './Base'
 
-import { ReactComponent as PencilIcon } from '../../../images/icons/pencil.svg'
+import PencilIcon from 'images/icons/pencil.svg'
 
 import '../../../scss/components/CardCell/Owned.scss'
 
@@ -73,10 +73,12 @@ export default ({ deck, card }: { deck: Deck, card: Card }) => {
 	return isOwner
 		? (
 			<Link
-				{...props}
-				to={`/decks/${deck.slugId}/${deck.slug}/edit/${card.id}`}
+				href="/decks/[slugId]/[slug]/edit/[cardId]"
+				as={`/decks/${deck.slugId}/${deck.slug}/edit/${card.id}`}
 			>
-				{content}
+				<a {...props}>
+					{content}
+				</a>
 			</Link>
 		)
 		: <div {...props}>{content}</div>

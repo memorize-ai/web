@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 
-import Modal from '../../shared/Modal'
+import Modal from '.'
 
-import { ReactComponent as TimesIcon } from '../../../images/icons/times.svg'
+import TimesIcon from 'images/icons/times.svg'
 
 import '../../../scss/components/Modal/Input.scss'
 

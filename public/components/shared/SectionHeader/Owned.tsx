@@ -3,15 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUnlock, faLock, faEllipsisV, faAngleUp, faAngleDown, faTrash } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import Deck from '../../../models/Deck'
-import Section from '../../../models/Section'
-import useCurrentUser from '../../../hooks/useCurrentUser'
+import Deck from 'models/Deck'
+import Section from 'models/Section'
+import useCurrentUser from 'hooks/useCurrentUser'
 import ToggleExpandedButton from './ToggleExpandedButton'
 import Dropdown, { DropdownShadow } from '../Dropdown'
-import { formatNumber } from '../../../utils'
+import { formatNumber } from 'lib/utils'
 
-import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
-import { ReactComponent as PencilIcon } from '../../../images/icons/pencil.svg'
+import ShareIcon from 'images/icons/share.svg'
+import PencilIcon from 'images/icons/pencil.svg'
 
 import '../../../scss/components/SectionHeader/Owned.scss'
 

@@ -1,4 +1,6 @@
 declare module '@elastic/app-search-javascript'
+declare module '@ckeditor/ckeditor5-react'
+declare module 'ckeditor5-memorize.ai'
 
 declare module '*.svg' {
 	const content: React.FC<React.SVGAttributes<SVGElement>>

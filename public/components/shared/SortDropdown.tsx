@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import { DeckSortAlgorithm, nameForDeckSortAlgorithm } from '../../models/Deck/Search'
+import { DeckSortAlgorithm, nameForDeckSortAlgorithm } from 'models/Deck/Search'
 import Dropdown, { DropdownShadow } from './Dropdown'
 
-import { ReactComponent as SortIcon } from '../../images/icons/sort.svg'
+import SortIcon from 'images/icons/sort.svg'
 
 import '../../scss/components/SortDropdown.scss'
 

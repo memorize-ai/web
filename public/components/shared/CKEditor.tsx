@@ -1,11 +1,13 @@
-import React from 'react'
 import CKEditor from '@ckeditor/ckeditor5-react'
 import Editor from 'ckeditor5-memorize.ai'
 
-import { CKEditorProps } from '.'
+import '../../../scss/components/CKEditor.scss'
 
-import '../../../types/ckeditor5-react.d'
-import '../../../types/ckeditor5-memorize.ai.d'
+export interface CKEditorProps {
+	uploadUrl: string
+	data: string
+	setData: (data: string) => void
+}
 
 export default ({ uploadUrl, data, setData }: CKEditorProps) => (
 	<CKEditor

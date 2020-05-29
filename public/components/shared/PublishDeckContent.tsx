@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignature, faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import Topic from '../../models/Topic'
+import Topic from 'models/Topic'
 import ImagePicker from './ImagePicker'
 import Input from './Input'
 import TextArea from './TextArea'

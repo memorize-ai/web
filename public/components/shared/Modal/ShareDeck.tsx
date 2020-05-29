@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Deck from '../../../models/Deck'
-import useCurrentUser from '../../../hooks/useCurrentUser'
+import Deck from 'models/Deck'
+import useCurrentUser from 'hooks/useCurrentUser'
 import ShareModal from './Share'
 
 export default (

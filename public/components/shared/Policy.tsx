@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect } from 'react'
 
-import firebase from '../../firebase'
+import firebase from 'lib/firebase'
 import Head from './Head'
 
 import 'firebase/analytics'

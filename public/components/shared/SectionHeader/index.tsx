@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
-import Section from '../../../models/Section'
+import Section from 'models/Section'
 import ToggleExpandedButton from './ToggleExpandedButton'
-import { formatNumber } from '../../../utils'
+import { formatNumber } from 'lib/utils'
 
-import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
+import ShareIcon from 'images/icons/share.svg'
 
 import '../../../scss/components/SectionHeader/index.scss'
 

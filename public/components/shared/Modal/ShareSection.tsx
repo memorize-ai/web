@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Deck from '../../../models/Deck'
-import Section from '../../../models/Section'
+import Deck from 'models/Deck'
+import Section from 'models/Section'
 import ShareModal from './Share'
 
 export default (

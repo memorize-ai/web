@@ -1,8 +1,9 @@
 import React, { HTMLAttributes } from 'react'
 
-import { APP_STORE_URL } from '../../constants'
-import { ReactComponent as AppStoreDownloadImage } from '../../images/app-store-download.svg'
-import firebase from '../../firebase'
+import { APP_STORE_URL } from 'lib/constants'
+import firebase from 'lib/firebase'
+
+import AppStoreDownloadImage from 'images/app-store-download.svg'
 
 import 'firebase/analytics'
 
