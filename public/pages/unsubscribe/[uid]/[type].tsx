@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useRouter } from 'next/router'
 import cx from 'classnames'
 
-import firebase from '../../firebase'
-import LoadingState from '../../models/LoadingState'
-import Head from '../shared/Head'
-import Content from './Content'
+import firebase from 'lib/firebase'
+import LoadingState from 'models/LoadingState'
+import Head from 'components/shared/Head'
+import Content from 'components/Unsubscribe/Content'
 
 import 'firebase/analytics'
 import 'firebase/firestore'
@@ -16,13 +16,17 @@ const analytics = firebase.analytics()
 const firestore = firebase.firestore()
 
 export default () => {
-	const { uid, type } = useParams()
+	const { uid, type } = useRouter().query as {
+		uid: string
+		type: string
+	}
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
 	
 	useEffect(() => {
-		if (!(uid && type)) return
+		if (!(uid && type))
+			return
 		
 		analytics.logEvent('unsubscribe', { uid, type })
 		

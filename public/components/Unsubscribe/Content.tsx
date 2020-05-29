@@ -1,7 +1,7 @@
 import React from 'react'
 
-import LoadingState from '../../models/LoadingState'
-import Loader from '../shared/Loader'
+import LoadingState from 'models/LoadingState'
+import Loader from 'components/shared/Loader'
 
 export default (
 	{ loadingState, errorMessage }: {
