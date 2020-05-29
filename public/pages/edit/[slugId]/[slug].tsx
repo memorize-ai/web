@@ -1,22 +1,24 @@
 import React, { useContext, useState, useEffect, useRef } from 'react'
-import { useParams, useHistory, Link } from 'react-router-dom'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import requiresAuth from '../../../hooks/requiresAuth'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import useCreatedDeck from '../../../hooks/useCreatedDeck'
-import useImageUrl from '../../../hooks/useImageUrl'
-import useTopics from '../../../hooks/useTopics'
-import LoadingState from '../../../models/LoadingState'
-import DeckImageUrlsContext from '../../../context/DeckImageUrls'
-import { setDeckImageUrl, setDeckImageUrlLoadingState } from '../../../actions'
-import Head, { APP_DESCRIPTION } from '../../shared/Head'
-import Button from '../../shared/Button'
-import PublishDeckContent from '../../shared/PublishDeckContent'
-import Loader from '../../shared/Loader'
-import { handleError } from '../../../utils'
+import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import requiresAuth from 'hooks/requiresAuth'
+import useCurrentUser from 'hooks/useCurrentUser'
+import useCreatedDeck from 'hooks/useCreatedDeck'
+import useImageUrl from 'hooks/useImageUrl'
+import useTopics from 'hooks/useTopics'
+import LoadingState from 'models/LoadingState'
+import DeckImageUrlsContext from 'context/DeckImageUrls'
+import { setDeckImageUrl, setDeckImageUrlLoadingState } from 'actions'
+import Head, { APP_DESCRIPTION } from 'components/shared/Head'
+import Button from 'components/shared/Button'
+import PublishDeckContent from 'components/shared/PublishDeckContent'
+import Loader from 'components/shared/Loader'
+import { handleError } from 'lib/utils'
 
 import '../../../scss/components/Dashboard/EditDeck.scss'
 
@@ -25,8 +27,11 @@ export default () => {
 	
 	const didUpdateFromDeck = useRef(false)
 	
-	const { slugId, slug } = useParams()
-	const history = useHistory()
+	const router = useRouter()
+	const { slugId, slug } = router.query as {
+		slugId: string
+		slug: string
+	}
 	
 	const [, dispatchDeckImageUrls] = useContext(DeckImageUrlsContext)
 	
@@ -100,7 +105,7 @@ export default () => {
 			))
 			
 			setLoadingState(LoadingState.Success)
-			history.push(closeUrl)
+			router.push('/decks/[slugId]/[slug]', closeUrl)
 		} catch (error) {
 			setLoadingState(LoadingState.Fail)
 			handleError(error)
@@ -108,7 +113,7 @@ export default () => {
 	}
 	
 	return (
-		<>
+		<Dashboard selection={Selection.Decks} className="edit-deck publish-deck">
 			<Head
 				title={`Edit ${deck?.name ?? 'deck'} | memorize.ai`}
 				description={headDescription}
@@ -130,8 +135,10 @@ export default () => {
 				]}
 			/>
 			<div className="header">
-				<Link to={closeUrl} className="close">
-					<FontAwesomeIcon icon={faTimes} />
+				<Link href="/decks/[slugId]/[slug]" as={closeUrl}>
+					<a className="close">
+						<FontAwesomeIcon icon={faTimes} />
+					</a>
 				</Link>
 				<h1>Edit <span>{deck?.name ?? 'deck'}</span></h1>
 				<Button
@@ -172,6 +179,6 @@ export default () => {
 					}
 				</div>
 			</div>
-		</>
+		</Dashboard>
 	)
 }
