@@ -1,29 +1,44 @@
 import React, { useRef, useState, useEffect, useCallback, useContext } from 'react'
-import { useHistory, Link } from 'react-router-dom'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroller'
 
-import DeckImageUrlsContext from '../../../context/DeckImageUrls'
-import useQuery from '../../../hooks/useQuery'
-import useSearchState from '../../../hooks/useSearchState'
-import Deck from '../../../models/Deck'
+import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import useSearchState from 'hooks/useSearchState'
+import DeckImageUrlsContext from 'context/DeckImageUrls'
+import Deck from 'models/Deck'
 import DeckSearch, {
 	DEFAULT_DECK_SORT_ALGORITHM,
 	decodeDeckSortAlgorithm,
 	nameForDeckSortAlgorithm,
 	DeckSortAlgorithm
-} from '../../../models/Deck/Search'
-import Counters, { Counter } from '../../../models/Counters'
-import Head from '../../shared/Head'
-import Input from '../../shared/Input'
-import SortDropdown from '../../shared/SortDropdown'
-import { DropdownShadow } from '../../shared/Dropdown'
-import DeckRow from './DeckRow'
-import Loader from '../../shared/Loader'
-import { urlWithQuery, formatNumber } from '../../../utils'
+} from 'models/Deck/Search'
+import Counters, { Counter } from 'models/Counters'
+import Head from 'components/shared/Head'
+import Input from 'components/shared/Input'
+import SortDropdown from 'components/shared/SortDropdown'
+import { DropdownShadow } from 'components/shared/Dropdown'
+import DeckRow from 'components/Dashboard/Market/DeckRow'
+import Loader from 'components/shared/Loader'
+import { formatNumber } from 'lib/utils'
 
 import '../../../scss/components/Dashboard/Market.scss'
+
+export const urlForMarket = () => {
+	const [{ query, sortAlgorithm }] = useSearchState()
+	
+	return {
+		pathname: '/market',
+		query: {
+			q: query,
+			s: sortAlgorithm === 'recommended'
+				? null
+				: sortAlgorithm
+		}
+	}
+}
 
 export default () => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)
@@ -31,14 +46,17 @@ export default () => {
 	const isLoading = useRef(true)
 	const scrollingContainerRef = useRef(null as HTMLDivElement | null)
 	
-	const history = useHistory()
-	const searchParams = useQuery()
+	const router = useRouter()
+	const searchParams = router.query as {
+		q?: string
+		s?: string
+	}
 	
 	const [, setSearchState] = useSearchState()
 	
-	const query = searchParams.get('q') ?? ''
+	const query = searchParams.q ?? ''
 	const sortAlgorithm = decodeDeckSortAlgorithm(
-		searchParams.get('s') ?? ''
+		searchParams.s ?? ''
 	) ?? DEFAULT_DECK_SORT_ALGORITHM
 	
 	const [decks, setDecks] = useState([] as Deck[])
@@ -121,7 +139,7 @@ export default () => {
 	}
 	
 	return (
-		<>
+		<Dashboard selection={Selection.Market} className="market">
 			<Head
 				isPrerenderReady={didFinishLoadingDecks}
 				title={
@@ -164,12 +182,13 @@ export default () => {
 			/>
 			<div className="header">
 				<Link
-					className="create"
-					to="/new"
+					href="/new"
 					aria-label="Create your own deck!"
 					data-balloon-pos="right"
 				>
-					<FontAwesomeIcon icon={faPlus} />
+					<a className="create">
+						<FontAwesomeIcon icon={faPlus} />
+					</a>
 				</Link>
 				<Input
 					ref={onInputRef}
@@ -182,16 +201,19 @@ export default () => {
 					}
 					value={query}
 					setValue={newQuery =>
-						history.push(urlWithQuery('/market', {
-							q: newQuery,
-							s: newQuery
-								? sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-									? DeckSortAlgorithm.Relevance
-									: sortAlgorithm
-								: sortAlgorithm === DeckSortAlgorithm.Relevance
-									? null
-									: sortAlgorithm
-						}))
+						router.push({
+							pathname: '/market',
+							query: {
+								q: newQuery,
+								s: newQuery
+									? sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+										? DeckSortAlgorithm.Relevance
+										: sortAlgorithm
+									: sortAlgorithm === DeckSortAlgorithm.Relevance
+										? null
+										: sortAlgorithm
+							}
+						})
 					}
 				/>
 				<SortDropdown
@@ -200,12 +222,15 @@ export default () => {
 					setIsShowing={setIsSortDropdownShowing}
 					algorithm={sortAlgorithm}
 					setAlgorithm={newSortAlgorithm =>
-						history.push(urlWithQuery('/market', {
-							q: query,
-							s: newSortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-								? null
-								: newSortAlgorithm
-						}))
+						router.push({
+							pathname: '/market',
+							query: {
+								q: query,
+								s: newSortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+									? null
+									: newSortAlgorithm
+							}
+						})
 					}
 				/>
 			</div>
@@ -228,6 +253,6 @@ export default () => {
 					))}
 				</InfiniteScroll>
 			</div>
-		</>
+		</Dashboard>
 	)
 }
