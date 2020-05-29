@@ -1,24 +1,26 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { useParams, useHistory, Link } from 'react-router-dom'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 import _ from 'lodash'
 
-import Deck from '../../../models/Deck'
-import requiresAuth from '../../../hooks/requiresAuth'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import useCreatedDeck from '../../../hooks/useCreatedDeck'
-import useImageUrl from '../../../hooks/useImageUrl'
-import useSections from '../../../hooks/useSections'
-import useCard from '../../../hooks/useCard'
-import useLocalStorageBoolean from '../../../hooks/useLocalStorageBoolean'
-import Head from '../../shared/Head'
-import CKEditor from '../../shared/CKEditor'
-import Loader from '../../shared/Loader'
-import ConfirmationModal from '../../shared/Modal/Confirmation'
-import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from '../../../constants'
+import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import Deck from 'models/Deck'
+import requiresAuth from 'hooks/requiresAuth'
+import useCurrentUser from 'hooks/useCurrentUser'
+import useCreatedDeck from 'hooks/useCreatedDeck'
+import useImageUrl from 'hooks/useImageUrl'
+import useSections from 'hooks/useSections'
+import useCard from 'hooks/useCard'
+import useLocalStorageBoolean from 'hooks/useLocalStorageBoolean'
+import Head from 'components/shared/Head'
+import CKEditor from 'components/shared/CKEditor'
+import Loader from 'components/shared/Loader'
+import ConfirmationModal from 'components/shared/Modal/Confirmation'
+import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from 'lib/constants'
 
 import '../../../scss/components/Dashboard/EditCard.scss'
 
@@ -27,8 +29,12 @@ const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will 
 export default () => {
 	requiresAuth()
 	
-	const { slugId, slug, cardId } = useParams()
-	const history = useHistory()
+	const router = useRouter()
+	const { slugId, slug, cardId } = router.query as {
+		slugId: string
+		slug: string
+		cardId: string
+	}
 	
 	const [currentUser] = useCurrentUser()
 	
@@ -100,7 +106,7 @@ export default () => {
 	}, [isSameContent])
 	
 	const close = () =>
-		history.push(closeUrl)
+		router.push('/decks/[slugId]/[slug]', closeUrl)
 	
 	const save = async () => {
 		if (!(deck && card))
@@ -127,7 +133,7 @@ export default () => {
 	}
 	
 	return (
-		<>
+		<Dashboard selection={Selection.Decks} className="edit-card">
 			<Head
 				title={`Edit card${deck ? ` | ${deck.name}` : ''} | memorize.ai`}
 				description={headDescription}
@@ -150,17 +156,21 @@ export default () => {
 			/>
 			<div className="header">
 				<Link
-					className="close"
-					to={closeUrl}
-					onClick={event => {
-						if (isSameContent)
-							return
-						
-						event.preventDefault()
-						setIsCloseModalShowing(true)
-					}}
+					href="/decks/[slugId]/[slug]"
+					as={closeUrl}
 				>
-					<FontAwesomeIcon icon={faTimes} />
+					<a
+						className="close"
+						onClick={event => {
+							if (isSameContent)
+								return
+							
+							event.preventDefault()
+							setIsCloseModalShowing(true)
+						}}
+					>
+						<FontAwesomeIcon icon={faTimes} />
+					</a>
 				</Link>
 				<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt="Deck" />
 				<h1>Edit card</h1>
@@ -270,6 +280,6 @@ export default () => {
 				isShowing={isDeleteModalShowing}
 				setIsShowing={setIsDeleteModalShowing}
 			/>
-		</>
+		</Dashboard>
 	)
 }
