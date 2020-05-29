@@ -1,0 +1,236 @@
+@import '../../variables';
+@import '../../functions';
+
+.dashboard > .content > .container > .dashboard-navbar {
+	$bottom-border-width: 2px;
+	
+	grid-area: navbar;
+	display: grid;
+	grid:
+		'tabs right' auto /
+		1fr auto;
+	align-items: end;
+	margin: 0 30px;
+	border-bottom: $bottom-border-width solid transparentize(#ddd, 0.8);
+	
+	> .tabs {
+		grid-area: tabs;
+		display: flex;
+		align-items: flex-end;
+		overflow-x: auto;
+		
+		> .tab {
+			$horizontal-padding: 20px;
+			$bottom-padding: 13px;
+			
+			display: flex;
+			align-items: center;
+			padding: 0 $horizontal-padding $bottom-padding $horizontal-padding;
+			
+			> svg,
+			> p {
+				opacity: 0.7;
+				transition: opacity 0.3s;
+			}
+			
+			> svg {
+				fill: white;
+			}
+			
+			> p {
+				margin-left: 10px;
+				font-weight: bold;
+				color: white;
+			}
+			
+			&:not(.selected):not(.disabled):hover {
+				> svg,
+				> p {
+					opacity: 0.9;
+				}
+			}
+			
+			&.selected {
+				> svg,
+				> p {
+					opacity: 1;
+				}
+			}
+			
+			&.disabled {
+				cursor: default;
+				pointer-events: none;
+				
+				> svg,
+				> p {
+					opacity: 0.5;
+				}
+			}
+		}
+	}
+	
+	> .right {
+		display: flex;
+		align-items: center;
+		
+		> .download-app {
+			margin: 0 20px;
+			
+			> svg {
+				color: white;
+				transform: scale(2.7) translateY(-2px);
+				transition: opacity 0.3s;
+			}
+			
+			&:hover > svg {
+				opacity: 0.5;
+			}
+		}
+		
+		> .profile-dropdown,
+		> .auth-button {
+			grid-area: right;
+			margin: 0 raw-repeat(3, 10px);
+		}
+		
+		> .profile-dropdown {
+			> .trigger {
+				padding: 10px;
+				background: white;
+				border-radius: 50%;
+				transition: background 0.3s;
+				
+				> svg {
+					fill: #582efe;
+					transition: fill 0.3s;
+				}
+				
+				&:hover {
+					background: #051e34;
+					
+					> svg {
+						fill: white;
+					}
+				}
+			}
+			
+			> .content {
+				width: 400px;
+				padding: 20px;
+				background: white;
+				
+				&,
+				> .settings,
+				> .settings > .name-input,
+				> button {
+					border-radius: 4px;
+				}
+				
+				> .settings,
+				> button {
+					width: 100%;
+				}
+				
+				> .settings,
+				> .forgot-password {
+					border: 1px solid #ddd;
+				}
+				
+				> .settings {
+					display: flex;
+					flex-direction: column;
+					padding: 20px 16px;
+					
+					> label {
+						margin-bottom: 4px;
+						font-size: 14px;
+						font-weight: bold;
+						color: #9b9b9b;
+					}
+					
+					> .name-input,
+					> .email {
+						color: $dark-gray;
+					}
+					
+					> .name-input {
+						margin-bottom: 14px;
+						padding: 8px 10px;
+						background: transparentize(#f0f1f8, 1 / 3)
+					}
+					
+					> .email {
+						margin-top: -4px;
+						font-size: 17px;
+					}
+				}
+				
+				> button {
+					height: 40px;
+					margin-top: 12px;
+				}
+				
+				> .forgot-password {
+					color: #4355f9;
+					transition: color 0.3s, background 0.3s, border 0.3s;
+					
+					&:hover,
+					&:focus {
+						color: white;
+						background: #051e34;
+						border: none;
+					}
+				}
+				
+				> .sign-out {
+					color: white;
+					background: #f55d23;
+					transition: background 0.3s;
+					
+					&:hover,
+					&:hover {
+						background: #051e34;
+					}
+				}
+				
+				> .contact-us {
+					display: inline-block;
+					margin-top: 18px;
+					color: $dark-gray;
+					transition: opacity 0.3s;
+					
+					> span {
+						font-weight: bold;
+						color: #582efe;
+					}
+					
+					&:hover {
+						opacity: 0.5;
+					}
+				}
+			}
+		}
+		
+		> .auth-button {
+			margin-right: 14px;
+			padding: 8px 14px;
+			font-size: larger;
+			font-weight: bold;
+			color: white;
+			background: #051e34;
+			border-radius: 8px;
+			white-space: nowrap;
+			transition: color 0.3s, background 0.3s;
+			
+			> span {
+				opacity: 0.7;
+			}
+			
+			&:hover,
+			&:focus {
+				color: #051e34;
+				background: white;
+			}
+		}
+	}
+}

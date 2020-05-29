@@ -1,0 +1,69 @@
+@import '../../variables';
+
+.section-header {
+	$margin: 12px;
+	
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	font-size: 18px;
+	
+	> :not(.name) {
+		flex-shrink: 0;
+	}
+	
+	> .divider {
+		$height: 2px;
+		
+		flex-grow: 1;
+		min-width: 30px;
+		height: $height;
+		margin: 0 12px;
+		background: #ddd;
+		border-radius: $height / 2;
+	}
+	
+	> .card-count {
+		display: none;
+		font-weight: bold;
+		color: #582efe;
+		transform: translateY(-2px);
+		
+		@media (min-width: 470px) {
+			display: block;
+		}
+	}
+	
+	> .toggle-expanded-button {
+		$dimension: 30px;
+		
+		width: $dimension;
+		height: $dimension;
+		margin-left: 12px;
+		border: 1.5px solid #ddd;
+		border-radius: 50%;
+		transition: opacity 0.3s, transform 0.3s;
+		
+		> svg {
+			color: #582efe;
+		}
+		
+		&:hover {
+			opacity: 0.5;
+		}
+	}
+	
+	> .share {
+		margin: 0 4px 0 14px;
+		transform: scale(1.3);
+		
+		> svg {
+			fill: #4355f9;
+			transition: opacity 0.3s;
+		}
+		
+		&:hover > svg {
+			opacity: 0.5;
+		}
+	}
+}

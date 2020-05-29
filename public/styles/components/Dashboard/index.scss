@@ -1,0 +1,42 @@
+@import '~balloon-css/src/balloon';
+
+@import '../../variables';
+@import '../../mixins';
+
+.dashboard {
+	--sidebar-width: 305px;
+	
+	display: grid;
+	grid:
+		'sidebar content' auto /
+		var(--sidebar-width) auto;
+	height: 100vh;
+	
+	> .content {
+		@include stack;
+		
+		grid-area: content;
+		
+		> .background {
+			@include top-gradient(6deg, $is-right: false);
+			
+			height: 500px;
+		}
+		
+		> .container {
+			display: grid;
+			grid:
+				'navbar' $dashboard-navbar-height
+				'foreground' auto /
+				auto;
+			height: 100vh;
+			z-index: 10;
+			
+			> .foreground {
+				grid-area: foreground;
+				overflow-y: auto;
+				height: calc(100vh - #{$dashboard-navbar-height});
+			}
+		}
+	}
+}

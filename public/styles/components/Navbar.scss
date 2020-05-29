@@ -1,0 +1,131 @@
+@import '../mixins';
+
+.navbar {
+	display: flex;
+	align-items: center;
+	padding: 30px 30px 0 30px;
+	transition: padding 0.3s;
+	
+	@media (min-width: 1010px) {
+		padding-left: 135px;
+		padding-right: 135px;
+	}
+	
+	> .logo {
+		margin-right: 12px;
+		
+		> img {
+			@include raise-on-hover;
+			
+			max-height: 60px;
+		}
+	}
+	
+	> .items {
+		$height: 44px;
+		
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+		
+		@media (min-width: 800px) {
+			> .search {
+				display: flex !important;
+			}
+			
+			> .market-link {
+				display: none !important;
+			}
+		}
+		
+		> * {
+			flex-shrink: 0;
+			height: $height;
+		}
+		
+		> .search {
+			display: none;
+			align-items: center;
+			position: relative;
+			overflow: hidden;
+			border-radius: 8px;
+			
+			> svg {
+				position: absolute;
+				top: 14px;
+				left: 14px;
+				color: #eee;
+				pointer-events: none;
+			}
+			
+			> input {
+				height: 100%;
+				width: 250px;
+				padding: 0 12px 0 40px;
+				color: white;
+				background: transparentize(#eee, 0.8);
+				
+				&::placeholder {
+					color: transparentize(#eee, 0.2);
+				}
+			}
+		}
+		
+		> .market-link {
+			line-height: $height;
+			font-size: larger;
+			background: transparentize(#eee, 0.8);
+			border-radius: 8px;
+			
+			&:hover > svg {
+				color: white;
+				transform: translateY(-2px);
+			}
+			
+			> svg {
+				width: $height;
+				color: #eee;
+				transition: color 0.3s, transform 0.3s;
+			}
+		}
+		
+		> .auth-button {
+			@media (min-width: 585px) {
+				> p {
+					display: block !important;
+				}
+				
+				> svg {
+					display: none;
+				}
+			}
+			
+			> p {
+				display: none;
+			}
+		}
+		
+		> .auth-button,
+		> .dashboard-button {
+			margin-left: 12px;
+			padding: 0 14px;
+			line-height: $height;
+			font-size: larger;
+			font-weight: bold;
+			color: white;
+			background: #051e34;
+			border-radius: 8px;
+			transition: color 0.3s, background 0.3s;
+			
+			> p > span {
+				opacity: 0.7;
+			}
+			
+			&:hover,
+			&:focus {
+				color: #051e34;
+				background: white;
+			}
+		}
+	}
+}

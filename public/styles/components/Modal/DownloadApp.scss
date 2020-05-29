@@ -1,0 +1,96 @@
+@import '../../variables';
+@import '../../mixins';
+@import '../../functions';
+
+@include modal-content('deck-intro') {
+	$max-width: 800px;
+	$margin: 20px;
+	
+	display: grid;
+	grid: auto 1fr / calc(min(100vw - #{$margin * 2}, #{$max-width}));
+	overflow: hidden;
+	margin: $margin;
+	background: white;
+	border-radius: 8px;
+	
+	> .header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 30px;
+		color: white;
+		background: #051e34;
+		
+		> .title {
+			font-size: 26px;
+			font-weight: 900;
+		}
+		
+		> button {
+			margin-right: 8px;
+			transform: scale(2);
+			transition: opacity 0.3s;
+			
+			&:hover {
+				opacity: 0.5;
+			}
+		}
+	}
+	
+	> .content {
+		display: flex;
+		justify-content: space-between;
+		overflow-y: auto;
+		
+		> :first-child {
+			display: flex;
+			flex-direction: column;
+			margin: 20px;
+			
+			> .message {
+				font-size: 20px;
+				font-weight: bold;
+				text-align: center;
+				color: $dark-gray;
+			}
+			
+			> .download {
+				margin: 40px auto;
+				transform: scale(1.5);
+				transition: transform 0.3s;
+				
+				&:hover {
+					transform: scale(1.6);
+				}
+			}
+			
+			> .screenshots {
+				margin: 0 auto;
+				font-size: 20px;
+				font-weight: bold;
+				color: #08f;
+				
+				&:hover,
+				&:focus {
+					text-decoration: underline;
+				}
+			}
+		}
+		
+		> :last-child {
+			$margin: 16px;
+			
+			width: 600px;
+			overflow-y: auto;
+			padding: raw-repeat(3, $margin) 0;
+			
+			> img {
+				border-radius: 20px;
+				
+				&:not(:last-child) {
+					margin-bottom: $margin;
+				}
+			}
+		}
+	}
+}

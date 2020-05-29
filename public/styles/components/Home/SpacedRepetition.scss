@@ -1,0 +1,134 @@
+@import '../../variables';
+@import '../../mixins';
+@import '../../trigonometry';
+
+@include home-content('spaced-repetition') {
+	display: flex;
+	flex-direction: column-reverse;
+	justify-content: center;
+	align-items: center;
+	margin-top: calc(#{tan(6deg)} * 100vw);
+	
+	@media (min-width: 600px) {
+		flex-direction: row;
+		margin-top: 0;
+	}
+	
+	> .diagram {
+		max-width: calc(100vw - 60px);
+		width: 300px;
+		transition: width 0.3s;
+		
+		@media (min-width: 600px) {
+			max-width: unset;
+			width: 250px;
+		}
+		
+		@media (min-width: 730px) {
+			width: 300px;
+		}
+		
+		@media (min-width: 820px) {
+			width: 350px;
+		}
+		
+		@media (min-width: 1150px) {
+			width: 400px;
+		}
+	}
+	
+	> .text {
+		margin: 20px 30px;
+		transition: width 0.3s, margin 0.3s;
+		
+		@media (min-width: 600px) {
+			width: 230px;
+			margin: 20px 0 0 50px;
+			
+			> .title {
+				text-align: left !important;
+				font-size: 24px !important;
+				line-height: 30px !important;
+			}
+		}
+		
+		@media (min-width: 730px) {
+			width: 280px;
+			margin: 0 0 0 50px;
+			
+			> .title {
+				font-size: 30px !important;
+				line-height: 36px !important;
+			}
+			
+			> .description {
+				margin-top: 20px !important;
+				font-size: 18px !important;
+				line-height: 28px !important;
+			}
+		}
+		
+		@media (min-width: 760px) {
+			width: 320px;
+			
+			> .title {
+				font-size: 34px !important;
+				line-height: 40px !important;
+			}
+		}
+		
+		@media (min-width: 970px) {
+			width: 450px;
+			margin: 20px 0 0 70px;
+			
+			> .title {
+				font-size: 48px !important;
+				line-height: 54px !important;
+			}
+		}
+		
+		@media (min-width: 1150px) {
+			width: 500px;
+			margin: -20px 0 0 100px;
+			
+			> .title {
+				font-size: 52px !important;
+				line-height: 58px !important;
+			}
+		}
+		
+		@media (min-width: 1260px) {
+			width: 550px;
+			margin: 20px 0 0 150px;
+			
+			> .title {
+				font-size: 58px !important;
+				line-height: 64px !important;
+			}
+			
+			> .description {
+				font-size: 20px !important;
+				line-height: 30px !important;
+			}
+		}
+		
+		> .title,
+		> .description {
+			transition: margin-top 0.3s, font-size 0.3s, line-height 0.3s;
+		}
+		
+		> .title {
+			text-align: center;
+			font-size: 28px;
+			line-height: 34px;
+			color: #572efe;
+		}
+		
+		> .description {
+			margin-top: 10px;
+			font-size: 14px;
+			line-height: 24px;
+			color: $dark-gray;
+		}
+	}
+}

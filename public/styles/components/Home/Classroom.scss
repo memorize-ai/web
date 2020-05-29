@@ -1,0 +1,79 @@
+@import '../../variables';
+@import '../../mixins';
+@import '../../trigonometry';
+
+@include home-content('classroom') {
+	$degrees: 6deg;
+	
+	@include stack;
+	
+	margin-top: 80px;
+	
+	> .background {
+		background: #e6f0fa;
+		transform: skewY($degrees);
+		transform-origin: top left;
+	}
+	
+	> .content {
+		display: flex;
+		justify-content: center;
+		z-index: 0;
+		
+		> .diagram {
+			width: 500px;
+			height: auto;
+		}
+		
+		> .text {
+			margin-left: 120px;
+			
+			> .title {
+				font-size: 58px;
+				line-height: 64px;
+				color: #572efe;
+			}
+			
+			> .how-it-works {
+				margin: 80px 0;
+				text-transform: uppercase;
+				font-size: 24px;
+				font-weight: 900;
+				color: $dark-gray;
+			}
+			
+			> .list {
+				padding: 0;
+				list-style: none;
+				
+				> li {
+					display: flex;
+					
+					> .bullet {
+						position: relative;
+						margin: 10px 30px 0 0;
+						transform: scale(1.1);
+						
+						> p {
+							position: absolute;
+							top: 5px;
+							left: 11px;
+							font-weight: bold;
+							color: #4c4372;
+						}
+					}
+					
+					> p {
+						font-size: 24px;
+						font-weight: bold;
+						color: $dark-gray;
+					}
+					
+					&:not(:last-child) {
+						margin-bottom: 50px;
+					}
+				}
+			}
+		}
+	}
+}

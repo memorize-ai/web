@@ -7,14 +7,24 @@
 		"start": "next start"
 	},
 	"dependencies": {
+		"@elastic/app-search-javascript": "^7.7.0",
+		"firebase": "^7.14.5",
+		"lodash": "^4.17.15",
+		"nanoid": "^3.1.9",
 		"next": "^9.4.4",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
-		"sass": "^1.26.5"
+		"react-toastify": "^6.0.5",
+		"sass": "^1.26.5",
+		"string-strip-html": "^4.4.7",
+		"uuid": "^8.1.0"
 	},
 	"devDependencies": {
+		"@types/lodash": "^4.14.153",
 		"@types/node": "^14.0.5",
 		"@types/react": "^16.9.35",
+		"@types/string-strip-html": "^4.3.0",
+		"@types/uuid": "^8.0.0",
 		"tslint": "^6.1.2",
 		"typescript": "^3.9.3"
 	},

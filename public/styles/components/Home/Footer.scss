@@ -1,0 +1,30 @@
+@import '../../mixins';
+@import '../../trigonometry';
+
+@include home-content('footer') {
+	$degrees: 6deg;
+	
+	@include stack;
+	
+	> .background {
+		background: #572efe;
+		transform: skewY($degrees);
+		transform-origin: bottom left;
+	}
+	
+	> .content {
+		z-index: 0;
+		
+		> .top {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 100px 0 250px;
+		}
+		
+		> .bottom {
+			margin-top: tan($degrees) * -50vw;
+			background: black;
+		}
+	}
+}

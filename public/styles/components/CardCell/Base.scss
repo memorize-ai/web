@@ -1,0 +1,62 @@
+@import '../../mixins';
+@import '../../functions';
+
+.card-cell {
+	$border-width: 2px;
+	
+	display: block;
+	color: inherit;
+	background: white;
+	border: $border-width solid #eee;
+	border-radius: 5px;
+	
+	> .sides {
+		$content-padding-large: 12px;
+		$divider-dimension: 2px;
+		
+		$horizontal-view-spacing: var(--horizontal-view-spacing, 30px * 4);
+		
+		@include card-side-katex-width(var(--katex-width-stacked, calc(
+			100vw - var(--sidebar-width) - #{$horizontal-view-spacing} - #{($border-width + $content-padding-large) * 2}
+		)));
+		
+		display: grid;
+		grid: auto #{$divider-dimension} auto / auto;
+		
+		@media (min-width: 650px) {
+			@include card-side-katex-width(var(--katex-width-stacked, calc(
+				(100vw - var(--sidebar-width) - #{$horizontal-view-spacing} - #{$border-width * 2 + $content-padding-large * 4 + $divider-dimension}) / 2
+			)));
+			
+			grid: auto / 1fr #{$divider-dimension} 1fr;
+			
+			> .divider {
+				width: $divider-dimension;
+				height: auto !important;
+				margin: 8px 0 !important;
+			}
+		}
+		
+		> .side {
+			display: flex;
+			flex-direction: column;
+			
+			> .card-side {
+				padding: $content-padding-large $content-padding-large 8px $content-padding-large;
+			}
+			
+			> p {
+				margin: auto raw-repeat(3, 8px);
+				text-align: center;
+				text-transform: uppercase;
+				color: #9b9b9b;
+			}
+		}
+		
+		> .divider {
+			height: $divider-dimension;
+			margin: 0 10px 8px 10px;
+			background: #eee;
+		}
+	}
+}
