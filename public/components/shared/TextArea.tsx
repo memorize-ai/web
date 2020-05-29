@@ -1,7 +1,7 @@
 import React, { TextareaHTMLAttributes } from 'react'
 import cx from 'classnames'
 
-import '../../scss/components/TextArea.scss'
+import styles from 'styles/components/TextArea.module.scss'
 
 export default (
 	{ className, minHeight, placeholder, value, setValue, ...props }: {

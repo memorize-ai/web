@@ -1,13 +1,9 @@
-import React, { PropsWithChildren, useEffect } from 'react'
+import React, { PropsWithChildren } from 'react'
+import { useRouter } from 'next/router'
 
-import firebase from 'lib/firebase'
 import Head from './Head'
 
-import 'firebase/analytics'
-
-import '../../scss/components/Policy.scss'
-
-const analytics = firebase.analytics()
+import styles from 'styles/components/Policy.module.scss'
 
 export default (
 	{ id, title, description, children }: PropsWithChildren<{
@@ -16,9 +12,7 @@ export default (
 		title: string
 	}>
 ) => {
-	useEffect(() => {
-		analytics.setCurrentScreen(id)
-	}, [id])
+	const router = useRouter()
 	
 	return (
 		<div className="policy">
@@ -29,7 +23,7 @@ export default (
 					[
 						{
 							name: title,
-							url: window.location.href
+							url: `https://memorize.ai${router.asPath}`
 						}
 					]
 				]}

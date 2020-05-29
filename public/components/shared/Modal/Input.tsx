@@ -2,9 +2,9 @@ import React, { useCallback } from 'react'
 
 import Modal from '.'
 
-import TimesIcon from 'images/icons/times.svg'
+import TimesIcon from '../../../images/icons/times.svg'
 
-import '../../../scss/components/Modal/Input.scss'
+import styles from 'styles/components/Modal/Input.module.scss'
 
 export interface InputModalProps {
 	title: string

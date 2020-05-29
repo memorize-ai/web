@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -9,13 +10,15 @@ import Topic from 'models/Topic'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useTopics from 'hooks/useTopics'
 import Head, { APP_SCHEMA } from 'components/shared/Head'
-import { urlForMarket } from 'components/Dashboard/Market'
+import { urlForMarket } from 'lib/utils'
 
-import CartIcon from '../../../images/icons/cart.svg'
+import CartIcon from '../images/icons/cart.svg'
 
-import '../../../scss/components/Dashboard/Interests.scss'
+import styles from 'styles/components/Dashboard/Interests.module.scss'
 
 export default () => {
+	const router = useRouter()
+	
 	const [currentUser] = useCurrentUser()
 	const topics = useTopics()
 	
@@ -29,7 +32,7 @@ export default () => {
 					[
 						{
 							name: 'Interests',
-							url: window.location.href
+							url: `https://memorize.ai${router.asPath}`
 						}
 					]
 				]}

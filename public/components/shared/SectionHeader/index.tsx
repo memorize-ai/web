@@ -4,9 +4,9 @@ import Section from 'models/Section'
 import ToggleExpandedButton from './ToggleExpandedButton'
 import { formatNumber } from 'lib/utils'
 
-import ShareIcon from 'images/icons/share.svg'
+import ShareIcon from '../../../images/icons/share.svg'
 
-import '../../../scss/components/SectionHeader/index.scss'
+import styles from 'styles/components/SectionHeader/index.module.scss'
 
 export default (
 	{ section, isExpanded, toggleExpanded, onShare }: {

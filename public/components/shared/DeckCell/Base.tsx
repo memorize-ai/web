@@ -5,9 +5,9 @@ import cx from 'classnames'
 import Deck from 'models/Deck'
 import useImageUrl from 'hooks/useImageUrl'
 
-import User from 'images/icons/user.svg'
+import User from '../../../images/icons/user.svg'
 
-import '../../../scss/components/DeckCell/Base.scss'
+import styles from 'styles/components/DeckCell/Base.module.scss'
 
 export default (
 	{ className, deck, href, as, nameProps, children }: PropsWithChildren<{

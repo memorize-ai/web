@@ -12,10 +12,10 @@ import Stars from '../Stars'
 import Button from '../Button'
 import { formatNumber, handleError } from 'lib/utils'
 
-import DownloadsIcon from 'images/icons/download.svg'
-import UsersIcon from 'images/icons/users.svg'
+import DownloadsIcon from '../../../images/icons/download.svg'
+import UsersIcon from '../../../images/icons/users.svg'
 
-import '../../../scss/components/DeckCell/index.scss'
+import styles from 'styles/components/DeckCell/index.module.scss'
 
 export default ({ deck }: { deck: Deck }) => {
 	const [currentUser] = useCurrentUser()

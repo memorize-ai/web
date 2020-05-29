@@ -2,9 +2,9 @@ import React from 'react'
 import Link, { LinkProps } from 'next/link'
 import cx from 'classnames'
 
-import LeftArrowHead from 'images/icons/left-arrow-head.svg'
+import LeftArrowHead from '../../images/icons/left-arrow-head.svg'
 
-import '../../scss/components/BackButton.scss'
+import styles from 'styles/components/BackButton.module.scss'
 
 export default ({ className, ...props }: { className?: string } & LinkProps) => (
 	<Link {...props}>

@@ -20,7 +20,7 @@ import PublishDeckContent from 'components/shared/PublishDeckContent'
 import Loader from 'components/shared/Loader'
 import { handleError } from 'lib/utils'
 
-import '../../../scss/components/Dashboard/EditDeck.scss'
+import styles from 'styles/components/Dashboard/EditDeck.module.scss'
 
 export default () => {
 	requiresAuth()
@@ -129,7 +129,7 @@ export default () => {
 						},
 						{
 							name: 'Edit',
-							url: window.location.href
+							url: `https://memorize.ai${router.asPath}`
 						}
 					]
 				]}

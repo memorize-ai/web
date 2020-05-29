@@ -22,7 +22,7 @@ import Loader from 'components/shared/Loader'
 import ConfirmationModal from 'components/shared/Modal/Confirmation'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from 'lib/constants'
 
-import '../../../scss/components/Dashboard/EditCard.scss'
+import styles from 'styles/components/Dashboard/EditCard.module.scss'
 
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
 
@@ -97,7 +97,7 @@ export default () => {
 	}, [card, didUpdateFromCard, section, sections])
 	
 	useEffect(() => {
-		if (isSameContent)
+		if (!process.browser || isSameContent)
 			return
 		
 		window.onbeforeunload = () => CONFIRM_CLOSE_MESSAGE
@@ -149,7 +149,7 @@ export default () => {
 						},
 						{
 							name: 'Edit card',
-							url: window.location.href
+							url: `https://memorize.ai${router.asPath}`
 						}
 					]
 				]}

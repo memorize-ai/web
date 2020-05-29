@@ -6,9 +6,9 @@ import cx from 'classnames'
 import { DeckSortAlgorithm, nameForDeckSortAlgorithm } from 'models/Deck/Search'
 import Dropdown, { DropdownShadow } from './Dropdown'
 
-import SortIcon from 'images/icons/sort.svg'
+import SortIcon from '../../images/icons/sort.svg'
 
-import '../../scss/components/SortDropdown.scss'
+import styles from 'styles/components/SortDropdown.module.scss'
 
 export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 	title: nameForDeckSortAlgorithm(type),

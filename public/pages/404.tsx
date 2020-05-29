@@ -1,19 +1,13 @@
-import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Head, { APP_SCHEMA } from 'components/shared/Head'
 import TopGradient from 'components/shared/TopGradient'
 import Navbar from 'components/shared/Navbar'
-import firebase from 'lib/firebase'
 
 import styles from 'styles/pages/404.module.scss'
 
-import 'firebase/analytics'
-
-const analytics = firebase.analytics()
 
 export default () => {
-	useEffect(() => {
-		analytics.logEvent('404')
-	}, [])
+	const router = useRouter()
 	
 	return (
 		<TopGradient>
@@ -25,7 +19,7 @@ export default () => {
 					[
 						{
 							name: '404',
-							url: window.location.href
+							url: `https://memorize.ai${router.asPath}`
 						}
 					]
 				]}

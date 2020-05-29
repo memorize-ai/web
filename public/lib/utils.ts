@@ -13,12 +13,18 @@ export const sleep = (ms: number) =>
 	new Promise(resolve => setTimeout(resolve, ms))
 
 export const expectsSignIn = () =>
-	localStorage.getItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY) !== null
+	process.browser && (
+		localStorage.getItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY) !== null
+	)
 
-export const setExpectsSignIn = (value: boolean) =>
+export const setExpectsSignIn = (value: boolean) => {
+	if (!process.browser)
+		return
+	
 	value
 		? localStorage.setItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, '1')
 		: localStorage.removeItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY)
+}
 
 export const showSuccess = (message: string) => {
 	toast.success(message, { className: 'toast' })

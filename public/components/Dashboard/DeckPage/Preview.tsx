@@ -13,9 +13,9 @@ import CardSide from 'components/shared/CardSide'
 import Loader from 'components/shared/Loader'
 import { sleep, formatNumber } from 'lib/utils'
 
-import ToggleIcon from 'images/icons/toggle.svg'
-import LeftArrowHead from 'images/icons/gray-left-arrow-head.svg'
-import RightArrowHead from 'images/icons/gray-right-arrow-head.svg'
+import ToggleIcon from '../../../images/icons/toggle.svg'
+import LeftArrowHead from '../../../images/icons/gray-left-arrow-head.svg'
+import RightArrowHead from '../../../images/icons/gray-right-arrow-head.svg'
 
 const BOX_TRANSFORM_X_LENGTH = 20
 

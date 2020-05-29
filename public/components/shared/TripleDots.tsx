@@ -1,6 +1,6 @@
 import React from 'react'
 
-import '../../scss/components/TripleDots.scss'
+import styles from 'styles/components/TripleDots.module.scss'
 
 export default ({ color }: { color: string }) => (
 	<div className="triple-dots">

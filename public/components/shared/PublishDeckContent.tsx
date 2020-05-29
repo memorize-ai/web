@@ -9,7 +9,7 @@ import ImagePicker from './ImagePicker'
 import Input from './Input'
 import TextArea from './TextArea'
 
-import '../../scss/components/PublishDeckContent.scss'
+import styles from 'styles/components/PublishDeckContent.module.scss'
 
 export interface PublishDeckContentProps {
 	isImageLoading?: boolean

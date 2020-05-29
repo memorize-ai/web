@@ -3,7 +3,7 @@ import renderMathInElement from 'katex/dist/contrib/auto-render'
 import { highlightAllUnder } from 'prismjs'
 import cx from 'classnames'
 
-import '../../scss/components/CardSide.scss'
+import styles from 'styles/components/CardSide.module.scss'
 
 export default ({ className, children, ...props }: { children: string } & HTMLAttributes<HTMLDivElement>) => {
 	const onRef = useCallback((element: HTMLDivElement | null) => {

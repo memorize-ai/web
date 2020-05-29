@@ -3,8 +3,6 @@ import { createClient } from '@elastic/app-search-javascript'
 import { DECKS_HOST_IDENTIFIER, DECKS_SEARCH_KEY, DECKS_ENGINE_NAME } from 'lib/constants'
 import Deck from '.'
 
-import '../../types/app-search-javascript.d'
-
 export enum DeckSortAlgorithm {
 	Relevance = 'relevance',
 	Recommended = 'recommended',

@@ -13,15 +13,15 @@ import AuthButton from 'components/shared/AuthButton'
 import DownloadAppModal from 'components/shared/Modal/DownloadApp'
 import { urlForMarket, isNullish, showSuccess, handleError } from 'lib/utils'
 
-import Home from 'images/icons/home.svg'
-import Cart from 'images/icons/cart.svg'
-import Decks from 'images/icons/decks.svg'
-import Topics from 'images/icons/topics.svg'
-import User from 'images/icons/purple-user.svg'
+import Home from '../../images/icons/home.svg'
+import Cart from '../../images/icons/cart.svg'
+import Decks from '../../images/icons/decks.svg'
+import Topics from '../../images/icons/topics.svg'
+import User from '../../images/icons/purple-user.svg'
 
 import 'firebase/auth'
 
-import '../../scss/components/Dashboard/Navbar.scss'
+import styles from 'styles/components/Dashboard/Navbar.module.scss'
 
 const auth = firebase.auth()
 
@@ -50,7 +50,9 @@ export default ({ selection }: { selection: Selection }) => {
 	const signOut = async () => {
 		try {
 			await auth.signOut()
-			window.location.href = '/'
+			
+			if (process.browser)
+				window.location.href = '/'
 		} catch (error) {
 			handleError(error)
 		}

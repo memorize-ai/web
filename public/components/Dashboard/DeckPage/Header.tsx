@@ -17,10 +17,10 @@ import { DisqusCommentCount } from 'components/shared/Disqus'
 import ShareDeckModal from 'components/shared/Modal/ShareDeck'
 import { formatNumber, handleError } from 'lib/utils'
 
-import UserIcon from 'images/icons/user.svg'
-import ShareIcon from 'images/icons/share.svg'
-import DownloadIcon from 'images/icons/download.svg'
-import UsersIcon from 'images/icons/users.svg'
+import UserIcon from '../../../images/icons/user.svg'
+import ShareIcon from '../../../images/icons/share.svg'
+import DownloadIcon from '../../../images/icons/download.svg'
+import UsersIcon from '../../../images/icons/users.svg'
 
 export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 	const [currentUser] = useCurrentUser()

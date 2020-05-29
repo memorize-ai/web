@@ -13,9 +13,9 @@ import Stars from 'components/shared/Stars'
 import Button from 'components/shared/Button'
 import { formatNumber, handleError } from 'lib/utils'
 
-import UserIcon from 'images/icons/user.svg'
-import DownloadIcon from 'images/icons/download.svg'
-import UsersIcon from 'images/icons/users.svg'
+import UserIcon from '../../../images/icons/user.svg'
+import DownloadIcon from '../../../images/icons/download.svg'
+import UsersIcon from '../../../images/icons/users.svg'
 
 export default ({ deck }: { deck: Deck }) => {
 	const [currentUser] = useCurrentUser()

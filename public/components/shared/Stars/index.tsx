@@ -2,7 +2,7 @@ import React from 'react'
 
 import Star from './Star'
 
-import '../../../scss/components/Stars.scss'
+import styles from 'styles/components/Stars.module.scss'
 
 export default ({ children: rating }: { children: number }) => (
 	<div className="stars">

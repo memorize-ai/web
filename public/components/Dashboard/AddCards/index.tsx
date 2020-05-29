@@ -31,7 +31,7 @@ import {
 import { compose } from 'lib/utils'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from 'lib/constants'
 
-import 'styles/components/Dashboard/AddCards.scss'
+import styles from 'styles/components/Dashboard/AddCards.module.scss'
 
 const GO_BACK_MESSAGE = 'Your drafts will be kept during this session.'
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? Your drafts will be lost.'
@@ -88,9 +88,13 @@ export default () => {
 		if (!canPublish)
 			return
 		
-		window.onbeforeunload = () => CONFIRM_CLOSE_MESSAGE
+		if (process.browser)
+			window.onbeforeunload = () => CONFIRM_CLOSE_MESSAGE
 		
-		return () => { window.onbeforeunload = null }
+		return () => {
+			if (process.browser)
+				window.onbeforeunload = null
+		}
 	}, [canPublish])
 	
 	const close = () =>
@@ -144,7 +148,13 @@ export default () => {
 						},
 						{
 							name: 'Add cards',
-							url: window.location.href
+							url: `https://memorize.ai/decks/${
+								deck?.slugId ?? '...'
+							}/${
+								deck?.slug ?? '...'
+							}/add${
+								sectionId ? `/${sectionId}` : ''
+							}`
 						}
 					]
 				]}

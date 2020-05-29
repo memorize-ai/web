@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -14,9 +15,10 @@ import DeckCell from 'components/shared/DeckCell'
 import DownloadAppModal from 'components/shared/Modal/DownloadApp'
 import { formatNumber } from 'lib/utils'
 
-import '../../../scss/components/Dashboard/Home.scss'
+import styles from 'styles/components/Dashboard/Home.module.scss'
 
 export default () => {
+	const router = useRouter()
 	const [currentUser] = useCurrentUser()
 	
 	const [decks] = useDecks()
@@ -57,7 +59,7 @@ export default () => {
 					[
 						{
 							name: 'Dashboard',
-							url: window.location.href
+							url: `https://memorize.ai${router.asPath}`
 						}
 					]
 				]}

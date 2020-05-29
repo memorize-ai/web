@@ -4,5 +4,5 @@ module.exports = require('next-compose-plugins')([
 			dest: 'public'
 		}
 	}],
-	require('next-images')
+	require('next-optimized-images')
 ])

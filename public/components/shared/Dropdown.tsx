@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useRef, useEffect } from 'react'
 import cx from 'classnames'
 
-import '../../scss/components/Dropdown.scss'
+import styles from 'styles/components/Dropdown.module.scss'
 
 export enum DropdownShadow {
 	None = 'none',

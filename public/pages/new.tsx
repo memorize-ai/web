@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
 import useAuthState from 'hooks/useAuthState'
@@ -22,11 +22,13 @@ import PublishDeckContent from 'components/shared/PublishDeckContent'
 import Button from 'components/shared/Button'
 import { compose, handleError } from 'lib/utils'
 
-import '../../../scss/components/Dashboard/CreateDeck.scss'
+import styles from 'styles/components/Dashboard/CreateDeck.module.scss'
 
 const HEAD_DESCRIPTION = 'Create your own deck on memorize.ai.'
 
 export default () => {
+	const router = useRouter()
+	
 	const isSignedIn = useAuthState()
 	const [
 		{ image, name, subtitle, description, topics: selectedTopics },
@@ -69,7 +71,7 @@ export default () => {
 				setLoadingState(LoadingState.Success)
 				reset()
 				
-				Router.push(
+				router.push(
 					'/decks/[slugId]/[slug]',
 					`/decks/${slugId}/${slug}`
 				)
@@ -104,7 +106,7 @@ export default () => {
 						},
 						{
 							name: 'Create deck',
-							url: window.location.href
+							url: `https://memorize.ai${router.asPath}`
 						}
 					],
 					[
@@ -114,7 +116,7 @@ export default () => {
 						},
 						{
 							name: 'Create deck',
-							url: window.location.href
+							url: `https://memorize.ai${router.asPath}`
 						}
 					]
 				]}

@@ -3,7 +3,7 @@ import React from 'react'
 import Card from 'models/Card'
 import CardSide from 'components/shared/CardSide'
 
-import '../../../scss/components/CardCell/Base.scss'
+import styles from 'styles/components/CardCell/Base.module.scss'
 
 export default ({ card }: { card: Card }) => (
 	<div className="sides">

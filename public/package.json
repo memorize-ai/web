@@ -51,10 +51,11 @@
 		"@types/uuid": "^8.0.0",
 		"babel-plugin-inline-react-svg": "^1.1.1",
 		"next-compose-plugins": "^2.2.0",
-		"next-images": "^1.4.0",
+		"next-optimized-images": "^2.6.0",
 		"next-pwa": "^2.4.1",
 		"tslint": "^6.1.2",
-		"typescript": "^3.9.3"
+		"typescript": "^3.9.3",
+		"webp-loader": "^0.6.0"
 	},
 	"private": true
 }

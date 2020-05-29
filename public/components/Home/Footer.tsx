@@ -3,7 +3,7 @@ import React from 'react'
 import AppStoreDownloadButton from 'components/shared/AppStoreDownloadButton'
 import Logo, { LogoType } from 'components/shared/Logo'
 
-import '../../scss/components/Home/Footer.scss'
+import styles from 'styles/components/Home/Footer.module.scss'
 
 export default () => (
 	<footer className="footer">

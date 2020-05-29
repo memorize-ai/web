@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 
 import useKeyPress from 'hooks/useKeyPress'
 
-import '../../../scss/components/Modal/index.scss'
+import styles from 'styles/components/Modal/index.module.scss'
 
 export default (
 	{ className, isLazy, isShowing, setIsShowing, children }: PropsWithChildren<{
@@ -13,11 +13,15 @@ export default (
 		setIsShowing: (isShowing: boolean) => void
 	}>
 ) => {
-	const element = useRef(document.createElement('div'))
+	const element = useRef(null as HTMLDivElement | null)
 	const content = useRef(null as HTMLDivElement | null)
 	
 	const shouldHide = useKeyPress(27) // Escape
 	const [shouldShowContent, setShouldShowContent] = useState(!isLazy)
+	
+	if (!element.current && process.browser) {
+		element.current = document.createElement('div')
+	}
 	
 	useEffect(() => {
 		const { body } = document
@@ -72,7 +76,7 @@ export default (
 			setIsShowing(false)
 	}, [shouldHide]) // eslint-disable-line
 	
-	return createPortal((
+	return element.current && createPortal((
 		<div ref={content} className="content">
 			{shouldShowContent && children}
 		</div>

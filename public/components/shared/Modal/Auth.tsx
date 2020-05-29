@@ -14,13 +14,11 @@ import Button from '../Button'
 
 import 'firebase/auth'
 import 'firebase/firestore'
-import 'firebase/analytics'
 
-import '../../../scss/components/Modal/Auth.scss'
+import styles from 'styles/components/Modal/Auth.module.scss'
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()
-const analytics = firebase.analytics()
 
 export default () => {
 	const [currentUser] = useCurrentUser()
@@ -50,13 +48,9 @@ export default () => {
 			
 			switch (mode) {
 				case AuthenticationMode.LogIn:
-					analytics.logEvent('login', { method: 'email', component: 'Auth' })
-					
 					await auth.signInWithEmailAndPassword(email, password)
 					break
 				case AuthenticationMode.SignUp:
-					analytics.logEvent('sign_up', { method: 'email', component: 'Auth' })
-					
 					const { user } = await auth.createUserWithEmailAndPassword(email, password)
 					
 					if (!user)

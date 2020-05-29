@@ -24,7 +24,7 @@ import DeckRow from 'components/Dashboard/Market/DeckRow'
 import Loader from 'components/shared/Loader'
 import { formatNumber } from 'lib/utils'
 
-import '../../../scss/components/Dashboard/Market.scss'
+import styles from 'styles/components/Dashboard/Market.module.scss'
 
 export default () => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)
@@ -146,7 +146,7 @@ export default () => {
 					[
 						{
 							name: 'Market',
-							url: window.location.href
+							url: `https://memorize.ai${router.asPath}`
 						}
 					]
 				]}

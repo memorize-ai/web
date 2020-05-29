@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Bullet from 'images/home/bullet.svg'
+import Bullet from '../../../images/home/bullet.svg'
 
 export const ITEMS = [
 	<>Create your own decks for your class<br />and allocate a section for each unit</>,

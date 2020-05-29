@@ -32,7 +32,7 @@ import Comments from 'components/Dashboard/DeckPage/Comments'
 import Loader from 'components/shared/Loader'
 import { formatNumber } from 'lib/utils'
 
-import 'styles/components/Dashboard/DeckPage.scss'
+import styles from 'styles/components/Dashboard/DeckPage.module.scss'
 
 export default () => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)
@@ -116,7 +116,7 @@ export default () => {
 						},
 						{
 							name: deck?.name ?? 'Deck',
-							url: window.location.href
+							url: `https://memorize.ai${router.asPath}`
 						}
 					]
 				]}
@@ -127,7 +127,7 @@ export default () => {
 						image: imageUrl,
 						name: deck?.name ?? 'Deck',
 						description: deck?.description ?? '',
-						url: window.location.href,
+						url: `https://memorize.ai${router.asPath}`,
 						aggregateRating: {
 							'@type': 'AggregateRating',
 							ratingValue: deck?.averageRating ?? 0,

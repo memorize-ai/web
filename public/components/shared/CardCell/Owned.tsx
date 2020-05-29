@@ -11,9 +11,9 @@ import Card from 'models/Card'
 import useCurrentUser from 'hooks/useCurrentUser'
 import Base from './Base'
 
-import PencilIcon from 'images/icons/pencil.svg'
+import PencilIcon from '../../../images/icons/pencil.svg'
 
-import '../../../scss/components/CardCell/Owned.scss'
+import styles from 'styles/components/CardCell/Owned.module.scss'
 
 TimeAgo.addLocale(enLocale)
 

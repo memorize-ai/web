@@ -4,10 +4,10 @@ import cx from 'classnames'
 import useScreenshot from './useScreenshot'
 import Screenshot from 'components/shared/Screenshot'
 
-import ScreenshotBackground from 'images/home/screenshot-background.svg'
-import LeftArrow from 'images/icons/left-arrow.svg'
+import ScreenshotBackground from '../../../images/home/screenshot-background.svg'
+import LeftArrow from '../../../images/icons/left-arrow.svg'
 
-import '../../../scss/components/Home/Screenshots.scss'
+import styles from 'styles/components/Home/Screenshots.module.scss'
 
 export default () => {
 	const {

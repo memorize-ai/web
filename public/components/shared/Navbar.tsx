@@ -10,7 +10,7 @@ import AuthButton from './AuthButton'
 import Logo, { LogoType } from './Logo'
 import { urlForMarket } from 'lib/utils'
 
-import '../../scss/components/Navbar.scss'
+import styles from 'styles/components/Navbar.module.scss'
 
 export default () => {
 	const isSignedIn = useAuthState()

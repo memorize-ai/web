@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { Thing, MobileApplication } from 'schema-dts'
 
@@ -104,7 +105,9 @@ export default <SchemaItems extends Thing[]>({
 	breadcrumbs,
 	schemaItems
 }: HeadProps<SchemaItems>) => {
-	const canonicalUrl = _canonicalUrl ?? window.location.href
+	const router = useRouter()
+	
+	const canonicalUrl = _canonicalUrl ?? `https://memorize.ai${router.asPath}`
 	
 	const ogUrl = _ogUrl ?? canonicalUrl
 	const ogTitle = _ogTitle ?? title
@@ -112,7 +115,8 @@ export default <SchemaItems extends Thing[]>({
 	const ogImage = _ogImage ?? LOGO_URL
 	
 	useEffect(() => {
-		(window as any).prerenderReady = isPrerenderReady
+		if (process.browser)
+			(window as any).prerenderReady = isPrerenderReady
 	}, [isPrerenderReady])
 	
 	return (

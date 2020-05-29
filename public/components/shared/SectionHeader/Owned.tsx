@@ -10,10 +10,10 @@ import ToggleExpandedButton from './ToggleExpandedButton'
 import Dropdown, { DropdownShadow } from '../Dropdown'
 import { formatNumber } from 'lib/utils'
 
-import ShareIcon from 'images/icons/share.svg'
-import PencilIcon from 'images/icons/pencil.svg'
+import ShareIcon from '../../../images/icons/share.svg'
+import PencilIcon from '../../../images/icons/pencil.svg'
 
-import '../../../scss/components/SectionHeader/Owned.scss'
+import styles from 'styles/components/SectionHeader/Owned.module.scss'
 
 export default (
 	{ deck, section, isExpanded, toggleExpanded, onUnlock, onRename, onDelete, onShare, numberOfSections, reorder }: {

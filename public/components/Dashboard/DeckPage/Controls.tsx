@@ -11,7 +11,7 @@ import useCurrentUser from 'hooks/useCurrentUser'
 import Stars from 'components/shared/Stars'
 import { formatNumber } from 'lib/utils'
 
-import GrayStar from 'images/icons/gray-star.svg'
+import GrayStar from '../../../images/icons/gray-star.svg'
 
 TimeAgo.addLocale(enLocale)
 

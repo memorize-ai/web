@@ -17,9 +17,9 @@ import RemoveDeckModal from 'components/shared/Modal/RemoveDeck'
 import DownloadAppModal from 'components/shared/Modal/DownloadApp'
 import { formatNumber } from 'lib/utils'
 
-import ShareIcon from 'images/icons/share.svg'
-import CartIcon from 'images/icons/cart.svg'
-import EditIcon from 'images/icons/edit.svg'
+import ShareIcon from '../../../images/icons/share.svg'
+import CartIcon from '../../../images/icons/cart.svg'
+import EditIcon from '../../../images/icons/edit.svg'
 
 export default ({ deck }: { deck: Deck | null }) => {
 	const [currentUser] = useCurrentUser()

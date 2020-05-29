@@ -14,7 +14,7 @@ import Header from './Header'
 import Sections from './Sections'
 import Loader from 'components/shared/Loader'
 
-import '../../../scss/components/Dashboard/Decks.scss'
+import styles from 'styles/components/Dashboard/Decks.module.scss'
 
 export default () => {
 	requiresAuth()
@@ -75,7 +75,7 @@ export default () => {
 					[
 						{
 							name: 'Decks',
-							url: window.location.href
+							url: `https://memorize.ai/${router.asPath}`
 						}
 					]
 				]}

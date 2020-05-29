@@ -2,7 +2,7 @@ import React from 'react'
 
 import featuresImage from 'images/home/features.webp'
 
-import '../../scss/components/Home/Features.scss'
+import styles from 'styles/components/Home/Features.module.scss'
 
 export default () => (
 	<div className="features">
