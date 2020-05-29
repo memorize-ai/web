@@ -4,7 +4,7 @@ import cx from 'classnames'
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
 
-import '../../scss/components/Dashboard/index.scss'
+import '../../styles/components/Dashboard/index.scss'
 
 export enum DashboardNavbarSelection {
 	Home = 'Home',

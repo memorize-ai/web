@@ -20,7 +20,7 @@ import PublishDeckContent from '../../shared/PublishDeckContent'
 import Button from '../../shared/Button'
 import { compose, handleError } from '../../../utils'
 
-import '../../../scss/components/Dashboard/CreateDeck.scss'
+import '../../../styles/components/Dashboard/CreateDeck.scss'
 
 const HEAD_DESCRIPTION = 'Create your own deck on memorize.ai.'
 

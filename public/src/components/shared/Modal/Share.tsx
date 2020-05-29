@@ -6,7 +6,7 @@ import cx from 'classnames'
 
 import Modal from '.'
 
-import '../../../scss/components/Modal/Share.scss'
+import '../../../styles/components/Modal/Share.scss'
 
 export default (
 	{ title, message, url, isShowing, setIsShowing }: {

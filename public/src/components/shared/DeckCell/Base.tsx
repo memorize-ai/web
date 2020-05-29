@@ -7,7 +7,7 @@ import useImageUrl from '../../../hooks/useImageUrl'
 
 import { ReactComponent as User } from '../../../images/icons/user.svg'
 
-import '../../../scss/components/DeckCell/Base.scss'
+import '../../../styles/components/DeckCell/Base.scss'
 
 export default (
 	{ className, deck, href, nameProps, children }: PropsWithChildren<{

@@ -6,7 +6,7 @@ import Deck from '../../../models/Deck'
 import Base from './Base'
 import { randomEmoji } from '../../../utils'
 
-import '../../../scss/components/DeckCell/Owned.scss'
+import '../../../styles/components/DeckCell/Owned.scss'
 
 export default ({ deck, downloadApp }: { deck: Deck, downloadApp: () => void }) => {
 	const { userData } = deck

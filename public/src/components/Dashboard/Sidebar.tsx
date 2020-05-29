@@ -11,7 +11,7 @@ import Input from '../shared/Input'
 import Section from './SidebarSection'
 import { isNullish, formatNumber, formatNumberAsInt } from '../../utils'
 
-import '../../scss/components/Dashboard/Sidebar.scss'
+import '../../styles/components/Dashboard/Sidebar.scss'
 
 export default () => {
 	const isSignedIn = useAuthState()

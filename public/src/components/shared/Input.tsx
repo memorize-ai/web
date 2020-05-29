@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import '../../scss/components/Input.scss'
+import '../../styles/components/Input.scss'
 
 export interface InputProps {
 	className?: string

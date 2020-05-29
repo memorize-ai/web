@@ -6,7 +6,7 @@ import { formatNumber } from '../../../utils'
 
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 
-import '../../../scss/components/SectionHeader/index.scss'
+import '../../../styles/components/SectionHeader/index.scss'
 
 export default (
 	{ section, isExpanded, toggleExpanded, onShare }: {

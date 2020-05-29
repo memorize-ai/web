@@ -4,7 +4,7 @@ import Modal from '../../shared/Modal'
 
 import { ReactComponent as TimesIcon } from '../../../images/icons/times.svg'
 
-import '../../../scss/components/Modal/Input.scss'
+import '../../../styles/components/Modal/Input.scss'
 
 export interface InputModalProps {
 	title: string

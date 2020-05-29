@@ -22,7 +22,7 @@ import { ReactComponent as User } from '../../images/icons/purple-user.svg'
 
 import 'firebase/auth'
 
-import '../../scss/components/Dashboard/Navbar.scss'
+import '../../styles/components/Dashboard/Navbar.scss'
 
 const auth = firebase.auth()
 

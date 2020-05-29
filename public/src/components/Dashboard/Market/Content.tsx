@@ -23,7 +23,7 @@ import DeckRow from './DeckRow'
 import Loader from '../../shared/Loader'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
-import '../../../scss/components/Dashboard/Market.scss'
+import '../../../styles/components/Dashboard/Market.scss'
 
 export default () => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)

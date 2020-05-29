@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react'
 import cx from 'classnames'
 
-import '../../scss/components/Loader.scss'
+import '../../styles/components/Loader.scss'
 
 export default (
 	{ className, size, thickness, color, ...props }: {

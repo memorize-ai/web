@@ -2,7 +2,7 @@ import React from 'react'
 
 import spacedRepetitionImage from '../../images/home/spaced-repetition.png'
 
-import '../../scss/components/Home/SpacedRepetition.scss'
+import '../../styles/components/Home/SpacedRepetition.scss'
 
 export default () => (
 	<div className="spaced-repetition">

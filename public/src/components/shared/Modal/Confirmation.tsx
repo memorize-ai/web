@@ -4,7 +4,7 @@ import Modal from '.'
 
 import { ReactComponent as TimesIcon } from '../../../images/icons/times.svg'
 
-import '../../../scss/components/Modal/Confirmation.scss'
+import '../../../styles/components/Modal/Confirmation.scss'
 
 export default (
 	{ title, message, onConfirm, buttonText, buttonBackground, isShowing, setIsShowing }: {

@@ -4,7 +4,7 @@ import List from './List'
 
 import diagram from '../../../images/home/classroom.png'
 
-import '../../../scss/components/Home/Classroom.scss'
+import '../../../styles/components/Home/Classroom.scss'
 
 export default () => (
 	<div className="classroom">

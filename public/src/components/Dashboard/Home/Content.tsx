@@ -13,7 +13,7 @@ import DeckCell from '../../shared/DeckCell'
 import DownloadAppModal from '../../shared/Modal/DownloadApp'
 import { formatNumber } from '../../../utils'
 
-import '../../../scss/components/Dashboard/Home.scss'
+import '../../../styles/components/Dashboard/Home.scss'
 
 export default () => {
 	const [currentUser] = useCurrentUser()

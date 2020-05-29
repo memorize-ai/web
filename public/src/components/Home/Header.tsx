@@ -5,7 +5,7 @@ import { faMobile } from '@fortawesome/free-solid-svg-icons'
 import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
 import Screenshot, { ScreenshotType } from '../shared/Screenshot'
 
-import '../../scss/components/Home/Header.scss'
+import '../../styles/components/Home/Header.scss'
 
 export default () => (
 	<div className="header">

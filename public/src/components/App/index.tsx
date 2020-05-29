@@ -26,8 +26,6 @@ import CatchAll from '../404'
 
 import AuthModal from '../shared/Modal/Auth'
 
-import 'react-toastify/dist/ReactToastify.css'
-
 export default () => (
 	<BrowserRouter>
 		<Switch>

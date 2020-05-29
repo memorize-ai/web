@@ -14,7 +14,7 @@ import { formatNumber, handleError } from '../../../utils'
 import downloads from '../../../images/icons/download.svg'
 import users from '../../../images/icons/users.svg'
 
-import '../../../scss/components/DeckCell/index.scss'
+import '../../../styles/components/DeckCell/index.scss'
 import User from '../../../models/User'
 
 export default ({ deck }: { deck: Deck }) => {

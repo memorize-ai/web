@@ -20,7 +20,7 @@ import Loader from '../../shared/Loader'
 import ConfirmationModal from '../../shared/Modal/Confirmation'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from '../../../constants'
 
-import '../../../scss/components/Dashboard/EditCard.scss'
+import '../../../styles/components/Dashboard/EditCard.scss'
 
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
 

@@ -5,7 +5,7 @@ import Head from './Head'
 
 import 'firebase/analytics'
 
-import '../../scss/components/Policy.scss'
+import '../../styles/components/Policy.scss'
 
 const analytics = firebase.analytics()
 

@@ -13,7 +13,7 @@ import Header from './Header'
 import Sections from './Sections'
 import Loader from '../../shared/Loader'
 
-import '../../../scss/components/Dashboard/Decks.scss'
+import '../../../styles/components/Dashboard/Decks.scss'
 
 export default () => {
 	requiresAuth()

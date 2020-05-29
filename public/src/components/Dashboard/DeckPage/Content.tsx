@@ -30,7 +30,7 @@ import Comments from './Comments'
 import Loader from '../../shared/Loader'
 import { urlWithQuery, formatNumber } from '../../../utils'
 
-import '../../../scss/components/Dashboard/DeckPage.scss'
+import '../../../styles/components/Dashboard/DeckPage.scss'
 
 export default () => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)

@@ -1,0 +1,29 @@
+@import '../variables';
+
+.root {
+	display: grid;
+	justify-items: center;
+	align-content: center;
+	min-height: 100vh;
+	padding: 12px;
+}
+
+.text {
+	text-align: center;
+}
+
+.loadingText {
+	color: $dark-gray;
+}
+
+.successText {
+	color: $green-400;
+}
+
+.failText {
+	color: $red-400;
+}
+
+.loader {
+	margin-top: 12px;
+}

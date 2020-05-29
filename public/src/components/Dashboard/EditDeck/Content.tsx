@@ -18,7 +18,7 @@ import PublishDeckContent from '../../shared/PublishDeckContent'
 import Loader from '../../shared/Loader'
 import { handleError } from '../../../utils'
 
-import '../../../scss/components/Dashboard/EditDeck.scss'
+import '../../../styles/components/Dashboard/EditDeck.scss'
 
 export default () => {
 	requiresAuth()

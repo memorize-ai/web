@@ -16,7 +16,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/analytics'
 
-import '../../../scss/components/Modal/Auth.scss'
+import '../../../styles/components/Modal/Auth.scss'
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()

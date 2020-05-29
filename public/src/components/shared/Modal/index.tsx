@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 
 import useKeyPress from '../../../hooks/useKeyPress'
 
-import '../../../scss/components/Modal/index.scss'
+import '../../../styles/components/Modal/index.scss'
 
 export default (
 	{ className, isLazy, isShowing, setIsShowing, children }: PropsWithChildren<{

@@ -8,7 +8,7 @@ import Dropdown, { DropdownShadow } from './Dropdown'
 
 import { ReactComponent as SortIcon } from '../../images/icons/sort.svg'
 
-import '../../scss/components/SortDropdown.scss'
+import '../../styles/components/SortDropdown.scss'
 
 export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 	title: nameForDeckSortAlgorithm(type),

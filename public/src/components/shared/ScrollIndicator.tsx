@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from 'react'
 
-import '../../scss/components/ScrollIndicator.scss'
+import '../../styles/components/ScrollIndicator.scss'
 
 export default ({ color = 'white', ...props }: HTMLAttributes<HTMLDivElement>) => (
 	<div

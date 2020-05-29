@@ -13,7 +13,7 @@ import { formatNumber } from '../../../utils'
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 import { ReactComponent as PencilIcon } from '../../../images/icons/pencil.svg'
 
-import '../../../scss/components/SectionHeader/Owned.scss'
+import '../../../styles/components/SectionHeader/Owned.scss'
 
 export default (
 	{ deck, section, isExpanded, toggleExpanded, onUnlock, onRename, onDelete, onShare, numberOfSections, reorder }: {

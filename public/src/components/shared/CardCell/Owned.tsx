@@ -13,7 +13,7 @@ import Base from './Base'
 
 import { ReactComponent as PencilIcon } from '../../../images/icons/pencil.svg'
 
-import '../../../scss/components/CardCell/Owned.scss'
+import '../../../styles/components/CardCell/Owned.scss'
 
 TimeAgo.addLocale(enLocale)
 

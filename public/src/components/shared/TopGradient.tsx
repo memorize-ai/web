@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from 'react'
 
-import '../../scss/components/TopGradient.scss'
+import '../../styles/components/TopGradient.scss'
 
 export default ({ children, ...props }: HTMLAttributes<HTMLDivElement>) => (
 	<div {...props} className="top-gradient">

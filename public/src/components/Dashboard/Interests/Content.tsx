@@ -12,7 +12,7 @@ import { urlForMarket } from '../Market'
 
 import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
 
-import '../../../scss/components/Dashboard/Interests.scss'
+import '../../../styles/components/Dashboard/Interests.scss'
 
 export default () => {
 	const [currentUser] = useCurrentUser()

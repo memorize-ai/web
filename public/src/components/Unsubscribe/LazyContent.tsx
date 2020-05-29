@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import cx from 'classnames'
 
 import firebase from '../../firebase'
 import LoadingState from '../../models/LoadingState'
@@ -10,7 +9,7 @@ import Content from './Content'
 import 'firebase/analytics'
 import 'firebase/firestore'
 
-import '../../scss/components/Unsubscribe.scss'
+import styles from '../../styles/components/Unsubscribe.module.scss'
 
 const analytics = firebase.analytics()
 const firestore = firebase.firestore()
@@ -38,12 +37,7 @@ export default () => {
 	}, [uid, type])
 	
 	return (
-		<div
-			className={cx('unsubscribe', {
-				success: loadingState === LoadingState.Success,
-				fail: loadingState === LoadingState.Fail
-			})}
-		>
+		<div className={styles.root}>
 			<Head
 				title="Unsubscribe | memorize.ai"
 				description="Unsubscribe from our mailing list"

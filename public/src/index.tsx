@@ -22,7 +22,7 @@ import { ROOT_ELEMENT } from './constants'
 
 import 'firebase/analytics'
 
-import './scss/index.scss'
+import './styles/index.scss'
 
 const analytics = firebase.analytics()
 

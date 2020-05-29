@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react'
 
 import Loader from './Loader'
 
-import '../../../scss/components/CKEditor.scss'
+import '../../../styles/components/CKEditor.scss'
 
 export interface CKEditorProps {
 	uploadUrl: string

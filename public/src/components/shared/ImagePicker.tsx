@@ -6,7 +6,7 @@ import cx from 'classnames'
 
 import Loader from './Loader'
 
-import '../../scss/components/ImagePicker.scss'
+import '../../styles/components/ImagePicker.scss'
 
 export default (
 	{ rootProps, inputProps, isDragging, isLoading = false, url, removeImage }: {

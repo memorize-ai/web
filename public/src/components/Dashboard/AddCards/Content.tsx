@@ -29,7 +29,7 @@ import {
 import { compose } from '../../../utils'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from '../../../constants'
 
-import '../../../scss/components/Dashboard/AddCards.scss'
+import '../../../styles/components/Dashboard/AddCards.scss'
 
 const GO_BACK_MESSAGE = 'Your drafts will be kept during this session.'
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? Your drafts will be lost.'

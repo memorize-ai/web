@@ -5,7 +5,7 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import Modal from '.'
 import AppStoreDownloadButton from '../AppStoreDownloadButton'
 
-import '../../../scss/components/Modal/DownloadApp.scss'
+import '../../../styles/components/Modal/DownloadApp.scss'
 
 const screenshots = [1, 2, 3, 4, 5, 6, 7].map(i =>
 	require(`../../../images/screenshots/framed/${i}.webp`) as string

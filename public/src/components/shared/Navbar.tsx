@@ -10,7 +10,7 @@ import Logo, { LogoType } from './Logo'
 import { urlWithQuery } from '../../utils'
 import { urlForMarket } from '../Dashboard/Market'
 
-import '../../scss/components/Navbar.scss'
+import '../../styles/components/Navbar.scss'
 
 export default () => {
 	const history = useHistory()
