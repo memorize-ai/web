@@ -100,6 +100,7 @@
 			> button {
 				$small-dimension: 43px;
 				
+				flex-shrink: 0;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -126,6 +127,7 @@
 			}
 			
 			> .error-message {
+				margin-left: 20px;
 				font-weight: 900;
 				color: $red-600;
 			}
