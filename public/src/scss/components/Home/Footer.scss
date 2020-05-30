@@ -1,9 +1,79 @@
 @import '../../mixins';
+@import '../../trigonometry';
 
 @include home-content('footer') {
-	> .top {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	$degrees: 6deg;
+	
+	@include stack;
+	
+	> .background {
+		background: #572efe;
+		transform: skewY($degrees);
+	}
+	
+	> .content {
+		z-index: 0;
+		
+		> .top {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 100px 0;
+			
+			> .text {
+				font-weight: 900;
+				color: white;
+			}
+			
+			> .button {
+				transform: scale(2);
+			}
+		}
+		
+		> .bottom {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 60px 0;
+			background: black;
+			margin-bottom: tan($degrees) * -50vw;
+			
+			> .logo {
+				@include raise-on-hover;
+				
+				height: 50px;
+			}
+			
+			> .socials {
+				display: flex;
+				align-items: center;
+				margin-top: 30px;
+				
+				> a {
+					font-weight: bold;
+					color: white;
+					transition: opacity 0.3s;
+					opacity: 0.8;
+					
+					&:hover {
+						opacity: 0.5;
+					}
+				}
+				
+				> .divider {
+					align-self: stretch;
+					width: 2px;
+					margin: 2px 12px;
+					background: white;
+					opacity: 0.3;
+				}
+			}
+			
+			> .copyright {
+				margin-top: 30px;
+				color: white;
+				opacity: 0.5;
+			}
+		}
 	}
 }

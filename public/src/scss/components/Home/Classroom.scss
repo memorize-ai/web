@@ -12,6 +12,7 @@
 	> .background {
 		background: #e6f0fa;
 		transform: skewY($degrees);
+		transform-origin: top left;
 	}
 	
 	> .content {
