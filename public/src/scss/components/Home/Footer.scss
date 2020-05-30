@@ -16,17 +16,73 @@
 		
 		> .top {
 			display: flex;
+			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			padding: 100px 0;
+			padding: 120px 0 100px;
+			
+			@media (min-width: 600px) {
+				flex-direction: row;
+				
+				> .text {
+					margin-right: 15px !important;
+					margin-bottom: 0 !important;
+					text-align: left !important;
+				}
+			}
+			
+			@media (min-width: 750px) {
+				> .text {
+					margin-right: 30px !important;
+					font-size: 32px !important;
+					line-height: 46px !important;
+				}
+				
+				> .button {
+					margin: 0 (30px * 1.7);
+					transform: scale(1.7) !important;
+				}
+			}
+			
+			@media (min-width: 890px) {
+				> .text {
+					margin-right: 60px !important;
+					font-size: 38px !important;
+					line-height: 52px !important;
+				}
+				
+				> .button {
+					margin: 0 (30px * 2) !important;
+					transform: scale(2) !important;
+				}
+			}
 			
 			> .text {
+				margin-right: 0;
+				margin-bottom: 40px;
+				text-align: center;
+				font-size: 26px;
 				font-weight: 900;
+				line-height: 40px;
 				color: white;
+				transition:
+					margin 0.3s,
+					font-size 0.3s,
+					line-height 0.3s;
+				
+				@media (min-width: 930px) {
+					margin-right: 100px !important;
+				}
+				
+				@media (min-width: 1050px) {
+					margin-right: 200px !important;
+				}
 			}
 			
 			> .button {
-				transform: scale(2);
+				margin: 0 (30px * 1.5);
+				transform: scale(1.5);
+				transition: transform 0.3s;
 			}
 		}
 		
@@ -34,7 +90,7 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			padding: 60px 0;
+			padding: 60px 30px;
 			background: black;
 			margin-bottom: tan($degrees) * -50vw;
 			
@@ -42,14 +98,32 @@
 				@include raise-on-hover;
 				
 				> img {
-					height: 50px;
+					max-height: 50px;
 				}
 			}
 			
 			> .socials {
 				display: flex;
+				flex-direction: column;
 				align-items: center;
 				margin-top: 30px;
+				
+				@media (min-width: 370px) {
+					flex-direction: row;
+					
+					> a:not(:last-child) {
+						margin-bottom: 0 !important;
+					}
+					
+					> .divider {
+						display: block !important;
+					}
+				}
+				
+				> a,
+				> .divider {
+					flex-shrink: 0;
+				}
 				
 				> a {
 					font-weight: bold;
@@ -60,9 +134,14 @@
 					&:hover {
 						opacity: 0.5;
 					}
+					
+					&:not(:last-child) {
+						margin-bottom: 12px;
+					}
 				}
 				
 				> .divider {
+					display: none;
 					align-self: stretch;
 					width: 2px;
 					margin: 2px 12px;
@@ -73,6 +152,7 @@
 			
 			> .copyright {
 				margin-top: 30px;
+				text-align: center;
 				color: white;
 				opacity: 0.5;
 			}

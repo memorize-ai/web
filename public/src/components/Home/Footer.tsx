@@ -23,6 +23,14 @@ export default () => (
 				</Link>
 				<div className="socials">
 					<a
+						href="mailto:support@memorize.ai"
+						target="_blank"
+						rel="noopener noreferrer nofollow"
+					>
+						Contact us
+					</a>
+					<div className="divider" />
+					<a
 						href="https://twitter.com/memorize_ai"
 						target="_blank"
 						rel="noopener noreferrer nofollow"
