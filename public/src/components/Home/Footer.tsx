@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
 import Logo, { LogoType } from '../shared/Logo'
@@ -17,7 +18,9 @@ export default () => (
 				<AppStoreDownloadButton className="button" />
 			</div>
 			<div className="bottom">
-				<Logo className="logo" type={LogoType.Capital} />
+				<Link to="/" className="logo">
+					<Logo type={LogoType.Capital} />
+				</Link>
 				<div className="socials">
 					<a
 						href="https://twitter.com/memorize_ai"

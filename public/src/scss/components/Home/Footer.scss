@@ -41,7 +41,9 @@
 			> .logo {
 				@include raise-on-hover;
 				
-				height: 50px;
+				> img {
+					height: 50px;
+				}
 			}
 			
 			> .socials {
