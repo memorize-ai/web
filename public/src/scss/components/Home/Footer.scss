@@ -14,15 +14,37 @@
 	> .content {
 		z-index: 0;
 		
+		@media (min-width: 370px) {
+			> .top > .text {
+				margin-bottom: 40px !important;
+				font-size: 26px !important;
+				line-height: 40px !important;
+			}
+			
+			> .bottom > .socials {
+				flex-direction: row !important;
+				
+				> a:not(:last-child) {
+					margin-bottom: 0 !important;
+				}
+				
+				> .divider {
+					display: block !important;
+				}
+			}
+		}
+		
 		> .top {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			padding: 120px 0 100px;
+			padding: 80px 0 60px;
+			transition: padding 0.3s;
 			
 			@media (min-width: 600px) {
 				flex-direction: row;
+				padding: 120px 0 100px;
 				
 				> .text {
 					margin-right: 15px !important;
@@ -59,16 +81,21 @@
 			
 			> .text {
 				margin-right: 0;
-				margin-bottom: 40px;
+				margin-bottom: 30px;
 				text-align: center;
-				font-size: 26px;
+				font-size: 18px;
 				font-weight: 900;
-				line-height: 40px;
+				line-height: 32px;
 				color: white;
 				transition:
 					margin 0.3s,
 					font-size 0.3s,
 					line-height 0.3s;
+				
+				@media (min-width: 330px) {
+					font-size: 22px !important;
+					line-height: 36px !important;
+				}
 				
 				@media (min-width: 930px) {
 					margin-right: 100px !important;
@@ -107,18 +134,6 @@
 				flex-direction: column;
 				align-items: center;
 				margin-top: 30px;
-				
-				@media (min-width: 370px) {
-					flex-direction: row;
-					
-					> a:not(:last-child) {
-						margin-bottom: 0 !important;
-					}
-					
-					> .divider {
-						display: block !important;
-					}
-				}
 				
 				> a,
 				> .divider {
