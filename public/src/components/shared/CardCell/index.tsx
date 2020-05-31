@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import Card from '../../../models/Card'
 import Base from './Base'
 
-const CardCell = memo(({ card }: { card: Card }) => (
+const CardCell = ({ card }: { card: Card }) => (
 	<div
 		className="card-cell default"
 		itemScope
@@ -12,6 +12,6 @@ const CardCell = memo(({ card }: { card: Card }) => (
 	>
 		<Base card={card} />
 	</div>
-))
+)
 
-export default CardCell
+export default memo(CardCell)

@@ -27,7 +27,7 @@ export interface PublishDeckContentProps {
 	setSelectedTopics: (topics: string[]) => void
 }
 
-const PublishDeckContent = memo(({
+const PublishDeckContent = ({
 	isImageLoading = false,
 	imageUrl,
 	name,
@@ -136,6 +136,6 @@ const PublishDeckContent = memo(({
 			</div>
 		</div>
 	)
-})
+}
 
-export default PublishDeckContent
+export default memo(PublishDeckContent)

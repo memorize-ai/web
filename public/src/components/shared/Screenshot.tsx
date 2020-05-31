@@ -10,8 +10,8 @@ export enum ScreenshotType {
 	Review = 'review.webp'
 }
 
-const Screenshot = memo(({ type, ...props }: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => (
+const Screenshot = ({ type, ...props }: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => (
 	<img {...props} src={require(`../../images/screenshots/${type}`)} alt="Screenshot" />
-))
+)
 
-export default Screenshot
+export default memo(Screenshot)

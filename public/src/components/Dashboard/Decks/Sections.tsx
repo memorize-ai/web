@@ -11,7 +11,7 @@ import ConfirmationModal from '../../shared/Modal/Confirmation'
 import RenameSectionModal from '../../shared/Modal/RenameSection'
 import ShareSectionModal from '../../shared/Modal/ShareSection'
 
-const DecksSections = memo(({ deck }: { deck: Deck }) => {
+const DecksSections = ({ deck }: { deck: Deck }) => {
 	const { unlockSectionId } = useParams()
 	const history = useHistory()
 	
@@ -148,6 +148,6 @@ const DecksSections = memo(({ deck }: { deck: Deck }) => {
 			/>
 		</>
 	)
-})
+}
 
-export default DecksSections
+export default memo(DecksSections)

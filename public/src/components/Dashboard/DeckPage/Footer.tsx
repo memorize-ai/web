@@ -5,7 +5,7 @@ import Deck from '../../../models/Deck'
 import useTopics from '../../../hooks/useTopics'
 import Topic from '../../../models/Topic'
 
-const DeckPageFooter = memo(({ deck }: { deck: Deck }) => {
+const DeckPageFooter = ({ deck }: { deck: Deck }) => {
 	const topics = useTopics()?.filter(topic =>
 		deck.topics.includes(topic.id)
 	)
@@ -34,6 +34,6 @@ const DeckPageFooter = memo(({ deck }: { deck: Deck }) => {
 			</div>
 		</div>
 	)
-})
+}
 
-export default DeckPageFooter
+export default memo(DeckPageFooter)

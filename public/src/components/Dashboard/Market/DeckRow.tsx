@@ -16,7 +16,7 @@ import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
 import { ReactComponent as DownloadIcon } from '../../../images/icons/download.svg'
 import { ReactComponent as UsersIcon } from '../../../images/icons/users.svg'
 
-const MarketDeckRow = memo(({ deck }: { deck: Deck }) => {
+const MarketDeckRow = ({ deck }: { deck: Deck }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -137,6 +137,6 @@ const MarketDeckRow = memo(({ deck }: { deck: Deck }) => {
 			</div>
 		</Link>
 	)
-})
+}
 
-export default MarketDeckRow
+export default memo(MarketDeckRow)

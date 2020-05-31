@@ -4,7 +4,7 @@ import featuresImage from '../../images/home/features.webp'
 
 import '../../scss/components/Home/Features.scss'
 
-const HomeFeatures = memo(() => (
+const HomeFeatures = () => (
 	<div className="features">
 		<h2 className="title">
 			<strong>Everything you need</strong><br />
@@ -12,6 +12,6 @@ const HomeFeatures = memo(() => (
 		</h2>
 		<img src={featuresImage} alt="Features" />
 	</div>
-))
+)
 
-export default HomeFeatures
+export default memo(HomeFeatures)

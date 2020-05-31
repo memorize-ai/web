@@ -25,7 +25,7 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Market.scss'
 
-const MarketContent = memo(() => {
+const MarketContent = () => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)
 	
 	const isLoading = useRef(true)
@@ -56,6 +56,8 @@ const MarketContent = memo(() => {
 	
 	const getDecks = useCallback(async (pageNumber: number) => {
 		try {
+			console.log(pageNumber)
+			
 			const decks = await DeckSearch.search(query, {
 				pageNumber,
 				pageSize: 40,
@@ -234,6 +236,6 @@ const MarketContent = memo(() => {
 			</div>
 		</>
 	)
-})
+}
 
-export default MarketContent
+export default memo(MarketContent)

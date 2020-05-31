@@ -12,7 +12,7 @@ import Loader from '../../shared/Loader'
 import ShareSectionModal from '../../shared/Modal/ShareSection'
 import { formatNumber } from '../../../utils'
 
-const DeckPageCards = memo(({ deck }: { deck: Deck }) => {
+const DeckPageCards = ({ deck }: { deck: Deck }) => {
 	const _sections = useSections(deck.id) ?? []
 	const sections = deck.numberOfUnsectionedCards > 0
 		? [deck.unsectionedSection, ..._sections]
@@ -78,6 +78,6 @@ const DeckPageCards = memo(({ deck }: { deck: Deck }) => {
 			</div>
 		)
 		: null
-})
+}
 
-export default DeckPageCards
+export default memo(DeckPageCards)

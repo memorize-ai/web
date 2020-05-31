@@ -4,7 +4,7 @@ import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import ShareModal from './Share'
 
-const ShareSectionModal = memo((
+const ShareSectionModal = (
 	{ deck, section, isShowing, setIsShowing }: {
 		deck: Deck
 		section: Section | null
@@ -19,6 +19,6 @@ const ShareSectionModal = memo((
 		isShowing={isShowing}
 		setIsShowing={setIsShowing}
 	/>
-))
+)
 
-export default ShareSectionModal
+export default memo(ShareSectionModal)

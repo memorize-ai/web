@@ -22,7 +22,7 @@ const auth = firebase.auth()
 const firestore = firebase.firestore()
 const analytics = firebase.analytics()
 
-const AuthModal = memo(() => {
+const AuthModal = () => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -201,6 +201,6 @@ const AuthModal = memo(() => {
 			</form>
 		</Modal>
 	)
-})
+}
 
-export default AuthModal
+export default memo(AuthModal)

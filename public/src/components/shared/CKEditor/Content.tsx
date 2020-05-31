@@ -7,7 +7,7 @@ import { CKEditorProps } from '.'
 import '../../../types/ckeditor5-react.d'
 import '../../../types/ckeditor5-memorize.ai.d'
 
-const CKEditorContent = memo(({ uploadUrl, data, setData }: CKEditorProps) => {
+const CKEditorContent = ({ uploadUrl, data, setData }: CKEditorProps) => {
 	const config = useMemo(() => ({
 		simpleUpload: { uploadUrl }
 	}), [uploadUrl])
@@ -24,6 +24,6 @@ const CKEditorContent = memo(({ uploadUrl, data, setData }: CKEditorProps) => {
 			onChange={onChange}
 		/>
 	)
-})
+}
 
-export default CKEditorContent
+export default memo(CKEditorContent)

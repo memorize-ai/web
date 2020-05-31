@@ -62,7 +62,7 @@ export const APP_SCHEMA: MobileApplication = {
 	}
 }
 
-const Head = memo(<SchemaItems extends Thing[]>({
+const Head = <SchemaItems extends Thing[]>({
 	isPrerenderReady = true,
 	status,
 	canonicalUrl: _canonicalUrl,
@@ -168,7 +168,7 @@ const Head = memo(<SchemaItems extends Thing[]>({
 			} as any} />
 		</>
 	)
-})
+}
 
-export default Head
+export default memo(Head)
 export * from 'schema.org-react'

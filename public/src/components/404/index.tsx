@@ -7,7 +7,7 @@ import '../../scss/components/404.scss'
 
 const Content = lazy(() => import('./Content'))
 
-const PageNotFound = memo(() => (
+const PageNotFound = () => (
 	<div className="page-404">
 		<TopGradient>
 			<Navbar />
@@ -16,6 +16,6 @@ const PageNotFound = memo(() => (
 			</Suspense>
 		</TopGradient>
 	</div>
-))
+)
 
-export default PageNotFound
+export default memo(PageNotFound)

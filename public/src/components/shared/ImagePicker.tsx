@@ -8,7 +8,7 @@ import Loader from './Loader'
 
 import '../../scss/components/ImagePicker.scss'
 
-const ImagePicker = memo((
+const ImagePicker = (
 	{ rootProps, inputProps, isDragging, isLoading = false, url, removeImage }: {
 		rootProps: DropzoneRootProps
 		inputProps: DropzoneInputProps
@@ -48,6 +48,6 @@ const ImagePicker = memo((
 				)
 		}
 	</div>
-))
+)
 
-export default ImagePicker
+export default memo(ImagePicker)

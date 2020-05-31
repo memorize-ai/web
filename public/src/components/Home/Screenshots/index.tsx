@@ -9,7 +9,7 @@ import { ReactComponent as LeftArrow } from '../../../images/icons/left-arrow.sv
 
 import '../../../scss/components/Home/Screenshots.scss'
 
-const HomeScreenshots = memo(() => {
+const HomeScreenshots = () => {
 	const {
 		screenshots,
 		index,
@@ -55,6 +55,6 @@ const HomeScreenshots = memo(() => {
 			</div>
 		</div>
 	)
-})
+}
 
-export default HomeScreenshots
+export default memo(HomeScreenshots)

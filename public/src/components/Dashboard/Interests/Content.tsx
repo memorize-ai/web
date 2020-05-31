@@ -14,7 +14,7 @@ import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
 
 import '../../../scss/components/Dashboard/Interests.scss'
 
-const InterestsContent = memo(() => {
+const InterestsContent = () => {
 	const [currentUser] = useCurrentUser()
 	const topics = useTopics()
 	
@@ -75,6 +75,6 @@ const InterestsContent = memo(() => {
 			</div>
 		</>
 	)
-})
+}
 
-export default InterestsContent
+export default memo(InterestsContent)

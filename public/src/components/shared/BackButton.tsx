@@ -6,11 +6,11 @@ import { ReactComponent as LeftArrowHead } from '../../images/icons/left-arrow-h
 
 import '../../scss/components/BackButton.scss'
 
-const BackButton = memo(({ to, className, ...props }: { to: string } & AnchorHTMLAttributes<HTMLAnchorElement>) => (
+const BackButton = ({ to, className, ...props }: { to: string } & AnchorHTMLAttributes<HTMLAnchorElement>) => (
 	<Link {...props} to={to} className={cx('back-button', className)}>
 		<LeftArrowHead />
 		<p>Back</p>
 	</Link>
-))
+)
 
-export default BackButton
+export default memo(BackButton)

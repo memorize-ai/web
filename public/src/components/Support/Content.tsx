@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-const SupportContent = memo(() => (
+const SupportContent = () => (
 	<>
 		Email us at support@memorize.ai or by post to:<br /><br />
 		memorize.ai<br />
@@ -8,6 +8,6 @@ const SupportContent = memo(() => (
 		Manhattan Beach, CA 90266<br />
 		United States
 	</>
-))
+)
 
-export default SupportContent
+export default memo(SupportContent)

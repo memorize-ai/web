@@ -17,7 +17,7 @@ import users from '../../../images/icons/users.svg'
 
 import '../../../scss/components/DeckCell/index.scss'
 
-const DeckCell = memo(({ deck }: { deck: Deck }) => {
+const DeckCell = ({ deck }: { deck: Deck }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -109,6 +109,6 @@ const DeckCell = memo(({ deck }: { deck: Deck }) => {
 			</Button>
 		</Base>
 	)
-})
+}
 
-export default DeckCell
+export default memo(DeckCell)

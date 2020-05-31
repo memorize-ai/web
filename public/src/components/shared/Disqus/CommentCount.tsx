@@ -3,8 +3,8 @@ import { CommentCount } from 'disqus-react'
 
 import { DisqusProps, componentProps } from '.'
 
-const DisqusCommentCountContent = memo((props: DisqusProps) => (
+const DisqusCommentCountContent = (props: DisqusProps) => (
 	<CommentCount {...componentProps(props)} />
-))
+)
 
-export default DisqusCommentCountContent
+export default memo(DisqusCommentCountContent)

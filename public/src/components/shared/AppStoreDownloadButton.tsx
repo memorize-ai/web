@@ -8,7 +8,7 @@ import 'firebase/analytics'
 
 const analytics = firebase.analytics()
 
-const AppStoreDownloadButton = memo((props: HTMLAttributes<HTMLAnchorElement>) => (
+const AppStoreDownloadButton = (props: HTMLAttributes<HTMLAnchorElement>) => (
 	<a
 		{...props}
 		href={APP_STORE_URL}
@@ -16,6 +16,6 @@ const AppStoreDownloadButton = memo((props: HTMLAttributes<HTMLAnchorElement>) =
 	>
 		<AppStoreDownloadImage />
 	</a>
-))
+)
 
-export default AppStoreDownloadButton
+export default memo(AppStoreDownloadButton)

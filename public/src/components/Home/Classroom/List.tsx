@@ -9,7 +9,7 @@ export const ITEMS = [
 	<>Students can then unlock sections<br />and begin memorizing!</>
 ]
 
-const HomeClassroomList = memo(() => (
+const HomeClassroomList = () => (
 	<ol className="list">
 		{ITEMS.map((text, i) => (
 			<li key={i}>
@@ -21,6 +21,6 @@ const HomeClassroomList = memo(() => (
 			</li>
 		))}
 	</ol>
-))
+)
 
-export default HomeClassroomList
+export default memo(HomeClassroomList)

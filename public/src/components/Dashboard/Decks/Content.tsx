@@ -15,7 +15,7 @@ import Loader from '../../shared/Loader'
 
 import '../../../scss/components/Dashboard/Decks.scss'
 
-const DecksContent = memo(() => {
+const DecksContent = () => {
 	requiresAuth()
 	
 	const [imageUrls] = useContext(DeckImageUrlsContext)
@@ -98,6 +98,6 @@ const DecksContent = memo(() => {
 			</div>
 		</>
 	)
-})
+}
 
-export default DecksContent
+export default memo(DecksContent)

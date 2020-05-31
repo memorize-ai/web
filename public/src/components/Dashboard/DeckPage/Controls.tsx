@@ -17,7 +17,7 @@ TimeAgo.addLocale(enLocale)
 
 const timeAgo = new TimeAgo('en-US')
 
-const DeckPageControls = memo(({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
+const DeckPageControls = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 	const [currentUser] = useCurrentUser()
 	
 	const [hoverRating, setHoverRating] = useState(null as 1 | 2 | 3 | 4 | 5 | null)
@@ -130,6 +130,6 @@ const DeckPageControls = memo(({ deck, hasDeck }: { deck: Deck, hasDeck: boolean
 			</div>
 		</div>
 	)
-})
+}
 
-export default DeckPageControls
+export default memo(DeckPageControls)

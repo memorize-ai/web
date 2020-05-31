@@ -15,7 +15,7 @@ import { formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Home.scss'
 
-const DashboardHomeContent = memo(() => {
+const DashboardHomeContent = () => {
 	const [currentUser] = useCurrentUser()
 	
 	const [decks] = useDecks()
@@ -158,6 +158,6 @@ const DashboardHomeContent = memo(() => {
 			/>
 		</>
 	)
-})
+}
 
-export default DashboardHomeContent
+export default memo(DashboardHomeContent)

@@ -26,7 +26,7 @@ import '../../scss/components/Dashboard/Navbar.scss'
 
 const auth = firebase.auth()
 
-const DashboardNavbar = memo(({ selection }: { selection: Selection }) => {
+const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 	const isSignedIn = useAuthState()
 	const [currentUser] = useCurrentUser()
 	const [decks] = useDecks()
@@ -147,6 +147,6 @@ const DashboardNavbar = memo(({ selection }: { selection: Selection }) => {
 			/>
 		</div>
 	)
-})
+}
 
-export default DashboardNavbar
+export default memo(DashboardNavbar)

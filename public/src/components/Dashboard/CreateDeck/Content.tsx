@@ -24,7 +24,7 @@ import '../../../scss/components/Dashboard/CreateDeck.scss'
 
 const HEAD_DESCRIPTION = 'Create your own deck on memorize.ai.'
 
-const CreateDeckContent = memo(() => {
+const CreateDeckContent = () => {
 	const [
 		{ image, name, subtitle, description, topics: selectedTopics },
 		dispatch
@@ -88,6 +88,11 @@ const CreateDeckContent = memo(() => {
 		}
 	}, [currentUser, setAuthModalIsShowing, setAuthModalCallback, description, history, image, name, reset, selectedTopics, subtitle])
 	
+	const setName = useCallback(compose(dispatch, setCreateDeckName), [dispatch])
+	const setSubtitle = useCallback(compose(dispatch, setCreateDeckSubtitle), [dispatch])
+	const setDescription = useCallback(compose(dispatch, setCreateDeckDescription), [dispatch])
+	const setSelectedTopics = useCallback(compose(dispatch, setCreateDeckTopics), [dispatch])
+	
 	return (
 		<>
 			<Head
@@ -141,15 +146,15 @@ const CreateDeckContent = memo(() => {
 						selectedTopics={selectedTopics}
 						
 						setImage={setImage}
-						setName={compose(dispatch, setCreateDeckName)}
-						setSubtitle={compose(dispatch, setCreateDeckSubtitle)}
-						setDescription={compose(dispatch, setCreateDeckDescription)}
-						setSelectedTopics={compose(dispatch, setCreateDeckTopics)}
+						setName={setName}
+						setSubtitle={setSubtitle}
+						setDescription={setDescription}
+						setSelectedTopics={setSelectedTopics}
 					/>
 				</div>
 			</div>
 		</>
 	)
-})
+}
 
-export default CreateDeckContent
+export default memo(CreateDeckContent)

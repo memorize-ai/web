@@ -7,8 +7,8 @@ export enum LogoType {
 	CapitalInvertedGrayscale = 'capital-inverted-grayscale.webp'
 }
 
-const Logo = memo(({ type, ...props }: { type: LogoType } & HTMLAttributes<HTMLImageElement>) => (
+const Logo = ({ type, ...props }: { type: LogoType } & HTMLAttributes<HTMLImageElement>) => (
 	<img {...props} src={require(`../../images/logos/${type}`)} alt="Logo" />
-))
+)
 
-export default Logo
+export default memo(Logo)

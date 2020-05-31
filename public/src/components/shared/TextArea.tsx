@@ -3,7 +3,7 @@ import cx from 'classnames'
 
 import '../../scss/components/TextArea.scss'
 
-const TextArea = memo((
+const TextArea = (
 	{ className, minHeight, placeholder, value, setValue, ...props }: {
 		className?: string
 		minHeight?: string | number
@@ -20,6 +20,6 @@ const TextArea = memo((
 		value={value}
 		onChange={({ target: { value } }) => setValue(value)}
 	/>
-))
+)
 
-export default TextArea
+export default memo(TextArea)

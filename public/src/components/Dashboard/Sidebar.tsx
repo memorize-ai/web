@@ -13,7 +13,7 @@ import { isNullish, formatNumber, formatNumberAsInt } from '../../utils'
 
 import '../../scss/components/Dashboard/Sidebar.scss'
 
-const DashboardSidebar = memo(() => {
+const DashboardSidebar = () => {
 	const isSignedIn = useAuthState()
 	
 	const [decks, decksLoadingState] = useDecks()
@@ -115,6 +115,6 @@ const DashboardSidebar = memo(() => {
 			</div>
 		</div>
 	)
-})
+}
 
-export default DashboardSidebar
+export default memo(DashboardSidebar)

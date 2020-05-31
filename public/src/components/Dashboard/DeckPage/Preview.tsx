@@ -19,7 +19,7 @@ import { ReactComponent as RightArrowHead } from '../../../images/icons/gray-rig
 
 const BOX_TRANSFORM_X_LENGTH = 20
 
-const DeckPagePreview = memo(({ deck }: { deck: Deck }) => {
+const DeckPagePreview = ({ deck }: { deck: Deck }) => {
 	const __sections = useSections(deck.id)
 	
 	const _sections = useMemo(() => (
@@ -204,6 +204,6 @@ const DeckPagePreview = memo(({ deck }: { deck: Deck }) => {
 			</div>
 		</div>
 	)
-})
+}
 
-export default DeckPagePreview
+export default memo(DeckPagePreview)

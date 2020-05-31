@@ -9,7 +9,7 @@ import '../../scss/components/Policy.scss'
 
 const analytics = firebase.analytics()
 
-const Policy = memo((
+const Policy = (
 	{ id, title, description, children }: PropsWithChildren<{
 		id: string
 		description: string
@@ -47,6 +47,6 @@ const Policy = memo((
 			{children}
 		</div>
 	)
-})
+}
 
-export default Policy
+export default memo(Policy)

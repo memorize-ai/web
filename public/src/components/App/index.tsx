@@ -28,7 +28,7 @@ import AuthModal from '../shared/Modal/Auth'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-const App = memo(() => (
+const App = () => (
 	<BrowserRouter>
 		<Switch>
 			<Route exact path="/" component={Root} />
@@ -71,6 +71,6 @@ const App = memo(() => (
 		<AuthModal />
 		<ToastContainer />
 	</BrowserRouter>
-))
+)
 
-export default App
+export default memo(App)

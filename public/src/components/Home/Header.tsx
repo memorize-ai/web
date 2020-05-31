@@ -7,7 +7,7 @@ import Screenshot, { ScreenshotType } from '../shared/Screenshot'
 
 import '../../scss/components/Home/Header.scss'
 
-const HomeHeader = memo(() => (
+const HomeHeader = () => (
 	<div className="header">
 		<div className="left">
 			<h1>
@@ -25,6 +25,6 @@ const HomeHeader = memo(() => (
 		</div>
 		<Screenshot type={ScreenshotType.Cram} className="screenshot" />
 	</div>
-))
+)
 
-export default HomeHeader
+export default memo(HomeHeader)

@@ -3,7 +3,7 @@ import cx from 'classnames'
 
 import '../../scss/components/Loader.scss'
 
-const Loader = memo((
+const Loader = (
 	{ className, size, thickness, color, ...props }: {
 		size: string
 		thickness: string
@@ -21,6 +21,6 @@ const Loader = memo((
 			borderRight: `${thickness} solid ${color}`
 		}}
 	/>
-))
+)
 
-export default Loader
+export default memo(Loader)

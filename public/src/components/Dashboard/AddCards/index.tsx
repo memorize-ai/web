@@ -10,10 +10,10 @@ export interface CardDraft {
 
 const Content = lazy(() => import('./Content'))
 
-const AddCards = memo(() => (
+const AddCards = () => (
 	<Dashboard selection={Selection.Decks} className="add-cards">
 		<Content />
 	</Dashboard>
-))
+)
 
-export default AddCards
+export default memo(AddCards)

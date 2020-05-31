@@ -12,7 +12,7 @@ import { urlForMarket } from '../Dashboard/Market'
 
 import '../../scss/components/Navbar.scss'
 
-const Navbar = memo(() => {
+const Navbar = () => {
 	const history = useHistory()
 	
 	const isSignedIn = useAuthState()
@@ -56,6 +56,6 @@ const Navbar = memo(() => {
 			</div>
 		</div>
 	)
-})
+}
 
-export default Navbar
+export default memo(Navbar)

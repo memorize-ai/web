@@ -19,7 +19,7 @@ TimeAgo.addLocale(enLocale)
 
 const timeAgo = new TimeAgo('en-US')
 
-const OwnedCardCell = memo(({ deck, card }: { deck: Deck, card: Card }) => {
+const OwnedCardCell = ({ deck, card }: { deck: Deck, card: Card }) => {
 	const [currentUser] = useCurrentUser()
 	
 	const { userData, isDue } = card
@@ -80,6 +80,6 @@ const OwnedCardCell = memo(({ deck, card }: { deck: Deck, card: Card }) => {
 			</Link>
 		)
 		: <div {...props}>{content}</div>
-})
+}
 
-export default OwnedCardCell
+export default memo(OwnedCardCell)

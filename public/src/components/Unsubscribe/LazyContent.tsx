@@ -15,7 +15,7 @@ import '../../scss/components/Unsubscribe.scss'
 const analytics = firebase.analytics()
 const firestore = firebase.firestore()
 
-const UnsubscribeLazyContent = memo(() => {
+const UnsubscribeLazyContent = () => {
 	const { uid, type } = useParams()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
@@ -67,6 +67,6 @@ const UnsubscribeLazyContent = memo(() => {
 			/>
 		</div>
 	)
-})
+}
 
-export default UnsubscribeLazyContent
+export default memo(UnsubscribeLazyContent)

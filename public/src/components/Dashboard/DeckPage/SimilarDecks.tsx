@@ -7,7 +7,7 @@ import { formatNumber } from '../../../utils'
 
 export const SIMILAR_DECKS_CHUNK_SIZE = 10
 
-const DeckPageSimilarDecks = memo(({ deck }: { deck: Deck }) => {
+const DeckPageSimilarDecks = ({ deck }: { deck: Deck }) => {
 	const similarDecks = useSimilarDecks(deck, SIMILAR_DECKS_CHUNK_SIZE)
 	
 	const withFilter = useCallback((filter: (i: number) => any) => (
@@ -29,6 +29,6 @@ const DeckPageSimilarDecks = memo(({ deck }: { deck: Deck }) => {
 			</div>
 		</div>
 	)
-})
+}
 
-export default DeckPageSimilarDecks
+export default memo(DeckPageSimilarDecks)

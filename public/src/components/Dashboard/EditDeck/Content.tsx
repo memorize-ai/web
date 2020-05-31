@@ -20,7 +20,7 @@ import { handleError } from '../../../utils'
 
 import '../../../scss/components/Dashboard/EditDeck.scss'
 
-const EditDeckContent = memo(() => {
+const EditDeckContent = () => {
 	requiresAuth()
 	
 	const didUpdateFromDeck = useRef(false)
@@ -176,6 +176,6 @@ const EditDeckContent = memo(() => {
 			</div>
 		</>
 	)
-})
+}
 
-export default EditDeckContent
+export default memo(EditDeckContent)

@@ -19,7 +19,7 @@ export interface InputModalProps {
 	setIsShowing: (isShowing: boolean) => void
 }
 
-const InputModal = memo(({
+const InputModal = ({
 	title,
 	placeholder,
 	buttonText,
@@ -71,6 +71,6 @@ const InputModal = memo(({
 			</div>
 		</Modal>
 	)
-})
+}
 
-export default InputModal
+export default memo(InputModal)

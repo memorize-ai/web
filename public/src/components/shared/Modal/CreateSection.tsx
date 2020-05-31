@@ -6,7 +6,7 @@ import InputModal from './Input'
 import useSections from '../../../hooks/useSections'
 import { handleError } from '../../../utils'
 
-const CreateSectionModal = memo((
+const CreateSectionModal = (
 	{ deck, isShowing, setIsShowing }: {
 		deck: Deck
 		isShowing: boolean
@@ -44,6 +44,6 @@ const CreateSectionModal = memo((
 			setIsShowing={setIsShowing}
 		/>
 	)
-})
+}
 
-export default CreateSectionModal
+export default memo(CreateSectionModal)

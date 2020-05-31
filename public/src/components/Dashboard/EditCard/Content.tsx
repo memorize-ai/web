@@ -24,7 +24,7 @@ import '../../../scss/components/Dashboard/EditCard.scss'
 
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
 
-const EditCardContent = memo(() => {
+const EditCardContent = () => {
 	requiresAuth()
 	
 	const { slugId, slug, cardId } = useParams()
@@ -275,6 +275,6 @@ const EditCardContent = memo(() => {
 			/>
 		</>
 	)
-})
+}
 
-export default EditCardContent
+export default memo(EditCardContent)

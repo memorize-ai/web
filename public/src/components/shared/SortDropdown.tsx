@@ -15,7 +15,7 @@ export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 	type
 }))
 
-const SortDropdown = memo((
+const SortDropdown = (
 	{ shadow, isShowing, setIsShowing, algorithm, setAlgorithm }: {
 		shadow: DropdownShadow
 		isShowing: boolean
@@ -51,6 +51,6 @@ const SortDropdown = memo((
 			)
 		})}
 	</Dropdown>
-))
+)
 
-export default SortDropdown
+export default memo(SortDropdown)

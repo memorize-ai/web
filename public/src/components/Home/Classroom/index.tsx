@@ -6,7 +6,7 @@ import diagram from '../../../images/home/classroom.png'
 
 import '../../../scss/components/Home/Classroom.scss'
 
-const HomeClassroom = memo(() => (
+const HomeClassroom = () => (
 	<div className="classroom">
 		<div className="background" />
 		<div className="content">
@@ -27,6 +27,6 @@ const HomeClassroom = memo(() => (
 			</article>
 		</div>
 	</div>
-))
+)
 
-export default HomeClassroom
+export default memo(HomeClassroom)

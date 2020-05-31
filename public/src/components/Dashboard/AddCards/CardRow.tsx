@@ -6,7 +6,7 @@ import cx from 'classnames'
 import Card from '../../../models/Card'
 import CKEditor from '../../shared/CKEditor'
 
-const AddCardsCardRow = memo((
+const AddCardsCardRow = (
 	{ uploadUrl, front, back, canRemove, remove, updateFront, updateBack }: {
 		uploadUrl: string
 		front: string
@@ -71,6 +71,6 @@ const AddCardsCardRow = memo((
 			</div>
 		</div>
 	)
-})
+}
 
-export default AddCardsCardRow
+export default memo(AddCardsCardRow)

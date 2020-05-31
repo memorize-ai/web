@@ -15,7 +15,7 @@ import { ReactComponent as PencilIcon } from '../../../images/icons/pencil.svg'
 
 import '../../../scss/components/SectionHeader/Owned.scss'
 
-const OwnedSectionHeader = memo((
+const OwnedSectionHeader = (
 	{ deck, section, isExpanded, toggleExpanded, onUnlock, onRename, onDelete, onShare, numberOfSections, reorder }: {
 		deck: Deck
 		section: Section
@@ -153,6 +153,6 @@ const OwnedSectionHeader = memo((
 			)}
 		</div>
 	)
-})
+}
 
-export default OwnedSectionHeader
+export default memo(OwnedSectionHeader)

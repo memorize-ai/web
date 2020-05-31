@@ -17,10 +17,10 @@ export const urlForMarket = () => {
 
 const Content = lazy(() => import('./Content'))
 
-const Market = memo(() => (
+const Market = () => (
 	<Dashboard selection={Selection.Market} className="market">
 		<Content />
 	</Dashboard>
-))
+)
 
-export default Market
+export default memo(Market)

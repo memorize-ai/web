@@ -9,7 +9,7 @@ import Features from './Features'
 import Classroom from './Classroom'
 import Footer from './Footer'
 
-const Home = memo(() => (
+const Home = () => (
 	<div className="home">
 		<TopGradient>
 			<Navbar />
@@ -21,6 +21,6 @@ const Home = memo(() => (
 		<Classroom />
 		<Footer />
 	</div>
-))
+)
 
-export default Home
+export default memo(Home)

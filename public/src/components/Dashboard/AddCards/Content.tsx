@@ -34,7 +34,7 @@ import '../../../scss/components/Dashboard/AddCards.scss'
 const GO_BACK_MESSAGE = 'Your drafts will be kept during this session.'
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? Your drafts will be lost.'
 
-const AddCardsContent = memo(() => {
+const AddCardsContent = () => {
 	requiresAuth()
 	
 	const { slugId, slug, sectionId } = useParams()
@@ -123,6 +123,8 @@ const AddCardsContent = memo(() => {
 		setIsCloseModalShowing(false)
 		close()
 	}, [setIsCloseModalShowing, close])
+	
+	const onConfirmDeleteDrafts = useCallback(compose(dispatch, removeAll), [dispatch])
 	
 	return (
 		<>
@@ -255,7 +257,7 @@ const AddCardsContent = memo(() => {
 			<ConfirmationModal
 				title="Delete drafts"
 				message="Are you sure? You can't go back!"
-				onConfirm={compose(dispatch, removeAll)}
+				onConfirm={onConfirmDeleteDrafts}
 				buttonText="Delete"
 				buttonBackground="#e53e3e"
 				isShowing={isDeleteDraftsModalShowing}
@@ -263,6 +265,6 @@ const AddCardsContent = memo(() => {
 			/>
 		</>
 	)
-})
+}
 
-export default AddCardsContent
+export default memo(AddCardsContent)

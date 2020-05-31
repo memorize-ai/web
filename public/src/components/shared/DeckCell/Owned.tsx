@@ -8,7 +8,7 @@ import { randomEmoji } from '../../../utils'
 
 import '../../../scss/components/DeckCell/Owned.scss'
 
-const OwnedDeckCell = memo(({ deck, downloadApp }: { deck: Deck, downloadApp: () => void }) => {
+const OwnedDeckCell = ({ deck, downloadApp }: { deck: Deck, downloadApp: () => void }) => {
 	const { userData } = deck
 	
 	const numberOfDueCards = userData?.numberOfDueCards ?? 0
@@ -49,6 +49,6 @@ const OwnedDeckCell = memo(({ deck, downloadApp }: { deck: Deck, downloadApp: ()
 			)}
 		</Base>
 	)
-})
+}
 
-export default OwnedDeckCell
+export default memo(OwnedDeckCell)

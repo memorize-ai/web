@@ -2,7 +2,7 @@ import React, { HTMLAttributes, memo } from 'react'
 
 import '../../scss/components/ScrollIndicator.scss'
 
-const ScrollIndicator = memo(({ color = 'white', ...props }: HTMLAttributes<HTMLDivElement>) => (
+const ScrollIndicator = ({ color = 'white', ...props }: HTMLAttributes<HTMLDivElement>) => (
 	<div
 		{...props}
 		className="scroll-indicator"
@@ -10,6 +10,6 @@ const ScrollIndicator = memo(({ color = 'white', ...props }: HTMLAttributes<HTML
 	>
 		<div style={{ background: color }} />
 	</div>
-))
+)
 
-export default ScrollIndicator
+export default memo(ScrollIndicator)

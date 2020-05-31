@@ -4,8 +4,8 @@ import useAuthState from '../../hooks/useAuthState'
 import Home from '../Home'
 import DashboardHome from '../Dashboard/Home'
 
-const Root = memo(() => (
+const Root = () => (
 	useAuthState() ? <DashboardHome /> : <Home />
-))
+)
 
-export default Root
+export default memo(Root)

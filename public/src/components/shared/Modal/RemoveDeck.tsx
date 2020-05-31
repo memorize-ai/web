@@ -10,7 +10,7 @@ export interface RemoveDeckModalProps {
 	setIsShowing: (isShowing: boolean) => void
 }
 
-const RemoveDeckModal = memo(({ deck, isShowing, setIsShowing }: RemoveDeckModalProps) => {
+const RemoveDeckModal = ({ deck, isShowing, setIsShowing }: RemoveDeckModalProps) => {
 	const [currentUser] = useCurrentUser()
 	
 	const onConfirm = useCallback(() => {
@@ -32,6 +32,6 @@ const RemoveDeckModal = memo(({ deck, isShowing, setIsShowing }: RemoveDeckModal
 			setIsShowing={setIsShowing}
 		/>
 	)
-})
+}
 
-export default RemoveDeckModal
+export default memo(RemoveDeckModal)

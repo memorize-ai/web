@@ -8,7 +8,7 @@ import Modal from '.'
 
 import '../../../scss/components/Modal/Share.scss'
 
-const ShareModal = memo((
+const ShareModal = (
 	{ title, message, url, isShowing, setIsShowing }: {
 		title: string
 		message?: ReactNode
@@ -61,6 +61,6 @@ const ShareModal = memo((
 			</form>
 		</Modal>
 	)
-})
+}
 
-export default ShareModal
+export default memo(ShareModal)

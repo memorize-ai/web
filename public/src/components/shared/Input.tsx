@@ -15,7 +15,7 @@ export interface InputProps {
 	setValue: (value: string) => void
 }
 
-const Input = memo(forwardRef<HTMLInputElement | null, InputProps & InputHTMLAttributes<HTMLInputElement>>((
+const Input = forwardRef<HTMLInputElement | null, InputProps & InputHTMLAttributes<HTMLInputElement>>((
 	{ className, required, icon, type, placeholder, value, setValue, ...props },
 	ref
 ) => (
@@ -31,6 +31,6 @@ const Input = memo(forwardRef<HTMLInputElement | null, InputProps & InputHTMLAtt
 		/>
 		{icon && <FontAwesomeIcon icon={icon} />}
 	</div>
-)))
+))
 
-export default Input
+export default memo(Input)

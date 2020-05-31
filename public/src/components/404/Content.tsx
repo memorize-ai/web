@@ -7,7 +7,7 @@ import 'firebase/analytics'
 
 const analytics = firebase.analytics()
 
-const PageNotFoundContent = memo(() => {
+const PageNotFoundContent = () => {
 	useEffect(() => {
 		analytics.logEvent('404')
 	}, [])
@@ -35,6 +35,6 @@ const PageNotFoundContent = memo(() => {
 			</h1>
 		</>
 	)
-})
+}
 
-export default PageNotFoundContent
+export default memo(PageNotFoundContent)

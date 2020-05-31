@@ -21,7 +21,7 @@ import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 import { ReactComponent as DownloadIcon } from '../../../images/icons/download.svg'
 import { ReactComponent as UsersIcon } from '../../../images/icons/users.svg'
 
-const DeckPageHeader = memo(({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
+const DeckPageHeader = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -141,6 +141,6 @@ const DeckPageHeader = memo(({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }
 			/>
 		</div>
 	)
-})
+}
 
-export default DeckPageHeader
+export default memo(DeckPageHeader)

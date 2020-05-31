@@ -3,8 +3,8 @@ import { DiscussionEmbed } from 'disqus-react'
 
 import { DisqusProps, componentProps } from '.'
 
-const DisqusDiscussionEmbedContent = memo((props: DisqusProps) => (
+const DisqusDiscussionEmbedContent = (props: DisqusProps) => (
 	<DiscussionEmbed {...componentProps(props)} />
-))
+)
 
-export default DisqusDiscussionEmbedContent
+export default memo(DisqusDiscussionEmbedContent)

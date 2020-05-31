@@ -2,10 +2,10 @@ import React, { lazy, Suspense, memo } from 'react'
 
 const Content = lazy(() => import('./LazyContent'))
 
-const Unsubscribe = memo(() => (
+const Unsubscribe = () => (
 	<Suspense fallback={null}>
 		<Content />
 	</Suspense>
-))
+)
 
-export default Unsubscribe
+export default memo(Unsubscribe)

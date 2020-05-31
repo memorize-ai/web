@@ -5,7 +5,7 @@ import useKeyPress from '../../../hooks/useKeyPress'
 
 import '../../../scss/components/Modal/index.scss'
 
-const Modal = memo((
+const Modal = (
 	{ className, isLazy, isShowing, setIsShowing, children }: PropsWithChildren<{
 		className?: string
 		isLazy: boolean
@@ -77,6 +77,6 @@ const Modal = memo((
 			{shouldShowContent && children}
 		</div>
 	), element.current)
-})
+}
 
-export default Modal
+export default memo(Modal)

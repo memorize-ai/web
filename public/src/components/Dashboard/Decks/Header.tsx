@@ -21,7 +21,7 @@ import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
 import { ReactComponent as EditIcon } from '../../../images/icons/edit.svg'
 
-const DecksHeader = memo(({ deck }: { deck: Deck | null }) => {
+const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	const [currentUser] = useCurrentUser()
 	const [imageUrl] = useImageUrl(deck)
 	
@@ -149,6 +149,6 @@ const DecksHeader = memo(({ deck }: { deck: Deck | null }) => {
 			/>
 		</div>
 	)
-})
+}
 
-export default DecksHeader
+export default memo(DecksHeader)

@@ -22,16 +22,18 @@ export const componentProps = (props: DisqusProps) => ({
 const DiscussionEmbed = lazy(() => import('./DiscussionEmbed'))
 const CommentCount = lazy(() => import('./CommentCount'))
 
-const DisqusDiscussionEmbed = memo((props: DisqusProps) => (
+const DisqusDiscussionEmbed = (props: DisqusProps) => (
 	<Suspense fallback={null}>
 		<DiscussionEmbed {...props} />
 	</Suspense>
-))
+)
 
-export default DisqusDiscussionEmbed
+export default memo(DisqusDiscussionEmbed)
 
-export const DisqusCommentCount = memo((props: DisqusProps) => (
+const _DisqusCommentCount = (props: DisqusProps) => (
 	<Suspense fallback={null}>
 		<CommentCount {...props} />
 	</Suspense>
-))
+)
+
+export const DisqusCommentCount = memo(_DisqusCommentCount)

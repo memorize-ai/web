@@ -8,7 +8,7 @@ import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 
 import '../../../scss/components/SectionHeader/index.scss'
 
-const SectionHeader = memo((
+const SectionHeader = (
 	{ section, isExpanded, toggleExpanded, onShare }: {
 		section: Section
 		isExpanded: boolean
@@ -48,6 +48,6 @@ const SectionHeader = memo((
 			)}
 		</div>
 	)
-})
+}
 
-export default SectionHeader
+export default memo(SectionHeader)

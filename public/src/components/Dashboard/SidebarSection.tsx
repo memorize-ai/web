@@ -4,7 +4,7 @@ import Deck from '../../models/Deck'
 import { includesNormalized } from '../../utils'
 import Row from './SidebarRow'
 
-const DashboardSidebarSection = memo((
+const DashboardSidebarSection = (
 	{ title, decks: _decks, query, includesDivider = false }: {
 		title: string
 		decks: Deck[]
@@ -31,6 +31,6 @@ const DashboardSidebarSection = memo((
 			</div>
 		)
 		: null
-})
+}
 
-export default DashboardSidebarSection
+export default memo(DashboardSidebarSection)

@@ -32,7 +32,7 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'
 
-const DeckPageContent = memo(() => {
+const DeckPageContent = () => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)
 	
 	const history = useHistory()
@@ -198,6 +198,6 @@ const DeckPageContent = memo(() => {
 			</div>
 		</>
 	)
-})
+}
 
-export default DeckPageContent
+export default memo(DeckPageContent)

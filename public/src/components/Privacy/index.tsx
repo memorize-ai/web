@@ -4,7 +4,7 @@ import Policy from '../shared/Policy'
 
 const Content = lazy(() => import('./Content'))
 
-const Privacy = memo(() => (
+const Privacy = () => (
 	<Policy
 		id="privacy"
 		title="Privacy"
@@ -14,6 +14,6 @@ const Privacy = memo(() => (
 			<Content />
 		</Suspense>
 	</Policy>
-))
+)
 
-export default Privacy
+export default memo(Privacy)

@@ -5,7 +5,7 @@ import cx from 'classnames'
 
 import '../../scss/components/CardSide.scss'
 
-const CardSide = memo(({ className, children, ...props }: { children: string } & HTMLAttributes<HTMLDivElement>) => {
+const CardSide = ({ className, children, ...props }: { children: string } & HTMLAttributes<HTMLDivElement>) => {
 	const onRef = useCallback((element: HTMLDivElement | null) => {
 		if (!element)
 			return
@@ -29,6 +29,6 @@ const CardSide = memo(({ className, children, ...props }: { children: string } &
 			dangerouslySetInnerHTML={{ __html: children }}
 		/>
 	)
-})
+}
 
-export default CardSide
+export default memo(CardSide)

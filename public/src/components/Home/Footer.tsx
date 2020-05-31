@@ -6,7 +6,7 @@ import Logo, { LogoType } from '../shared/Logo'
 
 import '../../scss/components/Home/Footer.scss'
 
-const HomeFooter = memo(() => (
+const HomeFooter = () => (
 	<footer className="footer">
 		<div className="background" />
 		<div className="content">
@@ -53,6 +53,6 @@ const HomeFooter = memo(() => (
 			</div>
 		</div>
 	</footer>
-))
+)
 
-export default HomeFooter
+export default memo(HomeFooter)

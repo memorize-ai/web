@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-const PrivacyContent = memo(() => (
+const PrivacyContent = () => (
 	<>
 		Last updated February 25, 2020<br /><br />
 		Thank you for choosing to be part of our community at memorize.ai ("Company", "we", "us", or "our"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our notice, or our practices with regards to your personal information, please contact us at support@memorize.ai.<br /><br />
@@ -86,6 +86,6 @@ const PrivacyContent = memo(() => (
 		HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?<br />
 		Based on the laws of some countries, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please submit a request form by clicking here. We will respond to your request within 30 days.
 	</>
-))
+)
 
-export default PrivacyContent
+export default memo(PrivacyContent)

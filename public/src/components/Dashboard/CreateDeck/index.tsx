@@ -5,7 +5,7 @@ import useAuthState from '../../../hooks/useAuthState'
 
 const Content = lazy(() => import('./Content'))
 
-const CreateDeck = memo(() => {
+const CreateDeck = () => {
 	const isSignedIn = useAuthState()
 	
 	return (
@@ -16,6 +16,6 @@ const CreateDeck = memo(() => {
 			<Content />
 		</Dashboard>
 	)
-})
+}
 
-export default CreateDeck
+export default memo(CreateDeck)

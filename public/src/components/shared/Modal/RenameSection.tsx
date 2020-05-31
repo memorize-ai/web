@@ -5,7 +5,7 @@ import Section from '../../../models/Section'
 import InputModal from './Input'
 import { handleError } from '../../../utils'
 
-const RenameSectionModal = memo((
+const RenameSectionModal = (
 	{ deck, section, isShowing, setIsShowing }: {
 		deck: Deck
 		section: Section | null
@@ -43,6 +43,6 @@ const RenameSectionModal = memo((
 			setIsShowing={setIsShowing}
 		/>
 	)
-})
+}
 
-export default RenameSectionModal
+export default memo(RenameSectionModal)

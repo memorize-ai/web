@@ -6,7 +6,7 @@ import { ReactComponent as TimesIcon } from '../../../images/icons/times.svg'
 
 import '../../../scss/components/Modal/Confirmation.scss'
 
-const ConfirmationModal = memo((
+const ConfirmationModal = (
 	{ title, message, onConfirm, buttonText, buttonBackground, isShowing, setIsShowing }: {
 		title: string
 		message: ReactNode
@@ -42,6 +42,6 @@ const ConfirmationModal = memo((
 			</button>
 		</div>
 	</Modal>
-))
+)
 
-export default ConfirmationModal
+export default memo(ConfirmationModal)

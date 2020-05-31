@@ -8,7 +8,7 @@ import useSelectedDeck from '../../hooks/useSelectedDeck'
 import useImageUrl from '../../hooks/useImageUrl'
 import { formatNumber } from '../../utils'
 
-const DashboardSidebarRow = memo(({ deck }: { deck: Deck }) => {
+const DashboardSidebarRow = ({ deck }: { deck: Deck }) => {
 	const [selectedDeck] = useSelectedDeck()
 	const [imageUrl, imageUrlLoadingState] = useImageUrl(deck)
 	
@@ -34,6 +34,6 @@ const DashboardSidebarRow = memo(({ deck }: { deck: Deck }) => {
 			)}
 		</Link>
 	)
-})
+}
 
-export default DashboardSidebarRow
+export default memo(DashboardSidebarRow)

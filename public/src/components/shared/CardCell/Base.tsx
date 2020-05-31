@@ -5,7 +5,7 @@ import CardSide from '../CardSide'
 
 import '../../../scss/components/CardCell/Base.scss'
 
-const CardCellBase = memo(({ card }: { card: Card }) => (
+const CardCellBase = ({ card }: { card: Card }) => (
 	<div className="sides">
 		<div className="side">
 			<CardSide itemProp="name">
@@ -19,6 +19,6 @@ const CardCellBase = memo(({ card }: { card: Card }) => (
 			<p>Back</p>
 		</div>
 	</div>
-))
+)
 
-export default CardCellBase
+export default memo(CardCellBase)

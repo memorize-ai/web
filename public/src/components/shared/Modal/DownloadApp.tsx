@@ -11,7 +11,7 @@ const screenshots = [1, 2, 3, 4, 5, 6, 7].map(i =>
 	require(`../../../images/screenshots/framed/${i}.webp`) as string
 )
 
-const DownloadAppModal = memo((
+const DownloadAppModal = (
 	{ message, isShowing, setIsShowing }: {
 		message: string
 		isShowing: boolean
@@ -50,6 +50,6 @@ const DownloadAppModal = memo((
 			</div>
 		</div>
 	</Modal>
-))
+)
 
-export default DownloadAppModal
+export default memo(DownloadAppModal)

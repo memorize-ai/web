@@ -4,7 +4,7 @@ import Star from './Star'
 
 import '../../../scss/components/Stars.scss'
 
-const Stars = memo(({ children: rating }: { children: number }) => (
+const Stars = ({ children: rating }: { children: number }) => (
 	<div className="stars">
 		{[0, 1, 2, 3, 4].map(offset => (
 			<Star
@@ -13,6 +13,6 @@ const Stars = memo(({ children: rating }: { children: number }) => (
 			/>
 		))}
 	</div>
-))
+)
 
-export default Stars
+export default memo(Stars)

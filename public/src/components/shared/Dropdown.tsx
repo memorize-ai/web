@@ -9,7 +9,7 @@ export enum DropdownShadow {
 	Screen = 'screen'
 }
 
-const Dropdown = memo((
+const Dropdown = (
 	{
 		className,
 		shadow,
@@ -73,6 +73,6 @@ const Dropdown = memo((
 			)}
 		</div>
 	)
-})
+}
 
-export default Dropdown
+export default memo(Dropdown)

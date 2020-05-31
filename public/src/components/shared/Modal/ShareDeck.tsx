@@ -4,7 +4,7 @@ import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import ShareModal from './Share'
 
-const ShareDeckModal = memo((
+const ShareDeckModal = (
 	{ deck, isShowing, setIsShowing }: {
 		deck: Deck
 		isShowing: boolean
@@ -25,6 +25,6 @@ const ShareDeckModal = memo((
 			setIsShowing={setIsShowing}
 		/>
 	)
-})
+}
 
-export default ShareDeckModal
+export default memo(ShareDeckModal)

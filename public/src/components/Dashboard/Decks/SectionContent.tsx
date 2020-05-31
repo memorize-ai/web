@@ -13,7 +13,7 @@ import Loader from '../../shared/Loader'
 
 export type SetSelectedSectionAction = 'unlock' | 'rename' | 'delete' | 'share'
 
-const DecksSectionContent = memo((
+const DecksSectionContent = (
 	{ deck, section, isExpanded, toggleExpanded, setSelectedSection, numberOfSections, reorder }: {
 		deck: Deck
 		section: Section
@@ -86,6 +86,6 @@ const DecksSectionContent = memo((
 			)}
 		</div>
 	)
-})
+}
 
-export default DecksSectionContent
+export default memo(DecksSectionContent)
