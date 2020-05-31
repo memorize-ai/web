@@ -50,7 +50,7 @@ const PublishDeckContent = memo(({
 	useEffect(() => {
 		if (acceptedFiles.length)
 			setImage(acceptedFiles[0])
-	}, [acceptedFiles])
+	}, [acceptedFiles, setImage])
 	
 	const focusNameInput = useCallback((input: HTMLInputElement | null) => {
 		input?.focus()
@@ -124,7 +124,7 @@ const PublishDeckContent = memo(({
 							>
 								<meta {...topic.positionSchemaProps(i)} />
 								<meta {...topic.urlSchemaProps} />
-								<img {...topic.imageSchemaProps} />
+								<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
 								<div className="check">
 									<FontAwesomeIcon icon={faCheck} />
 								</div>

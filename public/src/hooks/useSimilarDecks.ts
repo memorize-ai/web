@@ -18,7 +18,7 @@ export default (deck: Deck | null | undefined, chunkSize: number) => {
 			.then(newSimilarDecks =>
 				dispatch(setSimilarDecks(deck.id, newSimilarDecks))
 			)
-	}, [deck, similarDecks, chunkSize])
+	}, [deck, similarDecks, chunkSize, dispatch])
 	
 	return similarDecks
 }

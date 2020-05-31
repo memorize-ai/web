@@ -86,7 +86,7 @@ const CreateDeckContent = memo(() => {
 			setAuthModalIsShowing(true)
 			setAuthModalCallback(callback)
 		}
-	}, [currentUser, setAuthModalIsShowing, setAuthModalCallback])
+	}, [currentUser, setAuthModalIsShowing, setAuthModalCallback, description, history, image, name, reset, selectedTopics, subtitle])
 	
 	return (
 		<>

@@ -15,5 +15,5 @@ export default (next: string | null = null) => {
 		history.push(urlWithQuery('/', {
 			next: next ?? `${window.location.pathname}${window.location.search}`
 		}))
-	}, [isSignedIn, next])
+	}, [isSignedIn, history, next])
 }

@@ -81,7 +81,7 @@ const AuthModal = memo(() => {
 			setLoadingState(LoadingState.Fail)
 			setErrorMessage(error.message)
 		}
-	}, [mode, name, email, password, callback])
+	}, [mode, name, email, password, callback, history])
 	
 	const onNameRef = useCallback((input: HTMLInputElement | null) => {
 		if (input && mode === AuthenticationMode.SignUp)
@@ -103,7 +103,7 @@ const AuthModal = memo(() => {
 			setCallback(null)
 			callback(currentUser)
 		}
-	}, [currentUser, isShowing, callback])
+	}, [currentUser, isShowing, callback, setCallback, setIsShowing])
 	
 	return (
 		<Modal

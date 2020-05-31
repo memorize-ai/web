@@ -54,40 +54,6 @@ const MarketContent = memo(() => {
 		sortAlgorithm === DeckSortAlgorithm.Relevance
 	)
 	
-	useEffect(() => {
-		isLoading.current = true
-		
-		setIsLastPage(false)
-		
-		let shouldContinue = true
-		
-		getDecks(1).then(decks => {
-			if (!shouldContinue)
-				return
-			
-			setDecks(decks)
-			isLoading.current = false
-			
-			const container = scrollingContainerRef.current
-			
-			if (container)
-				container.scrollTop = 0
-			
-			setDidFinishLoadingDecks(true)
-		})
-		
-		setSearchState({ query, sortAlgorithm })
-		
-		return () => {
-			shouldContinue = false
-			isLoading.current = false
-		}
-	}, [query, sortAlgorithm])
-	
-	const onInputRef = useCallback((input: HTMLInputElement | null) => {
-		input?.focus()
-	}, [])
-	
 	const getDecks = useCallback(async (pageNumber: number) => {
 		try {
 			const decks = await DeckSearch.search(query, {
@@ -119,6 +85,40 @@ const MarketContent = memo(() => {
 		
 		isLoading.current = false
 	}, [setDecks, decks, getDecks])
+	
+	useEffect(() => {
+		isLoading.current = true
+		
+		setIsLastPage(false)
+		
+		let shouldContinue = true
+		
+		getDecks(1).then(decks => {
+			if (!shouldContinue)
+				return
+			
+			setDecks(decks)
+			isLoading.current = false
+			
+			const container = scrollingContainerRef.current
+			
+			if (container)
+				container.scrollTop = 0
+			
+			setDidFinishLoadingDecks(true)
+		})
+		
+		setSearchState({ query, sortAlgorithm })
+		
+		return () => {
+			shouldContinue = false
+			isLoading.current = false
+		}
+	}, [query, sortAlgorithm, getDecks, setSearchState])
+	
+	const onInputRef = useCallback((input: HTMLInputElement | null) => {
+		input?.focus()
+	}, [])
 	
 	const setQuery = useCallback((newQuery: string) => {
 		history.push(urlWithQuery('/market', {

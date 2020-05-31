@@ -38,7 +38,7 @@ const DecksSections = memo(({ deck }: { deck: Deck }) => {
 	
 	const backToBaseUrl = useCallback(() => (
 		history.replace(`/decks/${deck.slugId}/${deck.slug}`)
-	), [deck])
+	), [history, deck])
 	
 	const setIsUnlockSectionModalShowing = useCallback((isShowing: boolean) => {
 		_setIsUnlockSectionModalShowing(isShowing)

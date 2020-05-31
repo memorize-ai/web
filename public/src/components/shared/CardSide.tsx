@@ -19,7 +19,7 @@ const CardSide = memo(({ className, children, ...props }: { children: string } &
 			if (image)
 				image.onerror = figure.remove.bind(figure)
 		})
-	}, [children])
+	}, [children]) // eslint-disable-line
 	
 	return (
 		<div

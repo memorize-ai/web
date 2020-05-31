@@ -114,17 +114,17 @@ const DeckPagePreview = memo(({ deck }: { deck: Deck }) => {
 		for (const section of _sections)
 			if (section.numberOfCards > 0)
 				return setSection(section)
-	}, [card, cards, deck, _sections])
+	}, [card, cards, deck, _sections, setSection])
 	
 	useEffect(() => {
 		if (shouldGoLeft && !isLeftDisabled)
 			nextCard(false)
-	}, [shouldGoLeft, isLeftDisabled])
+	}, [shouldGoLeft, isLeftDisabled, nextCard])
 	
 	useEffect(() => {
 		if (shouldGoRight && !isRightDisabled)
 			nextCard(true)
-	}, [shouldGoRight, isRightDisabled])
+	}, [shouldGoRight, isRightDisabled, nextCard])
 	
 	const isSectionDisabled = useCallback((section: Section) => (
 		!section.numberOfCards

@@ -43,7 +43,7 @@ export default (slugId: string | null | undefined) => {
 				},
 				handleError
 			)
-	}, [deck, slugId])
+	}, [deck, slugId, dispatch])
 	
 	return {
 		deck: deck ?? null,

@@ -27,7 +27,7 @@ const DeckPageFooter = memo(({ deck }: { deck: Deck }) => {
 					>
 						<meta {...topic.positionSchemaProps(i)} />
 						<meta {...topic.urlSchemaProps} />
-						<img {...topic.imageSchemaProps} />
+						<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
 						<p {...topic.nameSchemaProps}>{topic.name}</p>
 					</Link>
 				))}

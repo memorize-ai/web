@@ -105,7 +105,7 @@ const EditDeckContent = memo(() => {
 			setLoadingState(LoadingState.Fail)
 			handleError(error)
 		}
-	}, [deck, currentUser, setLoadingState, dispatchDeckImageUrls, history, closeUrl])
+	}, [deck, currentUser, setLoadingState, dispatchDeckImageUrls, history, closeUrl, description, image, name, selectedTopics, subtitle])
 	
 	const setImageAndUrl = useCallback((image: File | null) => {
 		setImageUrl(image && URL.createObjectURL(image))

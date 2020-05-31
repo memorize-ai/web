@@ -29,7 +29,7 @@ const DecksContent = memo(() => {
 	useEffect(() => {
 		if (!slugId && selectedDeck)
 			history.replace(`/decks/${selectedDeck.slugId}/${selectedDeck.slug}`)
-	}, [slugId, selectedDeck])
+	}, [slugId, selectedDeck, history])
 	
 	useEffect(() => {
 		if (
@@ -44,7 +44,7 @@ const DecksContent = memo(() => {
 		deck
 			? setSelectedDeck(deck)
 			: history.replace(`/d/${slugId}/${slug}`)
-	}, [slugId, slug, selectedDeck, decksLoadingState, decks])
+	}, [slugId, slug, selectedDeck, decksLoadingState, decks, history, setSelectedDeck])
 	
 	return (
 		<>

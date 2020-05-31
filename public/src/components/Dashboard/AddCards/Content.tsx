@@ -117,7 +117,7 @@ const AddCardsContent = memo(() => {
 		
 		if (!remainingCards.length)
 			close()
-	}, [deck, section, dispatch, close])
+	}, [deck, section, dispatch, close, cards])
 	
 	const onConfirmGoBack = useCallback(() => {
 		setIsCloseModalShowing(false)

@@ -27,7 +27,7 @@ export default () => {
 			updateDeckUserData: compose(dispatch, updateDeckUserData),
 			removeDeck: compose(dispatch, removeOwnedDeck)
 		})
-	}, [currentUser])
+	}, [currentUser, dispatch])
 	
 	return [ownedDecks, decksLoadingState] as const
 }

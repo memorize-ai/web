@@ -23,7 +23,7 @@ export default () => {
 				setCurrentUser: compose(dispatch, setCurrentUser),
 				setCurrentUserLoadingState: compose(dispatch, setCurrentUserLoadingState)
 			})
-	}, [currentUserLoadingState])
+	}, [currentUserLoadingState, dispatch])
 	
 	useEffect(() => {
 		if (!currentUser || isObservingCurrentUser)
@@ -33,7 +33,7 @@ export default () => {
 			updateCurrentUser: compose(dispatch, updateCurrentUser),
 			setIsObservingCurrentUser: compose(dispatch, setIsObservingCurrentUser)
 		})
-	}, [currentUser, isObservingCurrentUser])
+	}, [currentUser, isObservingCurrentUser, dispatch])
 	
 	return [currentUser, currentUserLoadingState] as const
 }

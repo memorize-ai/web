@@ -45,7 +45,7 @@ export default (deckId: string | null | undefined, cardId: string | null | undef
 			compose(dispatch, setCard),
 			handleError
 		)
-	}, [card, deckId, cardId])
+	}, [card, deckId, cardId, dispatch])
 	
 	return card
 }

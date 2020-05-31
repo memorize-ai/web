@@ -26,5 +26,5 @@ export default (slugId: string | undefined, slug: string | undefined) => {
 			return deck
 		
 		history.replace(`/decks/${slugId}/${slug}`)
-	}, [decks, decksLoadingState, currentUser, slug, slugId]) ?? null
+	}, [decks, decksLoadingState, currentUser, slug, slugId, history]) ?? null
 }

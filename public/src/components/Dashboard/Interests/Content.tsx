@@ -65,7 +65,7 @@ const InterestsContent = memo(() => {
 					>
 						<meta {...topic.positionSchemaProps(i)} />
 						<meta {...topic.urlSchemaProps} />
-						<img {...topic.imageSchemaProps} />
+						<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
 						<div className="check">
 							<FontAwesomeIcon icon={faCheck} />
 						</div>

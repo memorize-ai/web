@@ -46,7 +46,7 @@ const Dropdown = memo((
 		body.addEventListener('click', onClick)
 		
 		return () => body.removeEventListener('click', onClick)
-	}, [isShowing])
+	}, [isShowing, setIsShowing])
 	
 	return (
 		<div
