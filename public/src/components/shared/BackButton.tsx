@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes } from 'react'
+import React, { AnchorHTMLAttributes, memo } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -6,9 +6,11 @@ import { ReactComponent as LeftArrowHead } from '../../images/icons/left-arrow-h
 
 import '../../scss/components/BackButton.scss'
 
-export default ({ to, className, ...props }: { to: string } & AnchorHTMLAttributes<HTMLAnchorElement>) => (
+const BackButton = memo(({ to, className, ...props }: { to: string } & AnchorHTMLAttributes<HTMLAnchorElement>) => (
 	<Link {...props} to={to} className={cx('back-button', className)}>
 		<LeftArrowHead />
 		<p>Back</p>
 	</Link>
-)
+))
+
+export default BackButton

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import spacedRepetitionImage from '../../images/home/spaced-repetition.png'
 
 import '../../scss/components/Home/SpacedRepetition.scss'
 
-export default () => (
+const HomeSpacedRepetition = memo(() => (
 	<div className="spaced-repetition">
 		<img
 			className="diagram"
@@ -21,4 +21,6 @@ export default () => (
 			</p>
 		</article>
 	</div>
-)
+))
+
+export default HomeSpacedRepetition

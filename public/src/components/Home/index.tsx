@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
@@ -9,7 +9,7 @@ import Features from './Features'
 import Classroom from './Classroom'
 import Footer from './Footer'
 
-export default () => (
+const Home = memo(() => (
 	<div className="home">
 		<TopGradient>
 			<Navbar />
@@ -21,4 +21,6 @@ export default () => (
 		<Classroom />
 		<Footer />
 	</div>
-)
+))
+
+export default Home

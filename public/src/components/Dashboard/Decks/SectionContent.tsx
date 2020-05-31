@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, memo } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -13,7 +13,7 @@ import Loader from '../../shared/Loader'
 
 export type SetSelectedSectionAction = 'unlock' | 'rename' | 'delete' | 'share'
 
-export default (
+const DecksSectionContent = memo((
 	{ deck, section, isExpanded, toggleExpanded, setSelectedSection, numberOfSections, reorder }: {
 		deck: Deck
 		section: Section
@@ -27,6 +27,22 @@ export default (
 	const [currentUser] = useCurrentUser()
 	const cards = useCards(deck, section, isExpanded)
 	
+	const onUnlock = useCallback(() => (
+		setSelectedSection('unlock')
+	), [setSelectedSection])
+	
+	const onRename = useCallback(() => (
+		setSelectedSection('rename')
+	), [setSelectedSection])
+	
+	const onDelete = useCallback(() => (
+		setSelectedSection('delete')
+	), [setSelectedSection])
+	
+	const onShare = useCallback(() => (
+		setSelectedSection('share')
+	), [setSelectedSection])
+	
 	return (
 		<div className="section">
 			<SectionHeader
@@ -34,10 +50,10 @@ export default (
 				section={section}
 				isExpanded={isExpanded}
 				toggleExpanded={toggleExpanded}
-				onUnlock={() => setSelectedSection('unlock')}
-				onRename={() => setSelectedSection('rename')}
-				onDelete={() => setSelectedSection('delete')}
-				onShare={() => setSelectedSection('share')}
+				onUnlock={onUnlock}
+				onRename={onRename}
+				onDelete={onDelete}
+				onShare={onShare}
 				numberOfSections={numberOfSections}
 				reorder={reorder}
 			/>
@@ -70,4 +86,6 @@ export default (
 			)}
 		</div>
 	)
-}
+})
+
+export default DecksSectionContent

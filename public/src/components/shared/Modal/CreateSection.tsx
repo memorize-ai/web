@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, memo } from 'react'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -6,7 +6,7 @@ import InputModal from './Input'
 import useSections from '../../../hooks/useSections'
 import { handleError } from '../../../utils'
 
-export default (
+const CreateSectionModal = memo((
 	{ deck, isShowing, setIsShowing }: {
 		deck: Deck
 		isShowing: boolean
@@ -19,9 +19,9 @@ export default (
 	useEffect(() => {
 		if (isShowing)
 			setName('')
-	}, [isShowing])
+	}, [isShowing, setName])
 	
-	const create = () => {
+	const create = useCallback(() => {
 		if (!sections)
 			return
 		
@@ -29,7 +29,7 @@ export default (
 			.catch(handleError)
 		
 		setIsShowing(false)
-	}
+	}, [sections, deck, name, setIsShowing])
 	
 	return (
 		<InputModal
@@ -44,4 +44,6 @@ export default (
 			setIsShowing={setIsShowing}
 		/>
 	)
-}
+})
+
+export default CreateSectionModal

@@ -1,9 +1,9 @@
-import React, { HTMLAttributes } from 'react'
+import React, { HTMLAttributes, memo } from 'react'
 import cx from 'classnames'
 
 import '../../scss/components/Loader.scss'
 
-export default (
+const Loader = memo((
 	{ className, size, thickness, color, ...props }: {
 		size: string
 		thickness: string
@@ -21,4 +21,6 @@ export default (
 			borderRight: `${thickness} solid ${color}`
 		}}
 	/>
-)
+))
+
+export default Loader

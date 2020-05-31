@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import Star from './Star'
 
 import '../../../scss/components/Stars.scss'
 
-export default ({ children: rating }: { children: number }) => (
+const Stars = memo(({ children: rating }: { children: number }) => (
 	<div className="stars">
 		{[0, 1, 2, 3, 4].map(offset => (
 			<Star
@@ -13,4 +13,6 @@ export default ({ children: rating }: { children: number }) => (
 			/>
 		))}
 	</div>
-)
+))
+
+export default Stars

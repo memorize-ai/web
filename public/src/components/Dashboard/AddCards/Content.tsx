@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useContext } from 'react'
+import React, { useState, useEffect, useMemo, useContext, memo, useCallback } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -34,7 +34,7 @@ import '../../../scss/components/Dashboard/AddCards.scss'
 const GO_BACK_MESSAGE = 'Your drafts will be kept during this session.'
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? Your drafts will be lost.'
 
-export default () => {
+const AddCardsContent = memo(() => {
 	requiresAuth()
 	
 	const { slugId, slug, sectionId } = useParams()
@@ -87,10 +87,11 @@ export default () => {
 		return () => { window.onbeforeunload = null }
 	}, [canPublish])
 	
-	const close = () =>
+	const close = useCallback(() => (
 		history.push(closeUrl)
+	), [history, closeUrl])
 	
-	const setSection = (section: Section | undefined) =>
+	const setSection = useCallback((section: Section | undefined) => (
 		history.push(
 			`/decks/${
 				deck?.slugId ?? ''
@@ -102,8 +103,9 @@ export default () => {
 					: `/${section.id}`
 			}`
 		)
+	), [history, deck])
 	
-	const publish = async () => {
+	const publish = useCallback(async () => {
 		if (!(deck && section))
 			return
 		
@@ -115,7 +117,12 @@ export default () => {
 		
 		if (!remainingCards.length)
 			close()
-	}
+	}, [deck, section, dispatch, close])
+	
+	const onConfirmGoBack = useCallback(() => {
+		setIsCloseModalShowing(false)
+		close()
+	}, [setIsCloseModalShowing, close])
 	
 	return (
 		<>
@@ -239,10 +246,7 @@ export default () => {
 			<ConfirmationModal
 				title="Go back"
 				message={GO_BACK_MESSAGE}
-				onConfirm={() => {
-					setIsCloseModalShowing(false)
-					close()
-				}}
+				onConfirm={onConfirmGoBack}
 				buttonText="Ok, take me back"
 				buttonBackground="#e53e3e"
 				isShowing={isCloseModalShowing}
@@ -259,4 +263,6 @@ export default () => {
 			/>
 		</>
 	)
-}
+})
+
+export default AddCardsContent

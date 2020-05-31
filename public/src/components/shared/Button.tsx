@@ -11,7 +11,7 @@ export interface ButtonProps {
 	disabled?: boolean
 }
 
-export default ({
+const Button = ({
 	className,
 	loaderSize,
 	loaderThickness,
@@ -40,3 +40,5 @@ export default ({
 		}
 	</button>
 )
+
+export default Button

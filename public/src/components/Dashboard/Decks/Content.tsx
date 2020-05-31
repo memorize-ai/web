@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, memo } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -15,7 +15,7 @@ import Loader from '../../shared/Loader'
 
 import '../../../scss/components/Dashboard/Decks.scss'
 
-export default () => {
+const DecksContent = memo(() => {
 	requiresAuth()
 	
 	const [imageUrls] = useContext(DeckImageUrlsContext)
@@ -29,7 +29,7 @@ export default () => {
 	useEffect(() => {
 		if (!slugId && selectedDeck)
 			history.replace(`/decks/${selectedDeck.slugId}/${selectedDeck.slug}`)
-	}, [slugId, selectedDeck]) // eslint-disable-line
+	}, [slugId, selectedDeck])
 	
 	useEffect(() => {
 		if (
@@ -44,7 +44,7 @@ export default () => {
 		deck
 			? setSelectedDeck(deck)
 			: history.replace(`/d/${slugId}/${slug}`)
-	}, [slugId, slug, selectedDeck, decksLoadingState, decks]) // eslint-disable-line
+	}, [slugId, slug, selectedDeck, decksLoadingState, decks])
 	
 	return (
 		<>
@@ -98,4 +98,6 @@ export default () => {
 			</div>
 		</>
 	)
-}
+})
+
+export default DecksContent

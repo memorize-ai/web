@@ -13,7 +13,7 @@ export enum DashboardNavbarSelection {
 	Interests = 'Interests'
 }
 
-export default (
+const Dashboard = (
 	{ selection, className, children }: PropsWithChildren<{
 		selection: DashboardNavbarSelection
 		className: string
@@ -44,3 +44,5 @@ export default (
 		</div>
 	)
 }
+
+export default Dashboard

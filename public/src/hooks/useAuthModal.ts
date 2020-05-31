@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 
 import AuthModalContext from '../contexts/AuthModal'
 import { setAuthModalIsShowing, setAuthModalCallback } from '../actions'
@@ -8,7 +8,7 @@ export default () => {
 	const [{ isShowing, callback }, dispatch] = useContext(AuthModalContext)
 	
 	return [
-		[isShowing, compose(dispatch, setAuthModalIsShowing)],
-		[callback, compose(dispatch, setAuthModalCallback)]
+		[isShowing, useMemo(() => compose(dispatch, setAuthModalIsShowing), [dispatch])],
+		[callback, useMemo(() => compose(dispatch, setAuthModalCallback), [dispatch])]
 	] as const
 }

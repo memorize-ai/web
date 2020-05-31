@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, MouseEvent, useMemo, memo } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 
 import User from '../../../models/User'
@@ -16,7 +16,7 @@ import { ReactComponent as UserIcon } from '../../../images/icons/user.svg'
 import { ReactComponent as DownloadIcon } from '../../../images/icons/download.svg'
 import { ReactComponent as UsersIcon } from '../../../images/icons/users.svg'
 
-export default ({ deck }: { deck: Deck }) => {
+const MarketDeckRow = memo(({ deck }: { deck: Deck }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -28,9 +28,11 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	
-	const hasDeck = decks.some(({ id }) => id === deck.id)
+	const hasDeck = useMemo(() => (
+		decks.some(({ id }) => id === deck.id)
+	), [decks, deck])
 	
-	const get = async () => {
+	const get = useCallback(async () => {
 		const callback = async (user: User) => {
 			try {
 				setGetLoadingState(LoadingState.Loading)
@@ -50,10 +52,16 @@ export default ({ deck }: { deck: Deck }) => {
 			setAuthModalIsShowing(true)
 			setAuthModalCallback(callback)
 		}
-	}
+	}, [currentUser, setGetLoadingState, deck, setAuthModalIsShowing, setAuthModalCallback])
 	
-	const open = () =>
+	const open = useCallback(() => {
 		history.push(`/decks/${deck.slugId}/${deck.slug}`)
+	}, [history, deck])
+	
+	const action = useCallback((event: MouseEvent) => {
+		event.preventDefault()
+		hasDeck ? open() : get()
+	}, [hasDeck, open, get])
 	
 	return (
 		<Link
@@ -122,14 +130,13 @@ export default ({ deck }: { deck: Deck }) => {
 					loaderColor="white"
 					loading={getLoadingState === LoadingState.Loading}
 					disabled={false}
-					onClick={event => {
-						event.preventDefault()
-						hasDeck ? open() : get()
-					}}
+					onClick={action}
 				>
 					{hasDeck ? 'Open' : 'Get'}
 				</Button>
 			</div>
 		</Link>
 	)
-}
+})
+
+export default MarketDeckRow

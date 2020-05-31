@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useRef, useEffect } from 'react'
+import React, { PropsWithChildren, useRef, useEffect, memo } from 'react'
 import cx from 'classnames'
 
 import '../../scss/components/Dropdown.scss'
@@ -9,7 +9,7 @@ export enum DropdownShadow {
 	Screen = 'screen'
 }
 
-export default (
+const Dropdown = memo((
 	{
 		className,
 		shadow,
@@ -46,11 +46,11 @@ export default (
 		body.addEventListener('click', onClick)
 		
 		return () => body.removeEventListener('click', onClick)
-	}, [isShowing]) // eslint-disable-line
+	}, [isShowing])
 	
 	return (
 		<div
-			ref={newRef => ref.current = newRef}
+			ref={ref}
 			className={cx('dropdown', className, { showing: isShowing })}
 			onClick={event => event.stopPropagation()}
 		>
@@ -73,4 +73,6 @@ export default (
 			)}
 		</div>
 	)
-}
+})
+
+export default Dropdown

@@ -1,9 +1,9 @@
-import React, { TextareaHTMLAttributes } from 'react'
+import React, { TextareaHTMLAttributes, memo } from 'react'
 import cx from 'classnames'
 
 import '../../scss/components/TextArea.scss'
 
-export default (
+const TextArea = memo((
 	{ className, minHeight, placeholder, value, setValue, ...props }: {
 		className?: string
 		minHeight?: string | number
@@ -20,4 +20,6 @@ export default (
 		value={value}
 		onChange={({ target: { value } }) => setValue(value)}
 	/>
-)
+))
+
+export default TextArea

@@ -9,7 +9,7 @@ import { ReactComponent as User } from '../../../images/icons/user.svg'
 
 import '../../../scss/components/DeckCell/Base.scss'
 
-export default (
+const DeckCellBase = (
 	{ className, deck, href, nameProps, children }: PropsWithChildren<{
 		className?: string
 		deck: Deck
@@ -53,3 +53,5 @@ export default (
 		</Link>
 	)
 }
+
+export default DeckCellBase

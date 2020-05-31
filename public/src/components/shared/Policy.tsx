@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from 'react'
+import React, { PropsWithChildren, useEffect, memo } from 'react'
 
 import firebase from '../../firebase'
 import Head from './Head'
@@ -9,7 +9,7 @@ import '../../scss/components/Policy.scss'
 
 const analytics = firebase.analytics()
 
-export default (
+const Policy = memo((
 	{ id, title, description, children }: PropsWithChildren<{
 		id: string
 		description: string
@@ -47,4 +47,6 @@ export default (
 			{children}
 		</div>
 	)
-}
+})
+
+export default Policy

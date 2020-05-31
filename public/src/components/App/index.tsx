@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
@@ -28,7 +28,7 @@ import AuthModal from '../shared/Modal/Auth'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-export default () => (
+const App = memo(() => (
 	<BrowserRouter>
 		<Switch>
 			<Route exact path="/" component={Root} />
@@ -71,4 +71,6 @@ export default () => (
 		<AuthModal />
 		<ToastContainer />
 	</BrowserRouter>
-)
+))
+
+export default App

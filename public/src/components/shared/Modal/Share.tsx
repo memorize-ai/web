@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useCallback, FormEvent } from 'react'
+import React, { ReactNode, useState, useCallback, FormEvent, memo } from 'react'
 import { useClipboard } from 'use-clipboard-copy'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faLink } from '@fortawesome/free-solid-svg-icons'
@@ -8,7 +8,7 @@ import Modal from '.'
 
 import '../../../scss/components/Modal/Share.scss'
 
-export default (
+const ShareModal = memo((
 	{ title, message, url, isShowing, setIsShowing }: {
 		title: string
 		message?: ReactNode
@@ -25,7 +25,7 @@ export default (
 		
 		copy(url)
 		setDidCopy(true)
-	}, [copy, url])
+	}, [copy, url, setDidCopy])
 	
 	return (
 		<Modal
@@ -61,4 +61,6 @@ export default (
 			</form>
 		</Modal>
 	)
-}
+})
+
+export default ShareModal

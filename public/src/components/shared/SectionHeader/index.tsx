@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, memo } from 'react'
 
 import Section from '../../../models/Section'
 import ToggleExpandedButton from './ToggleExpandedButton'
@@ -8,7 +8,7 @@ import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 
 import '../../../scss/components/SectionHeader/index.scss'
 
-export default (
+const SectionHeader = memo((
 	{ section, isExpanded, toggleExpanded, onShare }: {
 		section: Section
 		isExpanded: boolean
@@ -18,10 +18,10 @@ export default (
 ) => {
 	const [degrees, setDegrees] = useState(0)
 	
-	const onClick = () => {
+	const onClick = useCallback(() => {
 		toggleExpanded()
-		setDegrees(degrees + 180)
-	}
+		setDegrees(degrees => degrees + 180)
+	}, [toggleExpanded, setDegrees])
 	
 	return (
 		<div className="section-header default" onClick={onClick}>
@@ -48,4 +48,6 @@ export default (
 			)}
 		</div>
 	)
-}
+})
+
+export default SectionHeader

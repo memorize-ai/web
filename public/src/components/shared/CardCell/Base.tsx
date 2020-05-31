@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import Card from '../../../models/Card'
 import CardSide from '../CardSide'
 
 import '../../../scss/components/CardCell/Base.scss'
 
-export default ({ card }: { card: Card }) => (
+const CardCellBase = memo(({ card }: { card: Card }) => (
 	<div className="sides">
 		<div className="side">
 			<CardSide itemProp="name">
@@ -19,4 +19,6 @@ export default ({ card }: { card: Card }) => (
 			<p>Back</p>
 		</div>
 	</div>
-)
+))
+
+export default CardCellBase

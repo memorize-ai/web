@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, memo } from 'react'
 
 import Deck from '../../../models/Deck'
 import useSimilarDecks from '../../../hooks/useSimilarDecks'
@@ -7,15 +7,16 @@ import { formatNumber } from '../../../utils'
 
 export const SIMILAR_DECKS_CHUNK_SIZE = 10
 
-export default ({ deck }: { deck: Deck }) => {
+const DeckPageSimilarDecks = memo(({ deck }: { deck: Deck }) => {
 	const similarDecks = useSimilarDecks(deck, SIMILAR_DECKS_CHUNK_SIZE)
 	
-	const withFilter = (filter: (i: number) => any) =>
-		similarDecks!
-			.filter((_, i) => filter(i))
+	const withFilter = useCallback((filter: (i: number) => any) => (
+		similarDecks
+			?.filter((_, i) => filter(i))
 			.map(deck => (
 				<DeckCell key={deck.id} deck={deck} />
 			))
+	), [similarDecks])
 	
 	return similarDecks && (
 		<div id="similar" className="similar-decks">
@@ -28,4 +29,6 @@ export default ({ deck }: { deck: Deck }) => {
 			</div>
 		</div>
 	)
-}
+})
+
+export default DeckPageSimilarDecks

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
@@ -19,7 +19,7 @@ TimeAgo.addLocale(enLocale)
 
 const timeAgo = new TimeAgo('en-US')
 
-export default ({ deck, card }: { deck: Deck, card: Card }) => {
+const OwnedCardCell = memo(({ deck, card }: { deck: Deck, card: Card }) => {
 	const [currentUser] = useCurrentUser()
 	
 	const { userData, isDue } = card
@@ -80,4 +80,6 @@ export default ({ deck, card }: { deck: Deck, card: Card }) => {
 			</Link>
 		)
 		: <div {...props}>{content}</div>
-}
+})
+
+export default OwnedCardCell

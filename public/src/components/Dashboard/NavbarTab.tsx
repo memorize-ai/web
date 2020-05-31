@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 
-export default (
+const DashboardNavbarTab = (
 	{ href, title, isSelected, isDisabled, children }: PropsWithChildren<{
 		href: string
 		title: string
@@ -21,3 +21,5 @@ export default (
 		<p>{title}</p>
 	</Link>
 )
+
+export default DashboardNavbarTab

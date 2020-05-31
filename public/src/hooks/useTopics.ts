@@ -19,7 +19,7 @@ export default () => {
 			updateTopic: compose(dispatch, updateTopic),
 			removeTopic: compose(dispatch, removeTopic)
 		})
-	}, []) // eslint-disable-line
+	}, [])
 	
 	return topics
 }

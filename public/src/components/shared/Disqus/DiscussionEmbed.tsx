@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { DiscussionEmbed } from 'disqus-react'
 
 import { DisqusProps, componentProps } from '.'
 
-export default (props: DisqusProps) => (
+const DisqusDiscussionEmbedContent = memo((props: DisqusProps) => (
 	<DiscussionEmbed {...componentProps(props)} />
-)
+))
+
+export default DisqusDiscussionEmbedContent

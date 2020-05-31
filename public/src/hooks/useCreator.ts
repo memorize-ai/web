@@ -19,7 +19,7 @@ export default (uid: string | null | undefined): User | null => {
 			updateCreator: compose(dispatch, updateCreator),
 			removeCreator: compose(dispatch, removeCreator)
 		})
-	}, [uid, creator]) // eslint-disable-line
+	}, [uid, creator])
 	
 	return creator
 }

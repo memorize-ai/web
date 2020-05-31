@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import ShareModal from './Share'
 
-export default (
+const ShareSectionModal = memo((
 	{ deck, section, isShowing, setIsShowing }: {
 		deck: Deck
 		section: Section | null
@@ -19,4 +19,6 @@ export default (
 		isShowing={isShowing}
 		setIsShowing={setIsShowing}
 	/>
-)
+))
+
+export default ShareSectionModal

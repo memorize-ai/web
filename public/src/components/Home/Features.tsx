@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import featuresImage from '../../images/home/features.webp'
 
 import '../../scss/components/Home/Features.scss'
 
-export default () => (
+const HomeFeatures = memo(() => (
 	<div className="features">
 		<h2 className="title">
 			<strong>Everything you need</strong><br />
@@ -12,4 +12,6 @@ export default () => (
 		</h2>
 		<img src={featuresImage} alt="Features" />
 	</div>
-)
+))
+
+export default HomeFeatures

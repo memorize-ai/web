@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
@@ -6,7 +6,7 @@ import Logo, { LogoType } from '../shared/Logo'
 
 import '../../scss/components/Home/Footer.scss'
 
-export default () => (
+const HomeFooter = memo(() => (
 	<footer className="footer">
 		<div className="background" />
 		<div className="content">
@@ -53,4 +53,6 @@ export default () => (
 			</div>
 		</div>
 	</footer>
-)
+))
+
+export default HomeFooter

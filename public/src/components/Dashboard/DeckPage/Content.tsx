@@ -1,11 +1,11 @@
-import React, { useState, useContext, useMemo } from 'react'
+import React, { useState, useContext, useMemo, memo, useCallback } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
-import { DEFAULT_DECK_SORT_ALGORITHM } from '../../../models/Deck/Search'
+import { DEFAULT_DECK_SORT_ALGORITHM, DeckSortAlgorithm } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
 import LoadingState from '../../../models/LoadingState'
 import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
@@ -32,7 +32,7 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'
 
-export default () => {
+const DeckPageContent = memo(() => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)
 	
 	const history = useHistory()
@@ -55,6 +55,24 @@ export default () => {
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
 	
 	const numberOfDecks = Counters.get(Counter.Decks)
+	
+	const setQuery = useCallback((newQuery: string) => {
+		history.push(urlWithQuery('/market', {
+			q: newQuery,
+			s: sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+				? null
+				: sortAlgorithm
+		}))
+	}, [history, sortAlgorithm])
+	
+	const setSortAlgorithm = useCallback((newAlgorithm: DeckSortAlgorithm) => {
+		history.push(urlWithQuery('/market', {
+			q: query,
+			s: newAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+				? null
+				: newAlgorithm
+		}))
+	}, [history, query])
 	
 	const description = useMemo(() => (
 		deck?.description || `${
@@ -152,28 +170,14 @@ export default () => {
 						`Explore ${numberOfDecks === null ? '...' : formatNumber(numberOfDecks)} decks`
 					}
 					value={query}
-					setValue={newQuery =>
-						history.push(urlWithQuery('/market', {
-							q: newQuery,
-							s: sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-								? null
-								: sortAlgorithm
-						}))
-					}
+					setValue={setQuery}
 				/>
 				<SortDropdown
 					shadow={DropdownShadow.Around}
 					isShowing={isSortDropdownShowing}
 					setIsShowing={setIsSortDropdownShowing}
 					algorithm={sortAlgorithm}
-					setAlgorithm={newSortAlgorithm =>
-						history.push(urlWithQuery('/market', {
-							q: query,
-							s: newSortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-								? null
-								: newSortAlgorithm
-						}))
-					}
+					setAlgorithm={setSortAlgorithm}
 				/>
 			</div>
 			<div className={cx('box', { loading: !deck })}>
@@ -194,4 +198,6 @@ export default () => {
 			</div>
 		</>
 	)
-}
+})
+
+export default DeckPageContent

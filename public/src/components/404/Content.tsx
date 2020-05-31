@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, memo } from 'react'
 
 import firebase from '../../firebase'
 import Head, { APP_SCHEMA } from '../shared/Head'
@@ -7,7 +7,7 @@ import 'firebase/analytics'
 
 const analytics = firebase.analytics()
 
-export default () => {
+const PageNotFoundContent = memo(() => {
 	useEffect(() => {
 		analytics.logEvent('404')
 	}, [])
@@ -35,4 +35,6 @@ export default () => {
 			</h1>
 		</>
 	)
-}
+})
+
+export default PageNotFoundContent

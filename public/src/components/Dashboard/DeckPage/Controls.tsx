@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faStarFilled } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarOutlined } from '@fortawesome/free-regular-svg-icons'
@@ -17,7 +17,7 @@ TimeAgo.addLocale(enLocale)
 
 const timeAgo = new TimeAgo('en-US')
 
-export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
+const DeckPageControls = memo(({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 	const [currentUser] = useCurrentUser()
 	
 	const [hoverRating, setHoverRating] = useState(null as 1 | 2 | 3 | 4 | 5 | null)
@@ -130,4 +130,6 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 			</div>
 		</div>
 	)
-}
+})
+
+export default DeckPageControls

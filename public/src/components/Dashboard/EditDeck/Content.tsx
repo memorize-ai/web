@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react'
+import React, { useContext, useState, useEffect, useRef, useCallback, memo } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -20,7 +20,7 @@ import { handleError } from '../../../utils'
 
 import '../../../scss/components/Dashboard/EditDeck.scss'
 
-export default () => {
+const EditDeckContent = memo(() => {
 	requiresAuth()
 	
 	const didUpdateFromDeck = useRef(false)
@@ -71,7 +71,7 @@ export default () => {
 		setImage(undefined)
 	}, [existingImageUrl, existingImageUrlLoadingState])
 	
-	const edit = async () => {
+	const edit = useCallback(async () => {
 		if (!(deck && currentUser))
 			return
 		
@@ -105,7 +105,12 @@ export default () => {
 			setLoadingState(LoadingState.Fail)
 			handleError(error)
 		}
-	}
+	}, [deck, currentUser, setLoadingState, dispatchDeckImageUrls, history, closeUrl])
+	
+	const setImageAndUrl = useCallback((image: File | null) => {
+		setImageUrl(image && URL.createObjectURL(image))
+		setImage(image)
+	}, [setImageUrl, setImage])
 	
 	return (
 		<>
@@ -158,10 +163,7 @@ export default () => {
 								topics={topics}
 								selectedTopics={selectedTopics}
 								
-								setImage={image => {
-									setImageUrl(image && URL.createObjectURL(image))
-									setImage(image)
-								}}
+								setImage={setImageAndUrl}
 								setName={setName}
 								setSubtitle={setSubtitle}
 								setDescription={setDescription}
@@ -174,4 +176,6 @@ export default () => {
 			</div>
 		</>
 	)
-}
+})
+
+export default EditDeckContent

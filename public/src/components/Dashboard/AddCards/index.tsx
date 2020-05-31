@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React, { lazy, memo } from 'react'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 
@@ -10,8 +10,10 @@ export interface CardDraft {
 
 const Content = lazy(() => import('./Content'))
 
-export default () => (
+const AddCards = memo(() => (
 	<Dashboard selection={Selection.Decks} className="add-cards">
 		<Content />
 	</Dashboard>
-)
+))
+
+export default AddCards

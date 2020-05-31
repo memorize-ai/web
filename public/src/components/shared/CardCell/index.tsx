@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import Card from '../../../models/Card'
 import Base from './Base'
 
-export default ({ card }: { card: Card }) => (
+const CardCell = memo(({ card }: { card: Card }) => (
 	<div
 		className="card-cell default"
 		itemScope
@@ -12,4 +12,6 @@ export default ({ card }: { card: Card }) => (
 	>
 		<Base card={card} />
 	</div>
-)
+))
+
+export default CardCell

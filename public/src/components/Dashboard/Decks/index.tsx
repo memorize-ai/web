@@ -1,11 +1,13 @@
-import React, { lazy } from 'react'
+import React, { lazy, memo } from 'react'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 
 const Content = lazy(() => import('./Content'))
 
-export default () => (
+const Decks = memo(() => (
 	<Dashboard selection={Selection.Decks} className="decks">
 		<Content />
 	</Dashboard>
-)
+))
+
+export default Decks

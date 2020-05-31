@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React, { lazy, memo } from 'react'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useSearchState from '../../../hooks/useSearchState'
@@ -17,8 +17,10 @@ export const urlForMarket = () => {
 
 const Content = lazy(() => import('./Content'))
 
-export default () => (
+const Market = memo(() => (
 	<Dashboard selection={Selection.Market} className="market">
 		<Content />
 	</Dashboard>
-)
+))
+
+export default Market

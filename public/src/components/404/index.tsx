@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy, Suspense, memo } from 'react'
 
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
@@ -7,7 +7,7 @@ import '../../scss/components/404.scss'
 
 const Content = lazy(() => import('./Content'))
 
-export default () => (
+const PageNotFound = memo(() => (
 	<div className="page-404">
 		<TopGradient>
 			<Navbar />
@@ -16,4 +16,6 @@ export default () => (
 			</Suspense>
 		</TopGradient>
 	</div>
-)
+))
+
+export default PageNotFound

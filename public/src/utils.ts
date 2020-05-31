@@ -91,7 +91,7 @@ export const randomEmoji = () =>
 
 export const slugify = (string: string, delimiter: string = '-') =>
 	(string
-		.replace(/[\s\:\/\?#@\[\]\-_!\$&'\(\)\*\+\.\,;=]+/g, ' ') // eslint-disable-line
+		.replace(/[\s\:\/\?#@\[\]\-_!\$&'\(\)\*\+\.\,;=]+/g, ' ')
 		.trim()
 		.replace(/\s+/g, delimiter)
 		.toLowerCase()

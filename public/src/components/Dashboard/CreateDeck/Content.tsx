@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useRef, useState, memo, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import CreateDeckContext from '../../../contexts/CreateDeck'
@@ -24,7 +24,7 @@ import '../../../scss/components/Dashboard/CreateDeck.scss'
 
 const HEAD_DESCRIPTION = 'Create your own deck on memorize.ai.'
 
-export default () => {
+const CreateDeckContent = memo(() => {
 	const [
 		{ image, name, subtitle, description, topics: selectedTopics },
 		dispatch
@@ -44,15 +44,20 @@ export default () => {
 	const isLoading = loadingState === LoadingState.Loading
 	const isDisabled = !name
 	
-	const reset = () => {
+	const setImage = useCallback((image: File | null) => {
+		imageUrl.current = image && URL.createObjectURL(image)
+		dispatch(setCreateDeckImage(image))
+	}, [dispatch])
+	
+	const reset = useCallback(() => {
 		dispatch(setCreateDeckImage(null))
 		dispatch(setCreateDeckName(''))
 		dispatch(setCreateDeckSubtitle(''))
 		dispatch(setCreateDeckDescription(''))
 		dispatch(setCreateDeckTopics([]))
-	}
+	}, [dispatch])
 	
-	const create = () => {
+	const create = useCallback(() => {
 		const callback = async (user: User) => {
 			try {
 				setLoadingState(LoadingState.Loading)
@@ -81,7 +86,7 @@ export default () => {
 			setAuthModalIsShowing(true)
 			setAuthModalCallback(callback)
 		}
-	}
+	}, [currentUser, setAuthModalIsShowing, setAuthModalCallback])
 	
 	return (
 		<>
@@ -135,10 +140,7 @@ export default () => {
 						topics={topics}
 						selectedTopics={selectedTopics}
 						
-						setImage={image => {
-							imageUrl.current = image && URL.createObjectURL(image)
-							dispatch(setCreateDeckImage(image))
-						}}
+						setImage={setImage}
 						setName={compose(dispatch, setCreateDeckName)}
 						setSubtitle={compose(dispatch, setCreateDeckSubtitle)}
 						setDescription={compose(dispatch, setCreateDeckDescription)}
@@ -148,4 +150,6 @@ export default () => {
 			</div>
 		</>
 	)
-}
+})
+
+export default CreateDeckContent

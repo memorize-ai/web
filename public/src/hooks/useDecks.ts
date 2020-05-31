@@ -27,7 +27,7 @@ export default () => {
 			updateDeckUserData: compose(dispatch, updateDeckUserData),
 			removeDeck: compose(dispatch, removeOwnedDeck)
 		})
-	}, [currentUser]) // eslint-disable-line
+	}, [currentUser])
 	
 	return [ownedDecks, decksLoadingState] as const
 }

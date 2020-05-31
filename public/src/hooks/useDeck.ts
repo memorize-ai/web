@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 
 import firebase from '../firebase'
 import DecksContext from '../contexts/Decks'
@@ -13,8 +13,10 @@ const firestore = firebase.firestore()
 export default (slugId: string | null | undefined) => {
 	const [{ decks, ownedDecks }, dispatch] = useContext(DecksContext)
 	
-	const deck = ownedDecks.find(deck => deck.slugId === slugId)
-		?? decks.find(deck => deck.slugId === slugId)
+	const deck = useMemo(() => (
+		ownedDecks.find(deck => deck.slugId === slugId)
+			?? decks.find(deck => deck.slugId === slugId)
+	), [slugId, ownedDecks, decks])
 	
 	useEffect(() => {
 		if (deck || !slugId || Deck.isObserving[slugId])
@@ -41,7 +43,7 @@ export default (slugId: string | null | undefined) => {
 				},
 				handleError
 			)
-	}, [deck, slugId]) // eslint-disable-line
+	}, [deck, slugId])
 	
 	return {
 		deck: deck ?? null,

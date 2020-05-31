@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
 import useTopics from '../../../hooks/useTopics'
 import Topic from '../../../models/Topic'
 
-export default ({ deck }: { deck: Deck }) => {
+const DeckPageFooter = memo(({ deck }: { deck: Deck }) => {
 	const topics = useTopics()?.filter(topic =>
 		deck.topics.includes(topic.id)
 	)
@@ -27,11 +27,13 @@ export default ({ deck }: { deck: Deck }) => {
 					>
 						<meta {...topic.positionSchemaProps(i)} />
 						<meta {...topic.urlSchemaProps} />
-						<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
+						<img {...topic.imageSchemaProps} />
 						<p {...topic.nameSchemaProps}>{topic.name}</p>
 					</Link>
 				))}
 			</div>
 		</div>
 	)
-}
+})
+
+export default DeckPageFooter

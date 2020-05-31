@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import Helmet from 'react-helmet'
 import Schema, { Thing, MobileApplication } from 'schema.org-react'
 
@@ -62,7 +62,7 @@ export const APP_SCHEMA: MobileApplication = {
 	}
 }
 
-export default <SchemaItems extends Thing[]>({
+const Head = memo(<SchemaItems extends Thing[]>({
 	isPrerenderReady = true,
 	status,
 	canonicalUrl: _canonicalUrl,
@@ -168,6 +168,7 @@ export default <SchemaItems extends Thing[]>({
 			} as any} />
 		</>
 	)
-}
+})
 
+export default Head
 export * from 'schema.org-react'

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback, useContext } from 'react'
+import React, { useRef, useState, useEffect, useCallback, useContext, memo } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -25,7 +25,7 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Market.scss'
 
-export default () => {
+const MarketContent = memo(() => {
 	const [imageUrls] = useContext(DeckImageUrlsContext)
 	
 	const isLoading = useRef(true)
@@ -82,13 +82,13 @@ export default () => {
 			shouldContinue = false
 			isLoading.current = false
 		}
-	}, [query, sortAlgorithm]) // eslint-disable-line
+	}, [query, sortAlgorithm])
 	
 	const onInputRef = useCallback((input: HTMLInputElement | null) => {
 		input?.focus()
 	}, [])
 	
-	const getDecks = async (pageNumber: number) => {
+	const getDecks = useCallback(async (pageNumber: number) => {
 		try {
 			const decks = await DeckSearch.search(query, {
 				pageNumber,
@@ -107,9 +107,9 @@ export default () => {
 			
 			return []
 		}
-	}
+	}, [query, sortAlgorithm, setIsLastPage])
 	
-	const loadMoreDecks = async (pageNumber: number) => {
+	const loadMoreDecks = useCallback(async (pageNumber: number) => {
 		if (isLoading.current)
 			return
 		
@@ -118,7 +118,29 @@ export default () => {
 		setDecks([...decks, ...await getDecks(pageNumber)])
 		
 		isLoading.current = false
-	}
+	}, [setDecks, decks, getDecks])
+	
+	const setQuery = useCallback((newQuery: string) => {
+		history.push(urlWithQuery('/market', {
+			q: newQuery,
+			s: newQuery
+				? sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+					? DeckSortAlgorithm.Relevance
+					: sortAlgorithm
+				: sortAlgorithm === DeckSortAlgorithm.Relevance
+					? null
+					: sortAlgorithm
+		}))
+	}, [history, sortAlgorithm])
+	
+	const setSortAlgorithm = useCallback((newAlgorithm: DeckSortAlgorithm) => {
+		history.push(urlWithQuery('/market', {
+			q: query,
+			s: newAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+				? null
+				: newAlgorithm
+		}))
+	}, [history, query])
 	
 	return (
 		<>
@@ -181,32 +203,14 @@ export default () => {
 						`Explore ${numberOfDecks === null ? '...' : formatNumber(numberOfDecks)} decks`
 					}
 					value={query}
-					setValue={newQuery =>
-						history.push(urlWithQuery('/market', {
-							q: newQuery,
-							s: newQuery
-								? sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-									? DeckSortAlgorithm.Relevance
-									: sortAlgorithm
-								: sortAlgorithm === DeckSortAlgorithm.Relevance
-									? null
-									: sortAlgorithm
-						}))
-					}
+					setValue={setQuery}
 				/>
 				<SortDropdown
 					shadow={DropdownShadow.Screen}
 					isShowing={isSortDropdownShowing}
 					setIsShowing={setIsSortDropdownShowing}
 					algorithm={sortAlgorithm}
-					setAlgorithm={newSortAlgorithm =>
-						history.push(urlWithQuery('/market', {
-							q: query,
-							s: newSortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-								? null
-								: newSortAlgorithm
-						}))
-					}
+					setAlgorithm={setSortAlgorithm}
 				/>
 			</div>
 			<div ref={scrollingContainerRef} className="decks">
@@ -230,4 +234,6 @@ export default () => {
 			</div>
 		</>
 	)
-}
+})
+
+export default MarketContent

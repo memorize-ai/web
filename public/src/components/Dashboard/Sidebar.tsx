@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo, memo } from 'react'
 import { Link } from 'react-router-dom'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
@@ -13,7 +13,7 @@ import { isNullish, formatNumber, formatNumberAsInt } from '../../utils'
 
 import '../../scss/components/Dashboard/Sidebar.scss'
 
-export default () => {
+const DashboardSidebar = memo(() => {
 	const isSignedIn = useAuthState()
 	
 	const [decks, decksLoadingState] = useDecks()
@@ -33,6 +33,24 @@ export default () => {
 		(decksLoadingState === LoadingState.Success) &&
 		!decks.length
 	)
+	
+	const dueDecks = useMemo(() => (
+		(decks ?? [])
+			.filter(deck => deck.userData?.isDue ?? false)
+			.sort((a, b) =>
+				(b.userData?.numberOfDueCards ?? 0) - (a.userData?.numberOfDueCards ?? 0)
+			)
+	), [decks])
+	
+	const favoriteDecks = useMemo(() => (
+		(decks ?? [])
+			.filter(deck => deck.userData?.isFavorite ?? false)
+			.sort((a, b) => a.name.localeCompare(b.name))
+	), [decks])
+	
+	const allDecks = useMemo(() => (
+		(decks ?? []).sort((a, b) => a.name.localeCompare(b.name))
+	), [decks])
 	
 	return (
 		<div className="sidebar">
@@ -56,29 +74,19 @@ export default () => {
 						<>
 							<Section
 								title="Due"
-								decks={
-									(decks ?? [])
-										.filter(deck => deck.userData?.isDue ?? false)
-										.sort((a, b) =>
-											(b.userData?.numberOfDueCards ?? 0) - (a.userData?.numberOfDueCards ?? 0)
-										)
-								}
+								decks={dueDecks}
 								query={query}
 								includesDivider
 							/>
 							<Section
 								title="Favorites"
-								decks={
-									(decks ?? [])
-										.filter(deck => deck.userData?.isFavorite ?? false)
-										.sort((a, b) => a.name.localeCompare(b.name))
-								}
+								decks={favoriteDecks}
 								query={query}
 								includesDivider
 							/>
 							<Section
 								title="All"
-								decks={(decks ?? []).sort((a, b) => a.name.localeCompare(b.name))}
+								decks={allDecks}
 								query={query}
 							/>
 						</>
@@ -107,4 +115,6 @@ export default () => {
 			</div>
 		</div>
 	)
-}
+})
+
+export default DashboardSidebar

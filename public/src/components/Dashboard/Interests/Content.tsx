@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -14,7 +14,7 @@ import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
 
 import '../../../scss/components/Dashboard/Interests.scss'
 
-export default () => {
+const InterestsContent = memo(() => {
 	const [currentUser] = useCurrentUser()
 	const topics = useTopics()
 	
@@ -65,7 +65,7 @@ export default () => {
 					>
 						<meta {...topic.positionSchemaProps(i)} />
 						<meta {...topic.urlSchemaProps} />
-						<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
+						<img {...topic.imageSchemaProps} />
 						<div className="check">
 							<FontAwesomeIcon icon={faCheck} />
 						</div>
@@ -75,4 +75,6 @@ export default () => {
 			</div>
 		</>
 	)
-}
+})
+
+export default InterestsContent

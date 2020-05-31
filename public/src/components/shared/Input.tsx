@@ -1,4 +1,4 @@
-import React, { forwardRef, InputHTMLAttributes } from 'react'
+import React, { forwardRef, InputHTMLAttributes, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -15,7 +15,7 @@ export interface InputProps {
 	setValue: (value: string) => void
 }
 
-export default forwardRef<HTMLInputElement | null, InputProps & InputHTMLAttributes<HTMLInputElement>>((
+const Input = memo(forwardRef<HTMLInputElement | null, InputProps & InputHTMLAttributes<HTMLInputElement>>((
 	{ className, required, icon, type, placeholder, value, setValue, ...props },
 	ref
 ) => (
@@ -31,4 +31,6 @@ export default forwardRef<HTMLInputElement | null, InputProps & InputHTMLAttribu
 		/>
 		{icon && <FontAwesomeIcon icon={icon} />}
 	</div>
-))
+)))
+
+export default Input

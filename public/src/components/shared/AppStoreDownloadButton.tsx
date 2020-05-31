@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react'
+import React, { HTMLAttributes, memo } from 'react'
 
 import { APP_STORE_URL } from '../../constants'
 import { ReactComponent as AppStoreDownloadImage } from '../../images/app-store-download.svg'
@@ -8,7 +8,7 @@ import 'firebase/analytics'
 
 const analytics = firebase.analytics()
 
-export default (props: HTMLAttributes<HTMLAnchorElement>) => (
+const AppStoreDownloadButton = memo((props: HTMLAttributes<HTMLAnchorElement>) => (
 	<a
 		{...props}
 		href={APP_STORE_URL}
@@ -16,4 +16,6 @@ export default (props: HTMLAttributes<HTMLAnchorElement>) => (
 	>
 		<AppStoreDownloadImage />
 	</a>
-)
+))
+
+export default AppStoreDownloadButton

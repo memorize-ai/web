@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, memo } from 'react'
 
 import Modal from '../../shared/Modal'
 
@@ -19,7 +19,7 @@ export interface InputModalProps {
 	setIsShowing: (isShowing: boolean) => void
 }
 
-export default ({
+const InputModal = memo(({
 	title,
 	placeholder,
 	buttonText,
@@ -71,4 +71,6 @@ export default ({
 			</div>
 		</Modal>
 	)
-}
+})
+
+export default InputModal

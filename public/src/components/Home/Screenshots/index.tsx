@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import cx from 'classnames'
 
 import useScreenshot from './useScreenshot'
@@ -9,7 +9,7 @@ import { ReactComponent as LeftArrow } from '../../../images/icons/left-arrow.sv
 
 import '../../../scss/components/Home/Screenshots.scss'
 
-export default () => {
+const HomeScreenshots = memo(() => {
 	const {
 		screenshots,
 		index,
@@ -55,4 +55,6 @@ export default () => {
 			</div>
 		</div>
 	)
-}
+})
+
+export default HomeScreenshots

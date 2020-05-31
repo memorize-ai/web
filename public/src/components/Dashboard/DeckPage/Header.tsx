@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, memo } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
@@ -21,7 +21,7 @@ import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 import { ReactComponent as DownloadIcon } from '../../../images/icons/download.svg'
 import { ReactComponent as UsersIcon } from '../../../images/icons/users.svg'
 
-export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
+const DeckPageHeader = memo(({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -141,4 +141,6 @@ export default ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => {
 			/>
 		</div>
 	)
-}
+})
+
+export default DeckPageHeader

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 
 import Deck from '../../models/Deck'
 import { includesNormalized } from '../../utils'
 import Row from './SidebarRow'
 
-export default (
+const DashboardSidebarSection = memo((
 	{ title, decks: _decks, query, includesDivider = false }: {
 		title: string
 		decks: Deck[]
@@ -12,9 +12,11 @@ export default (
 		includesDivider?: boolean
 	}
 ) => {
-	const decks = _decks.filter(deck =>
-		deck.name && includesNormalized(query, [deck.name])
-	)
+	const decks = useMemo(() => (
+		_decks.filter(deck =>
+			deck.name && includesNormalized(query, [deck.name])
+		)
+	), [_decks, query])
 	
 	return decks.length
 		? (
@@ -29,4 +31,6 @@ export default (
 			</div>
 		)
 		: null
-}
+})
+
+export default DashboardSidebarSection

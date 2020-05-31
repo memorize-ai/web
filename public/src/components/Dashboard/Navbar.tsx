@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 
@@ -26,7 +26,7 @@ import '../../scss/components/Dashboard/Navbar.scss'
 
 const auth = firebase.auth()
 
-export default ({ selection }: { selection: Selection }) => {
+const DashboardNavbar = memo(({ selection }: { selection: Selection }) => {
 	const isSignedIn = useAuthState()
 	const [currentUser] = useCurrentUser()
 	const [decks] = useDecks()
@@ -34,7 +34,7 @@ export default ({ selection }: { selection: Selection }) => {
 	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(false)
 	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)
 	
-	const sendForgotPasswordEmail = async () => {
+	const sendForgotPasswordEmail = useCallback(async () => {
 		const email = currentUser?.email
 		
 		if (!email)
@@ -46,16 +46,16 @@ export default ({ selection }: { selection: Selection }) => {
 		} catch (error) {
 			handleError(error)
 		}
-	}
+	}, [currentUser])
 	
-	const signOut = async () => {
+	const signOut = useCallback(async () => {
 		try {
 			await auth.signOut()
 			window.location.href = '/'
 		} catch (error) {
 			handleError(error)
 		}
-	}
+	}, [])
 	
 	return (
 		<div className="dashboard-navbar">
@@ -147,4 +147,6 @@ export default ({ selection }: { selection: Selection }) => {
 			/>
 		</div>
 	)
-}
+})
+
+export default DashboardNavbar

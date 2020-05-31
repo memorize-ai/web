@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, memo } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faStar as faStarFilled, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -21,7 +21,7 @@ import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
 import { ReactComponent as EditIcon } from '../../../images/icons/edit.svg'
 
-export default ({ deck }: { deck: Deck | null }) => {
+const DecksHeader = memo(({ deck }: { deck: Deck | null }) => {
 	const [currentUser] = useCurrentUser()
 	const [imageUrl] = useImageUrl(deck)
 	
@@ -38,6 +38,16 @@ export default ({ deck }: { deck: Deck | null }) => {
 	const isOwner = currentUser && deck?.creatorId === currentUser.id
 	const numberOfDueCards = deck?.userData?.numberOfDueCards ?? 0
 	const numberOfDueCardsFormatted = formatNumber(numberOfDueCards)
+	
+	const onConfirmDelete = useCallback(() => {
+		if (!(deck && currentUser))
+			return
+		
+		deck.delete(currentUser.id)
+		
+		setIsOptionsDropdownShowing(false)
+		setIsDeleteModalShowing(false)
+	}, [deck, currentUser, setIsOptionsDropdownShowing, setIsDeleteModalShowing])
 	
 	return (
 		<div className={cx('header', { loading: !deck })}>
@@ -123,12 +133,7 @@ export default ({ deck }: { deck: Deck | null }) => {
 						<ConfirmationModal
 							title="Permanently delete deck"
 							message="Are you sure? You cannot recover this deck."
-							onConfirm={() => {
-								deck.delete(currentUser.id)
-								
-								setIsOptionsDropdownShowing(false)
-								setIsDeleteModalShowing(false)
-							}}
+							onConfirm={onConfirmDelete}
 							buttonText="Delete"
 							buttonBackground="#e53e3e"
 							isShowing={isDeleteModalShowing}
@@ -144,4 +149,6 @@ export default ({ deck }: { deck: Deck | null }) => {
 			/>
 		</div>
 	)
-}
+})
+
+export default DecksHeader

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -15,7 +15,7 @@ export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 	type
 }))
 
-export default (
+const SortDropdown = memo((
 	{ shadow, isShowing, setIsShowing, algorithm, setAlgorithm }: {
 		shadow: DropdownShadow
 		isShowing: boolean
@@ -51,4 +51,6 @@ export default (
 			)
 		})}
 	</Dropdown>
-)
+))
+
+export default SortDropdown

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useCallback, useMemo, memo } from 'react'
 import Select from 'react-select'
 import cx from 'classnames'
 import _ from 'lodash'
@@ -19,7 +19,7 @@ import { ReactComponent as RightArrowHead } from '../../../images/icons/gray-rig
 
 const BOX_TRANSFORM_X_LENGTH = 20
 
-export default ({ deck }: { deck: Deck }) => {
+const DeckPagePreview = memo(({ deck }: { deck: Deck }) => {
 	const __sections = useSections(deck.id)
 	
 	const _sections = useMemo(() => (
@@ -54,7 +54,10 @@ export default ({ deck }: { deck: Deck }) => {
 	const [boxTransform, setBoxTransform] = useState(undefined as string | undefined)
 	
 	const section = card && sections[card.sectionId]
-	const cardIndex = cards?.findIndex(({ id }) => id === card?.id)
+	
+	const cardIndex = useMemo(() => (
+		cards?.findIndex(({ id }) => id === card?.id)
+	), [cards, card])
 	
 	const shouldGoLeft = useKeyPress(37) // Left arrow
 	const shouldGoRight = useKeyPress(39) // Right arrow
@@ -67,20 +70,20 @@ export default ({ deck }: { deck: Deck }) => {
 		newCard && setCard(newCard)
 	}, [cards])
 	
-	const toggleSide = async () => {
+	const toggleSide = useCallback(async () => {
 		setBoxOpacity(0)
 		setBoxTransform('translateY(-16px)')
 		
 		await sleep(150)
 		
-		setIsFront(!isFront)
-		setToggleButtonDegrees(toggleButtonDegrees + 180)
+		setIsFront(isFront => !isFront)
+		setToggleButtonDegrees(toggleButtonDegrees => toggleButtonDegrees + 180)
 		
 		setBoxOpacity(1)
 		setBoxTransform(undefined)
-	}
+	}, [setBoxOpacity, setBoxTransform, setIsFront, setToggleButtonDegrees])
 	
-	const nextCard = async (isRight: boolean) => {
+	const nextCard = useCallback(async (isRight: boolean) => {
 		if (cardIndex === undefined)
 			return
 		
@@ -96,7 +99,7 @@ export default ({ deck }: { deck: Deck }) => {
 		
 		setBoxOpacity(1)
 		setBoxTransform(undefined)
-	}
+	}, [cardIndex, setBoxOpacity, setBoxTransform, setCard, cards, setIsFront])
 	
 	useEffect(() => {
 		if (card || !cards)
@@ -111,17 +114,21 @@ export default ({ deck }: { deck: Deck }) => {
 		for (const section of _sections)
 			if (section.numberOfCards > 0)
 				return setSection(section)
-	}, [card, cards, deck, _sections]) // eslint-disable-line
+	}, [card, cards, deck, _sections])
 	
 	useEffect(() => {
 		if (shouldGoLeft && !isLeftDisabled)
 			nextCard(false)
-	}, [shouldGoLeft, isLeftDisabled]) // eslint-disable-line
+	}, [shouldGoLeft, isLeftDisabled])
 	
 	useEffect(() => {
 		if (shouldGoRight && !isRightDisabled)
 			nextCard(true)
-	}, [shouldGoRight, isRightDisabled]) // eslint-disable-line
+	}, [shouldGoRight, isRightDisabled])
+	
+	const isSectionDisabled = useCallback((section: Section) => (
+		!section.numberOfCards
+	), [])
 	
 	return (
 		<div className="preview">
@@ -132,7 +139,7 @@ export default ({ deck }: { deck: Deck }) => {
 						options={_sections ?? []}
 						getOptionLabel={_.property('name')}
 						getOptionValue={_.property('id')}
-						isOptionDisabled={section => !section.numberOfCards}
+						isOptionDisabled={isSectionDisabled}
 						placeholder="Loading..."
 						isLoading={!section}
 						value={section}
@@ -197,4 +204,6 @@ export default ({ deck }: { deck: Deck }) => {
 			</div>
 		</div>
 	)
-}
+})
+
+export default DeckPagePreview

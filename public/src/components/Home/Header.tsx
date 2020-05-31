@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMobile } from '@fortawesome/free-solid-svg-icons'
 
@@ -7,7 +7,7 @@ import Screenshot, { ScreenshotType } from '../shared/Screenshot'
 
 import '../../scss/components/Home/Header.scss'
 
-export default () => (
+const HomeHeader = memo(() => (
 	<div className="header">
 		<div className="left">
 			<h1>
@@ -25,4 +25,6 @@ export default () => (
 		</div>
 		<Screenshot type={ScreenshotType.Cram} className="screenshot" />
 	</div>
-)
+))
+
+export default HomeHeader

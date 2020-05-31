@@ -1,11 +1,11 @@
-import React, { HTMLAttributes, useCallback } from 'react'
+import React, { HTMLAttributes, useCallback, memo } from 'react'
 import renderMathInElement from 'katex/dist/contrib/auto-render'
 import { highlightAllUnder } from 'prismjs'
 import cx from 'classnames'
 
 import '../../scss/components/CardSide.scss'
 
-export default ({ className, children, ...props }: { children: string } & HTMLAttributes<HTMLDivElement>) => {
+const CardSide = memo(({ className, children, ...props }: { children: string } & HTMLAttributes<HTMLDivElement>) => {
 	const onRef = useCallback((element: HTMLDivElement | null) => {
 		if (!element)
 			return
@@ -19,7 +19,7 @@ export default ({ className, children, ...props }: { children: string } & HTMLAt
 			if (image)
 				image.onerror = figure.remove.bind(figure)
 		})
-	}, [children]) // eslint-disable-line
+	}, [children])
 	
 	return (
 		<div
@@ -29,4 +29,6 @@ export default ({ className, children, ...props }: { children: string } & HTMLAt
 			dangerouslySetInnerHTML={{ __html: children }}
 		/>
 	)
-}
+})
+
+export default CardSide

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import LoadingState from '../../models/LoadingState'
 import Loader from '../shared/Loader'
 
-export default (
+const UnsubscribeContent = memo((
 	{ loadingState, errorMessage }: {
 		loadingState: LoadingState
 		errorMessage: string | null
@@ -24,4 +24,6 @@ export default (
 		default:
 			return null
 	}
-}
+})
+
+export default UnsubscribeContent

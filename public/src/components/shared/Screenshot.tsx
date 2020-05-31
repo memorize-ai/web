@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react'
+import React, { HTMLAttributes, memo } from 'react'
 
 export enum ScreenshotType {
 	Cram = 'cram.webp',
@@ -10,6 +10,8 @@ export enum ScreenshotType {
 	Review = 'review.webp'
 }
 
-export default ({ type, ...props }: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => (
+const Screenshot = memo(({ type, ...props }: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => (
 	<img {...props} src={require(`../../images/screenshots/${type}`)} alt="Screenshot" />
-)
+))
+
+export default Screenshot

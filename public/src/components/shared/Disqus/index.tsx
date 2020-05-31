@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy, Suspense, memo } from 'react'
 
 import { DISQUS_SHORTNAME } from '../../../constants'
 
@@ -22,14 +22,16 @@ export const componentProps = (props: DisqusProps) => ({
 const DiscussionEmbed = lazy(() => import('./DiscussionEmbed'))
 const CommentCount = lazy(() => import('./CommentCount'))
 
-export default (props: DisqusProps) => (
+const DisqusDiscussionEmbed = memo((props: DisqusProps) => (
 	<Suspense fallback={null}>
 		<DiscussionEmbed {...props} />
 	</Suspense>
-)
+))
 
-export const DisqusCommentCount = (props: DisqusProps) => (
+export default DisqusDiscussionEmbed
+
+export const DisqusCommentCount = memo((props: DisqusProps) => (
 	<Suspense fallback={null}>
 		<CommentCount {...props} />
 	</Suspense>
-)
+))

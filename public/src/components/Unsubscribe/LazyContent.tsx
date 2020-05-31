@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import { useParams } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -15,7 +15,7 @@ import '../../scss/components/Unsubscribe.scss'
 const analytics = firebase.analytics()
 const firestore = firebase.firestore()
 
-export default () => {
+const UnsubscribeLazyContent = memo(() => {
 	const { uid, type } = useParams()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
@@ -67,4 +67,6 @@ export default () => {
 			/>
 		</div>
 	)
-}
+})
+
+export default UnsubscribeLazyContent

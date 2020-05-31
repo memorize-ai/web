@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import useAuthState from '../../hooks/useAuthState'
 import Home from '../Home'
 import DashboardHome from '../Dashboard/Home'
 
-export default () =>
+const Root = memo(() => (
 	useAuthState() ? <DashboardHome /> : <Home />
+))
+
+export default Root

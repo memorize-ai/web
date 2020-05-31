@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo, useCallback } from 'react'
 import _ from 'lodash'
 
 import Deck from '../../../models/Deck'
@@ -12,7 +12,7 @@ import Loader from '../../shared/Loader'
 import ShareSectionModal from '../../shared/Modal/ShareSection'
 import { formatNumber } from '../../../utils'
 
-export default ({ deck }: { deck: Deck }) => {
+const DeckPageCards = memo(({ deck }: { deck: Deck }) => {
 	const _sections = useSections(deck.id) ?? []
 	const sections = deck.numberOfUnsectionedCards > 0
 		? [deck.unsectionedSection, ..._sections]
@@ -29,7 +29,7 @@ export default ({ deck }: { deck: Deck }) => {
 	const [selectedSection, setSelectedSection] = useState(null as Section | null)
 	const [isShareSectionModalShowing, setIsShareSectionModalShowing] = useState(false)
 	
-	const cardsForSection = (section: Section) =>
+	const cardsForSection = useCallback((section: Section) => (
 		cards
 			? cards
 				.filter(card => card.sectionId === section.id)
@@ -37,6 +37,7 @@ export default ({ deck }: { deck: Deck }) => {
 					<CardCell key={card.id} card={card} />
 				))
 			: <Loader size="24px" thickness="4px" color="#582efe" />
+	), [cards])
 	
 	return sections.length
 		? (
@@ -77,4 +78,6 @@ export default ({ deck }: { deck: Deck }) => {
 			</div>
 		)
 		: null
-}
+})
+
+export default DeckPageCards

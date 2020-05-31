@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { DropzoneRootProps, DropzoneInputProps } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
@@ -8,7 +8,7 @@ import Loader from './Loader'
 
 import '../../scss/components/ImagePicker.scss'
 
-export default (
+const ImagePicker = memo((
 	{ rootProps, inputProps, isDragging, isLoading = false, url, removeImage }: {
 		rootProps: DropzoneRootProps
 		inputProps: DropzoneInputProps
@@ -48,4 +48,6 @@ export default (
 				)
 		}
 	</div>
-)
+))
+
+export default ImagePicker

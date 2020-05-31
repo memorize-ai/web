@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -6,7 +6,7 @@ import cx from 'classnames'
 import Card from '../../../models/Card'
 import CKEditor from '../../shared/CKEditor'
 
-export default (
+const AddCardsCardRow = memo((
 	{ uploadUrl, front, back, canRemove, remove, updateFront, updateBack }: {
 		uploadUrl: string
 		front: string
@@ -71,4 +71,6 @@ export default (
 			</div>
 		</div>
 	)
-}
+})
+
+export default AddCardsCardRow

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback, memo } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -24,7 +24,7 @@ import '../../../scss/components/Dashboard/EditCard.scss'
 
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
 
-export default () => {
+const EditCardContent = memo(() => {
 	requiresAuth()
 	
 	const { slugId, slug, cardId } = useParams()
@@ -99,10 +99,11 @@ export default () => {
 		return () => { window.onbeforeunload = null }
 	}, [isSameContent])
 	
-	const close = () =>
+	const close = useCallback(() => {
 		history.push(closeUrl)
+	}, [history, closeUrl])
 	
-	const save = async () => {
+	const save = useCallback(async () => {
 		if (!(deck && card))
 			return
 		
@@ -114,9 +115,9 @@ export default () => {
 		})
 		
 		close()
-	}
+	}, [deck, card, section, front, back, close])
 	
-	const deleteCard = async () => {
+	const deleteCard = useCallback(async () => {
 		if (!(deck && card))
 			return
 		
@@ -124,7 +125,12 @@ export default () => {
 		
 		setIsDeleteModalShowing(false)
 		close()
-	}
+	}, [deck, card, setIsDeleteModalShowing, close])
+	
+	const onConfirmGoBack = useCallback(() => {
+		setIsCloseModalShowing(false)
+		close()
+	}, [setIsCloseModalShowing, close])
 	
 	return (
 		<>
@@ -252,10 +258,7 @@ export default () => {
 			<ConfirmationModal
 				title="Go back"
 				message={CONFIRM_CLOSE_MESSAGE}
-				onConfirm={() => {
-					setIsCloseModalShowing(false)
-					close()
-				}}
+				onConfirm={onConfirmGoBack}
 				buttonText="I don't care"
 				buttonBackground="#e53e3e"
 				isShowing={isCloseModalShowing}
@@ -272,4 +275,6 @@ export default () => {
 			/>
 		</>
 	)
-}
+})
+
+export default EditCardContent

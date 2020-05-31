@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 
-export default (
+const SectionHeaderToggleExpandedButton = memo((
 	{ degrees, toggle, children: isExpanded }: {
 		degrees: number
 		toggle?: () => void
@@ -16,4 +16,6 @@ export default (
 	>
 		<FontAwesomeIcon icon={isExpanded ? faMinus : faPlus} />
 	</button>
-)
+))
+
+export default SectionHeaderToggleExpandedButton

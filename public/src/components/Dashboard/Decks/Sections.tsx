@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo, useCallback, memo } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
@@ -11,7 +11,7 @@ import ConfirmationModal from '../../shared/Modal/Confirmation'
 import RenameSectionModal from '../../shared/Modal/RenameSection'
 import ShareSectionModal from '../../shared/Modal/ShareSection'
 
-export default ({ deck }: { deck: Deck }) => {
+const DecksSections = memo(({ deck }: { deck: Deck }) => {
 	const { unlockSectionId } = useParams()
 	const history = useHistory()
 	
@@ -38,14 +38,14 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	const backToBaseUrl = useCallback(() => (
 		history.replace(`/decks/${deck.slugId}/${deck.slug}`)
-	), [deck]) // eslint-disable-line
+	), [deck])
 	
 	const setIsUnlockSectionModalShowing = useCallback((isShowing: boolean) => {
 		_setIsUnlockSectionModalShowing(isShowing)
 		
 		if (!isShowing && unlockSectionId)
 			backToBaseUrl()
-	}, [unlockSectionId, backToBaseUrl]) // eslint-disable-line
+	}, [unlockSectionId, backToBaseUrl])
 	
 	useEffect(() => {
 		if (!unlockSectionId || selectedSection)
@@ -62,6 +62,22 @@ export default ({ deck }: { deck: Deck }) => {
 		setSelectedSection(section)
 		setIsUnlockSectionModalShowing(true)
 	}, [unlockSectionId, selectedSection, sections, deck, backToBaseUrl, setIsUnlockSectionModalShowing])
+	
+	const onConfirmUnlock = useCallback(() => {
+		if (!(currentUser && selectedSection))
+			return
+		
+		deck.unlockSectionForUserWithId(currentUser.id, selectedSection)
+		setIsUnlockSectionModalShowing(false)
+	}, [currentUser, selectedSection, deck, setIsUnlockSectionModalShowing])
+	
+	const onConfirmDelete = useCallback(() => {
+		if (!(deck && selectedSection))
+			return
+		
+		selectedSection.delete(deck)
+		setIsDeleteSectionModalShowing(false)
+	}, [deck, selectedSection, setIsDeleteSectionModalShowing])
 	
 	return (
 		<>
@@ -101,13 +117,7 @@ export default ({ deck }: { deck: Deck }) => {
 				message={
 					<>Are you sure you want to unlock <span>{selectedSection?.name ?? '...'}</span>?</>
 				}
-				onConfirm={() => {
-					if (!(currentUser && selectedSection))
-						return
-					
-					deck.unlockSectionForUserWithId(currentUser.id, selectedSection)
-					setIsUnlockSectionModalShowing(false)
-				}}
+				onConfirm={onConfirmUnlock}
 				buttonText="Unlock"
 				buttonBackground="#4355f9"
 				isShowing={isUnlockSectionModalShowing}
@@ -124,13 +134,7 @@ export default ({ deck }: { deck: Deck }) => {
 				message={
 					<>Are you sure you want to delete <span>{selectedSection?.name ?? '...'}</span>?</>
 				}
-				onConfirm={() => {
-					if (!(deck && selectedSection))
-						return
-					
-					selectedSection.delete(deck)
-					setIsDeleteSectionModalShowing(false)
-				}}
+				onConfirm={onConfirmDelete}
 				buttonText="Delete"
 				buttonBackground="#e53e3e"
 				isShowing={isDeleteSectionModalShowing}
@@ -144,4 +148,6 @@ export default ({ deck }: { deck: Deck }) => {
 			/>
 		</>
 	)
-}
+})
+
+export default DecksSections

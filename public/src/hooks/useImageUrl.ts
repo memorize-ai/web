@@ -22,7 +22,7 @@ export default (deck: Deck | null | undefined) => {
 			setImageUrl: compose(dispatch, setDeckImageUrl),
 			setImageUrlLoadingState: compose(dispatch, setDeckImageUrlLoadingState)
 		})
-	}, [deck, state.loadingState]) // eslint-disable-line
+	}, [deck, state.loadingState])
 	
 	return [state.url, state.loadingState] as const
 }

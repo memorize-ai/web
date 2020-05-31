@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import '../../scss/components/TripleDots.scss'
 
-export default ({ color }: { color: string }) => (
+const TripleDots = memo(({ color }: { color: string }) => (
 	<div className="triple-dots">
 		{[0, 1, 2].map(i => (
 			<div key={i} style={{ background: color }} />
 		))}
 	</div>
-)
+))
+
+export default TripleDots

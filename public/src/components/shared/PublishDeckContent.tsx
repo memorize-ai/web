@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useMemo, memo } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignature, faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -27,7 +27,7 @@ export interface PublishDeckContentProps {
 	setSelectedTopics: (topics: string[]) => void
 }
 
-export default ({
+const PublishDeckContent = memo(({
 	isImageLoading = false,
 	imageUrl,
 	name,
@@ -44,24 +44,31 @@ export default ({
 }: PublishDeckContentProps) => {
 	const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone()
 	
+	const rootProps = useMemo(getRootProps, [getRootProps])
+	const inputProps = useMemo(getInputProps, [getInputProps])
+	
 	useEffect(() => {
 		if (acceptedFiles.length)
 			setImage(acceptedFiles[0])
-	}, [acceptedFiles]) // eslint-disable-line
+	}, [acceptedFiles])
 	
 	const focusNameInput = useCallback((input: HTMLInputElement | null) => {
 		input?.focus()
 	}, [])
 	
+	const removeImage = useCallback(() => {
+		setImage(null)
+	}, [setImage])
+	
 	return (
 		<div className="publish-deck-content">
 			<ImagePicker
-				rootProps={getRootProps()}
-				inputProps={getInputProps()}
+				rootProps={rootProps}
+				inputProps={inputProps}
 				isDragging={isDragActive}
 				isLoading={isImageLoading}
 				url={imageUrl}
-				removeImage={() => setImage(null)}
+				removeImage={removeImage}
 			/>
 			<div className="right">
 				<div className="inputs">
@@ -117,7 +124,7 @@ export default ({
 							>
 								<meta {...topic.positionSchemaProps(i)} />
 								<meta {...topic.urlSchemaProps} />
-								<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
+								<img {...topic.imageSchemaProps} />
 								<div className="check">
 									<FontAwesomeIcon icon={faCheck} />
 								</div>
@@ -129,4 +136,6 @@ export default ({
 			</div>
 		</div>
 	)
-}
+})
+
+export default PublishDeckContent

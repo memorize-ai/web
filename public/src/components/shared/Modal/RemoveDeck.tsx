@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, memo } from 'react'
 
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
@@ -10,24 +10,28 @@ export interface RemoveDeckModalProps {
 	setIsShowing: (isShowing: boolean) => void
 }
 
-export default ({ deck, isShowing, setIsShowing }: RemoveDeckModalProps) => {
+const RemoveDeckModal = memo(({ deck, isShowing, setIsShowing }: RemoveDeckModalProps) => {
 	const [currentUser] = useCurrentUser()
+	
+	const onConfirm = useCallback(() => {
+		if (!(deck && currentUser))
+			return
+		
+		deck.remove(currentUser.id)
+		setIsShowing(false)
+	}, [deck, currentUser, setIsShowing])
 	
 	return (
 		<ConfirmationModal
 			title="Remove deck from library"
 			message="Are you sure? All progress will be deleted."
-			onConfirm={() => {
-				if (!(deck && currentUser))
-					return
-				
-				deck.remove(currentUser.id)
-				setIsShowing(false)
-			}}
+			onConfirm={onConfirm}
 			buttonText="Remove"
 			buttonBackground="#e53e3e"
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		/>
 	)
-}
+})
+
+export default RemoveDeckModal

@@ -20,7 +20,7 @@ export default (deckId: string | null | undefined) => {
 			updateSection: compose(dispatch, updateSection),
 			removeSection: compose(dispatch, removeSection)
 		})
-	}, [deckId, sections]) // eslint-disable-line
+	}, [deckId, sections])
 	
 	return sections
 }

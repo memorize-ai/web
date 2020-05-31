@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy, Suspense, memo } from 'react'
 
 import Loader from './Loader'
 
@@ -12,8 +12,10 @@ export interface CKEditorProps {
 
 const Content = lazy(() => import('./Content'))
 
-export default (props: CKEditorProps) => (
+const CKEditor = memo((props: CKEditorProps) => (
 	<Suspense fallback={<Loader />}>
 		<Content {...props} />
 	</Suspense>
-)
+))
+
+export default CKEditor

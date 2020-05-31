@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useCallback, useMemo } from 'react'
 
 import Deck from '../models/Deck'
 import ExpandedSectionsContext from '../contexts/ExpandedSections'
@@ -18,10 +18,10 @@ export default (
 		dispatch
 	] = useContext(ExpandedSectionsContext)
 	
-	const sections = _sections ?? {}
+	const sections = useMemo(() => _sections ?? {}, [_sections])
 	
 	return [
-		(sectionId: string) => {
+		useCallback((sectionId: string) => {
 			const isExpanded = sections[sectionId]
 			
 			return isExpanded === undefined
@@ -29,7 +29,9 @@ export default (
 				: defaultExpanded
 					? !isExpanded
 					: isExpanded
-		},
-		(sectionId: string) => dispatch(toggleSectionExpanded(deck.id, sectionId, isOwned))
+		}, [sections, defaultExpanded]),
+		useCallback((sectionId: string) => (
+			dispatch(toggleSectionExpanded(deck.id, sectionId, isOwned))
+		), [dispatch, deck, isOwned])
 	] as const
 }

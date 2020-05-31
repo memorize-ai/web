@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, memo } from 'react'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import InputModal from './Input'
 import { handleError } from '../../../utils'
 
-export default (
+const RenameSectionModal = memo((
 	{ deck, section, isShowing, setIsShowing }: {
 		deck: Deck
 		section: Section | null
@@ -18,9 +18,9 @@ export default (
 	useEffect(() => {
 		if (isShowing && section)
 			setName(section.name)
-	}, [isShowing, section])
+	}, [isShowing, section, setName])
 	
-	const rename = () => {
+	const rename = useCallback(() => {
 		if (!section)
 			return
 		
@@ -28,7 +28,7 @@ export default (
 			.catch(handleError)
 		
 		setIsShowing(false)
-	}
+	}, [section, deck, name, setIsShowing])
 	
 	return (
 		<InputModal
@@ -43,4 +43,6 @@ export default (
 			setIsShowing={setIsShowing}
 		/>
 	)
-}
+})
+
+export default RenameSectionModal

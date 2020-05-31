@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 
@@ -8,15 +8,17 @@ import { randomEmoji } from '../../../utils'
 
 import '../../../scss/components/DeckCell/Owned.scss'
 
-export default ({ deck, downloadApp }: { deck: Deck, downloadApp: () => void }) => {
+const OwnedDeckCell = memo(({ deck, downloadApp }: { deck: Deck, downloadApp: () => void }) => {
 	const { userData } = deck
 	
 	const numberOfDueCards = userData?.numberOfDueCards ?? 0
 	const hasDueCards = Boolean(numberOfDueCards)
 	
-	const numberOfSections = Object.values(userData?.sections ?? {}).reduce((acc, count) => (
-		acc + (count ? 1 : 0)
-	), 0)
+	const numberOfSections = useMemo(() => (
+		Object.values(userData?.sections ?? {}).reduce((acc, count) => (
+			acc + (count ? 1 : 0)
+		), 0)
+	), [userData])
 	
 	return (
 		<Base
@@ -47,4 +49,6 @@ export default ({ deck, downloadApp }: { deck: Deck, downloadApp: () => void }) 
 			)}
 		</Base>
 	)
-}
+})
+
+export default OwnedDeckCell

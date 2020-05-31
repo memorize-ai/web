@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -8,7 +8,7 @@ import useSelectedDeck from '../../hooks/useSelectedDeck'
 import useImageUrl from '../../hooks/useImageUrl'
 import { formatNumber } from '../../utils'
 
-export default ({ deck }: { deck: Deck }) => {
+const DashboardSidebarRow = memo(({ deck }: { deck: Deck }) => {
 	const [selectedDeck] = useSelectedDeck()
 	const [imageUrl, imageUrlLoadingState] = useImageUrl(deck)
 	
@@ -34,4 +34,6 @@ export default ({ deck }: { deck: Deck }) => {
 			)}
 		</Link>
 	)
-}
+})
+
+export default DashboardSidebarRow

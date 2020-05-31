@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faKey } from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +12,7 @@ import { urlForMarket } from '../Dashboard/Market'
 
 import '../../scss/components/Navbar.scss'
 
-export default () => {
+const Navbar = memo(() => {
 	const history = useHistory()
 	
 	const isSignedIn = useAuthState()
@@ -56,4 +56,6 @@ export default () => {
 			</div>
 		</div>
 	)
-}
+})
+
+export default Navbar

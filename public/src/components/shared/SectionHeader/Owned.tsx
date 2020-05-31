@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUnlock, faLock, faEllipsisV, faAngleUp, faAngleDown, faTrash } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -15,7 +15,7 @@ import { ReactComponent as PencilIcon } from '../../../images/icons/pencil.svg'
 
 import '../../../scss/components/SectionHeader/Owned.scss'
 
-export default (
+const OwnedSectionHeader = memo((
 	{ deck, section, isExpanded, toggleExpanded, onUnlock, onRename, onDelete, onShare, numberOfSections, reorder }: {
 		deck: Deck
 		section: Section
@@ -42,10 +42,10 @@ export default (
 	const canReorderUp = section.index > 0
 	const canReorderDown = section.index < numberOfSections - 1
 	
-	const onClick = () => {
+	const onClick = useCallback(() => {
 		toggleExpanded()
-		setDegrees(degrees + 180)
-	}
+		setDegrees(degrees => degrees + 180)
+	}, [toggleExpanded, setDegrees])
 	
 	return (
 		<div
@@ -153,4 +153,6 @@ export default (
 			)}
 		</div>
 	)
-}
+})
+
+export default OwnedSectionHeader

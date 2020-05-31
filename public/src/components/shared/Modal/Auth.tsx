@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, FormEvent } from 'react'
+import React, { useState, useCallback, useEffect, FormEvent, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -22,7 +22,7 @@ const auth = firebase.auth()
 const firestore = firebase.firestore()
 const analytics = firebase.analytics()
 
-export default () => {
+const AuthModal = memo(() => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -81,7 +81,7 @@ export default () => {
 			setLoadingState(LoadingState.Fail)
 			setErrorMessage(error.message)
 		}
-	}, [mode, name, email, password, callback]) // eslint-disable-line
+	}, [mode, name, email, password, callback])
 	
 	const onNameRef = useCallback((input: HTMLInputElement | null) => {
 		if (input && mode === AuthenticationMode.SignUp)
@@ -103,7 +103,7 @@ export default () => {
 			setCallback(null)
 			callback(currentUser)
 		}
-	}, [currentUser, isShowing, callback]) // eslint-disable-line
+	}, [currentUser, isShowing, callback])
 	
 	return (
 		<Modal
@@ -201,4 +201,6 @@ export default () => {
 			</form>
 		</Modal>
 	)
-}
+})
+
+export default AuthModal

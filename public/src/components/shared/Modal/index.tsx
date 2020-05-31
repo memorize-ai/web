@@ -1,11 +1,11 @@
-import React, { PropsWithChildren, useRef, useEffect, useState } from 'react'
+import React, { PropsWithChildren, useRef, useEffect, useState, memo } from 'react'
 import { createPortal } from 'react-dom'
 
 import useKeyPress from '../../../hooks/useKeyPress'
 
 import '../../../scss/components/Modal/index.scss'
 
-export default (
+const Modal = memo((
 	{ className, isLazy, isShowing, setIsShowing, children }: PropsWithChildren<{
 		className?: string
 		isLazy: boolean
@@ -65,16 +65,18 @@ export default (
 			body.classList.remove('modal-showing')
 			body.removeEventListener('click', onClick)
 		}
-	}, [isShowing]) // eslint-disable-line
+	}, [isShowing, setIsShowing])
 	
 	useEffect(() => {
 		if (shouldHide)
 			setIsShowing(false)
-	}, [shouldHide]) // eslint-disable-line
+	}, [shouldHide, setIsShowing])
 	
 	return createPortal((
 		<div ref={content} className="content">
 			{shouldShowContent && children}
 		</div>
 	), element.current)
-}
+})
+
+export default Modal

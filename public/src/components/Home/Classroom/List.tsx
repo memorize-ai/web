@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import { ReactComponent as Bullet } from '../../../images/home/bullet.svg'
 
@@ -9,7 +9,7 @@ export const ITEMS = [
 	<>Students can then unlock sections<br />and begin memorizing!</>
 ]
 
-export default () => (
+const HomeClassroomList = memo(() => (
 	<ol className="list">
 		{ITEMS.map((text, i) => (
 			<li key={i}>
@@ -21,4 +21,6 @@ export default () => (
 			</li>
 		))}
 	</ol>
-)
+))
+
+export default HomeClassroomList

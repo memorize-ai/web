@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react'
+import React, { HTMLAttributes, memo } from 'react'
 
 export enum LogoType {
 	Icon = 'icon.webp',
@@ -7,6 +7,8 @@ export enum LogoType {
 	CapitalInvertedGrayscale = 'capital-inverted-grayscale.webp'
 }
 
-export default ({ type, ...props }: { type: LogoType } & HTMLAttributes<HTMLImageElement>) => (
+const Logo = memo(({ type, ...props }: { type: LogoType } & HTMLAttributes<HTMLImageElement>) => (
 	<img {...props} src={require(`../../images/logos/${type}`)} alt="Logo" />
-)
+))
+
+export default Logo

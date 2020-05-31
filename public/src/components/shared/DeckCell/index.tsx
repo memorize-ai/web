@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, MouseEvent, useMemo, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
+import User from '../../../models/User'
 import LoadingState from '../../../models/LoadingState'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
@@ -15,9 +16,8 @@ import downloads from '../../../images/icons/download.svg'
 import users from '../../../images/icons/users.svg'
 
 import '../../../scss/components/DeckCell/index.scss'
-import User from '../../../models/User'
 
-export default ({ deck }: { deck: Deck }) => {
+const DeckCell = memo(({ deck }: { deck: Deck }) => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -27,9 +27,11 @@ export default ({ deck }: { deck: Deck }) => {
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	
-	const hasDeck = decks.some(({ id }) => id === deck.id)
+	const hasDeck = useMemo(() => (
+		decks.some(({ id }) => id === deck.id)
+	), [decks, deck])
 	
-	const get = async () => {
+	const get = useCallback(async () => {
 		const callback = async (user: User) => {
 			try {
 				setGetLoadingState(LoadingState.Loading)
@@ -49,10 +51,16 @@ export default ({ deck }: { deck: Deck }) => {
 			setAuthModalIsShowing(true)
 			setAuthModalCallback(callback)
 		}
-	}
+	}, [currentUser, deck, setGetLoadingState, setAuthModalIsShowing, setAuthModalCallback])
 	
-	const open = () =>
+	const open = useCallback(() => (
 		history.push(`/decks/${deck.slugId}/${deck.slug}`)
+	), [history, deck])
+	
+	const action = useCallback((event: MouseEvent) => {
+		event.preventDefault()
+		hasDeck ? open() : get()
+	}, [hasDeck, open, get])
 	
 	return (
 		<Base
@@ -95,13 +103,12 @@ export default ({ deck }: { deck: Deck }) => {
 				loaderColor="white"
 				loading={getLoadingState === LoadingState.Loading}
 				disabled={false}
-				onClick={event => {
-					event.preventDefault()
-					hasDeck ? open() : get()
-				}}
+				onClick={action}
 			>
 				{hasDeck ? 'Open' : 'Get'}
 			</Button>
 		</Base>
 	)
-}
+})
+
+export default DeckCell

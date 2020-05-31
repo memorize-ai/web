@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo, memo } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +15,7 @@ import { formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Home.scss'
 
-export default () => {
+const DashboardHomeContent = memo(() => {
 	const [currentUser] = useCurrentUser()
 	
 	const [decks] = useDecks()
@@ -24,13 +24,17 @@ export default () => {
 	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)
 	const [downloadAppMessage, setDownloadAppMessage] = useState('')
 	
-	const dueCards = decks.reduce((acc, deck) => (
-		acc + (deck.userData?.numberOfDueCards ?? 0)
-	), 0)
+	const dueCards = useMemo(() => (
+		decks.reduce((acc, deck) => (
+			acc + (deck.userData?.numberOfDueCards ?? 0)
+		), 0)
+	), [decks])
 	
-	const decksByCardsDue = decks.sort((a, b) =>
-		(b.userData?.numberOfDueCards ?? 0) - (a.userData?.numberOfDueCards ?? 0)
-	)
+	const decksByCardsDue = useMemo(() => (
+		decks.sort((a, b) =>
+			(b.userData?.numberOfDueCards ?? 0) - (a.userData?.numberOfDueCards ?? 0)
+		)
+	), [decks])
 	
 	const downloadApp = useCallback((deck: Deck) => {
 		const numberOfDueCards = deck.userData?.numberOfDueCards
@@ -154,4 +158,6 @@ export default () => {
 			/>
 		</>
 	)
-}
+})
+
+export default DashboardHomeContent

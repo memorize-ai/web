@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
@@ -11,7 +11,7 @@ const screenshots = [1, 2, 3, 4, 5, 6, 7].map(i =>
 	require(`../../../images/screenshots/framed/${i}.webp`) as string
 )
 
-export default (
+const DownloadAppModal = memo((
 	{ message, isShowing, setIsShowing }: {
 		message: string
 		isShowing: boolean
@@ -50,4 +50,6 @@ export default (
 			</div>
 		</div>
 	</Modal>
-)
+))
+
+export default DownloadAppModal
