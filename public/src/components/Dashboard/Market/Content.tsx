@@ -56,8 +56,6 @@ const MarketContent = () => {
 	
 	const getDecks = useCallback(async (pageNumber: number) => {
 		try {
-			console.log(pageNumber)
-			
 			const decks = await DeckSearch.search(query, {
 				pageNumber,
 				pageSize: 40,
