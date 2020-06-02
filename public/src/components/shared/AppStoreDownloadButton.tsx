@@ -12,6 +12,8 @@ const AppStoreDownloadButton = (props: HTMLAttributes<HTMLAnchorElement>) => (
 	<a
 		{...props}
 		href={APP_STORE_URL}
+		target="_blank"
+		rel="nofollow noreferrer noopener"
 		onClick={() => analytics.logEvent('app_store_download_clicked')}
 	>
 		<AppStoreDownloadImage />
