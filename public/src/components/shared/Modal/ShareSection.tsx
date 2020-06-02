@@ -15,7 +15,7 @@ const ShareSectionModal = (
 	<ShareModal
 		title="Share unlock link"
 		message={<>This link unlocks <b>{section?.name ?? '...'}</b> when visited.</>}
-		url={`https://memorize.ai/d/${deck.slugId}/${deck.slug}/u/${section?.id ?? '...'}`}
+		url={`${deck.urlWithOrigin}/u/${section?.id ?? '...'}`}
 		isShowing={isShowing}
 		setIsShowing={setIsShowing}
 	/>

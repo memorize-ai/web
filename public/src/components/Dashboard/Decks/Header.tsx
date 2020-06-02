@@ -92,7 +92,7 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 					/>
 					<p>{isFavorite ? 'Unf' : 'F'}avorite ({formatNumber(deck?.numberOfFavorites ?? 0)})</p>
 				</button>
-				<Link to={`/d/${deck?.slugId ?? ''}/${deck?.slug ?? ''}`}>
+				<Link to={deck?.url ?? '/market'}>
 					<CartIcon className="cart" />
 					<p>Visit page</p>
 				</Link>

@@ -20,7 +20,7 @@ const ShareDeckModal = (
 					? 'Promote your deck!'
 					: 'Like this deck? Share it!'
 			}
-			url={`https://memorize.ai/d/${deck.slugId}/${deck.slug}`}
+			url={deck.urlWithOrigin}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		/>

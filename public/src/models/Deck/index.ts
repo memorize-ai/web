@@ -292,7 +292,7 @@ export default class Deck implements DeckData {
 	}
 	
 	get url() {
-		return `/d/${this.slugId}/${this.slug}`
+		return `/d/${this.slugId}/${encodeURIComponent(this.slug)}`
 	}
 	
 	get urlWithOrigin() {
@@ -323,7 +323,7 @@ export default class Deck implements DeckData {
 	
 	get disqusProps(): DisqusProps {
 		return {
-			url: `https://memorize.ai/d/${this.slugId}/${this.slug}`,
+			url: this.urlWithOrigin,
 			id: this.id,
 			title: this.name
 		}

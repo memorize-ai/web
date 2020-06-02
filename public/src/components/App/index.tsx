@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
 import Root from './Root'
@@ -50,6 +50,7 @@ const App = () => (
 			/>
 			<Route exact path="/decks/:slugId/:slug/edit/:cardId" component={EditCard} />
 			
+			<Redirect exact path="/d" to="/market" />
 			<Route exact path="/market" component={Market} />
 			<Route
 				exact
