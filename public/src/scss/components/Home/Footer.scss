@@ -1,6 +1,17 @@
 @import '../../mixins';
 @import '../../trigonometry';
 
+@mixin button($scale, $important) {
+	$flag: if($important, !important, null);
+	
+	margin: 0 ($scale * 30px) $flag;
+	transform: scale($scale) $flag;
+	
+	&:hover {
+		transform: scale($scale + 0.2) $flag;
+	}
+}
+
 @include home-content('footer') {
 	$degrees: 6deg;
 	
@@ -61,8 +72,7 @@
 				}
 				
 				> .button {
-					margin: 0 (30px * 1.7);
-					transform: scale(1.7) !important;
+					@include button($scale: 1.7, $important: true);
 				}
 			}
 			
@@ -74,8 +84,7 @@
 				}
 				
 				> .button {
-					margin: 0 (30px * 2) !important;
-					transform: scale(2) !important;
+					@include button($scale: 2, $important: true);
 				}
 			}
 			
@@ -107,8 +116,8 @@
 			}
 			
 			> .button {
-				margin: 0 (30px * 1.5);
-				transform: scale(1.5);
+				@include button($scale: 1.5, $important: false);
+				
 				transition: transform 0.3s;
 			}
 		}
