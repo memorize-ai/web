@@ -6,7 +6,6 @@ import Deck from '../../../models/Deck'
 import LoadingState from '../../../models/LoadingState'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
-import useImageUrl from '../../../hooks/useImageUrl'
 import useAuthModal from '../../../hooks/useAuthModal'
 import Stars from '../../shared/Stars'
 import Button from '../../shared/Button'
@@ -21,8 +20,6 @@ const MarketDeckRow = ({ deck }: { deck: Deck }) => {
 	
 	const [currentUser] = useCurrentUser()
 	const [decks] = useDecks()
-	
-	const [imageUrl] = useImageUrl(deck)
 	
 	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
 	
@@ -73,7 +70,7 @@ const MarketDeckRow = ({ deck }: { deck: Deck }) => {
 		>
 			<img
 				itemProp="image"
-				src={imageUrl ?? Deck.DEFAULT_IMAGE_URL}
+				src={deck.imageUrl ?? Deck.DEFAULT_IMAGE_URL}
 				alt={deck.name}
 			/>
 			<div className="content">

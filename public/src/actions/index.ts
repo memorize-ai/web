@@ -69,18 +69,6 @@ export const removeOwnedDeck = (id: string) => ({
 	payload: id
 })
 
-// Deck image URL
-
-export const setDeckImageUrl = (deckId: string, url: string | null) => ({
-	type: ActionType.SetDeckImageUrl,
-	payload: { deckId, url }
-})
-
-export const setDeckImageUrlLoadingState = (deckId: string, loadingState: LoadingState) => ({
-	type: ActionType.SetDeckImageUrlLoadingState,
-	payload: { deckId, loadingState }
-})
-
 // Similar decks
 
 export const setSimilarDecks = (deckId: string, decks: Deck[]) => ({

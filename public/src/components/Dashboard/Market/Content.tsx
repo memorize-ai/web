@@ -1,10 +1,9 @@
-import React, { useRef, useState, useEffect, useCallback, useContext, memo } from 'react'
+import React, { useRef, useState, useEffect, useCallback, memo } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroller'
 
-import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
 import useQuery from '../../../hooks/useQuery'
 import useSearchState from '../../../hooks/useSearchState'
 import Deck from '../../../models/Deck'
@@ -26,8 +25,6 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 import '../../../scss/components/Dashboard/Market.scss'
 
 const MarketContent = () => {
-	const [imageUrls] = useContext(DeckImageUrlsContext)
-	
 	const isLoading = useRef(true)
 	const scrollingContainerRef = useRef(null as HTMLDivElement | null)
 	
@@ -176,7 +173,7 @@ const MarketContent = () => {
 						itemListElement: decks.map((deck, i) => ({
 							'@type': 'ListItem',
 							position: i + 1,
-							image: imageUrls[deck.id]?.url ?? Deck.DEFAULT_IMAGE_URL,
+							image: deck.imageUrl ?? Deck.DEFAULT_IMAGE_URL,
 							name: deck.name,
 							description: deck.description,
 							url: deck.urlWithOrigin

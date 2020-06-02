@@ -22,9 +22,6 @@ export enum ActionType {
 	RemoveDeck,
 	RemoveOwnedDeck,
 	
-	SetDeckImageUrl,
-	SetDeckImageUrlLoadingState,
-	
 	SetSimilarDecks,
 	
 	AddSections,

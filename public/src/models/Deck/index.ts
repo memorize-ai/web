@@ -299,6 +299,12 @@ export default class Deck implements DeckData {
 		return `https://memorize.ai${this.url}`
 	}
 	
+	get imageUrl() {
+		return this.hasImage
+			? `https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/decks%2F${this.id}?alt=media`
+			: null
+	}
+	
 	get worstRating() {
 		for (const rating of [1, 2, 3, 4, 5])
 			if ((this as any)[`numberOf${rating}StarRatings`] > 0)
@@ -354,23 +360,6 @@ export default class Deck implements DeckData {
 			this.userData = UserData.fromSnapshot(snapshot)
 		)
 		return this
-	}
-	
-	loadImageUrl = async (
-		{ setImageUrl, setImageUrlLoadingState }: {
-			setImageUrl: (deckId: string, url: string | null) => void
-			setImageUrlLoadingState: (deckId: string, loadingState: LoadingState) => void
-		}
-	) => {
-		try {
-			setImageUrlLoadingState(this.id, LoadingState.Loading)
-			
-			setImageUrl(this.id, await storage.child(`decks/${this.id}`).getDownloadURL())
-			setImageUrlLoadingState(this.id, LoadingState.Success)
-		} catch (error) {
-			setImageUrl(this.id, null)
-			setImageUrlLoadingState(this.id, LoadingState.Fail)
-		}
 	}
 	
 	get = async (uid: string) => {

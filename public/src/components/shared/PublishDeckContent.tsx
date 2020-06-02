@@ -12,7 +12,6 @@ import TextArea from './TextArea'
 import '../../scss/components/PublishDeckContent.scss'
 
 export interface PublishDeckContentProps {
-	isImageLoading?: boolean
 	imageUrl: string | null
 	name: string
 	subtitle: string
@@ -28,7 +27,6 @@ export interface PublishDeckContentProps {
 }
 
 const PublishDeckContent = ({
-	isImageLoading = false,
 	imageUrl,
 	name,
 	subtitle,
@@ -66,7 +64,6 @@ const PublishDeckContent = ({
 				rootProps={rootProps}
 				inputProps={inputProps}
 				isDragging={isDragActive}
-				isLoading={isImageLoading}
 				url={imageUrl}
 				removeImage={removeImage}
 			/>

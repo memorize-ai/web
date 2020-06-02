@@ -1,10 +1,9 @@
-import React, { useEffect, useContext, memo } from 'react'
+import React, { useEffect, memo } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
 import LoadingState from '../../../models/LoadingState'
-import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
 import requiresAuth from '../../../hooks/requiresAuth'
 import useSelectedDeck from '../../../hooks/useSelectedDeck'
 import useDecks from '../../../hooks/useDecks'
@@ -17,8 +16,6 @@ import '../../../scss/components/Dashboard/Decks.scss'
 
 const DecksContent = () => {
 	requiresAuth()
-	
-	const [imageUrls] = useContext(DeckImageUrlsContext)
 	
 	const { slugId, slug } = useParams()
 	const history = useHistory()
@@ -73,7 +70,7 @@ const DecksContent = () => {
 					{
 						'@type': 'IndividualProduct',
 						productID: selectedDeck?.slugId ?? '...',
-						image: (selectedDeck && imageUrls[selectedDeck.id]?.url) ?? Deck.DEFAULT_IMAGE_URL,
+						image: selectedDeck?.imageUrl ?? Deck.DEFAULT_IMAGE_URL,
 						name: selectedDeck?.name ?? 'Deck',
 						description: selectedDeck?.description ?? '',
 						url: selectedDeck?.urlWithOrigin ?? 'https://memorize.ai',

@@ -12,7 +12,6 @@ import AddCardsContext from '../../../contexts/AddCards'
 import requiresAuth from '../../../hooks/requiresAuth'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useCreatedDeck from '../../../hooks/useCreatedDeck'
-import useImageUrl from '../../../hooks/useImageUrl'
 import useSections from '../../../hooks/useSections'
 import useLocalStorageBoolean from '../../../hooks/useLocalStorageBoolean'
 import Head from '../../shared/Head'
@@ -43,7 +42,6 @@ const AddCardsContent = () => {
 	const [currentUser] = useCurrentUser()
 	
 	const deck = useCreatedDeck(slugId, slug)
-	const [imageUrl] = useImageUrl(deck)
 	
 	const _sections = useSections(deck?.id) ?? []
 	const sections = deck
@@ -162,7 +160,7 @@ const AddCardsContent = () => {
 				>
 					<FontAwesomeIcon icon={faTimes} />
 				</Link>
-				<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt="Deck" />
+				<img src={deck?.imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt="Deck" />
 				<h1>Add cards</h1>
 				<button
 					className="save"

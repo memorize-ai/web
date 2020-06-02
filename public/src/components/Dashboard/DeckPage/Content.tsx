@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo, memo, useCallback } from 'react'
+import React, { useState, useMemo, memo, useCallback } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -7,8 +7,6 @@ import cx from 'classnames'
 import Deck from '../../../models/Deck'
 import { DEFAULT_DECK_SORT_ALGORITHM, DeckSortAlgorithm } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
-import LoadingState from '../../../models/LoadingState'
-import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
 import useSearchState from '../../../hooks/useSearchState'
 import useDeck from '../../../hooks/useDeck'
 import useSections from '../../../hooks/useSections'
@@ -33,19 +31,13 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 import '../../../scss/components/Dashboard/DeckPage.scss'
 
 const DeckPageContent = () => {
-	const [imageUrls] = useContext(DeckImageUrlsContext)
-	
 	const history = useHistory()
 	const { slugId } = useParams()
 	const [{ query, sortAlgorithm }] = useSearchState()
 	
 	const { deck, hasDeck } = useDeck(slugId)
 	
-	const imageUrlObject = (deck && imageUrls[deck.id]) ?? null
-	
-	const hasImageUrlLoaded = imageUrlObject?.loadingState === LoadingState.Success
-	const imageUrl = imageUrlObject?.url ?? Deck.DEFAULT_IMAGE_URL
-	
+	const imageUrl = deck?.imageUrl ?? Deck.DEFAULT_IMAGE_URL
 	const creator = useCreator(deck?.creatorId)
 	const sections = useSections(deck?.id)
 	const cards = useAllCards(deck?.id)
@@ -102,7 +94,7 @@ const DeckPageContent = () => {
 		<>
 			<Head
 				isPrerenderReady={Boolean(
-					deck && hasImageUrlLoaded && creator && sections && cards && topics && similarDecks
+					deck && creator && sections && cards && topics && similarDecks
 				)}
 				title={`${deck ? `${deck.name} | ` : ''}memorize.ai`}
 				description={description}

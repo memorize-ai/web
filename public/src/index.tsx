@@ -6,7 +6,6 @@ import { CurrentUserProvider } from './contexts/CurrentUser'
 import { DecksProvider } from './contexts/Decks'
 import { SectionsProvider } from './contexts/Sections'
 import { CardsProvider } from './contexts/Cards'
-import { DeckImageUrlsProvider } from './contexts/DeckImageUrls'
 import { SimilarDecksProvider } from './contexts/SimilarDecks'
 import { TopicsProvider } from './contexts/Topics'
 import { CreateDeckProvider } from './contexts/CreateDeck'
@@ -34,27 +33,25 @@ ReactDOM.render((
 			<DecksProvider>
 				<SectionsProvider>
 					<CardsProvider>
-						<DeckImageUrlsProvider>
-							<SimilarDecksProvider>
-								<TopicsProvider>
-									<CreateDeckProvider>
-										<ExpandedSectionsProvider>
-											<CountersProvider>
-												<SearchProvider>
-													<AuthModalProvider>
-														<CreatorsProvider>
-															<AddCardsProvider>
-																<App />
-															</AddCardsProvider>
-														</CreatorsProvider>
-													</AuthModalProvider>
-												</SearchProvider>
-											</CountersProvider>
-										</ExpandedSectionsProvider>
-									</CreateDeckProvider>
-								</TopicsProvider>
-							</SimilarDecksProvider>
-						</DeckImageUrlsProvider>
+						<SimilarDecksProvider>
+							<TopicsProvider>
+								<CreateDeckProvider>
+									<ExpandedSectionsProvider>
+										<CountersProvider>
+											<SearchProvider>
+												<AuthModalProvider>
+													<CreatorsProvider>
+														<AddCardsProvider>
+															<App />
+														</AddCardsProvider>
+													</CreatorsProvider>
+												</AuthModalProvider>
+											</SearchProvider>
+										</CountersProvider>
+									</ExpandedSectionsProvider>
+								</CreateDeckProvider>
+							</TopicsProvider>
+						</SimilarDecksProvider>
 					</CardsProvider>
 				</SectionsProvider>
 			</DecksProvider>

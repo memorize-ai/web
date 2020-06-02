@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef, useCallback, memo } from 'react'
+import React, { useState, useEffect, useRef, useCallback, memo } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -7,11 +7,8 @@ import cx from 'classnames'
 import requiresAuth from '../../../hooks/requiresAuth'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useCreatedDeck from '../../../hooks/useCreatedDeck'
-import useImageUrl from '../../../hooks/useImageUrl'
 import useTopics from '../../../hooks/useTopics'
 import LoadingState from '../../../models/LoadingState'
-import DeckImageUrlsContext from '../../../contexts/DeckImageUrls'
-import { setDeckImageUrl, setDeckImageUrlLoadingState } from '../../../actions'
 import Head, { APP_DESCRIPTION } from '../../shared/Head'
 import Button from '../../shared/Button'
 import PublishDeckContent from '../../shared/PublishDeckContent'
@@ -28,15 +25,11 @@ const EditDeckContent = () => {
 	const { slugId, slug } = useParams()
 	const history = useHistory()
 	
-	const [, dispatchDeckImageUrls] = useContext(DeckImageUrlsContext)
-	
 	const [currentUser] = useCurrentUser()
 	const deck = useCreatedDeck(slugId, slug)
 	const topics = useTopics()
 	
-	const [existingImageUrl, existingImageUrlLoadingState] = useImageUrl(deck)
 	const [imageUrl, setImageUrl] = useState(null as string | null)
-	
 	const [image, setImage] = useState(undefined as File | null | undefined)
 	const [name, setName] = useState(deck?.name ?? '')
 	const [subtitle, setSubtitle] = useState(deck?.subtitle ?? '')
@@ -57,19 +50,12 @@ const EditDeckContent = () => {
 		
 		didUpdateFromDeck.current = true
 		
+		setImageUrl(deck.imageUrl)
 		setName(deck.name)
 		setSubtitle(deck.subtitle)
 		setDescription(deck.description)
 		setSelectedTopics(deck.topics)
 	}, [deck])
-	
-	useEffect(() => {
-		if (existingImageUrlLoadingState !== LoadingState.Success)
-			return
-		
-		setImageUrl(existingImageUrl)
-		setImage(undefined)
-	}, [existingImageUrl, existingImageUrlLoadingState])
 	
 	const edit = useCallback(async () => {
 		if (!(deck && currentUser))
@@ -78,9 +64,7 @@ const EditDeckContent = () => {
 		try {
 			setLoadingState(LoadingState.Loading)
 			
-			const deckId = deck.id
-			
-			const imageUrl = await deck.edit(currentUser.id, {
+			await deck.edit(currentUser.id, {
 				image,
 				name,
 				subtitle,
@@ -88,24 +72,13 @@ const EditDeckContent = () => {
 				topics: selectedTopics
 			})
 			
-			if (imageUrl !== undefined)
-				dispatchDeckImageUrls(setDeckImageUrl(
-					deckId,
-					imageUrl
-				))
-			
-			dispatchDeckImageUrls(setDeckImageUrlLoadingState(
-				deckId,
-				LoadingState.Success
-			))
-			
 			setLoadingState(LoadingState.Success)
 			history.push(closeUrl)
 		} catch (error) {
 			setLoadingState(LoadingState.Fail)
 			handleError(error)
 		}
-	}, [deck, currentUser, setLoadingState, dispatchDeckImageUrls, history, closeUrl, description, image, name, selectedTopics, subtitle])
+	}, [deck, currentUser, setLoadingState, history, closeUrl, description, image, name, selectedTopics, subtitle])
 	
 	const setImageAndUrl = useCallback((image: File | null) => {
 		setImageUrl(image && URL.createObjectURL(image))
@@ -155,7 +128,6 @@ const EditDeckContent = () => {
 					{deck
 						? (
 							<PublishDeckContent
-								isImageLoading={existingImageUrlLoadingState === LoadingState.Loading}
 								imageUrl={imageUrl}
 								name={name}
 								subtitle={subtitle}

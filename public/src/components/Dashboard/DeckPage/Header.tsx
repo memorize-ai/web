@@ -7,7 +7,6 @@ import User from '../../../models/User'
 import Deck from '../../../models/Deck'
 import LoadingState from '../../../models/LoadingState'
 import useCurrentUser from '../../../hooks/useCurrentUser'
-import useImageUrl from '../../../hooks/useImageUrl'
 import useCreator from '../../../hooks/useCreator'
 import useAuthModal from '../../../hooks/useAuthModal'
 import Button from '../../shared/Button'
@@ -25,7 +24,6 @@ const DeckPageHeader = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => 
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
-	const [imageUrl] = useImageUrl(deck)
 	const creator = useCreator(deck.creatorId)
 	
 	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
@@ -62,7 +60,7 @@ const DeckPageHeader = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => 
 	
 	return (
 		<div className="header">
-			<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
+			<img src={deck.imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
 			<div className="content">
 				<h1 className="name">
 					{deck.name}

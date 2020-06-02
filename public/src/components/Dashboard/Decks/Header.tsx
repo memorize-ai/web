@@ -7,7 +7,6 @@ import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
-import useImageUrl from '../../../hooks/useImageUrl'
 import useRemoveDeckModal from '../../../hooks/useRemoveDeckModal'
 import CreateSectionModal from '../../shared/Modal/CreateSection'
 import ShareDeckModal from '../../shared/Modal/ShareDeck'
@@ -23,7 +22,6 @@ import { ReactComponent as EditIcon } from '../../../images/icons/edit.svg'
 
 const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	const [currentUser] = useCurrentUser()
-	const [imageUrl] = useImageUrl(deck)
 	
 	const [isCreateSectionModalShowing, setIsCreateSectionModalShowing] = useState(false)
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
@@ -51,7 +49,7 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	
 	return (
 		<div className={cx('header', { loading: !deck })}>
-			<img src={imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt="Deck" />
+			<img src={deck?.imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt="Deck" />
 			<h1 className="name">
 				{deck?.name}
 			</h1>
