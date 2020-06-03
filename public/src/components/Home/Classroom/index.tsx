@@ -10,7 +10,6 @@ const HomeClassroom = () => (
 	<div className="classroom">
 		<div className="background" />
 		<div className="content">
-			<div className="top-triangle" />
 			<img
 				className="diagram"
 				src={diagram}
