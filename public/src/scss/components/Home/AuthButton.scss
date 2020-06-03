@@ -1,0 +1,20 @@
+.auth-button {
+	height: 44px;
+	padding: 0 14px;
+	font-size: larger;
+	font-weight: bold;
+	color: white;
+	background: #051e34;
+	border-radius: 8px;
+	transition: color 0.3s, background 0.3s, transform 0.3s;
+	
+	> span {
+		opacity: 0.7;
+	}
+	
+	&:hover,
+	&:focus {
+		color: #051e34;
+		background: white;
+	}
+}

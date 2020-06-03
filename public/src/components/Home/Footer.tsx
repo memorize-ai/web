@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
+import AuthButton from './AuthButton'
 import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
 import Logo, { LogoType } from '../shared/Logo'
 
@@ -12,10 +13,10 @@ const HomeFooter = () => (
 		<div className="content">
 			<div className="top">
 				<h1 className="text">
-					Download the ultimate<br />
-					memorization app
+					The ultimate<br />
+					memorization tool
 				</h1>
-				<AppStoreDownloadButton className="button" />
+				<AuthButton />
 			</div>
 			<div className="bottom">
 				<Link to="/" className="logo">
@@ -46,6 +47,7 @@ const HomeFooter = () => (
 						fact_a_minute
 					</a>
 				</div>
+				<AppStoreDownloadButton className="download-app" />
 				<p className="copyright">
 					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
 					All rights reserved.
