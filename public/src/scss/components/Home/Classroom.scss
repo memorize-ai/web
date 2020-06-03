@@ -17,8 +17,19 @@
 	
 	> .content {
 		display: flex;
+		position: relative;
 		justify-content: center;
 		z-index: 0;
+		
+		> .top-triangle {
+			position: absolute;
+			height: tan($degrees) * 100vw;
+			top: 0;
+			right: 0;
+			left: 0;
+			background: $light-gray;
+			clip-path: polygon(0 0, 100% 0, 100% 100%);
+		}
 		
 		> .diagram {
 			width: 500px;
