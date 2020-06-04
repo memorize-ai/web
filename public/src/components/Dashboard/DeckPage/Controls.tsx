@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react'
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faStarFilled } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarOutlined } from '@fortawesome/free-regular-svg-icons'
@@ -132,4 +132,4 @@ const DeckPageControls = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) =
 	)
 }
 
-export default memo(DeckPageControls)
+export default DeckPageControls

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
@@ -141,4 +141,4 @@ const DeckPageHeader = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => 
 	)
 }
 
-export default memo(DeckPageHeader)
+export default DeckPageHeader

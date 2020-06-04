@@ -1,4 +1,4 @@
-import React, { useState, memo, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import _ from 'lodash'
 
 import Deck from '../../../models/Deck'
@@ -80,4 +80,4 @@ const DeckPageCards = ({ deck }: { deck: Deck }) => {
 		: null
 }
 
-export default memo(DeckPageCards)
+export default DeckPageCards

@@ -15,9 +15,10 @@ import Loader from '../../shared/Loader'
 import '../../../scss/components/Dashboard/Decks.scss'
 
 const DecksContent = () => {
-	requiresAuth()
+	const { slugId, slug, unlockSectionId } = useParams()
 	
-	const { slugId, slug } = useParams()
+	requiresAuth(!unlockSectionId)
+	
 	const history = useHistory()
 	
 	const [selectedDeck, setSelectedDeck] = useSelectedDeck()

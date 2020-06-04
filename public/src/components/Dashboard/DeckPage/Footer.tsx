@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
@@ -36,4 +36,4 @@ const DeckPageFooter = ({ deck }: { deck: Deck }) => {
 	)
 }
 
-export default memo(DeckPageFooter)
+export default DeckPageFooter

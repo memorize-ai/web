@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
@@ -27,4 +27,4 @@ const ShareDeckModal = (
 	)
 }
 
-export default memo(ShareDeckModal)
+export default ShareDeckModal

@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -31,4 +31,4 @@ const DashboardSidebarRow = ({ deck }: { deck: Deck }) => {
 	)
 }
 
-export default memo(DashboardSidebarRow)
+export default DashboardSidebarRow

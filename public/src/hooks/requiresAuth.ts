@@ -1,19 +1,20 @@
 import { useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import useAuthState from './useAuthState'
 import { urlWithQuery } from '../utils'
 
-export default (next: string | null = null) => {
+export default (assertion: boolean = true) => {
 	const history = useHistory()
+	const location = useLocation()
 	const isSignedIn = useAuthState()
 	
 	useEffect(() => {
-		if (isSignedIn)
+		if (isSignedIn || !assertion)
 			return
 		
 		history.push(urlWithQuery('/', {
-			next: next ?? `${window.location.pathname}${window.location.search}`
+			next: `${location.pathname}${location.search}`
 		}))
-	}, [isSignedIn, history, next])
+	}, [isSignedIn, assertion, history, location])
 }

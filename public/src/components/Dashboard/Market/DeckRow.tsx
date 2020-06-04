@@ -1,4 +1,4 @@
-import React, { useState, useCallback, MouseEvent, useMemo, memo } from 'react'
+import React, { useState, useCallback, MouseEvent, useMemo } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 
 import User from '../../../models/User'
@@ -136,4 +136,4 @@ const MarketDeckRow = ({ deck }: { deck: Deck }) => {
 	)
 }
 
-export default memo(MarketDeckRow)
+export default MarketDeckRow

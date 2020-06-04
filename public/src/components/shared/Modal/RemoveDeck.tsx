@@ -1,4 +1,4 @@
-import React, { useCallback, memo } from 'react'
+import React, { useCallback } from 'react'
 
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
@@ -34,4 +34,4 @@ const RemoveDeckModal = ({ deck, isShowing, setIsShowing }: RemoveDeckModalProps
 	)
 }
 
-export default memo(RemoveDeckModal)
+export default RemoveDeckModal

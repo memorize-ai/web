@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
@@ -82,4 +82,4 @@ const OwnedCardCell = ({ deck, card }: { deck: Deck, card: Card }) => {
 		: <div {...props}>{content}</div>
 }
 
-export default memo(OwnedCardCell)
+export default OwnedCardCell

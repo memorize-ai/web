@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, memo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
@@ -150,4 +150,4 @@ const DecksSections = ({ deck }: { deck: Deck }) => {
 	)
 }
 
-export default memo(DecksSections)
+export default DecksSections

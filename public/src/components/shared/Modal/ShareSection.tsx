@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -21,4 +21,4 @@ const ShareSectionModal = (
 	/>
 )
 
-export default memo(ShareSectionModal)
+export default ShareSectionModal

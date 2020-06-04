@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react'
+import React, { useState, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUnlock, faLock, faEllipsisV, faAngleUp, faAngleDown, faTrash } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -155,4 +155,4 @@ const OwnedSectionHeader = (
 	)
 }
 
-export default memo(OwnedSectionHeader)
+export default OwnedSectionHeader

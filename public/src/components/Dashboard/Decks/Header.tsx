@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faStar as faStarFilled, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -149,4 +149,4 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	)
 }
 
-export default memo(DecksHeader)
+export default DecksHeader

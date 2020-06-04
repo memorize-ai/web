@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo, memo } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Select from 'react-select'
 import cx from 'classnames'
 import _ from 'lodash'
@@ -206,4 +206,4 @@ const DeckPagePreview = ({ deck }: { deck: Deck }) => {
 	)
 }
 
-export default memo(DeckPagePreview)
+export default DeckPagePreview

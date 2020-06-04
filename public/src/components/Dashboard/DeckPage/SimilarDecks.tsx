@@ -1,4 +1,4 @@
-import React, { useCallback, memo } from 'react'
+import React, { useCallback } from 'react'
 
 import Deck from '../../../models/Deck'
 import useSimilarDecks from '../../../hooks/useSimilarDecks'
@@ -31,4 +31,4 @@ const DeckPageSimilarDecks = ({ deck }: { deck: Deck }) => {
 	)
 }
 
-export default memo(DeckPageSimilarDecks)
+export default DeckPageSimilarDecks

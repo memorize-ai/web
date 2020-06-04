@@ -1,4 +1,4 @@
-import React, { useMemo, memo } from 'react'
+import React, { useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 
@@ -51,4 +51,4 @@ const OwnedDeckCell = ({ deck, downloadApp }: { deck: Deck, downloadApp: () => v
 	)
 }
 
-export default memo(OwnedDeckCell)
+export default OwnedDeckCell

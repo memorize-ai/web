@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, memo } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -45,4 +45,4 @@ const RenameSectionModal = (
 	)
 }
 
-export default memo(RenameSectionModal)
+export default RenameSectionModal

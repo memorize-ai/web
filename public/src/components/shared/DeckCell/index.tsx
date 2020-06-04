@@ -1,4 +1,4 @@
-import React, { useState, useCallback, MouseEvent, useMemo, memo } from 'react'
+import React, { useState, useCallback, MouseEvent, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import Deck from '../../../models/Deck'
@@ -111,4 +111,4 @@ const DeckCell = ({ deck }: { deck: Deck }) => {
 	)
 }
 
-export default memo(DeckCell)
+export default DeckCell
