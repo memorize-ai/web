@@ -47,6 +47,10 @@
 			
 			&.navbar-hidden {
 				--navbar-height: 0;
+				
+				> .dashboard-navbar {
+					display: none;
+				}
 			}
 			
 			> .foreground {
