@@ -31,8 +31,8 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	
 	const isFavorite = deck?.userData?.isFavorite ?? false
 	const isOwner = currentUser && deck?.creatorId === currentUser.id
-	const numberOfCards = deck?.numberOfCards ?? 0
-	const numberOfCardsFormatted = formatNumber(numberOfCards)
+	const numberOfUnlockedCards = deck?.userData?.numberOfUnlockedCards ?? 0
+	const numberOfUnlockedCardsFormatted = formatNumber(numberOfUnlockedCards)
 	const numberOfDueCards = deck?.userData?.numberOfDueCards ?? 0
 	const numberOfDueCardsFormatted = formatNumber(numberOfDueCards)
 	
@@ -65,12 +65,12 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 					</Link>
 					<Link
 						to={deck.cramUrl()}
-						className={cx('cram-button', { disabled: !numberOfCards })}
+						className={cx('cram-button', { disabled: !numberOfUnlockedCards })}
 						aria-label="Fast and easy - perfect right before an exam"
 						data-balloon-pos="up"
 					>
-						<p>Cram{numberOfCards > 0 && ` ${numberOfCardsFormatted}`}</p>
-						{numberOfCards > 0 && <DecksIcon />}
+						<p>Cram{numberOfUnlockedCards > 0 && ` ${numberOfUnlockedCardsFormatted}`}</p>
+						{numberOfUnlockedCards > 0 && <DecksIcon />}
 					</Link>
 				</>
 			)}

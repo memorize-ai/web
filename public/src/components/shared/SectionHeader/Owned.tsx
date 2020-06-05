@@ -102,7 +102,7 @@ const OwnedSectionHeader = (
 				)}
 			</div>
 			<div className="divider" />
-			{numberOfCards > 0 && (
+			{isUnlocked && numberOfCards > 0 && (
 				<>
 					<Link
 						to={deck.reviewUrl(section)}
