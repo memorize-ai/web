@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUnlock, faLock, faEllipsisV, faAngleUp, faAngleDown, faTrash } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -36,7 +37,13 @@ const OwnedSectionHeader = (
 	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(false)
 	
 	const isUnlocked = deck.isSectionUnlocked(section)
+	
 	const numberOfDueCards = deck.numberOfCardsDueForSection(section)
+	const numberOfDueCardsFormatted = formatNumber(numberOfDueCards)
+	
+	const { numberOfCards } = section
+	const numberOfCardsFormatted = formatNumber(numberOfCards)
+	
 	const isOwner = deck.creatorId === currentUser?.id
 	
 	const canReorderUp = section.index > 0
@@ -89,13 +96,26 @@ const OwnedSectionHeader = (
 				<p>{section.name}</p>
 				{numberOfDueCards > 0 && (
 					<p className="badge">
-						{formatNumber(numberOfDueCards)} due
+						{numberOfDueCardsFormatted} due
 					</p>
 				)}
 			</div>
 			<div className="divider" />
+			{numberOfCards > 0 && (
+				<>
+					<Link
+						to={deck.reviewUrl(section)}
+						className={cx('review-link', { disabled: !numberOfDueCards })}
+					>
+						Review{numberOfDueCards > 0 ? ` ${numberOfDueCardsFormatted}` : ''}
+					</Link>
+					<Link to={deck.cramUrl(section)} className="cram-link">
+						Cram {numberOfCardsFormatted}
+					</Link>
+				</>
+			)}
 			<p className="card-count">
-				({formatNumber(section.numberOfCards)} card{section.numberOfCards === 1 ? '' : 's'})
+				({numberOfCardsFormatted} card{numberOfCards === 1 ? '' : 's'})
 			</p>
 			<ToggleExpandedButton degrees={degrees}>
 				{isExpanded}
@@ -105,7 +125,7 @@ const OwnedSectionHeader = (
 					<button
 						className="share"
 						onClick={event => {
-							event.stopPropagation()
+							event.preventDefault()
 							onShare()
 						}}
 					>

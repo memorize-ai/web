@@ -83,7 +83,7 @@
 			text-transform: uppercase;
 			background: #051e34;
 			border-radius: 8px;
-			transition: color 0.3s, background 0.3s, opacity 0.3s;
+			transition: color 0.3s, opacity 0.3s;
 			
 			> svg {
 				margin-left: 10px;
@@ -115,7 +115,7 @@
 		}
 		
 		> .cram-button {
-			color: rgb(248, 94, 161);
+			color: #f85ea1;
 		}
 		
 		> .create-section {
