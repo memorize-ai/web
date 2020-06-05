@@ -18,24 +18,40 @@
 		grid-area: content;
 		
 		> .background {
-			@include top-gradient(6deg, $is-right: false);
-			
 			height: 500px;
+			
+			&.blue-gradient {
+				@include top-gradient(6deg, $is-right: false);
+			}
+			
+			&.green-gradient {
+				@include top-gradient(
+					6deg,
+					$is-right: false,
+					$top-color: #06ba7a,
+					$bottom-color: #73d63f
+				);
+			}
 		}
 		
 		> .container {
+			--navbar-height: #{$dashboard-navbar-height};
+			
 			display: grid;
 			grid:
-				'navbar' $dashboard-navbar-height
-				'foreground' auto /
+				'navbar' var(--navbar-height)
+				'foreground' 1fr /
 				auto;
 			height: 100vh;
 			z-index: 10;
 			
+			&.navbar-hidden {
+				--navbar-height: 0;
+			}
+			
 			> .foreground {
 				grid-area: foreground;
 				overflow-y: auto;
-				height: calc(100vh - #{$dashboard-navbar-height});
 			}
 		}
 	}

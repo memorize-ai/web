@@ -31,8 +31,8 @@
 		0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-@mixin top-gradient($degrees, $is-right) {
-	background: linear-gradient(to bottom, #5a2aff, #00e5f4);
+@mixin top-gradient($degrees, $is-right, $top-color: #5a2aff, $bottom-color: #00e5f4) {
+	background: linear-gradient(to bottom, $top-color, $bottom-color);
 	transform: skewY(if($is-right, 1, -1) * $degrees);
 	transform-origin: top if($is-right, right, left);
 }

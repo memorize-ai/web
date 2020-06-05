@@ -13,12 +13,25 @@ export enum DashboardNavbarSelection {
 	Interests = 'Interests'
 }
 
-const Dashboard = (
-	{ selection, className, children }: PropsWithChildren<{
-		selection: DashboardNavbarSelection
-		className: string
-	}>
-) => {
+export enum DashboardGradientStyle {
+	Blue = 'blue',
+	Green = 'green'
+}
+
+export interface DashboardProps {
+	selection: DashboardNavbarSelection
+	gradientStyle?: DashboardGradientStyle
+	isNavbarHidden?: boolean
+	className: string
+}
+
+const Dashboard = ({
+	selection,
+	gradientStyle = DashboardGradientStyle.Blue,
+	isNavbarHidden = false,
+	className,
+	children
+}: PropsWithChildren<DashboardProps>) => {
 	useEffect(() => {
 		const { body } = document
 		
@@ -31,8 +44,8 @@ const Dashboard = (
 		<div className={cx('dashboard', className)}>
 			<Sidebar />
 			<div className="content">
-				<div className="background" />
-				<div className="container">
+				<div className={`background ${gradientStyle}-gradient`} />
+				<div className={cx('container', { 'navbar-hidden': isNavbarHidden })}>
 					<Navbar selection={selection} />
 					<div className="foreground">
 						<Suspense fallback={null}>

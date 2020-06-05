@@ -14,6 +14,9 @@ import EditDeck from '../Dashboard/EditDeck'
 import AddCards from '../Dashboard/AddCards'
 import EditCard from '../Dashboard/EditCard'
 
+import Review from '../Dashboard/Review'
+import Cram from '../Dashboard/Cram'
+
 import Market from '../Dashboard/Market'
 import Decks from '../Dashboard/Decks'
 import Interests from '../Dashboard/Interests'
@@ -49,6 +52,24 @@ const App = () => (
 				component={AddCards}
 			/>
 			<Route exact path="/decks/:slugId/:slug/edit/:cardId" component={EditCard} />
+			
+			<Route
+				exact
+				path={[
+					'/review',
+					'/review/:slugId/:slug',
+					'/review/:slugId/:slug/:sectionId'
+				]}
+				component={Review}
+			/>
+			<Route
+				exact
+				path={[
+					'/cram/:slugId/:slug',
+					'/cram/:slugId/:slug/:sectionId'
+				]}
+				component={Cram}
+			/>
 			
 			<Redirect exact path="/d" to="/market" />
 			<Route exact path="/market" component={Market} />

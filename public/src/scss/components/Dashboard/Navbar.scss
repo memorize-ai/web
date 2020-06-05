@@ -10,6 +10,7 @@
 		'tabs right' auto /
 		1fr auto;
 	align-items: end;
+	overflow: hidden;
 	margin: 0 30px;
 	border-bottom: $bottom-border-width solid transparentize(#ddd, 0.8);
 	
