@@ -2,7 +2,7 @@
 @import '../../mixins';
 @import '../../functions';
 
-@include dashboard-sidebar-collapse('decks', 980px);
+@include dashboard-sidebar-collapse('decks', 1080px);
 
 @include dashboard-content('decks') {
 	$margin: 30px;
@@ -26,7 +26,7 @@
 		overflow-x: auto;
 		margin: 12px 0;
 		
-		@media (min-width: 650px) {
+		@media (min-width: 770px) {
 			overflow: visible;
 			
 			> .name {
@@ -55,31 +55,56 @@
 		}
 		
 		> .create-section,
-		> .review,
+		> .review-button,
+		> .cram-button,
 		> .share,
 		> .options {
 			flex-shrink: 0;
 		}
 		
-		> .review {
+		> .review-button,
+		> .cram-button {
+			display: flex;
+			align-items: center;
 			height: 40px;
 			margin-left: 12px;
 			padding: 0 12px;
 			font-weight: 900;
 			text-transform: uppercase;
-			color: #582efe;
-			background: white;
+			background: #051e34;
 			border-radius: 8px;
 			transition: color 0.3s, background 0.3s, opacity 0.3s;
 			
-			&:disabled {
+			> svg {
+				margin-left: 10px;
+			}
+			
+			&.disabled {
+				pointer-events: none;
 				opacity: 0.5
 			}
 			
-			&:not(:disabled):hover {
+			&:not(.disabled):hover {
 				color: white;
-				background: #051e34;
+				
+				> svg {
+					animation: cards-spin 0.3s ease-out;
+				}
 			}
+			
+			@keyframes cards-spin {
+				to {
+					transform: rotate(1turn);
+				}
+			}
+		}
+		
+		> .review-button {
+			color: #00d388;
+		}
+		
+		> .cram-button {
+			color: rgb(248, 94, 161);
 		}
 		
 		> .create-section {

@@ -1,7 +1,5 @@
-import React, { useMemo, useCallback, MouseEvent } from 'react'
+import React, { useMemo, useCallback, MouseEvent, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faApple } from '@fortawesome/free-brands-svg-icons'
 
 import Deck from '../../../models/Deck'
 import Base from './Base'
@@ -10,6 +8,8 @@ import { randomEmoji } from '../../../utils'
 import '../../../scss/components/DeckCell/Owned.scss'
 
 const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
+	const emoji = useRef(randomEmoji())
+	
 	const history = useHistory()
 	const { userData } = deck
 	
@@ -38,17 +38,21 @@ const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
 		>
 			<p className="due-cards-message">
 				{hasDueCards
-					? `${numberOfDueCards} card${numberOfDueCards === 1 ? '' : 's'} due in ${numberOfSections} section${numberOfSections === 1 ? '' : 's'}`
-					: `${randomEmoji()} Woohoo! No cards due`
+					? `${
+						numberOfDueCards
+					} card${
+						numberOfDueCards === 1 ? '' : 's'
+					} due in ${
+						numberOfSections
+					} section${
+						numberOfSections === 1 ? '' : 's'
+					}`
+					: `${emoji.current} Woohoo! No cards due`
 				}
 			</p>
 			{hasDueCards && (
-				<button
-					className="review-button"
-					onClick={review}
-				>
-					<FontAwesomeIcon icon={faApple} />
-					<p>Download app to review</p>
+				<button className="review-button" onClick={review}>
+					Review
 				</button>
 			)}
 		</Base>

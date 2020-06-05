@@ -31,7 +31,7 @@ const PageNotFoundContent = () => {
 				]}
 			/>
 			<h1 className="main-message">
-				We think you've got the wrong URL.
+				We think you have the wrong URL.
 			</h1>
 		</>
 	)

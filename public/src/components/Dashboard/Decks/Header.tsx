@@ -18,6 +18,7 @@ import { formatNumber } from '../../../utils'
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 import { ReactComponent as CartIcon } from '../../../images/icons/cart.svg'
 import { ReactComponent as EditIcon } from '../../../images/icons/edit.svg'
+import { ReactComponent as DecksIcon } from '../../../images/icons/decks.svg'
 
 const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	const [currentUser] = useCurrentUser()
@@ -31,6 +32,7 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	const isFavorite = deck?.userData?.isFavorite ?? false
 	const isOwner = currentUser && deck?.creatorId === currentUser.id
 	const numberOfCards = deck?.numberOfCards ?? 0
+	const numberOfCardsFormatted = formatNumber(numberOfCards)
 	const numberOfDueCards = deck?.userData?.numberOfDueCards ?? 0
 	const numberOfDueCardsFormatted = formatNumber(numberOfDueCards)
 	
@@ -55,7 +57,8 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 					to={deck.reviewUrl()}
 					className={cx('review-button', { disabled: !numberOfDueCards })}
 				>
-					Review{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted} card${numberOfDueCards === 1 ? '' : 's'}`}
+					<p>Review{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted}`}</p>
+					{numberOfDueCards > 0 && <DecksIcon />}
 				</Link>
 			)}
 			{deck && (
@@ -63,7 +66,8 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 					to={deck.cramUrl()}
 					className={cx('cram-button', { disabled: !numberOfCards })}
 				>
-					Cram{numberOfCards > 0 && ` ${numberOfCards} card${numberOfCards === 1 ? '' : 's'}`}
+					<p>Cram{numberOfCards > 0 && ` ${numberOfCardsFormatted}`}</p>
+					{numberOfCards > 0 && <DecksIcon />}
 				</Link>
 			)}
 			{currentUser && currentUser?.id === deck?.creatorId && (
