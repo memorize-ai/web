@@ -2,6 +2,17 @@
 @import '../../mixins';
 @import '../../functions';
 
+@mixin static-header-after($screen-width) {
+	@media (min-width: $screen-width) {
+		overflow: visible;
+		
+		> .name {
+			flex-shrink: 1 !important;
+			max-width: none !important;
+		}
+	}
+}
+
 @include dashboard-sidebar-collapse('decks', 1080px);
 
 @include dashboard-content('decks') {
@@ -26,13 +37,12 @@
 		overflow-x: auto;
 		margin: 12px 0;
 		
-		@media (min-width: 770px) {
-			overflow: visible;
-			
-			> .name {
-				flex-shrink: 1 !important;
-				max-width: none !important;
-			}
+		&.owned {
+			@include static-header-after(770px);
+		}
+		
+		&:not(.owned) {
+			@include static-header-after(580px);
 		}
 		
 		> img {
@@ -81,6 +91,7 @@
 			
 			&.disabled {
 				pointer-events: none;
+				cursor: not-allowed;
 				opacity: 0.5
 			}
 			

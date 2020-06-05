@@ -47,28 +47,28 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	}, [deck, currentUser, setIsOptionsDropdownShowing, setIsDeleteModalShowing])
 	
 	return (
-		<div className={cx('header', { loading: !deck })}>
+		<div className={cx('header', { owned: isOwner, loading: !deck })}>
 			<img src={deck?.imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt="Deck" />
 			<h1 className="name">
 				{deck?.name}
 			</h1>
 			{deck && (
-				<Link
-					to={deck.reviewUrl()}
-					className={cx('review-button', { disabled: !numberOfDueCards })}
-				>
-					<p>Review{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted}`}</p>
-					{numberOfDueCards > 0 && <DecksIcon />}
-				</Link>
-			)}
-			{deck && (
-				<Link
-					to={deck.cramUrl()}
-					className={cx('cram-button', { disabled: !numberOfCards })}
-				>
-					<p>Cram{numberOfCards > 0 && ` ${numberOfCardsFormatted}`}</p>
-					{numberOfCards > 0 && <DecksIcon />}
-				</Link>
+				<>
+					<Link
+						to={deck.reviewUrl()}
+						className={cx('review-button', { disabled: !numberOfDueCards })}
+					>
+						<p>Review{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted}`}</p>
+						{numberOfDueCards > 0 && <DecksIcon />}
+					</Link>
+					<Link
+						to={deck.cramUrl()}
+						className={cx('cram-button', { disabled: !numberOfCards })}
+					>
+						<p>Cram{numberOfCards > 0 && ` ${numberOfCardsFormatted}`}</p>
+						{numberOfCards > 0 && <DecksIcon />}
+					</Link>
+				</>
 			)}
 			{currentUser && currentUser?.id === deck?.creatorId && (
 				<button
