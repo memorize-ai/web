@@ -96,3 +96,6 @@ export const slugify = (string: string, delimiter: string = '-') =>
 		.replace(/\s+/g, delimiter)
 		.toLowerCase()
 	) || delimiter.repeat(string.length)
+
+export const safeDivide = (a: number, b: number) =>
+	a / (b || 1)

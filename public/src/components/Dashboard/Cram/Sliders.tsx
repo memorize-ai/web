@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 
 import Row from './SliderRow'
+import { safeDivide } from '../../../utils'
 
 const CramSliders = (
 	{ mastered, seen, unseen, total }: {
@@ -12,9 +13,9 @@ const CramSliders = (
 ) => (
 	<table className="sliders">
 		<tbody>
-			<Row fill={mastered / total}>Mastered</Row>
-			<Row fill={seen / total}>Seen</Row>
-			<Row fill={unseen / total}>Unseen</Row>
+			<Row fill={safeDivide(mastered, total)}>Mastered</Row>
+			<Row fill={safeDivide(seen, total)}>Seen</Row>
+			<Row fill={safeDivide(unseen, total)}>Unseen</Row>
 		</tbody>
 	</table>
 )

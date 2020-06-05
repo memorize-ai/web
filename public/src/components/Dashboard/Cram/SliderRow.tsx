@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import cx from 'classnames'
 
 const CramSliderRow = (
 	{ fill, children: title }: {
@@ -7,7 +8,7 @@ const CramSliderRow = (
 	}
 ) => (
 	<tr>
-		<td className="title">
+		<td className={cx('title', { disabled: !fill })}>
 			{title}
 		</td>
 		<td className="slider">
