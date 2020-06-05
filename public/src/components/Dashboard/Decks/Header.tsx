@@ -13,7 +13,6 @@ import ShareDeckModal from '../../shared/Modal/ShareDeck'
 import ConfirmationModal from '../../shared/Modal/Confirmation'
 import Dropdown, { DropdownShadow } from '../../shared/Dropdown'
 import RemoveDeckModal from '../../shared/Modal/RemoveDeck'
-import DownloadAppModal from '../../shared/Modal/DownloadApp'
 import { formatNumber } from '../../../utils'
 
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
@@ -27,13 +26,11 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
 	const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false)
 	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(false)
-	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)
-	
 	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
-	const [downloadAppMessage, setDownloadAppMessage] = useState('')
 	
 	const isFavorite = deck?.userData?.isFavorite ?? false
 	const isOwner = currentUser && deck?.creatorId === currentUser.id
+	const numberOfCards = deck?.numberOfCards ?? 0
 	const numberOfDueCards = deck?.userData?.numberOfDueCards ?? 0
 	const numberOfDueCardsFormatted = formatNumber(numberOfDueCards)
 	
@@ -53,20 +50,22 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 			<h1 className="name">
 				{deck?.name}
 			</h1>
-			<button
-				className="review"
-				disabled={!numberOfDueCards}
-				onClick={() => {
-					setDownloadAppMessage(
-						`Download memorize.ai on the App Store to review ${
-							numberOfDueCardsFormatted
-						} card${numberOfDueCards === 1 ? '' : 's'}!`
-					)
-					setIsDownloadAppModalShowing(true)
-				}}
-			>
-				Review{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted} card${numberOfDueCards === 1 ? '' : 's'}`}
-			</button>
+			{deck && (
+				<Link
+					to={deck.reviewUrl()}
+					className={cx('review-button', { disabled: !numberOfDueCards })}
+				>
+					Review{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted} card${numberOfDueCards === 1 ? '' : 's'}`}
+				</Link>
+			)}
+			{deck && (
+				<Link
+					to={deck.cramUrl()}
+					className={cx('cram-button', { disabled: !numberOfCards })}
+				>
+					Cram{numberOfCards > 0 && ` ${numberOfCards} card${numberOfCards === 1 ? '' : 's'}`}
+				</Link>
+			)}
 			{currentUser && currentUser?.id === deck?.creatorId && (
 				<button
 					className="create-section"
@@ -140,11 +139,6 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 					)}
 				</>
 			)}
-			<DownloadAppModal
-				message={downloadAppMessage}
-				isShowing={isDownloadAppModalShowing}
-				setIsShowing={setIsDownloadAppModalShowing}
-			/>
 		</div>
 	)
 }

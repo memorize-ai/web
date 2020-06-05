@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useCallback, MouseEvent } from 'react'
+import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 
@@ -8,7 +9,8 @@ import { randomEmoji } from '../../../utils'
 
 import '../../../scss/components/DeckCell/Owned.scss'
 
-const OwnedDeckCell = ({ deck, downloadApp }: { deck: Deck, downloadApp: () => void }) => {
+const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
+	const history = useHistory()
 	const { userData } = deck
 	
 	const numberOfDueCards = userData?.numberOfDueCards ?? 0
@@ -19,6 +21,11 @@ const OwnedDeckCell = ({ deck, downloadApp }: { deck: Deck, downloadApp: () => v
 			acc + (count ? 1 : 0)
 		), 0)
 	), [userData])
+	
+	const review = useCallback((event: MouseEvent) => {
+		event.preventDefault()
+		history.push(deck.reviewUrl())
+	}, [history, deck])
 	
 	return (
 		<Base
@@ -37,11 +44,8 @@ const OwnedDeckCell = ({ deck, downloadApp }: { deck: Deck, downloadApp: () => v
 			</p>
 			{hasDueCards && (
 				<button
-					className="download-app"
-					onClick={event => {
-						event.preventDefault()
-						downloadApp()
-					}}
+					className="review-button"
+					onClick={review}
 				>
 					<FontAwesomeIcon icon={faApple} />
 					<p>Download app to review</p>

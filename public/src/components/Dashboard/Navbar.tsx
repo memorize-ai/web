@@ -11,8 +11,8 @@ import Tab from './NavbarTab'
 import Dropdown, { DropdownShadow } from '../shared/Dropdown'
 import AuthButton from '../shared/AuthButton'
 import { urlForMarket } from './Market'
-import DownloadAppModal from '../shared/Modal/DownloadApp'
 import { isNullish, showSuccess, handleError } from '../../utils'
+import { APP_STORE_URL } from '../../constants'
 
 import { ReactComponent as Home } from '../../images/icons/home.svg'
 import { ReactComponent as Cart } from '../../images/icons/cart.svg'
@@ -32,7 +32,6 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 	const [decks] = useDecks()
 	
 	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(false)
-	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)
 	
 	const sendForgotPasswordEmail = useCallback(async () => {
 		const email = currentUser?.email
@@ -94,12 +93,14 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 				</Tab>
 			</div>
 			<div className="right">
-				<button
+				<a
 					className="download-app"
-					onClick={() => setIsDownloadAppModalShowing(true)}
+					href={APP_STORE_URL}
+					target="_blank"
+					rel="nofollow noreferrer noopener"
 				>
 					<FontAwesomeIcon icon={faApple} />
-				</button>
+				</a>
 				{isSignedIn
 					? (
 						<Dropdown
@@ -128,7 +129,12 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 							<button className="sign-out" onClick={signOut}>
 								Sign out
 							</button>
-							<a href="mailto:support@memorize.ai" className="contact-us">
+							<a
+								className="contact-us"
+								href="mailto:support@memorize.ai"
+								target="_blank"
+								rel="nofollow noreferrer noopener"
+							>
 								Contact us at <span>support@memorize.ai</span>
 							</a>
 						</Dropdown>
@@ -140,11 +146,6 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 					)
 				}
 			</div>
-			<DownloadAppModal
-				message="To start learning, download memorize.ai on the App Store!"
-				isShowing={isDownloadAppModalShowing}
-				setIsShowing={setIsDownloadAppModalShowing}
-			/>
 		</div>
 	)
 }

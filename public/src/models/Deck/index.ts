@@ -520,9 +520,7 @@ export default class Deck implements DeckData {
 					: storageChild.delete()
 			)
 		
-		await Promise.all(promises)
-		
-		return image && await storageChild!.getDownloadURL()
+		return Promise.all(promises)
 	}
 	
 	delete = (uid: string) => {
@@ -539,4 +537,14 @@ export default class Deck implements DeckData {
 	
 	uploadUrl = (uid: string) =>
 		`https://memorize.ai/_api/upload-deck-asset?user=${uid}&deck=${this.id}`
+	
+	reviewUrl = (section?: Section) =>
+		`/review/${this.slugId}/${this.slug}${
+			section ? `/${section.id}` : ''
+		}`
+	
+	cramUrl = (section?: Section) =>
+		`/cram/${this.slugId}/${this.slug}${
+			section ? `/${section.id}` : ''
+		}`
 }

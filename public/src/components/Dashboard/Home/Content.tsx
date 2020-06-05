@@ -1,16 +1,14 @@
-import React, { useState, useCallback, useMemo, memo } from 'react'
+import React, { useMemo, memo } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
-import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
 import useRecommendedDecks from '../../../hooks/useRecommendedDecks'
 import Head, { APP_DESCRIPTION, APP_SCHEMA } from '../../shared/Head'
 import OwnedDeckCell from '../../shared/DeckCell/Owned'
 import DeckCell from '../../shared/DeckCell'
-import DownloadAppModal from '../../shared/Modal/DownloadApp'
 import { formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/Home.scss'
@@ -20,9 +18,6 @@ const DashboardHomeContent = () => {
 	
 	const [decks] = useDecks()
 	const recommendedDecks = useRecommendedDecks(20)
-	
-	const [isDownloadAppModalShowing, setIsDownloadAppModalShowing] = useState(false)
-	const [downloadAppMessage, setDownloadAppMessage] = useState('')
 	
 	const dueCards = useMemo(() => (
 		decks.reduce((acc, deck) => (
@@ -35,21 +30,6 @@ const DashboardHomeContent = () => {
 			(b.userData?.numberOfDueCards ?? 0) - (a.userData?.numberOfDueCards ?? 0)
 		)
 	), [decks])
-	
-	const downloadApp = useCallback((deck: Deck) => {
-		const numberOfDueCards = deck.userData?.numberOfDueCards
-		
-		if (!numberOfDueCards)
-			return
-		
-		setDownloadAppMessage(
-			`Download memorize.ai on the App Store to review ${
-				formatNumber(numberOfDueCards)
-			} card${numberOfDueCards === 1 ? '' : 's'}!`
-		)
-		
-		setIsDownloadAppModalShowing(true)
-	}, [])
 	
 	return (
 		<>
@@ -77,17 +57,9 @@ const DashboardHomeContent = () => {
 						You have {dueCards ? formatNumber(dueCards) : 'no'} card{dueCards === 1 ? '' : 's'} due
 					</h3>
 					{dueCards > 0 && (
-						<button
-							className="review"
-							onClick={() => {
-								setDownloadAppMessage(
-									`Download memorize.ai on the App Store to review ${formatNumber(dueCards)} card${dueCards === 1 ? '' : 's'}!`
-								)
-								setIsDownloadAppModalShowing(true)
-							}}
-						>
+						<Link to="/review" className="review-button">
 							Review all
-						</button>
+						</Link>
 					)}
 				</div>
 				<Link to="/new" className="create-deck-link">
@@ -103,11 +75,7 @@ const DashboardHomeContent = () => {
 							{decksByCardsDue
 								.filter((_, i) => !(i & 1))
 								.map(deck => (
-									<OwnedDeckCell
-										key={deck.id}
-										deck={deck}
-										downloadApp={() => downloadApp(deck)}
-									/>
+									<OwnedDeckCell key={deck.id} deck={deck} />
 								))
 							}
 						</div>
@@ -115,11 +83,7 @@ const DashboardHomeContent = () => {
 							{decksByCardsDue
 								.filter((_, i) => i & 1)
 								.map(deck => (
-									<OwnedDeckCell
-										key={deck.id}
-										deck={deck}
-										downloadApp={() => downloadApp(deck)}
-									/>
+									<OwnedDeckCell key={deck.id} deck={deck} />
 								))
 							}
 						</div>
@@ -151,11 +115,6 @@ const DashboardHomeContent = () => {
 					</div>
 				</div>
 			)}
-			<DownloadAppModal
-				message={downloadAppMessage}
-				isShowing={isDownloadAppModalShowing}
-				setIsShowing={setIsDownloadAppModalShowing}
-			/>
 		</>
 	)
 }
