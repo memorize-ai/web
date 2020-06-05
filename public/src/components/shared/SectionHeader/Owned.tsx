@@ -13,6 +13,7 @@ import { formatNumber } from '../../../utils'
 
 import { ReactComponent as ShareIcon } from '../../../images/icons/share.svg'
 import { ReactComponent as PencilIcon } from '../../../images/icons/pencil.svg'
+import { ReactComponent as DecksIcon } from '../../../images/icons/decks.svg'
 
 import '../../../scss/components/SectionHeader/Owned.scss'
 
@@ -106,18 +107,20 @@ const OwnedSectionHeader = (
 					<Link
 						to={deck.reviewUrl(section)}
 						className={cx('review-link', { disabled: !numberOfDueCards })}
-						aria-label={`Review cards only in ${section.name}.`}
+						aria-label={`Review cards only in ${section.name}`}
 						data-balloon-pos="up"
 					>
-						Review{numberOfDueCards > 0 ? ` ${numberOfDueCardsFormatted}` : ''}
+						<p>Review{numberOfDueCards > 0 ? ` ${numberOfDueCardsFormatted}` : ''}</p>
+						{numberOfDueCards > 0 && <DecksIcon />}
 					</Link>
 					<Link
 						to={deck.cramUrl(section)}
 						className="cram-link"
-						aria-label={`Cram cards only in ${section.name}.`}
+						aria-label={`Cram cards only in ${section.name}`}
 						data-balloon-pos="up"
 					>
-						Cram {numberOfCardsFormatted}
+						<p>Cram {numberOfCardsFormatted}</p>
+						<DecksIcon />
 					</Link>
 				</>
 			)}

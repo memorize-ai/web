@@ -104,11 +104,11 @@
 				color: white;
 				
 				> svg {
-					animation: cards-spin 0.3s ease-out;
+					animation: decks-header-cards-spin 0.3s ease-out;
 				}
 			}
 			
-			@keyframes cards-spin {
+			@keyframes decks-header-cards-spin {
 				to {
 					transform: rotate(1turn);
 				}

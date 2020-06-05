@@ -57,7 +57,7 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 					<Link
 						to={deck.reviewUrl()}
 						className={cx('review-button', { disabled: !numberOfDueCards })}
-						aria-label="The magic of memorize.ai - efficient long-term memorization."
+						aria-label="The magic of memorize.ai - efficient long-term memorization"
 						data-balloon-pos="up"
 					>
 						<p>Review{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted}`}</p>
@@ -66,7 +66,7 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 					<Link
 						to={deck.cramUrl()}
 						className={cx('cram-button', { disabled: !numberOfCards })}
-						aria-label="Fast and easy - perfect right before an exam."
+						aria-label="Fast and easy - perfect right before an exam"
 						data-balloon-pos="up"
 					>
 						<p>Cram{numberOfCards > 0 && ` ${numberOfCardsFormatted}`}</p>
