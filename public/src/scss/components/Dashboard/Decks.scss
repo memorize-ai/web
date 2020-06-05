@@ -89,6 +89,11 @@
 				margin-left: 10px;
 			}
 			
+			&::before,
+			&::after {
+				text-transform: none;
+			}
+			
 			&.disabled {
 				pointer-events: none;
 				cursor: not-allowed;

@@ -79,6 +79,11 @@
 		border-radius: 8px;
 		transition: color 0.3s, opacity 0.3s;
 		
+		&::before,
+		&::after {
+			text-transform: none;
+		}
+		
 		&.disabled {
 			pointer-events: none;
 			cursor: not-allowed;

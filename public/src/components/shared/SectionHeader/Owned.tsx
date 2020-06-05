@@ -106,10 +106,17 @@ const OwnedSectionHeader = (
 					<Link
 						to={deck.reviewUrl(section)}
 						className={cx('review-link', { disabled: !numberOfDueCards })}
+						aria-label={`Review cards only in ${section.name}.`}
+						data-balloon-pos="up"
 					>
 						Review{numberOfDueCards > 0 ? ` ${numberOfDueCardsFormatted}` : ''}
 					</Link>
-					<Link to={deck.cramUrl(section)} className="cram-link">
+					<Link
+						to={deck.cramUrl(section)}
+						className="cram-link"
+						aria-label={`Cram cards only in ${section.name}.`}
+						data-balloon-pos="up"
+					>
 						Cram {numberOfCardsFormatted}
 					</Link>
 				</>
