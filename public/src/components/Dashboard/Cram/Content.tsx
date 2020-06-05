@@ -11,7 +11,12 @@ const CramContent = () => {
 	return (
 		<>
 			<Navbar />
-			<Sliders />
+			<Sliders
+				mastered={0}
+				seen={0}
+				unseen={0}
+				total={0}
+			/>
 			<CardContainer />
 			<Footer />
 		</>
