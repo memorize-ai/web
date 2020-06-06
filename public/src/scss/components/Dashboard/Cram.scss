@@ -1,6 +1,45 @@
 @import '../../mixins';
 
 @include dashboard-content('cram') {
+	padding: 0 30px;
+	
+	> .cram-navbar {
+		$button-height: 40px;
+		
+		display: flex;
+		align-items: center;
+		margin-top: 20px;
+		
+		> .back,
+		> .skip,
+		> .recap {
+			height: $button-height;
+			color: white;
+			border: 2px solid transparentize(#eee, 0.8);
+			border-radius: 8px;
+		}
+		
+		> .back {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: $button-height;
+			
+			> svg {
+				transform: scale(1.5);
+			}
+		}
+		
+		> .progress {
+			margin-right: auto;
+		}
+		
+		> .skip,
+		> .recap {
+			text-transform: uppercase;
+		}
+	}
+	
 	> .sliders {
 		max-width: 600px;
 		border-collapse: separate;
