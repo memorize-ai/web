@@ -9,6 +9,7 @@ import CardContainer from './CardContainer'
 import Footer from './Footer'
 
 import '../../../scss/components/Dashboard/Cram.scss'
+import Section from '../../../models/Section'
 
 const CramContent = () => {
 	const history = useHistory()
@@ -26,6 +27,7 @@ const CramContent = () => {
 			return deck
 		
 		history.push(`/d/${slugId}/${slug}`)
+		return null
 	}, [decks, decksLoadingState, slugId, slug, history])
 	
 	const backUrl = `/decks/${slugId}/${slug}`
@@ -43,7 +45,11 @@ const CramContent = () => {
 				unseen={0}
 				total={0}
 			/>
-			<CardContainer />
+			<CardContainer
+				deck={deck}
+				section={new Section('a', { name: 'Section 1', index: 0, numberOfCards: 10 })}
+				card={null}
+			/>
 			<Footer />
 		</>
 	)

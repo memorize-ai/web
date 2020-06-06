@@ -1,9 +1,26 @@
 @import '../../mixins';
 
+$card-offset: 20px;
+
+@mixin sub-card($multiplier) {
+	left: $card-offset * $multiplier;
+	right: $card-offset * $multiplier;
+	z-index: -$multiplier;
+	transform: translateY($card-offset * $multiplier);
+}
+
 @include dashboard-sidebar-collapse('cram', 980px);
 
 @include dashboard-content('cram') {
+	display: flex;
+	flex-direction: column;
 	padding: 0 30px;
+	
+	> .cram-navbar,
+	> .sliders,
+	> footer {
+		flex-shrink: 0;
+	}
 	
 	> .cram-navbar {
 		$button-height: 40px;
@@ -75,8 +92,11 @@
 	}
 	
 	> .sliders {
+		align-self: center;
 		max-width: 600px;
-		margin: 20px auto 0;
+		width: 100%;
+		justify-self: stretch;
+		margin-top: 20px;
 		border-collapse: separate;
 		border-spacing: 15px 10px;
 		
@@ -112,6 +132,86 @@
 						transition: width 0.3s;
 					}
 				}
+			}
+		}
+	}
+	
+	> .card-container {
+		align-self: center;
+		display: flex;
+		flex-direction: column;
+		max-width: 800px;
+		width: 100%;
+		height: 100%;
+		margin-top: 15px;
+		
+		> .location {
+			display: flex;
+			align-items: center;
+			
+			> .deck,
+			> .section {
+				font-size: 18px;
+				font-weight: 900;
+				color: white;
+			}
+			
+			> .deck {
+				@include overflow-ellipsis;
+			}
+			
+			> .divider,
+			> .section {
+				flex-shrink: 0;
+			}
+			
+			> .divider {
+				$width: 3px;
+				
+				align-self: stretch;
+				width: $width;
+				margin: 2px 12px;
+				background: transparentize(white, 0.5);
+				border-radius: $width / 2;
+				transform: translateY(1px);
+			}
+		}
+		
+		> .card {
+			$margin-top: 8px;
+			
+			position: relative;
+			height: calc(100% - #{4px + $margin-top + $card-offset * 2});
+			margin-top: $margin-top;
+			
+			&,
+			&::before,
+			&::after {
+				background: white;
+				border-radius: 8px;
+				box-shadow: 0 4px 8px transparentize(black, 0.9);
+			}
+			
+			&::before,
+			&::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				bottom: 0;
+			}
+			
+			&::before {
+				@include sub-card(1);
+			}
+			
+			&::after {
+				@include sub-card(2);
+			}
+			
+			&.loading {
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			}
 		}
 	}
