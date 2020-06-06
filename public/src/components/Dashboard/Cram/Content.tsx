@@ -50,7 +50,10 @@ const CramContent = () => {
 				section={new Section('a', { name: 'Section 1', index: 0, numberOfCards: 10 })}
 				card={null}
 			/>
-			<Footer />
+			<Footer
+				isWaitingForRating={false}
+				rate={() => undefined}
+			/>
 		</>
 	)
 }
