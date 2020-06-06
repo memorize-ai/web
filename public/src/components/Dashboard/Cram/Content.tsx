@@ -1,6 +1,7 @@
-import React, { memo, useMemo } from 'react'
+import React, { memo, useMemo, useState, useCallback } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 
+import Section from '../../../models/Section'
 import LoadingState from '../../../models/LoadingState'
 import useDecks from '../../../hooks/useDecks'
 import Navbar from './Navbar'
@@ -9,13 +10,13 @@ import CardContainer from './CardContainer'
 import Footer from './Footer'
 
 import '../../../scss/components/Dashboard/Cram.scss'
-import Section from '../../../models/Section'
 
 const CramContent = () => {
 	const history = useHistory()
 	const { slugId, slug, sectionId } = useParams()
 	
 	const [decks, decksLoadingState] = useDecks()
+	const [isWaitingForRating, setIsWaitingForRating] = useState(false)
 	
 	const deck = useMemo(() => {
 		if (decksLoadingState !== LoadingState.Success)
@@ -32,8 +33,12 @@ const CramContent = () => {
 	
 	const backUrl = `/decks/${slugId}/${slug}`
 	
+	const toggleIsWaitingForRating = useCallback(() => {
+		setIsWaitingForRating(isWaitingForRating => !isWaitingForRating)
+	}, [setIsWaitingForRating])
+	
 	return (
-		<>
+		<div className="mask" onClick={toggleIsWaitingForRating}>
 			<Navbar
 				backUrl={backUrl}
 				currentCardIndex={0}
@@ -51,10 +56,10 @@ const CramContent = () => {
 				card={null}
 			/>
 			<Footer
-				isWaitingForRating={false}
+				isWaitingForRating={isWaitingForRating}
 				rate={() => undefined}
 			/>
-		</>
+		</div>
 	)
 }
 

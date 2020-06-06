@@ -13,255 +13,271 @@ $card-offset: 20px;
 @include dashboard-sidebar-collapse('cram', 980px);
 
 @include dashboard-content('cram') {
-	display: flex;
-	flex-direction: column;
-	padding: 0 30px;
-	
-	> .cram-navbar,
-	> .sliders,
-	> footer {
-		flex-shrink: 0;
-	}
-	
-	> .cram-navbar {
-		$button-height: 40px;
-		
-		display: flex;
-		align-items: center;
-		overflow-x: auto;
-		margin-top: 20px;
-		
-		> * {
-			flex-shrink: 0;
-		}
-		
-		> .back,
-		> .skip,
-		> .recap {
-			height: $button-height;
-			color: white;
-			border: 2px solid transparentize(#eee, 0.8);
-			border-radius: 8px;
-			transition: opacity 0.3s, border-color 0.3s;
-			
-			&:hover {
-				opacity: 0.5;
-				border-color: transparentize(#eee, 0.6);
-			}
-		}
-		
-		> .back {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: $button-height;
-			margin-right: 12px;
-			
-			> svg {
-				transform: scale(1.5);
-				transition: transform 0.3s;
-			}
-			
-			&:hover > svg {
-				transform: scale(1.7);
-			}
-		}
-		
-		> .progress,
-		> .skip,
-		> .recap {
-			font-weight: 900;
-		}
-		
-		> .progress {
-			margin-right: auto;
-			font-size: 25px;
-			color: white;
-			transform: translateY(-1px);
-		}
-		
-		> .skip,
-		> .recap {
-			padding: 0 12px;
-			text-transform: uppercase;
-			font-size: 18px;
-		}
-		
-		> .skip {
-			margin: 0 12px;
-		}
-	}
-	
-	> .sliders {
-		align-self: center;
-		max-width: 600px;
-		width: 100%;
-		margin-top: 20px;
-		border-collapse: separate;
-		border-spacing: 15px 10px;
-		
-		> tbody > tr {
-			> .title {
-				text-align: right;
-				font-weight: 900;
-				color: white;
-				transition: opacity 0.3s;
-				
-				&.disabled {
-					opacity: 0.7;
-				}
-			}
-			
-			> .slider {
-				width: 100%;
-				transform: translateY(1px);
-				
-				> div {
-					$height: 4px;
-					
-					background: transparentize(white, 0.5);
-					
-					&,
-					> div {
-						height: $height;
-						border-radius: $height / 2;
-					}
-					
-					> div {
-						background: white;
-						transition: width 0.3s;
-					}
-				}
-			}
-		}
-	}
-	
-	> .card-container {
-		flex-grow: 1;
-		align-self: center;
+	> .mask {
 		display: flex;
 		flex-direction: column;
-		max-width: 800px;
-		width: 100%;
-		margin-top: 15px;
+		height: 100vh;
+		overflow: hidden;
+		padding: 0 30px;
 		
-		> .location {
+		> .cram-navbar {
+			$button-height: 40px;
+			
 			display: flex;
 			align-items: center;
+			overflow-x: auto;
+			margin-top: 20px;
 			
-			> .deck,
-			> .section {
-				font-size: 18px;
-				font-weight: 900;
-				color: white;
-			}
-			
-			> .deck {
-				@include overflow-ellipsis;
-			}
-			
-			> .divider,
-			> .section {
+			> * {
 				flex-shrink: 0;
 			}
 			
-			> .divider {
-				$width: 3px;
-				
-				align-self: stretch;
-				width: $width;
-				margin: 2px 12px;
-				background: transparentize(white, 0.5);
-				border-radius: $width / 2;
-				transform: translateY(1px);
-			}
-		}
-		
-		> .card {
-			flex-grow: 1;
-			position: relative;
-			margin: 8px 0 $card-offset * 2;
-			
-			&,
-			&::before,
-			&::after {
-				background: white;
+			> .back,
+			> .skip,
+			> .recap {
+				height: $button-height;
+				color: white;
+				border: 2px solid transparentize(#eee, 0.8);
 				border-radius: 8px;
-				box-shadow: 0 4px 8px transparentize(black, 0.9);
-			}
-			
-			&::before,
-			&::after {
-				content: '';
-				position: absolute;
-				top: 0;
-				bottom: 0;
-			}
-			
-			&::before {
-				@include sub-card(1);
-			}
-			
-			&::after {
-				@include sub-card(2);
-			}
-			
-			&.loading {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-			}
-		}
-	}
-	
-	> footer {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 40px 0;
-		
-		&.waiting-for-rating {
-			
-		}
-		
-		> .message {
-			font-weight: 900;
-			color: $dark-gray;
-			opacity: 0.8;
-		}
-		
-		> .buttons {
-			display: flex;
-			
-			> button {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				width: 165px;
-				height: 52px;
-				background: white;
-				border: 1px solid #eee;
-				border-radius: 8px;
-				transition: border-color 0.3s, box-shadow 0.3s;
-				
-				> .emoji {
-					margin-right: 12px;
-					font-size: 24px;
-				}
-				
-				> .title {
-					text-transform: uppercase;
-					font-weight: 900;
-					color: $dark-gray;
-				}
+				transition: opacity 0.3s, border-color 0.3s;
 				
 				&:hover {
-					border-color: white;
+					opacity: 0.5;
+					border-color: transparentize(#eee, 0.6);
+				}
+			}
+			
+			> .back {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: $button-height;
+				margin-right: 12px;
+				
+				> svg {
+					transform: scale(1.5);
+					transition: transform 0.3s;
+				}
+				
+				&:hover > svg {
+					transform: scale(1.7);
+				}
+			}
+			
+			> .progress,
+			> .skip,
+			> .recap {
+				font-weight: 900;
+			}
+			
+			> .progress {
+				margin-right: auto;
+				font-size: 25px;
+				color: white;
+				transform: translateY(-1px);
+			}
+			
+			> .skip,
+			> .recap {
+				padding: 0 12px;
+				text-transform: uppercase;
+				font-size: 18px;
+			}
+			
+			> .skip {
+				margin: 0 12px;
+			}
+		}
+		
+		> .sliders {
+			align-self: center;
+			max-width: 600px;
+			width: 100%;
+			margin-top: 20px;
+			border-collapse: separate;
+			border-spacing: 15px 10px;
+			
+			> tbody > tr {
+				> .title {
+					text-align: right;
+					font-weight: 900;
+					color: white;
+					transition: opacity 0.3s;
+					
+					&.disabled {
+						opacity: 0.7;
+					}
+				}
+				
+				> .slider {
+					width: 100%;
+					transform: translateY(1px);
+					
+					> div {
+						$height: 4px;
+						
+						background: transparentize(white, 0.5);
+						
+						&,
+						> div {
+							height: $height;
+							border-radius: $height / 2;
+						}
+						
+						> div {
+							background: white;
+							transition: width 0.3s;
+						}
+					}
+				}
+			}
+		}
+		
+		> .card-container {
+			flex-grow: 1;
+			align-self: center;
+			display: flex;
+			flex-direction: column;
+			max-width: 800px;
+			width: 100%;
+			margin-top: 15px;
+			
+			> .location {
+				display: flex;
+				align-items: center;
+				
+				> .deck,
+				> .section {
+					font-size: 18px;
+					font-weight: 900;
+					color: white;
+				}
+				
+				> .deck {
+					@include overflow-ellipsis;
+				}
+				
+				> .divider,
+				> .section {
+					flex-shrink: 0;
+				}
+				
+				> .divider {
+					$width: 3px;
+					
+					align-self: stretch;
+					width: $width;
+					margin: 2px 12px;
+					background: transparentize(white, 0.5);
+					border-radius: $width / 2;
+					transform: translateY(1px);
+				}
+			}
+			
+			> .card {
+				flex-grow: 1;
+				position: relative;
+				margin: 8px 0 $card-offset * 2;
+				
+				&,
+				&::before,
+				&::after {
+					background: white;
+					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
 				}
 				
-				&:not(:last-child) {
-					margin-right: 12px;
+				&::before,
+				&::after {
+					content: '';
+					position: absolute;
+					top: 0;
+					bottom: 0;
+				}
+				
+				&::before {
+					@include sub-card(1);
+				}
+				
+				&::after {
+					@include sub-card(2);
+				}
+				
+				&.loading {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+		}
+		
+		> footer {
+			$vertical-offset: 100px;
+			
+			@include stack;
+			
+			justify-items: center;
+			align-items: center;
+			padding: 40px 0;
+			
+			&.waiting-for-rating {
+				> .message {
+					opacity: 0;
+					transform: translateY($vertical-offset);
+				}
+				
+				> .buttons {
+					opacity: 1;
+					transform: none;
+				}
+			}
+			
+			> .message,
+			> .buttons {
+				transition: opacity 0.3s, transform 0.3s;
+			}
+			
+			> .message {
+				font-weight: 900;
+				color: $dark-gray;
+				opacity: 0.8;
+			}
+			
+			> .buttons {
+				display: flex;
+				opacity: 0;
+				transform: translateY($vertical-offset);
+				
+				> button {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					width: 165px;
+					height: 52px;
+					background: white;
+					border: 1px solid #eee;
+					border-radius: 8px;
+					transition: border-color 0.3s, box-shadow 0.3s;
+					
+					> .emoji {
+						margin-right: 12px;
+						font-size: 24px;
+					}
+					
+					> .title {
+						text-transform: uppercase;
+						font-weight: 900;
+						color: $dark-gray;
+					}
+					
+					&:hover {
+						border-color: white;
+						box-shadow: 0 4px 8px transparentize(black, 0.9);
+					}
+					
+					&:not(:last-child) {
+						margin-right: 12px;
+					}
 				}
 			}
 		}
