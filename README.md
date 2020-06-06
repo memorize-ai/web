@@ -35,35 +35,9 @@ npm run deploy:dev # Deploy to development
 npm start
 ```
 
-#### File structure
+## Notes
 
-```
--- components
-  -- shared
-    -- Input.tsx
-	-- Button.tsx
-  -- App
-    -- index.tsx
-    -- {helper components private to App}
-  -- Home
-    -- index.tsx
-    -- {helper components private to Home}
--- hooks
-  -- useCurrentUser.ts
-  -- useDeck.ts
--- models
-  -- LoadingState.ts
-  -- User.ts
--- scss
-  -- index.scss
-  -- components
-    -- Input.scss
-    -- Loader.scss
--- images
-  -- app-store-download.svg
-  -- logos
-    -- logo.png
-```
+- Does not include AI algorithm
 
 ## License
 
