@@ -43,6 +43,8 @@ const CramContent = () => {
 				backUrl={backUrl}
 				currentCardIndex={0}
 				totalCards={0}
+				skip={() => undefined}
+				recap={() => undefined}
 			/>
 			<Sliders
 				mastered={0}
