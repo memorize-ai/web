@@ -19,6 +19,7 @@ const CramContent = () => {
 		count,
 		loadingState,
 		shouldShowRecap,
+		counts: { mastered, seen, unseen },
 		skip,
 		rate
 	} = useCramState(slugId, slug, sectionId)
@@ -41,15 +42,16 @@ const CramContent = () => {
 				recap={() => undefined}
 			/>
 			<Sliders
-				mastered={0}
-				seen={0}
-				unseen={0}
-				total={0}
+				mastered={mastered}
+				seen={seen}
+				unseen={unseen}
+				total={count ?? 0}
 			/>
 			<CardContainer
 				deck={deck}
 				section={section}
 				card={card && card.value}
+				loadingState={loadingState}
 			/>
 			<Footer
 				isWaitingForRating={isWaitingForRating}

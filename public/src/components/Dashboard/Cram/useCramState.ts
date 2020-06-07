@@ -33,6 +33,11 @@ export const isCardMastered = ({ ratings }: CramCard) => {
 	return false
 }
 
+export const getMasteredCount = (cards: CramCard[]) =>
+	cards.reduce((acc, card) => (
+		acc + (isCardMastered(card) ? 1 : 0)
+	), 0)
+
 export default (
 	slugId: string | undefined,
 	slug: string | undefined,
@@ -68,13 +73,34 @@ export default (
 	const [section, setSection] = useState(null as Section | null)
 	const [card, setCard] = useState(null as CramCard | null)
 	
+	const masteredCount = useMemo(() => getMasteredCount(cards), [cards])
+	
+	const seenCount = useMemo(() => (
+		cards.length - masteredCount
+	), [cards.length, masteredCount])
+	
+	const unseenCount = useMemo(() => (
+		(count ?? 0) - cards.length
+	), [count, cards.length])
+	
+	const incrementCurrentIndex = useCallback(() => {
+		const getNewIndex = (index: number | null) =>
+			count === null || index === count - 1
+				? 0
+				: (index ?? -1) + 1
+		
+		const index = getNewIndex(currentIndex)
+		setCurrentIndex(index => getNewIndex(index))
+		
+		return index
+	}, [count, currentIndex, setCurrentIndex])
+	
 	// Returns whether you should show the recap or not
 	const next = useCallback(async (): Promise<boolean> => {
 		if (!deck)
 			return false
 		
-		const index = (currentIndex ?? -1) + 1
-		setCurrentIndex(index => (index ?? -1) + 1)
+		const index = incrementCurrentIndex()
 		
 		// Cramming a single section
 		if (sectionId) {
@@ -120,7 +146,7 @@ export default (
 		
 		// TODO: Review deck
 		return true
-	}, [currentIndex, sectionId, deck, cards, card, setLoadingState, setCard])
+	}, [deck, incrementCurrentIndex, sectionId, cards, card, setLoadingState, setCard])
 	
 	const skip = useCallback(() => {
 		next().then(setShouldShowRecap)
@@ -130,31 +156,58 @@ export default (
 		if (currentIndex === null)
 			return
 		
-		cards[currentIndex].ratings.push(rating)
+		const newCards = cards.map((card, i) =>
+			currentIndex === i
+				? { ...card, ratings: [...card.ratings, rating] }
+				: card
+		)
+		
+		setCards(newCards)
+		
+		if (getMasteredCount(newCards) === count)
+			return setShouldShowRecap(true)
+		
 		next().then(setShouldShowRecap)
-	}, [cards, currentIndex, next, setShouldShowRecap])
+	}, [currentIndex, cards, setCards, count, setShouldShowRecap, next])
 	
 	useEffect(() => {
 		if (!(sections && count === null))
 			return
-		
-		setCount(sections.reduce((acc, { numberOfCards }) => (
-			acc + numberOfCards
-		), 0))
 		
 		if (sectionId) {
 			const section = sections.find(section => section.id === sectionId)
 			
 			if (section) {
 				setSection(section)
+				setCount(section.numberOfCards)
+				
 				next().then(setShouldShowRecap)
 			}
 			
 			return
 		}
 		
+		setCount(sections.reduce((acc, { numberOfCards }) => (
+			acc + numberOfCards
+		), 0))
+		
 		next().then(setShouldShowRecap)
 	}, [sections, count, setCount, sectionId, setSection, next, setShouldShowRecap])
 	
-	return { deck, section, card, currentIndex, count, loadingState, shouldShowRecap, skip, rate }
+	return {
+		deck,
+		section,
+		card,
+		currentIndex,
+		count,
+		loadingState,
+		shouldShowRecap,
+		counts: {
+			mastered: masteredCount,
+			seen: seenCount,
+			unseen: unseenCount
+		},
+		skip,
+		rate
+	}
 }

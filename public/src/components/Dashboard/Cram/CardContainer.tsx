@@ -3,14 +3,16 @@ import React, { memo } from 'react'
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import Card from '../../../models/Card'
+import LoadingState from '../../../models/LoadingState'
 import CardSide from '../../shared/CardSide'
 import Loader from '../../shared/Loader'
 
 const CramCardContainer = (
-	{ deck, section, card }: {
+	{ deck, section, card, loadingState }: {
 		deck: Deck | null
 		section: Section | null
 		card: Card | null
+		loadingState: LoadingState
 	}
 ) => (
 	<div className="card-container">
@@ -26,7 +28,7 @@ const CramCardContainer = (
 				</>
 			)}
 		</div>
-		{card
+		{card && loadingState === LoadingState.Success
 			? <CardSide className="card">{card.front}</CardSide>
 			: (
 				<div className="card loading">
