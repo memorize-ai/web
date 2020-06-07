@@ -1,9 +1,7 @@
-import React, { memo, useMemo, useState, useCallback } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import React, { memo, useState, useCallback } from 'react'
+import { useParams } from 'react-router-dom'
 
-import Section from '../../../models/Section'
-import LoadingState from '../../../models/LoadingState'
-import useDecks from '../../../hooks/useDecks'
+import useCramState from './useCramState'
 import Navbar from './Navbar'
 import Sliders from './Sliders'
 import CardContainer from './CardContainer'
@@ -12,38 +10,34 @@ import Footer from './Footer'
 import '../../../scss/components/Dashboard/Cram.scss'
 
 const CramContent = () => {
-	const history = useHistory()
 	const { slugId, slug, sectionId } = useParams()
+	const {
+		deck,
+		section,
+		card,
+		currentIndex,
+		count,
+		loadingState,
+		shouldShowRecap,
+		skip,
+		rate
+	} = useCramState(slugId, slug, sectionId)
 	
-	const [decks, decksLoadingState] = useDecks()
 	const [isWaitingForRating, setIsWaitingForRating] = useState(false)
-	
-	const deck = useMemo(() => {
-		if (decksLoadingState !== LoadingState.Success)
-			return null
-		
-		const deck = decks.find(deck => deck.slugId === slugId)
-		
-		if (deck)
-			return deck
-		
-		history.push(`/d/${slugId}/${slug}`)
-		return null
-	}, [decks, decksLoadingState, slugId, slug, history])
-	
-	const backUrl = `/decks/${slugId}/${slug}`
 	
 	const toggleIsWaitingForRating = useCallback(() => {
 		setIsWaitingForRating(isWaitingForRating => !isWaitingForRating)
 	}, [setIsWaitingForRating])
 	
+	const backUrl = `/decks/${slugId}/${slug}`
+	
 	return (
 		<div className="mask" onClick={toggleIsWaitingForRating}>
 			<Navbar
 				backUrl={backUrl}
-				currentCardIndex={0}
-				totalCards={0}
-				skip={() => undefined}
+				currentIndex={currentIndex}
+				count={count}
+				skip={skip}
 				recap={() => undefined}
 			/>
 			<Sliders
@@ -54,12 +48,12 @@ const CramContent = () => {
 			/>
 			<CardContainer
 				deck={deck}
-				section={new Section('a', { name: 'Section 1', index: 0, numberOfCards: 10 })}
-				card={null}
+				section={section}
+				card={card && card.value}
 			/>
 			<Footer
 				isWaitingForRating={isWaitingForRating}
-				rate={() => undefined}
+				rate={rate}
 			/>
 		</div>
 	)

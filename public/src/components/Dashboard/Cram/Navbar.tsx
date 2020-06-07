@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 const CramNavbar = (
-	{ backUrl, currentCardIndex, totalCards, skip, recap }: {
+	{ backUrl, currentIndex, count, skip, recap }: {
 		backUrl: string
-		currentCardIndex: number
-		totalCards: number
+		currentIndex: number | null
+		count: number | null
 		skip: () => void
 		recap: () => void
 	}
@@ -21,7 +21,10 @@ const CramNavbar = (
 			<FontAwesomeIcon icon={faTimes} />
 		</Link>
 		<p className="progress">
-			{(currentCardIndex || -1) + 1} / {totalCards}
+			{currentIndex === null
+				? '...'
+				: currentIndex + 1
+			} / {count ?? '...'}
 		</p>
 		<button
 			className="skip"
