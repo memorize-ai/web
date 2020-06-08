@@ -14,11 +14,13 @@ $card-offset: 20px;
 
 @include dashboard-content('cram') {
 	> .mask {
+		$margin: 30px;
+		
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
 		overflow: hidden;
-		padding: 0 30px;
+		padding: 0 $margin;
 		
 		> .cram-navbar {
 			$button-height: 40px;
@@ -134,11 +136,13 @@ $card-offset: 20px;
 		}
 		
 		> .card-container {
+			$max-width: 800px;
+			
 			flex-grow: 1;
 			align-self: center;
 			display: flex;
 			flex-direction: column;
-			max-width: 800px;
+			max-width: $max-width;
 			width: 100%;
 			margin-top: 15px;
 			
@@ -183,6 +187,15 @@ $card-offset: 20px;
 			}
 			
 			> .card {
+				$content-padding: 20px;
+				
+				@include card-side-katex-width(
+					calc(min(
+						#{$max-width},
+						100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2}
+					))
+				);
+				
 				flex-grow: 1;
 				position: relative;
 				margin: 8px 0 $card-offset * 2;
@@ -190,7 +203,8 @@ $card-offset: 20px;
 				> .content {
 					width: 100%;
 					height: 100%;
-					padding: 8px;
+					overflow-y: auto;
+					padding: $content-padding;
 				}
 				
 				> .flip {

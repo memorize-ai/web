@@ -42,8 +42,12 @@ export const getMasteredCount = (cards: CramCard[]) =>
 export default (
 	slugId: string | undefined,
 	slug: string | undefined,
-	sectionId: string | undefined
+	_sectionId: string | undefined
 ) => {
+	const sectionId = useMemo(() => (
+		_sectionId === 'unsectioned' ? '' : _sectionId
+	), [_sectionId])
+	
 	const history = useHistory()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
@@ -68,11 +72,19 @@ export default (
 		return null
 	}, [decks, decksLoadingState, slugId, slug, history])
 	
-	const sections = useSections(deck?.id)
+	const _sections = useSections(deck?.id)
+	const sections = useMemo(() => (
+		deck && _sections && [
+			deck.unsectionedSection,
+			..._sections
+		]
+	), [deck, _sections])
+	
 	const [cards, setCards] = useState([] as CramCard[])
 	
 	const [count, setCount] = useState(null as number | null)
 	const [currentIndex, setCurrentIndex] = useState(null as number | null)
+	const [innerSectionIndex, setInnerSectionIndex] = useState(null as number | null)
 	
 	const [section, setSection] = useState(null as Section | null)
 	const [card, setCard] = useState(null as CramCard | null)
@@ -106,51 +118,55 @@ export default (
 		
 		const index = incrementCurrentIndex()
 		
-		// Cramming a single section
-		if (sectionId) {
-			if (index in cards) {
-				const card = cards[index]
-				
-				if (isCardMastered(card))
-					return next()
-				
-				setCard(card)
-				setLoadingState(LoadingState.Success)
-				
-				return false
-			}
+		if (index in cards) {
+			const card = cards[index]
 			
-			setLoadingState(LoadingState.Loading)
+			if (isCardMastered(card))
+				return next()
 			
-			let query = firestore
-				.collection(`decks/${deck.id}/cards`)
-				.where('section', '==', sectionId)
-			
-			if (card?.value.sectionId === sectionId)
-				query = query.startAfter(card.snapshot)
-			
-			const { docs } = await query.limit(1).get()
-			const snapshot = docs[0]
-			
-			if (!snapshot)
-				return true
-			
-			const nextCard: CramCard = {
-				value: Card.fromSnapshot(snapshot, null),
-				snapshot,
-				ratings: [],
-				isNew: true
-			}
-			
-			setCards(cards => [...cards, nextCard])
-			setCard(nextCard)
+			setCard(card)
 			setLoadingState(LoadingState.Success)
 			
 			return false
 		}
 		
-		// TODO: Review deck
-		return true
+		setLoadingState(LoadingState.Loading)
+		
+		if (sectionId === undefined) {
+			// Multiple sections
+			
+			return true
+		}
+		
+		// Single section
+		
+		let query = firestore
+			.collection(`decks/${deck.id}/cards`)
+			.where('section', '==', sectionId)
+		
+		if (card && (card.value.sectionId === sectionId))
+			query = query.startAfter(card.snapshot)
+		
+		const { docs } = await query.limit(1).get()
+		const snapshot = docs[0]
+		
+		if (!snapshot) {
+			setLoadingState(LoadingState.Success)
+			return true
+		}
+		
+		const nextCard: CramCard = {
+			value: Card.fromSnapshot(snapshot, null),
+			snapshot,
+			ratings: [],
+			isNew: true
+		}
+		
+		setCards(cards => [...cards, nextCard])
+		setCard(nextCard)
+		setLoadingState(LoadingState.Success)
+		
+		return false
 	}, [deck, incrementCurrentIndex, sectionId, cards, card, setLoadingState, setCard])
 	
 	const flip = useCallback(() => {
@@ -193,24 +209,27 @@ export default (
 		if (!(sections && count === null))
 			return
 		
-		if (sectionId) {
-			const section = sections.find(section => section.id === sectionId)
+		if (sectionId === undefined) {
+			// Multiple sections
 			
-			if (section) {
-				setSection(section)
-				setCount(section.numberOfCards)
-				
-				next().then(setShouldShowRecap)
-			}
+			setCount(sections.reduce((acc, { numberOfCards }) => (
+				acc + numberOfCards
+			), 0))
 			
+			next().then(setShouldShowRecap)
 			return
 		}
 		
-		setCount(sections.reduce((acc, { numberOfCards }) => (
-			acc + numberOfCards
-		), 0))
+		// Single section
 		
-		next().then(setShouldShowRecap)
+		const section = sections.find(section => section.id === sectionId)
+		
+		if (section) {
+			setSection(section)
+			setCount(section.numberOfCards)
+			
+			next().then(setShouldShowRecap)
+		}
 	}, [sections, count, setCount, sectionId, setSection, next, setShouldShowRecap])
 	
 	const waitForRating = useCallback(() => {

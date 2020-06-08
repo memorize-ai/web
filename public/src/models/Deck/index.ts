@@ -99,6 +99,7 @@ export default class Deck implements DeckData {
 	lastUpdated: Date
 	
 	userData: UserData | null
+	unsectionedSection: Section
 	
 	constructor(id: string, data: DeckData, userData: UserData | null = null) {
 		this.id = id
@@ -130,10 +131,9 @@ export default class Deck implements DeckData {
 		this.lastUpdated = data.lastUpdated
 		
 		this.userData = userData
-	}
-	
-	get unsectionedSection() {
-		return Section.newUnsectionedSection(this.numberOfUnsectionedCards)
+		this.unsectionedSection = Section.newUnsectionedSection(
+			this.numberOfUnsectionedCards
+		)
 	}
 	
 	static fromSnapshot = (
@@ -352,6 +352,8 @@ export default class Deck implements DeckData {
 		this.numberOfFavorites = snapshot.get('favoriteCount')
 		this.lastUpdated = snapshot.get('updated')?.toDate()
 		
+		this.unsectionedSection.numberOfCards = this.numberOfUnsectionedCards
+		
 		return this
 	}
 	
@@ -540,11 +542,23 @@ export default class Deck implements DeckData {
 	
 	reviewUrl = (section?: Section) =>
 		`/review/${this.slugId}/${this.slug}${
-			section ? `/${section.id}` : ''
+			section
+				? `/${
+					section.isUnsectioned
+						? 'unsectioned'
+						: section.id
+				}`
+				: ''
 		}`
 	
 	cramUrl = (section?: Section) =>
 		`/cram/${this.slugId}/${this.slug}${
-			section ? `/${section.id}` : ''
+			section
+				? `/${
+					section.isUnsectioned
+						? 'unsectioned'
+						: section.id
+				}`
+				: ''
 		}`
 }
