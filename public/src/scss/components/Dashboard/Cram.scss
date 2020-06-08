@@ -178,7 +178,29 @@ $card-offset: 20px;
 				flex-grow: 1;
 				position: relative;
 				margin: 8px 0 $card-offset * 2;
-				padding: 8px;
+				
+				> .content {
+					width: 100%;
+					height: 100%;
+					padding: 8px;
+				}
+				
+				> .flip {
+					display: flex;
+					position: absolute;
+					align-items: flex-end;
+					right: 0;
+					bottom: 0;
+					
+					> svg {
+						color: #06ba7a;
+						transition: transform 0.3s ease-out;
+					}
+				}
+				
+				&.clickable {
+					cursor: pointer;
+				}
 				
 				&,
 				&::before,

@@ -48,6 +48,8 @@ export default (
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
 	const [shouldShowRecap, setShouldShowRecap] = useState(false)
 	
+	const [currentSide, setCurrentSide] = useState('front' as 'front' | 'back')
+	
 	const [decks, decksLoadingState] = useDecks()
 	
 	const deck = useMemo(() => {
@@ -148,6 +150,12 @@ export default (
 		return true
 	}, [deck, incrementCurrentIndex, sectionId, cards, card, setLoadingState, setCard])
 	
+	const flip = useCallback(() => {
+		setCurrentSide(side =>
+			side === 'front' ? 'back' : 'front'
+		)
+	}, [setCurrentSide])
+	
 	const skip = useCallback(() => {
 		if (masteredCount < (count ?? 0))
 			next().then(setShouldShowRecap)
@@ -208,6 +216,8 @@ export default (
 			seen: seenCount,
 			unseen: unseenCount
 		},
+		currentSide,
+		flip,
 		skip,
 		rate
 	}

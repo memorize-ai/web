@@ -20,6 +20,8 @@ const CramContent = () => {
 		loadingState,
 		shouldShowRecap,
 		counts: { mastered, seen, unseen },
+		currentSide,
+		flip,
 		skip,
 		rate
 	} = useCramState(slugId, slug, sectionId)
@@ -52,6 +54,9 @@ const CramContent = () => {
 				section={section}
 				card={card && card.value}
 				loadingState={loadingState}
+				isWaitingForRating={isWaitingForRating}
+				currentSide={currentSide}
+				flip={flip}
 			/>
 			<Footer
 				isWaitingForRating={isWaitingForRating}
