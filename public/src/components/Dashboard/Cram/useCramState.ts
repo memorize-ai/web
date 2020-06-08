@@ -113,7 +113,7 @@ export default (
 			let cardCountAcc = 0
 			
 			for (const section of sections ?? []) {
-				if (cardCountAcc + section.numberOfCards >= index) {
+				if (cardCountAcc + section.numberOfCards > index) {
 					setSection(section)
 					return [index, section] as const
 				}
@@ -210,14 +210,13 @@ export default (
 		)
 		
 		setCards(newCards)
+		setIsWaitingForRating(false)
 		
 		if (getMasteredCount(newCards) === count)
 			return setShouldShowRecap(true)
 		
 		next().then(setShouldShowRecap)
-		
 		setCurrentSide('front')
-		setIsWaitingForRating(false)
 	}, [currentIndex, cards, setCards, count, setShouldShowRecap, next, setCurrentSide, setIsWaitingForRating])
 	
 	useEffect(() => {
