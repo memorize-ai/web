@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, MouseEvent } from 'react'
 
 import PerformanceRating from '../../../models/PerformanceRating'
 
@@ -10,7 +10,8 @@ const CramRateButton = (
 		rating: PerformanceRating
 	}
 ) => {
-	const onClick = useCallback(() => {
+	const onClick = useCallback((event: MouseEvent) => {
+		event.stopPropagation()
 		rate(rating)
 	}, [rate, rating])
 	

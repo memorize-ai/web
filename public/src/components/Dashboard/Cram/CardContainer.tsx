@@ -1,10 +1,10 @@
-import React, { memo, useCallback, MouseEvent, useState } from 'react'
+import React, { memo, useCallback, MouseEvent, useState, useEffect } from 'react'
 import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
-import Card from '../../../models/Card'
 import LoadingState from '../../../models/LoadingState'
+import { CramCard } from './useCramState'
 import CardSide from '../../shared/CardSide'
 import Loader from '../../shared/Loader'
 
@@ -14,7 +14,7 @@ const CramCardContainer = (
 	{ deck, section, card, loadingState, isWaitingForRating, currentSide, flip }: {
 		deck: Deck | null
 		section: Section | null
-		card: Card | null
+		card: CramCard | null
 		loadingState: LoadingState
 		isWaitingForRating: boolean
 		currentSide: 'front' | 'back'
@@ -28,10 +28,12 @@ const CramCardContainer = (
 			return
 		
 		event.stopPropagation()
-		
 		flip()
+	}, [isWaitingForRating, flip])
+	
+	useEffect(() => {
 		setToggleTurns(turns => turns + 1)
-	}, [isWaitingForRating, flip, setToggleTurns])
+	}, [currentSide, setToggleTurns])
 	
 	return (
 		<div className="card-container">
@@ -46,18 +48,24 @@ const CramCardContainer = (
 						<p className="section">{section.name}</p>
 					</>
 				)}
+				{card?.isNew && (
+					<p className="flag">New</p>
+				)}
 			</div>
 			{card && (loadingState === LoadingState.Success)
 				? (
-					<div className={cx('card', { clickable: isWaitingForRating })}>
-						<CardSide className="content" onClick={onCardClick}>
-							{card[currentSide]}
+					<div
+						className={cx('card', { clickable: isWaitingForRating })}
+						onClick={onCardClick}
+					>
+						<CardSide className="content">
+							{card.value[currentSide]}
 						</CardSide>
 						{isWaitingForRating && (
 							<div className="flip">
 								<p>{currentSide}</p>
 								<ToggleIcon style={{
-									transform: `rotate(${toggleTurns}turn)`
+									transform: `scale(3) rotate(${toggleTurns}turn)`
 								}} />
 							</div>
 						)}

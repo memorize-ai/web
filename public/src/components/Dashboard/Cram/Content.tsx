@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from 'react'
+import React, { memo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import useCramState from './useCramState'
@@ -18,6 +18,8 @@ const CramContent = () => {
 		currentIndex,
 		count,
 		loadingState,
+		isWaitingForRating,
+		waitForRating,
 		shouldShowRecap,
 		counts: { mastered, seen, unseen },
 		currentSide,
@@ -26,18 +28,10 @@ const CramContent = () => {
 		rate
 	} = useCramState(slugId, slug, sectionId)
 	
-	const [isWaitingForRating, setIsWaitingForRating] = useState(false)
-	
-	const toggleIsWaitingForRating = useCallback(() => {
-		setIsWaitingForRating(isWaitingForRating => !isWaitingForRating)
-	}, [setIsWaitingForRating])
-	
-	const backUrl = `/decks/${slugId}/${slug}`
-	
 	return (
-		<div className="mask" onClick={toggleIsWaitingForRating}>
+		<div className="mask" onClick={waitForRating}>
 			<Navbar
-				backUrl={backUrl}
+				backUrl={`/decks/${slugId}/${slug}`}
 				currentIndex={currentIndex}
 				count={count}
 				skip={skip}
@@ -52,7 +46,7 @@ const CramContent = () => {
 			<CardContainer
 				deck={deck}
 				section={section}
-				card={card && card.value}
+				card={card}
 				loadingState={loadingState}
 				isWaitingForRating={isWaitingForRating}
 				currentSide={currentSide}

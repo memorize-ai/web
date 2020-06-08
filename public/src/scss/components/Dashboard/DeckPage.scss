@@ -465,7 +465,7 @@ $sidebar-collapse-width: 1150px;
 							color: #582efe;
 							background: #eee;
 							border-radius: 50%;
-							transition: transform 0.3s;
+							transition: transform 0.3s ease-out;
 						}
 					}
 				}

@@ -15,6 +15,7 @@ export interface CramCard {
 	value: Card
 	snapshot: firebase.firestore.DocumentSnapshot
 	ratings: PerformanceRating[]
+	isNew: boolean
 }
 
 const firestore = firebase.firestore()
@@ -49,6 +50,7 @@ export default (
 	const [shouldShowRecap, setShouldShowRecap] = useState(false)
 	
 	const [currentSide, setCurrentSide] = useState('front' as 'front' | 'back')
+	const [isWaitingForRating, setIsWaitingForRating] = useState(false)
 	
 	const [decks, decksLoadingState] = useDecks()
 	
@@ -136,7 +138,8 @@ export default (
 			const nextCard: CramCard = {
 				value: Card.fromSnapshot(snapshot, null),
 				snapshot,
-				ratings: []
+				ratings: [],
+				isNew: true
 			}
 			
 			setCards(cards => [...cards, nextCard])
@@ -167,7 +170,11 @@ export default (
 		
 		const newCards = cards.map((card, i) =>
 			currentIndex === i
-				? { ...card, ratings: [...card.ratings, rating] }
+				? {
+					...card,
+					ratings: [...card.ratings, rating],
+					isNew: false
+				}
 				: card
 		)
 		
@@ -177,7 +184,10 @@ export default (
 			return setShouldShowRecap(true)
 		
 		next().then(setShouldShowRecap)
-	}, [currentIndex, cards, setCards, count, setShouldShowRecap, next])
+		
+		setCurrentSide('front')
+		setIsWaitingForRating(false)
+	}, [currentIndex, cards, setCards, count, setShouldShowRecap, next, setCurrentSide, setIsWaitingForRating])
 	
 	useEffect(() => {
 		if (!(sections && count === null))
@@ -203,6 +213,11 @@ export default (
 		next().then(setShouldShowRecap)
 	}, [sections, count, setCount, sectionId, setSection, next, setShouldShowRecap])
 	
+	const waitForRating = useCallback(() => {
+		setCurrentSide('back')
+		setIsWaitingForRating(true)
+	}, [setCurrentSide, setIsWaitingForRating])
+	
 	return {
 		deck,
 		section,
@@ -210,6 +225,8 @@ export default (
 		currentIndex,
 		count,
 		loadingState,
+		isWaitingForRating,
+		waitForRating,
 		shouldShowRecap,
 		counts: {
 			mastered: masteredCount,
