@@ -135,6 +135,8 @@ export default (
 	const [isRecapModalShowing, _setIsRecapModalShowing] = useState(false)
 	const [recapData, setRecapData] = useState(null as CramRecapData | null)
 	
+	const [isCurrentCardMastered, setIsCurrentCardMastered] = useState(false)
+	
 	const [decks, decksLoadingState] = useDecks()
 	
 	const goToDeckPage = useCallback(() => {
@@ -248,8 +250,6 @@ export default (
 			)
 			: []
 		
-		console.log(nonEasyAttempts)
-		
 		const easiestSectionId = sectionId === undefined
 			? nonEasyAttempts.reduce(([oldKey, oldValue], [key, value]) => (
 				value < oldValue
@@ -314,17 +314,19 @@ export default (
 	}, [card, setLoadingState, setCards, setCard])
 	
 	/** @returns Whether you should show the recap or not */
-	const next = useCallback(async (): Promise<boolean> => {
-		if (!deck)
-			return false
+	const next = useCallback(async () => {
+		if (!deck || getMasteredCount(cards) === count)
+			return true
 		
 		const [index, section] = incrementCurrentIndex()
 		
 		if (index in cards) {
 			const card = cards[index]
 			
-			if (isCardMastered(card))
-				return next()
+			if (isCardMastered(card)) {
+				setIsCurrentCardMastered(true)
+				return false
+			}
 			
 			setCard(card)
 			setLoadingState(LoadingState.Success)
@@ -339,7 +341,7 @@ export default (
 				? loadNext(deck.id, section.id)
 				: true
 			: loadNext(deck.id, sectionId) // Single section
-	}, [deck, incrementCurrentIndex, cards, setCard, setLoadingState, sectionId, loadNext])
+	}, [deck, cards, count, incrementCurrentIndex, setIsCurrentCardMastered, setCard, setLoadingState, sectionId, loadNext])
 	
 	const flip = useCallback(() => {
 		setCurrentSide(side =>
@@ -410,6 +412,14 @@ export default (
 		})
 	}, [currentIndex, cards, setCards, count, setIsWaitingForRating, showRecap, transitionNext, setProgressData, currentUser])
 	
+	const waitForRating = useCallback(async () => {
+		if (isWaitingForRating || isProgressModalShowing || isRecapModalShowing || loadingState !== LoadingState.Success)
+			return
+		
+		setIsWaitingForRating(true)
+		setCurrentSide('back')
+	}, [isWaitingForRating, isProgressModalShowing, isRecapModalShowing, loadingState, setIsWaitingForRating, setCurrentSide])
+	
 	useEffect(() => {
 		if (!(sections && count === null))
 			return
@@ -437,13 +447,12 @@ export default (
 		}
 	}, [sections, count, setCount, sectionId, setSection, next, showRecap])
 	
-	const waitForRating = useCallback(async () => {
-		if (isWaitingForRating || isProgressModalShowing || isRecapModalShowing || loadingState !== LoadingState.Success)
-			return
-		
-		setIsWaitingForRating(true)
-		setCurrentSide('back')
-	}, [isWaitingForRating, isProgressModalShowing, isRecapModalShowing, loadingState, setIsWaitingForRating, setCurrentSide])
+	useEffect(() => {
+		if (isCurrentCardMastered) {
+			setIsCurrentCardMastered(false)
+			next().then(showRecap)
+		}
+	}, [isCurrentCardMastered, setIsCurrentCardMastered, next, showRecap])
 	
 	return {
 		deck,

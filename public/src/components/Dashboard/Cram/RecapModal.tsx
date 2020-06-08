@@ -21,7 +21,6 @@ const CramRecapModal = (
 		setIsShowing: (isShowing: boolean) => void
 	}
 ) => {
-	console.log(data)
 	const elapsed = useMemo(() => (
 		data && (
 			timeAgo
