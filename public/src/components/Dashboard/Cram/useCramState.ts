@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState, useEffect, useRef } from 'react'
+import { useMemo, useCallback, useState, useEffect, useRef, MutableRefObject } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import firebase from '../../../firebase'
@@ -30,6 +30,7 @@ export interface CramProgressData {
 
 export interface CramRecapData {
 	start: Date
+	xpGained: number
 	masteredCount: number
 	totalCount: number
 	easiestSection: Section | null
@@ -74,13 +75,15 @@ export const getMasteredCount = (cards: CramCard[]) =>
 		acc + (isCardMastered(card) ? 1 : 0)
 	), 0)
 
-export const gainXpWithChance = (user: User) => {
+export const gainXpWithChance = (user: User, ref: MutableRefObject<number>) => {
 	if (Math.random() > XP_CHANCE)
 		return 0
 	
 	firestore.doc(`users/${user.id}`).update({
 		xp: firebase.firestore.FieldValue.increment(1)
 	})
+	
+	ref.current++
 	
 	return 1
 }
@@ -111,6 +114,7 @@ export default (
 	_sectionId: string | undefined
 ) => {
 	const start = useRef(new Date())
+	const xpGained = useRef(0)
 	
 	const sectionId = useMemo(() => (
 		_sectionId === 'unsectioned' ? '' : _sectionId
@@ -263,6 +267,7 @@ export default (
 		setIsRecapModalShowing(true)
 		setRecapData({
 			start: start.current,
+			xpGained: xpGained.current,
 			masteredCount,
 			totalCount: count,
 			easiestSection: easiestSectionId === null
@@ -397,7 +402,7 @@ export default (
 		
 		transitionNext()
 		setProgressData({
-			xp: gainXpWithChance(currentUser),
+			xp: gainXpWithChance(currentUser, xpGained),
 			streak: getCardStreak(updatedCard),
 			...getProgressDataForRating(rating)
 		})
@@ -431,12 +436,12 @@ export default (
 	}, [sections, count, setCount, sectionId, setSection, next, showRecap])
 	
 	const waitForRating = useCallback(async () => {
-		if (isWaitingForRating || isProgressModalShowing || loadingState !== LoadingState.Success)
+		if (isWaitingForRating || isProgressModalShowing || isRecapModalShowing || loadingState !== LoadingState.Success)
 			return
 		
 		setIsWaitingForRating(true)
 		setCurrentSide('back')
-	}, [isWaitingForRating, isProgressModalShowing, loadingState, setIsWaitingForRating, setCurrentSide])
+	}, [isWaitingForRating, isProgressModalShowing, isRecapModalShowing, loadingState, setIsWaitingForRating, setCurrentSide])
 	
 	return {
 		deck,

@@ -369,7 +369,7 @@ $shift-animation-duration: 400ms;
 }
 
 @include modal-content('cram-progress') {
-	$margin: 30px;
+	$margin: 20px;
 	
 	display: flex;
 	position: relative;
@@ -378,7 +378,8 @@ $shift-animation-duration: 400ms;
 	max-width: 650px;
 	width: calc(100vw - #{$margin * 2});
 	max-height: calc(100vh - #{$margin * 2});
-	margin: 20px;
+	overflow-y: auto;
+	margin: $margin;
 	padding: 50px;
 	background: #051e34;
 	border-radius: 15px;
@@ -423,5 +424,69 @@ $shift-animation-duration: 400ms;
 		font-weight: 900;
 		font-size: 40px;
 		color: white;
+	}
+}
+
+@include modal-content('cram-recap') {
+	$margin: 20px;
+	
+	display: flex;
+	flex-direction: column;
+	max-width: 650px;
+	width: calc(100vw - #{$margin * 2});
+	max-height: calc(100vh - #{$margin * 2});
+	overflow-y: auto;
+	margin: $margin;
+	padding: 20px;
+	background: #051e34;
+	border-radius: 15px;
+	
+	> .emoji {
+		margin-bottom: -15px;
+		text-align: center;
+		font-size: 80px;
+	}
+	
+	> .data {
+		margin-top: 20px;
+		
+		> .title {
+			text-transform: uppercase;
+			font-weight: 900;
+			color: white;
+		}
+		
+		> .content {
+			font-weight: bold;
+			color: transparentize(white, 0.5);
+			
+			> span {
+				color: white;
+				
+				&.section-name {
+					color: #0288d1;
+				}
+				
+				&.section-card-count {
+					color: #582efe;
+				}
+			}
+		}
+	}
+	
+	> .done {
+		margin: 20px 0 0 auto;
+		padding: 6px 20px;
+		font-size: 20px;
+		font-weight: 900;
+		color: white;
+		background: #0288d1;
+		border-radius: 13px;
+		transition: color 0.3s, background 0.3s;
+		
+		&:hover {
+			color: #0288d1;
+			background: white;
+		}
 	}
 }
