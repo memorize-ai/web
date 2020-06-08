@@ -18,18 +18,21 @@ const CramFooter = (
 			<RateButton
 				emoji="😀"
 				title="Easy"
+				subtitle="Without much effort, you were able to remember"
 				rate={rate}
 				rating={PerformanceRating.Easy}
 			/>
 			<RateButton
 				emoji="😕"
 				title="Struggled"
+				subtitle="You struggled to remember, but eventually succeeded"
 				rate={rate}
 				rating={PerformanceRating.Struggled}
 			/>
 			<RateButton
 				emoji="😓"
 				title="Forgot"
+				subtitle="You tried but couldn't remember"
 				rate={rate}
 				rating={PerformanceRating.Forgot}
 			/>
