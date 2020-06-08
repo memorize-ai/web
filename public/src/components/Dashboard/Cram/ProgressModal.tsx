@@ -1,20 +1,22 @@
 import React, { memo } from 'react'
 
+import { CramProgressData } from './useCramState'
 import Modal from '../../shared/Modal'
 
 const CramProgressModal = (
-	{ isShowing, setIsShowing }: {
+	{ data, isShowing, setIsShowing }: {
+		data: CramProgressData | null
 		isShowing: boolean
 		setIsShowing: (isShowing: boolean) => void
 	}
 ) => (
 	<Modal
 		className="cram-progress"
-		isLazy
+		isLazy={false}
 		isShowing={isShowing}
 		setIsShowing={setIsShowing}
 	>
-		Cram progress
+		{JSON.stringify(data ?? {})}
 	</Modal>
 )
 

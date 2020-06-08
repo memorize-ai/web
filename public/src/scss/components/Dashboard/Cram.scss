@@ -367,3 +367,7 @@ $shift-animation-duration: 400ms;
 		}
 	}
 }
+
+@include modal-content('cram-progress') {
+	
+}

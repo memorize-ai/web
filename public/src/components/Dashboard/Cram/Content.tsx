@@ -22,6 +22,9 @@ const CramContent = () => {
 		isWaitingForRating,
 		waitForRating,
 		cardClassName,
+		progressData,
+		isProgressModalShowing,
+		setIsProgressModalShowing,
 		shouldShowRecap,
 		counts: { mastered, seen, unseen },
 		currentSide,
@@ -58,6 +61,11 @@ const CramContent = () => {
 			<Footer
 				isWaitingForRating={isWaitingForRating}
 				rate={rate}
+			/>
+			<ProgressModal
+				data={progressData}
+				isShowing={isProgressModalShowing}
+				setIsShowing={setIsProgressModalShowing}
 			/>
 		</div>
 	)

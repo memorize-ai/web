@@ -2,12 +2,14 @@ import { useMemo, useCallback, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import firebase from '../../../firebase'
+import User from '../../../models/User'
 import Section from '../../../models/Section'
 import Card from '../../../models/Card'
 import LoadingState from '../../../models/LoadingState'
 import PerformanceRating from '../../../models/PerformanceRating'
 import useDecks from '../../../hooks/useDecks'
 import useSections from '../../../hooks/useSections'
+import useCurrentUser from '../../../hooks/useCurrentUser'
 import { sleep } from '../../../utils'
 
 import 'firebase/firestore'
@@ -19,7 +21,18 @@ export interface CramCard {
 	isNew: boolean
 }
 
+export interface CramProgressData {
+	xp: number
+	streak: number
+	emoji: string
+	message: string
+}
+
+export const CRAM_MASTERED_STREAK = 3
+
 const SHIFT_ANIMATION_DURATION = 400
+const PROGRESS_MODAL_SHOW_DURATION = 1000
+const XP_CHANCE = 0.2
 
 const firestore = firebase.firestore()
 
@@ -30,17 +43,58 @@ export const isCardMastered = ({ ratings }: CramCard) => {
 		if (ratings[i] !== PerformanceRating.Easy)
 			break
 		
-		if (++easyCount === 3)
+		if (++easyCount === CRAM_MASTERED_STREAK)
 			return true
 	}
 	
 	return false
 }
 
+export const getCardStreak = ({ ratings }: CramCard) => {
+	let acc = 0
+	
+	for (let i = ratings.length - 1; i >= 0; i--, acc++)
+		if (ratings[i] !== PerformanceRating.Easy)
+			break
+	
+	return acc
+}
+
 export const getMasteredCount = (cards: CramCard[]) =>
 	cards.reduce((acc, card) => (
 		acc + (isCardMastered(card) ? 1 : 0)
 	), 0)
+
+export const gainXpWithChance = (user: User) => {
+	if (Math.random() > XP_CHANCE)
+		return 0
+	
+	firestore.doc(`users/${user.id}`).update({
+		xp: firebase.firestore.FieldValue.increment(1)
+	})
+	
+	return 1
+}
+
+export const getProgressDataForRating = (rating: PerformanceRating) => {
+	switch (rating) {
+		case PerformanceRating.Easy:
+			return {
+				emoji: '🥳',
+				message: 'You\'re doing great!'
+			}
+		case PerformanceRating.Struggled:
+			return {
+				emoji: '🧐',
+				message: 'You\'ll see this again soon!'
+			}
+		case PerformanceRating.Forgot:
+			return {
+				emoji: '🤕',
+				message: 'Better luck next time!'
+			}
+	}
+}
 
 export default (
 	slugId: string | undefined,
@@ -52,6 +106,7 @@ export default (
 	), [_sectionId])
 	
 	const history = useHistory()
+	const [currentUser] = useCurrentUser()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
 	const [shouldShowRecap, setShouldShowRecap] = useState(false)
@@ -59,6 +114,9 @@ export default (
 	const [currentSide, setCurrentSide] = useState('front' as 'front' | 'back')
 	const [isWaitingForRating, setIsWaitingForRating] = useState(false)
 	const [cardClassName, setCardClassName] = useState(undefined as string | undefined)
+	
+	const [isProgressModalShowing, setIsProgressModalShowing] = useState(false)
+	const [progressData, _setProgressData] = useState(null as CramProgressData | null)
 	
 	const [decks, decksLoadingState] = useDecks()
 	
@@ -128,6 +186,15 @@ export default (
 		
 		return [index, section] as const
 	}, [sectionId, count, currentIndex, setCurrentIndex, sections, setSection, section])
+	
+	const setProgressData = useCallback(async (data: CramProgressData) => {
+		_setProgressData(data)
+		setIsProgressModalShowing(true)
+		
+		await sleep(PROGRESS_MODAL_SHOW_DURATION)
+		
+		setIsProgressModalShowing(false)
+	}, [_setProgressData, setIsProgressModalShowing])
 	
 	/** @returns Whether you should show the recap or not */
 	const loadNext = useCallback(async (deckId: string, sectionId: string) => {
@@ -216,17 +283,26 @@ export default (
 			)
 		)
 		
-		if (masteredCount < (count ?? 0))
+		if (card && (masteredCount < (count ?? 0))) {
 			transitionNext()
-	}, [setCards, currentIndex, masteredCount, count, transitionNext])
+			setProgressData({
+				xp: 0,
+				streak: getCardStreak(card),
+				emoji: '😛',
+				message: 'Skipped!'
+			})
+		}
+	}, [setCards, currentIndex, card, masteredCount, count, transitionNext, setProgressData])
 	
 	const rate = useCallback((rating: PerformanceRating) => {
 		if (currentIndex === null)
 			return
 		
+		let updatedCard: CramCard | null = null
+		
 		const newCards = cards.map((card, i) =>
 			currentIndex === i
-				? {
+				? updatedCard = {
 					...card,
 					ratings: [...card.ratings, rating],
 					isNew: false
@@ -237,11 +313,16 @@ export default (
 		setCards(newCards)
 		setIsWaitingForRating(false)
 		
-		if (getMasteredCount(newCards) === count)
+		if (!currentUser || !updatedCard || (getMasteredCount(newCards) === count))
 			return setShouldShowRecap(true)
 		
 		transitionNext()
-	}, [currentIndex, cards, setCards, count, setIsWaitingForRating, setShouldShowRecap, transitionNext])
+		setProgressData({
+			xp: gainXpWithChance(currentUser),
+			streak: getCardStreak(updatedCard),
+			...getProgressDataForRating(rating)
+		})
+	}, [currentIndex, cards, setCards, count, setIsWaitingForRating, setShouldShowRecap, transitionNext, setProgressData, currentUser])
 	
 	useEffect(() => {
 		if (!(sections && count === null))
@@ -288,6 +369,9 @@ export default (
 		isWaitingForRating,
 		waitForRating,
 		cardClassName,
+		progressData,
+		isProgressModalShowing,
+		setIsProgressModalShowing,
 		shouldShowRecap,
 		counts: {
 			mastered: masteredCount,
