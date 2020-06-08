@@ -149,8 +149,9 @@ export default (
 	}, [deck, incrementCurrentIndex, sectionId, cards, card, setLoadingState, setCard])
 	
 	const skip = useCallback(() => {
-		next().then(setShouldShowRecap)
-	}, [next, setShouldShowRecap])
+		if (masteredCount < (count ?? 0))
+			next().then(setShouldShowRecap)
+	}, [masteredCount, count, next, setShouldShowRecap])
 	
 	const rate = useCallback((rating: PerformanceRating) => {
 		if (currentIndex === null)
