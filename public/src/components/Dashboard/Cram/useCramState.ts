@@ -106,7 +106,7 @@ export default (
 	), [_sectionId])
 	
 	const history = useHistory()
-	const [currentUser] = useCurrentUser()
+	const [currentUser, currentUserLoadingState] = useCurrentUser()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
 	const [shouldShowRecap, setShouldShowRecap] = useState(false)
@@ -120,7 +120,16 @@ export default (
 	
 	const [decks, decksLoadingState] = useDecks()
 	
+	const goToDeckPage = useCallback(() => {
+		history.push(`/d/${slugId}/${slug}`)
+	}, [history, slugId, slug])
+	
 	const deck = useMemo(() => {
+		if (currentUser === null && currentUserLoadingState === LoadingState.Success) {
+			goToDeckPage()
+			return null
+		}
+		
 		if (decksLoadingState !== LoadingState.Success)
 			return null
 		
@@ -129,10 +138,9 @@ export default (
 		if (deck)
 			return deck
 		
-		history.push(`/d/${slugId}/${slug}`)
-		
+		goToDeckPage()
 		return null
-	}, [decks, decksLoadingState, slugId, slug, history])
+	}, [currentUser, currentUserLoadingState, decksLoadingState, decks, slugId, goToDeckPage])
 	
 	const _sections = useSections(deck?.id)
 	const sections = useMemo(() => (
