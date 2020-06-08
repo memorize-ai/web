@@ -360,12 +360,12 @@ export default (
 	}, [sections, count, setCount, sectionId, setSection, next, setShouldShowRecap])
 	
 	const waitForRating = useCallback(async () => {
-		if (isWaitingForRating || loadingState !== LoadingState.Success)
+		if (isWaitingForRating || isProgressModalShowing || loadingState !== LoadingState.Success)
 			return
 		
 		setIsWaitingForRating(true)
 		setCurrentSide('back')
-	}, [isWaitingForRating, loadingState, setIsWaitingForRating, setCurrentSide])
+	}, [isWaitingForRating, isProgressModalShowing, loadingState, setIsWaitingForRating, setCurrentSide])
 	
 	return {
 		deck,

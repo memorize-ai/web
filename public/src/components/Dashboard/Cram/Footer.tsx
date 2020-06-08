@@ -11,10 +11,10 @@ const CramFooter = (
 	}
 ) => (
 	<footer className={cx({ 'waiting-for-rating': isWaitingForRating })}>
-		<p className="message">
+		<p className="message" tabIndex={-1}>
 			Tap anywhere to continue
 		</p>
-		<div className="buttons">
+		<div className="buttons" tabIndex={-1}>
 			<RateButton
 				emoji="😀"
 				title="Easy"
