@@ -248,6 +248,8 @@ export default (
 			)
 			: []
 		
+		console.log(nonEasyAttempts)
+		
 		const easiestSectionId = sectionId === undefined
 			? nonEasyAttempts.reduce(([oldKey, oldValue], [key, value]) => (
 				value < oldValue
@@ -272,7 +274,7 @@ export default (
 			totalCount: count,
 			easiestSection: easiestSectionId === null
 				? null
-				: sections.find(section => section.id === hardestSectionId) ?? null,
+				: sections.find(section => section.id === easiestSectionId) ?? null,
 			hardestSection: hardestSectionId === null
 				? null
 				: sections.find(section => section.id === hardestSectionId) ?? null,
