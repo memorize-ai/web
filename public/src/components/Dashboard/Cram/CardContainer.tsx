@@ -11,12 +11,13 @@ import Loader from '../../shared/Loader'
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 
 const CramCardContainer = (
-	{ deck, section, card, loadingState, isWaitingForRating, currentSide, flip }: {
+	{ deck, section, card, loadingState, isWaitingForRating, cardClassName, currentSide, flip }: {
 		deck: Deck | null
 		section: Section | null
 		card: CramCard | null
 		loadingState: LoadingState
 		isWaitingForRating: boolean
+		cardClassName: string | undefined
 		currentSide: 'front' | 'back'
 		flip: () => void
 	}
@@ -52,31 +53,37 @@ const CramCardContainer = (
 					<p className="flag">New</p>
 				)}
 			</div>
-			{card && (loadingState === LoadingState.Success)
-				? (
-					<div
-						className={cx('card', { clickable: isWaitingForRating })}
-						onClick={onCardClick}
-					>
-						<CardSide className="content">
-							{card.value[currentSide]}
-						</CardSide>
-						{isWaitingForRating && (
-							<div className="flip">
-								<p>{currentSide}</p>
-								<ToggleIcon style={{
-									transform: `scale(3) rotate(${toggleTurns}turn)`
-								}} />
+			<div
+				className={cx('cards', { clickable: isWaitingForRating })}
+				onClick={onCardClick}
+			>
+				{card && (loadingState === LoadingState.Success)
+					? (
+						<div className={cx('card', 'foreground', cardClassName)}>
+							<div className="container">
+								<CardSide className="content">
+									{card.value[currentSide]}
+								</CardSide>
+								{isWaitingForRating && (
+									<div className="flip">
+										<p>{currentSide}</p>
+										<ToggleIcon style={{
+											transform: `scale(3) rotate(${toggleTurns}turn)`
+										}} />
+									</div>
+								)}
 							</div>
-						)}
-					</div>
-				)
-				: (
-					<div className="card loading">
-						<Loader size="30px" thickness="5px" color="#582efe" />
-					</div>
-				)
-			}
+						</div>
+					)
+					: (
+						<div className="card loading">
+							<Loader size="30px" thickness="5px" color="#582efe" />
+						</div>
+					)
+				}
+				<div className="card background-1" />
+				<div className="card background-2" />
+			</div>
 		</div>
 	)
 }

@@ -8,6 +8,7 @@ import LoadingState from '../../../models/LoadingState'
 import PerformanceRating from '../../../models/PerformanceRating'
 import useDecks from '../../../hooks/useDecks'
 import useSections from '../../../hooks/useSections'
+import { sleep } from '../../../utils'
 
 import 'firebase/firestore'
 
@@ -17,6 +18,8 @@ export interface CramCard {
 	ratings: PerformanceRating[]
 	isNew: boolean
 }
+
+const SHIFT_ANIMATION_DURATION = 400
 
 const firestore = firebase.firestore()
 
@@ -55,6 +58,7 @@ export default (
 	
 	const [currentSide, setCurrentSide] = useState('front' as 'front' | 'back')
 	const [isWaitingForRating, setIsWaitingForRating] = useState(false)
+	const [cardClassName, setCardClassName] = useState(undefined as string | undefined)
 	
 	const [decks, decksLoadingState] = useDecks()
 	
@@ -191,9 +195,17 @@ export default (
 	}, [setCurrentSide])
 	
 	const skip = useCallback(() => {
+		setCards(cards =>
+			cards.map((card, i) =>
+				currentIndex === i
+					? { ...card, isNew: false }
+					: card
+			)
+		)
+		
 		if (masteredCount < (count ?? 0))
 			next().then(setShouldShowRecap)
-	}, [masteredCount, count, next, setShouldShowRecap])
+	}, [setCards, currentIndex, masteredCount, count, next, setShouldShowRecap])
 	
 	const rate = useCallback((rating: PerformanceRating) => {
 		if (currentIndex === null)
@@ -246,13 +258,19 @@ export default (
 		}
 	}, [sections, count, setCount, sectionId, setSection, next, setShouldShowRecap])
 	
-	const waitForRating = useCallback(() => {
-		if (loadingState !== LoadingState.Success)
+	const waitForRating = useCallback(async () => {
+		if (isWaitingForRating || loadingState !== LoadingState.Success)
 			return
 		
-		setCurrentSide('back')
 		setIsWaitingForRating(true)
-	}, [loadingState, setCurrentSide, setIsWaitingForRating])
+		setCardClassName('shift')
+		
+		await sleep(SHIFT_ANIMATION_DURATION / 2)
+		setCurrentSide('back')
+		await sleep(SHIFT_ANIMATION_DURATION / 2)
+		
+		setCardClassName(undefined)
+	}, [isWaitingForRating, loadingState, setIsWaitingForRating, setCardClassName, setCurrentSide])
 	
 	return {
 		deck,
@@ -263,6 +281,7 @@ export default (
 		loadingState,
 		isWaitingForRating,
 		waitForRating,
+		cardClassName,
 		shouldShowRecap,
 		counts: {
 			mastered: masteredCount,

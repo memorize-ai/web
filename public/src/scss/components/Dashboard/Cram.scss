@@ -2,8 +2,9 @@
 @import '../../mixins';
 
 $card-offset: 20px;
+$shift-animation-duration: 400ms;
 
-@mixin sub-card($multiplier) {
+@mixin background-card($multiplier) {
 	left: $card-offset * $multiplier;
 	right: $card-offset * $multiplier;
 	z-index: -$multiplier;
@@ -186,90 +187,109 @@ $card-offset: 20px;
 				}
 			}
 			
-			> .card {
-				$content-padding: 20px;
-				
-				@include card-side-katex-width(
-					calc(min(
-						#{$max-width},
-						100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2}
-					))
-				);
-				
+			> .cards {
 				flex-grow: 1;
 				position: relative;
 				margin: 8px 0 $card-offset * 2;
-				
-				> .content {
-					width: 100%;
-					height: 100%;
-					overflow-y: auto;
-					padding: $content-padding;
-				}
-				
-				> .flip {
-					$inset: 25px;
-					
-					display: flex;
-					position: absolute;
-					align-items: flex-end;
-					right: $inset;
-					bottom: $inset;
-					
-					> p {
-						margin-right: 24px;
-						text-transform: uppercase;
-						font-weight: 900;
-						color: $dark-gray;
-						opacity: 0.5;
-						transform: translateY(10px);
-					}
-					
-					> svg {
-						$dimension: 13px;
-						
-						width: $dimension;
-						height: $dimension;
-						padding: 2px;
-						color: #06ba7a;
-						background: transparentize($light-gray, 0.2);
-						border-radius: 50%;
-						transition: transform 0.3s ease-out;
-					}
-				}
 				
 				&.clickable {
 					cursor: pointer;
 				}
 				
-				&,
-				&::before,
-				&::after {
+				> .card {
+					$content-padding: 20px;
+					
+					position: absolute;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					left: 0;
 					background: white;
 					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
-				}
-				
-				&::before,
-				&::after {
-					content: '';
-					position: absolute;
-					top: 0;
-					bottom: 0;
-				}
-				
-				&::before {
-					@include sub-card(1);
-				}
-				
-				&::after {
-					@include sub-card(2);
-				}
-				
-				&.loading {
-					display: flex;
-					justify-content: center;
-					align-items: center;
+					
+					&.foreground {
+						&.shift {
+							animation: cram-card-shift $shift-animation-duration ease-in-out;
+						}
+						
+						> .container {
+							position: relative;
+							
+							@include card-side-katex-width(
+								calc(min(
+									#{$max-width},
+									100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2}
+								))
+							);
+							
+							&,
+							> .content {
+								width: 100%;
+								height: 100%;
+							}
+							
+							> .content {
+								overflow-y: auto;
+								padding: $content-padding;
+							}
+							
+							> .flip {
+								$inset: 25px;
+								
+								display: flex;
+								position: absolute;
+								align-items: flex-end;
+								right: $inset;
+								bottom: $inset;
+								
+								> p {
+									margin-right: 24px;
+									text-transform: uppercase;
+									font-weight: 900;
+									color: $dark-gray;
+									opacity: 0.5;
+									transform: translateY(10px);
+								}
+								
+								> svg {
+									$dimension: 13px;
+									
+									width: $dimension;
+									height: $dimension;
+									padding: 2px;
+									color: #06ba7a;
+									background: transparentize($light-gray, 0.2);
+									border-radius: 50%;
+									transition: transform 0.3s ease-out;
+								}
+							}
+						}
+						
+						@keyframes cram-card-shift {
+							50% {
+								opacity: 0;
+								transform: translateX(calc(var(--sidebar-width) - 100vw));
+							}
+							
+							50.01% {
+								opacity: 0;
+								transform: translateX(calc(100vw - var(--sidebar-width)));
+							}
+						}
+					}
+					
+					&.loading {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+					}
+					
+					@for $layer from 1 through 2 {
+						&.background-#{$layer} {
+							@include background-card($layer);
+						}
+					}
 				}
 			}
 		}

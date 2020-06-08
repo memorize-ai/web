@@ -20,6 +20,7 @@ const CramContent = () => {
 		loadingState,
 		isWaitingForRating,
 		waitForRating,
+		cardClassName,
 		shouldShowRecap,
 		counts: { mastered, seen, unseen },
 		currentSide,
@@ -49,6 +50,7 @@ const CramContent = () => {
 				card={card}
 				loadingState={loadingState}
 				isWaitingForRating={isWaitingForRating}
+				cardClassName={cardClassName}
 				currentSide={currentSide}
 				flip={flip}
 			/>
