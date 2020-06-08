@@ -135,7 +135,7 @@ const OwnedSectionHeader = (
 					<button
 						className="share"
 						onClick={event => {
-							event.preventDefault()
+							event.stopPropagation()
 							onShare()
 						}}
 					>
