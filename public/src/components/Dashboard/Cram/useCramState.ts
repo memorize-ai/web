@@ -194,6 +194,19 @@ export default (
 		)
 	}, [setCurrentSide])
 	
+	const transitionNext = useCallback(async () => {
+		setCardClassName('shift')
+		
+		await sleep(SHIFT_ANIMATION_DURATION / 2)
+		
+		setCurrentSide('front')
+		next().then(setShouldShowRecap)
+		
+		await sleep(SHIFT_ANIMATION_DURATION / 2)
+		
+		setCardClassName(undefined)
+	}, [setCardClassName, setCurrentSide, next, setShouldShowRecap])
+	
 	const skip = useCallback(() => {
 		setCards(cards =>
 			cards.map((card, i) =>
@@ -204,8 +217,8 @@ export default (
 		)
 		
 		if (masteredCount < (count ?? 0))
-			next().then(setShouldShowRecap)
-	}, [setCards, currentIndex, masteredCount, count, next, setShouldShowRecap])
+			transitionNext()
+	}, [setCards, currentIndex, masteredCount, count, transitionNext])
 	
 	const rate = useCallback((rating: PerformanceRating) => {
 		if (currentIndex === null)
@@ -227,9 +240,8 @@ export default (
 		if (getMasteredCount(newCards) === count)
 			return setShouldShowRecap(true)
 		
-		next().then(setShouldShowRecap)
-		setCurrentSide('front')
-	}, [currentIndex, cards, setCards, count, setShouldShowRecap, next, setCurrentSide, setIsWaitingForRating])
+		transitionNext()
+	}, [currentIndex, cards, setCards, count, setIsWaitingForRating, setShouldShowRecap, transitionNext])
 	
 	useEffect(() => {
 		if (!(sections && count === null))
@@ -263,14 +275,8 @@ export default (
 			return
 		
 		setIsWaitingForRating(true)
-		setCardClassName('shift')
-		
-		await sleep(SHIFT_ANIMATION_DURATION / 2)
 		setCurrentSide('back')
-		await sleep(SHIFT_ANIMATION_DURATION / 2)
-		
-		setCardClassName(undefined)
-	}, [isWaitingForRating, loadingState, setIsWaitingForRating, setCardClassName, setCurrentSide])
+	}, [isWaitingForRating, loadingState, setIsWaitingForRating, setCurrentSide])
 	
 	return {
 		deck,

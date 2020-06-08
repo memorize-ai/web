@@ -1,4 +1,4 @@
-import React, { memo, useCallback, MouseEvent, useState, useEffect } from 'react'
+import React, { memo, useCallback, MouseEvent, useState, useEffect, useMemo } from 'react'
 import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
@@ -23,6 +23,10 @@ const CramCardContainer = (
 	}
 ) => {
 	const [toggleTurns, setToggleTurns] = useState(0)
+	
+	const isReady = useMemo(() => (
+		card && (loadingState === LoadingState.Success)
+	), [card, loadingState])
 	
 	const onCardClick = useCallback((event: MouseEvent) => {
 		if (!isWaitingForRating)
@@ -57,12 +61,17 @@ const CramCardContainer = (
 				className={cx('cards', { clickable: isWaitingForRating })}
 				onClick={onCardClick}
 			>
-				{card && (loadingState === LoadingState.Success)
-					? (
-						<div className={cx('card', 'foreground', cardClassName)}>
+				<div className={cx(
+					'card',
+					'foreground',
+					cardClassName,
+					{ loading: !isReady }
+				)}>
+					{isReady
+						? (
 							<div className="container">
 								<CardSide className="content">
-									{card.value[currentSide]}
+									{card!.value[currentSide]}
 								</CardSide>
 								{isWaitingForRating && (
 									<div className="flip">
@@ -73,14 +82,10 @@ const CramCardContainer = (
 									</div>
 								)}
 							</div>
-						</div>
-					)
-					: (
-						<div className="card loading">
-							<Loader size="30px" thickness="5px" color="#582efe" />
-						</div>
-					)
-				}
+						)
+						: <Loader size="30px" thickness="5px" color="#582efe" />
+					}
+				</div>
 				<div className="card background-1" />
 				<div className="card background-2" />
 			</div>
