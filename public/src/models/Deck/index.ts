@@ -411,7 +411,10 @@ export default class Deck implements DeckData {
 	}
 	
 	numberOfCardsDueForSection = (section: Section) =>
-		this.userData?.sections[section.id] ?? 0
+		(section.isUnsectioned
+			? this.userData?.numberOfUnsectionedDueCards
+			: this.userData?.sections[section.id]
+		) ?? 0
 	
 	countForRating = (rating: 1 | 2 | 3 | 4 | 5): number =>
 		(this as any)[`numberOf${rating}StarRatings`]

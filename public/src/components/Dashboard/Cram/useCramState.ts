@@ -77,14 +77,15 @@ export default (
 		deck && _sections && [
 			deck.unsectionedSection,
 			..._sections
-		]
+		].filter(section =>
+			deck.isSectionUnlocked(section) && section.numberOfCards > 0
+		)
 	), [deck, _sections])
 	
 	const [cards, setCards] = useState([] as CramCard[])
 	
 	const [count, setCount] = useState(null as number | null)
 	const [currentIndex, setCurrentIndex] = useState(null as number | null)
-	const [innerSectionIndex, setInnerSectionIndex] = useState(null as number | null)
 	
 	const [section, setSection] = useState(null as Section | null)
 	const [card, setCard] = useState(null as CramCard | null)
@@ -108,40 +109,26 @@ export default (
 		const index = getNewIndex(currentIndex)
 		setCurrentIndex(index => getNewIndex(index))
 		
-		return index
-	}, [count, currentIndex, setCurrentIndex])
-	
-	// Returns whether you should show the recap or not
-	const next = useCallback(async (): Promise<boolean> => {
-		if (!deck)
-			return false
-		
-		const index = incrementCurrentIndex()
-		
-		if (index in cards) {
-			const card = cards[index]
-			
-			if (isCardMastered(card))
-				return next()
-			
-			setCard(card)
-			setLoadingState(LoadingState.Success)
-			
-			return false
-		}
-		
-		setLoadingState(LoadingState.Loading)
-		
 		if (sectionId === undefined) {
-			// Multiple sections
+			let cardCountAcc = 0
 			
-			return true
+			for (const section of sections ?? []) {
+				if (cardCountAcc + section.numberOfCards >= index) {
+					setSection(section)
+					return [index, section] as const
+				}
+				
+				cardCountAcc += section.numberOfCards
+			}
 		}
 		
-		// Single section
-		
+		return [index, section] as const
+	}, [sectionId, count, currentIndex, setCurrentIndex, sections, setSection, section])
+	
+	/** @returns Whether you should show the recap or not */
+	const loadNext = useCallback(async (deckId: string, sectionId: string) => {
 		let query = firestore
-			.collection(`decks/${deck.id}/cards`)
+			.collection(`decks/${deckId}/cards`)
 			.where('section', '==', sectionId)
 		
 		if (card && (card.value.sectionId === sectionId))
@@ -167,7 +154,35 @@ export default (
 		setLoadingState(LoadingState.Success)
 		
 		return false
-	}, [deck, incrementCurrentIndex, sectionId, cards, card, setLoadingState, setCard])
+	}, [card, setLoadingState, setCards, setCard])
+	
+	/** @returns Whether you should show the recap or not */
+	const next = useCallback(async (): Promise<boolean> => {
+		if (!deck)
+			return false
+		
+		const [index, section] = incrementCurrentIndex()
+		
+		if (index in cards) {
+			const card = cards[index]
+			
+			if (isCardMastered(card))
+				return next()
+			
+			setCard(card)
+			setLoadingState(LoadingState.Success)
+			
+			return false
+		}
+		
+		setLoadingState(LoadingState.Loading)
+		
+		return sectionId === undefined
+			? section // Multiple sections
+				? loadNext(deck.id, section.id)
+				: true
+			: loadNext(deck.id, sectionId) // Single section
+	}, [deck, incrementCurrentIndex, cards, setCard, setLoadingState, sectionId, loadNext])
 	
 	const flip = useCallback(() => {
 		setCurrentSide(side =>
@@ -233,9 +248,12 @@ export default (
 	}, [sections, count, setCount, sectionId, setSection, next, setShouldShowRecap])
 	
 	const waitForRating = useCallback(() => {
+		if (loadingState !== LoadingState.Success)
+			return
+		
 		setCurrentSide('back')
 		setIsWaitingForRating(true)
-	}, [setCurrentSide, setIsWaitingForRating])
+	}, [loadingState, setCurrentSide, setIsWaitingForRating])
 	
 	return {
 		deck,
