@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import useCramState from './useCramState'
@@ -7,6 +7,7 @@ import Sliders from './Sliders'
 import CardContainer from './CardContainer'
 import Footer from './Footer'
 import ProgressModal from './ProgressModal'
+import RecapModal from './RecapModal'
 
 import '../../../scss/components/Dashboard/Cram.scss'
 
@@ -25,7 +26,10 @@ const CramContent = () => {
 		progressData,
 		isProgressModalShowing,
 		setIsProgressModalShowing,
-		shouldShowRecap,
+		recapData,
+		isRecapModalShowing,
+		setIsRecapModalShowing,
+		showRecap,
 		counts: { mastered, seen, unseen },
 		currentSide,
 		flip,
@@ -33,14 +37,18 @@ const CramContent = () => {
 		rate
 	} = useCramState(slugId, slug, sectionId)
 	
+	const backUrl = useMemo(() => (
+		`/decks/${slugId}/${slug}`
+	), [slugId, slug])
+	
 	return (
 		<div className="mask" onClick={waitForRating}>
 			<Navbar
-				backUrl={`/decks/${slugId}/${slug}`}
+				backUrl={backUrl}
 				currentIndex={currentIndex}
 				count={count}
 				skip={skip}
-				recap={() => undefined}
+				recap={showRecap}
 			/>
 			<Sliders
 				mastered={mastered}
@@ -66,6 +74,12 @@ const CramContent = () => {
 				data={progressData}
 				isShowing={isProgressModalShowing}
 				setIsShowing={setIsProgressModalShowing}
+			/>
+			<RecapModal
+				data={recapData}
+				backUrl={backUrl}
+				isShowing={isRecapModalShowing}
+				setIsShowing={setIsRecapModalShowing}
 			/>
 		</div>
 	)

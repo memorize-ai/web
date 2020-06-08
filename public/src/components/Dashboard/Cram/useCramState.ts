@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState, useEffect } from 'react'
+import { useMemo, useCallback, useState, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import firebase from '../../../firebase'
@@ -26,6 +26,15 @@ export interface CramProgressData {
 	streak: number
 	emoji: string
 	message: string
+}
+
+export interface CramRecapData {
+	start: Date
+	masteredCount: number
+	totalCount: number
+	easiestSection: Section | null
+	hardestSection: Section | null
+	isSameSection: boolean
 }
 
 export const CRAM_MASTERED_STREAK = 3
@@ -101,6 +110,8 @@ export default (
 	slug: string | undefined,
 	_sectionId: string | undefined
 ) => {
+	const start = useRef(new Date())
+	
 	const sectionId = useMemo(() => (
 		_sectionId === 'unsectioned' ? '' : _sectionId
 	), [_sectionId])
@@ -109,7 +120,6 @@ export default (
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
-	const [shouldShowRecap, setShouldShowRecap] = useState(false)
 	
 	const [currentSide, setCurrentSide] = useState('front' as 'front' | 'back')
 	const [isWaitingForRating, setIsWaitingForRating] = useState(false)
@@ -118,10 +128,17 @@ export default (
 	const [isProgressModalShowing, setIsProgressModalShowing] = useState(false)
 	const [progressData, _setProgressData] = useState(null as CramProgressData | null)
 	
+	const [isRecapModalShowing, _setIsRecapModalShowing] = useState(false)
+	const [recapData, setRecapData] = useState(null as CramRecapData | null)
+	
 	const [decks, decksLoadingState] = useDecks()
 	
 	const goToDeckPage = useCallback(() => {
 		history.push(`/d/${slugId}/${slug}`)
+	}, [history, slugId, slug])
+	
+	const goBack = useCallback(() => {
+		history.push(`/decks/${slugId}/${slug}`)
 	}, [history, slugId, slug])
 	
 	const deck = useMemo(() => {
@@ -204,6 +221,60 @@ export default (
 		setIsProgressModalShowing(false)
 	}, [_setProgressData, setIsProgressModalShowing])
 	
+	const setIsRecapModalShowing = useCallback((isShowing: boolean) => {
+		isShowing
+			? _setIsRecapModalShowing(true)
+			: goBack()
+	}, [_setIsRecapModalShowing, goBack])
+	
+	const showRecap = useCallback((flag: boolean = true) => {
+		if (!(flag && sections && count))
+			return
+		
+		const nonEasyAttempts = sectionId === undefined
+			? Object.entries(
+				cards.reduce((acc, card) => ({
+					...acc,
+					[card.value.sectionId]: (
+						acc[card.value.sectionId] ?? 0
+					) + card.ratings.reduce((acc, rating) => (
+						acc + (rating === PerformanceRating.Easy ? 0 : 1)
+					), 0)
+				}), {} as Record<string, number>)
+			)
+			: []
+		
+		const easiestSectionId = sectionId === undefined
+			? nonEasyAttempts.reduce(([oldKey, oldValue], [key, value]) => (
+				value < oldValue
+					? [key, value]
+					: [oldKey, oldValue]
+			), ['', Number.MAX_SAFE_INTEGER])[0]
+			: null
+		
+		const hardestSectionId = sectionId === undefined
+			? nonEasyAttempts.reduce(([oldKey, oldValue], [key, value]) => (
+				value > oldValue
+					? [key, value]
+					: [oldKey, oldValue]
+			), ['', -1])[0]
+			: null
+		
+		setIsRecapModalShowing(true)
+		setRecapData({
+			start: start.current,
+			masteredCount,
+			totalCount: count,
+			easiestSection: easiestSectionId === null
+				? null
+				: sections.find(section => section.id === hardestSectionId) ?? null,
+			hardestSection: hardestSectionId === null
+				? null
+				: sections.find(section => section.id === hardestSectionId) ?? null,
+			isSameSection: easiestSectionId !== null && easiestSectionId === hardestSectionId
+		})
+	}, [sections, count, cards, sectionId, setIsRecapModalShowing, setRecapData, masteredCount])
+	
 	/** @returns Whether you should show the recap or not */
 	const loadNext = useCallback(async (deckId: string, sectionId: string) => {
 		let query = firestore
@@ -275,12 +346,12 @@ export default (
 		await sleep(SHIFT_ANIMATION_DURATION / 2)
 		
 		setCurrentSide('front')
-		next().then(setShouldShowRecap)
+		next().then(showRecap)
 		
 		await sleep(SHIFT_ANIMATION_DURATION / 2)
 		
 		setCardClassName(undefined)
-	}, [setCardClassName, setCurrentSide, next, setShouldShowRecap])
+	}, [setCardClassName, setCurrentSide, next, showRecap])
 	
 	const skip = useCallback(() => {
 		setCards(cards =>
@@ -322,7 +393,7 @@ export default (
 		setIsWaitingForRating(false)
 		
 		if (!currentUser || !updatedCard || (getMasteredCount(newCards) === count))
-			return setShouldShowRecap(true)
+			return showRecap()
 		
 		transitionNext()
 		setProgressData({
@@ -330,7 +401,7 @@ export default (
 			streak: getCardStreak(updatedCard),
 			...getProgressDataForRating(rating)
 		})
-	}, [currentIndex, cards, setCards, count, setIsWaitingForRating, setShouldShowRecap, transitionNext, setProgressData, currentUser])
+	}, [currentIndex, cards, setCards, count, setIsWaitingForRating, showRecap, transitionNext, setProgressData, currentUser])
 	
 	useEffect(() => {
 		if (!(sections && count === null))
@@ -343,7 +414,7 @@ export default (
 				acc + numberOfCards
 			), 0))
 			
-			next().then(setShouldShowRecap)
+			next().then(showRecap)
 			return
 		}
 		
@@ -355,9 +426,9 @@ export default (
 			setSection(section)
 			setCount(section.numberOfCards)
 			
-			next().then(setShouldShowRecap)
+			next().then(showRecap)
 		}
-	}, [sections, count, setCount, sectionId, setSection, next, setShouldShowRecap])
+	}, [sections, count, setCount, sectionId, setSection, next, showRecap])
 	
 	const waitForRating = useCallback(async () => {
 		if (isWaitingForRating || isProgressModalShowing || loadingState !== LoadingState.Success)
@@ -380,7 +451,10 @@ export default (
 		progressData,
 		isProgressModalShowing,
 		setIsProgressModalShowing,
-		shouldShowRecap,
+		recapData,
+		isRecapModalShowing,
+		setIsRecapModalShowing,
+		showRecap,
 		counts: {
 			mastered: masteredCount,
 			seen: seenCount,
