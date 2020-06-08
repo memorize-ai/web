@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, memo } from 'react'
+import React, { PropsWithChildren } from 'react'
 
 const CramRecapModalData = (
 	{ title, children }: PropsWithChildren<{ title: string }>
@@ -9,4 +9,4 @@ const CramRecapModalData = (
 	</div>
 )
 
-export default memo(CramRecapModalData)
+export default CramRecapModalData
