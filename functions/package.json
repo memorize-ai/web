@@ -39,7 +39,7 @@
 		"@types/uuid": "^3.4.9",
 		"jest": "^24.9.0",
 		"tslint": "^5.20.1",
-		"typescript": "^3.9.3"
+		"typescript": "^3.9.5"
 	},
 	"private": true
 }
