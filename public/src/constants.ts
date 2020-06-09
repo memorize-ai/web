@@ -1,5 +1,3 @@
-export const DEBUG = false
-
 export const LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY = 'ai.memorize.expectsSignIn'
 export const LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY = 'ai.memorize.isCardEditorStacked'
 

@@ -8,35 +8,28 @@
 		"install:functions": "npm i -C functions",
 		"install:scripts": "npm i -C scripts",
 		
-		"update": "npm run update:public && npm run update:functions && npm run update:scripts",
+		"update:all": "npm run update:public && npm run update:functions && npm run update:scripts",
 		"update:public": "npm update -C public",
 		"update:functions": "npm update -C functions",
 		"update:scripts": "npm update -C scripts",
 		
-		"clean": "rm -rf .firebase *.log ios-libraries/lib && npm run clean:public && npm run clean:functions",
+		"clean:all": "rm -rf .firebase *.log ios-libraries/lib && npm run clean:public && npm run clean:functions && npm run clean:scripts",
 		"clean:public": "rm -rf public/build",
 		"clean:functions": "rm -rf functions/lib functions/public.html",
+		"clean:scripts": "rm -rf scripts/src/generate-password-reset-email/index.html",
 		
-		"build": "npm run build:public && npm run build:functions",
+		"build:all": "npm run build:public && npm run build:functions",
 		"build:public": "npm run build -C public",
 		"build:functions": "npm run build -C functions",
 		
 		"test:functions": "npm test -C functions",
 		
-		"predeploy": "npm run clean && npm run install:all && npm run update && npm run build",
-		"postdeploy": "npm run clean",
+		"predeploy": "npm run clean:all && npm run install:all && npm run update:all && npm run build:all",
+		"postdeploy": "npm run clean:all",
 		
-		"deploy": "firebase deploy -P default",
-		"deploy:dev": "npm run predeploy && firebase deploy -P dev && npm run postdeploy",
-		"deploy:all": "npm run predeploy && firebase deploy -P dev && firebase deploy -P default && npm run postdeploy",
-		
+		"deploy": "firebase deploy",
 		"deploy-only-hosting": "npm run predeploy && firebase deploy -P default --only hosting,functions:app && npm run postdeploy",
-		"deploy-only-hosting:dev": "npm run predeploy && firebase deploy -P dev --only hosting,functions:app && npm run postdeploy",
-		"deploy-only-hosting:all": "npm run predeploy && firebase deploy -P dev --only hosting,functions:app && firebase deploy -P default --only hosting,functions:app && npm run postdeploy",
-		
 		"deploy-except-hosting": "npm run predeploy && firebase deploy -P default --except hosting && npm run postdeploy",
-		"deploy-except-hosting:dev": "npm run predeploy && firebase deploy -P dev --except hosting && npm run postdeploy",
-		"deploy-except-hosting:all": "npm run predeploy && firebase deploy -P dev --except hosting && firebase deploy -P default --except hosting && npm run postdeploy",
 		
 		"save-public-assets": "node scripts/src/save-public-assets",
 		"generate-sitemap": "node scripts/src/generate-sitemap",
