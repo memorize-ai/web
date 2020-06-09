@@ -88,6 +88,7 @@
 				$height: 300px;
 				$image-margin: 16px;
 				$image-dimension: calc(var(--image-dimension) + #{$image-margin});
+				$full-width: 100vw - var(--sidebar-width) - #{30px * 2};
 				
 				--image-dimension: 150px;
 				
@@ -98,7 +99,7 @@
 					'image' auto
 					'content' auto
 					'footer' auto /
-					#{calc(min(#{$max-width}, 100vw - var(--sidebar-width) - #{30px * 2}))};
+					calc(min(#{$max-width}, #{$full-width}));
 				width: max-content;
 				overflow: hidden;
 				margin-bottom: $cell-margin-bottom;
@@ -111,7 +112,7 @@
 						'image content' #{$image-dimension}
 						'footer footer' auto /
 						#{$image-dimension}
-						calc(min(#{$max-width}, 100vw - var(--sidebar-width) - #{30px * 2} - #{$image-dimension}));
+						calc(100vw - var(--sidebar-width) - var(--image-dimension) - #{30px * 2 + $image-margin});
 					
 					> img {
 						margin: $image-margin 0 0 $image-margin !important;
@@ -123,13 +124,15 @@
 				}
 				
 				@media (min-width: 1300px) {
+					$full-width: 100vw - var(--sidebar-width) - #{30px * 2} - #{$height};
+					
 					--image-dimension: unset;
 					
 					grid:
 						'image content' auto
 						'image footer' 1fr /
 						#{$height}
-						calc(min(#{$max-width}, 100vw - var(--sidebar-width) - #{30px * 2} - #{$height}));
+						calc(min(#{$max-width}, #{$full-width}));
 					
 					> img {
 						margin: 0 !important;

@@ -214,13 +214,11 @@ $shift-animation-duration: 400ms;
 						}
 						
 						> .container {
+							$full-katex-width: 100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2};
 							position: relative;
 							
 							@include card-side-katex-width(
-								calc(min(
-									#{$max-width},
-									100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2}
-								))
+								calc(min(#{$max-width}, #{$full-katex-width}))
 							);
 							
 							&,
