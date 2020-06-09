@@ -26,7 +26,7 @@
 		"predeploy": "npm run clean && npm run install:all && npm run update && npm run build",
 		"postdeploy": "npm run clean",
 		
-		"deploy": "npm run predeploy && firebase deploy -P default && npm run postdeploy",
+		"deploy": "firebase deploy -P default",
 		"deploy:dev": "npm run predeploy && firebase deploy -P dev && npm run postdeploy",
 		"deploy:all": "npm run predeploy && firebase deploy -P dev && firebase deploy -P default && npm run postdeploy",
 		

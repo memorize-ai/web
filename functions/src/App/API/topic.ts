@@ -10,14 +10,14 @@ export default (app: Express) => {
 		try {
 			switch ('string') {
 				case typeof id:
-					res.json((await Topic.fromId(id)).toJSON())
+					res.json((await Topic.fromId(id as string)).toJSON())
 					break
 				case typeof name:
-					res.json((await Topic.fromName(name)).toJSON())
+					res.json((await Topic.fromName(name as string)).toJSON())
 					break
 				case typeof category:
 					res.json(
-						(await Topic.fromCategory(category))
+						(await Topic.fromCategory(category as string))
 							.map(topic => topic.toJSON())
 					)
 					break
