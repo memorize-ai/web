@@ -1,0 +1,52 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Create protected directory
+        run: mkdir protected
+      - name: Copy Firebase admin key
+        run: echo '${{ secrets.FIREBASE_ADMIN_KEY }}' > protected/firebase-admin.json
+      - name: Install dependencies for public
+        run: npm ic -C public
+      - name: Install dependencies for functions
+        run: npm ic -C functions
+      - name: Install dependencies for scripts
+        run: npm ic -C scripts
+      - name: Generate sitemap
+        run: npm run generate-sitemap
+      - name: Build public
+        run: npm run build -C public
+      - name: Build functions
+        run: npm run build -C functions
+      - name: Upload artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: dist
+          path: dist
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Download artifact
+        uses: actions/download-artifact@master
+        with:
+          name: dist
+          path: dist
+      - name: Deploy
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
