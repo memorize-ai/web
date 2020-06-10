@@ -45,12 +45,14 @@ export default (
 	slug: string | undefined,
 	_sectionId: string | undefined
 ) => {
-	// const start = useRef(new Date())
-	// const xpGained = useRef(0)
+	const start = useRef(new Date())
+	const xpGained = useRef(0)
 	
-	// const sectionId = useMemo(() => (
-	// 	_sectionId === 'unsectioned' ? '' : _sectionId
-	// ), [_sectionId])
+	const sectionId = useMemo(() => (
+		_sectionId === 'unsectioned' ? '' : _sectionId
+	), [_sectionId])
+	
+	console.log(start, xpGained, sectionId)
 	
 	const history = useHistory()
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
@@ -92,13 +94,13 @@ export default (
 		predictions: null as ReviewPredictions | null,
 		count: 0 as number | null,
 		flip: () => undefined,
-		rate: (rating: PerformanceRating) => undefined,
+		rate: (rating: PerformanceRating) => console.log(rating),
 		progressData: null as ReviewProgressData | null,
 		isProgressModalShowing: false,
-		setIsProgressModalShowing: (isShowing: boolean) => undefined,
+		setIsProgressModalShowing: (isShowing: boolean) => console.log(isShowing),
 		recapData: null as ReviewRecapData | null,
 		isRecapModalShowing: false,
-		setIsRecapModalShowing: (isShowing: boolean) => undefined,
+		setIsRecapModalShowing: (isShowing: boolean) => console.log(isShowing),
 		showRecap: () => undefined
 	}
 }
