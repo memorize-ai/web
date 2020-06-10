@@ -5,7 +5,11 @@ import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 const Content = lazy(() => import('./Content'))
 
 const Review = () => (
-	<Dashboard selection={Selection.Decks} className="review">
+	<Dashboard
+		selection={Selection.Decks}
+		isNavbarHidden
+		className="review"
+	>
 		<Content />
 	</Dashboard>
 )

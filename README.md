@@ -19,10 +19,7 @@ git clone https://github.com/kenmueller/memorize.ai-web.git
 
 ### Deploy
 
-```bash
-npm run deploy # Deploy to production
-npm run deploy:dev # Deploy to development
-```
+**Push to master** or `npm run deploy`
 
 ### `/public`
 
@@ -38,15 +35,3 @@ npm start
 ## Notes
 
 - Does not include AI algorithm
-
-## License
-
-CLOSED SOURCE SOFTWARE
-
-Copyright (c) [memorize.ai](https://memorize.ai) - All Rights Reserved
-
-Unauthorized copying of any file via any medium is strictly prohibited
-
-Proprietary and confidential
-
-Written by Ken Mueller <[kenmueller0@gmail.com](mailto:kenmueller0@gmail.com)>, October 2019
