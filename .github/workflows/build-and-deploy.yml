@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - name: Set up Node
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@master
         with:
           node-version: 12
       - name: Create protected directory
@@ -38,13 +38,17 @@ jobs:
         run: npm run generate-sitemap
       - name: Build public
         run: npm run build -C public
+      - name: Save public assets
+        run: npm run save-public-assets
+      - name: Move public HTML file
+        run: mv public/build/index.html functions/public.html
       - name: Build functions
         run: npm run build -C functions
       - name: Upload artifact
         uses: actions/upload-artifact@master
         with:
-          name: dist
-          path: dist
+          name: build
+          path: .
   deploy:
     name: Deploy
     needs: build
@@ -55,8 +59,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@master
         with:
-          name: dist
-          path: dist
+          name: build
       - name: Deploy
         uses: w9jds/firebase-action@master
         with:
