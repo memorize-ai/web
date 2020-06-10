@@ -45,12 +45,12 @@ export default (
 	slug: string | undefined,
 	_sectionId: string | undefined
 ) => {
-	const start = useRef(new Date())
-	const xpGained = useRef(0)
+	// const start = useRef(new Date())
+	// const xpGained = useRef(0)
 	
-	const sectionId = useMemo(() => (
-		_sectionId === 'unsectioned' ? '' : _sectionId
-	), [_sectionId])
+	// const sectionId = useMemo(() => (
+	// 	_sectionId === 'unsectioned' ? '' : _sectionId
+	// ), [_sectionId])
 	
 	const history = useHistory()
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
@@ -85,20 +85,20 @@ export default (
 		card: null as ReviewCard | null,
 		loadingState: LoadingState.Loading,
 		isWaitingForRating: false,
-		waitForRating: () => {},
+		waitForRating: () => undefined,
 		cardClassName: undefined,
 		currentSide: 'front' as 'front' | 'back',
 		currentIndex: 0,
 		predictions: null as ReviewPredictions | null,
 		count: 0 as number | null,
-		flip: () => {},
-		rate: (rating: PerformanceRating) => {},
+		flip: () => undefined,
+		rate: (rating: PerformanceRating) => undefined,
 		progressData: null as ReviewProgressData | null,
 		isProgressModalShowing: false,
-		setIsProgressModalShowing: (isShowing: boolean) => {},
+		setIsProgressModalShowing: (isShowing: boolean) => undefined,
 		recapData: null as ReviewRecapData | null,
 		isRecapModalShowing: false,
-		setIsRecapModalShowing: (isShowing: boolean) => {},
-		showRecap: () => {}
+		setIsRecapModalShowing: (isShowing: boolean) => undefined,
+		showRecap: () => undefined
 	}
 }
