@@ -12,9 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - name: Set up Node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v2-beta
         with:
-          node-version: 12
+          node-version: '12'
       - name: Create protected directory
         run: mkdir protected
       - name: Copy Firebase admin key
