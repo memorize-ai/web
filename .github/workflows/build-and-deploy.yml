@@ -14,17 +14,26 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v2-beta
         with:
-          node-version: '12'
+          node-version: 12
       - name: Create protected directory
         run: mkdir protected
       - name: Copy Firebase admin key
         run: echo '${{ secrets.FIREBASE_ADMIN_KEY }}' > protected/firebase-admin.json
       - name: Install dependencies for public
-        run: npm ci -C public
+        run: |
+          cd public
+          npm ci
+          cd ..
       - name: Install dependencies for functions
-        run: npm ci -C functions
+        run: |
+          cd functions
+          npm ci
+          cd ..
       - name: Install dependencies for scripts
-        run: npm ci -C scripts
+        run: |
+          cd scripts
+          npm ci
+          cd ..
       - name: Generate sitemap
         run: npm run generate-sitemap
       - name: Build public
