@@ -1,12 +1,12 @@
-name: Build and Deploy
+name: Deploy
 on:
   push:
     branches:
       - master
 
 jobs:
-  build:
-    name: Build
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -44,22 +44,6 @@ jobs:
         run: mv public/build/index.html functions/public.html
       - name: Build functions
         run: npm run build -C functions
-      - name: Upload artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: build
-          path: .
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Download artifact
-        uses: actions/download-artifact@master
-        with:
-          name: build
       - name: Deploy
         uses: w9jds/firebase-action@master
         with:
