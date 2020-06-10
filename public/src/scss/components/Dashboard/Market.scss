@@ -84,11 +84,15 @@
 			align-items: center;
 			
 			> .deck-row {
-				$max-width: 1500px;
+				$max-width: 1200px;
 				$height: 300px;
 				$image-margin: 16px;
-				$image-dimension: unquote('calc(var(--image-dimension) + #{$image-margin})');
-				$full-width: unquote('100vw - var(--sidebar-width) - #{30px * 2}');
+				$image-dimension: calc(#{unquote(
+					'var(--image-dimension) + #{$image-margin}'
+				)});
+				$full-width: calc(#{unquote(
+					'100vw - var(--sidebar-width) - #{30px * 2}'
+				)});
 				
 				--image-dimension: 150px;
 				
@@ -99,7 +103,7 @@
 					'image' auto
 					'content' auto
 					'footer' auto /
-					calc(#{$full-width});
+					#{css-min($max-width, $full-width)};
 				overflow: hidden;
 				margin-bottom: $cell-margin-bottom;
 				background: white;
@@ -107,13 +111,14 @@
 				box-shadow: 0 0 5px 0 transparentize(black, 0.9);
 				
 				@media (min-width: 700px) {
+					$full-width: calc(#{unquote(
+						'100vw - var(--sidebar-width) - var(--image-dimension) - #{30px * 2 + $image-margin}'
+					)});
+					
 					grid:
 						'image content' #{$image-dimension}
 						'footer footer' auto /
-						#{$image-dimension}
-						calc(#{unquote(
-							'100vw - var(--sidebar-width) - var(--image-dimension) - #{30px * 2 + $image-margin}'
-						)});
+						#{$image-dimension} #{$full-width};
 					
 					> img {
 						margin: $image-margin 0 0 $image-margin !important;
@@ -125,7 +130,9 @@
 				}
 				
 				@media (min-width: 1300px) {
-					$full-width: unquote('100vw - var(--sidebar-width) - #{30px * 2} - #{$height}');
+					$full-width: calc(#{unquote(
+						'100vw - var(--sidebar-width) - #{30px * 2} - #{$height}'
+					)});
 					
 					--image-dimension: unset;
 					
@@ -133,7 +140,7 @@
 						'image content' auto
 						'image footer' 1fr /
 						#{$height}
-						calc(min(#{$max-width - $height}, #{$full-width}));
+						#{css-min($max-width, $full-width)};
 					
 					> img {
 						margin: 0 !important;
