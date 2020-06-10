@@ -149,7 +149,7 @@ export default (
 	), [])
 	
 	/** @returns If the recap should be shown or not */
-	const next = useCallback(async () => {
+	const next = useCallback(async (): Promise<boolean> => {
 		if (!currentUser)
 			return true
 		
@@ -220,8 +220,10 @@ export default (
 			
 			const snapshot = docs[0]
 			
-			if (!snapshot)
-				return true
+			if (!snapshot) {
+				isReviewingNewCards.current = true
+				return next()
+			}
 			
 			const newCard: ReviewCard = {
 				value: await getCard(deck.id, snapshot.id),
@@ -268,7 +270,7 @@ export default (
 					acc + (userData?.numberOfDueCards ?? 0)
 				), 0))
 			
-			if (count === null)
+			if (currentUser && count === null)
 				next().then(showRecap)
 			
 			return
@@ -281,7 +283,7 @@ export default (
 					acc + deck.numberOfCardsDueForSection(section)
 				), 0))
 			
-			if (count === null)
+			if (currentUser && count === null)
 				next().then(showRecap)
 			
 			return
@@ -294,10 +296,10 @@ export default (
 			if (deck && section)
 				setCount(deck.numberOfCardsDueForSection(section))
 			
-			if (count === null)
+			if (currentUser && count === null)
 				next().then(showRecap)
 		}
-	}, [count, isReviewingAllDecks, decksLoadingState, setCount, decks, next, showRecap, sectionId, deck, sections])
+	}, [currentUser, count, isReviewingAllDecks, decksLoadingState, setCount, decks, next, showRecap, sectionId, deck, sections])
 	
 	return {
 		deck,
