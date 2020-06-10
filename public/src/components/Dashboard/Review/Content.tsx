@@ -14,7 +14,6 @@ const ReviewContent = () => {
 	const { slugId, slug, sectionId } = useParams()
 	const {
 		deck,
-		section,
 		card,
 		loadingState,
 		isWaitingForRating,
@@ -22,7 +21,6 @@ const ReviewContent = () => {
 		cardClassName,
 		currentSide,
 		currentIndex,
-		predictions,
 		count,
 		flip,
 		rate,
@@ -51,7 +49,7 @@ const ReviewContent = () => {
 			/>
 			<CardContainer
 				deck={deck}
-				section={section}
+				section={card && card.section}
 				card={card}
 				loadingState={loadingState}
 				isWaitingForRating={isWaitingForRating}
@@ -61,7 +59,7 @@ const ReviewContent = () => {
 			/>
 			<Footer
 				isWaitingForRating={isWaitingForRating}
-				predictions={predictions}
+				predictions={card && card.predictions}
 				rate={rate}
 			/>
 			<ProgressModal
