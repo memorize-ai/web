@@ -1,5 +1,6 @@
 @import '../../variables';
 @import '../../mixins';
+@import '../../functions';
 
 $card-offset: 20px;
 $shift-animation-duration: 400ms;
@@ -170,11 +171,14 @@ $shift-animation-duration: 400ms;
 						}
 						
 						> .container {
-							$full-katex-width: 100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2};
+							$full-katex-width: calc(#{unquote(
+								'100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2}'
+							)});
+							
 							position: relative;
 							
 							@include card-side-katex-width(
-								calc(min(#{$max-width}, #{$full-katex-width}))
+								css-min($max-width, $full-katex-width)
 							);
 							
 							&,

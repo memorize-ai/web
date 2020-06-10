@@ -5,7 +5,7 @@
 	$max-width: 500px;
 	$margin: 8px;
 	
-	width: calc(min(100vw - #{$margin * 2}, #{$max-width}));
+	width: css-min($max-width, calc(100vw - #{$margin * 2}));
 	margin: $margin;
 	background: white;
 	border-radius: 8px;

@@ -7,3 +7,7 @@
 	
 	@return unquote($acc);
 }
+
+@function css-min($values...) {
+	@return m#{i}n($values)
+}

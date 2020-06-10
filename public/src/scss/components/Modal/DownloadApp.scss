@@ -7,7 +7,7 @@
 	$margin: 20px;
 	
 	display: grid;
-	grid: auto 1fr / calc(min(100vw - #{$margin * 2}, #{$max-width}));
+	grid: auto 1fr / #{css-min($max-width, calc(100vw - #{$margin * 2}))};
 	overflow: hidden;
 	margin: $margin;
 	background: white;
