@@ -209,7 +209,35 @@ export default (
 				return false
 			}
 			
+			const { docs } = await firestore
+				.collection(`users/${currentUser.id}/decks/${deck.id}/cards`)
+				.where('section', '==', section.id)
+				.where('new', '==', false)
+				.where('due', '<=', new Date())
+				.orderBy('due')
+				.limit(1)
+				.get()
 			
+			const snapshot = docs[0]
+			
+			if (!snapshot)
+				return true
+			
+			const newCard: ReviewCard = {
+				value: await getCard(deck.id, snapshot.id),
+				section,
+				rating: null,
+				predictions: null,
+				streak: snapshot.get('streak') ?? 0,
+				isNew: false,
+				isNewlyMastered: null
+			}
+			
+			setCards(cards => [...cards, newCard])
+			setCard(newCard)
+			setLoadingState(LoadingState.Success)
+			
+			return false
 		}
 		
 		return true
