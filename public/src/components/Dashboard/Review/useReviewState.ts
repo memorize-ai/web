@@ -170,14 +170,14 @@ export default (
 		// === Reviewing single section ===
 		
 		if (deck) {
-			setLoadingState(LoadingState.Loading)
-			
 			const section = card?.section ?? (
 				sections?.find(section => section.id === sectionId)
 			)
 			
 			if (!section)
 				return true
+			
+			setLoadingState(LoadingState.Loading)
 			
 			if (isReviewingNewCards.current) {
 				const { docs } = await firestore
@@ -189,8 +189,10 @@ export default (
 				
 				const snapshot = docs[0]
 				
-				if (!snapshot)
+				if (!snapshot) {
+					setLoadingState(LoadingState.Success)
 					return true
+				}
 				
 				const newCard: ReviewCard = {
 					value: await getCard(deck.id, snapshot.id),
