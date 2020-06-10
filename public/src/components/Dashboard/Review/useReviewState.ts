@@ -17,7 +17,6 @@ import 'firebase/functions'
 export interface ReviewCard {
 	value: Card
 	section: Section
-	snapshot: firebase.firestore.DocumentSnapshot
 	rating: PerformanceRating | null
 	predictions: ReviewPredictions | null
 	streak: number
@@ -66,6 +65,7 @@ export default (
 	const startOfCurrentCard = useRef(new Date())
 	
 	const xpGained = useRef(0)
+	const isReviewingNewCards = useRef(false)
 	
 	const sectionId = useMemo(() => (
 		_sectionId === 'unsectioned' ? '' : _sectionId
@@ -116,8 +116,12 @@ export default (
 		]
 	), [deck, _sections])
 	
-	const [currentSide, setCurrentSide] = useState('front' as 'front' | 'back')
 	const [count, setCount] = useState(null as number | null)
+	const [currentIndex, setCurrentIndex] = useState(-1)
+	
+	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
+	const [cards, setCards] = useState([] as ReviewCard[])
+	const [currentSide, setCurrentSide] = useState('front' as 'front' | 'back')
 	
 	const showRecap = useCallback((flag: boolean = true) => {
 		if (!flag)
@@ -126,8 +130,31 @@ export default (
 		// TODO: Show recap
 	}, [])
 	
+	const incrementCurrentIndex = useCallback(() => {
+		setCurrentIndex(currentIndex => {
+			const newIndex = currentIndex + 1
+			
+			if (newIndex === count)
+				setCount(count => (count ?? 0) + 1)
+			
+			return newIndex
+		})
+	}, [setCurrentIndex, count, setCount])
+	
+	const getCard = useCallback(async (deckId: string, cardId: string) => (
+		Card.fromSnapshot(
+			await firestore.doc(`decks/${deckId}/cards/${cardId}`).get(),
+			null
+		)
+	), [])
+	
 	/** @returns If the recap should be shown or not */
 	const next = useCallback(async () => {
+		if (!currentUser)
+			return true
+		
+		incrementCurrentIndex()
+		
 		if (isReviewingAllDecks) {
 			// === Reviewing all decks ===
 			
@@ -142,8 +169,51 @@ export default (
 		
 		// === Reviewing single section ===
 		
+		if (deck) {
+			setLoadingState(LoadingState.Loading)
+			
+			const section = card?.section ?? (
+				sections?.find(section => section.id === sectionId)
+			)
+			
+			if (!section)
+				return true
+			
+			if (isReviewingNewCards.current) {
+				const { docs } = await firestore
+					.collection(`users/${currentUser.id}/decks/${deck.id}/cards`)
+					.where('section', '==', section.id)
+					.where('new', '==', true)
+					.limit(1)
+					.get()
+				
+				const snapshot = docs[0]
+				
+				if (!snapshot)
+					return true
+				
+				const newCard: ReviewCard = {
+					value: await getCard(deck.id, snapshot.id),
+					section,
+					rating: null,
+					predictions: null,
+					streak: 0,
+					isNew: true,
+					isNewlyMastered: null
+				}
+				
+				setCards(cards => [...cards, newCard])
+				setCard(newCard)
+				setLoadingState(LoadingState.Success)
+				
+				return false
+			}
+			
+			
+		}
+		
 		return true
-	}, [isReviewingAllDecks, sectionId])
+	}, [currentUser, incrementCurrentIndex, isReviewingAllDecks, sectionId, deck, card, sections, getCard, setLoadingState, setCards, setCard])
 	
 	const rate = useCallback(async (rating: PerformanceRating) => {
 		if (!(deck && card))
@@ -204,12 +274,12 @@ export default (
 	return {
 		deck,
 		card,
-		loadingState: LoadingState.Loading,
+		loadingState,
 		isWaitingForRating: false,
 		waitForRating: () => undefined,
 		cardClassName: undefined,
 		currentSide,
-		currentIndex: 0,
+		currentIndex,
 		count: 0 as number | null,
 		flip: () => undefined,
 		rate,
