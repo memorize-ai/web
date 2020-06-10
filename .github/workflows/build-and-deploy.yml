@@ -38,6 +38,10 @@ jobs:
         run: npm run generate-sitemap
       - name: Build public
         run: npm run build -C public
+      - name: Save public assets
+        run: npm run save-public-assets
+      - name: Move public HTML file
+        run: mv public/build/index.html functions/public.html
       - name: Build functions
         run: npm run build -C functions
       - name: Upload artifact

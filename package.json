@@ -19,7 +19,7 @@
 		"clean:scripts": "rm -rf scripts/src/generate-password-reset-email/index.html",
 		
 		"build:all": "npm run build:public && npm run build:functions",
-		"build:public": "npm run build -C public",
+		"build:public": "npm run build -C public && npm run save-public-assets && mv public/build/index.html functions/public.html",
 		"build:functions": "npm run build -C functions",
 		
 		"test:functions": "npm test -C functions",
