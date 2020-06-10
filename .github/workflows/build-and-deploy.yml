@@ -11,16 +11,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
+      - name: Set up Node
+        uses: actions/setup-node@master
+        with:
+          node-version: 12
       - name: Create protected directory
         run: mkdir protected
       - name: Copy Firebase admin key
         run: echo '${{ secrets.FIREBASE_ADMIN_KEY }}' > protected/firebase-admin.json
       - name: Install dependencies for public
-        run: npm ic -C public
+        run: npm ci -C public
       - name: Install dependencies for functions
-        run: npm ic -C functions
+        run: npm ci -C functions
       - name: Install dependencies for scripts
-        run: npm ic -C scripts
+        run: npm ci -C scripts
       - name: Generate sitemap
         run: npm run generate-sitemap
       - name: Build public
