@@ -1,5 +1,7 @@
 # [memorize.ai](https://memorize.ai)
 
+![Deploy](https://github.com/kenmueller/memorize.ai-web/workflows/Deploy/badge.svg)
+
 **memorize.ai Website**
 
 ## Download
