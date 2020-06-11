@@ -218,11 +218,12 @@ export default (
 	), [])
 	
 	/** @returns If the recap should be shown or not */
-	const next = useCallback(async (): Promise<boolean> => {
+	const next = useCallback(async (increment: boolean = true): Promise<boolean> => {
 		if (!currentUser)
 			return true
 		
-		incrementCurrentIndex()
+		if (increment)
+			incrementCurrentIndex()
 		
 		if (isReviewingAllDecks) {
 			// === Reviewing all decks ===
@@ -293,7 +294,7 @@ export default (
 			
 			if (!snapshot) {
 				isReviewingNewCards.current = true
-				return next()
+				return next(false)
 			}
 			
 			const newCard: ReviewCard = {
@@ -344,6 +345,8 @@ export default (
 			...getProgressDataForRating(rating)
 		})
 		
+		setLoadingState(LoadingState.Loading)
+		
 		card.streak = streak
 		card.isNewlyMastered = (
 			await reviewCard({
@@ -356,7 +359,7 @@ export default (
 		).data
 		
 		transitionNext()
-	}, [deck, card, setIsWaitingForRating, currentUser, showRecap, transitionNext, setProgressData])
+	}, [deck, card, setIsWaitingForRating, currentUser, showRecap, transitionNext, setProgressData, setLoadingState])
 	
 	const flip = useCallback(() => {
 		setCurrentSide(side =>

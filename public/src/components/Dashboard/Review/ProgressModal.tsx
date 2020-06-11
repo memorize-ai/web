@@ -15,7 +15,7 @@ const ReviewProgressModal = (
 	
 	return (
 		<Modal
-			className="cram-progress"
+			className="review-progress"
 			isLazy={false}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
