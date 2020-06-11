@@ -1,7 +1,8 @@
-import { useRef, useMemo, useCallback, useState, useEffect } from 'react'
+import { useRef, useMemo, useCallback, useState, useEffect, MutableRefObject } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import firebase from '../../../firebase'
+import User from '../../../models/User'
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import Card from '../../../models/Card'
@@ -10,6 +11,7 @@ import PerformanceRating from '../../../models/PerformanceRating'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
 import useSections from '../../../hooks/useSections'
+import { sleep } from '../../../utils'
 
 import 'firebase/firestore'
 import 'firebase/functions'
@@ -27,7 +29,8 @@ export interface ReviewCard {
 export interface ReviewProgressData {
 	xp: number
 	streak: number
-	next: Date
+	next: Date | null
+	didNewlyMaster: boolean
 	emoji: string
 	message: string
 }
@@ -48,13 +51,51 @@ export interface ReviewPredictions {
 	[PerformanceRating.Forgot]: Date
 }
 
+
 export const REVIEW_MASTERED_STREAK = 6
+
+const SHIFT_ANIMATION_DURATION = 400
+const PROGRESS_MODAL_SHOW_DURATION = 1000
+const XP_CHANCE = 0.4
 
 const firestore = firebase.firestore()
 const functions = firebase.functions()
 
 const reviewCard = functions.httpsCallable('reviewCard')
 const getCardPrediction = functions.httpsCallable('getCardPrediction')
+
+export const gainXpWithChance = (user: User, ref: MutableRefObject<number>) => {
+	if (Math.random() > XP_CHANCE)
+		return 0
+	
+	firestore.doc(`users/${user.id}`).update({
+		xp: firebase.firestore.FieldValue.increment(1)
+	})
+	
+	ref.current++
+	
+	return 1
+}
+
+export const getProgressDataForRating = (rating: PerformanceRating) => {
+	switch (rating) {
+		case PerformanceRating.Easy:
+			return {
+				emoji: '🥳',
+				message: 'You\'re doing great!'
+			}
+		case PerformanceRating.Struggled:
+			return {
+				emoji: '🧐',
+				message: 'You\'ll see this again soon!'
+			}
+		case PerformanceRating.Forgot:
+			return {
+				emoji: '🤕',
+				message: 'Better luck next time!'
+			}
+	}
+}
 
 export default (
 	slugId: string | undefined,
@@ -82,6 +123,10 @@ export default (
 	
 	const goToDeckPage = useCallback(() => {
 		history.push(`/d/${slugId}/${slug}`)
+	}, [history, slugId, slug])
+	
+	const goBack = useCallback(() => {
+		history.push(`/decks/${slugId}/${slug}`)
 	}, [history, slugId, slug])
 	
 	const _deck = useMemo(() => {
@@ -121,7 +166,31 @@ export default (
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
 	const [cards, setCards] = useState([] as ReviewCard[])
+	
 	const [currentSide, setCurrentSide] = useState('front' as 'front' | 'back')
+	const [isWaitingForRating, setIsWaitingForRating] = useState(false)
+	const [cardClassName, setCardClassName] = useState(undefined as string | undefined)
+	
+	const [isProgressModalShowing, setIsProgressModalShowing] = useState(false)
+	const [progressData, _setProgressData] = useState(null as ReviewProgressData | null)
+	
+	const [isRecapModalShowing, _setIsRecapModalShowing] = useState(false)
+	const [recapData, setRecapData] = useState(null as ReviewRecapData | null)
+	
+	const setProgressData = useCallback(async (data: ReviewProgressData) => {
+		_setProgressData(data)
+		setIsProgressModalShowing(true)
+		
+		await sleep(PROGRESS_MODAL_SHOW_DURATION)
+		
+		setIsProgressModalShowing(false)
+	}, [_setProgressData, setIsProgressModalShowing])
+	
+	const setIsRecapModalShowing = useCallback((isShowing: boolean) => {
+		isShowing
+			? _setIsRecapModalShowing(true)
+			: goBack()
+	}, [_setIsRecapModalShowing, goBack])
 	
 	const showRecap = useCallback((flag: boolean = true) => {
 		if (!flag)
@@ -247,18 +316,61 @@ export default (
 		return true
 	}, [currentUser, incrementCurrentIndex, isReviewingAllDecks, sectionId, deck, card, sections, getCard, setLoadingState, setCards, setCard])
 	
+	const transitionNext = useCallback(async () => {
+		setCardClassName('shift')
+		
+		await sleep(SHIFT_ANIMATION_DURATION / 2)
+		
+		setCurrentSide('front')
+		next().then(showRecap)
+		
+		await sleep(SHIFT_ANIMATION_DURATION / 2)
+		
+		setCardClassName(undefined)
+	}, [setCardClassName, setCurrentSide, next, showRecap])
+	
 	const rate = useCallback(async (rating: PerformanceRating) => {
-		if (!(deck && card))
+		if (!(deck && card && currentUser))
+			return showRecap()
+		
+		const streak = card.streak + (rating > 0 ? 1 : 0)
+		
+		setIsWaitingForRating(false)
+		setProgressData({
+			xp: gainXpWithChance(currentUser, xpGained),
+			streak,
+			next: card.predictions && card.predictions[rating],
+			didNewlyMaster: streak === REVIEW_MASTERED_STREAK,
+			...getProgressDataForRating(rating)
+		})
+		
+		card.streak = streak
+		card.isNewlyMastered = (
+			await reviewCard({
+				deck: deck.id,
+				section: card.section.id,
+				card: card.value.id,
+				rating,
+				viewTime: Date.now() - startOfCurrentCard.current.getTime()
+			})
+		).data
+		
+		transitionNext()
+	}, [deck, card, setIsWaitingForRating, currentUser, showRecap, transitionNext, setProgressData])
+	
+	const flip = useCallback(() => {
+		setCurrentSide(side =>
+			side === 'front' ? 'back' : 'front'
+		)
+	}, [setCurrentSide])
+	
+	const waitForRating = useCallback(async () => {
+		if (isWaitingForRating || isProgressModalShowing || isRecapModalShowing || loadingState !== LoadingState.Success)
 			return
 		
-		await reviewCard({
-			deck: deck.id,
-			section: card.section.id,
-			card: card.value.id,
-			rating,
-			viewTime: Date.now() - startOfCurrentCard.current.getTime()
-		})
-	}, [deck, card])
+		setIsWaitingForRating(true)
+		setCurrentSide('back')
+	}, [isWaitingForRating, isProgressModalShowing, isRecapModalShowing, loadingState, setIsWaitingForRating, setCurrentSide])
 	
 	useEffect(() => {
 		setDeck(_deck)
@@ -307,20 +419,20 @@ export default (
 		deck,
 		card,
 		loadingState,
-		isWaitingForRating: false,
-		waitForRating: () => undefined,
-		cardClassName: undefined,
+		isWaitingForRating,
+		waitForRating,
+		cardClassName,
 		currentSide,
 		currentIndex,
-		count: 0 as number | null,
-		flip: () => undefined,
+		count,
+		flip,
 		rate,
-		progressData: null as ReviewProgressData | null,
-		isProgressModalShowing: false,
-		setIsProgressModalShowing: (isShowing: boolean) => console.log(isShowing),
-		recapData: null as ReviewRecapData | null,
-		isRecapModalShowing: false,
-		setIsRecapModalShowing: (isShowing: boolean) => console.log(isShowing),
-		showRecap: () => undefined
+		progressData,
+		isProgressModalShowing,
+		setIsProgressModalShowing,
+		recapData,
+		isRecapModalShowing,
+		setIsRecapModalShowing,
+		showRecap
 	}
 }
