@@ -122,7 +122,7 @@
 			> .logo {
 				@include raise-on-hover;
 				
-				> img {
+				> picture > img {
 					max-height: 50px;
 				}
 			}

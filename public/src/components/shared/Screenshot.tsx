@@ -1,17 +1,24 @@
 import React, { HTMLAttributes, memo } from 'react'
 
+import WebP from './WebP'
+
 export enum ScreenshotType {
-	Cram = 'cram.webp',
-	Decks = 'decks.webp',
-	Editor = 'editor.webp',
-	Home = 'home.webp',
-	Market = 'market.webp',
-	Recap = 'recap.webp',
-	Review = 'review.webp'
+	Cram = 'cram',
+	Decks = 'decks',
+	Editor = 'editor',
+	Home = 'home',
+	Market = 'market',
+	Recap = 'recap',
+	Review = 'review'
 }
 
 const Screenshot = ({ type, ...props }: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => (
-	<img {...props} src={require(`../../images/screenshots/${type}`)} alt="Screenshot" />
+	<WebP
+		{...props}
+		src={require(`../../images/screenshots/${type}.webp`)}
+		fallback={require(`../../images/fallbacks/screenshots/${type}.jpg`)}
+		alt="Screenshot"
+	/>
 )
 
 export default memo(Screenshot)
