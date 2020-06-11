@@ -423,7 +423,7 @@ export default class Deck {
 	
 	toJSON = () => ({
 		id: this.id,
-		slug_id: this.slugId,
+		short_id: this.slugId,
 		slug: this.slug,
 		url: this.url,
 		topics: this.topics,
