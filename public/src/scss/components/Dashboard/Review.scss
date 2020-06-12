@@ -178,7 +178,7 @@ $shift-animation-duration: 400ms;
 							position: relative;
 							
 							@include card-side-katex-width(
-								css-min($max-width, $full-katex-width)
+								css-min($max-width - $content-padding * 2, $full-katex-width)
 							);
 							
 							&,
