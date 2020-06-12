@@ -162,7 +162,9 @@ export default (
 	), [deck, _sections])
 	
 	const [count, setCount] = useState(null as number | null)
-	const [currentIndex, setCurrentIndex] = useState(-1)
+	
+	const [currentDeckIndex, setCurrentDeckIndex] = useState(0)
+	const [currentIndex, setCurrentIndex] = useState(-1) // Incremented beforehand, 
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
 	const [cards, setCards] = useState([] as ReviewCard[])
@@ -228,7 +230,94 @@ export default (
 		if (isReviewingAllDecks) {
 			// === Reviewing all decks ===
 			
-			return true
+			if (!(deck && sections))
+				return true
+			
+			setLoadingState(LoadingState.Loading)
+			
+			if (isReviewingNewCards.current) {
+				const { docs } = await firestore
+					.collection(`users/${currentUser.id}/decks/${deck.id}/cards`)
+					.where('new', '==', true)
+					.limit(1)
+					.get()
+				
+				const snapshot = docs[0]
+				
+				if (!snapshot) {
+					setCurrentDeckIndex(index => index + 1)
+					return true
+				}
+				
+				const newCardValue = await getCard(deck.id, snapshot.id)
+				
+				const section = sections.find(({ id }) =>
+					id === newCardValue.sectionId
+				)
+				
+				if (!section) {
+					setLoadingState(LoadingState.Success)
+					return true
+				}
+				
+				const newCard: ReviewCard = {
+					value: newCardValue,
+					section,
+					rating: null,
+					predictions: null,
+					streak: 0,
+					isNew: true,
+					isNewlyMastered: null
+				}
+				
+				setCards(cards => [...cards, newCard])
+				setCard(newCard)
+				setLoadingState(LoadingState.Success)
+				
+				return false
+			}
+			
+			const { docs } = await firestore
+				.collection(`users/${currentUser.id}/decks/${deck.id}/cards`)
+				.where('new', '==', false)
+				.where('due', '<=', new Date())
+				.orderBy('due')
+				.limit(1)
+				.get()
+			
+			const snapshot = docs[0]
+			
+			if (!snapshot) {
+				isReviewingNewCards.current = true
+				return next(false)
+			}
+			
+			const newCardValue = await getCard(deck.id, snapshot.id)
+			
+			const section = sections.find(({ id }) =>
+				id === newCardValue.sectionId
+			)
+			
+			if (!section) {
+				setLoadingState(LoadingState.Success)
+				return true
+			}
+			
+			const newCard: ReviewCard = {
+				value: newCardValue,
+				section,
+				rating: null,
+				predictions: null,
+				streak: snapshot.get('streak') ?? 0,
+				isNew: false,
+				isNewlyMastered: null
+			}
+			
+			setCards(cards => [...cards, newCard])
+			setCard(newCard)
+			setLoadingState(LoadingState.Success)
+			
+			return false
 		}
 		
 		if (sectionId === undefined) {
@@ -401,7 +490,7 @@ export default (
 		setLoadingState(LoadingState.Success)
 		
 		return false
-	}, [currentUser, incrementCurrentIndex, isReviewingAllDecks, sectionId, deck, card, sections, getCard, setLoadingState, setCards, setCard])
+	}, [currentUser, incrementCurrentIndex, setCurrentDeckIndex, isReviewingAllDecks, sectionId, deck, card, sections, getCard, setLoadingState, setCards, setCard])
 	
 	const transitionNext = useCallback(async () => {
 		setCardClassName('shift')
@@ -462,8 +551,23 @@ export default (
 	}, [isWaitingForRating, isProgressModalShowing, isRecapModalShowing, loadingState, setIsWaitingForRating, setCurrentSide])
 	
 	useEffect(() => {
-		setDeck(_deck)
+		if (_deck)
+			setDeck(_deck)
 	}, [_deck, setDeck])
+	
+	useEffect(() => {
+		if (!(isReviewingAllDecks && decksLoadingState === LoadingState.Success))
+			return
+		
+		const deck = decks[currentDeckIndex]
+		
+		if (deck)
+			// This will trigger the useEffect that calls next
+			return setDeck(deck)
+		
+		// Couldn't find the next deck. Only thing left to do is show the recap.
+		showRecap()
+	}, [isReviewingAllDecks, decksLoadingState, decks, currentDeckIndex, setDeck, showRecap])
 	
 	useEffect(() => {
 		if (loadingState !== LoadingState.Success)
@@ -481,7 +585,7 @@ export default (
 					acc + (userData?.numberOfDueCards ?? 0)
 				), 0))
 			
-			if (currentUser && count === null)
+			if (currentUser && deck && sections && count === null)
 				next().then(showRecap)
 			
 			return
@@ -494,7 +598,7 @@ export default (
 					acc + deck.numberOfCardsDueForSection(section)
 				), 0))
 			
-			if (currentUser && count === null)
+			if (currentUser && deck && sections && count === null)
 				next().then(showRecap)
 			
 			return
@@ -507,7 +611,7 @@ export default (
 			if (deck && section)
 				setCount(deck.numberOfCardsDueForSection(section))
 			
-			if (currentUser && count === null)
+			if (currentUser && deck && sections && count === null)
 				next().then(showRecap)
 		}
 	}, [currentUser, count, isReviewingAllDecks, decksLoadingState, setCount, decks, next, showRecap, sectionId, deck, sections])
