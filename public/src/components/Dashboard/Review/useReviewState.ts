@@ -108,6 +108,9 @@ export default (
 	const xpGained = useRef(0)
 	const isReviewingNewCards = useRef(false)
 	
+	// null is initial
+	const isWaitingForInit = useRef(null as boolean | null)
+	
 	const sectionId = useMemo(() => (
 		_sectionId === 'unsectioned' ? '' : _sectionId
 	), [_sectionId])
@@ -550,6 +553,15 @@ export default (
 		setCurrentSide('back')
 	}, [isWaitingForRating, isProgressModalShowing, isRecapModalShowing, loadingState, setIsWaitingForRating, setCurrentSide])
 	
+	const waitForInit = useCallback(() => {
+		isWaitingForInit.current = isWaitingForInit.current ?? true
+		
+		if (isWaitingForInit.current && currentUser && deck && sections) {
+			next().then(showRecap)
+			isWaitingForInit.current = false
+		}
+	}, [currentUser, deck, sections, next, showRecap])
+	
 	useEffect(() => {
 		if (_deck)
 			setDeck(_deck)
@@ -578,43 +590,29 @@ export default (
 	}, [loadingState, setCurrentSide])
 	
 	useEffect(() => {
-		// Reviewing all decks
 		if (isReviewingAllDecks) {
-			if (decksLoadingState === LoadingState.Success)
+			if (decksLoadingState === LoadingState.Success) {
 				setCount(decks.reduce((acc, { userData }) => (
 					acc + (userData?.numberOfDueCards ?? 0)
 				), 0))
-			
-			if (currentUser && deck && sections && count === null)
-				next().then(showRecap)
-			
-			return
-		}
-		
-		// Reviewing single deck
-		if (sectionId === undefined)
+				waitForInit()
+			}
+		} else if (sectionId === undefined) {
 			if (deck && sections) {
 				setCount(sections.reduce((acc, section) => (
 					acc + deck.numberOfCardsDueForSection(section)
 				), 0))
-			
-			if (currentUser && deck && sections && count === null)
-				next().then(showRecap)
-			
-			return
-		}
-		
-		// Reviewing single section
-		if (sections) {
+				waitForInit()
+			}
+		} else if (sections) {
 			const section = sections.find(section => section.id === sectionId)
 			
-			if (deck && section)
+			if (deck && section) {
 				setCount(deck.numberOfCardsDueForSection(section))
-			
-			if (currentUser && deck && sections && count === null)
-				next().then(showRecap)
+				waitForInit()
+			}
 		}
-	}, [currentUser, count, isReviewingAllDecks, decksLoadingState, setCount, decks, next, showRecap, sectionId, deck, sections])
+	}, [currentUser, count, isReviewingAllDecks, decksLoadingState, setCount, waitForInit, decks, next, showRecap, sectionId, deck, sections])
 	
 	return {
 		deck,
