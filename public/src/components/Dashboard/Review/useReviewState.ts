@@ -108,8 +108,8 @@ export default (
 	const xpGained = useRef(0)
 	const isReviewingNewCards = useRef(false)
 	
-	// null is initial
-	const isWaitingForInit = useRef(null as boolean | null)
+	const isWaitingForInit = useRef(null as boolean | null) // null is initial
+	const shouldIncrementCurrentIndex = useRef(true)
 	
 	const sectionId = useMemo(() => (
 		_sectionId === 'unsectioned' ? '' : _sectionId
@@ -202,6 +202,7 @@ export default (
 			return
 		
 		// TODO: Show recap
+		console.log('Recap')
 	}, [])
 	
 	const incrementCurrentIndex = useCallback(() => {
@@ -223,12 +224,14 @@ export default (
 	), [])
 	
 	/** @returns If the recap should be shown or not */
-	const next = useCallback(async (increment: boolean = true): Promise<boolean> => {
+	const next = useCallback(async (): Promise<boolean> => {
 		if (!currentUser)
 			return true
 		
-		if (increment)
+		if (shouldIncrementCurrentIndex.current)
 			incrementCurrentIndex()
+		
+		shouldIncrementCurrentIndex.current = true
 		
 		if (isReviewingAllDecks) {
 			// === Reviewing all decks ===
@@ -249,7 +252,9 @@ export default (
 				
 				if (!snapshot) {
 					setCurrentDeckIndex(index => index + 1)
-					return true
+					shouldIncrementCurrentIndex.current = false
+					
+					return false
 				}
 				
 				const newCardValue = await getCard(deck.id, snapshot.id)
@@ -292,7 +297,9 @@ export default (
 			
 			if (!snapshot) {
 				isReviewingNewCards.current = true
-				return next(false)
+				shouldIncrementCurrentIndex.current = false
+				
+				return next()
 			}
 			
 			const newCardValue = await getCard(deck.id, snapshot.id)
@@ -385,7 +392,8 @@ export default (
 			
 			if (!snapshot) {
 				isReviewingNewCards.current = true
-				return next(false)
+				shouldIncrementCurrentIndex.current = false
+				return next()
 			}
 			
 			const newCardValue = await getCard(deck.id, snapshot.id)
@@ -475,7 +483,9 @@ export default (
 		
 		if (!snapshot) {
 			isReviewingNewCards.current = true
-			return next(false)
+			shouldIncrementCurrentIndex.current = false
+			
+			return next()
 		}
 		
 		const newCard: ReviewCard = {
@@ -573,9 +583,17 @@ export default (
 		
 		const deck = decks[currentDeckIndex]
 		
-		if (deck)
+		if (deck) {
 			// This will trigger the useEffect that calls next
-			return setDeck(deck)
+			setDeck(deck)
+			
+			// Reset the new cards flag for the next deck
+			isReviewingNewCards.current = false
+			
+			isWaitingForInit.current = true
+			
+			return
+		}
 		
 		// Couldn't find the next deck. Only thing left to do is show the recap.
 		showRecap()
