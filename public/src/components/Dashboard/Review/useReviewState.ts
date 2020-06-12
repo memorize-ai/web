@@ -234,17 +234,7 @@ export default (
 		if (sectionId === undefined) {
 			// === Reviewing single deck ===
 			
-			return true
-		}
-		
-		// === Reviewing single section ===
-		
-		if (deck) {
-			const section = card?.section ?? (
-				sections?.find(section => section.id === sectionId)
-			)
-			
-			if (!section)
+			if (!(deck && sections))
 				return true
 			
 			setLoadingState(LoadingState.Loading)
@@ -252,7 +242,6 @@ export default (
 			if (isReviewingNewCards.current) {
 				const { docs } = await firestore
 					.collection(`users/${currentUser.id}/decks/${deck.id}/cards`)
-					.where('section', '==', section.id)
 					.where('new', '==', true)
 					.limit(1)
 					.get()
@@ -264,8 +253,19 @@ export default (
 					return true
 				}
 				
+				const newCardValue = await getCard(deck.id, snapshot.id)
+				
+				const section = sections.find(({ id }) =>
+					id === newCardValue.sectionId
+				)
+				
+				if (!section) {
+					setLoadingState(LoadingState.Success)
+					return true
+				}
+				
 				const newCard: ReviewCard = {
-					value: await getCard(deck.id, snapshot.id),
+					value: newCardValue,
 					section,
 					rating: null,
 					predictions: null,
@@ -283,7 +283,6 @@ export default (
 			
 			const { docs } = await firestore
 				.collection(`users/${currentUser.id}/decks/${deck.id}/cards`)
-				.where('section', '==', section.id)
 				.where('new', '==', false)
 				.where('due', '<=', new Date())
 				.orderBy('due')
@@ -297,8 +296,19 @@ export default (
 				return next(false)
 			}
 			
+			const newCardValue = await getCard(deck.id, snapshot.id)
+			
+			const section = sections.find(({ id }) =>
+				id === newCardValue.sectionId
+			)
+			
+			if (!section) {
+				setLoadingState(LoadingState.Success)
+				return true
+			}
+			
 			const newCard: ReviewCard = {
-				value: await getCard(deck.id, snapshot.id),
+				value: newCardValue,
 				section,
 				rating: null,
 				predictions: null,
@@ -314,7 +324,83 @@ export default (
 			return false
 		}
 		
-		return true
+		// === Reviewing single section ===
+		
+		if (!deck)
+			return true
+		
+		const section = card?.section ?? (
+			sections?.find(section => section.id === sectionId)
+		)
+		
+		if (!section)
+			return true
+		
+		setLoadingState(LoadingState.Loading)
+		
+		if (isReviewingNewCards.current) {
+			const { docs } = await firestore
+				.collection(`users/${currentUser.id}/decks/${deck.id}/cards`)
+				.where('section', '==', section.id)
+				.where('new', '==', true)
+				.limit(1)
+				.get()
+			
+			const snapshot = docs[0]
+			
+			if (!snapshot) {
+				setLoadingState(LoadingState.Success)
+				return true
+			}
+			
+			const newCard: ReviewCard = {
+				value: await getCard(deck.id, snapshot.id),
+				section,
+				rating: null,
+				predictions: null,
+				streak: 0,
+				isNew: true,
+				isNewlyMastered: null
+			}
+			
+			setCards(cards => [...cards, newCard])
+			setCard(newCard)
+			setLoadingState(LoadingState.Success)
+			
+			return false
+		}
+		
+		const { docs } = await firestore
+			.collection(`users/${currentUser.id}/decks/${deck.id}/cards`)
+			.where('section', '==', section.id)
+			.where('new', '==', false)
+			.where('due', '<=', new Date())
+			.orderBy('due')
+			.limit(1)
+			.get()
+		
+		const snapshot = docs[0]
+		
+		if (!snapshot) {
+			isReviewingNewCards.current = true
+			return next(false)
+		}
+		
+		const newCard: ReviewCard = {
+			value: await getCard(deck.id, snapshot.id),
+			section,
+			rating: null,
+			predictions: null,
+			streak: snapshot.get('streak') ?? 0,
+			isNew: false,
+			isNewlyMastered: null
+		}
+		
+		setCards(cards => [...cards, newCard])
+		setCard(newCard)
+		setLoadingState(LoadingState.Success)
+		
+		return false
 	}, [currentUser, incrementCurrentIndex, isReviewingAllDecks, sectionId, deck, card, sections, getCard, setLoadingState, setCards, setCard])
 	
 	const transitionNext = useCallback(async () => {
