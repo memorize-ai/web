@@ -412,7 +412,7 @@ export default (
 		})
 	}, [currentIndex, cards, setCards, count, setIsWaitingForRating, showRecap, transitionNext, setProgressData, currentUser])
 	
-	const waitForRating = useCallback(async () => {
+	const waitForRating = useCallback(() => {
 		if (isWaitingForRating || isProgressModalShowing || isRecapModalShowing || loadingState !== LoadingState.Success)
 			return
 		
