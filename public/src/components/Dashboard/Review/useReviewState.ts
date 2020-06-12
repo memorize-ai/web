@@ -466,6 +466,14 @@ export default (
 	}, [_deck, setDeck])
 	
 	useEffect(() => {
+		if (loadingState !== LoadingState.Success)
+			return
+		
+		startOfCurrentCard.current = new Date()
+		setCurrentSide('front')
+	}, [loadingState, setCurrentSide])
+	
+	useEffect(() => {
 		// Reviewing all decks
 		if (isReviewingAllDecks) {
 			if (decksLoadingState === LoadingState.Success)
