@@ -2,6 +2,7 @@ import React, { memo, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import useCramState from './useCramState'
+import Head from '../../shared/Head'
 import Navbar from './Navbar'
 import Sliders from './Sliders'
 import CardContainer from './CardContainer'
@@ -43,6 +44,23 @@ const CramContent = () => {
 	
 	return (
 		<div className="mask" onClick={waitForRating}>
+			<Head
+				title={
+					`Cram${
+						deck
+							? ` | ${deck.name}`
+							: ''
+					} | memorize.ai`
+				}
+				description={
+					`Cram${
+						deck
+							? ` ${deck.name}`
+							: ''
+					} on memorize.ai`
+				}
+				breadcrumbs={[]}
+			/>
 			<Navbar
 				backUrl={backUrl}
 				currentIndex={currentIndex}
