@@ -20,7 +20,7 @@ export interface ReviewCard {
 	value: Card
 	section: Section
 	rating: PerformanceRating | null
-	predictions: ReviewPredictions | null
+	prediction: ReviewPrediction | null
 	streak: number
 	isNew: boolean
 	isNewlyMastered: boolean | null
@@ -45,7 +45,7 @@ export interface ReviewRecapData {
 	isSameSection: boolean
 }
 
-export interface ReviewPredictions {
+export interface ReviewPrediction {
 	[PerformanceRating.Easy]: Date
 	[PerformanceRating.Struggled]: Date
 	[PerformanceRating.Forgot]: Date
@@ -170,6 +170,8 @@ export default (
 	const [currentIndex, setCurrentIndex] = useState(-1) // Incremented beforehand, 
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.Loading)
+	const [predictionLoadingState, setPredictionLoadingState] = useState(LoadingState.Loading)
+	
 	const [cards, setCards] = useState([] as ReviewCard[])
 	
 	const [currentSide, setCurrentSide] = useState('front' as 'front' | 'back')
@@ -272,7 +274,7 @@ export default (
 					value: newCardValue,
 					section,
 					rating: null,
-					predictions: null,
+					prediction: null,
 					streak: 0,
 					isNew: true,
 					isNewlyMastered: null
@@ -317,7 +319,7 @@ export default (
 				value: newCardValue,
 				section,
 				rating: null,
-				predictions: null,
+				prediction: null,
 				streak: snapshot.get('streak') ?? 0,
 				isNew: false,
 				isNewlyMastered: null
@@ -367,7 +369,7 @@ export default (
 					value: newCardValue,
 					section,
 					rating: null,
-					predictions: null,
+					prediction: null,
 					streak: 0,
 					isNew: true,
 					isNewlyMastered: null
@@ -412,7 +414,7 @@ export default (
 				value: newCardValue,
 				section,
 				rating: null,
-				predictions: null,
+				prediction: null,
 				streak: snapshot.get('streak') ?? 0,
 				isNew: false,
 				isNewlyMastered: null
@@ -458,7 +460,7 @@ export default (
 				value: await getCard(deck.id, snapshot.id),
 				section,
 				rating: null,
-				predictions: null,
+				prediction: null,
 				streak: 0,
 				isNew: true,
 				isNewlyMastered: null
@@ -493,7 +495,7 @@ export default (
 			value: await getCard(deck.id, snapshot.id),
 			section,
 			rating: null,
-			predictions: null,
+			prediction: null,
 			streak: snapshot.get('streak') ?? 0,
 			isNew: false,
 			isNewlyMastered: null
@@ -529,7 +531,7 @@ export default (
 		setProgressData({
 			xp: gainXpWithChance(currentUser, xpGained),
 			streak,
-			next: card.predictions && card.predictions[rating],
+			next: card.prediction && card.prediction[rating],
 			didNewlyMaster: streak === REVIEW_MASTERED_STREAK,
 			...getProgressDataForRating(rating)
 		})
@@ -572,6 +574,24 @@ export default (
 		if (_deck)
 			setDeck(_deck)
 	}, [_deck, setDeck])
+	
+	useEffect(() => {
+		if (!(deck && card && loadingState === LoadingState.Success))
+			return
+		
+		setPredictionLoadingState(LoadingState.Loading)
+		
+		getCardPrediction({
+			deck: deck.id,
+			card: card.value.id,
+		}).then(({ data }) => {
+			card.prediction
+			setPredictionLoadingState(LoadingState.Success)
+		}).catch(error => {
+			alert(error.message)
+			setPredictionLoadingState(LoadingState.Fail)
+		})
+	}, [deck, card, loadingState, setPredictionLoadingState])
 	
 	useEffect(() => {
 		if (!(isReviewingAllDecks && decksLoadingState === LoadingState.Success))
@@ -640,6 +660,7 @@ export default (
 		deck,
 		card,
 		loadingState,
+		predictionLoadingState,
 		isWaitingForRating,
 		waitForRating,
 		cardClassName,
