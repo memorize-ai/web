@@ -12,7 +12,7 @@ $transform-length: 100px;
 	@each $direction in (left, right) {
 		&.#{$direction} > .content {
 			> .title,
-			> .screenshot > :last-child,
+			> .screenshot > :last-child > img,
 			> .info > .title {
 				animation: screenshots-#{$direction} $animation-duration ease-in-out;
 			}
@@ -40,7 +40,10 @@ $transform-length: 100px;
 			}
 			
 			> .screenshot {
-				height: calc(100vh - 175px * 2) !important;
+				&,
+				> :last-child > img {
+					height: calc(100vh - 175px * 2) !important;
+				}
 			}
 		}
 		
@@ -58,7 +61,7 @@ $transform-length: 100px;
 					--dimension: calc(100vh - 200px * 2) !important;
 				}
 				
-				> :last-child {
+				> :last-child > img {
 					height: calc(100vh - 175px * 2) !important;
 				}
 			}
@@ -118,7 +121,7 @@ $transform-length: 100px;
 					--dimension: calc(100vh - 175px * 2) !important;
 				}
 				
-				> :last-child {
+				> :last-child > img {
 					height: calc(100vh - 150px * 2) !important;
 				}
 			}
@@ -128,7 +131,7 @@ $transform-length: 100px;
 					--dimension: calc(100vh - 150px * 2) !important;
 				}
 				
-				> :last-child {
+				> :last-child > img {
 					height: calc(100vh - 125px * 2) !important;
 				}
 			}
@@ -138,7 +141,7 @@ $transform-length: 100px;
 					--dimension: calc(100vh - 100px * 2) !important;
 				}
 				
-				> :last-child {
+				> :last-child > img {
 					height: calc(100vh - 75px * 2) !important;
 				}
 			}
@@ -150,9 +153,7 @@ $transform-length: 100px;
 				transition: width 0.3s, height 0.3s;
 			}
 			
-			> :last-child {
-				width: auto;
-				height: 100%;
+			> :last-child > img {
 				transition: height 0.3s;
 			}
 		}
@@ -211,6 +212,7 @@ $transform-length: 100px;
 					
 					> svg {
 						margin: 0 auto;
+						color: white;
 					}
 					
 					&:first-child {

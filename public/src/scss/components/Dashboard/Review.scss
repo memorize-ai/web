@@ -3,7 +3,15 @@
 @import '../../functions';
 
 $card-offset: 20px;
+
 $shift-animation-duration: 400ms;
+$flip-animation-duration: 300ms;
+
+$rating-colors: (
+	0: #00d388,
+	1: #f5a623,
+	2: #f55d23
+);
 
 @mixin background-card($multiplier) {
 	left: $card-offset * $multiplier;
@@ -166,8 +174,12 @@ $shift-animation-duration: 400ms;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
 					
 					&.foreground {
+						&.flip > .container > .content {
+							animation: review-card-flip $flip-animation-duration ease-in-out;
+						}
+						
 						&.shift {
-							animation: cram-card-shift $shift-animation-duration ease-in-out;
+							animation: review-card-shift $shift-animation-duration ease-in-out;
 						}
 						
 						> .container {
@@ -178,7 +190,7 @@ $shift-animation-duration: 400ms;
 							position: relative;
 							
 							@include card-side-katex-width(
-								css-min($max-width, $full-katex-width)
+								css-min($max-width - $content-padding * 2, $full-katex-width)
 							);
 							
 							&,
@@ -224,7 +236,14 @@ $shift-animation-duration: 400ms;
 							}
 						}
 						
-						@keyframes cram-card-shift {
+						@keyframes review-card-flip {
+							50% {
+								opacity: 0;
+								transform: scale(0.9);
+							}
+						}
+						
+						@keyframes review-card-shift {
 							50% {
 								opacity: 0;
 								transform: translateX(calc(var(--sidebar-width) - 100vw));
@@ -292,15 +311,11 @@ $shift-animation-duration: 400ms;
 				transform: translateY($vertical-offset);
 				
 				> button {
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					height: 52px;
 					padding: 0 14px;
 					background: white;
 					border: 1px solid #eee;
 					border-radius: 8px;
-					transition: border-color 0.3s, box-shadow 0.3s;
+					transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
 					
 					@media (min-width: 400px) {
 						width: 100px;
@@ -315,33 +330,74 @@ $shift-animation-duration: 400ms;
 						width: 165px;
 					}
 					
-					> .emoji {
-						display: none;
-						margin-right: 8px;
-						font-size: 20px;
+					> .text {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						height: 52px;
 						
-						@media (min-width: 500px) {
-							display: block;
+						> .emoji {
+							display: none;
+							margin-right: 8px;
+							font-size: 20px;
+							transition: margin-right 0.3s, font-size 0.3s;
+							
+							@media (min-width: 500px) {
+								display: block;
+							}
+							
+							@media (min-width: 600px) {
+								margin-right: 12px;
+								font-size: 24px;
+							}
 						}
 						
-						@media (min-width: 600px) {
-							margin-right: 12px;
-							font-size: 24px;
+						> .title {
+							text-transform: uppercase;
+							font-size: 9px;
+							font-weight: 900;
+							color: $dark-gray;
+							transition: font-size 0.3s;
+							
+							@media (min-width: 340px) {
+								font-size: 12px;
+							}
+							
+							@media (min-width: 600px) {
+								font-size: 16px;
+							}
 						}
 					}
 					
-					> .title {
-						text-transform: uppercase;
-						font-size: 9px;
+					> .prediction {
+						min-width: 65px;
+						width: max-content;
+						height: 25px;
+						margin: 0 auto 12px;
+						padding: 2px 10px;
+						text-align: center;
+						font-size: 14px;
 						font-weight: 900;
 						color: $dark-gray;
+						border-radius: 8px;
 						
-						@media (min-width: 340px) {
-							font-size: 12px;
+						@for $i from 0 through 2 {
+							&.rating-#{$i} {
+								background: transparentize(
+									map-get($rating-colors, $i),
+									0.84
+								);
+							}
 						}
 						
-						@media (min-width: 600px) {
-							font-size: 16px;
+						&.loading {
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							
+							> .loader {
+								margin-bottom: 1px;
+							}
 						}
 					}
 					
@@ -416,6 +472,27 @@ $shift-animation-duration: 400ms;
 		font-size: 40px;
 		color: white;
 	}
+	
+	> .next {
+		min-width: 65px;
+		width: max-content;
+		margin: 20px 0 -20px;
+		padding: 2px 10px;
+		text-align: center;
+		font-size: 18px;
+		font-weight: 900;
+		color: white;
+		border-radius: 8px;
+		
+		@for $i from 0 through 2 {
+			&.rating-#{$i} {
+				background: transparentize(
+					map-get($rating-colors, $i),
+					0.15
+				);
+			}
+		}
+	}
 }
 
 @include modal-content('review-recap') {
@@ -453,6 +530,10 @@ $shift-animation-duration: 400ms;
 			
 			> span {
 				color: white;
+				
+				&.deck-name {
+					color: #ffcb6b;
+				}
 				
 				&.section-name {
 					color: #c792ea;

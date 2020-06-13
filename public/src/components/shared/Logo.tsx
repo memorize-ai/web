@@ -1,14 +1,21 @@
 import React, { HTMLAttributes, memo } from 'react'
 
+import WebP from './WebP'
+
 export enum LogoType {
-	Icon = 'icon.webp',
-	Capital = 'capital.webp',
-	CapitalInverted = 'capital-inverted.webp',
-	CapitalInvertedGrayscale = 'capital-inverted-grayscale.webp'
+	Icon = 'icon',
+	Capital = 'capital',
+	CapitalInverted = 'capital-inverted',
+	CapitalInvertedGrayscale = 'capital-inverted-grayscale'
 }
 
 const Logo = ({ type, ...props }: { type: LogoType } & HTMLAttributes<HTMLImageElement>) => (
-	<img {...props} src={require(`../../images/logos/${type}`)} alt="Logo" />
+	<WebP
+		{...props}
+		src={require(`../../images/logos/${type}.webp`)}
+		fallback={require(`../../images/fallbacks/logos/${type}.jpg`)}
+		alt="Logo"
+	/>
 )
 
 export default memo(Logo)

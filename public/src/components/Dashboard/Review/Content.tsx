@@ -2,6 +2,7 @@ import React, { memo, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import useReviewState from './useReviewState'
+import Head from '../../shared/Head'
 import Navbar from './Navbar'
 import CardContainer from './CardContainer'
 import Footer from './Footer'
@@ -14,15 +15,14 @@ const ReviewContent = () => {
 	const { slugId, slug, sectionId } = useParams()
 	const {
 		deck,
-		section,
 		card,
 		loadingState,
+		predictionLoadingState,
 		isWaitingForRating,
 		waitForRating,
 		cardClassName,
 		currentSide,
 		currentIndex,
-		predictions,
 		count,
 		flip,
 		rate,
@@ -43,6 +43,23 @@ const ReviewContent = () => {
 	
 	return (
 		<div className="mask" onClick={waitForRating}>
+			<Head
+				title={
+					`Review${
+						deck
+							? ` | ${deck.name}`
+							: ''
+					} | memorize.ai`
+				}
+				description={
+					`Review${
+						deck
+							? ` ${deck.name}`
+							: ''
+					} on memorize.ai`
+				}
+				breadcrumbs={[]}
+			/>
 			<Navbar
 				backUrl={backUrl}
 				currentIndex={currentIndex}
@@ -51,7 +68,7 @@ const ReviewContent = () => {
 			/>
 			<CardContainer
 				deck={deck}
-				section={section}
+				section={card && card.section}
 				card={card}
 				loadingState={loadingState}
 				isWaitingForRating={isWaitingForRating}
@@ -61,7 +78,8 @@ const ReviewContent = () => {
 			/>
 			<Footer
 				isWaitingForRating={isWaitingForRating}
-				predictions={predictions}
+				prediction={card && card.prediction}
+				predictionLoadingState={predictionLoadingState}
 				rate={rate}
 			/>
 			<ProgressModal

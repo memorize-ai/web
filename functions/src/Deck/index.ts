@@ -6,6 +6,7 @@ import * as _ from 'lodash'
 import decksClient from '../AppSearch/decks'
 import User from '../User'
 import Section from '../Section'
+import { storageUrl } from '../utils'
 import { PRERENDER_TOKEN } from '../constants'
 
 const firestore = admin.firestore()
@@ -422,10 +423,12 @@ export default class Deck {
 	
 	toJSON = () => ({
 		id: this.id,
-		slug_id: this.slugId,
+		short_id: this.slugId,
 		slug: this.slug,
+		url: this.url,
 		topics: this.topics,
 		has_image: this.hasImage,
+		image_url: this.hasImage ? storageUrl(['decks', this.id]) : null,
 		name: this.name,
 		subtitle: this.subtitle,
 		description: this.description,

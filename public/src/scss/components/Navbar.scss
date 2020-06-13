@@ -14,7 +14,7 @@
 	> .logo {
 		margin-right: 12px;
 		
-		> img {
+		> picture > img {
 			@include raise-on-hover;
 			
 			max-height: 60px;

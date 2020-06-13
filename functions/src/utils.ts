@@ -14,8 +14,14 @@ export const cauterize = <Args extends any[], Result, Fallback>(
 	}
 }
 
-export const storageUrl = (pathComponents: string[], token: string) =>
-	`https://firebasestorage.googleapis.com/v0/b/${DEFAULT_STORAGE_BUCKET}/o/${pathComponents.join('%2F')}?alt=media&token=${token}`
+export const storageUrl = (pathComponents: string[], token?: string) =>
+	`https://firebasestorage.googleapis.com/v0/b/${
+		DEFAULT_STORAGE_BUCKET
+	}/o/${
+		pathComponents.join('%2F')
+	}?alt=media${
+		token ? `&token=${token}` : ''
+	}`
 
 export const setCacheControl = (res: Response, seconds: number) =>
 	res.set('Cache-Control', `public, max-age=${seconds}, s-maxage=${seconds}`)

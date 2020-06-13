@@ -1,9 +1,12 @@
 import React, { memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMobile } from '@fortawesome/free-solid-svg-icons'
+import { faApple } from '@fortawesome/free-brands-svg-icons'
 
-import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
+import AuthButton from '../shared/AuthButton'
 import Screenshot, { ScreenshotType } from '../shared/Screenshot'
+import { APP_STORE_URL } from '../../constants'
+
+import { ReactComponent as LeftArrow } from '../../images/icons/left-arrow.svg'
 
 import '../../scss/components/Home/Header.scss'
 
@@ -16,10 +19,13 @@ const HomeHeader = () => (
 			</h1>
 			<h3>Truly effective AI flashcards</h3>
 			<div className="footer">
-				<AppStoreDownloadButton className="app-store-download-button" />
-				<a href="#screenshots" className="screenshots-button">
-					<FontAwesomeIcon icon={faMobile} />
-					<p>Screenshots</p>
+				<AuthButton className="join-button">
+					<p>Get started</p>
+					<LeftArrow />
+				</AuthButton>
+				<a href={APP_STORE_URL} className="app-store">
+					<FontAwesomeIcon icon={faApple} />
+					<p>Download</p>
 				</a>
 			</div>
 		</div>

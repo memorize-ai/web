@@ -1,0 +1,42 @@
+name: Test
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Set up Node
+        uses: actions/setup-node@master
+        with:
+          node-version: 12
+      - name: Install dependencies for public
+        run: |
+          cd public
+          npm ci
+          cd ..
+      - name: Install dependencies for functions
+        run: |
+          cd functions
+          npm ci
+          cd ..
+      - name: Install dependencies for npm
+        run: |
+          cd npm
+          npm ci
+          cd ..
+      - name: Build public
+        run: npm run build -C public
+      - name: Build functions
+        run: npm run build -C functions
+      - name: Build npm
+        run: npm run build -C npm
+      - name: Test functions
+        run: npm test -C functions
+      - name: Test npm
+        run: npm test -C npm

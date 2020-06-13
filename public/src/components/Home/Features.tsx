@@ -1,6 +1,9 @@
 import React, { memo } from 'react'
 
-import featuresImage from '../../images/home/features.webp'
+import WebP from '../shared/WebP'
+
+import features from '../../images/home/features.webp'
+import featuresFallback from '../../images/fallbacks/home/features.jpg'
 
 import '../../scss/components/Home/Features.scss'
 
@@ -10,7 +13,11 @@ const HomeFeatures = () => (
 			<strong>Everything you need</strong><br />
 			to start memorizing
 		</h2>
-		<img src={featuresImage} alt="Features" />
+		<WebP
+			src={features}
+			fallback={featuresFallback}
+			alt="Features"
+		/>
 	</div>
 )
 

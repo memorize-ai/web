@@ -192,6 +192,7 @@
 				margin-top: 30px;
 				margin-bottom: calc(30px + #{tan($degrees) * 50vw});
 				padding: 0 20px;
+				color: white;
 				background: #5a2aff;
 				border-radius: $height / 2;
 				transition:
@@ -215,7 +216,6 @@
 					margin-right: 15px;
 					font-size: 20px;
 					font-weight: 900;
-					color: white;
 				}
 				
 				> svg {

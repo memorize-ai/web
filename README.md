@@ -1,5 +1,7 @@
 # [memorize.ai](https://memorize.ai)
 
+![Deploy](https://github.com/kenmueller/memorize.ai-web/workflows/Deploy/badge.svg)
+
 **memorize.ai Website**
 
 ## Download
@@ -35,3 +37,7 @@ npm start
 ## Notes
 
 - Does not include AI algorithm
+- Performance rating encoding:
+    - `Easy: 0`
+    - `Struggled: 1`
+    - `Forgot: 2`

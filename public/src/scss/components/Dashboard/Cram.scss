@@ -3,7 +3,9 @@
 @import '../../functions';
 
 $card-offset: 20px;
+
 $shift-animation-duration: 400ms;
+$flip-animation-duration: 300ms;
 
 @mixin background-card($multiplier) {
 	left: $card-offset * $multiplier;
@@ -210,6 +212,10 @@ $shift-animation-duration: 400ms;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
 					
 					&.foreground {
+						&.flip > .container > .content {
+							animation: cram-card-flip $flip-animation-duration ease-in-out;
+						}
+						
 						&.shift {
 							animation: cram-card-shift $shift-animation-duration ease-in-out;
 						}
@@ -222,7 +228,7 @@ $shift-animation-duration: 400ms;
 							position: relative;
 							
 							@include card-side-katex-width(
-								css-min($max-width, $full-katex-width)
+								css-min($max-width - $content-padding * 2, $full-katex-width)
 							);
 							
 							&,
@@ -265,6 +271,13 @@ $shift-animation-duration: 400ms;
 									border-radius: 50%;
 									transition: transform 0.3s ease-out;
 								}
+							}
+						}
+						
+						@keyframes cram-card-flip {
+							50% {
+								opacity: 0;
+								transform: scale(0.9);
 							}
 						}
 						
@@ -344,7 +357,7 @@ $shift-animation-duration: 400ms;
 					background: white;
 					border: 1px solid #eee;
 					border-radius: 8px;
-					transition: border-color 0.3s, box-shadow 0.3s;
+					transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
 					
 					@media (min-width: 400px) {
 						width: 100px;
@@ -363,6 +376,7 @@ $shift-animation-duration: 400ms;
 						display: none;
 						margin-right: 8px;
 						font-size: 20px;
+						transition: margin-right 0.3s, font-size 0.3s;
 						
 						@media (min-width: 500px) {
 							display: block;
@@ -379,6 +393,7 @@ $shift-animation-duration: 400ms;
 						font-size: 9px;
 						font-weight: 900;
 						color: $dark-gray;
+						transition: font-size 0.3s;
 						
 						@media (min-width: 340px) {
 							font-size: 12px;

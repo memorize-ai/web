@@ -1,0 +1,26 @@
+{
+	"name": "memorize.ai",
+	"version": "1.0.0",
+	"main": "lib/index.js",
+	"types": "types/index.d.ts",
+	"scripts": {
+		"build": "tsc",
+		"test": "jest --verbose tests"
+	},
+	"dependencies": {
+		"axios": "^0.19.2"
+	},
+	"devDependencies": {
+		"jest": "^26.0.1",
+		"tslint": "^6.1.2",
+		"typescript": "^3.9.5"
+	},
+	"keywords": [
+		"memorize",
+		"memorize ai",
+		"ai",
+		"memorizeai"
+	],
+	"author": "Ken Mueller",
+	"license": "MIT"
+}
