@@ -393,6 +393,7 @@ export default (
 			if (!snapshot) {
 				isReviewingNewCards.current = true
 				shouldIncrementCurrentIndex.current = false
+				
 				return next()
 			}
 			
@@ -565,12 +566,7 @@ export default (
 	
 	const waitForInit = useCallback(() => {
 		isWaitingForInit.current = isWaitingForInit.current ?? true
-		
-		if (isWaitingForInit.current && currentUser && deck && sections) {
-			next().then(showRecap)
-			isWaitingForInit.current = false
-		}
-	}, [currentUser, deck, sections, next, showRecap])
+	}, [])
 	
 	useEffect(() => {
 		if (_deck)
@@ -581,23 +577,26 @@ export default (
 		if (!(isReviewingAllDecks && decksLoadingState === LoadingState.Success))
 			return
 		
-		const deck = decks[currentDeckIndex]
+		const newDeck = decks[currentDeckIndex]
 		
-		if (deck) {
-			// This will trigger the useEffect that calls next
-			setDeck(deck)
+		if (newDeck) {
+			if (newDeck === deck)
+				return // Don't unnecessarily initialize
 			
 			// Reset the new cards flag for the next deck
 			isReviewingNewCards.current = false
 			
 			isWaitingForInit.current = true
 			
+			// This will trigger the useEffect that calls next
+			setDeck(newDeck)
+			
 			return
 		}
 		
 		// Couldn't find the next deck. Only thing left to do is show the recap.
 		showRecap()
-	}, [isReviewingAllDecks, decksLoadingState, decks, currentDeckIndex, setDeck, showRecap])
+	}, [isReviewingAllDecks, decksLoadingState, decks, currentDeckIndex, deck, setDeck, showRecap])
 	
 	useEffect(() => {
 		if (loadingState !== LoadingState.Success)
@@ -609,14 +608,14 @@ export default (
 	
 	useEffect(() => {
 		if (isReviewingAllDecks) {
-			if (decksLoadingState === LoadingState.Success) {
+			if (decksLoadingState === LoadingState.Success && count === null) {
 				setCount(decks.reduce((acc, { userData }) => (
 					acc + (userData?.numberOfDueCards ?? 0)
 				), 0))
 				waitForInit()
 			}
 		} else if (sectionId === undefined) {
-			if (deck && sections) {
+			if (deck && sections && count === null) {
 				setCount(sections.reduce((acc, section) => (
 					acc + deck.numberOfCardsDueForSection(section)
 				), 0))
@@ -625,10 +624,15 @@ export default (
 		} else if (sections) {
 			const section = sections.find(section => section.id === sectionId)
 			
-			if (deck && section) {
+			if (deck && section && count === null) {
 				setCount(deck.numberOfCardsDueForSection(section))
 				waitForInit()
 			}
+		}
+		
+		if (isWaitingForInit.current && currentUser && deck && sections) {
+			next().then(showRecap)
+			isWaitingForInit.current = false
 		}
 	}, [currentUser, count, isReviewingAllDecks, decksLoadingState, setCount, waitForInit, decks, next, showRecap, sectionId, deck, sections])
 	
