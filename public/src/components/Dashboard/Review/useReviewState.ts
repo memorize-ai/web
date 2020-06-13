@@ -29,6 +29,7 @@ export interface ReviewCard {
 export interface ReviewProgressData {
 	xp: number
 	streak: number
+	rating: PerformanceRating
 	next: Date | null
 	didNewlyMaster: boolean
 	emoji: string
@@ -77,12 +78,12 @@ export const gainXpWithChance = (user: User, ref: MutableRefObject<number>) => {
 	return 1
 }
 
-export const getProgressDataForRating = (rating: PerformanceRating) => {
+export const getProgressDataForRating = (rating: PerformanceRating, isMastered: boolean) => {
 	switch (rating) {
 		case PerformanceRating.Easy:
 			return {
 				emoji: '🥳',
-				message: 'You\'re doing great!'
+				message: isMastered ? 'Mastered!' : 'You\'re doing great!'
 			}
 		case PerformanceRating.Struggled:
 			return {
@@ -525,15 +526,21 @@ export default (
 		if (!(deck && card && currentUser))
 			return showRecap()
 		
-		const streak = card.streak + (rating > 0 ? 1 : 0)
+		const streak = rating === PerformanceRating.Forgot
+			? 0
+			: card.streak + 1
 		
 		setIsWaitingForRating(false)
 		setProgressData({
 			xp: gainXpWithChance(currentUser, xpGained),
 			streak,
+			rating,
 			next: card.prediction && card.prediction[rating],
 			didNewlyMaster: streak === REVIEW_MASTERED_STREAK,
-			...getProgressDataForRating(rating)
+			...getProgressDataForRating(
+				rating,
+				streak >= REVIEW_MASTERED_STREAK
+			)
 		})
 		
 		setLoadingState(LoadingState.Loading)

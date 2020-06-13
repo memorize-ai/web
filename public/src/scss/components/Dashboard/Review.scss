@@ -5,6 +5,12 @@
 $card-offset: 20px;
 $shift-animation-duration: 400ms;
 
+$rating-colors: (
+	0: #00d388,
+	1: #f5a623,
+	2: #f55d23
+);
+
 @mixin background-card($multiplier) {
 	left: $card-offset * $multiplier;
 	right: $card-offset * $multiplier;
@@ -351,21 +357,6 @@ $shift-animation-duration: 400ms;
 					}
 					
 					> .prediction {
-						$rating-colors: (
-							0: #00d388,
-							1: #f5a623,
-							2: #f55d23
-						);
-						
-						@for $i from 0 through 2 {
-							&.rating-#{$i} {
-								background: transparentize(
-									map-get($rating-colors, $i),
-									0.84
-								);
-							}
-						}
-						
 						min-width: 65px;
 						width: max-content;
 						height: 25px;
@@ -376,6 +367,15 @@ $shift-animation-duration: 400ms;
 						font-weight: 900;
 						color: $dark-gray;
 						border-radius: 8px;
+						
+						@for $i from 0 through 2 {
+							&.rating-#{$i} {
+								background: transparentize(
+									map-get($rating-colors, $i),
+									0.84
+								);
+							}
+						}
 						
 						&.loading {
 							display: flex;
@@ -458,6 +458,27 @@ $shift-animation-duration: 400ms;
 		font-weight: 900;
 		font-size: 40px;
 		color: white;
+	}
+	
+	> .next {
+		min-width: 65px;
+		width: max-content;
+		margin: 20px 0 -20px;
+		padding: 2px 10px;
+		text-align: center;
+		font-size: 18px;
+		font-weight: 900;
+		color: white;
+		border-radius: 8px;
+		
+		@for $i from 0 through 2 {
+			&.rating-#{$i} {
+				background: transparentize(
+					map-get($rating-colors, $i),
+					0.15
+				);
+			}
+		}
 	}
 }
 

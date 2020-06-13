@@ -1,7 +1,13 @@
 import React, { memo } from 'react'
+import TimeAgo from 'javascript-time-ago'
+import enLocale from 'javascript-time-ago/locale/en'
 
 import { ReviewProgressData, REVIEW_MASTERED_STREAK } from './useReviewState'
 import Modal from '../../shared/Modal'
+
+TimeAgo.addLocale(enLocale)
+
+const timeAgo = new TimeAgo('en-US')
 
 const ReviewProgressModal = (
 	{ data, isShowing, setIsShowing }: {
@@ -40,6 +46,11 @@ const ReviewProgressModal = (
 					: data?.message
 				}
 			</p>
+			{data?.next && (
+				<p className={`next rating-${data.rating}`}>
+					+{timeAgo.format(data.next, 'time')}
+				</p>
+			)}
 		</Modal>
 	)
 }
