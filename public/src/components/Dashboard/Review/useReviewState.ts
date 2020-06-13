@@ -1,4 +1,4 @@
-import { useRef, useMemo, useCallback, useState, useEffect, MutableRefObject } from 'react'
+import { useRef, useMemo, useCallback, useState, useEffect, MutableRefObject, SetStateAction } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import firebase from '../../../firebase'
@@ -62,6 +62,7 @@ export interface ReviewPrediction {
 export const REVIEW_MASTERED_STREAK = 6
 
 const SHIFT_ANIMATION_DURATION = 400
+const FLIP_ANIMATION_DURATION = 300
 const PROGRESS_MODAL_SHOW_DURATION = 1000
 const XP_CHANCE = 0.4
 
@@ -576,6 +577,16 @@ export default (
 		return false
 	}, [currentUser, incrementCurrentIndex, setCurrentDeckIndex, isReviewingAllDecks, sectionId, deck, card, sections, getCard, setLoadingState, setCards, setCard])
 	
+	const transitionSetCurrentSide = useCallback(async (side: SetStateAction<'front' | 'back'>) => {
+		setCardClassName('flip')
+		
+		await sleep(FLIP_ANIMATION_DURATION / 2)
+		setCurrentSide(side)
+		await sleep(FLIP_ANIMATION_DURATION / 2)
+		
+		setCardClassName(undefined)
+	}, [setCardClassName, setCurrentSide])
+	
 	const transitionNext = useCallback(async () => {
 		setCardClassName('shift')
 		
@@ -628,18 +639,18 @@ export default (
 	}, [deck, card, setIsWaitingForRating, currentUser, showRecap, transitionNext, setProgressData, setLoadingState])
 	
 	const flip = useCallback(() => {
-		setCurrentSide(side =>
+		transitionSetCurrentSide(side =>
 			side === 'front' ? 'back' : 'front'
 		)
-	}, [setCurrentSide])
+	}, [transitionSetCurrentSide])
 	
 	const waitForRating = useCallback(async () => {
 		if (isWaitingForRating || isProgressModalShowing || isRecapModalShowing || loadingState !== LoadingState.Success)
 			return
 		
 		setIsWaitingForRating(true)
-		setCurrentSide('back')
-	}, [isWaitingForRating, isProgressModalShowing, isRecapModalShowing, loadingState, setIsWaitingForRating, setCurrentSide])
+		transitionSetCurrentSide('back')
+	}, [isWaitingForRating, isProgressModalShowing, isRecapModalShowing, loadingState, setIsWaitingForRating, transitionSetCurrentSide])
 	
 	const waitForInit = useCallback(() => {
 		isWaitingForInit.current = isWaitingForInit.current ?? true

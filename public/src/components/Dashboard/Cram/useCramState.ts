@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState, useEffect, useRef, MutableRefObject } from 'react'
+import { useMemo, useCallback, useState, useEffect, useRef, MutableRefObject, SetStateAction } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import firebase from '../../../firebase'
@@ -41,6 +41,7 @@ export interface CramRecapData {
 export const CRAM_MASTERED_STREAK = 3
 
 const SHIFT_ANIMATION_DURATION = 400
+const FLIP_ANIMATION_DURATION = 300
 const PROGRESS_MODAL_SHOW_DURATION = 1000
 const XP_CHANCE = 0.2
 
@@ -343,11 +344,21 @@ export default (
 			: loadNext(deck.id, sectionId) // Single section
 	}, [deck, cards, count, incrementCurrentIndex, setIsCurrentCardMastered, setCard, setLoadingState, sectionId, loadNext])
 	
+	const transitionSetCurrentSide = useCallback(async (side: SetStateAction<'front' | 'back'>) => {
+		setCardClassName('flip')
+		
+		await sleep(FLIP_ANIMATION_DURATION / 2)
+		setCurrentSide(side)
+		await sleep(FLIP_ANIMATION_DURATION / 2)
+		
+		setCardClassName(undefined)
+	}, [setCardClassName, setCurrentSide])
+	
 	const flip = useCallback(() => {
-		setCurrentSide(side =>
+		transitionSetCurrentSide(side =>
 			side === 'front' ? 'back' : 'front'
 		)
-	}, [setCurrentSide])
+	}, [transitionSetCurrentSide])
 	
 	const transitionNext = useCallback(async () => {
 		setCardClassName('shift')
@@ -417,8 +428,8 @@ export default (
 			return
 		
 		setIsWaitingForRating(true)
-		setCurrentSide('back')
-	}, [isWaitingForRating, isProgressModalShowing, isRecapModalShowing, loadingState, setIsWaitingForRating, setCurrentSide])
+		transitionSetCurrentSide('back')
+	}, [isWaitingForRating, isProgressModalShowing, isRecapModalShowing, loadingState, setIsWaitingForRating, transitionSetCurrentSide])
 	
 	useEffect(() => {
 		if (!(sections && count === null))

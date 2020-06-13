@@ -3,7 +3,9 @@
 @import '../../functions';
 
 $card-offset: 20px;
+
 $shift-animation-duration: 400ms;
+$flip-animation-duration: 300ms;
 
 $rating-colors: (
 	0: #00d388,
@@ -172,8 +174,12 @@ $rating-colors: (
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
 					
 					&.foreground {
+						&.flip > .container > .content {
+							animation: review-card-flip $flip-animation-duration ease-in-out;
+						}
+						
 						&.shift {
-							animation: cram-card-shift $shift-animation-duration ease-in-out;
+							animation: review-card-shift $shift-animation-duration ease-in-out;
 						}
 						
 						> .container {
@@ -230,7 +236,14 @@ $rating-colors: (
 							}
 						}
 						
-						@keyframes cram-card-shift {
+						@keyframes review-card-flip {
+							50% {
+								opacity: 0;
+								transform: scale(0.9);
+							}
+						}
+						
+						@keyframes review-card-shift {
 							50% {
 								opacity: 0;
 								transform: translateX(calc(var(--sidebar-width) - 100vw));
