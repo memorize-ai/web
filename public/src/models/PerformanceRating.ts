@@ -1,7 +1,7 @@
 enum PerformanceRating {
-	Easy = 2,
+	Easy = 0,
 	Struggled = 1,
-	Forgot = 0
+	Forgot = 2
 }
 
 export default PerformanceRating

@@ -37,3 +37,7 @@ npm start
 ## Notes
 
 - Does not include AI algorithm
+- Performance rating encoding:
+    - `Easy: 0`
+    - `Struggled: 1`
+    - `Forgot: 2`
