@@ -70,13 +70,22 @@ const ReviewRecapModal = (
 				}
 			</Data>
 			<Data title="Time">
+				You reviewed <span>
+					{
+						data?.reviewedCount || 'no'
+					} card{
+						data?.reviewedCount === 1 ? '' : 's'
+					}
+				</span> in <span>{elapsed}</span>
+			</Data>
+			<Data title="Mastery">
 				You mastered <span>
 					{
 						data?.masteredCount || 'no'
 					} card{
 						data?.masteredCount === 1 ? '' : 's'
 					}
-				</span> in <span>{elapsed}</span>
+				</span>
 			</Data>
 			{sectionDisplay('easiest')}
 			{sectionDisplay('hardest')}

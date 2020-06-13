@@ -39,6 +39,7 @@ export interface ReviewProgressData {
 export interface ReviewRecapData {
 	start: Date
 	xpGained: number
+	reviewedCount: number
 	masteredCount: number
 	totalCount: number
 	easiestSection: Section | null
@@ -111,6 +112,8 @@ export default (
 	
 	const isWaitingForInit = useRef(null as boolean | null) // null is initial
 	const shouldIncrementCurrentIndex = useRef(true)
+	
+	const allSections = useRef({} as Record<string, Section>)
 	
 	const sectionId = useMemo(() => (
 		_sectionId === 'unsectioned' ? '' : _sectionId
@@ -201,12 +204,58 @@ export default (
 	}, [_setIsRecapModalShowing, goBack])
 	
 	const showRecap = useCallback((flag: boolean = true) => {
-		if (!flag)
+		if (!(flag && cards && count !== null))
 			return
 		
-		// TODO: Show recap
-		console.log('Recap')
-	}, [])
+		const forgotAttempts = sectionId === undefined
+			? Object.entries(
+				cards.reduce((acc, card) => ({
+					...acc,
+					[card.value.sectionId]: (
+						acc[card.value.sectionId] ?? 0
+					) + (
+						card.rating === PerformanceRating.Forgot ? 1 : 0
+					)
+				}), {} as Record<string, number>)
+			)
+			: []
+		
+		const easiestSectionId = sectionId === undefined
+			? forgotAttempts.reduce(([oldKey, oldValue], [key, value]) => (
+				value < oldValue
+					? [key, value]
+					: [oldKey, oldValue]
+			), ['', Number.MAX_SAFE_INTEGER])[0]
+			: null
+		
+		const hardestSectionId = sectionId === undefined
+			? forgotAttempts.reduce(([oldKey, oldValue], [key, value]) => (
+				value > oldValue
+					? [key, value]
+					: [oldKey, oldValue]
+			), ['', -1])[0]
+			: null
+		
+		setIsRecapModalShowing(true)
+		setRecapData({
+			start: start.current,
+			xpGained: xpGained.current,
+			reviewedCount: cards.reduce((acc, { rating }) => (
+				acc + (rating === null ? 0 : 1)
+			), 0),
+			masteredCount: cards.reduce((acc, { isNewlyMastered }) => (
+				acc + (isNewlyMastered ? 1 : 0)
+			), 0),
+			totalCount: count,
+			easiestSection: easiestSectionId === null
+				? null
+				: allSections.current[easiestSectionId],
+			hardestSection: hardestSectionId === null
+				? null
+				: allSections.current[hardestSectionId],
+			isSameSection: easiestSectionId !== null && easiestSectionId === hardestSectionId
+		})
+	}, [cards, count, sectionId, setIsRecapModalShowing, setRecapData])
 	
 	const incrementCurrentIndex = useCallback(() => {
 		setCurrentIndex(currentIndex => {
@@ -545,6 +594,7 @@ export default (
 		
 		setLoadingState(LoadingState.Loading)
 		
+		card.rating = rating
 		card.streak = streak
 		card.isNewlyMastered = (
 			await reviewCard({
@@ -581,6 +631,12 @@ export default (
 		if (_deck)
 			setDeck(_deck)
 	}, [_deck, setDeck])
+	
+	// Add sections to allSections
+	useEffect(() => {
+		for (const section of sections ?? [])
+			allSections.current[section.id] = section
+	}, [sections])
 	
 	useEffect(() => {
 		if (!(deck && card && loadingState === LoadingState.Success))
