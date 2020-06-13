@@ -2,13 +2,39 @@ import React, { memo } from 'react'
 import cx from 'classnames'
 
 import PerformanceRating from '../../../models/PerformanceRating'
-import { ReviewPredictions } from './useReviewState'
+import LoadingState from '../../../models/LoadingState'
+import { ReviewPrediction } from './useReviewState'
 import RateButton from './RateButton'
 
+const RATINGS = [
+	PerformanceRating.Easy,
+	PerformanceRating.Struggled,
+	PerformanceRating.Forgot
+]
+
+const BUTTON_CONTENT = {
+	[PerformanceRating.Easy]: {
+		emoji: '😀',
+		title: 'Easy',
+		subtitle: 'Without much effort, you were able to remember'
+	},
+	[PerformanceRating.Struggled]: {
+		emoji: '😕',
+		title: 'Struggled',
+		subtitle: 'You struggled to remember, but eventually succeeded'
+	},
+	[PerformanceRating.Forgot]: {
+		emoji: '😓',
+		title: 'Forgot',
+		subtitle: 'You tried but couldn\'t remember'
+	}
+}
+
 const ReviewFooter = (
-	{ isWaitingForRating, predictions, rate }: {
+	{ isWaitingForRating, prediction, predictionLoadingState, rate }: {
 		isWaitingForRating: boolean
-		predictions: ReviewPredictions | null
+		prediction: ReviewPrediction | null
+		predictionLoadingState: LoadingState
 		rate: (rating: PerformanceRating) => void
 	}
 ) => (
@@ -17,27 +43,19 @@ const ReviewFooter = (
 			Tap anywhere to continue
 		</p>
 		<div className="buttons" tabIndex={-1}>
-			<RateButton
-				emoji="😀"
-				title="Easy"
-				subtitle="Without much effort, you were able to remember"
-				rate={rate}
-				rating={PerformanceRating.Easy}
-			/>
-			<RateButton
-				emoji="😕"
-				title="Struggled"
-				subtitle="You struggled to remember, but eventually succeeded"
-				rate={rate}
-				rating={PerformanceRating.Struggled}
-			/>
-			<RateButton
-				emoji="😓"
-				title="Forgot"
-				subtitle="You tried but couldn't remember"
-				rate={rate}
-				rating={PerformanceRating.Forgot}
-			/>
+			{RATINGS.map(rating => (
+				<RateButton
+					{...BUTTON_CONTENT[rating]}
+					key={rating}
+					rate={rate}
+					rating={rating}
+					prediction={
+						predictionLoadingState === LoadingState.Success
+							? prediction && prediction[rating]
+							: null
+					}
+				/>
+			))}
 		</div>
 	</footer>
 )

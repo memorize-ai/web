@@ -585,7 +585,12 @@ export default (
 			deck: deck.id,
 			card: card.value.id,
 		}).then(({ data }) => {
-			card.prediction
+			card.prediction = {
+				[PerformanceRating.Easy]: new Date(data[PerformanceRating.Easy]),
+				[PerformanceRating.Struggled]: new Date(data[PerformanceRating.Struggled]),
+				[PerformanceRating.Forgot]: new Date(data[PerformanceRating.Forgot])
+			}
+			
 			setPredictionLoadingState(LoadingState.Success)
 		}).catch(error => {
 			alert(error.message)

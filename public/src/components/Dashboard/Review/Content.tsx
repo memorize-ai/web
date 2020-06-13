@@ -16,6 +16,7 @@ const ReviewContent = () => {
 		deck,
 		card,
 		loadingState,
+		predictionLoadingState,
 		isWaitingForRating,
 		waitForRating,
 		cardClassName,
@@ -59,7 +60,8 @@ const ReviewContent = () => {
 			/>
 			<Footer
 				isWaitingForRating={isWaitingForRating}
-				predictions={card && card.predictions}
+				prediction={card && card.prediction}
+				predictionLoadingState={predictionLoadingState}
 				rate={rate}
 			/>
 			<ProgressModal
