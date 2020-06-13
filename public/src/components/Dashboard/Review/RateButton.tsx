@@ -39,10 +39,10 @@ const ReviewRateButton = (
 				<p className="emoji">{emoji}</p>
 				<p className="title">{title}</p>
 			</div>
-			{false
+			{prediction
 				? (
 					<p className={predictionClassName(false)}>
-						+{timeAgo.format(prediction!, 'time')}
+						+{timeAgo.format(prediction, 'time')}
 					</p>
 				)
 				: (
