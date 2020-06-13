@@ -518,6 +518,10 @@ $rating-colors: (
 			> span {
 				color: white;
 				
+				&.deck-name {
+					color: #ffcb6b;
+				}
+				
 				&.section-name {
 					color: #c792ea;
 				}

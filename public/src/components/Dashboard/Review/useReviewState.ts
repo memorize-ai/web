@@ -16,6 +16,11 @@ import { sleep } from '../../../utils'
 import 'firebase/firestore'
 import 'firebase/functions'
 
+export interface DeckAndSection {
+	deck: Deck
+	section: Section
+}
+
 export interface ReviewCard {
 	value: Card
 	section: Section
@@ -42,9 +47,9 @@ export interface ReviewRecapData {
 	reviewedCount: number
 	masteredCount: number
 	totalCount: number
-	easiestSection: Section | null
-	hardestSection: Section | null
-	isSameSection: boolean
+	easiest: DeckAndSection | null
+	hardest: DeckAndSection | null
+	isSame: boolean
 }
 
 export interface ReviewPrediction {
@@ -99,6 +104,17 @@ export const getProgressDataForRating = (rating: PerformanceRating, isMastered: 
 	}
 }
 
+export const performanceRatingToHardMultiplier = (rating: PerformanceRating) => {
+	switch (rating) {
+		case PerformanceRating.Easy:
+			return 0
+		case PerformanceRating.Struggled:
+			return 1
+		case PerformanceRating.Forgot:
+			return 2
+	}
+}
+
 export default (
 	slugId: string | undefined,
 	slug: string | undefined,
@@ -113,7 +129,7 @@ export default (
 	const isWaitingForInit = useRef(null as boolean | null) // null is initial
 	const shouldIncrementCurrentIndex = useRef(true)
 	
-	const allSections = useRef({} as Record<string, Section>)
+	const all = useRef({} as Record<string, DeckAndSection>)
 	
 	const sectionId = useMemo(() => (
 		_sectionId === 'unsectioned' ? '' : _sectionId
@@ -207,21 +223,23 @@ export default (
 		if (!(flag && cards && count !== null))
 			return
 		
-		const forgotAttempts = sectionId === undefined
+		const hardAttempts = sectionId === undefined
 			? Object.entries(
 				cards.reduce((acc, card) => ({
 					...acc,
 					[card.value.sectionId]: (
 						acc[card.value.sectionId] ?? 0
 					) + (
-						card.rating === PerformanceRating.Forgot ? 1 : 0
+						card.rating === null
+							? 0
+							: performanceRatingToHardMultiplier(card.rating)
 					)
 				}), {} as Record<string, number>)
 			)
 			: []
 		
 		const easiestSectionId = sectionId === undefined
-			? forgotAttempts.reduce(([oldKey, oldValue], [key, value]) => (
+			? hardAttempts.reduce(([oldKey, oldValue], [key, value]) => (
 				value < oldValue
 					? [key, value]
 					: [oldKey, oldValue]
@@ -229,7 +247,7 @@ export default (
 			: null
 		
 		const hardestSectionId = sectionId === undefined
-			? forgotAttempts.reduce(([oldKey, oldValue], [key, value]) => (
+			? hardAttempts.reduce(([oldKey, oldValue], [key, value]) => (
 				value > oldValue
 					? [key, value]
 					: [oldKey, oldValue]
@@ -247,13 +265,13 @@ export default (
 				acc + (isNewlyMastered ? 1 : 0)
 			), 0),
 			totalCount: count,
-			easiestSection: easiestSectionId === null
+			easiest: easiestSectionId === null
 				? null
-				: allSections.current[easiestSectionId],
-			hardestSection: hardestSectionId === null
+				: all.current[easiestSectionId],
+			hardest: hardestSectionId === null
 				? null
-				: allSections.current[hardestSectionId],
-			isSameSection: easiestSectionId !== null && easiestSectionId === hardestSectionId
+				: all.current[hardestSectionId],
+			isSame: easiestSectionId !== null && easiestSectionId === hardestSectionId
 		})
 	}, [cards, count, sectionId, setIsRecapModalShowing, setRecapData])
 	
@@ -632,11 +650,12 @@ export default (
 			setDeck(_deck)
 	}, [_deck, setDeck])
 	
-	// Add sections to allSections
+	// Add sections to all
 	useEffect(() => {
-		for (const section of sections ?? [])
-			allSections.current[section.id] = section
-	}, [sections])
+		if (deck && sections)
+			for (const section of sections)
+				all.current[section.id] = { deck, section }
+	}, [deck, sections])
 	
 	useEffect(() => {
 		if (!(deck && card && loadingState === LoadingState.Success))

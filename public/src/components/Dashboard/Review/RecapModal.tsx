@@ -6,7 +6,6 @@ import { canonical } from 'javascript-time-ago/gradation'
 
 import { ReviewRecapData } from './useReviewState'
 import Modal from '../../shared/Modal'
-import Section from '../../../models/Section'
 import Data from './RecapModalData'
 
 TimeAgo.addLocale(enLocale)
@@ -35,12 +34,14 @@ const ReviewRecapModal = (
 		if (!data)
 			return null
 		
-		const section: Section | null = (data as any)[`${role}Section`]
+		const { deck, section } = data[role] ?? {}
 		
-		return section && !data.isSameSection
+		return deck && section && !data.isSame
 			? (
 				<Data title={`${role} section`}>
-					<span className="section-name">
+					<span className="deck-name">
+						{deck.name}
+					</span> - <span className="section-name">
 						{section.name}
 					</span> <span className="section-card-count">
 						({
