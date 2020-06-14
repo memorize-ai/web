@@ -113,8 +113,12 @@ $transform-length: 100px;
 			
 			justify-items: center;
 			align-items: center;
-			height: calc(100vh - 160px * 2);
 			transition: height 0.3s;
+			
+			&,
+			> :last-child > img {
+				height: calc(100vh - 160px * 2);
+			}
 			
 			@media (min-width: 965px) {
 				> :first-child {

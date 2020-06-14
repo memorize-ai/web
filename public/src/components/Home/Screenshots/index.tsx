@@ -50,10 +50,7 @@ const HomeScreenshots = () => {
 							<LeftArrow />
 						</button>
 					</div>
-					<div
-						className="gallery"
-						data-aos="fade-up"
-					>
+					<div className="gallery">
 						{screenshots.map((_, i) => (
 							<button
 								key={i}
