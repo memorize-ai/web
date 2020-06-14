@@ -9,7 +9,7 @@ export const TRANSFORM_LENGTH = 20
 
 export const SCREENSHOTS = [
 	{
-		type: ScreenshotType.Home,
+		type: ScreenshotType.Review,
 		title: (
 			<>
 				Revolutionary<br />
@@ -29,7 +29,7 @@ export const SCREENSHOTS = [
 		)
 	},
 	{
-		type: ScreenshotType.Home,
+		type: ScreenshotType.Editor,
 		title: (
 			<>
 				Revolutionary<br />
@@ -39,7 +39,7 @@ export const SCREENSHOTS = [
 		)
 	},
 	{
-		type: ScreenshotType.Home,
+		type: ScreenshotType.Decks,
 		title: (
 			<>
 				Revolutionary<br />
@@ -49,7 +49,7 @@ export const SCREENSHOTS = [
 		)
 	},
 	{
-		type: ScreenshotType.Home,
+		type: ScreenshotType.Market,
 		title: (
 			<>
 				Revolutionary<br />
@@ -69,7 +69,7 @@ export const SCREENSHOTS = [
 		)
 	},
 	{
-		type: ScreenshotType.Home,
+		type: ScreenshotType.Recap,
 		title: (
 			<>
 				Revolutionary<br />
