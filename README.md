@@ -8,8 +8,16 @@
 
 ### Clone
 
+#### Production
+
 ```bash
 git clone https://github.com/kenmueller/memorize.ai-web.git
+```
+
+#### Development (to contribute)
+
+```bash
+git clone -b staging https://github.com/kenmueller/memorize.ai-web.git
 ```
 
 ### Install dependencies
