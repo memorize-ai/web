@@ -2,18 +2,26 @@ import React, { memo } from 'react'
 
 import { ReactComponent as Bullet } from '../../../images/home/bullet.svg'
 
-export const ITEMS = [
-	<>Create your own decks for your class<br />and allocate a section for each unit</>,
-	<>Lock certain sections to restrict<br />access as per class schedule</>,
-	<>Share unique unlock keys with<br />your students</>,
-	<>Students can then unlock sections<br />and begin memorizing!</>
+const ITEMS = [
+	{
+		lines: 2,
+		text: <>Create cards and split them into sections<br />for your class</>
+	},
+	{
+		lines: 2,
+		text: <><em>Optionally</em> lock sections according to class<br />schedule</>
+	},
+	{
+		lines: 1,
+		text: 'Share keys with students to unlock sections'
+	}
 ]
 
 const HomeClassroomList = () => (
 	<ol className="list">
-		{ITEMS.map((text, i) => (
+		{ITEMS.map(({ lines, text }, i) => (
 			<li key={i}>
-				<div className="bullet">
+				<div className={`bullet lines-${lines}`}>
 					<Bullet />
 					<p>{i + 1}</p>
 				</div>
