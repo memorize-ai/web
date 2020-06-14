@@ -4,10 +4,24 @@
 
 **memorize.ai Website**
 
-## Download
+## Get started
+
+### Clone
 
 ```bash
 git clone https://github.com/kenmueller/memorize.ai-web.git
+```
+
+### Install dependencies
+
+```bash
+npm run install:all
+```
+
+### Start local server
+
+```bash
+npm start
 ```
 
 ## Rules
