@@ -6,7 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
 import useRecommendedDecks from '../../../hooks/useRecommendedDecks'
-import Head, { APP_DESCRIPTION, APP_SCHEMA } from '../../shared/Head'
+import Head from '../../shared/Head'
 import OwnedDeckCell from '../../shared/DeckCell/Owned'
 import DeckCell from '../../shared/DeckCell'
 import { formatNumber } from '../../../utils'
@@ -35,7 +35,6 @@ const DashboardHomeContent = () => {
 		<>
 			<Head
 				title="memorize.ai"
-				description={APP_DESCRIPTION}
 				breadcrumbs={[
 					[
 						{
@@ -43,9 +42,6 @@ const DashboardHomeContent = () => {
 							url: window.location.href
 						}
 					]
-				]}
-				schemaItems={[
-					APP_SCHEMA
 				]}
 			/>
 			<div className="header">

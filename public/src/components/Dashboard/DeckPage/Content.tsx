@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import Deck from '../../../models/Deck'
 import { DEFAULT_DECK_SORT_ALGORITHM, DeckSortAlgorithm } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
 import useSearchState from '../../../hooks/useSearchState'
@@ -14,7 +13,7 @@ import useAllCards from '../../../hooks/useAllCards'
 import useTopics from '../../../hooks/useTopics'
 import useCreator from '../../../hooks/useCreator'
 import useSimilarDecks from '../../../hooks/useSimilarDecks'
-import Head from '../../shared/Head'
+import Head, { DEFAULT_OG_IMAGE } from '../../shared/Head'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
 import { DropdownShadow } from '../../shared/Dropdown'
@@ -37,7 +36,7 @@ const DeckPageContent = () => {
 	
 	const { deck, hasDeck } = useDeck(slugId)
 	
-	const imageUrl = deck?.imageUrl ?? Deck.DEFAULT_IMAGE_URL
+	const imageUrl = deck?.imageUrl ?? DEFAULT_OG_IMAGE
 	const creator = useCreator(deck?.creatorId)
 	const sections = useSections(deck?.id)
 	const cards = useAllCards(deck?.id)

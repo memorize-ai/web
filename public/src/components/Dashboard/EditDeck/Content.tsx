@@ -9,7 +9,7 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import useCreatedDeck from '../../../hooks/useCreatedDeck'
 import useTopics from '../../../hooks/useTopics'
 import LoadingState from '../../../models/LoadingState'
-import Head, { APP_DESCRIPTION } from '../../shared/Head'
+import Head from '../../shared/Head'
 import Button from '../../shared/Button'
 import PublishDeckContent from '../../shared/PublishDeckContent'
 import Loader from '../../shared/Loader'
@@ -42,7 +42,7 @@ const EditDeckContent = () => {
 	const isDisabled = !name
 	
 	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
-	const headDescription = `Edit ${deck?.name ?? 'your deck'} on memorize.ai. ${APP_DESCRIPTION}`
+	const headDescription = `Edit ${deck?.name ?? 'your deck'} on memorize.ai.`
 	
 	useEffect(() => {
 		if (!deck || didUpdateFromDeck.current)
