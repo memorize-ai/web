@@ -12,7 +12,10 @@ const HomeFooter = () => (
 		<div className="background" />
 		<div className="content">
 			<div className="top">
-				<h1 className="text">
+				<h1
+					className="text"
+					data-aos="fade-right"
+				>
 					The ultimate<br />
 					memorization tool
 				</h1>

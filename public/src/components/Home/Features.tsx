@@ -9,7 +9,10 @@ import '../../scss/components/Home/Features.scss'
 
 const HomeFeatures = () => (
 	<div className="features">
-		<h2 className="title">
+		<h2
+			className="title"
+			data-aos="fade-down"
+		>
 			<strong>Everything you need</strong><br />
 			to start memorizing
 		</h2>

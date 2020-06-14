@@ -11,7 +11,10 @@ const HomeSpacedRepetition = () => (
 			src={spacedRepetitionImage}
 			alt="Spaced Repetition diagram"
 		/>
-		<article className="text">
+		<article
+			className="text"
+			data-aos="fade-left"
+		>
 			<h2 className="title">
 				<strong>Spaced Repetition</strong><br />
 				with <strong>AI</strong>

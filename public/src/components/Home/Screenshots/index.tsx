@@ -30,10 +30,18 @@ const HomeScreenshots = () => {
 				<h2 className="title">{title}</h2>
 				<div className="screenshot">
 					<ScreenshotBackground />
-					<Screenshot type={type} />
+					<Screenshot
+						type={type}
+						data-aos="fade-right"
+					/>
 				</div>
-				<div className="info">
-					<h2 className="title">{title}</h2>
+				<div
+					className="info"
+					data-aos="fade-left"
+				>
+					<h2 className="title">
+						{title}
+					</h2>
 					<div className="navigation">
 						<button onClick={goLeft}>
 							<LeftArrow />
@@ -42,7 +50,10 @@ const HomeScreenshots = () => {
 							<LeftArrow />
 						</button>
 					</div>
-					<div className="gallery">
+					<div
+						className="gallery"
+						data-aos="fade-up"
+					>
 						{screenshots.map((_, i) => (
 							<button
 								key={i}

@@ -20,7 +20,11 @@ const ITEMS = [
 const HomeClassroomList = () => (
 	<ol className="list">
 		{ITEMS.map(({ lines, text }, i) => (
-			<li key={i}>
+			<li
+				key={i}
+				data-aos="fade-left"
+				data-aos-delay={i * 150}
+			>
 				<div className={`bullet lines-${lines}`}>
 					<Bullet />
 					<p>{i + 1}</p>

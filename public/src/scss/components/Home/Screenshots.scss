@@ -152,10 +152,6 @@ $transform-length: 100px;
 				margin: -65px -40px;
 				transition: width 0.3s, height 0.3s;
 			}
-			
-			> :last-child > img {
-				transition: height 0.3s;
-			}
 		}
 		
 		> .info {

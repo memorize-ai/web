@@ -93,7 +93,6 @@
 				font-size: 20px;
 				line-height: 26px;
 				color: #572efe;
-				transition: font-size 0.3s, line-height 0.3s;
 				
 				@include title($screen-width: 300px, $font-size: 22px);
 				@include title($screen-width: 370px, $font-size: 26px);
