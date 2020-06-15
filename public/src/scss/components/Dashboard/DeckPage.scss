@@ -849,8 +849,6 @@ $sidebar-collapse-width: 1150px;
 					
 					> .deck-cell {
 						flex-shrink: 0;
-						border: 1px solid #eee;
-						box-shadow: none;
 						
 						&:not(:last-child) {
 							margin-right: 12px;

@@ -14,8 +14,8 @@
 	max-width: $max-width;
 	height: $height;
 	background: white;
+	border: 1px solid #eee;
 	border-radius: 8px;
-	box-shadow: 0 0 5px 0 transparentize(black, 0.9);
 	
 	> img {
 		width: $height;
