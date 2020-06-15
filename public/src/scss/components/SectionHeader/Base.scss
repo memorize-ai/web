@@ -5,6 +5,7 @@
 	
 	display: flex;
 	align-items: center;
+	overflow-x: auto;
 	cursor: pointer;
 	font-size: 18px;
 	
@@ -25,6 +26,7 @@
 	
 	> .card-count {
 		display: none;
+		margin-right: 12px;
 		font-weight: bold;
 		color: #582efe;
 		transform: translateY(-2px);
@@ -39,7 +41,6 @@
 		
 		width: $dimension;
 		height: $dimension;
-		margin-left: 12px;
 		border: 1.5px solid #ddd;
 		border-radius: 50%;
 		transition: opacity 0.3s, transform 0.3s;

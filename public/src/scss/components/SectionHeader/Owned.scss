@@ -84,7 +84,12 @@
 		}
 		
 		> svg {
+			display: none;
 			margin-left: 10px;
+			
+			@media (min-width: 750px) {
+				display: initial;
+			}
 		}
 		
 		&::before,
@@ -123,6 +128,14 @@
 	> .cram-link {
 		margin-right: 12px;
 		color: #f85ea1;
+	}
+	
+	> .card-count {
+		display: none;
+		
+		@media (min-width: 680px) {
+			display: block;
+		}
 	}
 	
 	> .options {
