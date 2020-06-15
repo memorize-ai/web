@@ -14,7 +14,7 @@ const HomeFooter = () => (
 			<div className="top">
 				<h1
 					className="text"
-					data-aos="fade-right"
+					data-aos="fade-down"
 				>
 					The ultimate<br />
 					memorization tool

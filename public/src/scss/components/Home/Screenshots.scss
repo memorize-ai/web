@@ -35,6 +35,7 @@ $transform-length: 100px;
 		
 		@media (min-height: 775px) {
 			> .title {
+				height: 115px !important;
 				font-size: 24px !important;
 				line-height: 38px !important;
 			}
@@ -100,6 +101,7 @@ $transform-length: 100px;
 		}
 		
 		> .title {
+			height: 105px;
 			margin-bottom: 30px;
 			text-align: center;
 			font-size: 20px;
@@ -162,38 +164,64 @@ $transform-length: 100px;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+			width: 360px;
+			
+			@media (min-width: 1050px) {
+				width: 400px;
+				
+				> .title {
+					height: 165px !important;
+					font-size: 42px !important;
+					line-height: 54px !important;
+				}
+			}
+			
+			@media (min-width: 1085px) {
+				width: 435px;
+				
+				> .title {
+					height: 175px !important;
+					font-size: 46px !important;
+					line-height: 58px !important;
+				}
+			}
+			
+			@media (min-width: 1215px) {
+				width: 475px;
+				
+				> .title {
+					height: 190px !important;
+					font-size: 50px !important;
+					line-height: 62px !important;
+				}
+			}
+			
+			@media (min-width: 1250px) {
+				width: 510px;
+				
+				> .title {
+					height: 200px !important;
+					font-size: 54px !important;
+					line-height: 66px !important;
+				}
+			}
+			
+			@media (min-width: 1300px) {
+				width: 550px;
+				
+				> .title {
+					font-size: 58px !important;
+					line-height: 70px !important;
+				}
+			}
 			
 			> .title {
 				display: none;
+				height: 150px;
 				font-size: 38px;
 				line-height: 50px;
 				color: white;
 				transition: font-size 0.3s, line-height 0.3s;
-				
-				@media (min-width: 1050px) {
-					font-size: 42px;
-					line-height: 54px;
-				}
-				
-				@media (min-width: 1085px) {
-					font-size: 46px;
-					line-height: 58px;
-				}
-				
-				@media (min-width: 1215px) {
-					font-size: 50px;
-					line-height: 62px;
-				}
-				
-				@media (min-width: 1250px) {
-					font-size: 54px;
-					line-height: 66px;
-				}
-				
-				@media (min-width: 1300px) {
-					font-size: 58px;
-					line-height: 70px;
-				}
 			}
 			
 			> .navigation {

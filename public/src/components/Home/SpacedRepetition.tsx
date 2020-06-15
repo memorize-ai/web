@@ -13,7 +13,7 @@ const HomeSpacedRepetition = () => (
 		/>
 		<article
 			className="text"
-			data-aos="fade-left"
+			data-aos="fade-up"
 		>
 			<h2 className="title">
 				<strong>Spaced Repetition</strong><br />

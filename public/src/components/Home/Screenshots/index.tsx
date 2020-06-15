@@ -32,12 +32,12 @@ const HomeScreenshots = () => {
 					<ScreenshotBackground />
 					<Screenshot
 						type={type}
-						data-aos="fade-right"
+						data-aos="fade-up"
 					/>
 				</div>
 				<div
 					className="info"
-					data-aos="fade-left"
+					data-aos="fade-down"
 				>
 					<h2 className="title">
 						{title}

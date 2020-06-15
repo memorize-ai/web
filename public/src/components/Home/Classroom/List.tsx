@@ -22,8 +22,8 @@ const HomeClassroomList = () => (
 		{ITEMS.map(({ lines, text }, i) => (
 			<li
 				key={i}
-				data-aos="fade-left"
-				data-aos-delay={i * 150}
+				data-aos="fade-down"
+				data-aos-delay={i * 100}
 			>
 				<div className={`bullet lines-${lines}`}>
 					<Bullet />
