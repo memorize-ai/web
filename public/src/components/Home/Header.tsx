@@ -23,7 +23,11 @@ const HomeHeader = () => (
 					<p>Get started</p>
 					<LeftArrow />
 				</AuthButton>
-				<a href={APP_STORE_URL} className="app-store">
+				<a
+					className="app-store"
+					href={APP_STORE_URL}
+					rel="nofollow noreferrer noopener"
+				>
 					<FontAwesomeIcon icon={faApple} />
 					<p>Download</p>
 				</a>

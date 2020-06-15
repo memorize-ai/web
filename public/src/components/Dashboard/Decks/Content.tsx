@@ -7,7 +7,7 @@ import LoadingState from '../../../models/LoadingState'
 import requiresAuth from '../../../hooks/requiresAuth'
 import useSelectedDeck from '../../../hooks/useSelectedDeck'
 import useDecks from '../../../hooks/useDecks'
-import Head, { APP_DESCRIPTION } from '../../shared/Head'
+import Head from '../../shared/Head'
 import Header from './Header'
 import Sections from './Sections'
 import Loader from '../../shared/Loader'
@@ -57,7 +57,7 @@ const DecksContent = () => {
 					`${selectedDeck
 						? `${selectedDeck.name} - `
 						: ''
-					}My decks on memorize.ai. ${APP_DESCRIPTION}`
+					}My decks on memorize.ai.`
 				}
 				breadcrumbs={[
 					[

@@ -9,7 +9,7 @@ import diagram from '../../../images/home/classroom.png'
 import '../../../scss/components/Home/Classroom.scss'
 
 const HomeClassroom = () => (
-	<div className="classroom">
+	<div id="class" className="classroom">
 		<div className="background" />
 		<div className="content">
 			<img
@@ -18,7 +18,10 @@ const HomeClassroom = () => (
 				alt="Classroom diagram"
 			/>
 			<article className="text">
-				<h2 className="title">
+				<h2
+					className="title"
+					data-aos="fade-down"
+				>
 					<strong>Teachers and Students</strong><br />
 					love memorize.ai
 				</h2>

@@ -12,7 +12,10 @@ const HomeFooter = () => (
 		<div className="background" />
 		<div className="content">
 			<div className="top">
-				<h1 className="text">
+				<h1
+					className="text"
+					data-aos="fade-down"
+				>
 					The ultimate<br />
 					memorization tool
 				</h1>
@@ -29,6 +32,14 @@ const HomeFooter = () => (
 						rel="noopener noreferrer nofollow"
 					>
 						Contact us
+					</a>
+					<div className="divider" />
+					<a
+						href="https://github.com/kenmueller/memorize.ai-web"
+						target="_blank"
+						rel="noopener noreferrer nofollow"
+					>
+						GitHub
 					</a>
 					<div className="divider" />
 					<a

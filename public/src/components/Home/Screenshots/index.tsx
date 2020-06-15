@@ -30,10 +30,18 @@ const HomeScreenshots = () => {
 				<h2 className="title">{title}</h2>
 				<div className="screenshot">
 					<ScreenshotBackground />
-					<Screenshot type={type} />
+					<Screenshot
+						type={type}
+						data-aos="fade-up"
+					/>
 				</div>
-				<div className="info">
-					<h2 className="title">{title}</h2>
+				<div
+					className="info"
+					data-aos="fade-down"
+				>
+					<h2 className="title">
+						{title}
+					</h2>
 					<div className="navigation">
 						<button onClick={goLeft}>
 							<LeftArrow />

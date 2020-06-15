@@ -4,6 +4,9 @@ import Schema, { Thing, MobileApplication } from 'schema.org-react'
 
 import { APP_SCREENSHOT_URL, APP_STORE_URL } from '../../constants'
 
+import DEFAULT_OG_IMAGE from '../../images/logos/large.png'
+export { DEFAULT_OG_IMAGE }
+
 export interface Label {
 	name: string
 	value: string
@@ -24,7 +27,7 @@ export interface HeadProps<SchemaItems extends Thing[]> {
 	title: string
 	ogTitle?: string
 	twitterTitle?: string
-	description: string
+	description?: string
 	ogDescription?: string
 	twitterDescription?: string
 	ogImage?: string
@@ -34,8 +37,7 @@ export interface HeadProps<SchemaItems extends Thing[]> {
 	schemaItems?: SchemaItems
 }
 
-export const LOGO_URL = 'https://memorize.ai/images/logos/square.png'
-export const APP_DESCRIPTION = 'Do less. Learn more. Download on the app store for free, and change your life today.'
+export const DEFAULT_DESCRIPTION = 'Tired of long study sessions? We use artificial intelligence to accurately predict when you need to review. Welcome to efficient and effective memorization.'
 
 export const APP_SCHEMA: MobileApplication = {
 	'@type': 'MobileApplication',
@@ -72,7 +74,7 @@ const Head = <SchemaItems extends Thing[]>({
 	title,
 	ogTitle: _ogTitle,
 	twitterTitle,
-	description,
+	description: _description,
 	ogDescription: _ogDescription,
 	twitterDescription,
 	ogImage: _ogImage,
@@ -85,8 +87,9 @@ const Head = <SchemaItems extends Thing[]>({
 	
 	const ogUrl = _ogUrl ?? canonicalUrl
 	const ogTitle = _ogTitle ?? title
+	const description = _description ?? DEFAULT_DESCRIPTION
 	const ogDescription = _ogDescription ?? description
-	const ogImage = _ogImage ?? LOGO_URL
+	const ogImage = _ogImage ?? DEFAULT_OG_IMAGE
 	
 	useEffect(() => {
 		(window as any).prerenderReady = isPrerenderReady
@@ -136,7 +139,7 @@ const Head = <SchemaItems extends Thing[]>({
 						'@type': 'WebSite',
 						url: 'https://memorize.ai',
 						name: 'memorize.ai',
-						description: APP_DESCRIPTION,
+						description: DEFAULT_DESCRIPTION,
 						potentialAction: [
 							{
 								'@type': 'SearchAction',
@@ -149,7 +152,7 @@ const Head = <SchemaItems extends Thing[]>({
 					{
 						'@type': 'Organization',
 						url: 'https://memorize.ai',
-						logo: LOGO_URL,
+						logo: DEFAULT_OG_IMAGE,
 						sameAs: [
 							'https://twitter.com/memorize_ai'
 						]

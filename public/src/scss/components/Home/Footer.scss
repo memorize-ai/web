@@ -40,10 +40,6 @@
 				font-weight: 900;
 				line-height: 36px;
 				color: white;
-				transition:
-					margin 0.3s,
-					font-size 0.3s,
-					line-height 0.3s;
 				
 				@media (min-width: 330px) {
 					font-size: 26px;
@@ -133,7 +129,7 @@
 				align-items: center;
 				margin-top: 30px;
 				
-				@media (min-width: 370px) {
+				@media (min-width: 470px) {
 					flex-direction: row;
 					
 					> a:not(:last-child) {

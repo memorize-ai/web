@@ -9,74 +9,32 @@ export const TRANSFORM_LENGTH = 20
 
 export const SCREENSHOTS = [
 	{
-		type: ScreenshotType.Home,
-		title: (
-			<>
-				Revolutionary<br />
-				<strong>spaced repetition</strong><br />
-				algorithm 1
-			</>
-		)
+		type: ScreenshotType.Review,
+		title: <>No more <b>long<br />study sessions</b></>
 	},
 	{
 		type: ScreenshotType.Cram,
-		title: (
-			<>
-				Revolutionary<br />
-				<strong>spaced repetition</strong><br />
-				algorithm 2
-			</>
-		)
+		title: <><b>No time?</b><br />No problem.</>
+	},
+	{
+		type: ScreenshotType.Editor,
+		title: <>Advanced editor<br />with <b>math, images,<br />tables, and code</b></>
+	},
+	{
+		type: ScreenshotType.Decks,
+		title: <>Know what you<br /><b>need to review</b></>
+	},
+	{
+		type: ScreenshotType.Market,
+		title: <>Everything you<br />need to learn.<br /><b>Search no further</b>.</>
 	},
 	{
 		type: ScreenshotType.Home,
-		title: (
-			<>
-				Revolutionary<br />
-				<strong>spaced repetition</strong><br />
-				algorithm 3
-			</>
-		)
+		title: <>Summary<br /><b>at a glance</b></>
 	},
 	{
-		type: ScreenshotType.Home,
-		title: (
-			<>
-				Revolutionary<br />
-				<strong>spaced repetition</strong><br />
-				algorithm 4
-			</>
-		)
-	},
-	{
-		type: ScreenshotType.Home,
-		title: (
-			<>
-				Revolutionary<br />
-				<strong>spaced repetition</strong><br />
-				algorithm 5
-			</>
-		)
-	},
-	{
-		type: ScreenshotType.Home,
-		title: (
-			<>
-				Revolutionary<br />
-				<strong>spaced repetition</strong><br />
-				algorithm 6
-			</>
-		)
-	},
-	{
-		type: ScreenshotType.Home,
-		title: (
-			<>
-				Revolutionary<br />
-				<strong>spaced repetition</strong><br />
-				algorithm 7
-			</>
-		)
+		type: ScreenshotType.Recap,
+		title: <>Make learning<br /><b>a game</b></>
 	}
 ]
 

@@ -22,7 +22,7 @@ export default class Memorize {
 		Memorize.fetch(`deck?short_id=${shortId}`)
 	
 	getDeckFromId = (id: string) =>
-		Memorize.fetch(`deck/get`, {
+		Memorize.fetch('deck/get', {
 			id,
 			auth: this.auth
 		})

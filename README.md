@@ -4,10 +4,34 @@
 
 **memorize.ai Website**
 
-## Download
+Also see [the iOS repository](https://github.com/kenmueller/memorize.ai-ios)
+
+## Get started
+
+### Clone
+
+#### Production
 
 ```bash
 git clone https://github.com/kenmueller/memorize.ai-web.git
+```
+
+#### Development (to contribute)
+
+```bash
+git clone -b staging https://github.com/kenmueller/memorize.ai-web.git
+```
+
+### Install dependencies
+
+```bash
+npm run install:all
+```
+
+### Start local server
+
+```bash
+npm start
 ```
 
 ## Rules
