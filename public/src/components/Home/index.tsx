@@ -22,6 +22,7 @@ const Home = () => {
 		<div className="home">
 			<Head
 				title="memorize.ai: Intelligent flashcards"
+				canonicalUrl="https://memorize.ai"
 				breadcrumbs={[
 					[
 						{
