@@ -86,7 +86,12 @@
 			transition: color 0.3s, opacity 0.3s;
 			
 			> svg {
+				display: none;
 				margin-left: 10px;
+				
+				@media (min-width: 650px) {
+					display: initial;
+				}
 			}
 			
 			&::before,
@@ -266,6 +271,7 @@
 		> .box {
 			@include shadow-lg;
 			
+			width: calc(100vw - var(--sidebar-width) - #{$margin * 2});
 			height: max-content;
 			margin-bottom: 30px;
 			padding: $margin;
