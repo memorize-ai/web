@@ -1,8 +1,6 @@
 @import '../../variables';
 @import '../../mixins';
 
-@include dashboard-sidebar-collapse('publish-deck', 920px);
-
 @include dashboard-content('publish-deck') {
 	$margin: 30px;
 	

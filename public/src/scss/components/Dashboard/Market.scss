@@ -2,8 +2,6 @@
 @import '../../mixins';
 @import '../../functions';
 
-@include dashboard-sidebar-collapse('market', 1025px);
-
 @include dashboard-content('market') {
 	display: grid;
 	grid:

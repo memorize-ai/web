@@ -1,8 +1,6 @@
 @import '../../variables';
 @import '../../mixins';
 
-@include dashboard-sidebar-collapse('home', 780px);
-
 @include dashboard-content('home') {
 	> .header {
 		--right-offset: 0px;

@@ -2,8 +2,6 @@
 @import '../../mixins';
 @import '../../functions';
 
-$sidebar-collapse-width: 1150px;
-
 @mixin show-rate-message {
 	justify-content: space-between;
 	
@@ -19,8 +17,6 @@ $sidebar-collapse-width: 1150px;
 		display: none !important;
 	}
 }
-
-@include dashboard-sidebar-collapse('deck-page', $sidebar-collapse-width);
 
 @include dashboard-content('deck-page') {
 	$margin: 30px;
@@ -723,7 +719,7 @@ $sidebar-collapse-width: 1150px;
 							@include show-rate-message;
 						}
 						
-						@media (min-width: $sidebar-collapse-width) {
+						@media (min-width: 1150px) {
 							@include hide-rate-message;
 						}
 						
