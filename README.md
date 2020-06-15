@@ -4,6 +4,8 @@
 
 **memorize.ai Website**
 
+Also see [the iOS repository](https://github.com/kenmueller/memorize.ai-ios)
+
 ## Get started
 
 ### Clone
