@@ -1,8 +1,6 @@
 @import '../../variables';
 @import '../../mixins';
 
-@include dashboard-sidebar-collapse('home', 780px);
-
 @include dashboard-content('home') {
 	> .header {
 		--right-offset: 0px;
@@ -96,7 +94,7 @@
 		> .decks {
 			overflow-x: auto;
 			margin: 12px 0 15px 0;
-			padding: 0 0 15px 30px;
+			padding: 5px 30px 15px;
 			
 			> div {
 				display: flex;

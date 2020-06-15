@@ -2,8 +2,6 @@
 @import '../../mixins';
 @import '../../functions';
 
-@include dashboard-sidebar-collapse('add-cards', 842px);
-
 @include dashboard-content('add-cards') {
 	$margin: 30px;
 	

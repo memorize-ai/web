@@ -62,11 +62,13 @@ $divider-color: transparentize(#ddd, 0.8);
 				
 				padding-top: $vertical-padding;
 				padding-bottom: $vertical-padding;
+				color: white;
+				background: transparentize(#f0f1f8, 0.9);
 				border: none;
 			}
 			
 			> svg {
-				color: #582efe;
+				color: white;
 			}
 		}
 	}

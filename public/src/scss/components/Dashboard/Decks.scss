@@ -13,8 +13,6 @@
 	}
 }
 
-@include dashboard-sidebar-collapse('decks', 1080px);
-
 @include dashboard-content('decks') {
 	$margin: 30px;
 	

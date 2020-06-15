@@ -20,8 +20,6 @@ $rating-colors: (
 	transform: translateY($card-offset * $multiplier);
 }
 
-@include dashboard-sidebar-collapse('review', 980px);
-
 @include dashboard-content('review') {
 	> .mask {
 		$margin: 30px;

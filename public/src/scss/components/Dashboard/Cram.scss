@@ -14,8 +14,6 @@ $flip-animation-duration: 300ms;
 	transform: translateY($card-offset * $multiplier);
 }
 
-@include dashboard-sidebar-collapse('cram', 980px);
-
 @include dashboard-content('cram') {
 	> .mask {
 		$margin: 30px;

@@ -1,8 +1,6 @@
 @import '../../mixins';
 @import '../../functions';
 
-@include dashboard-sidebar-collapse('interests', 820px);
-
 @include dashboard-content('interests') {
 	padding: 0 raw-repeat(3, 30px);
 	

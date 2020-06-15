@@ -2,8 +2,6 @@
 @import '../../mixins';
 @import '../../functions';
 
-@include dashboard-sidebar-collapse('edit-card', 795px);
-
 @include dashboard-content('edit-card') {
 	$margin: 30px;
 	
