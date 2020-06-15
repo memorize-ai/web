@@ -21,7 +21,7 @@ const Home = () => {
 	return (
 		<div className="home">
 			<Head
-				title="memorize.ai: Do less, Learn more"
+				title="memorize.ai: Intelligent flashcards"
 				breadcrumbs={[
 					[
 						{
