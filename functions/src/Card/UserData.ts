@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin'
 
 import Section from '../Section'
+import Algorithm from '../Algorithm'
 
 const firestore = admin.firestore()
 
@@ -19,19 +20,19 @@ export default class CardUserData {
 		id: string
 		date: Date
 		next: Date
-	}
+	} | null
 	
 	constructor(snapshot: FirebaseFirestore.DocumentSnapshot) {
 		this.isNew = snapshot.get('new')
 		this.sectionId = snapshot.get('section')
 		this.due = snapshot.get('due')?.toDate()
-		this.totalNumberOfRecallAttempts = snapshot.get('totalCount')
+		this.totalNumberOfRecallAttempts = snapshot.get('totalCount') ?? 0
 		this.numberOfForgotRecallAttempts = snapshot.get('forgotCount') ?? 0
 		this.numberOfStruggledRecallAttempts = snapshot.get('struggledCount') ?? 0
 		this.numberOfEasyRecallAttempts = snapshot.get('easyCount') ?? 0
-		this.streak = snapshot.get('streak')
-		this.e = snapshot.get('e')
-		this.isMastered = snapshot.get('mastered')
+		this.streak = snapshot.get('streak') ?? 0
+		this.e = snapshot.get('e') ?? Algorithm.DEFAULT_E
+		this.isMastered = snapshot.get('mastered') ?? false
 		
 		const last = snapshot.get('last') ?? null
 		
