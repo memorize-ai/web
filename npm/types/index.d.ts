@@ -1,6 +1,6 @@
 export default class Memorize {
 	constructor()
-	constructor(auth: Auth | null)
+	constructor(apiKey: string | null)
 	
 	static url(path: string): string
 	
@@ -18,11 +18,6 @@ export default class Memorize {
 	topicsFromCategory(category: string): Promise<Topic[]>
 	
 	userFromId(id: string): Promise<User>
-}
-
-export interface Auth {
-	email: string
-	password: string
 }
 
 export type FetchData = Record<string, any>

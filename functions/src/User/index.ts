@@ -21,6 +21,7 @@ export default class User {
 	id: string
 	name: string
 	email: string
+	apiKey: string | null
 	numberOfDecks: number
 	interests: string[]
 	allDecks: string[]
@@ -32,6 +33,7 @@ export default class User {
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
+		this.apiKey = snapshot.get('apiKey') ?? null
 		this.numberOfDecks = snapshot.get('deckCount') ?? 0
 		this.interests = snapshot.get('topics') ?? []
 		this.allDecks = snapshot.get('allDecks') ?? []
@@ -81,6 +83,11 @@ export default class User {
 			})
 		])
 	}
+	
+	onDelete = () => Promise.all([
+		this.removeAuth(),
+		firestore.doc(`api-keys/${this.apiKey}`).delete()
+	])
 	
 	addDeckToAllDecks = (deckId: string) =>
 		firestore.doc(`users/${this.id}`).update({

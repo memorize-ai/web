@@ -7,7 +7,7 @@ export default functions.firestore
 	.document('users/{uid}')
 	.onDelete(cauterize(snapshot =>
 		Promise.all([
-			new User(snapshot).removeAuth(),
+			new User(snapshot).onDelete(),
 			User.decrementCounter()
 		])
 	))

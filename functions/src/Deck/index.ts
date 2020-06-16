@@ -289,6 +289,32 @@ export default class Deck {
 		return `https://memorize.ai/d/${this.slugId}/${this.slug}`
 	}
 	
+	get = async (uid: string) => {
+		const { docs } = await firestore
+			.collection(`decks/${this.id}/sections`)
+			.where('index', '==', 0)
+			.get()
+		
+		const section: (
+			admin.firestore.DocumentSnapshot | undefined
+		) = docs[0]
+		
+		const numberOfSectionedCards = section?.get('cardCount') ?? 0
+		const numberOfUnlockedCards = this.numberOfUnsectionedCards + numberOfSectionedCards
+		
+		const data: Record<string, any> = {
+			added: admin.firestore.FieldValue.serverTimestamp(),
+			dueCardCount: numberOfUnlockedCards,
+			unsectionedDueCardCount: this.numberOfUnsectionedCards,
+			unlockedCardCount: numberOfUnlockedCards
+		}
+		
+		if (section)
+			data.sections = { [section.id]: numberOfSectionedCards }
+		
+		return firestore.doc(`users/${uid}/decks/${this.id}`).set(data)
+	}
+	
 	updateAverageRating = () => {
 		const sum = (
 			this.numberOf1StarRatings +
