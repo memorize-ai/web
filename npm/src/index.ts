@@ -3,7 +3,7 @@ import axios from 'axios'
 import type { FetchData, MemorizeErrorStatus } from '../types'
 
 export default class Memorize {
-	constructor(private apiKey: string | null = null) {}
+	constructor(public apiKey: string | null = null) {}
 	
 	static url = (path: string) =>
 		`https://memorize.ai/_api/${path}`

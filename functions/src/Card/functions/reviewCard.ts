@@ -5,9 +5,15 @@ import Algorithm from '../../Algorithm'
 import PerformanceRating, { NumberPerformanceRating, performanceRatingFromNumber } from '../PerformanceRating'
 import CardUserData from '../UserData'
 import Section from '../../Section'
-import Deck from '../../Deck'
-import User from '../../User'
 import { cauterize } from '../../utils'
+
+type UpdateCard = (
+	userData: CardUserData,
+	ref: FirebaseFirestore.DocumentReference,
+	date: Date,
+	rating: PerformanceRating,
+	viewTime: number
+) => Promise<boolean>
 
 const firestore = admin.firestore()
 
@@ -36,7 +42,7 @@ export default functions.https.onCall(cauterize(async (
 	if (rating === null)
 		throw new functions.https.HttpsError('invalid-argument', '"rating" must be 0, 1, or 2')
 	
-	const now = new Date
+	const now = new Date()
 	const { uid } = auth
 	const cardRef = firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`)
 	
@@ -48,25 +54,17 @@ export default functions.https.onCall(cauterize(async (
 		]: admin.firestore.FieldValue.increment(-1)
 	})
 	
-	if (Math.random() < 0.2) // 20% chance
-		User.addXP((await Deck.fromId(deckId)).creatorId, User.xp.reviewCard)
-	
 	const userData = await CardUserData.fromId(uid, deckId, cardId)
 	
-	return userData.isNew
-		? updateNewCard(cardRef, now, rating, viewTime)
-		: updateExistingCard(userData, cardRef, now, rating, viewTime)
+	return (userData.isNew ? updateNewCard : updateExistingCard)(
+		userData, cardRef, now, rating, viewTime
+	)
 }, Promise.resolve(false)))
 
-const updateNewCard = async (
-	ref: FirebaseFirestore.DocumentReference,
-	date: Date,
-	rating: PerformanceRating,
-	viewTime: number
-) => {
+const updateNewCard: UpdateCard = async (userData, ref, now, rating, viewTime) => {
 	const isCorrect = Algorithm.isPerformanceRatingCorrect(rating)
 	const historyRef = ref.collection('history').doc()
-	const { e, next } = Algorithm.nextDueDateForNewCard(date)
+	const { e, next } = Algorithm.nextDueDate(rating, userData, now)
 	
 	const data: Record<string, any> = {
 		new: false,
@@ -77,27 +75,27 @@ const updateNewCard = async (
 		mastered: false,
 		last: {
 			id: historyRef.id,
-			date,
+			date: now,
 			next
 		}
 	}
 	
 	switch (rating) {
-		case PerformanceRating.Forgot:
-			data.forgotCount = 1
+		case PerformanceRating.Easy:
+			data.easyCount = 1
 			break
 		case PerformanceRating.Struggled:
 			data.struggledCount = 1
 			break
-		case PerformanceRating.Easy:
-			data.easyCount = 1
+		case PerformanceRating.Forgot:
+			data.forgotCount = 1
 			break
 	}
 	
 	await Promise.all([
 		ref.update(data),
 		historyRef.set({
-			date,
+			date: now,
 			next,
 			rating,
 			elapsed: 0,
@@ -108,17 +106,11 @@ const updateNewCard = async (
 	return false
 }
 
-const updateExistingCard = async (
-	userData: CardUserData,
-	ref: FirebaseFirestore.DocumentReference,
-	date: Date,
-	rating: PerformanceRating,
-	viewTime: number
-) => {
+const updateExistingCard: UpdateCard = async (userData, ref, now, rating, viewTime) => {
 	const isCorrect = Algorithm.isPerformanceRatingCorrect(rating)
 	const mastered = rating === PerformanceRating.Easy && (userData.streak >= Algorithm.MASTERED_STREAK - 1)
 	const historyRef = ref.collection('history').doc()
-	const { e, next } = Algorithm.nextDueDate(rating, userData, date)
+	const { e, next } = Algorithm.nextDueDate(rating, userData, now)
 	
 	const data: Record<string, any> = {
 		due: next,
@@ -129,30 +121,32 @@ const updateExistingCard = async (
 		mastered,
 		last: {
 			id: historyRef.id,
-			date,
+			date: now,
 			next
 		}
 	}
 	
 	switch (rating) {
-		case PerformanceRating.Forgot:
-			data.forgotCount = admin.firestore.FieldValue.increment(1)
+		case PerformanceRating.Easy:
+			data.easyCount = admin.firestore.FieldValue.increment(1)
 			break
 		case PerformanceRating.Struggled:
 			data.struggledCount = admin.firestore.FieldValue.increment(1)
 			break
-		case PerformanceRating.Easy:
-			data.easyCount = admin.firestore.FieldValue.increment(1)
+		case PerformanceRating.Forgot:
+			data.forgotCount = admin.firestore.FieldValue.increment(1)
 			break
 	}
 	
 	await Promise.all([
 		ref.update(data),
 		historyRef.set({
-			date,
+			date: now,
 			next,
 			rating,
-			elapsed: date.getTime() - userData.last.date.getTime(),
+			elapsed: userData.last
+				? now.getTime() - userData.last.date.getTime()
+				: 0,
 			viewTime
 		})
 	])

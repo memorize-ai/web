@@ -12,7 +12,7 @@ import handleAPI from './API'
 const storage = admin.storage().bucket()
 const app = express()
 
-export default functions.https.onRequest(app as any)
+export default functions.https.onRequest(app)
 
 app.use(cors())
 
