@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-import type { Auth, FetchData } from '../types'
+import type { FetchData } from '../types'
 
 export default class Memorize {
-	constructor(private auth: Auth | null = null) {}
+	constructor(private apiKey: string | null = null) {}
 	
 	static url = (path: string) =>
 		`https://memorize.ai/_api/${path}`
@@ -24,7 +24,13 @@ export default class Memorize {
 	getDeckFromId = (id: string) =>
 		Memorize.fetch('deck/get', {
 			id,
-			auth: this.auth
+			key: this.apiKey
+		})
+	
+	getDeckFromShortId = (shortId: string) =>
+		Memorize.fetch('deck/get', {
+			short_id: shortId,
+			key: this.apiKey
 		})
 	
 	topicFromId = (id: string) =>
