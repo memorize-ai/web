@@ -2,7 +2,7 @@ import PerformanceRating from '../Card/PerformanceRating'
 import CardUserData from '../Card/UserData'
 
 export default class Algorithm {
-	private static MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24
+	static INITIAL_INTERVAL = 1000 * 60 * 60 * 24
 	
 	static DEFAULT_E = 2.5
 	static MINIMUM_E = 1.3
@@ -10,50 +10,56 @@ export default class Algorithm {
 	
 	static nextDueDate = (
 		rating: PerformanceRating,
-		userData: CardUserData,
-		start: Date = new Date
-	) => ({
-		e: Algorithm.e(rating, userData.e),
-		next: new Date(
-			start.getTime() +
-			Algorithm.interval(rating, userData, start)
-		)
-	})
-	
-	private static q = (rating: PerformanceRating) => {
-		switch (rating) {
-			case PerformanceRating.Forgot:
-				return 0
-			case PerformanceRating.Struggled:
-				return 3
-			case PerformanceRating.Easy:
-				return 5
+		card: CardUserData,
+		now: Date
+	) => {
+		const e = Algorithm.e(rating, card.e)
+		
+		return {
+			e,
+			next: new Date(
+				now.getTime() +
+				Algorithm.interval(card, e, now)
+			)
 		}
 	}
 	
+	/** Get the quality of response multiplier */
+	private static q = (rating: PerformanceRating) => {
+		switch (rating) {
+			case PerformanceRating.Easy:
+				return 5
+			case PerformanceRating.Struggled:
+				return 3
+			case PerformanceRating.Forgot:
+				return 0
+		}
+	}
+	
+	/** Get the new easiness factor */
 	private static e = (rating: PerformanceRating, e: number) => {
 		const q = Algorithm.q(rating)
 		
 		return Math.max(
 			Algorithm.MINIMUM_E,
-			-0.02 * q ** 2 + 0.28 * q + e - 0.8
+			e + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02)
 		)
 	}
 	
-	private static interval = (
-		rating: PerformanceRating,
-		{ e, last }: CardUserData,
-		date: Date
-	) =>
-		rating === PerformanceRating.Forgot
-			? Algorithm.MILLISECONDS_IN_DAY
-			: (date.getTime() - last.date.getTime()) * e
+	private static interval = (card: CardUserData, e: number, now: Date) =>
+		(card.last
+			? now.getTime() - card.last.date.getTime()
+			: Algorithm.INITIAL_INTERVAL
+		) * e
 	
-	static nextDueDateForNewCard = (start: Date = new Date) => ({
-		e: Algorithm.DEFAULT_E,
-		next: new Date(start.getTime() + Algorithm.MILLISECONDS_IN_DAY)
-	})
-	
-	static isPerformanceRatingCorrect = (rating: PerformanceRating) =>
-		rating > 0
+	static isPerformanceRatingCorrect = (rating: PerformanceRating) => {
+		switch (rating) {
+			case PerformanceRating.Easy:
+				return true
+			case PerformanceRating.Struggled:
+				return true
+			case PerformanceRating.Forgot:
+				return false
+		}
+	}
 }

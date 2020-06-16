@@ -11,23 +11,20 @@ export default functions.https.onCall(cauterize(
 			throw new functions.https.HttpsError('failed-precondition', 'You need to be signed in')
 		
 		const userData = await CardUserData.fromId(auth.uid, deckId, cardId)
-		
-		const now = new Date
-		
-		if (userData.isNew) {
-			const next = Algorithm.nextDueDateForNewCard(now).next.getTime()
-			
-			return { 0: next, 1: next, 2: next }
-		}
+		const now = new Date()
 		
 		const getPrediction = (rating: PerformanceRating) =>
 			Algorithm.nextDueDate(rating, userData, now).next.getTime()
 		
 		return {
-			0: getPrediction(PerformanceRating.Easy),
-			1: getPrediction(PerformanceRating.Struggled),
-			2: getPrediction(PerformanceRating.Forgot)
+			[PerformanceRating.Easy]: getPrediction(PerformanceRating.Easy),
+			[PerformanceRating.Struggled]: getPrediction(PerformanceRating.Struggled),
+			[PerformanceRating.Forgot]: getPrediction(PerformanceRating.Forgot)
 		}
 	},
-	{ 0: 0, 1: 0, 2: 0 }
+	{
+		[PerformanceRating.Easy]: 0,
+		[PerformanceRating.Struggled]: 0,
+		[PerformanceRating.Forgot]: 0
+	}
 ))
