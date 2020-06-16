@@ -133,22 +133,34 @@
 						font-size: 14px;
 						font-weight: bold;
 						color: #9b9b9b;
+						
+						&:not(:first-child) {
+							margin-top: 14px;
+						}
 					}
 					
 					> .name-input,
-					> .email {
+					> .email,
+					> .api-key {
 						color: $dark-gray;
 					}
 					
-					> .name-input {
-						margin-bottom: 14px;
+					> .name-input,
+					> .api-key {
 						padding: 8px 10px;
-						background: transparentize(#f0f1f8, 1 / 3)
+						background: transparentize(#f0f1f8, 1 / 3);
 					}
 					
 					> .email {
 						margin-top: -4px;
 						font-size: 17px;
+					}
+					
+					> .api-key {
+						overflow-x: auto;
+						white-space: nowrap;
+						font-family: monospace, $font-family;
+						border-radius: 4px;
 					}
 				}
 				
