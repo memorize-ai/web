@@ -46,11 +46,16 @@ export default class Algorithm {
 		)
 	}
 	
-	private static interval = (card: CardUserData, e: number, now: Date) =>
-		(card.last
-			? now.getTime() - card.last.date.getTime()
+	/** Get the interval without the easiness multiplier */
+	private static rawInterval = ({ last }: CardUserData, now: Date) =>
+		last
+			? now.getTime() - last.date.getTime()
 			: Algorithm.INITIAL_INTERVAL
-		) * e
+	
+	private static interval = (card: CardUserData, e: number, now: Date) =>
+		Algorithm.rawInterval(card, now) * (
+			e - (card.totalNumberOfRecallAttempts < 2 ? 1 : 0)
+		)
 	
 	static isPerformanceRatingCorrect = (rating: PerformanceRating) => {
 		switch (rating) {
