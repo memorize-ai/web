@@ -9,6 +9,10 @@
 	cursor: pointer;
 	font-size: 18px;
 	
+	@media (min-width: 800px) {
+		overflow-x: unset;
+	}
+	
 	> :not(.name) {
 		flex-shrink: 0;
 	}
