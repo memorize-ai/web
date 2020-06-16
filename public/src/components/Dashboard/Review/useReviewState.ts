@@ -686,7 +686,7 @@ export default (
 			
 			setPredictionLoadingState(LoadingState.Success)
 		}).catch(error => {
-			alert(error.message)
+			console.error(error)
 			setPredictionLoadingState(LoadingState.Fail)
 		})
 	}, [deck, card, loadingState, setPredictionLoadingState])
