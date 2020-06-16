@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin'
+import { v4 as uuid } from 'uuid'
 
 import { EmailTemplate } from '../Email'
 
@@ -39,13 +40,6 @@ export default class User {
 	static fromId = async (id: string) =>
 		new User(await firestore.doc(`users/${id}`).get())
 	
-	static resetUnsubscribed = (uid: string) =>
-		firestore.doc(`users/${uid}`).update({
-			unsubscribed: {
-				[EmailTemplate.DueCardsNotification]: false
-			}
-		})
-	
 	static incrementDeckCount = (uid: string, amount: number = 1) =>
 		firestore.doc(`users/${uid}`).update({
 			deckCount: admin.firestore.FieldValue.increment(amount)
@@ -69,6 +63,24 @@ export default class User {
 	
 	static decrementCounter = (amount: number = 1) =>
 		User.incrementCounter(-amount)
+	
+	onCreate = () => {
+		const apiKey = uuid()
+		
+		return Promise.all([
+			User.incrementCounter(),
+			this.normalizeDisplayName(),
+			firestore.doc(`users/${this.id}`).update({
+				apiKey,
+				unsubscribed: {
+					[EmailTemplate.DueCardsNotification]: false
+				}
+			}),
+			firestore.doc(`api-keys/${apiKey}`).set({
+				user: this.id
+			})
+		])
+	}
 	
 	addDeckToAllDecks = (deckId: string) =>
 		firestore.doc(`users/${this.id}`).update({

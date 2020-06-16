@@ -11,6 +11,7 @@ const firestore = firebase.firestore()
 export interface UserData {
 	name: string | null
 	email: string | null
+	apiKey: string | null
 	numberOfDecks: number | null
 	xp: number | null
 	interestIds: string[] | null
@@ -23,6 +24,7 @@ export default class User implements UserData {
 	id: string
 	name: string | null
 	email: string | null
+	apiKey: string | null
 	
 	numberOfDecks: number | null
 	xp: number | null
@@ -33,6 +35,7 @@ export default class User implements UserData {
 		this.id = id
 		this.name = data.name
 		this.email = data.email
+		this.apiKey = data.apiKey
 		this.numberOfDecks = data.numberOfDecks
 		this.xp = data.xp
 		this.interestIds = data.interestIds
@@ -43,6 +46,7 @@ export default class User implements UserData {
 		new User(user.uid, {
 			name: user.displayName,
 			email: user.email,
+			apiKey: null,
 			numberOfDecks: null,
 			xp: null,
 			interestIds: null,
@@ -53,6 +57,7 @@ export default class User implements UserData {
 		new User(snapshot.id, {
 			name: snapshot.get('name') ?? '(error)',
 			email: snapshot.get('email') ?? '(error)',
+			apiKey: snapshot.get('apiKey') ?? null,
 			numberOfDecks: snapshot.get('deckCount') ?? 0,
 			xp: snapshot.get('xp') ?? 0,
 			interestIds: snapshot.get('topics') ?? [],
@@ -154,6 +159,7 @@ export default class User implements UserData {
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
+		this.apiKey = snapshot.get('apiKey') ?? null
 		
 		this.numberOfDecks = snapshot.get('deckCount') ?? 0
 		this.xp = snapshot.get('xp') ?? 0

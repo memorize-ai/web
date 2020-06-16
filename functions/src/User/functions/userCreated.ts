@@ -6,9 +6,5 @@ import { cauterize } from '../../utils'
 export default functions.firestore
 	.document('users/{uid}')
 	.onCreate(cauterize(snapshot =>
-		Promise.all([
-			new User(snapshot).normalizeDisplayName(),
-			User.resetUnsubscribed(snapshot.id),
-			User.incrementCounter()
-		])
+		new User(snapshot).onCreate()
 	))
