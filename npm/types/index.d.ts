@@ -20,6 +20,18 @@ export default class Memorize {
 	userFromId(id: string): Promise<User>
 }
 
+export class MemorizeError {
+	status: MemorizeErrorStatus
+	message: string
+	
+	constructor(status: MemorizeErrorStatus, message: string)
+}
+
+export interface MemorizeErrorStatus {
+	code: number
+	message: string
+}
+
 export type FetchData = Record<string, any>
 
 export interface Deck {

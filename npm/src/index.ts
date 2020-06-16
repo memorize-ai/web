@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import type { FetchData } from '../types'
+import type { FetchData, MemorizeErrorStatus } from '../types'
 
 export default class Memorize {
 	constructor(private apiKey: string | null = null) {}
@@ -12,7 +12,13 @@ export default class Memorize {
 		const url = Memorize.url(path)
 		
 		return (data ? axios.post(url, data) : axios.get(url))
-			.then(res => res.data)
+			.then(({ data }) => data)
+			.catch(({ response: { data, status, statusText } }) => {
+				throw new MemorizeError(
+					{ code: status, message: statusText },
+					data
+				)
+			})
 	}
 	
 	deckFromId = (id: string) =>
@@ -44,4 +50,13 @@ export default class Memorize {
 	
 	userFromId = (id: string) =>
 		Memorize.fetch(`user?id=${id}`)
+}
+
+class MemorizeError extends Error {
+	constructor(
+		public status: MemorizeErrorStatus,
+		public message: string
+	) {
+		super(message)
+	}
 }
