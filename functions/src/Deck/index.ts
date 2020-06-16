@@ -312,7 +312,7 @@ export default class Deck {
 		if (section)
 			data.sections = { [section.id]: numberOfSectionedCards }
 		
-		return firestore.doc(`users/${uid}/decks/${this.id}`).set(data)
+		return firestore.doc(`users/${uid}/decks/${this.id}`).create(data)
 	}
 	
 	updateAverageRating = () => {

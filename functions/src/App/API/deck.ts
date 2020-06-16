@@ -69,7 +69,7 @@ export default (app: Express) => {
 				return
 			}
 			
-			res.send(deck.toJSON())
+			res.json(deck.toJSON())
 		} catch {
 			res.status(404).send(`There are no decks matching "${deckId}"`)
 		}
