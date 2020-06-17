@@ -4,9 +4,6 @@ import Editor from 'ckeditor5-memorize.ai'
 
 import { CKEditorProps } from '.'
 
-import '../../../types/ckeditor5-react.d'
-import '../../../types/ckeditor5-memorize.ai.d'
-
 const CKEditorContent = ({ uploadUrl, data, setData }: CKEditorProps) => {
 	const config = useMemo(() => ({
 		simpleUpload: { uploadUrl }
