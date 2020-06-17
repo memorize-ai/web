@@ -7,7 +7,9 @@ import { getType } from 'mime'
 import Deck from '../Deck'
 import { PRERENDER_TOKEN } from '../constants'
 import { setCacheControl, setContentType } from '../utils'
+
 import handleAPI from './API'
+import handleBadges from './badges'
 
 const storage = admin.storage().bucket()
 const app = express()
@@ -29,6 +31,7 @@ app.get('/d/:slug', async ({ params: { slug } }, res) => {
 })
 
 handleAPI(app)
+handleBadges(app)
 
 app.use(require('prerender-node').set('prerenderToken', PRERENDER_TOKEN))
 
