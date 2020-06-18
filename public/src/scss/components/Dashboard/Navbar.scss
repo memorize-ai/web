@@ -9,12 +9,12 @@
 	grid:
 		'tabs right' auto /
 		1fr auto;
-	align-items: end;
 	margin: 0 30px;
 	border-bottom: $bottom-border-width solid transparentize(#ddd, 0.8);
 	
 	> .tabs {
 		grid-area: tabs;
+		align-self: stretch;
 		display: flex;
 		align-items: flex-end;
 		overflow-x: auto;
@@ -24,11 +24,26 @@
 			$bottom-padding: 13px;
 			
 			display: flex;
+			position: relative;
 			align-items: center;
 			padding: 0 $horizontal-padding $bottom-padding $horizontal-padding;
 			color: white;
 			opacity: 0.7;
-			transition: opacity 0.3s;
+			
+			&,
+			> p,
+			> svg {
+				transition: opacity 0.3s;
+			}
+			
+			> .overlay {
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: $bottom-padding;
+				left: 0;
+				z-index: 1;
+			}
 			
 			> p {
 				margin-left: 10px;
@@ -49,14 +64,25 @@
 			}
 			
 			&.disabled {
-				cursor: default;
-				pointer-events: none;
-				opacity: 0.5;
+				&,
+				> .overlay {
+					cursor: default;
+				}
+				
+				> p,
+				> svg {
+					opacity: 0.5;
+				}
+				
+				&:hover {
+					opacity: 1;
+				}
 			}
 		}
 	}
 	
 	> .right {
+		align-self: end;
 		display: flex;
 		align-items: center;
 		

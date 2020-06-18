@@ -22,12 +22,13 @@ const CardSide = ({ className, children, ...props }: { children: string } & HTML
 	}, [children]) // eslint-disable-line
 	
 	return (
-		<div
-			{...props}
-			className={cx('card-side', className)}
-			ref={onRef}
-			dangerouslySetInnerHTML={{ __html: children }}
-		/>
+		<div {...props} className={cx('card-side', className)}>
+			<div
+				className="content"
+				ref={onRef}
+				dangerouslySetInnerHTML={{ __html: children }}
+			/>
+		</div>
 	)
 }
 

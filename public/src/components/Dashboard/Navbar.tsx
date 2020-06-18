@@ -80,6 +80,11 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 					title="Decks"
 					isSelected={selection === Selection.Decks}
 					isDisabled={!decks.length}
+					message={
+						decks.length
+							? undefined
+							: 'First, get a deck from the Market'
+					}
 				>
 					<Decks />
 				</Tab>

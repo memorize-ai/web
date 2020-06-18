@@ -99,7 +99,7 @@
 }
 
 @mixin card-side-katex-width($width) {
-	.card-side .katex-display {
+	.card-side > .content .katex-display {
 		width: $width;
 	}
 }
