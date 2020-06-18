@@ -1,16 +1,15 @@
 import * as functions from 'firebase-functions'
-// import * as admin from 'firebase-admin'
 
 import { EMAIL_SCHEDULE } from '../../constants'
-// import Email, { EmailTemplate } from '../../Email'
+import { sendEmail, EmailTemplate } from '..'
 
 // const firestore = admin.firestore()
 
 export default functions.pubsub.schedule(EMAIL_SCHEDULE).onRun(async () => {
-	// const { docs: users } = await firestore
-	// 	.collection('users')
-	// 	.where(`unsubscribed.${EmailTemplate.DueCardsNotification}`, '==', false)
-	// 	.get()
+	const { docs: users } = await firestore
+		.collection('users')
+		.where(`unsubscribed.${EmailTemplate.DueCardsNotification}`, '==', false)
+		.get()
 	
 	// return Promise.all(users.map(async ({ id: uid }) => {
 	// 	const { docs: decks } = await firestore
