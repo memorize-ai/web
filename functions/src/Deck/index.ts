@@ -13,6 +13,9 @@ const firestore = admin.firestore()
 const storage = admin.storage().bucket()
 
 export default class Deck {
+	static defaultImageUrl = 'https://memorize.ai/images/logos/square.png'
+	static defaultImageUrlJpeg = 'https://memorize.ai/images/logos/square.jpg'
+	
 	id: string
 	slugId: string
 	slug: string
@@ -289,6 +292,12 @@ export default class Deck {
 		return `https://memorize.ai/d/${this.slugId}/${this.slug}`
 	}
 	
+	get imageUrl() {
+		return this.hasImage
+			? storageUrl(['decks', this.id])
+			: null
+	}
+	
 	get = async (uid: string) => {
 		const { docs } = await firestore
 			.collection(`decks/${this.id}/sections`)
@@ -454,7 +463,7 @@ export default class Deck {
 		url: this.url,
 		topics: this.topics,
 		has_image: this.hasImage,
-		image_url: this.hasImage ? storageUrl(['decks', this.id]) : null,
+		image_url: this.imageUrl,
 		name: this.name,
 		subtitle: this.subtitle,
 		description: this.description,
