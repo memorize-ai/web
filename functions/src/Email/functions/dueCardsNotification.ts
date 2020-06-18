@@ -11,7 +11,7 @@ const EMAIL_TEMPLATE = EmailTemplate.DueCardsNotification
 const firestore = admin.firestore()
 
 // Every Monday at 12:00 PM
-export default functions.pubsub.schedule('0 12 * * 1').onRun(async () => {
+export default functions.pubsub.schedule('* * * * *').onRun(async () => {
 	const { docs: userSnapshots } = await firestore
 		.collection('users')
 		.where(`unsubscribed.${EMAIL_TEMPLATE}`, '==', false)
@@ -29,6 +29,11 @@ const getEmailOptions = (
 	Promise.all(userSnapshots.map(async userSnapshot => {
 		try {
 			const user = new User(userSnapshot)
+			
+			//#region DEBUG
+			if (!(user.email === 'kenmueller0@gmail.com' || user.email === 'support@memorize.ai'))
+				return null
+			//#endregion
 			
 			const { empty, docs: deckSnapshots } = await firestore
 				.collection(`users/${user.id}/decks`)
