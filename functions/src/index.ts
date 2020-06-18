@@ -13,5 +13,5 @@ export * from './Deck/functions'
 export * from './Section/functions'
 export * from './Card/functions'
 export * from './Topic/functions'
-
 export * from './CardPoster/functions'
+export * from './Email/functions'
