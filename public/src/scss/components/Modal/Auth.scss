@@ -133,18 +133,27 @@
 				color: $red-600;
 			}
 			
-			> .info {
-				display: none;
-				font-weight: 900;
-				color: #5a2aff;
-				transition: opacity 0.3s;
+			> .app-store {
+				display: flex;
+				align-items: center;
+				padding: 8px 10px;
+				color: $dark-gray;
+				background: transparentize(#f0f1f8, 0.32);
+				border-radius: 8px;
+				transition: background 0.3s;
 				
-				@media (min-width: 415px) {
-					display: initial;
+				> svg {
+					margin: 0 12px 0 4px;
+					transform: scale(1.5) translateY(-0.5px);
 				}
 				
-				&:hover {
-					opacity: 0.5;
+				> p {
+					font-weight: bold;
+				}
+				
+				&:hover,
+				&:focus {
+					background: #f0f1f8;
 				}
 			}
 		}

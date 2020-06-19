@@ -26,7 +26,7 @@ const HomeClassroom = () => (
 					love memorize.ai
 				</h2>
 				<List />
-				<AuthButton className="get-started">
+				<AuthButton className="get-started" goToAppStoreIfHandheldIos>
 					<p>Get started</p>
 					<LeftArrow />
 				</AuthButton>
