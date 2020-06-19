@@ -11,7 +11,8 @@ const EMAIL_TEMPLATE = EmailTemplate.DueCardsNotification
 const firestore = admin.firestore()
 
 // Every Monday at 12:00 PM
-export default functions.pubsub.schedule('* * * * *').onRun(async () => {
+// export default functions.pubsub.schedule('0 12 * * 1').onRun(async () => {
+export default functions.pubsub.schedule('every 5 minutes').onRun(async () => {
 	const { docs: userSnapshots } = await firestore
 		.collection('users')
 		.where(`unsubscribed.${EMAIL_TEMPLATE}`, '==', false)
@@ -49,7 +50,7 @@ const getEmailOptions = (
 					name: user.name,
 					email: user.email
 				},
-				...await getData(
+				context: await getContext(
 					user,
 					deckSnapshots.filter(({ exists }) => exists)
 				)
@@ -60,7 +61,7 @@ const getEmailOptions = (
 		}
 	}))
 
-const getData = async (
+const getContext = async (
 	user: User,
 	deckSnapshots: FirebaseFirestore.DocumentSnapshot[]
 ) => {
@@ -72,49 +73,49 @@ const getData = async (
 			acc + numberOfDueCards
 		), 0)
 	
-	const decks = await Promise.all(
-		deckUserDataItems
-			.sort((a, b) => b.numberOfDueCards - a.numberOfDueCards)
-			.map(async ({ id, numberOfDueCards, sections }) => {
-				try {
-					const deck = await Deck.fromId(id)
-					
-					const numberOfDueSections =
-						Object.values(sections).reduce((acc, count) => (
-							acc + (count > 0 ? 1 : 0)
-						), 0)
-					
-					return {
-						url: `https://memorize.ai/decks/${deck.slugId}/${deck.slug}`,
-						image_url: deck.imageUrl ?? Deck.defaultImageUrlJpeg,
-						name: deck.name,
-						card_due_count: numberOfDueCards,
-						card_due_count_is_one: numberOfDueCards === 1,
-						section_due_count: numberOfDueSections,
-						section_due_count_is_one: numberOfDueSections === 1
+	const decks = (
+		await Promise.all(
+			deckUserDataItems
+				.sort((a, b) => b.numberOfDueCards - a.numberOfDueCards)
+				.map(async ({ id, numberOfDueCards, sections }) => {
+					try {
+						const deck = await Deck.fromId(id)
+						
+						const numberOfDueSections =
+							Object.values(sections).reduce((acc, count) => (
+								acc + (count > 0 ? 1 : 0)
+							), 0)
+						
+						return {
+							url: `https://memorize.ai/decks/${deck.slugId}/${deck.slug}`,
+							image_url: deck.imageUrl ?? Deck.defaultImageUrlJpeg,
+							name: deck.name,
+							card_due_count: numberOfDueCards,
+							card_due_count_is_one: numberOfDueCards === 1,
+							section_due_count: numberOfDueSections,
+							section_due_count_is_one: numberOfDueSections === 1,
+							review_url: `https://memorize.ai/review/${deck.slugId}/${deck.slug}`
+						}
+					} catch (error) {
+						console.error(error)
+						return null
 					}
-				} catch (error) {
-					console.error(error)
-					return null
-				}
-			})
-	)
+				})
+		)
+	).filter(Boolean)
 	
 	return {
-		subject: `You have ${
-			totalNumberOfDueCards
-		} card${
-			totalNumberOfDueCards === 1 ? '' : 's'
-		} due`,
-		context: {
-			url: 'https://memorize.ai',
-			frequency: 'weekly',
-			user: {
-				name: user.name,
-				card_due_count: totalNumberOfDueCards,
-				card_due_count_is_one: totalNumberOfDueCards === 1
-			},
-			decks: decks.filter(Boolean)
-		}
+		url: 'https://memorize.ai',
+		frequency: 'weekly',
+		user: {
+			name: user.name,
+			card_due_count: totalNumberOfDueCards,
+			card_due_count_is_one: totalNumberOfDueCards === 1,
+			deck_due_count: decks.length,
+			deck_due_count_is_one: decks.length === 1,
+			review_url: 'https://memorize.ai/review'
+		},
+		decks,
+		unsubscribe_url: `https://memorize.ai/unsubscribe/${user.id}/${EMAIL_TEMPLATE}`
 	}
 }

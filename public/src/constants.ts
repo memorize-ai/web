@@ -1,3 +1,8 @@
+export const IS_IOS = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream
+
+/** Does not include iPads */
+export const IS_IOS_HANDHELD = /iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+
 export const LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY = 'ai.memorize.expectsSignIn'
 export const LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY = 'ai.memorize.isCardEditorStacked'
 

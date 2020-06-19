@@ -17,7 +17,6 @@ export interface EmailOptions {
 	template: EmailTemplate
 	to: EmailUser
 	from?: EmailUser
-	subject: string
 	context?: Record<string, any>
 }
 
@@ -37,13 +36,11 @@ export const emailOptionsToMessage = ({
 	template,
 	to,
 	from = DEFAULT_FROM,
-	subject,
 	context
 }: EmailOptions): sendgrid.MailDataRequired => ({
 	templateId: getTemplateId(template),
 	to,
 	from,
-	subject,
 	dynamicTemplateData: context
 })
 

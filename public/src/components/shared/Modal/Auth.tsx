@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, FormEvent, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faApple } from '@fortawesome/free-brands-svg-icons'
 import cx from 'classnames'
 
 import firebase from '../../../firebase'
@@ -11,6 +12,7 @@ import useAuthModal from '../../../hooks/useAuthModal'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import Modal from '.'
 import Button from '../Button'
+import { IS_IOS, APP_STORE_URL } from '../../../constants'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -187,15 +189,18 @@ const AuthModal = () => {
 								{errorMessage}
 							</p>
 						)
-						: (
-							<a
-								className="info"
-								href="/#screenshots"
-								onClick={() => setIsShowing(false)}
-							>
-								Why are we different?
-							</a>
-						)
+						: IS_IOS
+							? (
+								<a
+									className="app-store"
+									href={APP_STORE_URL}
+									rel="nofollow noreferrer noopener"
+								>
+									<FontAwesomeIcon icon={faApple} />
+									<p>Download</p>
+								</a>
+							)
+							: null
 					}
 				</div>
 			</form>
