@@ -1,8 +1,13 @@
-import React, { memo } from 'react'
+import React, { ReactNode, memo } from 'react'
 
 import { ReactComponent as Bullet } from '../../../images/home/bullet.svg'
 
-const ITEMS = [
+export interface ListItem {
+	lines: number
+	text: ReactNode
+}
+
+const ITEMS: ListItem[] = [
 	{
 		lines: 2,
 		text: <>Create cards and split them into sections<br />for your class</>
@@ -14,6 +19,10 @@ const ITEMS = [
 	{
 		lines: 1,
 		text: 'Share keys with students to unlock sections'
+	},
+	{
+		lines: 2,
+		text: <>Students can use memorize.ai on their<br />computers and Apple devices</>
 	}
 ]
 
