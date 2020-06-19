@@ -11,7 +11,8 @@ const EMAIL_TEMPLATE = EmailTemplate.DueCardsNotification
 const firestore = admin.firestore()
 
 // Every Monday at 12:00 PM
-export default functions.pubsub.schedule('* * * * *').onRun(async () => {
+// export default functions.pubsub.schedule('0 12 * * 1').onRun(async () => {
+export default functions.pubsub.schedule('every 5 minutes').onRun(async () => {
 	const { docs: userSnapshots } = await firestore
 		.collection('users')
 		.where(`unsubscribed.${EMAIL_TEMPLATE}`, '==', false)
