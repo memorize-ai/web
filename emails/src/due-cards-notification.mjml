@@ -41,7 +41,7 @@
 				<mj-image
 					width="400px"
 					padding-top="40px"
-					href="https://memorize.ai"
+					href="{{url}}"
 					src="https://memorize.ai/images/logos/large.jpg"
 					alt="Logo"
 				/>
@@ -132,6 +132,7 @@
 				<mj-text
 					align="center"
 					padding-top="24px"
+					line-height="18px"
 				>
 					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
 					All rights reserved.
@@ -139,6 +140,12 @@
 				<mj-text
 					align="center"
 					padding-top="24px"
+				>
+					This email is sent {{frequency}}
+				</mj-text>
+				<mj-text
+					align="center"
+					padding-top="12px"
 				>
 					<a
 						style="text-decoration: none; color: #582efe;"
