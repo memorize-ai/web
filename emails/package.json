@@ -1,0 +1,7 @@
+{
+	"name": "emails",
+	"dependencies": {
+		"mjml": "^4.6.3"
+	},
+	"private": true
+}

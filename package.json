@@ -33,7 +33,8 @@
 		
 		"save-public-assets": "node scripts/src/save-public-assets",
 		"generate-sitemap": "node scripts/src/generate-sitemap",
-		"generate-password-reset-email": "node scripts/src/generate-password-reset-email"
+		
+		"build-email": "node emails"
 	},
 	"private": true
 }
