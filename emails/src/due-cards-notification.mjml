@@ -1,0 +1,153 @@
+<mjml>
+	<mj-head>
+		<mj-font
+			name="Muli"
+			href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700;900&display=swap"
+		/>
+		<mj-attributes>
+			<mj-all
+				padding-top="0"
+				padding-bottom="0"
+			/>
+			<mj-class
+				name="review-button"
+				padding-top="16px"
+				text-transform="uppercase"
+				font-size="16px"
+				font-weight="900"
+				background-color="#582efe"
+				border-radius="8px"
+			/>
+			<mj-text
+				font-family="Muli, Ubuntu, Arial, Helvetica, sans-serif"
+				color="#4a4a4a"
+			/>
+		</mj-attributes>
+		<mj-style>
+			.image-cover img {
+				object-fit: cover;
+			}
+		</mj-style>
+		<mj-title>
+			You have {{user.card_due_count}} card{{#unless user.card_due_count_is_one}}s{{/unless}} due in {{user.deck_due_count}} deck{{#unless user.deck_due_count_is_one}}s{{/unless}}
+		</mj-title>
+		<mj-preview>
+			Click here to review
+		</mj-preview>
+	</mj-head>
+	<mj-body background-color="white">
+		<mj-section>
+			<mj-column>
+				<mj-image
+					width="400px"
+					padding-top="40px"
+					href="https://memorize.ai"
+					src="https://memorize.ai/images/logos/large.jpg"
+					alt="Logo"
+				/>
+			</mj-column>
+		</mj-section>
+		<mj-section>
+			<mj-column padding-top="40px">
+				<mj-text
+					font-size="30px"
+					font-weight="900"
+				>
+					Hello, {{user.name}}
+				</mj-text>
+				<mj-text
+					padding-top="30px"
+					font-size="20px"
+					font-weight="700"
+				>
+					You have {{user.card_due_count}} card{{#unless user.card_due_count_is_one}}s{{/unless}} due in {{user.deck_due_count}} deck{{#unless user.deck_due_count_is_one}}s{{/unless}}
+				</mj-text>
+				<mj-button
+					mj-class="review-button"
+					align="left"
+					href="{{user.review_url}}"
+				>
+					Review all
+				</mj-button>
+			</mj-column>
+		</mj-section>
+		<mj-raw>
+			{{#each decks}}
+		</mj-raw>
+		<mj-section padding-top="40px">
+			<mj-column width="145px">
+				<mj-image
+					css-class="image-cover"
+					height="145px"
+					padding-left="0"
+					padding-right="0"
+					padding-bottom="8px"
+					border="1px solid #eee"
+					border-radius="8px"
+					href="{{this.url}}"
+					src="{{this.image_url}}"
+					alt="Deck"
+				/>
+			</mj-column>
+			<mj-column padding-top="14px">
+				<mj-text
+					font-size="20px"
+					font-weight="900"
+				>
+					{{this.name}}
+				</mj-text>
+				<mj-text
+					padding-top="24px"
+					font-size="16px"
+					font-weight="700"
+				>
+					{{this.card_due_count}} card{{#unless this.card_due_count_is_one}}s{{/unless}} due in {{this.section_due_count}} section{{#unless this.section_due_count_is_one}}s{{/unless}}
+				</mj-text>
+				<mj-button
+					mj-class="review-button"
+					width="100%"
+					href="{{this.review_url}}"
+				>
+					Review
+				</mj-button>
+			</mj-column>
+		</mj-section>
+		<mj-raw>
+			{{/each}}
+		</mj-raw>
+		<mj-section padding-top="40px" />
+		<mj-section
+			full-width="full-width"
+			padding-top="24px"
+			padding-bottom="24px"
+			background-color="#efeefa"
+		>
+			<mj-column>
+				<mj-image
+					width="200px"
+					href="https://memorize.ai"
+					src="https://memorize.ai/images/logos/capital-inverted-grayscale.png"
+					alt="Download on the App Store"
+				/>
+				<mj-text
+					align="center"
+					padding-top="24px"
+				>
+					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
+					All rights reserved.
+				</mj-text>
+				<mj-text
+					align="center"
+					padding-top="24px"
+				>
+					<a
+						style="text-decoration: none; color: #582efe;"
+						href="{{unsubscribe_url}}"
+					>
+						Unsubscribe
+					</a>
+				</mj-text>
+			</mj-column>
+		</mj-section>
+	</mj-body>
+</mjml>
