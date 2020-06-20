@@ -38,7 +38,8 @@
 			<mj-column>
 				<mj-image
 					width="400px"
-					padding-top="40px"
+					padding-top="30px"
+					padding-bottom="50px"
 					href="{{url}}"
 					src="https://memorize.ai/images/logos/large.jpg"
 					alt="Logo"
@@ -46,7 +47,7 @@
 			</mj-column>
 		</mj-section>
 		<mj-section>
-			<mj-column padding-top="40px">
+			<mj-column>
 				<mj-text
 					font-size="30px"
 					font-weight="900"
