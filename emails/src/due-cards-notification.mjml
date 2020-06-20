@@ -8,6 +8,7 @@
 			<mj-all
 				padding-top="0"
 				padding-bottom="0"
+				font-family="Muli, Ubuntu, Arial, Helvetica, sans-serif"
 			/>
 			<mj-class
 				name="review-button"
@@ -18,10 +19,7 @@
 				background-color="#582efe"
 				border-radius="8px"
 			/>
-			<mj-text
-				font-family="Muli, Ubuntu, Arial, Helvetica, sans-serif"
-				color="#4a4a4a"
-			/>
+			<mj-text color="#4a4a4a" />
 		</mj-attributes>
 		<mj-style>
 			.image-cover img {
