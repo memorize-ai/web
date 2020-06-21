@@ -32,7 +32,7 @@ const Navbar = () => {
 				<div className="search">
 					<input
 						readOnly
-						placeholder="Access unlimited decks"
+						placeholder="Explore unlimited decks"
 						value={query}
 						onFocus={goToMarket}
 					/>
