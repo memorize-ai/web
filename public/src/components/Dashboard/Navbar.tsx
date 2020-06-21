@@ -127,8 +127,8 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 								/>
 								<label>Email{isNullish(currentUser?.email) ? ' (LOADING)' : ''}</label>
 								<p className="email">{currentUser?.email ?? ''}</p>
-								<label>API key{isNullish(currentUser?.apiKey) ? ' (LOADING)' : ''}</label>
-								<p className="api-key">{currentUser?.apiKey ?? ''}</p>
+								{/* <label>API key{isNullish(currentUser?.apiKey) ? ' (LOADING)' : ''}</label>
+								<p className="api-key">{currentUser?.apiKey ?? ''}</p> */}
 							</div>
 							<button className="forgot-password" onClick={sendForgotPasswordEmail}>
 								Forgot password

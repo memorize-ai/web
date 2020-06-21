@@ -22,6 +22,10 @@
 			<mj-text color="#4a4a4a" />
 		</mj-attributes>
 		<mj-style>
+			a {
+				text-decoration: none;
+			}
+			
 			.image-cover img {
 				object-fit: cover;
 			}
@@ -125,7 +129,7 @@
 				<mj-image
 					width="200px"
 					href="{{url}}"
-					src="https://memorize.ai/images/logos/capital-inverted-grayscale.jpg"
+					src="https://memorize.ai/images/logos/capital-inverted-grayscale.png"
 					alt="Logo"
 				/>
 				<mj-text
