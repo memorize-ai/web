@@ -22,6 +22,10 @@
 			<mj-text color="#4a4a4a" />
 		</mj-attributes>
 		<mj-style>
+			a {
+				text-decoration: none;
+			}
+			
 			.image-cover img {
 				object-fit: cover;
 			}
