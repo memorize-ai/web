@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
+import { Link } from 'react-router-dom'
 
 import List from './List'
-import AuthButton from '../../shared/AuthButton'
 
 import { ReactComponent as LeftArrow } from '../../../images/icons/left-arrow.svg'
 import diagram from '../../../images/home/classroom.png'
@@ -26,10 +26,13 @@ const HomeClassroom = () => (
 					love memorize.ai
 				</h2>
 				<List />
-				<AuthButton className="get-started" goToAppStoreIfHandheldIos>
-					<p>Get started</p>
+				<Link
+					to="/new"
+					className="get-started"
+				>
+					<p>Create your first deck</p>
 					<LeftArrow />
-				</AuthButton>
+				</Link>
 			</article>
 		</div>
 	</div>
