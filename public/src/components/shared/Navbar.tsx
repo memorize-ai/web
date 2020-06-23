@@ -8,6 +8,7 @@ import useSearchState from '../../hooks/useSearchState'
 import AuthButton from '../shared/AuthButton'
 import Logo, { LogoType } from './Logo'
 import { urlForMarket } from '../Dashboard/Market'
+import { DEFAULT_DECK_COUNT } from '../../constants'
 
 import '../../scss/components/Navbar.scss'
 
@@ -32,9 +33,10 @@ const Navbar = () => {
 				<div className="search">
 					<input
 						readOnly
-						placeholder="Explore unlimited decks"
+						placeholder={`Explore ${DEFAULT_DECK_COUNT} decks`}
 						value={query}
 						onFocus={goToMarket}
+						tabIndex={-1}
 					/>
 					<FontAwesomeIcon icon={faSearch} />
 				</div>
