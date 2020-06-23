@@ -15,7 +15,7 @@ import 'aos/dist/aos.css'
 
 const Home = () => {
 	useEffect(() => {
-		AOS.init()
+		AOS.init({ anchorPlacement: 'top-bottom' })
 	}, [])
 	
 	return (
