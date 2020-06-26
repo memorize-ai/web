@@ -1,0 +1,95 @@
+@import '../../mixins';
+@import '../../trigonometry';
+
+$margin: 30px;
+$card-offset: 20px;
+
+@mixin background-card($multiplier) {
+	$margin: $card-offset * $multiplier;
+	
+	left: $margin;
+	right: $margin;
+	z-index: -$multiplier;
+	transform: translateY($margin);
+}
+
+@include home-content('preview') {
+	$degrees: 6deg;
+	
+	@include stack;
+	
+	> .background {
+		@include top-gradient($degrees, $is-right: true);
+	}
+	
+	> .content {
+		$vertical-padding: 60px;
+		
+		padding: $vertical-padding $margin calc(#{$vertical-padding} + #{tan($degrees) * 100vw});
+		z-index: 0;
+		
+		> .card-container {
+			$max-width: 800px;
+			
+			max-width: $max-width;
+			margin: 0 auto;
+			
+			> .cards {
+				position: relative;
+				height: 560px;
+				margin-bottom: $card-offset * 2;
+				
+				> .card {
+					$content-padding: 20px;
+					
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					background: white;
+					border-radius: 8px;
+					box-shadow: 0 4px 8px transparentize(black, 0.9);
+					transition: opacity 0.3s, transform 0.3s;
+					
+					&.foreground {
+						left: 0;
+						right: 0;
+						
+						> .container {
+							$full-katex-width: calc(#{unquote(
+								'100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2}'
+							)});
+							
+							position: relative;
+							
+							@include card-side-katex-width(
+								css-min($max-width - $content-padding * 2, $full-katex-width)
+							);
+							
+							&,
+							> .content {
+								width: 100%;
+								height: 100%;
+							}
+							
+							> .content {
+								overflow-y: auto;
+								padding: $content-padding;
+							}
+						}
+					}
+					
+					@for $layer from 1 through 2 {
+						&.background-#{$layer} {
+							@include background-card($layer);
+						}
+					}
+					
+					&.hidden {
+						opacity: 0;
+						transform: none;
+					}
+				}
+			}
+		}
+	}
+}

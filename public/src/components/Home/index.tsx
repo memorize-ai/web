@@ -6,7 +6,8 @@ import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
 import Header from './Header'
 import SpacedRepetition from './SpacedRepetition'
-import Screenshots from './Screenshots'
+// import Screenshots from './Screenshots'
+import Preview from './Preview'
 import Features from './Features'
 import Classroom from './Classroom'
 import Footer from './Footer'
@@ -37,7 +38,8 @@ const Home = () => {
 				<Header />
 			</TopGradient>
 			<SpacedRepetition />
-			<Screenshots />
+			{/* <Screenshots /> */}
+			<Preview />
 			<Features />
 			<Classroom />
 			<Footer />
