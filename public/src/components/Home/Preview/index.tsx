@@ -2,11 +2,23 @@ import React, { memo } from 'react'
 import cx from 'classnames'
 
 import usePreview from './usePreview'
+import CardSide from '../../shared/CardSide'
+
+import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 
 import '../../../scss/components/Home/Preview.scss'
 
 const Preview = () => {
-	const { cards } = usePreview()
+	const {
+		cardsRemaining,
+		currentSide,
+		isWaitingForRating,
+		card,
+		nextCard,
+		predictions,
+		flip,
+		rate
+	} = usePreview()
 	
 	return (
 		<div className="preview">
@@ -18,7 +30,19 @@ const Preview = () => {
 					</div>
 					<div className="cards">
 						<div className="card foreground">
-							hi
+							<div className="container">
+								{card && (
+									<CardSide className="content">
+										{card[currentSide]}
+									</CardSide>
+								)}
+								{isWaitingForRating && (
+									<div className="flip">
+										<p>{currentSide}</p>
+										<ToggleIcon style={{ transform: 'scale(3)' }} />
+									</div>
+								)}
+							</div>
 						</div>
 						{/* <div className="card foreground-2">
 							
@@ -26,12 +50,12 @@ const Preview = () => {
 						<div className={cx(
 							'card',
 							'background-1',
-							{ hidden: cards.length < 2 }
+							{ hidden: cardsRemaining < 2 }
 						)} />
 						<div className={cx(
 							'card',
 							'background-2',
-							{ hidden: cards.length < 3 }
+							{ hidden: cardsRemaining < 3 }
 						)} />
 					</div>
 				</div>
