@@ -33,6 +33,7 @@
 		
 		"save-public-assets": "node scripts/src/save-public-assets",
 		"generate-sitemap": "node scripts/src/generate-sitemap",
+		"load-preview-deck": "node scripts/src/load-preview-deck",
 		
 		"build-email": "node emails"
 	},
