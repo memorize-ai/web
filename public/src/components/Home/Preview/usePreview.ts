@@ -3,6 +3,13 @@ import { useState, useMemo, useCallback } from 'react'
 import PerformanceRating from '../../../models/PerformanceRating'
 import deck from '../../../data/preview.json'
 
+export interface PreviewSection {
+	id: string
+	name: string
+	index: number
+	numberOfCards: number
+}
+
 export interface PreviewCard {
 	id: string
 	sectionId: string
@@ -39,6 +46,10 @@ export default () => {
 		cards.length > 1 ? cards[1] : null
 	), [cards])
 	
+	const section = useMemo(() => (
+		card && (deck.sections as Record<string, PreviewSection>)[card.sectionId]
+	), [card])
+	
 	const predictions: PreviewPredictions = useMemo(() => {
 		const now = Date.now()
 		const reducer = (card?.forgotCount ?? 0) + 1
@@ -66,6 +77,8 @@ export default () => {
 		cardsRemaining: cards.length,
 		currentSide,
 		isWaitingForRating,
+		deck,
+		section,
 		card,
 		nextCard,
 		predictions,

@@ -13,6 +13,8 @@ const Preview = () => {
 		cardsRemaining,
 		currentSide,
 		isWaitingForRating,
+		deck,
+		section,
 		card,
 		nextCard,
 		predictions,
@@ -26,7 +28,14 @@ const Preview = () => {
 			<div className="content">
 				<div className="card-container">
 					<div className="location">
-						
+						<p className="deck">{deck.name}</p>
+						<div className="divider" />
+						{section && (
+							<p className="section">{section.name}</p>
+						)}
+						{card && !card.forgotCount && (
+							<p className="flag">New</p>
+						)}
 					</div>
 					<div className="cards">
 						<div className="card foreground">

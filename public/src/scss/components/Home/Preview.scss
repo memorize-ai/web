@@ -34,10 +34,50 @@ $card-offset: 20px;
 			max-width: $max-width;
 			margin: 0 auto;
 			
+			> .location {
+				display: flex;
+				align-items: center;
+				
+				> .deck,
+				> .section,
+				> .flag {
+					font-size: 18px;
+					font-weight: 900;
+					color: white;
+				}
+				
+				> .deck {
+					@include overflow-ellipsis;
+				}
+				
+				> .divider,
+				> .section {
+					flex-shrink: 0;
+				}
+				
+				> .divider {
+					$width: 3px;
+					
+					align-self: stretch;
+					width: $width;
+					margin: 2px 12px;
+					background: transparentize(white, 0.5);
+					border-radius: $width / 2;
+					transform: translateY(1px);
+				}
+				
+				> .flag {
+					margin-left: auto;
+					padding-left: 12px;
+					text-transform: lowercase;
+					opacity: 0.6;
+				}
+			}
+			
 			> .cards {
 				position: relative;
 				height: 560px;
-				margin-bottom: $card-offset * 2;
+				margin: 8px 0 $card-offset * 2;
 				
 				> .card {
 					$content-padding: 20px;
