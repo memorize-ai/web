@@ -46,24 +46,30 @@ const Preview = () => {
 						)}
 					</div>
 					<div className="cards">
-						<div className="card foreground">
-							<div className="container">
-								{card && (
+						{card && (
+							<div className="card foreground">
+								<div className="container">
 									<CardSide className="content">
 										{card[currentSide]}
 									</CardSide>
-								)}
-								{isWaitingForRating && (
-									<div className="flip">
-										<p>{currentSide}</p>
-										<ToggleIcon style={{ transform: 'scale(3)' }} />
-									</div>
-								)}
+									{isWaitingForRating && (
+										<div className="flip">
+											<p>{currentSide}</p>
+											<ToggleIcon style={{ transform: 'scale(3)' }} />
+										</div>
+									)}
+								</div>
 							</div>
-						</div>
-						<div className="card next">
-							
-						</div>
+						)}
+						{nextCard && (
+							<div className="card next">
+								<div className="container">
+									<CardSide className="content">
+										{nextCard[currentSide]}
+									</CardSide>
+								</div>
+							</div>
+						)}
 						<div className={cx(
 							'card',
 							'background-1',
