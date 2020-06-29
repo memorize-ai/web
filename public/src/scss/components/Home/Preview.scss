@@ -126,6 +126,7 @@ $card-offset: 20px;
 				position: relative;
 				height: 350px;
 				margin: 8px 0 ($card-offset * 2);
+				transition: height 0.3s;
 				
 				@media (min-width: 320px) { height: 400px; }
 				@media (min-width: 350px) { height: 450px; }
