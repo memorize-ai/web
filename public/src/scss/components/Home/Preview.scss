@@ -77,7 +77,7 @@ $card-offset: 20px;
 			> .cards {
 				position: relative;
 				height: 560px;
-				margin: 8px 0 $card-offset * 2;
+				margin: 8px 0 ($card-offset * 2);
 				
 				> .card {
 					$content-padding: 20px;

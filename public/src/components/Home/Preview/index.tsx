@@ -26,6 +26,12 @@ const Preview = () => {
 		<div className="preview">
 			<div className="background" />
 			<div className="content">
+				<div className="preview-navbar">
+					<div className="location">
+						<p className="count">{cardsRemaining}</p>
+						<p className="text">remaining</p>
+					</div>
+				</div>
 				<div className="card-container">
 					<div className="location">
 						<p className="deck">{deck.name}</p>
