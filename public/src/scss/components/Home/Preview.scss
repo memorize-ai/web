@@ -80,9 +80,13 @@ $card-offset: 20px;
 				> .deck,
 				> .section,
 				> .flag {
-					font-size: 18px;
+					font-size: 16px;
 					font-weight: 900;
 					color: white;
+					
+					@media (min-width: 445px) {
+						font-size: 18px;
+					}
 				}
 				
 				> .deck {
@@ -112,7 +116,7 @@ $card-offset: 20px;
 					text-transform: lowercase;
 					opacity: 0.6;
 					
-					@media (min-width: 450px) {
+					@media (min-width: 405px) {
 						display: block;
 					}
 				}
@@ -120,8 +124,14 @@ $card-offset: 20px;
 			
 			> .cards {
 				position: relative;
-				height: 560px;
+				height: 350px;
 				margin: 8px 0 ($card-offset * 2);
+				
+				@media (min-width: 320px) { height: 400px; }
+				@media (min-width: 350px) { height: 450px; }
+				@media (min-width: 400px) { height: 450px; }
+				@media (min-width: 460px) { height: 500px; }
+				@media (min-width: 510px) { height: 560px; }
 				
 				> .card {
 					$content-padding: 20px;
