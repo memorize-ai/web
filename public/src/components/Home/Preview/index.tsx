@@ -24,7 +24,7 @@ const Preview = () => {
 	} = usePreview()
 	
 	return (
-		<div className="preview">
+		<div id="preview" className="preview">
 			<div className="background" />
 			<div className="content">
 				<div className="preview-navbar">
@@ -61,9 +61,9 @@ const Preview = () => {
 								)}
 							</div>
 						</div>
-						{/* <div className="card foreground-2">
+						<div className="card next">
 							
-						</div> */}
+						</div>
 						<div className={cx(
 							'card',
 							'background-1',
