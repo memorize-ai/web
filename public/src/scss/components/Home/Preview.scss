@@ -23,20 +23,59 @@ $card-offset: 20px;
 	}
 	
 	> .content {
-		$vertical-padding: 60px;
+		$max-width: 800px + $margin * 2;
+		$vertical-margin: 60px;
 		
-		padding: $vertical-padding $margin calc(#{$vertical-padding} + #{tan($degrees) * 100vw});
+		justify-self: center;
+		max-width: $max-width;
+		width: 100%;
+		margin: $vertical-margin 0 calc(#{$vertical-margin} + #{tan($degrees) * 100vw});
+		padding: 0 $margin;
 		z-index: 0;
 		
-		> .card-container {
-			$max-width: 800px;
+		> .preview-navbar {
+			display: flex;
+			flex-direction: column-reverse;
 			
-			max-width: $max-width;
-			margin: 0 auto;
+			@media (min-width: 510px) {
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+			}
+			
+			> .location {
+				$height: 44px;
+				
+				display: flex;
+				align-items: flex-end;
+				margin-top: 30px;
+				font-weight: 900;
+				color: white;
+				
+				@media (min-width: 510px) {
+					margin-top: 0;
+				}
+				
+				> .count {
+					margin-right: 12px;
+					line-height: $height;
+					font-size: $height;
+				}
+				
+				> .text {
+					font-size: $height / 2;
+					opacity: 0.8;
+				}
+			}
+		}
+		
+		> .card-container {
+			margin-top: 40px;
 			
 			> .location {
 				display: flex;
 				align-items: center;
+				max-width: calc(100vw - #{$margin * 2});
 				
 				> .deck,
 				> .section,
@@ -67,10 +106,15 @@ $card-offset: 20px;
 				}
 				
 				> .flag {
+					display: none;
 					margin-left: auto;
 					padding-left: 12px;
 					text-transform: lowercase;
 					opacity: 0.6;
+					
+					@media (min-width: 450px) {
+						display: block;
+					}
 				}
 			}
 			

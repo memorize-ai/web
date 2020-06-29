@@ -7,6 +7,7 @@ import CardSide from '../../shared/CardSide'
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 
 import '../../../scss/components/Home/Preview.scss'
+import MarketSearchLink from '../../shared/MarketSearchLink'
 
 const Preview = () => {
 	const {
@@ -31,6 +32,7 @@ const Preview = () => {
 						<p className="count">{cardsRemaining}</p>
 						<p className="text">remaining</p>
 					</div>
+					<MarketSearchLink />
 				</div>
 				<div className="card-container">
 					<div className="location">

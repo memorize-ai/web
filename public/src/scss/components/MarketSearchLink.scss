@@ -1,9 +1,13 @@
 .market-search-link {
-	display: flex;
-	align-items: center;
 	position: relative;
+	height: 44px;
 	overflow: hidden;
 	border-radius: 8px;
+	
+	&,
+	> input {
+		width: 250px;
+	}
 	
 	> svg {
 		position: absolute;
@@ -15,7 +19,6 @@
 	
 	> input {
 		height: 100%;
-		width: 250px;
 		padding: 0 12px 0 40px;
 		color: white;
 		background: transparentize(#eee, 0.8);

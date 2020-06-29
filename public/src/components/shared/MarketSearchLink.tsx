@@ -20,13 +20,11 @@ const MarketSearchLink = () => {
 	}, [history, marketUrl])
 	
 	return (
-		<div className="market-search-link">
+		<div className="market-search-link" onClick={goToMarket}>
 			<input
 				readOnly
 				placeholder={`Explore ${DEFAULT_DECK_COUNT} decks`}
 				value={query}
-				onFocus={goToMarket}
-				tabIndex={-1}
 			/>
 			<FontAwesomeIcon icon={faSearch} />
 		</div>
