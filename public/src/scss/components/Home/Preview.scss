@@ -143,6 +143,10 @@ $rating-colors: (
 				@media (min-width: 460px) { height: 500px; }
 				@media (min-width: 510px) { height: 560px; }
 				
+				&.clickable {
+					cursor: pointer;
+				}
+				
 				> .card {
 					$content-padding: 20px;
 					
@@ -273,7 +277,6 @@ $rating-colors: (
 				> button {
 					padding: 0 14px;
 					background: white;
-					border: 1px solid #eee;
 					border-radius: 8px;
 					transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
 					

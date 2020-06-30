@@ -38,7 +38,7 @@ const PreviewFooter = (
 ) => (
 	<div className={cx('footer', { 'waiting-for-rating': isWaitingForRating })}>
 		<p className="message" tabIndex={-1}>
-			Tap anywhere to continue
+			Try to recall, then flip
 		</p>
 		<div className="buttons" tabIndex={-1}>
 			{RATINGS.map(rating => (

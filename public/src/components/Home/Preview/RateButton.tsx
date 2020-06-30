@@ -34,11 +34,12 @@ const PreviewRateButton = (
 				<p className="emoji">{emoji}</p>
 				<p className="title">{title}</p>
 			</div>
-			{prediction && (
-				<p className={cx('prediction', `rating-${rating}`)}>
-					+{timeAgo.format(prediction, 'time')}
-				</p>
-			)}
+			<p className={cx('prediction', `rating-${rating}`)}>
+				{prediction
+					? `+${timeAgo.format(prediction, 'time')}`
+					: 'very soon'
+				}
+			</p>
 		</button>
 	)
 }

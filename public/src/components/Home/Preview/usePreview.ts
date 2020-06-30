@@ -19,9 +19,9 @@ export interface PreviewCard {
 }
 
 export interface PreviewPredictions {
-	[PerformanceRating.Easy]: Date
-	[PerformanceRating.Struggled]: Date
-	[PerformanceRating.Forgot]: Date
+	[PerformanceRating.Easy]: Date | null
+	[PerformanceRating.Struggled]: Date | null
+	[PerformanceRating.Forgot]: Date | null
 }
 
 export type CardSide = 'front' | 'back'
@@ -64,7 +64,7 @@ export default () => {
 			[PerformanceRating.Struggled]: new Date(
 				now + DEFAULT_STRUGGLED_INTERVAL * getPredictionMultiplier() / reducer
 			),
-			[PerformanceRating.Forgot]: new Date(now)
+			[PerformanceRating.Forgot]: null
 		}
 	}, [card])
 	
