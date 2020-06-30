@@ -71,14 +71,16 @@ const getContext = async (
 		await Promise.all(
 			deckUserDataItems
 				.sort((a, b) => b.numberOfDueCards - a.numberOfDueCards)
-				.map(async ({ id, numberOfDueCards, sections }) => {
+				.map(async ({ id, numberOfDueCards, numberOfUnsectionedDueCards, sections }) => {
 					try {
 						const deck = await Deck.fromId(id)
 						
 						const numberOfDueSections =
-							Object.values(sections).reduce((acc, count) => (
-								acc + (count > 0 ? 1 : 0)
-							), 0)
+							Number(numberOfUnsectionedDueCards > 0) + (
+								Object.values(sections).reduce((acc, count) => (
+									acc + Number(count > 0)
+								), 0)
+							)
 						
 						return {
 							url: `https://memorize.ai/decks/${deck.slugId}/${deck.slug}`,
