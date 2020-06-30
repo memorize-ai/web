@@ -30,7 +30,7 @@ const DEFAULT_EASY_INTERVAL = 1000 * 60 * 60 * 24 * 2
 const DEFAULT_STRUGGLED_INTERVAL = 1000 * 60 * 60 * 24
 
 const getPredictionMultiplier = () =>
-	Math.random() * 0.1
+	1 + Math.random() * 0.5 - 0.25
 
 export default () => {
 	const [cards, setCards] = useState(deck.cards as PreviewCard[])
@@ -50,9 +50,12 @@ export default () => {
 		card && (deck.sections as Record<string, PreviewSection>)[card.sectionId]
 	), [card])
 	
-	const predictions: PreviewPredictions = useMemo(() => {
+	const predictions: PreviewPredictions | null = useMemo(() => {
+		if (!card)
+			return null
+		
 		const now = Date.now()
-		const reducer = (card?.forgotCount ?? 0) + 1
+		const reducer = (card.forgotCount ?? 0) + 1
 		
 		return {
 			[PerformanceRating.Easy]: new Date(

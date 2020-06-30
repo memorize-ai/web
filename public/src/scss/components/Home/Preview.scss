@@ -5,6 +5,12 @@
 $margin: 30px;
 $card-offset: 20px;
 
+$rating-colors: (
+	0: #00d388,
+	1: #f5a623,
+	2: #f55d23
+);
+
 @mixin background-card($multiplier) {
 	$margin: $card-offset * $multiplier;
 	
@@ -72,6 +78,7 @@ $card-offset: 20px;
 		
 		> .card-container {
 			margin-top: 40px;
+			padding-bottom: $card-offset * 2;
 			
 			> .location {
 				display: flex;
@@ -125,8 +132,9 @@ $card-offset: 20px;
 			
 			> .cards {
 				position: relative;
+				max-height: calc(100vh - #{$card-offset * 2 + 250px});
 				height: 350px;
-				margin: 8px 0 ($card-offset * 2);
+				margin-top: 8px;
 				transition: height 0.3s;
 				
 				@media (min-width: 320px) { height: 400px; }
@@ -219,6 +227,147 @@ $card-offset: 20px;
 					&.hidden {
 						opacity: 0;
 						transform: none;
+					}
+				}
+			}
+		}
+		
+		> .footer {
+			$vertical-offset: 100px;
+			
+			@include stack;
+			
+			justify-items: center;
+			align-items: center;
+			margin-top: 40px;
+			
+			&.waiting-for-rating {
+				> .message {
+					opacity: 0;
+					transform: translateY($vertical-offset);
+				}
+				
+				> .buttons {
+					opacity: 1;
+					transform: none;
+				}
+			}
+			
+			> .message,
+			> .buttons {
+				transition: opacity 0.3s, transform 0.3s;
+			}
+			
+			> .message {
+				text-align: center;
+				font-size: 20px;
+				font-weight: 900;
+				color: white;
+			}
+			
+			> .buttons {
+				display: flex;
+				opacity: 0;
+				transform: translateY($vertical-offset);
+				
+				> button {
+					padding: 0 14px;
+					background: white;
+					border: 1px solid #eee;
+					border-radius: 8px;
+					transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
+					
+					@media (min-width: 400px) {
+						width: 100px;
+						padding: 0;
+					}
+					
+					@media (min-width: 500px) {
+						width: 130px;
+					}
+					
+					@media (min-width: 600px) {
+						width: 165px;
+					}
+					
+					> .text {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						height: 52px;
+						
+						> .emoji {
+							display: none;
+							margin-right: 8px;
+							font-size: 20px;
+							transition: margin-right 0.3s, font-size 0.3s;
+							
+							@media (min-width: 500px) {
+								display: block;
+							}
+							
+							@media (min-width: 600px) {
+								margin-right: 12px;
+								font-size: 24px;
+							}
+						}
+						
+						> .title {
+							text-transform: uppercase;
+							font-size: 9px;
+							font-weight: 900;
+							color: $dark-gray;
+							transition: font-size 0.3s;
+							
+							@media (min-width: 340px) {
+								font-size: 12px;
+							}
+							
+							@media (min-width: 600px) {
+								font-size: 16px;
+							}
+						}
+					}
+					
+					> .prediction {
+						min-width: 65px;
+						width: max-content;
+						height: 25px;
+						margin: 0 auto 12px;
+						padding: 2px 10px;
+						text-align: center;
+						font-size: 14px;
+						font-weight: 900;
+						color: $dark-gray;
+						border-radius: 8px;
+						
+						@for $i from 0 through 2 {
+							&.rating-#{$i} {
+								background: transparentize(
+									map-get($rating-colors, $i),
+									0.84
+								);
+							}
+						}
+						
+						&.loading {
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							
+							> .loader {
+								margin-bottom: 1px;
+							}
+						}
+					}
+					
+					&:hover {
+						border-color: white;
+						box-shadow: 0 4px 8px transparentize(black, 0.9);
+					}
+					
+					&:not(:last-child) {
+						margin-right: 12px;
 					}
 				}
 			}

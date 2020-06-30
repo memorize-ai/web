@@ -2,12 +2,13 @@ import React, { memo } from 'react'
 import cx from 'classnames'
 
 import usePreview from './usePreview'
+import MarketSearchLink from '../../shared/MarketSearchLink'
 import CardSide from '../../shared/CardSide'
+import Footer from './Footer'
 
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 
 import '../../../scss/components/Home/Preview.scss'
-import MarketSearchLink from '../../shared/MarketSearchLink'
 
 const Preview = () => {
 	const {
@@ -82,9 +83,11 @@ const Preview = () => {
 						)} />
 					</div>
 				</div>
-				<div className="footer">
-					
-				</div>
+				<Footer
+					isWaitingForRating={isWaitingForRating}
+					predictions={predictions}
+					rate={rate}
+				/>
 			</div>
 		</div>
 	)
