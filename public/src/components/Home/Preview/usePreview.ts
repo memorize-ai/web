@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, SetStateAction, useRef } from 'react'
+import { useState, useMemo, useCallback, SetStateAction } from 'react'
 
 import PerformanceRating from '../../../models/PerformanceRating'
 import { sleep } from '../../../utils'
@@ -137,9 +137,19 @@ export default () => {
 		setCardClassName(undefined)
 	}, [setCardClassName, setCurrentSide])
 	
+	const next = useCallback((addToBack: boolean) => {
+		setCards(cards => {
+			const card = cards.shift()
+			
+			return addToBack && card
+				? [...cards, card]
+				: [...cards]
+		})
+	}, [setCards])
+	
 	const transitionNext = useCallback((addToBack: boolean) => {
-		// TODO: Transition next
-	}, [])
+		next(addToBack)
+	}, [next])
 	
 	const waitForRating = useCallback(async () => {
 		if (isWaitingForRating || isProgressModalShowing || !cards.length)
