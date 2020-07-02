@@ -1,4 +1,4 @@
-import { MouseEvent, useState, useMemo, useCallback, SetStateAction, useEffect } from 'react'
+import { MouseEvent, useState, useMemo, useCallback, SetStateAction, useEffect, MutableRefObject, useRef } from 'react'
 
 import PerformanceRating from '../../../models/PerformanceRating'
 import { sleep } from '../../../utils'
@@ -27,6 +27,7 @@ export interface PreviewPredictions {
 }
 
 export interface PreviewProgressData {
+	xp: number
 	rating: PerformanceRating
 	next: Date | null
 	emoji: string
@@ -40,6 +41,8 @@ const MINIMUM_EASY_INTERVAL = 1000 * 60 * 60 * 12
 
 const DEFAULT_STRUGGLED_INTERVAL = 1000 * 60 * 60 * 24
 const MINIMUM_STRUGGLED_INTERVAL = 1000 * 60 * 60 * 6
+
+const XP_CHANCE = 0.6
 
 const FLIP_ANIMATION_DURATION = 300
 const PROGRESS_MODAL_SHOW_DURATION = 1000
@@ -57,6 +60,14 @@ const getPredictionMultiplier = (multiplier: number, rating: PerformanceRating) 
 
 const getRandomPredictionMultiplier = () =>
 	1 + Math.random() - 0.5
+
+const gainXpWithChance = (ref: MutableRefObject<number>) => {
+	if (Math.random() > XP_CHANCE)
+		return 0
+	
+	ref.current++
+	return 1
+}
 
 const getProgressDataForRating = (rating: PerformanceRating) => {
 	switch (rating) {
@@ -79,6 +90,8 @@ const getProgressDataForRating = (rating: PerformanceRating) => {
 }
 
 export default () => {
+	const xpGained = useRef(0)
+	
 	const [cards, setCards] = useState(deck.cards as PreviewCard[])
 	
 	const [cardClassName, setCardClassName] = useState(undefined as string | undefined)
@@ -180,6 +193,7 @@ export default () => {
 		)
 		
 		setProgressData({
+			xp: gainXpWithChance(xpGained),
 			rating,
 			next: predictions[rating],
 			...getProgressDataForRating(rating)

@@ -413,6 +413,7 @@ $rating-colors: (
 	$margin: 20px;
 	
 	display: flex;
+	position: relative;
 	flex-direction: column;
 	align-items: center;
 	max-width: 650px;
@@ -423,6 +424,36 @@ $rating-colors: (
 	padding: 50px;
 	background: #051e34;
 	border-radius: 15px;
+	
+	> .badges {
+		$inset: 20px;
+		
+		display: flex;
+		position: absolute;
+		top: $inset;
+		left: $inset;
+		
+		> .badge {
+			padding: 2px 8px;
+			font-size: 18px;
+			font-weight: 900;
+			border-radius: 5px;
+			
+			&.xp {
+				color: $dark-gray;
+				background: #ffcb6b;
+			}
+			
+			&.streak {
+				color: white;
+				background: #06ba7a;
+			}
+			
+			&:not(:last-child) {
+				margin-right: 8px;
+			}
+		}
+	}
 	
 	> .emoji {
 		margin-bottom: 20px;

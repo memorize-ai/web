@@ -22,6 +22,11 @@ const PreviewProgressModal = (
 		isShowing={isShowing}
 		setIsShowing={setIsShowing}
 	>
+		<div className="badges">
+			{(data?.xp ?? 0) > 0 && (
+				<p className="badge xp">+{data!.xp} xp</p>
+			)}
+		</div>
 		<p className="emoji">
 			{data?.emoji}
 		</p>
