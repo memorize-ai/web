@@ -5,6 +5,8 @@
 $margin: 30px;
 $card-offset: 20px;
 
+$flip-animation-duration: 300ms;
+
 $rating-colors: (
 	0: #00d388,
 	1: #f5a623,
@@ -191,34 +193,47 @@ $rating-colors: (
 						}
 					}
 					
-					&.foreground > .container > .flip {
-						$inset: 25px;
-						
-						display: flex;
-						position: absolute;
-						align-items: flex-end;
-						right: $inset;
-						bottom: $inset;
-						
-						> p {
-							margin-right: 24px;
-							text-transform: uppercase;
-							font-weight: 900;
-							color: $dark-gray;
-							opacity: 0.5;
-							transform: translateY(10px);
+					&.foreground {
+						&.flip > .container > .content {
+							animation: preview-card-flip $flip-animation-duration ease-in-out;
+							
+							@keyframes preview-card-flip {
+								50% {
+									opacity: 0;
+									transform: scale(0.9);
+								}
+							}
 						}
 						
-						> svg {
-							$dimension: 13px;
+						> .container > .flip {
+							$inset: 25px;
 							
-							width: $dimension;
-							height: $dimension;
-							padding: 2px;
-							color: #06ba7a;
-							background: transparentize($light-gray, 0.2);
-							border-radius: 50%;
-							transition: transform 0.3s ease-out;
+							display: flex;
+							position: absolute;
+							align-items: flex-end;
+							right: $inset;
+							bottom: $inset;
+							
+							> p {
+								margin-right: 24px;
+								text-transform: uppercase;
+								font-weight: 900;
+								color: $dark-gray;
+								opacity: 0.5;
+								transform: translateY(10px);
+							}
+							
+							> svg {
+								$dimension: 13px;
+								
+								width: $dimension;
+								height: $dimension;
+								padding: 2px;
+								color: #06ba7a;
+								background: transparentize($light-gray, 0.2);
+								border-radius: 50%;
+								transition: transform 0.3s ease-out;
+							}
 						}
 					}
 					

@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, SetStateAction } from 'react'
+import { MouseEvent, useState, useMemo, useCallback, SetStateAction, useEffect } from 'react'
 
 import PerformanceRating from '../../../models/PerformanceRating'
 import { sleep } from '../../../utils'
@@ -86,6 +86,7 @@ export default () => {
 	const [progressData, _setProgressData] = useState(null as PreviewProgressData | null)
 	
 	const [predictionMultiplier, setPredictionMultiplier] = useState(1)
+	const [toggleTurns, setToggleTurns] = useState(0)
 	
 	const card = useMemo(() => (
 		cards.length ? cards[0] : null
@@ -188,6 +189,18 @@ export default () => {
 		transitionNext(didForget)
 	}, [card, predictions, setIsWaitingForRating, setPredictionMultiplier, setProgressData, transitionNext])
 	
+	const onCardClick = useCallback((event: MouseEvent) => {
+		if (!isWaitingForRating)
+			return
+		
+		event.stopPropagation()
+		flip()
+	}, [isWaitingForRating, flip])
+	
+	useEffect(() => {
+		setToggleTurns(turns => turns + 1)
+	}, [currentSide])
+	
 	return {
 		cardsRemaining: cards.length,
 		currentSide,
@@ -197,8 +210,10 @@ export default () => {
 		card,
 		nextCard,
 		predictions,
+		cardClassName,
+		toggleTurns,
+		onCardClick,
 		waitForRating,
-		flip,
 		rate
 	}
 }

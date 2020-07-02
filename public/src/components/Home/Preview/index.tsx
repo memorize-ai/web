@@ -20,7 +20,9 @@ const Preview = () => {
 		card,
 		nextCard,
 		predictions,
-		flip,
+		cardClassName,
+		toggleTurns,
+		onCardClick,
 		rate,
 		waitForRating
 	} = usePreview()
@@ -47,11 +49,12 @@ const Preview = () => {
 							<p className="flag">New</p>
 						)}
 					</div>
-					<div className="cards">
+					<div className="cards" onClick={onCardClick}>
 						{card && (
 							<div className={cx(
 								'card',
 								'foreground',
+								cardClassName,
 								{ 'waiting-for-flip': !isWaitingForRating }
 							)}>
 								<div className="container">
@@ -61,7 +64,9 @@ const Preview = () => {
 									{isWaitingForRating && (
 										<div className="flip">
 											<p>{currentSide}</p>
-											<ToggleIcon style={{ transform: 'scale(3)' }} />
+											<ToggleIcon style={{
+												transform: `scale(3) rotate(${toggleTurns}turn)`
+											}} />
 										</div>
 									)}
 								</div>
