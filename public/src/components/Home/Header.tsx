@@ -19,7 +19,7 @@ const HomeHeader = () => (
 			</h1>
 			<h3>Truly effective AI flashcards</h3>
 			<div className="footer">
-				<AuthButton className="join-button" goToAppStoreIfHandheldIos>
+				<AuthButton className="join-button" signUp goToAppStoreIfHandheldIos>
 					<p>Get started</p>
 					<LeftArrow />
 				</AuthButton>
