@@ -1,9 +1,9 @@
-import { MouseEvent, useState, useMemo, useCallback, SetStateAction, useEffect, MutableRefObject, useRef } from 'react'
+import { MouseEvent, useState, useMemo, useCallback, SetStateAction, useEffect } from 'react'
 
 import PerformanceRating from '../../../models/PerformanceRating'
+import useAuthModal from '../../../hooks/useAuthModal'
 import { sleep } from '../../../utils'
 import deck from '../../../data/preview.json'
-import { setAuthModalInitialXp } from '../../../actions'
 
 export interface PreviewSection {
 	id: string
@@ -62,11 +62,11 @@ const getPredictionMultiplier = (multiplier: number, rating: PerformanceRating) 
 const getRandomPredictionMultiplier = () =>
 	1 + Math.random() - 0.5
 
-const gainXpWithChance = (ref: MutableRefObject<number>) => {
+const gainXpWithChance = (xp: number, setXp: (xp: number) => void) => {
 	if (Math.random() > XP_CHANCE)
 		return 0
 	
-	setAuthModalInitialXp(++ref.current)
+	setXp(xp + 1)
 	return 1
 }
 
@@ -91,8 +91,6 @@ const getProgressDataForRating = (rating: PerformanceRating) => {
 }
 
 export default () => {
-	const xpGained = useRef(0)
-	
 	const [cards, setCards] = useState(deck.cards as PreviewCard[])
 	
 	const [cardClassName, setCardClassName] = useState(undefined as string | undefined)
@@ -104,6 +102,8 @@ export default () => {
 	
 	const [predictionMultiplier, setPredictionMultiplier] = useState(1)
 	const [toggleTurns, setToggleTurns] = useState(0)
+	
+	const { initialXp, setInitialXp } = useAuthModal()
 	
 	const card = useMemo(() => (
 		cards.length ? cards[0] : null
@@ -194,7 +194,7 @@ export default () => {
 		)
 		
 		setProgressData({
-			xp: gainXpWithChance(xpGained),
+			xp: gainXpWithChance(initialXp, setInitialXp),
 			rating,
 			next: predictions[rating],
 			...getProgressDataForRating(rating)
@@ -206,7 +206,7 @@ export default () => {
 			card.forgotCount = (card.forgotCount ?? 0) + 1
 		
 		transitionNext(didForget)
-	}, [card, predictions, setIsWaitingForRating, setPredictionMultiplier, setProgressData, transitionNext])
+	}, [card, predictions, setIsWaitingForRating, setPredictionMultiplier, setProgressData, initialXp, setInitialXp, transitionNext])
 	
 	const onCardClick = useCallback((event: MouseEvent) => {
 		if (!isWaitingForRating)
