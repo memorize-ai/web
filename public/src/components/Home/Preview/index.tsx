@@ -5,6 +5,7 @@ import usePreview from './usePreview'
 import MarketSearchLink from '../../shared/MarketSearchLink'
 import CardSide from '../../shared/CardSide'
 import Footer from './Footer'
+import ProgressModal from './ProgressModal'
 
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 
@@ -22,6 +23,9 @@ const Preview = () => {
 		predictions,
 		cardClassName,
 		toggleTurns,
+		progressData,
+		isProgressModalShowing,
+		setIsProgressModalShowing,
 		onCardClick,
 		rate,
 		waitForRating
@@ -99,6 +103,11 @@ const Preview = () => {
 					rate={rate}
 				/>
 			</div>
+			<ProgressModal
+				data={progressData}
+				isShowing={isProgressModalShowing}
+				setIsShowing={setIsProgressModalShowing}
+			/>
 		</div>
 	)
 }

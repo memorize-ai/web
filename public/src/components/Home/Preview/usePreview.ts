@@ -36,7 +36,10 @@ export interface PreviewProgressData {
 export type CardSide = 'front' | 'back'
 
 const DEFAULT_EASY_INTERVAL = 1000 * 60 * 60 * 24 * 2
+const MINIMUM_EASY_INTERVAL = 1000 * 60 * 60 * 12
+
 const DEFAULT_STRUGGLED_INTERVAL = 1000 * 60 * 60 * 24
+const MINIMUM_STRUGGLED_INTERVAL = 1000 * 60 * 60 * 6
 
 const FLIP_ANIMATION_DURATION = 300
 const PROGRESS_MODAL_SHOW_DURATION = 1000
@@ -44,16 +47,16 @@ const PROGRESS_MODAL_SHOW_DURATION = 1000
 const getPredictionMultiplier = (multiplier: number, rating: PerformanceRating) => {
 	switch (rating) {
 		case PerformanceRating.Easy:
-			return multiplier + 0.1
+			return multiplier + 0.3
 		case PerformanceRating.Struggled:
-			return multiplier + 0.05
+			return multiplier + 0.2
 		case PerformanceRating.Forgot:
-			return multiplier - 0.15
+			return multiplier - 0.4
 	}
 }
 
 const getRandomPredictionMultiplier = () =>
-	1 + Math.random() * 0.5 - 0.25
+	1 + Math.random() - 0.5
 
 const getProgressDataForRating = (rating: PerformanceRating) => {
 	switch (rating) {
@@ -107,14 +110,15 @@ export default () => {
 		const now = Date.now()
 		const reducer = (card.forgotCount ?? 0) + 1
 		
-		const getDate = (interval: number) =>
-			new Date(
-				now + interval * predictionMultiplier * getRandomPredictionMultiplier() / reducer
-			)
+		const getDate = (defaultInterval: number, minimumInterval: number) =>
+			new Date(now + Math.max(
+				minimumInterval,
+				defaultInterval * predictionMultiplier * getRandomPredictionMultiplier() / reducer
+			))
 		
 		return {
-			[PerformanceRating.Easy]: getDate(DEFAULT_EASY_INTERVAL),
-			[PerformanceRating.Struggled]: getDate(DEFAULT_STRUGGLED_INTERVAL),
+			[PerformanceRating.Easy]: getDate(DEFAULT_EASY_INTERVAL, MINIMUM_EASY_INTERVAL),
+			[PerformanceRating.Struggled]: getDate(DEFAULT_STRUGGLED_INTERVAL, MINIMUM_STRUGGLED_INTERVAL),
 			[PerformanceRating.Forgot]: null
 		}
 	}, [card, predictionMultiplier])
@@ -212,6 +216,9 @@ export default () => {
 		predictions,
 		cardClassName,
 		toggleTurns,
+		progressData,
+		isProgressModalShowing,
+		setIsProgressModalShowing,
 		onCardClick,
 		waitForRating,
 		rate
