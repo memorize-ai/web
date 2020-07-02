@@ -43,7 +43,7 @@ const Preview = () => {
 					<MarketSearchLink />
 				</div>
 				<div className="card-container">
-					<div className="location">
+					<div className={cx('location', { hidden: !cardsRemaining })}>
 						<p className="deck">{deck.name}</p>
 						<div className="divider" />
 						{section && (
@@ -98,6 +98,7 @@ const Preview = () => {
 					</div>
 				</div>
 				<Footer
+					isFinished={!cardsRemaining}
 					isWaitingForRating={isWaitingForRating}
 					predictions={predictions}
 					rate={rate}

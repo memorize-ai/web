@@ -30,14 +30,18 @@ const BUTTON_CONTENT = {
 }
 
 const PreviewFooter = (
-	{ isWaitingForRating, predictions, rate }: {
+	{ isFinished, isWaitingForRating, predictions, rate }: {
+		isFinished: boolean
 		isWaitingForRating: boolean
 		predictions: PreviewPredictions | null
 		rate: (rating: PerformanceRating) => void
 	}
 ) => (
 	<div className={cx('footer', { 'waiting-for-rating': isWaitingForRating })}>
-		<p className="message" tabIndex={-1}>
+		<p
+			className={cx('message', { hidden: isFinished })}
+			tabIndex={-1}
+		>
 			Try to recall, then flip
 		</p>
 		<div className="buttons" tabIndex={-1}>

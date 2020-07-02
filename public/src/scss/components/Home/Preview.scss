@@ -86,6 +86,11 @@ $rating-colors: (
 				display: flex;
 				align-items: center;
 				max-width: calc(100vw - #{$margin * 2});
+				transition: opacity 0.3s;
+				
+				&.hidden {
+					opacity: 0;
+				}
 				
 				> .deck,
 				> .section,
@@ -287,6 +292,10 @@ $rating-colors: (
 				font-size: 20px;
 				font-weight: 900;
 				color: white;
+				
+				&.hidden {
+					opacity: 0;
+				}
 			}
 			
 			> .buttons {
