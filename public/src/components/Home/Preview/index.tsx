@@ -80,7 +80,7 @@ const Preview = () => {
 							<div className="card next">
 								<div className="container">
 									<CardSide className="content">
-										{nextCard[currentSide]}
+										{nextCard.front}
 									</CardSide>
 								</div>
 							</div>

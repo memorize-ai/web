@@ -175,6 +175,8 @@ export default () => {
 		setCardClassName('shift')
 		
 		await sleep(SHIFT_ANIMATION_DURATION)
+		
+		setCurrentSide('front')
 		next(addToBack)
 		
 		setCardClassName(undefined)
