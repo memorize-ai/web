@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 
 import * as serviceWorker from './serviceWorker'
@@ -28,35 +28,33 @@ const analytics = firebase.analytics()
 analytics.logEvent('start')
 
 ReactDOM.render((
-	<StrictMode>
-		<CurrentUserProvider>
-			<DecksProvider>
-				<SectionsProvider>
-					<CardsProvider>
-						<SimilarDecksProvider>
-							<TopicsProvider>
-								<CreateDeckProvider>
-									<ExpandedSectionsProvider>
-										<CountersProvider>
-											<SearchProvider>
-												<AuthModalProvider>
-													<CreatorsProvider>
-														<AddCardsProvider>
-															<App />
-														</AddCardsProvider>
-													</CreatorsProvider>
-												</AuthModalProvider>
-											</SearchProvider>
-										</CountersProvider>
-									</ExpandedSectionsProvider>
-								</CreateDeckProvider>
-							</TopicsProvider>
-						</SimilarDecksProvider>
-					</CardsProvider>
-				</SectionsProvider>
-			</DecksProvider>
-		</CurrentUserProvider>
-	</StrictMode>
+	<CurrentUserProvider>
+		<DecksProvider>
+			<SectionsProvider>
+				<CardsProvider>
+					<SimilarDecksProvider>
+						<TopicsProvider>
+							<CreateDeckProvider>
+								<ExpandedSectionsProvider>
+									<CountersProvider>
+										<SearchProvider>
+											<AuthModalProvider>
+												<CreatorsProvider>
+													<AddCardsProvider>
+														<App />
+													</AddCardsProvider>
+												</CreatorsProvider>
+											</AuthModalProvider>
+										</SearchProvider>
+									</CountersProvider>
+								</ExpandedSectionsProvider>
+							</CreateDeckProvider>
+						</TopicsProvider>
+					</SimilarDecksProvider>
+				</CardsProvider>
+			</SectionsProvider>
+		</DecksProvider>
+	</CurrentUserProvider>
 ), ROOT_ELEMENT)
 
 serviceWorker.register()
