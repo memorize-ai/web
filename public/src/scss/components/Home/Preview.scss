@@ -143,10 +143,6 @@ $rating-colors: (
 				@media (min-width: 460px) { height: 500px; }
 				@media (min-width: 510px) { height: 560px; }
 				
-				&.clickable {
-					cursor: pointer;
-				}
-				
 				> .card {
 					$content-padding: 20px;
 					
@@ -157,6 +153,14 @@ $rating-colors: (
 					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
 					transition: opacity 0.3s, transform 0.3s;
+					
+					&.foreground {
+						cursor: pointer;
+						
+						&.waiting-for-flip:hover {
+							transform: scale(1.02);
+						}
+					}
 					
 					&.foreground,
 					&.next {
@@ -252,6 +256,7 @@ $rating-colors: (
 				}
 				
 				> .buttons {
+					pointer-events: all;
 					opacity: 1;
 					transform: none;
 				}
@@ -272,12 +277,14 @@ $rating-colors: (
 			> .buttons {
 				display: flex;
 				opacity: 0;
+				pointer-events: none;
 				transform: translateY($vertical-offset);
 				
 				> button {
 					padding: 0 14px;
 					background: white;
 					border-radius: 8px;
+					box-shadow: 0 4px 8px transparentize(black, 0.9);
 					transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
 					
 					@media (min-width: 400px) {
@@ -366,7 +373,7 @@ $rating-colors: (
 					
 					&:hover {
 						border-color: white;
-						box-shadow: 0 4px 8px transparentize(black, 0.9);
+						box-shadow: none;
 					}
 					
 					&:not(:last-child) {

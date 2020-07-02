@@ -21,11 +21,12 @@ const Preview = () => {
 		nextCard,
 		predictions,
 		flip,
-		rate
+		rate,
+		waitForRating
 	} = usePreview()
 	
 	return (
-		<div id="preview" className="preview">
+		<div id="preview" className="preview" onClick={waitForRating}>
 			<div className="background" />
 			<div className="content">
 				<div className="preview-navbar">
@@ -48,7 +49,11 @@ const Preview = () => {
 					</div>
 					<div className="cards">
 						{card && (
-							<div className="card foreground">
+							<div className={cx(
+								'card',
+								'foreground',
+								{ 'waiting-for-flip': !isWaitingForRating }
+							)}>
 								<div className="container">
 									<CardSide className="content">
 										{card[currentSide]}
