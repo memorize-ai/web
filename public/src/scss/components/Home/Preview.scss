@@ -246,6 +246,10 @@ $rating-colors: (
 						z-index: 1;
 					}
 					
+					&.next {
+						box-shadow: none;
+					}
+					
 					@for $layer from 1 through 2 {
 						&.background-#{$layer} {
 							@include background-card($layer);
