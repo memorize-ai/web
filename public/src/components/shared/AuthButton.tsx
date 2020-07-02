@@ -8,7 +8,7 @@ const AuthButton = (
 		goToAppStoreIfHandheldIos?: boolean
 	} & ButtonHTMLAttributes<HTMLButtonElement>
 ) => {
-	const [[, setIsShowing]] = useAuthModal()
+	const { setIsShowing } = useAuthModal()
 	
 	const onClick = useCallback(() => {
 		goToAppStoreIfHandheldIos && IS_IOS_HANDHELD

@@ -54,6 +54,8 @@ export enum ActionType {
 	
 	SetAuthModalIsShowing,
 	SetAuthModalCallback,
+	SetAuthModalMode,
+	SetAuthModalInitialXp,
 	
 	UpdateCreator,
 	RemoveCreator,

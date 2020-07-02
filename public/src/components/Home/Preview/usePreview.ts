@@ -3,6 +3,7 @@ import { MouseEvent, useState, useMemo, useCallback, SetStateAction, useEffect, 
 import PerformanceRating from '../../../models/PerformanceRating'
 import { sleep } from '../../../utils'
 import deck from '../../../data/preview.json'
+import { setAuthModalInitialXp } from '../../../actions'
 
 export interface PreviewSection {
 	id: string
@@ -65,7 +66,7 @@ const gainXpWithChance = (ref: MutableRefObject<number>) => {
 	if (Math.random() > XP_CHANCE)
 		return 0
 	
-	ref.current++
+	setAuthModalInitialXp(++ref.current)
 	return 1
 }
 

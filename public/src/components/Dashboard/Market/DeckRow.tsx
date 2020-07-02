@@ -21,7 +21,10 @@ const MarketDeckRow = ({ deck }: { deck: Deck }) => {
 	const [currentUser] = useCurrentUser()
 	const [decks] = useDecks()
 	
-	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
+	const {
+		setIsShowing: setAuthModalIsShowing,
+		setCallback: setAuthModalCallback
+	} = useAuthModal()
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	

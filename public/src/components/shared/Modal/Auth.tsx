@@ -28,9 +28,16 @@ const AuthModal = () => {
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
-	const [[isShowing, setIsShowing], [callback, setCallback]] = useAuthModal()
+	const {
+		isShowing,
+		setIsShowing,
+		callback,
+		setCallback,
+		mode,
+		setMode,
+		initialXp
+	} = useAuthModal()
 	
-	const [mode, setMode] = useState(AuthenticationMode.LogIn)
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
 	
@@ -69,6 +76,7 @@ const AuthModal = () => {
 					await firestore.doc(`users/${user.uid}`).set({
 						name,
 						email,
+						xp: initialXp,
 						joined: firebase.firestore.FieldValue.serverTimestamp()
 					})
 					
@@ -83,7 +91,7 @@ const AuthModal = () => {
 			setLoadingState(LoadingState.Fail)
 			setErrorMessage(error.message)
 		}
-	}, [mode, name, email, password, callback, history])
+	}, [mode, name, email, password, callback, initialXp, history])
 	
 	const onNameRef = useCallback((input: HTMLInputElement | null) => {
 		if (input && mode === AuthenticationMode.SignUp)
