@@ -29,6 +29,7 @@ export interface PreviewPredictions {
 
 export interface PreviewProgressData {
 	xp: number
+	streak: number
 	rating: PerformanceRating
 	next: Date | null
 	emoji: string
@@ -46,7 +47,11 @@ const MINIMUM_STRUGGLED_INTERVAL = 1000 * 60 * 60 * 6
 const XP_CHANCE = 0.6
 
 const FLIP_ANIMATION_DURATION = 300
+const SHIFT_ANIMATION_DURATION = 300
+
 const PROGRESS_MODAL_SHOW_DURATION = 1000
+
+export const PREVIEW_MASTERED_STREAK = 6
 
 const getPredictionMultiplier = (multiplier: number, rating: PerformanceRating) => {
 	switch (rating) {
@@ -166,9 +171,14 @@ export default () => {
 		})
 	}, [setCards])
 	
-	const transitionNext = useCallback((addToBack: boolean) => {
+	const transitionNext = useCallback(async (addToBack: boolean) => {
+		setCardClassName('shift')
+		
+		await sleep(SHIFT_ANIMATION_DURATION)
 		next(addToBack)
-	}, [next])
+		
+		setCardClassName(undefined)
+	}, [setCardClassName, next])
 	
 	const waitForRating = useCallback(async () => {
 		if (isWaitingForRating || isProgressModalShowing || !cards.length)
@@ -193,14 +203,15 @@ export default () => {
 			getPredictionMultiplier(multiplier, rating)
 		)
 		
+		const didForget = rating === PerformanceRating.Forgot
+		
 		setProgressData({
 			xp: gainXpWithChance(initialXp, setInitialXp),
+			streak: didForget ? 0 : 1,
 			rating,
 			next: predictions[rating],
 			...getProgressDataForRating(rating)
 		})
-		
-		const didForget = rating === PerformanceRating.Forgot
 		
 		if (didForget)
 			card.forgotCount = (card.forgotCount ?? 0) + 1

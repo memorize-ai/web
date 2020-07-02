@@ -6,6 +6,7 @@ $margin: 30px;
 $card-offset: 20px;
 
 $flip-animation-duration: 300ms;
+$shift-animation-duration: 300ms;
 
 $rating-colors: (
 	0: #00d388,
@@ -161,14 +162,6 @@ $rating-colors: (
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
 					transition: opacity 0.3s, transform 0.3s;
 					
-					&.foreground {
-						cursor: pointer;
-						
-						&.waiting-for-flip:hover {
-							transform: scale(1.02);
-						}
-					}
-					
 					&.foreground,
 					&.next {
 						left: 0;
@@ -199,6 +192,23 @@ $rating-colors: (
 					}
 					
 					&.foreground {
+						cursor: pointer;
+						z-index: 1;
+						
+						&.waiting-for-flip:hover {
+							transform: scale(1.02);
+						}
+						
+						&.shift {
+							animation: preview-card-shift $shift-animation-duration ease-in-out;
+							
+							@keyframes preview-card-shift {
+								to {
+									transform: translateX(100vw);
+								}
+							}
+						}
+						
 						&.flip > .container > .content {
 							animation: preview-card-flip $flip-animation-duration ease-in-out;
 							
@@ -240,10 +250,6 @@ $rating-colors: (
 								transition: transform 0.3s ease-out;
 							}
 						}
-					}
-					
-					&.foreground {
-						z-index: 1;
 					}
 					
 					&.next {

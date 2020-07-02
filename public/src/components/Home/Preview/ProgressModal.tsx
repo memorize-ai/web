@@ -1,8 +1,9 @@
 import React, { memo } from 'react'
 import TimeAgo from 'javascript-time-ago'
 import enLocale from 'javascript-time-ago/locale/en'
+import cx from 'classnames'
 
-import { PreviewProgressData } from './usePreview'
+import { PreviewProgressData, PREVIEW_MASTERED_STREAK } from './usePreview'
 import Modal from '../../shared/Modal'
 
 TimeAgo.addLocale(enLocale)
@@ -26,6 +27,13 @@ const PreviewProgressModal = (
 			{(data?.xp ?? 0) > 0 && (
 				<p className="badge xp">+{data!.xp} xp</p>
 			)}
+			<p className={cx(
+				'badge',
+				'streak',
+				{ success: (data?.streak ?? 0) > 0 }
+			)}>
+				{data?.streak} / {PREVIEW_MASTERED_STREAK} streak
+			</p>
 		</div>
 		<p className="emoji">
 			{data?.emoji}
