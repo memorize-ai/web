@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import _ from 'lodash'
+import sample from 'lodash/sample'
 
 import { LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, EMOJIS } from './constants'
 
@@ -87,7 +87,7 @@ export const toOneDecimalPlace = (number: number) =>
 	Math.round(number * 10) / 10
 
 export const randomEmoji = () =>
-	_.sample(EMOJIS) ?? EMOJIS[0]
+	sample(EMOJIS) ?? EMOJIS[0]
 
 export const slugify = (string: string, delimiter: string = '-') =>
 	(string

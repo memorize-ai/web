@@ -4,7 +4,7 @@ import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faTrash, faCheck, faPlus } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
-import _ from 'lodash'
+import property from 'lodash/property'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -203,8 +203,8 @@ const AddCardsContent = () => {
 					<Select
 						className="section-select"
 						options={sections}
-						getOptionLabel={_.property('name')}
-						getOptionValue={_.property('id')}
+						getOptionLabel={property('name')}
+						getOptionValue={property('id')}
 						placeholder="Loading..."
 						isLoading={!section}
 						value={section}

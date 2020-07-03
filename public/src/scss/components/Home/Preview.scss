@@ -140,6 +140,7 @@ $rating-colors: (
 			
 			> .cards {
 				position: relative;
+				min-height: 40px;
 				max-height: calc(100vh - #{$card-offset * 2 + 250px});
 				height: 350px;
 				margin-top: 8px;

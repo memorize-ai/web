@@ -36,6 +36,15 @@ export interface PreviewProgressData {
 	message: string
 }
 
+export interface PreviewRecapData {
+	start: Date
+	xpGained: number
+	reviewedCount: number
+	easiest: PreviewSection | null
+	hardest: PreviewSection | null
+	isSame: boolean
+}
+
 export type CardSide = 'front' | 'back'
 
 const DEFAULT_EASY_INTERVAL = 1000 * 60 * 60 * 24 * 2
