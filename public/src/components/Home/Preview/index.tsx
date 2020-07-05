@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import Confetti from 'react-dom-confetti'
 import cx from 'classnames'
 
 import usePreview from './usePreview'
@@ -6,6 +7,7 @@ import MarketSearchLink from '../../shared/MarketSearchLink'
 import CardSide from '../../shared/CardSide'
 import Footer from './Footer'
 import ProgressModal from './ProgressModal'
+import ClaimXPButton from './ClaimXPButton'
 
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 
@@ -95,6 +97,17 @@ const Preview = () => {
 							'background-2',
 							{ hidden: cardsRemaining < 3 }
 						)} />
+						<div className={cx('completion', { hidden: cardsRemaining })}>
+							<ClaimXPButton />
+							<Confetti
+								active={!cardsRemaining}
+								config={{
+									duration: 5000,
+									spread: 90,
+									elementCount: 100
+								}}
+							/>
+						</div>
 					</div>
 				</div>
 				<Footer
