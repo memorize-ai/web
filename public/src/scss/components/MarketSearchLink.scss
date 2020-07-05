@@ -1,12 +1,13 @@
 .market-search-link {
 	position: relative;
+	max-width: 250px;
 	height: 44px;
 	overflow: hidden;
 	border-radius: 8px;
 	
 	&,
 	> input {
-		width: 250px;
+		width: 100%;
 	}
 	
 	> svg {

@@ -47,7 +47,7 @@ $rating-colors: (
 			display: flex;
 			flex-direction: column-reverse;
 			
-			@media (min-width: 510px) {
+			@media (min-width: 650px) {
 				flex-direction: row;
 				justify-content: space-between;
 				align-items: center;
@@ -62,7 +62,7 @@ $rating-colors: (
 				font-weight: 900;
 				color: white;
 				
-				@media (min-width: 510px) {
+				@media (min-width: 650px) {
 					margin-top: 0;
 				}
 				
@@ -75,6 +75,34 @@ $rating-colors: (
 				> .text {
 					font-size: $height / 2;
 					opacity: 0.8;
+				}
+			}
+			
+			> .items {
+				display: flex;
+				flex-direction: column;
+				
+				@media (min-width: 405px) {
+					flex-direction: row;
+				}
+				
+				> .market-search-link {
+					@media (min-width: 405px) {
+						margin-right: 12px;
+					}
+					
+					@media (max-width: 405px) {
+						max-width: none;
+						margin-bottom: 12px;
+					}
+				}
+				
+				> .preview-claim-xp-button {
+					flex-shrink: 0;
+					
+					@media (min-width: 405px) and (max-width: 475px) {
+						font-size: 16px;
+					}
 				}
 			}
 		}
@@ -333,16 +361,11 @@ $rating-colors: (
 				transform: translateY($vertical-offset);
 				
 				> button {
-					padding: 0 14px;
+					width: 100px;
 					background: white;
 					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
 					transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
-					
-					@media (min-width: 400px) {
-						width: 100px;
-						padding: 0;
-					}
 					
 					@media (min-width: 500px) {
 						width: 130px;
@@ -392,16 +415,24 @@ $rating-colors: (
 					}
 					
 					> .prediction {
-						min-width: 65px;
+						$height: 25px;
+						
+						min-width: 50px;
 						width: max-content;
-						height: 25px;
+						height: $height;
+						line-height: $height;
 						margin: 0 auto 12px;
-						padding: 2px 10px;
+						padding: 0 10px;
 						text-align: center;
-						font-size: 14px;
+						font-size: 12px;
 						font-weight: 900;
 						color: $dark-gray;
 						border-radius: 8px;
+						
+						@media (min-width: 420px) {
+							min-width: 65px;
+							font-size: 14px;
+						}
 						
 						@for $i from 0 through 2 {
 							&.rating-#{$i} {
@@ -409,16 +440,6 @@ $rating-colors: (
 									map-get($rating-colors, $i),
 									0.84
 								);
-							}
-						}
-						
-						&.loading {
-							display: flex;
-							justify-content: center;
-							align-items: center;
-							
-							> .loader {
-								margin-bottom: 1px;
 							}
 						}
 					}

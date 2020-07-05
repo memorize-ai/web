@@ -15,17 +15,20 @@ const BUTTON_CONTENT = {
 	[PerformanceRating.Easy]: {
 		emoji: '😀',
 		title: 'Easy',
-		subtitle: 'Without much effort, you were able to remember'
+		subtitle: 'Without much effort, you were able to remember',
+		tooltipPosition: 'up-left'
 	},
 	[PerformanceRating.Struggled]: {
 		emoji: '😕',
 		title: 'Struggled',
-		subtitle: 'You struggled to remember, but eventually succeeded'
+		subtitle: 'You struggled to remember, but eventually succeeded',
+		tooltipPosition: 'up'
 	},
 	[PerformanceRating.Forgot]: {
 		emoji: '😓',
 		title: 'Forgot',
-		subtitle: 'You tried but couldn\'t remember'
+		subtitle: 'You tried but couldn\'t remember',
+		tooltipPosition: 'up-right'
 	}
 }
 

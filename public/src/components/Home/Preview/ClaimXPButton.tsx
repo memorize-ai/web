@@ -3,16 +3,20 @@ import React from 'react'
 import useAuthModal from '../../../hooks/useAuthModal'
 import AuthButton from '../../shared/AuthButton'
 
-import '../../../scss/components/Home/PreviewClaimXPButton'
+import '../../../scss/components/Home/PreviewClaimXPButton.scss'
 
 const PreviewClaimXPButton = () => {
 	const { initialXp } = useAuthModal()
 	
 	return (
-		<AuthButton className="claim-xp-button" signUp goToAppStoreIfHandheldIos>
+		<AuthButton
+			className="preview-claim-xp-button"
+			signUp
+			goToAppStoreIfHandheldIos
+		>
 			{initialXp > 0
-				? <>Claim <b>{initialXp} xp</b></>
-				: 'Continue learning'
+				? `Claim ${initialXp} xp`
+				: 'Start learning'
 			}
 		</AuthButton>
 	)

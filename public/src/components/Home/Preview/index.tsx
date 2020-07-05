@@ -33,6 +33,8 @@ const Preview = () => {
 		waitForRating
 	} = usePreview()
 	
+	const isCompletionShowing = !(cardsRemaining || isProgressModalShowing)
+	
 	return (
 		<div id="preview" className="preview" onClick={waitForRating}>
 			<div className="background" />
@@ -42,7 +44,10 @@ const Preview = () => {
 						<p className="count">{cardsRemaining}</p>
 						<p className="text">cards left</p>
 					</div>
-					<MarketSearchLink />
+					<div className="items">
+						<MarketSearchLink />
+						<ClaimXPButton />
+					</div>
 				</div>
 				<div className="card-container">
 					<div className={cx('location', { hidden: !cardsRemaining })}>
@@ -97,10 +102,10 @@ const Preview = () => {
 							'background-2',
 							{ hidden: cardsRemaining < 3 }
 						)} />
-						<div className={cx('completion', { hidden: cardsRemaining })}>
+						<div className={cx('completion', { hidden: !isCompletionShowing })}>
 							<ClaimXPButton />
 							<Confetti
-								active={!cardsRemaining}
+								active={isCompletionShowing}
 								config={{
 									duration: 5000,
 									spread: 90,

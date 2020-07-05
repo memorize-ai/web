@@ -1,4 +1,4 @@
-import { MouseEvent, useState, useMemo, useCallback, SetStateAction, useEffect } from 'react'
+import { MouseEvent, useState, useMemo, useCallback, SetStateAction, useEffect, useRef } from 'react'
 
 import PerformanceRating from '../../../models/PerformanceRating'
 import useAuthModal from '../../../hooks/useAuthModal'
@@ -76,8 +76,8 @@ const getPredictionMultiplier = (multiplier: number, rating: PerformanceRating) 
 const getRandomPredictionMultiplier = () =>
 	1 + Math.random() - 0.5
 
-const gainXpWithChance = (xp: number, setXp: (xp: number) => void) => {
-	if (Math.random() > XP_CHANCE)
+const gainXpWithChance = (xp: number, setXp: (xp: number) => void, force: boolean) => {
+	if (!force && Math.random() > XP_CHANCE)
 		return 0
 	
 	setXp(xp + 1)
@@ -105,6 +105,8 @@ const getProgressDataForRating = (rating: PerformanceRating) => {
 }
 
 export default () => {
+	const isFirstCard = useRef(true)
+	
 	const [cards, setCards] = useState(deck.cards as PreviewCard[])
 	
 	const [cardClassName, setCardClassName] = useState(undefined as string | undefined)
@@ -217,7 +219,7 @@ export default () => {
 		const didForget = rating === PerformanceRating.Forgot
 		
 		setProgressData({
-			xp: gainXpWithChance(initialXp, setInitialXp),
+			xp: gainXpWithChance(initialXp, setInitialXp, isFirstCard.current),
 			streak: didForget ? 0 : 1,
 			rating,
 			next: predictions[rating],
@@ -227,6 +229,7 @@ export default () => {
 		if (didForget)
 			card.forgotCount = (card.forgotCount ?? 0) + 1
 		
+		isFirstCard.current = false
 		transitionNext(didForget)
 	}, [card, predictions, setIsWaitingForRating, setPredictionMultiplier, setProgressData, initialXp, setInitialXp, transitionNext])
 	

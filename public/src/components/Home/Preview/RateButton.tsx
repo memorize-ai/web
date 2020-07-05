@@ -10,13 +10,14 @@ TimeAgo.addLocale(enLocale)
 const timeAgo = new TimeAgo('en-US')
 
 const PreviewRateButton = (
-	{ emoji, title, subtitle, rate, rating, prediction }: {
+	{ emoji, title, subtitle, rate, rating, prediction, tooltipPosition }: {
 		emoji: string
 		title: string
 		subtitle: string
 		rate: (rating: PerformanceRating) => void
 		rating: PerformanceRating
 		prediction: Date | null
+		tooltipPosition: string
 	}
 ) => {
 	const onClick = useCallback((event: MouseEvent) => {
@@ -28,7 +29,7 @@ const PreviewRateButton = (
 		<button
 			onClick={onClick}
 			aria-label={subtitle}
-			data-balloon-pos="up"
+			data-balloon-pos={tooltipPosition}
 		>
 			<div className="text">
 				<p className="emoji">{emoji}</p>

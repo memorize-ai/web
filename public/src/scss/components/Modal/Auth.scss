@@ -25,8 +25,14 @@
 			color: white;
 			
 			> .title {
-				font-size: 24px;
+				margin-bottom: 4px;
+				font-size: 22px;
 				font-weight: 900;
+				
+				@media (min-width: 420px) {
+					margin-bottom: 0;
+					font-size: 24px;
+				}
 				
 				@media (min-width: 485px) {
 					font-size: 30px;
@@ -34,7 +40,7 @@
 			}
 			
 			> .hide {
-				margin: 0 8px;
+				margin: 0 8px 0 20px;
 				transform: scale(2);
 				transition: opacity 0.3s;
 				
