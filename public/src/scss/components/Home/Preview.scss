@@ -324,9 +324,17 @@ $rating-colors: (
 			margin-top: 40px;
 			transition: opacity 0.3s;
 			
-			&.hidden {
-				pointer-events: none;
-				opacity: 0;
+			&.finished {
+				> .preview-claim-xp-button {
+					pointer-events: all;
+					opacity: 1;
+				}
+				
+				> .message,
+				> .buttons {
+					pointer-events: none;
+					opacity: 0;
+				}
 			}
 			
 			&.waiting-for-rating {
@@ -340,6 +348,13 @@ $rating-colors: (
 					opacity: 1;
 					transform: none;
 				}
+			}
+			
+			> .preview-claim-xp-button {
+				max-width: 350px;
+				width: 100%;
+				pointer-events: none;
+				opacity: 0;
 			}
 			
 			> .message,

@@ -4,6 +4,7 @@ import cx from 'classnames'
 import PerformanceRating from '../../../models/PerformanceRating'
 import { PreviewPredictions } from './usePreview'
 import RateButton from './RateButton'
+import ClaimXPButton from './ClaimXPButton'
 
 const RATINGS = [
 	PerformanceRating.Easy,
@@ -40,11 +41,12 @@ const PreviewFooter = (
 		rate: (rating: PerformanceRating) => void
 	}
 ) => (
-	<div className={cx('footer', { 'waiting-for-rating': isWaitingForRating })}>
-		<p
-			className={cx('message', { hidden: isFinished })}
-			tabIndex={-1}
-		>
+	<div className={cx('footer', {
+		finished: isFinished,
+		'waiting-for-rating': isWaitingForRating
+	})}>
+		<ClaimXPButton inverted />
+		<p className="message" tabIndex={-1}>
 			Try to recall, then flip
 		</p>
 		<div className="buttons" tabIndex={-1}>

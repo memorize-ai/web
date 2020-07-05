@@ -8,7 +8,23 @@
 	color: white;
 	background: #051e34;
 	border-radius: 8px;
-	transition: color 0.3s, background 0.3s;
+	transition: color 0.3s, background 0.3s, opacity 0.3s;
+	
+	> span {
+		color: #03a9f4;
+	}
+	
+	&.inverted {
+		color: #051e34;
+		background: white;
+		box-shadow: 0 4px 8px transparentize(black, 0.9);
+		
+		&:hover,
+		&:focus {
+			color: white;
+			background: #051e34;
+		}
+	}
 	
 	&:hover,
 	&:focus {
