@@ -2,7 +2,8 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Select from 'react-select'
 import cx from 'classnames'
 import keyBy from 'lodash/keyBy'
-import chain from 'lodash/chain'
+import toPairs from 'lodash/toPairs'
+import flatten from 'lodash/flatten'
 import property from 'lodash/property'
 
 import Deck from '../../../models/Deck'
@@ -37,14 +38,13 @@ const DeckPagePreview = ({ deck }: { deck: Deck }) => {
 	
 	const _cards = useAllCards(deck.id)
 	const cards = useMemo(() => (
-		_cards && chain(_cards)
-			.toPairs()
-			.sort(([a], [b]) =>
-				sections[a].index - sections[b].index
-			)
-			.map('1')
-			.flatten()
-			.value()
+		_cards && flatten(
+			toPairs(_cards)
+				.sort(([a], [b]) =>
+					sections[a].index - sections[b].index
+				)
+				.map(([, card]) => card)
+		)
 	), [_cards, sections])
 	
 	const [card, setCard] = useState(null as Card | null)

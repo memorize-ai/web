@@ -101,15 +101,17 @@ const Preview = () => {
 							{ hidden: cardsRemaining < 3 }
 						)} />
 						<div className="completion">
-							<ClaimXPButton />
-							<Confetti
-								active={!(cardsRemaining || isProgressModalShowing)}
-								config={{
-									duration: 5000,
-									spread: 90,
-									elementCount: 100
-								}}
-							/>
+							
+							<div className="confetti">
+								<Confetti
+									active={!(cardsRemaining || isProgressModalShowing)}
+									config={{
+										duration: 5000,
+										spread: 90,
+										elementCount: 100
+									}}
+								/>
+							</div>
 						</div>
 					</div>
 				</div>
