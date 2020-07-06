@@ -101,7 +101,12 @@ const Preview = () => {
 							{ hidden: cardsRemaining < 3 }
 						)} />
 						<div className="completion">
-							
+							<span className="emoji" role="img" aria-label="All done">
+								😌
+							</span>
+							<p className="message">
+								Sign up to get <em>detailed performance insights</em>
+							</p>
 							<div className="confetti">
 								<Confetti
 									active={!(cardsRemaining || isProgressModalShowing)}

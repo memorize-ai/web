@@ -115,10 +115,12 @@ $rating-colors: (
 				display: flex;
 				align-items: center;
 				max-width: calc(100vw - #{$margin * 2});
+				height: 27px;
 				transition: height 0.3s, opacity 0.3s;
 				
 				&.hidden {
 					height: 0;
+					pointer-events: none;
 					opacity: 0;
 				}
 				
@@ -301,17 +303,31 @@ $rating-colors: (
 				
 				> .completion {
 					display: flex;
-					position: relative;
 					flex-direction: column;
 					justify-content: center;
-					align-items: center;
 					width: 100%;
 					height: 100%;
+					text-align: center;
 					z-index: -3;
 					transition: opacity 0.3s;
 					
 					&.hidden {
 						opacity: 0;
+					}
+					
+					> .emoji {
+						font-size: 100px;
+					}
+					
+					> .message {
+						font-size: 24px;
+						font-weight: 900;
+						color: white;
+						transition: font-size 0.3s;
+						
+						@media (min-width: 405px) {
+							font-size: 30px;
+						}
 					}
 					
 					> .confetti {
