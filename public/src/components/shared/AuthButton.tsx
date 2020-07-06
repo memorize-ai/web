@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, useCallback } from 'react'
+import React, { ButtonHTMLAttributes, useCallback, MouseEvent } from 'react'
 
 import useAuthModal from '../../hooks/useAuthModal'
 import AuthenticationMode from '../../models/AuthenticationMode'
@@ -12,7 +12,9 @@ const AuthButton = (
 ) => {
 	const { setIsShowing, setMode } = useAuthModal()
 	
-	const onClick = useCallback(() => {
+	const onClick = useCallback((event: MouseEvent) => {
+		event.stopPropagation()
+		
 		if (goToAppStoreIfHandheldIos && IS_IOS_HANDHELD) {
 			window.location.href = APP_STORE_URL
 			return
