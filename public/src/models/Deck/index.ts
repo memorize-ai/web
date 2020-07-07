@@ -1,4 +1,6 @@
-import _ from 'lodash'
+import without from 'lodash/without'
+import uniqBy from 'lodash/uniqBy'
+import flatten from 'lodash/flatten'
 import { nanoid } from 'nanoid'
 
 import Search, { DeckSortAlgorithm as SortAlgorithm } from './Search'
@@ -438,7 +440,7 @@ export default class Deck implements DeckData {
 				sortAlgorithm: SortAlgorithm.Top,
 				filterForTopics: this.topics
 			}),
-			..._.without(
+			...without(
 				this.name.split(/\s+/).map(word => {
 					const trimmed = word.trim()
 					
@@ -455,7 +457,7 @@ export default class Deck implements DeckData {
 			)
 		]) as any[][]
 		
-		return _.uniqBy(_.flatten(chunks), 'id')
+		return uniqBy(flatten(chunks), 'id')
 			.filter(deck => deck.id !== this.id)
 	}
 	

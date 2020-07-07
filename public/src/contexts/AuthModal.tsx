@@ -2,20 +2,27 @@ import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'r
 
 import Action, { ActionType } from '../actions/Action'
 import User from '../models/User'
+import AuthenticationMode from '../models/AuthenticationMode'
 
 export interface AuthModalState {
 	isShowing: boolean
 	callback: ((user: User) => void) | null
+	mode: AuthenticationMode
+	initialXp: number
 }
 
 export type AuthModalAction = Action<
 	| boolean // SetAuthModalIsShowing
 	| ((user: User) => void) | null // SetAuthModalCallback
+	| AuthenticationMode // SetAuthModalMode
+	| number // SetAuthModalInitialXp
 >
 
 const initialState: AuthModalState = {
 	isShowing: false,
-	callback: null
+	callback: null,
+	mode: AuthenticationMode.LogIn,
+	initialXp: 0
 }
 
 const reducer = (state: AuthModalState, { type, payload }: AuthModalAction) => {
@@ -24,6 +31,10 @@ const reducer = (state: AuthModalState, { type, payload }: AuthModalAction) => {
 			return { ...state, isShowing: payload as boolean }
 		case ActionType.SetAuthModalCallback:
 			return { ...state, callback: payload as ((user: User) => void) | null }
+		case ActionType.SetAuthModalMode:
+			return { ...state, mode: payload as AuthenticationMode }
+		case ActionType.SetAuthModalInitialXp:
+			return { ...state, initialXp: payload as number }
 		default:
 			return state
 	}

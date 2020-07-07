@@ -34,7 +34,10 @@ const CreateDeckContent = () => {
 	
 	const history = useHistory()
 	
-	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
+	const {
+		setIsShowing: setAuthModalIsShowing,
+		setCallback: setAuthModalCallback
+	} = useAuthModal()
 	
 	const [currentUser] = useCurrentUser()
 	const topics = useTopics()

@@ -1,0 +1,31 @@
+.market-search-link {
+	position: relative;
+	max-width: 250px;
+	height: 44px;
+	overflow: hidden;
+	border-radius: 8px;
+	
+	&,
+	> input {
+		width: 100%;
+	}
+	
+	> svg {
+		position: absolute;
+		top: 14px;
+		left: 14px;
+		color: #eee;
+		pointer-events: none;
+	}
+	
+	> input {
+		height: 100%;
+		padding: 0 12px 0 40px;
+		color: white;
+		background: transparentize(#eee, 0.8);
+		
+		&::placeholder {
+			color: transparentize(#eee, 0.2);
+		}
+	}
+}

@@ -1,14 +1,31 @@
 import { useContext, useCallback } from 'react'
 
 import AuthModalContext from '../contexts/AuthModal'
-import { setAuthModalIsShowing, setAuthModalCallback } from '../actions'
+import {
+	setAuthModalIsShowing,
+	setAuthModalCallback,
+	setAuthModalMode,
+	setAuthModalInitialXp
+} from '../actions'
 import { compose } from '../utils'
 
 export default () => {
-	const [{ isShowing, callback }, dispatch] = useContext(AuthModalContext)
+	const [
+		{ isShowing, callback, mode, initialXp },
+		dispatch
+	] = useContext(AuthModalContext)
 	
-	return [
-		[isShowing, useCallback(compose(dispatch, setAuthModalIsShowing), [dispatch])],
-		[callback, useCallback(compose(dispatch, setAuthModalCallback), [dispatch])]
-	] as const
+	return {
+		isShowing,
+		setIsShowing: useCallback(compose(dispatch, setAuthModalIsShowing), [dispatch]),
+		
+		callback,
+		setCallback: useCallback(compose(dispatch, setAuthModalCallback), [dispatch]),
+		
+		mode,
+		setMode: useCallback(compose(dispatch, setAuthModalMode), [dispatch]),
+		
+		initialXp,
+		setInitialXp: useCallback(compose(dispatch, setAuthModalInitialXp), [dispatch])
+	}
 }

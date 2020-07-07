@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
+import { Link } from 'react-router-dom'
 
 import List from './List'
-import AuthButton from '../../shared/AuthButton'
 
 import { ReactComponent as LeftArrow } from '../../../images/icons/left-arrow.svg'
 import diagram from '../../../images/home/classroom.png'
@@ -10,28 +10,28 @@ import '../../../scss/components/Home/Classroom.scss'
 
 const HomeClassroom = () => (
 	<div id="class" className="classroom">
-		<div className="background" />
-		<div className="content">
-			<img
-				className="diagram"
-				src={diagram}
-				alt="Classroom diagram"
-			/>
-			<article className="text">
-				<h2
-					className="title"
-					data-aos="fade-down"
-				>
-					<strong>Teachers and Students</strong><br />
-					love memorize.ai
-				</h2>
-				<List />
-				<AuthButton className="get-started" goToAppStoreIfHandheldIos>
-					<p>Get started</p>
-					<LeftArrow />
-				</AuthButton>
-			</article>
-		</div>
+		<img
+			className="diagram"
+			src={diagram}
+			alt="Classroom diagram"
+		/>
+		<article className="text">
+			<h2
+				className="title"
+				data-aos="fade-down"
+			>
+				<strong>Teachers and Students</strong><br />
+				love memorize.ai
+			</h2>
+			<List />
+			<Link
+				to="/new"
+				className="get-started"
+			>
+				<p>Create your first deck</p>
+				<LeftArrow />
+			</Link>
+		</article>
 	</div>
 )
 

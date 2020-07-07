@@ -2,11 +2,9 @@ import React, { memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 
-import AuthButton from '../shared/AuthButton'
+import AuthButton from './WhiteArrowAuthButton'
 import Screenshot, { ScreenshotType } from '../shared/Screenshot'
 import { APP_STORE_URL, IS_IOS_HANDHELD } from '../../constants'
-
-import { ReactComponent as LeftArrow } from '../../images/icons/left-arrow.svg'
 
 import '../../scss/components/Home/Header.scss'
 
@@ -19,9 +17,8 @@ const HomeHeader = () => (
 			</h1>
 			<h3>Truly effective AI flashcards</h3>
 			<div className="footer">
-				<AuthButton className="join-button" goToAppStoreIfHandheldIos>
-					<p>Get started</p>
-					<LeftArrow />
+				<AuthButton className="join-button">
+					Get started
 				</AuthButton>
 				{IS_IOS_HANDHELD || (
 					<a

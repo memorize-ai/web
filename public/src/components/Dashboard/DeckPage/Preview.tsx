@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Select from 'react-select'
 import cx from 'classnames'
-import _ from 'lodash'
+import keyBy from 'lodash/keyBy'
+import toPairs from 'lodash/toPairs'
+import flatten from 'lodash/flatten'
+import property from 'lodash/property'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -30,19 +33,18 @@ const DeckPagePreview = ({ deck }: { deck: Deck }) => {
 	), [deck, __sections])
 	
 	const sections = useMemo(() => (
-		_.keyBy(_sections ?? [], 'id')
+		keyBy(_sections ?? [], 'id')
 	), [_sections])
 	
 	const _cards = useAllCards(deck.id)
 	const cards = useMemo(() => (
-		_cards && _.chain(_cards)
-			.toPairs()
-			.sort(([a], [b]) =>
-				sections[a].index - sections[b].index
-			)
-			.map('1')
-			.flatten()
-			.value()
+		_cards && flatten(
+			toPairs(_cards)
+				.sort(([a], [b]) =>
+					sections[a].index - sections[b].index
+				)
+				.map(([, card]) => card)
+		)
 	), [_cards, sections])
 	
 	const [card, setCard] = useState(null as Card | null)
@@ -137,8 +139,8 @@ const DeckPagePreview = ({ deck }: { deck: Deck }) => {
 					<Select
 						className="section-select"
 						options={_sections ?? []}
-						getOptionLabel={_.property('name')}
-						getOptionValue={_.property('id')}
+						getOptionLabel={property('name')}
+						getOptionValue={property('id')}
 						isOptionDisabled={isSectionDisabled}
 						placeholder="Loading..."
 						isLoading={!section}

@@ -1,5 +1,5 @@
 import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
-import _ from 'lodash'
+import pickBy from 'lodash/pickBy'
 
 import Action, { ActionType } from '../actions/Action'
 import { DeckSortAlgorithm, DEFAULT_DECK_SORT_ALGORITHM } from '../models/Deck/Search'
@@ -23,7 +23,7 @@ const initialState: SearchState = {
 
 const reducer = (state: SearchState, { type, payload }: SearchAction) =>
 	type === ActionType.SetSearchState
-		? { ...state, ..._.pickBy(payload, value => value !== null) as SearchState }
+		? { ...state, ...pickBy(payload, value => value !== null) as SearchState }
 		: state
 
 const Context = createContext<[SearchState, Dispatch<SearchAction>]>([

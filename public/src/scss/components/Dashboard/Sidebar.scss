@@ -171,6 +171,7 @@ $divider-color: transparentize(#ddd, 0.8);
 	
 	> .bottom {
 		grid-area: bottom;
+		cursor: initial;
 		
 		> .divider {
 			@include divider(2.5px);

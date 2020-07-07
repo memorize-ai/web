@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import chunk from 'lodash/chunk'
 
 import firebase from '../firebase'
 import Deck from './Deck'
@@ -107,7 +107,7 @@ export default class Section implements SectionData {
 		firestore.doc(`decks/${deck.id}/sections/${this.id}`).delete()
 	
 	publishCards = (deck: Deck, cards: CardDraft[]) => {
-		const chunks = _.chunk(cards, FIRESTORE_BATCH_LIMIT)
+		const chunks = chunk(cards, FIRESTORE_BATCH_LIMIT)
 		
 		return Promise.all(chunks.map(chunk => {
 			const batch = firestore.batch()

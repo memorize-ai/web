@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import _ from 'lodash'
+import flatten from 'lodash/flatten'
 
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
@@ -24,7 +24,7 @@ const DeckPageCards = ({ deck }: { deck: Deck }) => {
 	] = useExpandedSections(deck, { isOwned: false, defaultExpanded: true })
 	
 	const _cards = useAllCards(deck.id)
-	const cards = _cards && _.flatten(Object.values(_cards))
+	const cards = _cards && flatten(Object.values(_cards))
 	
 	const [selectedSection, setSelectedSection] = useState(null as Section | null)
 	const [isShareSectionModalShowing, setIsShareSectionModalShowing] = useState(false)

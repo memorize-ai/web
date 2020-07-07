@@ -6,6 +6,7 @@ import Card, { CardDraft, CardDraftUpdateObject } from '../models/Card'
 import LoadingState from '../models/LoadingState'
 import { Counter } from '../models/Counters'
 import { SearchActionPayload } from '../contexts/Search'
+import AuthenticationMode from '../models/AuthenticationMode'
 
 // Current user
 
@@ -205,6 +206,16 @@ export const setAuthModalIsShowing = (isShowing: boolean) => ({
 export const setAuthModalCallback = (callback: ((user: User) => void) | null) => ({
 	type: ActionType.SetAuthModalCallback,
 	payload: callback
+})
+
+export const setAuthModalMode = (mode: AuthenticationMode) => ({
+	type: ActionType.SetAuthModalMode,
+	payload: mode
+})
+
+export const setAuthModalInitialXp = (xp: number) => ({
+	type: ActionType.SetAuthModalInitialXp,
+	payload: xp
 })
 
 // Creator

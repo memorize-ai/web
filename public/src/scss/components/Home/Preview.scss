@@ -1,11 +1,12 @@
 @import '../../variables';
 @import '../../mixins';
-@import '../../functions';
+@import '../../trigonometry';
 
+$margin: 30px;
 $card-offset: 20px;
 
-$shift-animation-duration: 400ms;
 $flip-animation-duration: 300ms;
+$shift-animation-duration: 300ms;
 
 $rating-colors: (
 	0: #00d388,
@@ -14,112 +15,125 @@ $rating-colors: (
 );
 
 @mixin background-card($multiplier) {
-	left: $card-offset * $multiplier;
-	right: $card-offset * $multiplier;
+	$margin: $card-offset * $multiplier;
+	
+	left: $margin;
+	right: $margin;
 	z-index: -$multiplier;
-	transform: translateY($card-offset * $multiplier);
+	transform: translateY($margin);
 }
 
-@include dashboard-content('review') {
-	> .mask {
-		$margin: 30px;
+@include home-content('preview') {
+	$degrees: 6deg;
+	
+	@include stack;
+	
+	> .background {
+		@include top-gradient($degrees, $is-right: true);
+	}
+	
+	> .content {
+		$max-width: 800px + $margin * 2;
+		$vertical-margin: 60px;
 		
-		display: flex;
-		flex-direction: column;
-		height: 100vh;
-		overflow: hidden;
+		justify-self: center;
+		max-width: $max-width;
+		width: 100%;
+		margin: $vertical-margin 0 calc(#{$vertical-margin} + #{tan($degrees) * 100vw});
 		padding: 0 $margin;
+		z-index: 0;
 		
-		> .review-navbar {
-			$button-height: 40px;
-			
+		> .preview-navbar {
 			display: flex;
-			align-items: center;
-			overflow-x: auto;
-			margin-top: 20px;
+			flex-direction: column-reverse;
 			
-			> * {
-				flex-shrink: 0;
-			}
-			
-			> .back,
-			> .skip,
-			> .recap {
-				height: $button-height;
-				color: white;
-				border: 2px solid transparentize(#eee, 0.8);
-				border-radius: 8px;
-				transition: opacity 0.3s, border-color 0.3s;
-				
-				&:hover {
-					opacity: 0.5;
-					border-color: transparentize(#eee, 0.6);
-				}
-			}
-			
-			> .back {
-				display: flex;
-				justify-content: center;
+			@media (min-width: 650px) {
+				flex-direction: row;
+				justify-content: space-between;
 				align-items: center;
-				width: $button-height;
-				margin-right: 12px;
-				
-				> svg {
-					transform: scale(1.5);
-					transition: transform 0.3s;
-				}
-				
-				&:hover > svg {
-					transform: scale(1.7);
-				}
 			}
 			
-			> .progress,
-			> .skip,
-			> .recap {
+			> .location {
+				$height: 44px;
+				
+				display: flex;
+				align-items: flex-end;
+				margin-top: 30px;
 				font-weight: 900;
-			}
-			
-			> .progress {
-				margin-right: auto;
-				font-size: 25px;
 				color: white;
-				transform: translateY(-1px);
+				
+				@media (min-width: 650px) {
+					margin-top: 0;
+				}
+				
+				> .count {
+					margin-right: 12px;
+					line-height: $height;
+					font-size: $height;
+				}
+				
+				> .text {
+					font-size: $height / 2;
+					opacity: 0.8;
+				}
 			}
 			
-			> .skip,
-			> .recap {
-				padding: 0 12px;
-				text-transform: uppercase;
-				font-size: 18px;
-			}
-			
-			> .skip {
-				margin: 0 12px;
+			> .items {
+				display: flex;
+				flex-direction: column;
+				
+				@media (min-width: 405px) {
+					flex-direction: row;
+				}
+				
+				> .market-search-link {
+					@media (min-width: 405px) {
+						margin-right: 12px;
+					}
+					
+					@media (max-width: 405px) {
+						max-width: none;
+						margin-bottom: 12px;
+					}
+				}
+				
+				> .preview-claim-xp-button {
+					flex-shrink: 0;
+					
+					@media (min-width: 405px) and (max-width: 475px) {
+						font-size: 16px;
+					}
+				}
 			}
 		}
 		
 		> .card-container {
-			$max-width: 800px;
-			
-			flex-grow: 1;
-			align-self: center;
-			display: flex;
-			flex-direction: column;
-			max-width: $max-width;
-			width: 100%;
-			margin-top: 50px;
+			margin-top: 40px;
+			padding-bottom: $card-offset * 2;
 			
 			> .location {
 				display: flex;
 				align-items: center;
+				max-width: calc(100vw - #{$margin * 2});
+				height: 27px;
+				transition: height 0.3s, opacity 0.3s;
+				
+				&.hidden {
+					height: 0;
+					pointer-events: none;
+					opacity: 0;
+				}
 				
 				> .deck,
 				> .section,
 				> .flag {
-					font-size: 18px;
+					font-size: 16px;
 					font-weight: 900;
 					color: white;
+					
+					@media (min-width: 445px) {
+						font-size: 18px;
+					}
 				}
 				
 				> .deck {
@@ -143,42 +157,47 @@ $rating-colors: (
 				}
 				
 				> .flag {
+					display: none;
 					margin-left: auto;
 					padding-left: 12px;
 					text-transform: lowercase;
 					opacity: 0.6;
+					
+					@media (min-width: 405px) {
+						display: block;
+					}
 				}
 			}
 			
 			> .cards {
-				flex-grow: 1;
 				position: relative;
-				margin: 8px 0 $card-offset * 2;
+				min-height: 40px;
+				max-height: calc(100vh - #{$card-offset * 2 + 250px});
+				height: 350px;
+				margin-top: 8px;
+				transition: height 0.3s;
 				
-				&.clickable {
-					cursor: pointer;
-				}
+				@media (min-width: 320px) { height: 400px; }
+				@media (min-width: 350px) { height: 450px; }
+				@media (min-width: 400px) { height: 450px; }
+				@media (min-width: 460px) { height: 500px; }
+				@media (min-width: 510px) { height: 560px; }
 				
 				> .card {
 					$content-padding: 20px;
 					
 					position: absolute;
 					top: 0;
-					right: 0;
 					bottom: 0;
-					left: 0;
 					background: white;
 					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
+					transition: opacity 0.3s, transform 0.3s;
 					
-					&.foreground {
-						&.flip > .container > .content {
-							animation: review-card-flip $flip-animation-duration ease-in-out;
-						}
-						
-						&.shift {
-							animation: review-card-shift $shift-animation-duration ease-in-out;
-						}
+					&.foreground,
+					&.next {
+						left: 0;
+						right: 0;
 						
 						> .container {
 							$full-katex-width: calc(#{unquote(
@@ -201,63 +220,72 @@ $rating-colors: (
 								overflow-y: auto;
 								padding: $content-padding;
 							}
+						}
+					}
+					
+					&.foreground {
+						cursor: pointer;
+						z-index: 1;
+						
+						&.waiting-for-flip:hover {
+							transform: scale(1.02);
+						}
+						
+						&.shift {
+							animation: preview-card-shift $shift-animation-duration ease-in-out;
 							
-							> .flip {
-								$inset: 25px;
-								
-								display: flex;
-								position: absolute;
-								align-items: flex-end;
-								right: $inset;
-								bottom: $inset;
-								
-								> p {
-									margin-right: 24px;
-									text-transform: uppercase;
-									font-weight: 900;
-									color: $dark-gray;
-									opacity: 0.5;
-									transform: translateY(10px);
-								}
-								
-								> svg {
-									$dimension: 13px;
-									
-									width: $dimension;
-									height: $dimension;
-									padding: 2px;
-									color: #06ba7a;
-									background: transparentize($light-gray, 0.2);
-									border-radius: 50%;
-									transition: transform 0.3s ease-out;
+							@keyframes preview-card-shift {
+								to {
+									transform: translateX(100vw);
 								}
 							}
 						}
 						
-						@keyframes review-card-flip {
-							50% {
-								opacity: 0;
-								transform: scale(0.9);
+						&.flip > .container > .content {
+							animation: preview-card-flip $flip-animation-duration ease-in-out;
+							
+							@keyframes preview-card-flip {
+								50% {
+									opacity: 0;
+									transform: scale(0.9);
+								}
 							}
 						}
 						
-						@keyframes review-card-shift {
-							50% {
-								opacity: 0;
-								transform: translateX(calc(var(--sidebar-width) - 100vw));
+						> .container > .flip {
+							$inset: 25px;
+							
+							display: flex;
+							position: absolute;
+							align-items: flex-end;
+							right: $inset;
+							bottom: $inset;
+							
+							> p {
+								margin-right: 24px;
+								text-transform: uppercase;
+								font-weight: 900;
+								color: $dark-gray;
+								opacity: 0.5;
+								transform: translateY(10px);
 							}
 							
-							50.01% {
-								opacity: 0;
-								transform: translateX(calc(100vw - var(--sidebar-width)));
+							> svg {
+								$dimension: 13px;
+								
+								width: $dimension;
+								height: $dimension;
+								padding: 2px;
+								color: #06ba7a;
+								background: transparentize($light-gray, 0.2);
+								border-radius: 50%;
+								transition: transform 0.3s ease-out;
 							}
 						}
 					}
 					
-					&.loading {
-						display: flex;
-						justify-content: center;
-						align-items: center;
+					&.next {
+						box-shadow: none;
 					}
 					
 					@for $layer from 1 through 2 {
@@ -265,18 +293,74 @@ $rating-colors: (
 							@include background-card($layer);
 						}
 					}
+					
+					&.hidden {
+						pointer-events: none;
+						opacity: 0;
+						transform: none;
+					}
+				}
+				
+				> .completion {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					width: 100%;
+					height: 100%;
+					text-align: center;
+					z-index: -3;
+					transition: opacity 0.3s;
+					
+					&.hidden {
+						opacity: 0;
+					}
+					
+					> .emoji {
+						font-size: 100px;
+					}
+					
+					> .message {
+						font-size: 24px;
+						font-weight: 900;
+						color: white;
+						transition: font-size 0.3s;
+						
+						@media (min-width: 405px) {
+							font-size: 30px;
+						}
+					}
+					
+					> .confetti {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+					}
 				}
 			}
 		}
 		
-		> footer {
+		> .footer {
 			$vertical-offset: 100px;
 			
 			@include stack;
 			
 			justify-items: center;
 			align-items: center;
-			padding: 40px 0;
+			margin-top: 40px;
+			
+			&.finished {
+				> .preview-claim-xp-button {
+					pointer-events: all;
+					opacity: 1;
+				}
+				
+				> .message,
+				> .buttons {
+					pointer-events: none;
+					opacity: 0;
+				}
+			}
 			
 			&.waiting-for-rating {
 				> .message {
@@ -285,9 +369,17 @@ $rating-colors: (
 				}
 				
 				> .buttons {
+					pointer-events: all;
 					opacity: 1;
 					transform: none;
 				}
+			}
+			
+			> .preview-claim-xp-button {
+				max-width: 350px;
+				width: 100%;
+				pointer-events: none;
+				opacity: 0;
 			}
 			
 			> .message,
@@ -299,26 +391,21 @@ $rating-colors: (
 				text-align: center;
 				font-size: 20px;
 				font-weight: 900;
-				color: $dark-gray;
-				opacity: 0.8;
+				color: white;
 			}
 			
 			> .buttons {
 				display: flex;
 				opacity: 0;
+				pointer-events: none;
 				transform: translateY($vertical-offset);
 				
 				> button {
-					padding: 0 14px;
+					width: 100px;
 					background: white;
-					border: 1px solid #eee;
 					border-radius: 8px;
+					box-shadow: 0 4px 8px transparentize(black, 0.9);
 					transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
-					
-					@media (min-width: 400px) {
-						width: 100px;
-						padding: 0;
-					}
 					
 					@media (min-width: 500px) {
 						width: 130px;
@@ -368,16 +455,24 @@ $rating-colors: (
 					}
 					
 					> .prediction {
-						min-width: 65px;
+						$height: 25px;
+						
+						min-width: 50px;
 						width: max-content;
-						height: 25px;
+						height: $height;
+						line-height: $height;
 						margin: 0 auto 12px;
-						padding: 2px 10px;
+						padding: 0 10px;
 						text-align: center;
-						font-size: 14px;
+						font-size: 12px;
 						font-weight: 900;
 						color: $dark-gray;
 						border-radius: 8px;
+						
+						@media (min-width: 420px) {
+							min-width: 65px;
+							font-size: 14px;
+						}
 						
 						@for $i from 0 through 2 {
 							&.rating-#{$i} {
@@ -387,21 +482,11 @@ $rating-colors: (
 								);
 							}
 						}
-						
-						&.loading {
-							display: flex;
-							justify-content: center;
-							align-items: center;
-							
-							> .loader {
-								margin-bottom: 1px;
-							}
-						}
 					}
 					
 					&:hover {
 						border-color: white;
-						box-shadow: 0 4px 8px transparentize(black, 0.9);
+						box-shadow: none;
 					}
 					
 					&:not(:last-child) {
@@ -413,7 +498,7 @@ $rating-colors: (
 	}
 }
 
-@include modal-content('review-progress') {
+@include modal-content('preview-progress') {
 	$margin: 20px;
 	
 	display: flex;
@@ -489,74 +574,6 @@ $rating-colors: (
 					0.15
 				);
 			}
-		}
-	}
-}
-
-@include modal-content('review-recap') {
-	$margin: 20px;
-	
-	display: flex;
-	flex-direction: column;
-	max-width: 650px;
-	width: calc(100vw - #{$margin * 2});
-	max-height: calc(100vh - #{$margin * 2});
-	overflow-y: auto;
-	margin: $margin;
-	padding: 20px;
-	background: #051e34;
-	border-radius: 15px;
-	
-	> .emoji {
-		margin-bottom: -15px;
-		text-align: center;
-		font-size: 80px;
-	}
-	
-	> .data {
-		margin-top: 20px;
-		
-		> .title {
-			text-transform: uppercase;
-			font-weight: 900;
-			color: white;
-		}
-		
-		> .content {
-			font-weight: bold;
-			color: transparentize(white, 0.5);
-			
-			> span {
-				color: white;
-				
-				&.deck-name {
-					color: #ffcb6b;
-				}
-				
-				&.section-name {
-					color: #c792ea;
-				}
-				
-				&.section-card-count {
-					color: #89ddff;
-				}
-			}
-		}
-	}
-	
-	> .done {
-		margin: 20px 0 0 auto;
-		padding: 6px 20px;
-		font-size: 20px;
-		font-weight: 900;
-		color: white;
-		background: #0288d1;
-		border-radius: 13px;
-		transition: color 0.3s, background 0.3s;
-		
-		&:hover {
-			color: #0288d1;
-			background: white;
 		}
 	}
 }

@@ -1,27 +1,19 @@
-import React, { memo, useCallback } from 'react'
-import { useHistory, Link } from 'react-router-dom'
+import React, { memo } from 'react'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faKey } from '@fortawesome/free-solid-svg-icons'
 
 import useAuthState from '../../hooks/useAuthState'
-import useSearchState from '../../hooks/useSearchState'
 import AuthButton from '../shared/AuthButton'
 import Logo, { LogoType } from './Logo'
+import MarketSearchLink from './MarketSearchLink'
 import { urlForMarket } from '../Dashboard/Market'
 
 import '../../scss/components/Navbar.scss'
 
 const Navbar = () => {
-	const history = useHistory()
-	
 	const isSignedIn = useAuthState()
-	const [{ query }] = useSearchState()
-	
 	const marketUrl = urlForMarket()
-	
-	const goToMarket = useCallback(() => {
-		history.push(marketUrl)
-	}, [history, marketUrl])
 	
 	return (
 		<div className="navbar">
@@ -29,15 +21,7 @@ const Navbar = () => {
 				<Logo type={LogoType.Capital} />
 			</Link>
 			<div className="items">
-				<div className="search">
-					<input
-						readOnly
-						placeholder="Explore unlimited decks"
-						value={query}
-						onFocus={goToMarket}
-					/>
-					<FontAwesomeIcon icon={faSearch} />
-				</div>
+				<MarketSearchLink />
 				<Link to={marketUrl} className="market-link">
 					<FontAwesomeIcon icon={faSearch} />
 				</Link>

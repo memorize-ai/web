@@ -36,6 +36,8 @@ jobs:
           cd ..
       - name: Generate sitemap
         run: npm run generate-sitemap
+      - name: Load preview deck
+        run: npm run load-preview-deck
       - name: Build public
         run: npm run build -C public
       - name: Save public assets

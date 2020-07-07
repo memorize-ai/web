@@ -1,5 +1,5 @@
 import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
-import _ from 'lodash'
+import omit from 'lodash/omit'
 
 import Action, { ActionType } from '../actions/Action'
 import User from '../models/User'
@@ -30,7 +30,7 @@ const reducer = (state: CreatorsState, { type, payload }: CreatorsAction) => {
 			}
 		}
 		case ActionType.RemoveCreator:
-			return _.omit(state, payload as string)
+			return omit(state, payload as string)
 		default:
 			return state
 	}

@@ -26,7 +26,10 @@ const DeckPageHeader = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => 
 	const [currentUser] = useCurrentUser()
 	const creator = useCreator(deck.creatorId)
 	
-	const [[, setAuthModalIsShowing], [, setAuthModalCallback]] = useAuthModal()
+	const {
+		setIsShowing: setAuthModalIsShowing,
+		setCallback: setAuthModalCallback
+	} = useAuthModal()
 	
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
