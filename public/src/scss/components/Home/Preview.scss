@@ -43,6 +43,40 @@ $rating-colors: (
 		padding: 0 $margin;
 		z-index: 0;
 		
+		> .title {
+			margin-bottom: 40px;
+			text-align: center;
+			font-size: 23px;
+			font-weight: 900;
+			color: white;
+			transition: margin-bottom 0.3s, font-size 0.3s;
+			
+			@media (min-width: 400px) {
+				font-size: 25px;
+			}
+			
+			@media (min-width: 465px) {
+				font-size: 30px;
+			}
+			
+			@media (min-width: 535px) {
+				font-size: 35px;
+			}
+			
+			@media (min-width: 600px) {
+				font-size: 40px;
+			}
+			
+			@media (min-width: 650px) {
+				margin-bottom: 50px;
+			}
+			
+			@media (min-width: 780px) {
+				margin-bottom: 60px;
+				font-size: 50px;
+			}
+		}
+		
 		> .preview-navbar {
 			display: flex;
 			flex-direction: column-reverse;
@@ -172,7 +206,7 @@ $rating-colors: (
 			> .cards {
 				position: relative;
 				min-height: 40px;
-				max-height: calc(100vh - #{$card-offset * 2 + 250px});
+				max-height: calc(100vh - #{$card-offset * 2 + 320px});
 				height: 350px;
 				margin-top: 8px;
 				transition: height 0.3s;

@@ -37,6 +37,9 @@ const Preview = () => {
 		<div id="preview" className="preview" onClick={waitForRating}>
 			<div className="background" />
 			<div className="content">
+				<h2 className="title">
+					How good is <em>your</em> memory?
+				</h2>
 				<div className="preview-navbar">
 					<div className="location">
 						<p className="count">{cardsRemaining}</p>
