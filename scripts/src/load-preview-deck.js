@@ -1,5 +1,5 @@
 const { join } = require('path')
-const { writeFile } = require('fs/promises')
+const { writeFileSync: writeFile } = require('fs')
 
 const { firestore } = require('../utils/firebase-admin')
 
@@ -44,7 +44,7 @@ if (require.main === module)
 			back: card.get('back')
 		}))
 		
-		await writeFile(PATH, JSON.stringify({
+		writeFile(PATH, JSON.stringify({
 			id: deck.id,
 			slugId: deck.get('slugId'),
 			name: deck.get('name'),
