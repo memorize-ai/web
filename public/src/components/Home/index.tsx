@@ -6,13 +6,13 @@ import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'
 import Header from './Header'
 import SpacedRepetition from './SpacedRepetition'
-// import Screenshots from './Screenshots'
 import Preview from './Preview'
 import Features from './Features'
+import Screenshots from './Screenshots'
 import Classroom from './Classroom'
 import Footer from './Footer'
 
-import 'aos/dist/aos.css'
+import '../../scss/components/Home/index.scss'
 
 const Home = () => {
 	useEffect(() => {
@@ -38,9 +38,9 @@ const Home = () => {
 				<Header />
 			</TopGradient>
 			<SpacedRepetition />
-			{/* <Screenshots /> */}
 			<Preview />
 			<Features />
+			<Screenshots />
 			<Classroom />
 			<Footer />
 		</div>

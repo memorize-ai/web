@@ -10,31 +10,28 @@ import '../../../scss/components/Home/Classroom.scss'
 
 const HomeClassroom = () => (
 	<div id="class" className="classroom">
-		<div className="background" />
-		<div className="content">
-			<img
-				className="diagram"
-				src={diagram}
-				alt="Classroom diagram"
-			/>
-			<article className="text">
-				<h2
-					className="title"
-					data-aos="fade-down"
-				>
-					<strong>Teachers and Students</strong><br />
-					love memorize.ai
-				</h2>
-				<List />
-				<Link
-					to="/new"
-					className="get-started"
-				>
-					<p>Create your first deck</p>
-					<LeftArrow />
-				</Link>
-			</article>
-		</div>
+		<img
+			className="diagram"
+			src={diagram}
+			alt="Classroom diagram"
+		/>
+		<article className="text">
+			<h2
+				className="title"
+				data-aos="fade-down"
+			>
+				<strong>Teachers and Students</strong><br />
+				love memorize.ai
+			</h2>
+			<List />
+			<Link
+				to="/new"
+				className="get-started"
+			>
+				<p>Create your first deck</p>
+				<LeftArrow />
+			</Link>
+		</article>
 	</div>
 )
 

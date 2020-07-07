@@ -6,8 +6,12 @@ $transform-length: 100px;
 
 @include home-content('screenshots') {
 	$degrees: 6deg;
+	$offset: tan($degrees) * 100vw;
 	
 	@include stack;
+	
+	margin-bottom: -$offset;
+	padding-top: $offset;
 	
 	@each $direction in (left, right) {
 		&.#{$direction} > .content {
