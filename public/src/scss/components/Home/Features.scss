@@ -52,7 +52,7 @@
 	}
 	
 	> picture > img {
-		max-height: calc(100vh - 120px * 2);
+		max-height: calc(100vh - #{100px * 2});
 		margin: 0 auto;
 	}
 }
