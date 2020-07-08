@@ -107,9 +107,12 @@ const Preview = () => {
 							<span className="emoji" role="img" aria-label="All done">
 								😌
 							</span>
-							<p className="message">
+							<h3 className="title">
 								Sign up to get <em>detailed performance insights</em>
-							</p>
+							</h3>
+							<h4 className="subtitle">
+								You're in the top 40% of users studying <em>{deck.name}!</em>
+							</h4>
 							<div className="confetti">
 								<Confetti
 									active={!(cardsRemaining || isProgressModalShowing)}

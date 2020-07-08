@@ -353,7 +353,7 @@ $rating-colors: (
 						font-size: 100px;
 					}
 					
-					> .message {
+					> .title {
 						font-size: 24px;
 						font-weight: 900;
 						color: white;
@@ -361,6 +361,19 @@ $rating-colors: (
 						
 						@media (min-width: 405px) {
 							font-size: 30px;
+						}
+					}
+					
+					> .subtitle {
+						margin-top: 8px;
+						font-size: 20px;
+						font-weight: 900;
+						color: white;
+						opacity: 0.7;
+						transition: font-size 0.3s;
+						
+						@media (min-width: 405px) {
+							font-size: 22px;
 						}
 					}
 					
@@ -385,14 +398,14 @@ $rating-colors: (
 			
 			&.finished {
 				> .preview-claim-xp-button {
-					pointer-events: all;
-					opacity: 1;
+					pointer-events: all !important;
+					opacity: 1 !important;
 				}
 				
 				> .message,
 				> .buttons {
-					pointer-events: none;
-					opacity: 0;
+					pointer-events: none !important;
+					opacity: 0 !important;
 				}
 			}
 			
