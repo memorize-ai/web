@@ -375,6 +375,11 @@ $rating-colors: (
 						@media (min-width: 405px) {
 							font-size: 22px;
 						}
+						
+						> .loader {
+							display: inline-block;
+							margin: 0 2px -3px;
+						}
 					}
 					
 					> .confetti {
