@@ -114,7 +114,7 @@ const Preview = () => {
 							</h3>
 							<h4 className="subtitle">
 								You're in the top {
-									topPercent === null || true
+									topPercent === null
 										? <Loader size="20px" thickness="4px" color="white" />
 										: `${topPercent}%`
 								} of users studying <em>{deck.name}!</em>
