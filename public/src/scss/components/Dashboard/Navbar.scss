@@ -26,7 +26,7 @@
 			display: flex;
 			position: relative;
 			align-items: center;
-			padding: 0 $horizontal-padding $bottom-padding $horizontal-padding;
+			padding: 0 $horizontal-padding $bottom-padding;
 			color: white;
 			opacity: 0.7;
 			
@@ -190,9 +190,11 @@
 					}
 				}
 				
-				> button {
+				> .forgot-password,
+				> .sign-out {
 					height: 40px;
 					margin-top: 12px;
+					font-weight: bold;
 				}
 				
 				> .forgot-password {
@@ -218,19 +220,19 @@
 					}
 				}
 				
-				> .contact-us {
+				> .footer {
 					display: inline-block;
 					margin-top: 18px;
 					color: $dark-gray;
-					transition: opacity 0.3s;
 					
-					> span {
+					> a {
 						font-weight: bold;
-						color: #582efe;
-					}
-					
-					&:hover {
-						opacity: 0.5;
+						color: #007aff;
+						transition: opacity 0.3s;
+						
+						&:hover {
+							opacity: 0.5;
+						}
 					}
 				}
 			}
