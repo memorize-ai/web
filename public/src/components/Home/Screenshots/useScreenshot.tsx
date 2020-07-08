@@ -13,16 +13,20 @@ export const SCREENSHOTS = [
 		title: <>No more <b>long<br />study sessions</b></>
 	},
 	{
-		type: ScreenshotType.Cram,
-		title: <><b>No time?</b><br />No problem.</>
+		type: ScreenshotType.Decks,
+		title: <>Know what you<br /><b>need to review</b></>
 	},
 	{
 		type: ScreenshotType.Editor,
 		title: <>Advanced editor<br />with <b>math, images,<br />tables, and code</b></>
 	},
 	{
-		type: ScreenshotType.Decks,
-		title: <>Know what you<br /><b>need to review</b></>
+		type: ScreenshotType.Recap,
+		title: <>Make learning<br /><b>a game</b></>
+	},
+	{
+		type: ScreenshotType.Cram,
+		title: <><b>No time?</b><br />No problem.</>
 	},
 	{
 		type: ScreenshotType.Market,
@@ -31,10 +35,6 @@ export const SCREENSHOTS = [
 	{
 		type: ScreenshotType.Home,
 		title: <>Summary<br /><b>at a glance</b></>
-	},
-	{
-		type: ScreenshotType.Recap,
-		title: <>Make learning<br /><b>a game</b></>
 	}
 ]
 
