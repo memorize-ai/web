@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import AuthButton from './AuthButton'
 import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
 import Logo, { LogoType } from '../shared/Logo'
+import { SLACK_INVITE_URL } from '../../constants'
 
 import '../../scss/components/Home/Footer.scss'
 
@@ -51,11 +52,11 @@ const HomeFooter = () => (
 					</a>
 					<div className="divider" />
 					<a
-						href="https://twitter.com/fact_a_minute"
+						href={SLACK_INVITE_URL}
 						target="_blank"
 						rel="noopener noreferrer nofollow"
 					>
-						fact_a_minute
+						Slack
 					</a>
 				</div>
 				<AppStoreDownloadButton className="download-app" />
