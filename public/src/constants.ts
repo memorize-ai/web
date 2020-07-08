@@ -8,6 +8,7 @@ export const LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY = 'ai.memorize.isCardEdito
 
 export const APP_STORE_URL = 'https://apps.apple.com/app/id1462251805'
 export const APP_SCREENSHOT_URL = 'https://memorize.ai/images/screenshots/review.png'
+export const SLACK_INVITE_URL = 'https://join.slack.com/t/memorizeai/shared_invite/zt-fonasrkz-~lttgde~yDum5IMiAydXNQ'
 
 export const ROOT_ELEMENT = document.getElementById('root')
 

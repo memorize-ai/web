@@ -8,6 +8,7 @@ import CardSide from '../../shared/CardSide'
 import Footer from './Footer'
 import ProgressModal from './ProgressModal'
 import ClaimXPButton from './ClaimXPButton'
+import Loader from '../../shared/Loader'
 
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 
@@ -25,6 +26,7 @@ const Preview = () => {
 		predictions,
 		cardClassName,
 		toggleTurns,
+		topPercent,
 		progressData,
 		isProgressModalShowing,
 		setIsProgressModalShowing,
@@ -37,6 +39,9 @@ const Preview = () => {
 		<div id="preview" className="preview" onClick={waitForRating}>
 			<div className="background" />
 			<div className="content">
+				<h2 className="title">
+					How good is <em>your</em> memory?
+				</h2>
 				<div className="preview-navbar">
 					<div className="location">
 						<p className="count">{cardsRemaining}</p>
@@ -104,9 +109,16 @@ const Preview = () => {
 							<span className="emoji" role="img" aria-label="All done">
 								😌
 							</span>
-							<p className="message">
+							<h3 className="title">
 								Sign up to get <em>detailed performance insights</em>
-							</p>
+							</h3>
+							<h4 className="subtitle">
+								You're in the top {
+									topPercent === null || true
+										? <Loader size="20px" thickness="4px" color="white" />
+										: `${topPercent}%`
+								} of users studying <em>{deck.name}!</em>
+							</h4>
 							<div className="confetti">
 								<Confetti
 									active={!(cardsRemaining || isProgressModalShowing)}

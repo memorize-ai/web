@@ -1,9 +1,13 @@
 import { MouseEvent, useState, useMemo, useCallback, SetStateAction, useEffect, useRef } from 'react'
+import { toast } from 'react-toastify'
 
+import firebase from '../../../firebase'
 import PerformanceRating from '../../../models/PerformanceRating'
 import useAuthModal from '../../../hooks/useAuthModal'
 import { sleep } from '../../../utils'
 import deck from '../../../data/preview.json'
+
+import 'firebase/firestore'
 
 export interface PreviewSection {
 	id: string
@@ -62,6 +66,8 @@ const PROGRESS_MODAL_SHOW_DURATION = 1000
 
 export const PREVIEW_MASTERED_STREAK = 6
 
+const firestore = firebase.firestore()
+
 const getPredictionMultiplier = (multiplier: number, rating: PerformanceRating) => {
 	switch (rating) {
 		case PerformanceRating.Easy:
@@ -107,6 +113,8 @@ const getProgressDataForRating = (rating: PerformanceRating) => {
 export default () => {
 	const isFirstCard = useRef(true)
 	
+	const start = useRef(null as Date | null)
+	
 	const [cards, setCards] = useState(deck.cards as PreviewCard[])
 	
 	const [cardClassName, setCardClassName] = useState(undefined as string | undefined)
@@ -118,6 +126,7 @@ export default () => {
 	
 	const [predictionMultiplier, setPredictionMultiplier] = useState(1)
 	const [toggleTurns, setToggleTurns] = useState(0)
+	const [topPercent, setTopPercent] = useState(null as number | null)
 	
 	const { initialXp, setInitialXp } = useAuthModal()
 	
@@ -152,6 +161,11 @@ export default () => {
 			[PerformanceRating.Forgot]: null
 		}
 	}, [card, predictionMultiplier])
+	
+	const setStart = useCallback(() => {
+		if (!start.current)
+			start.current = new Date()
+	}, [])
 	
 	const setProgressData = useCallback(async (data: PreviewProgressData) => {
 		_setProgressData(data)
@@ -197,9 +211,11 @@ export default () => {
 		if (isWaitingForRating || isProgressModalShowing || !cards.length)
 			return
 		
+		setStart()
+		
 		setIsWaitingForRating(true)
 		transitionSetCurrentSide('back')
-	}, [isWaitingForRating, isProgressModalShowing, cards, setIsWaitingForRating, transitionSetCurrentSide])
+	}, [isWaitingForRating, isProgressModalShowing, cards, setStart, setIsWaitingForRating, transitionSetCurrentSide])
 	
 	const flip = useCallback(() => {
 		transitionSetCurrentSide(side =>
@@ -245,6 +261,39 @@ export default () => {
 		setToggleTurns(turns => turns + 1)
 	}, [currentSide])
 	
+	useEffect(() => {
+		if (cards.length || !start.current)
+			return
+		
+		const relativeScore = predictionMultiplier / (
+			Date.now() - start.current.getTime()
+		)
+		
+		Promise.all([
+			firestore
+				.doc('counters/previewDeckScores')
+				.get()
+				.then(snapshot => snapshot.get('value') as number),
+			firestore
+				.collection('previewDeckScores')
+				.where('value', '>', relativeScore)
+				.get()
+				.then(({ docs }) => docs.length)
+		])
+		.then(([total, fraction]) =>
+			setTopPercent(Math.round(10 * fraction / total) / 10)
+		)
+		.then(() =>
+			firestore.collection('previewDeckScores').add({
+				value: relativeScore
+			})
+		)
+		.catch(error => {
+			console.error(error)
+			toast.error('Oh no! An error occurred.')
+		})
+	}, [cards.length, predictionMultiplier, setTopPercent])
+	
 	return {
 		cardsRemaining: cards.length,
 		currentSide,
@@ -256,6 +305,7 @@ export default () => {
 		predictions,
 		cardClassName,
 		toggleTurns,
+		topPercent,
 		progressData,
 		isProgressModalShowing,
 		setIsProgressModalShowing,
