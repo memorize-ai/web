@@ -129,6 +129,17 @@
 	"counters (collection)": {
 		"decks (document)": {
 			"value": 100 // (Int) The counter value
+		},
+		"users (document)": {
+			"value": 100 // (Int) The counter value
+		},
+		"previewDeckScores (document)": {
+			"value": 100 // (Int) The counter value
+		}
+	},
+	"previewDeckScores (collection)": {
+		"ab23x0b (document)": {
+			"value": 300 // (Int) The user's score
 		}
 	}
 }
