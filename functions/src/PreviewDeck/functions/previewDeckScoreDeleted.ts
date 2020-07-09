@@ -5,4 +5,4 @@ import { cauterize } from '../../utils'
 
 export default functions.firestore
 	.document('previewDeckScores/{scoreId}')
-	.onCreate(cauterize(() => modifyCounter(-1)))
+	.onDelete(cauterize(() => modifyCounter(-1)))
