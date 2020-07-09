@@ -76,6 +76,7 @@ const AuthModal = () => {
 					await firestore.doc(`users/${user.uid}`).set({
 						name,
 						email,
+						source: 'web',
 						xp: initialXp,
 						joined: firebase.firestore.FieldValue.serverTimestamp()
 					})
