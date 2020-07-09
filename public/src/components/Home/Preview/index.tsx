@@ -118,7 +118,7 @@ const Preview = () => {
 									ranking === null
 										? <Loader size="20px" thickness="4px" color="white" />
 										: rankingToString(ranking)
-								} in <em>{deck.name}!</em>
+								} place in <em>{deck.name}!</em>
 							</h4>
 							<div className="confetti">
 								<Confetti
