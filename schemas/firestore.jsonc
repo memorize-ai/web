@@ -3,6 +3,7 @@
 		"f3adD8ag (document)": { // User ID
 			"name": "Ken Mueller", // Not unique
 			"email": "kenmueller0@gmail.com", // Unique
+			"source": "web", // (("web" | "ios" | "android")?) Not standardized
 			"deckCount": 4, // (Int?) The number of decks in this user's library. If nonexistent, treat as 0
 			"xp": 400, // (Int?) The XP that the user has. If nonexistent, treat as 0
 			"unsubscribed": {
