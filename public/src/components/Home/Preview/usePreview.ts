@@ -281,7 +281,7 @@ export default () => {
 				.then(({ docs }) => docs.length)
 		])
 		.then(([total, fraction]) =>
-			setTopPercent(Math.round(10 * fraction / total) / 10)
+			setTopPercent(Math.round(10 * fraction / (total || 1)) / 10)
 		)
 		.then(() =>
 			firestore.collection('previewDeckScores').add({
