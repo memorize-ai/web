@@ -9,6 +9,7 @@ import Footer from './Footer'
 import ProgressModal from './ProgressModal'
 import ClaimXPButton from './ClaimXPButton'
 import Loader from '../../shared/Loader'
+import { rankingToString } from '../../../utils'
 
 import { ReactComponent as ToggleIcon } from '../../../images/icons/toggle.svg'
 
@@ -26,7 +27,7 @@ const Preview = () => {
 		predictions,
 		cardClassName,
 		toggleTurns,
-		topPercent,
+		ranking,
 		progressData,
 		isProgressModalShowing,
 		setIsProgressModalShowing,
@@ -113,11 +114,11 @@ const Preview = () => {
 								Sign up to get <em>detailed performance insights</em>
 							</h3>
 							<h4 className="subtitle">
-								You're in the top {
-									topPercent === null
+								You ranked {
+									ranking === null
 										? <Loader size="20px" thickness="4px" color="white" />
-										: `${topPercent}%`
-								} of users studying <em>{deck.name}!</em>
+										: rankingToString(ranking)
+								} in <em>{deck.name}!</em>
 							</h4>
 							<div className="confetti">
 								<Confetti

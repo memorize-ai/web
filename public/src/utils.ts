@@ -99,3 +99,16 @@ export const slugify = (string: string, delimiter: string = '-') =>
 
 export const safeDivide = (a: number, b: number) =>
 	a / (b || 1)
+
+export const rankingToString = (ranking: number) => {
+	switch (ranking) {
+		case 1:
+			return '1st'
+		case 2:
+			return '2nd'
+		case 3:
+			return '3rd'
+		default:
+			return `${ranking}th`
+	}
+}

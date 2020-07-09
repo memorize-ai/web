@@ -126,7 +126,7 @@ export default () => {
 	
 	const [predictionMultiplier, setPredictionMultiplier] = useState(1)
 	const [toggleTurns, setToggleTurns] = useState(0)
-	const [topPercent, setTopPercent] = useState(null as number | null)
+	const [ranking, setRanking] = useState(null as number | null)
 	
 	const { initialXp, setInitialXp } = useAuthModal()
 	
@@ -269,30 +269,22 @@ export default () => {
 			Date.now() - start.current.getTime()
 		)
 		
-		Promise.all([
-			firestore
-				.doc('counters/previewDeckScores')
-				.get()
-				.then(snapshot => snapshot.get('value') as number),
-			firestore
-				.collection('previewDeckScores')
-				.where('value', '>', relativeScore)
-				.get()
-				.then(({ docs }) => docs.length)
-		])
-		.then(([total, fraction]) =>
-			setTopPercent(Math.round(10 * fraction / (total || 1)) / 10)
-		)
-		.then(() =>
-			firestore.collection('previewDeckScores').add({
-				value: relativeScore
+		firestore
+			.collection('previewDeckScores')
+			.where('value', '>', relativeScore)
+			.get()
+			.then(({ docs }) => {
+				setRanking(docs.length + 1)
+				
+				return firestore.collection('previewDeckScores').add({
+					value: relativeScore
+				})
 			})
-		)
-		.catch(error => {
-			console.error(error)
-			toast.error('Oh no! An error occurred.')
-		})
-	}, [cards.length, predictionMultiplier, setTopPercent])
+			.catch(error => {
+				console.error(error)
+				toast.error('Oh no! An error occurred.')
+			})
+	}, [cards.length, predictionMultiplier, setRanking])
 	
 	return {
 		cardsRemaining: cards.length,
@@ -305,7 +297,7 @@ export default () => {
 		predictions,
 		cardClassName,
 		toggleTurns,
-		topPercent,
+		ranking,
 		progressData,
 		isProgressModalShowing,
 		setIsProgressModalShowing,
