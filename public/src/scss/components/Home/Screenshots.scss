@@ -10,8 +10,10 @@ $transform-length: 100px;
 	
 	@include stack;
 	
+	position: relative;
 	margin-bottom: -$offset;
 	padding-top: $offset;
+	z-index: 1;
 	
 	@each $direction in (left, right) {
 		&.#{$direction} > .content {
