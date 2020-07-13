@@ -32,7 +32,7 @@ const HomeHeader = () => (
 				)}
 			</div>
 		</div>
-		<Screenshot type={ScreenshotType.Cram} className="screenshot" />
+		<Screenshot type={ScreenshotType.Review} className="screenshot" />
 	</div>
 )
 

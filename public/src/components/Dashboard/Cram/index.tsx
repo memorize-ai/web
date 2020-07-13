@@ -12,6 +12,7 @@ const Cram = () => (
 		selection={Selection.Decks}
 		gradientStyle={GradientStyle.Green}
 		isNavbarHidden
+		hideChat
 		className="cram"
 	>
 		<Content />

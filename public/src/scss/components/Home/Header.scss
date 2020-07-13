@@ -162,7 +162,6 @@
 		display: none;
 		width: 300px;
 		margin-left: auto;
-		transform: rotate(6deg);
 		transition: width 0.3s, margin-right 0.3s, transform 0.3s;
 		
 		@media (min-width: 970px) {
@@ -170,7 +169,7 @@
 		}
 		
 		@media (min-width: 1100px) {
-			width: 342px;
+			width: 1000px;
 		}
 		
 		@media (min-width: 1500px) {
@@ -179,7 +178,7 @@
 		
 		&:hover,
 		&:focus {
-			transform: none;
+			transform: scale(1.1);
 		}
 	}
 }
