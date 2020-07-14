@@ -1,6 +1,6 @@
 import firebase from '../firebase'
 import LoadingState from './LoadingState'
-import { setExpectsSignIn, handleError } from '../utils'
+import { setExpectsSignIn, handleError, hubSpotIdentifyUser } from '../utils'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -78,6 +78,9 @@ export default class User implements UserData {
 				setCurrentUserLoadingState(LoadingState.Success)
 				
 				setExpectsSignIn(Boolean(user))
+				
+				if (user)
+					hubSpotIdentifyUser(user)
 			},
 			error => {
 				setCurrentUserLoadingState(LoadingState.Fail)

@@ -109,3 +109,9 @@
 		@content;
 	}
 }
+
+@mixin hide-chat {
+	#hubspot-messages-iframe-container {
+		display: none !important;
+	}
+}

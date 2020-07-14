@@ -22,6 +22,7 @@ export interface DashboardProps {
 	selection: DashboardNavbarSelection
 	gradientStyle?: DashboardGradientStyle
 	isNavbarHidden?: boolean
+	hideChat?: boolean
 	className: string
 }
 
@@ -29,6 +30,7 @@ const Dashboard = ({
 	selection,
 	gradientStyle = DashboardGradientStyle.Blue,
 	isNavbarHidden = false,
+	hideChat = false,
 	className,
 	children
 }: PropsWithChildren<DashboardProps>) => {
@@ -39,6 +41,17 @@ const Dashboard = ({
 		
 		return () => body.classList.remove('clipped')
 	}, [])
+	
+	useEffect(() => {
+		if (!hideChat)
+			return
+		
+		const { body } = document
+		
+		body.classList.add('hide-chat')
+		
+		return () => body.classList.remove('hide-chat')
+	}, [hideChat])
 	
 	return (
 		<div className={cx('dashboard', className)}>

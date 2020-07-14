@@ -8,6 +8,7 @@ const Review = () => (
 	<Dashboard
 		selection={Selection.Decks}
 		isNavbarHidden
+		hideChat
 		className="review"
 	>
 		<Content />

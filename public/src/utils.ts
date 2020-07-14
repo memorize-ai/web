@@ -112,3 +112,12 @@ export const rankingToString = (ranking: number) => {
 			return `${ranking}th`
 	}
 }
+
+export const hubSpotIdentifyUser = (user: firebase.User) => {
+	const hubSpot = (window as any)._hsq = (window as any)._hsq || []
+	
+	hubSpot.push(['identify', {
+		id: user.uid,
+		...user.email && { email: user.email }
+	}])
+}

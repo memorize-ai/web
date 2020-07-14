@@ -81,7 +81,7 @@ const getTopics = async (deck: Deck) => {
 					await firestore.doc(`topics/${topicId}`).get()
 				)
 			} catch (error) {
-				console.error(error)
+				console.error(`Skipping topic: ${error}`)
 				return null
 			}
 		})
@@ -106,10 +106,13 @@ export const getNextFact = async (): Promise<Fact> => {
 }
 
 export const sendNextFact = async () => {
-	const fact = await getNextFact()
+	const fact = await getNextFact().catch(error => {
+		console.error(`FATAL ERROR GET NEXT FACT: ${error}`)
+		throw error
+	})
 	
-	return Promise.all([
-		sendFact(fact),
-		fact.deck.updateNextPostedCard()
+	await Promise.all([
+		sendFact(fact).catch(error => console.error(`FATAL ERROR SEND: ${error}`)),
+		fact.deck.updateNextPostedCard().catch(error => console.error(`FATAL ERROR UPDATE NEXT: ${error}`))
 	])
 }

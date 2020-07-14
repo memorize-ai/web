@@ -45,6 +45,10 @@ body {
 		filter: blur(4px);
 	}
 	
+	&.hide-chat {
+		@include hide-chat;
+	}
+	
 	&,
 	*,
 	::before,
