@@ -107,12 +107,12 @@ export const getNextFact = async (): Promise<Fact> => {
 
 export const sendNextFact = async () => {
 	const fact = await getNextFact().catch(error => {
-		console.error(`FATAL ERROR GET NEXT FACT: ${error}`)
+		console.error(`FATAL ERROR GET NEXT FACT: ${JSON.stringify(error)}`)
 		throw error
 	})
 	
 	await Promise.all([
-		sendFact(fact).catch(error => console.error(`FATAL ERROR SEND: ${error}`)),
-		fact.deck.updateNextPostedCard().catch(error => console.error(`FATAL ERROR UPDATE NEXT: ${error}`))
+		sendFact(fact).catch(error => console.error(`FATAL ERROR SEND: ${JSON.stringify(error)}`)),
+		fact.deck.updateNextPostedCard().catch(error => console.error(`FATAL ERROR UPDATE NEXT: ${JSON.stringify(error)}`))
 	])
 }
