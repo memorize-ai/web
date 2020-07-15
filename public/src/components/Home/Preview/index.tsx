@@ -46,7 +46,7 @@ const Preview = () => {
 				<div className="preview-navbar">
 					<div className="location">
 						<p className="count">{cardsRemaining}</p>
-						<p className="text">cards left</p>
+						<p className="text">card{cardsRemaining === 1 ? '' : 's'} left</p>
 					</div>
 					<div className="items">
 						<MarketSearchLink />
