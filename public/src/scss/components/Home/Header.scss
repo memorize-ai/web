@@ -1,9 +1,15 @@
 .home > .top-gradient > .content {
 	$horizontal-padding: 135px;
 	
+	padding: 0 40px;
+	transition: padding 0.3s;
+	
+	@media (min-width: 1100px) {
+		padding: 0 ($horizontal-padding / 2);
+	}
+	
 	@media (min-width: 1250px) {
-		padding-left: $horizontal-padding;
-		padding-right: $horizontal-padding;
+		padding: 0 $horizontal-padding;
 	}
 	
 	> .navbar {
@@ -13,7 +19,12 @@
 	
 	> .header {
 		display: flex;
-		padding-top: 73px;
+		padding-top: 63px;
+		transition: padding-top 0.3s;
+		
+		@media (min-width: 1020px) {
+			padding-top: 73px;
+		}
 		
 		> .left {
 			flex-shrink: 0;
@@ -21,7 +32,11 @@
 			flex-direction: column;
 			color: white;
 			transition: padding 0.3s;
-			max-width: 346px;
+			max-width: 300px;
+			
+			@media (min-width: 900px) {
+				max-width: 346px;
+			}
 			
 			@media (min-width: 1300px) {
 				max-width: 400px;
@@ -37,16 +52,11 @@
 			}
 			
 			> h1 {
-				font-size: 32px;
+				font-size: 31px;
 				font-weight: 900;
-				line-height: 38px;
+				line-height: 37px;
 				
-				@media (min-width: 500px) {
-					font-size: 48px;
-					line-height: 54px;
-				}
-				
-				@media (min-width: 800px) {
+				@media (min-width: 900px) {
 					font-size: 38px;
 					line-height: 44px;
 				}
@@ -64,8 +74,13 @@
 			
 			> h3 {
 				margin-top: 24px;
-				font-size: 18px;
-				line-height: 24px;
+				font-size: 16px;
+				line-height: 22px;
+				
+				@media (min-width: 900px) {
+					font-size: 18px;
+					line-height: 24px;
+				}
 				
 				@media (min-width: 1300px) {
 					font-size: 20px;
@@ -160,19 +175,45 @@
 		}
 		
 		> .screenshot {
-			$translate: translate(var(--x-translate), -30px);
+			$translate: translate(var(--x-translate), var(--y-translate));
 			
-			--x-translate: 35px;
+			--x-translate: 12px;
+			--y-translate: -10px;
 			
+			display: none;
 			max-width: 1000px;
 			margin-left: 30px;
-			transform: $translate scale(1.05);
+			transform: $translate;
 			transition: width 0.3s, margin 0.3s, transform 0.3s;
 			
-			@media (min-width: 1480px) {
-				--x-translate: 30px;
+			@media (min-width: 830px) {
+				display: block;
+			}
+			
+			@media (min-width: 920px) {
+				--y-translate: -20px;
+			}
+			
+			@media (min-width: 940px) {
+				--y-translate: -20px;
+			}
+			
+			@media (min-width: 1020px) {
+				--y-translate: -30px;
+			}
+			
+			@media (min-width: 1100px) {
+				--x-translate: 20px;
+			}
+			
+			@media (min-width: 1250px) {
+				--x-translate: 20px;
 				
 				margin-left: 40px;
+				transform: $translate scale(1.05);
+			}
+			
+			@media (min-width: 1480px) {
 				transform: $translate;
 			}
 			
@@ -192,7 +233,11 @@
 			
 			&:hover,
 			&:focus {
-				transform: $translate scale(1.1);
+				transform: $translate scale(1.05);
+				
+				@media (min-width: 1250px) {
+					transform: $translate scale(1.1);
+				}
 				
 				@media (min-width: 1480px) {
 					transform: $translate scale(1.05);

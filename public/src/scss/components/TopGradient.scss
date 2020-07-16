@@ -16,14 +16,14 @@
 	@include gradient-height(420px);
 	
 	@media (min-width: 500px) {
-		@include gradient-height(500px);
+		@include gradient-height(600px);
 	}
 	
-	@media (min-width: 800px) {
-		@include gradient-height(610px);
+	@media (min-width: 1075px) {
+		@include gradient-height(650px);
 	}
 	
-	@media (min-width: 1100px) {
+	@media (min-width: 1300px) {
 		@include gradient-height(730px);
 	}
 	
