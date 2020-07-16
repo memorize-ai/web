@@ -13,9 +13,25 @@
 	}
 	
 	@include stack;
-	@include gradient-height(420px);
+	@include gradient-height(440px);
+	
+	@media (min-width: 375px) {
+		@include gradient-height(450px);
+	}
+	
+	@media (min-width: 400px) {
+		@include gradient-height(475px);
+	}
+	
+	@media (min-width: 430px) {
+		@include gradient-height(500px);
+	}
 	
 	@media (min-width: 500px) {
+		@include gradient-height(550px);
+	}
+	
+	@media (min-width: 600px) {
 		@include gradient-height(600px);
 	}
 	

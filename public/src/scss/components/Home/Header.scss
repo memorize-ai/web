@@ -15,24 +15,49 @@
 	> .navbar {
 		padding-left: 0;
 		padding-right: 0;
+		
+		> .items > .auth-button {
+			@media (max-width: 685px) {
+				margin-right: 0;
+			}
+		}
 	}
 	
 	> .header {
 		display: flex;
-		padding-top: 63px;
+		padding-top: 43px;
 		transition: padding-top 0.3s;
+		
+		@media (min-width: 500px) {
+			padding-top: 53px;
+		}
+		
+		@media (min-width: 600px) {
+			padding-top: 63px;
+		}
 		
 		@media (min-width: 1020px) {
 			padding-top: 73px;
 		}
 		
 		> .left {
-			flex-shrink: 0;
 			display: flex;
 			flex-direction: column;
 			color: white;
 			transition: padding 0.3s;
-			max-width: 300px;
+			
+			@media (min-width: 430px) {
+				flex-shrink: 0;
+				max-width: 350px;
+			}
+			
+			@media (min-width: 500px) {
+				max-width: 400px;
+			}
+			
+			@media (min-width: 830px) {
+				max-width: 300px;
+			}
 			
 			@media (min-width: 900px) {
 				max-width: 346px;
@@ -52,9 +77,29 @@
 			}
 			
 			> h1 {
-				font-size: 31px;
+				font-size: 28px;
 				font-weight: 900;
-				line-height: 37px;
+				line-height: 34px;
+				
+				@media (min-width: 375px) {
+					font-size: 32px;
+					line-height: 38px;
+				}
+				
+				@media (min-width: 430px) {
+					font-size: 38px;
+					line-height: 44px;
+				}
+				
+				@media (min-width: 500px) {
+					font-size: 44px;
+					line-height: 50px;
+				}
+				
+				@media (min-width: 830px) {
+					font-size: 31px;
+					line-height: 37px;
+				}
 				
 				@media (min-width: 900px) {
 					font-size: 38px;
@@ -74,8 +119,28 @@
 			
 			> h3 {
 				margin-top: 24px;
-				font-size: 16px;
-				line-height: 22px;
+				font-size: 15px;
+				line-height: 21px;
+				
+				@media (min-width: 370px) {
+					font-size: 16px;
+					line-height: 22px;
+				}
+				
+				@media (min-width: 405px) {
+					font-size: 18px;
+					line-height: 24px;
+				}
+				
+				@media (min-width: 500px) {
+					font-size: 20px;
+					line-height: 26px;
+				}
+				
+				@media (min-width: 830px) {
+					font-size: 16px;
+					line-height: 22px;
+				}
 				
 				@media (min-width: 900px) {
 					font-size: 18px;
