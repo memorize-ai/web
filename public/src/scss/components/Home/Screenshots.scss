@@ -1,6 +1,8 @@
 @import '../../mixins';
 @import '../../trigonometry';
 
+$row-min-width: 900px;
+
 $animation-duration: 400ms;
 $transform-length: 100px;
 
@@ -39,74 +41,12 @@ $transform-length: 100px;
 		height: 100vh;
 		z-index: 0;
 		
-		@media (min-height: 775px) {
-			> .title {
-				height: 115px !important;
-				font-size: 24px !important;
-				line-height: 38px !important;
-			}
-			
-			> .screenshot {
-				&,
-				> :last-child > img {
-					height: calc(100vh - 175px * 2) !important;
-				}
-			}
-		}
-		
-		@media (min-width: 900px) {
+		@media (min-width: $row-min-width) {
 			flex-direction: row;
-			
-			> .title {
-				display: none;
-			}
-			
-			> .screenshot {
-				height: 100% !important;
-				
-				> :first-child {
-					--dimension: calc(100vh - 200px * 2) !important;
-				}
-				
-				> :last-child > img {
-					height: calc(100vh - 175px * 2) !important;
-				}
-			}
-			
-			> .info {
-				align-items: flex-start !important;
-				margin-left: 60px;
-				
-				> .title {
-					display: block !important;
-				}
-				
-				> .navigation > button {
-					background: transparentize(white, 0.9) !important;
-					
-					&:hover {
-						background: transparentize(white, 0.8) !important;
-					}
-				}
-				
-				> .gallery > button {
-					background: transparentize(white, 0.8) !important;
-					
-					&.selected {
-						background: transparentize(white, 0.2) !important;
-					}
-					
-					&:not(.selected) {
-						&:hover,
-						&:focus {
-							background: transparentize(white, 0.7) !important;
-						}
-					}
-				}
-			}
 		}
 		
 		> .title {
+			flex-shrink: 0;
 			height: 105px;
 			margin-bottom: 30px;
 			text-align: center;
@@ -114,6 +54,16 @@ $transform-length: 100px;
 			line-height: 34px;
 			color: white;
 			transition: font-size 0.3s, line-height 0.3s;
+			
+			@media (min-height: 775px) {
+				height: 115px;
+				font-size: 24px;
+				line-height: 38px;
+			}
+			
+			@media (min-width: $row-min-width) {
+				display: none;
+			}
 		}
 		
 		> .screenshot {
@@ -121,104 +71,26 @@ $transform-length: 100px;
 			
 			justify-items: center;
 			align-items: center;
+			margin-left: 60px;
 			transition: height 0.3s;
-			
-			&,
-			> :last-child > img {
-				height: calc(100vh - 160px * 2);
-			}
-			
-			@media (min-width: 965px) {
-				> :first-child {
-					--dimension: calc(100vh - 175px * 2) !important;
-				}
-				
-				> :last-child > img {
-					height: calc(100vh - 150px * 2) !important;
-				}
-			}
-			
-			@media (min-width: 1020px) {
-				> :first-child {
-					--dimension: calc(100vh - 150px * 2) !important;
-				}
-				
-				> :last-child > img {
-					height: calc(100vh - 125px * 2) !important;
-				}
-			}
-			
-			@media (min-width: 1185px) {
-				> :first-child {
-					--dimension: calc(100vh - 100px * 2) !important;
-				}
-				
-				> :last-child > img {
-					height: calc(100vh - 75px * 2) !important;
-				}
-			}
-			
-			> :first-child {
-				width: var(--dimension);
-				height: var(--dimension, calc(100% - 50px * 2));
-				margin: -65px -40px;
-				transition: width 0.3s, height 0.3s;
-			}
 		}
 		
 		> .info {
+			flex-shrink: 0;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			width: 360px;
 			
-			@media (min-width: 1050px) {
-				width: 400px;
-				
-				> .title {
-					height: 165px !important;
-					font-size: 42px !important;
-					line-height: 54px !important;
-				}
-			}
+			@media (min-width: 1050px) { width: 400px; }
+			@media (min-width: 1085px) { width: 435px; }
+			@media (min-width: 1215px) { width: 475px; }
+			@media (min-width: 1250px) { width: 510px; }
+			@media (min-width: 1300px) { width: 550px; }
 			
-			@media (min-width: 1085px) {
-				width: 435px;
-				
-				> .title {
-					height: 175px !important;
-					font-size: 46px !important;
-					line-height: 58px !important;
-				}
-			}
-			
-			@media (min-width: 1215px) {
-				width: 475px;
-				
-				> .title {
-					height: 190px !important;
-					font-size: 50px !important;
-					line-height: 62px !important;
-				}
-			}
-			
-			@media (min-width: 1250px) {
-				width: 510px;
-				
-				> .title {
-					height: 200px !important;
-					font-size: 54px !important;
-					line-height: 66px !important;
-				}
-			}
-			
-			@media (min-width: 1300px) {
-				width: 550px;
-				
-				> .title {
-					font-size: 58px !important;
-					line-height: 70px !important;
-				}
+			@media (min-width: $row-min-width) {
+				align-items: flex-start;
+				margin-left: 60px;
 			}
 			
 			> .title {
@@ -228,6 +100,39 @@ $transform-length: 100px;
 				line-height: 50px;
 				color: white;
 				transition: font-size 0.3s, line-height 0.3s;
+				
+				@media (min-width: $row-min-width) {
+					display: block;
+				}
+				
+				@media (min-width: 1050px) {
+					height: 165px;
+					font-size: 42px;
+					line-height: 54px;
+				}
+				
+				@media (min-width: 1085px) {
+					height: 175px;
+					font-size: 46px;
+					line-height: 58px;
+				}
+				
+				@media (min-width: 1215px) {
+					height: 190px;
+					font-size: 50px;
+					line-height: 62px;
+				}
+				
+				@media (min-width: 1250px) {
+					height: 200px;
+					font-size: 54px;
+					line-height: 66px;
+				}
+				
+				@media (min-width: 1300px) {
+					font-size: 58px;
+					line-height: 70px;
+				}
 			}
 			
 			> .navigation {
@@ -243,6 +148,10 @@ $transform-length: 100px;
 					background: transparentize(white, 0.8);
 					border-radius: $height / 2;
 					transition: background 0.3s;
+					
+					@media (min-width: $row-min-width) {
+						background: transparentize(white, 0.9);
+					}
 					
 					> svg {
 						margin: 0 auto;
@@ -263,6 +172,10 @@ $transform-length: 100px;
 					
 					&:hover {
 						background: transparentize(white, 0.7);
+						
+						@media (min-width: $row-min-width) {
+							background: transparentize(white, 0.8);
+						}
 					}
 				}
 			}
@@ -279,14 +192,26 @@ $transform-length: 100px;
 					border-radius: 50%;
 					transition: background 0.3s;
 					
+					@media (min-width: $row-min-width) {
+						background: transparentize(white, 0.8);
+					}
+					
 					&.selected {
 						background: white;
+						
+						@media (min-width: $row-min-width) {
+							background: transparentize(white, 0.2);
+						}
 					}
 					
 					&:not(.selected) {
 						&:hover,
 						&:focus {
 							background: transparentize(white, 0.5);
+							
+							@media (min-width: $row-min-width) {
+								background: transparentize(white, 0.6);
+							}
 						}
 					}
 					
