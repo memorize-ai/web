@@ -169,47 +169,7 @@
 				}
 				
 				> .join-button {
-					$icon-scale-multiplier: 1.2;
-					
-					display: flex;
-					align-items: center;
 					margin-right: 16px;
-					padding: 8px 14px;
-					color: #051e34;
-					background: white;
-					border-radius: 8px;
-					box-shadow: 0 4px 8px transparentize(black, 0.9);
-					transition: color 0.3s, background 0.3s, box-shadow 0.3s;
-					
-					> p {
-						font-size: 20px;
-						font-weight: bold;
-					}
-					
-					> svg {
-						margin: 0 2px 0 12px;
-						transform: scale(
-							-$icon-scale-multiplier,
-							$icon-scale-multiplier
-						);
-						transition: transform 0.3s;
-					}
-					
-					&:hover,
-					&:focus {
-						color: white;
-						background: #051e34;
-						box-shadow: none;
-						
-						> svg {
-							transform:
-								scale(
-									-$icon-scale-multiplier,
-									$icon-scale-multiplier
-								)
-								rotate(-1turn);
-						}
-					}
 				}
 				
 				> .app-store {
@@ -218,7 +178,7 @@
 					margin-left: auto;
 					padding: 8px 10px;
 					color: white;
-					background: transparentize(white, 0.9);
+					background: transparentize(white, 0.8);
 					border-radius: 8px;
 					transition: background 0.3s;
 					
@@ -228,12 +188,12 @@
 					}
 					
 					> p {
-						font-weight: bold;
+						font-weight: 900;
 					}
 					
 					&:hover,
 					&:focus {
-						background: transparentize(white, 0.8);
+						background: transparentize(white, 0.7);
 					}
 				}
 			}
