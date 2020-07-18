@@ -13,27 +13,27 @@ export const SCREENSHOTS = [
 		title: <>No more <b>long<br />study sessions</b></>
 	},
 	{
-		type: ScreenshotType.Decks,
+		type: ScreenshotType.Review,
 		title: <>Know what you<br /><b>need to review</b></>
 	},
 	{
-		type: ScreenshotType.Editor,
+		type: ScreenshotType.Review,
 		title: <>Advanced editor<br />with <b>math, images,<br />tables, and code</b></>
 	},
 	{
-		type: ScreenshotType.Recap,
+		type: ScreenshotType.Review,
 		title: <>Make learning<br /><b>a game</b></>
 	},
 	{
-		type: ScreenshotType.Cram,
+		type: ScreenshotType.Review,
 		title: <><b>No time?</b><br />No problem.</>
 	},
 	{
-		type: ScreenshotType.Market,
+		type: ScreenshotType.Review,
 		title: <>Everything you<br />need to learn.<br /><b>Search no further</b>.</>
 	},
 	{
-		type: ScreenshotType.Home,
+		type: ScreenshotType.Review,
 		title: <>Summary<br /><b>at a glance</b></>
 	}
 ]
