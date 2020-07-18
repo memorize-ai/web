@@ -1,10 +1,14 @@
 @import '../../mixins';
 @import '../../trigonometry';
 
-$row-min-width: 900px;
+$row-min-width: 1170px;
 
 $animation-duration: 400ms;
 $transform-length: 100px;
+
+@mixin screenshot-height($vertical-margin) {
+	max-height: calc(100vh - #{$vertical-margin * 2});
+}
 
 @include home-content('screenshots') {
 	$degrees: 6deg;
@@ -69,10 +73,19 @@ $transform-length: 100px;
 		> .screenshot {
 			@include stack;
 			
+			flex-grow: 1;
 			justify-items: center;
 			align-items: center;
-			margin-left: 60px;
+			margin: 0 60px;
 			transition: height 0.3s;
+			
+			> .background {
+				margin: -65px -40px;
+			}
+			
+			> .foreground > img {
+				@include screenshot-height(60px);
+			}
 		}
 		
 		> .info {
@@ -82,15 +95,14 @@ $transform-length: 100px;
 			align-items: center;
 			width: 360px;
 			
-			@media (min-width: 1050px) { width: 400px; }
-			@media (min-width: 1085px) { width: 435px; }
-			@media (min-width: 1215px) { width: 475px; }
-			@media (min-width: 1250px) { width: 510px; }
-			@media (min-width: 1300px) { width: 550px; }
+			@media (min-width: 1220px) { width: 400px; }
+			@media (min-width: 1250px) { width: 435px; }
+			@media (min-width: 1320px) { width: 475px; }
+			@media (min-width: 1370px) { width: 510px; }
+			@media (min-width: 1470px) { width: 550px; }
 			
 			@media (min-width: $row-min-width) {
 				align-items: flex-start;
-				margin-left: 60px;
 			}
 			
 			> .title {
@@ -105,31 +117,31 @@ $transform-length: 100px;
 					display: block;
 				}
 				
-				@media (min-width: 1050px) {
+				@media (min-width: 1220px) {
 					height: 165px;
 					font-size: 42px;
 					line-height: 54px;
 				}
 				
-				@media (min-width: 1085px) {
+				@media (min-width: 1250px) {
 					height: 175px;
 					font-size: 46px;
 					line-height: 58px;
 				}
 				
-				@media (min-width: 1215px) {
+				@media (min-width: 1320px) {
 					height: 190px;
 					font-size: 50px;
 					line-height: 62px;
 				}
 				
-				@media (min-width: 1250px) {
+				@media (min-width: 1370px) {
 					height: 200px;
 					font-size: 54px;
 					line-height: 66px;
 				}
 				
-				@media (min-width: 1300px) {
+				@media (min-width: 1470px) {
 					font-size: 58px;
 					line-height: 70px;
 				}

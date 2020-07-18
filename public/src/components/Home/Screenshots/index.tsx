@@ -29,8 +29,9 @@ const HomeScreenshots = () => {
 			<div className="content">
 				<h2 className="title">{title}</h2>
 				<div className="screenshot">
-					<ScreenshotBackground />
+					<ScreenshotBackground className="background" />
 					<Screenshot
+						className="foreground"
 						type={type}
 						data-aos="fade-up"
 					/>
