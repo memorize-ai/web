@@ -18,7 +18,6 @@ $transform-length: 100px;
 	
 	position: relative;
 	margin-bottom: -$offset;
-	padding-top: $offset;
 	z-index: 1;
 	
 	@each $direction in (left, right) {
@@ -52,18 +51,23 @@ $transform-length: 100px;
 		> .title {
 			flex-shrink: 0;
 			text-align: center;
-			font-size: 20px;
-			line-height: 34px;
+			font-size: 30px;
+			line-height: 36px;
 			color: white;
 			transition: font-size 0.3s, line-height 0.3s;
 			
-			@media (min-width: 175px) {
-				font-size: 38px;
-				line-height: 44px;
-			}
-			
 			@media (min-width: $row-min-width) {
 				display: none;
+			}
+			
+			@media (min-height: 500px) {
+				font-size: 34px;
+				line-height: 40px;
+			}
+			
+			@media (min-height: 750px) {
+				font-size: 38px;
+				line-height: 44px;
 			}
 		}
 		
@@ -72,10 +76,11 @@ $transform-length: 100px;
 			position: relative;
 			justify-content: center;
 			align-items: center;
-			margin: 110px 5px;
+			margin: 40px 5px;
 			transition: height 0.3s, margin 0.3s;
 			
-			@media (min-width: 500px) { margin: 100px 10px; }
+			@media (min-width: 360px) { margin: 80px 5px; }
+			@media (min-width: 500px) { margin: 80px 10px; }
 			@media (min-width: 600px) { margin: 80px 20px; }
 			@media (min-width: 750px) { margin: 80px 30px; }
 			@media (min-width: 800px) { margin: 60px 40px; }
@@ -100,7 +105,13 @@ $transform-length: 100px;
 			}
 			
 			> .foreground > img {
-				max-height: 60vh;
+				max-height: 20vh;
+				
+				@media (min-height: 400px) { max-height: 30vh; }
+				@media (min-height: 500px) { max-height: 40vh; }
+				@media (min-height: 600px) { max-height: 45vh; }
+				@media (min-height: 650px) { max-height: 50vh; }
+				@media (min-height: 900px) { max-height: 60vh; }
 				
 				@media (min-width: $row-min-width) {
 					@include screenshot-height(60px);
