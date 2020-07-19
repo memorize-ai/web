@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import Helmet from 'react-helmet'
 import cx from 'classnames'
 
 import useScreenshot, { SCREENSHOTS } from './useScreenshot'
@@ -25,13 +26,17 @@ const HomeScreenshots = () => {
 			id="screenshots"
 			className={cx('screenshots', className)}
 		>
-			{SCREENSHOTS.map(({ type }) => (
-				<link
-					key={type}
-					rel="prefetch"
-					href={urlForScreenshot(type)}
-				/>
-			))}
+			<Helmet>
+				{SCREENSHOTS.slice(1).map(({ type }) => (
+					<link
+						key={type}
+						rel="preload"
+						href={urlForScreenshot(type)}
+						as="image"
+						type="image/webp"
+					/>
+				))}
+			</Helmet>
 			<div className="background" />
 			<div className="content">
 				<h2 className="title">{title}</h2>
