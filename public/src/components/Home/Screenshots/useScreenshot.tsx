@@ -13,7 +13,7 @@ export const SCREENSHOTS = [
 		title: <>No more <b>long<br />study sessions</b></>
 	},
 	{
-		type: ScreenshotType.Decks,
+		type: ScreenshotType.Sections,
 		title: <>Know what you<br /><b>need to review</b></>
 	},
 	{
