@@ -9,46 +9,62 @@
 			"npm test -C \"$RESOURCE_DIR\""
 		]
 	},
-	"hosting": {
-		"public": "public/build",
-		"ignore": [
-			"firebase.json",
-			"**/.*",
-			"**/node_modules/**"
-		],
-		"rewrites": [
-			{
-				"source": "**",
-				"function": "app"
-			}
-		],
-		"redirects": [
-			{
-				"source": "/blog",
-				"destination": "https://blog.memorize.ai"
-			}
-		],
-		"headers": [
-			{
-				"source": "**",
-				"headers": [
-					{
-						"key": "Cache-Control",
-						"value": "public, max-age=86400, s-maxage=86400"
-					}
-				]
-			},
-			{
-				"source": "/static/**",
-				"headers": [
-					{
-						"key": "Cache-Control",
-						"value": "public, max-age=31536000, s-maxage=31536000"
-					}
-				]
-			}
-		]
-	},
+	"hosting": [
+		{
+			"target": "main",
+			"public": "public/main/build",
+			"cleanUrls": true,
+			"trailingSlash": false,
+			"ignore": [
+				"firebase.json",
+				"**/.*",
+				"**/node_modules/**"
+			],
+			"rewrites": [
+				{
+					"source": "**",
+					"function": "app"
+				}
+			],
+			"redirects": [
+				{
+					"source": "/blog",
+					"destination": "https://blog.memorize.ai"
+				}
+			],
+			"headers": [
+				{
+					"source": "**",
+					"headers": [
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=86400, s-maxage=86400"
+						}
+					]
+				},
+				{
+					"source": "/static/**",
+					"headers": [
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=31536000, s-maxage=31536000"
+						}
+					]
+				}
+			]
+		},
+		{
+			"target": "blog",
+			"public": "public/blog/out",
+			"cleanUrls": true,
+			"trailingSlash": false,
+			"ignore": [
+				"firebase.json",
+				"**/.*",
+				"**/node_modules/**"
+			]
+		}
+	],
 	"storage": {
 		"rules": "rules/storage.rules"
 	}

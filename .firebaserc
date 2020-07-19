@@ -1,5 +1,13 @@
 {
 	"projects": {
 		"default": "memorize-ai"
+	},
+	"targets": {
+		"memorize-ai": {
+			"hosting": {
+				"main": ["memorize-ai"],
+				"blog": ["memorize-ai-blog"]
+			}
+		}
 	}
 }
