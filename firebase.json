@@ -22,6 +22,12 @@
 				"function": "app"
 			}
 		],
+		"redirects": [
+			{
+				"source": "/blog",
+				"destination": "https://blog.memorize.ai"
+			}
+		],
 		"headers": [
 			{
 				"source": "**",
