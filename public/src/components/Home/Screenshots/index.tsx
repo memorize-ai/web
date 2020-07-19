@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import cx from 'classnames'
 
-import useScreenshot from './useScreenshot'
-import Screenshot from '../../shared/Screenshot'
+import useScreenshot, { SCREENSHOTS } from './useScreenshot'
+import Screenshot, { urlForScreenshot } from '../../shared/Screenshot'
 
 import { ReactComponent as ScreenshotBackground } from '../../../images/home/screenshot-background.svg'
 import { ReactComponent as LeftArrow } from '../../../images/icons/left-arrow.svg'
@@ -25,6 +25,13 @@ const HomeScreenshots = () => {
 			id="screenshots"
 			className={cx('screenshots', className)}
 		>
+			{SCREENSHOTS.map(({ type }) => (
+				<link
+					key={type}
+					rel="prefetch"
+					href={urlForScreenshot(type)}
+				/>
+			))}
 			<div className="background" />
 			<div className="content">
 				<h2 className="title">{title}</h2>
