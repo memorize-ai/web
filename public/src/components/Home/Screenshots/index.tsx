@@ -30,11 +30,7 @@ const HomeScreenshots = () => {
 				<h2 className="title">{title}</h2>
 				<div className="screenshot">
 					<ScreenshotBackground className="background" />
-					<Screenshot
-						className="foreground"
-						type={type}
-						data-aos="fade-up"
-					/>
+					<Screenshot className="foreground" type={type} />
 				</div>
 				<div className="info">
 					<h2 className="title">

@@ -192,10 +192,6 @@ $transform-length: 100px;
 					border-radius: $height / 2;
 					transition: background 0.3s;
 					
-					@media (min-width: $row-min-width) {
-						background: transparentize(white, 0.9);
-					}
-					
 					> svg {
 						margin: 0 auto;
 						color: white;
@@ -215,10 +211,6 @@ $transform-length: 100px;
 					
 					&:hover {
 						background: transparentize(white, 0.7);
-						
-						@media (min-width: $row-min-width) {
-							background: transparentize(white, 0.8);
-						}
 					}
 				}
 			}
