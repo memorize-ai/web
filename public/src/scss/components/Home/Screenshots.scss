@@ -1,8 +1,14 @@
 @import '../../mixins';
 @import '../../trigonometry';
 
+$row-min-width: 1200px;
+
 $animation-duration: 400ms;
 $transform-length: 100px;
+
+@mixin screenshot-height($vertical-margin) {
+	max-height: calc(100vh - #{$vertical-margin * 2});
+}
 
 @include home-content('screenshots') {
 	$degrees: 6deg;
@@ -12,13 +18,12 @@ $transform-length: 100px;
 	
 	position: relative;
 	margin-bottom: -$offset;
-	padding-top: $offset;
 	z-index: 1;
 	
 	@each $direction in (left, right) {
 		&.#{$direction} > .content {
 			> .title,
-			> .screenshot > :last-child > img,
+			> .screenshot > .foreground > img,
 			> .info > .title {
 				animation: screenshots-#{$direction} $animation-duration ease-in-out;
 			}
@@ -39,200 +44,143 @@ $transform-length: 100px;
 		height: 100vh;
 		z-index: 0;
 		
-		@media (min-height: 775px) {
-			> .title {
-				height: 115px !important;
-				font-size: 24px !important;
-				line-height: 38px !important;
-			}
-			
-			> .screenshot {
-				&,
-				> :last-child > img {
-					height: calc(100vh - 175px * 2) !important;
-				}
-			}
-		}
-		
-		@media (min-width: 900px) {
+		@media (min-width: $row-min-width) {
 			flex-direction: row;
-			
-			> .title {
-				display: none;
-			}
-			
-			> .screenshot {
-				height: 100% !important;
-				
-				> :first-child {
-					--dimension: calc(100vh - 200px * 2) !important;
-				}
-				
-				> :last-child > img {
-					height: calc(100vh - 175px * 2) !important;
-				}
-			}
-			
-			> .info {
-				align-items: flex-start !important;
-				margin-left: 60px;
-				
-				> .title {
-					display: block !important;
-				}
-				
-				> .navigation > button {
-					background: transparentize(white, 0.9) !important;
-					
-					&:hover {
-						background: transparentize(white, 0.8) !important;
-					}
-				}
-				
-				> .gallery > button {
-					background: transparentize(white, 0.8) !important;
-					
-					&.selected {
-						background: transparentize(white, 0.2) !important;
-					}
-					
-					&:not(.selected) {
-						&:hover,
-						&:focus {
-							background: transparentize(white, 0.7) !important;
-						}
-					}
-				}
-			}
 		}
 		
 		> .title {
-			height: 105px;
-			margin-bottom: 30px;
+			flex-shrink: 0;
 			text-align: center;
-			font-size: 20px;
-			line-height: 34px;
+			font-size: 30px;
+			line-height: 36px;
 			color: white;
 			transition: font-size 0.3s, line-height 0.3s;
+			
+			@media (min-width: $row-min-width) {
+				display: none;
+			}
+			
+			@media (min-height: 500px) {
+				font-size: 34px;
+				line-height: 40px;
+			}
+			
+			@media (min-height: 750px) {
+				font-size: 38px;
+				line-height: 44px;
+			}
 		}
 		
 		> .screenshot {
-			@include stack;
-			
-			justify-items: center;
+			display: flex;
+			position: relative;
+			justify-content: center;
 			align-items: center;
-			transition: height 0.3s;
+			margin: 40px 5px;
+			transition: height 0.3s, margin 0.3s;
 			
-			&,
-			> :last-child > img {
-				height: calc(100vh - 160px * 2);
-			}
+			@media (min-width: 360px) { margin: 80px 5px; }
+			@media (min-width: 500px) { margin: 80px 10px; }
+			@media (min-width: 600px) { margin: 80px 20px; }
+			@media (min-width: 750px) { margin: 80px 30px; }
+			@media (min-width: 800px) { margin: 60px 40px; }
+			@media (min-width: 900px) { margin: 40px; }
+			@media (min-width: 950px) { margin: 40px 60px; }
+			@media (min-width: $row-min-width) { margin: 0 40px; }
+			@media (min-width: 1350px) { margin: 0 60px; }
 			
-			@media (min-width: 965px) {
-				> :first-child {
-					--dimension: calc(100vh - 175px * 2) !important;
-				}
+			> .background {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: -1;
 				
-				> :last-child > img {
-					height: calc(100vh - 150px * 2) !important;
-				}
+				@media (min-width: 100px) { max-height: 45vh; }
+				@media (min-width: 400px) { max-height: 50vh; }
+				@media (min-width: 500px) { max-height: 55vh; }
+				@media (min-width: 650px) { max-height: 60vh; }
+				@media (min-width: 720px) { max-height: 65vh; }
+				@media (min-width: $row-min-width) { max-height: none; }
 			}
 			
-			@media (min-width: 1020px) {
-				> :first-child {
-					--dimension: calc(100vh - 150px * 2) !important;
-				}
+			> .foreground > img {
+				max-height: 20vh;
 				
-				> :last-child > img {
-					height: calc(100vh - 125px * 2) !important;
-				}
-			}
-			
-			@media (min-width: 1185px) {
-				> :first-child {
-					--dimension: calc(100vh - 100px * 2) !important;
-				}
+				@media (min-height: 400px) { max-height: 30vh; }
+				@media (min-height: 500px) { max-height: 40vh; }
+				@media (min-height: 600px) { max-height: 45vh; }
+				@media (min-height: 650px) { max-height: 50vh; }
+				@media (min-height: 900px) { max-height: 60vh; }
 				
-				> :last-child > img {
-					height: calc(100vh - 75px * 2) !important;
+				@media (min-width: $row-min-width) {
+					@include screenshot-height(60px);
 				}
-			}
-			
-			> :first-child {
-				width: var(--dimension);
-				height: var(--dimension, calc(100% - 50px * 2));
-				margin: -65px -40px;
-				transition: width 0.3s, height 0.3s;
 			}
 		}
 		
 		> .info {
+			flex-shrink: 0;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			width: 360px;
 			
-			@media (min-width: 1050px) {
-				width: 400px;
-				
-				> .title {
-					height: 165px !important;
-					font-size: 42px !important;
-					line-height: 54px !important;
-				}
+			@media (min-width: $row-min-width) {
+				align-items: flex-start;
+				width: 360px;
 			}
 			
-			@media (min-width: 1085px) {
-				width: 435px;
-				
-				> .title {
-					height: 175px !important;
-					font-size: 46px !important;
-					line-height: 58px !important;
-				}
-			}
-			
-			@media (min-width: 1215px) {
-				width: 475px;
-				
-				> .title {
-					height: 190px !important;
-					font-size: 50px !important;
-					line-height: 62px !important;
-				}
-			}
-			
-			@media (min-width: 1250px) {
-				width: 510px;
-				
-				> .title {
-					height: 200px !important;
-					font-size: 54px !important;
-					line-height: 66px !important;
-				}
-			}
-			
-			@media (min-width: 1300px) {
-				width: 550px;
-				
-				> .title {
-					font-size: 58px !important;
-					line-height: 70px !important;
-				}
-			}
+			@media (min-width: 1220px) { width: 400px; }
+			@media (min-width: 1250px) { width: 435px; }
+			@media (min-width: 1320px) { width: 475px; }
+			@media (min-width: 1370px) { width: 510px; }
+			@media (min-width: 1470px) { width: 550px; }
 			
 			> .title {
 				display: none;
 				height: 150px;
+				margin-bottom: 40px;
 				font-size: 38px;
 				line-height: 50px;
 				color: white;
 				transition: font-size 0.3s, line-height 0.3s;
+				
+				@media (min-width: $row-min-width) {
+					display: block;
+				}
+				
+				@media (min-width: 1220px) {
+					height: 165px;
+					font-size: 42px;
+					line-height: 54px;
+				}
+				
+				@media (min-width: 1250px) {
+					height: 175px;
+					font-size: 46px;
+					line-height: 58px;
+				}
+				
+				@media (min-width: 1320px) {
+					height: 190px;
+					font-size: 50px;
+					line-height: 62px;
+				}
+				
+				@media (min-width: 1370px) {
+					height: 200px;
+					font-size: 54px;
+					line-height: 66px;
+				}
+				
+				@media (min-width: 1470px) {
+					font-size: 58px;
+					line-height: 70px;
+				}
 			}
 			
 			> .navigation {
 				display: flex;
-				margin-top: 40px;
 				
 				> button {
 					$height: 50px;
@@ -279,14 +227,26 @@ $transform-length: 100px;
 					border-radius: 50%;
 					transition: background 0.3s;
 					
+					@media (min-width: $row-min-width) {
+						background: transparentize(white, 0.8);
+					}
+					
 					&.selected {
 						background: white;
+						
+						@media (min-width: $row-min-width) {
+							background: transparentize(white, 0.2);
+						}
 					}
 					
 					&:not(.selected) {
 						&:hover,
 						&:focus {
 							background: transparentize(white, 0.5);
+							
+							@media (min-width: $row-min-width) {
+								background: transparentize(white, 0.6);
+							}
 						}
 					}
 					

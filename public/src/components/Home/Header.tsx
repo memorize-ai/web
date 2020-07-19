@@ -12,10 +12,13 @@ const HomeHeader = () => (
 	<div className="header">
 		<div className="left">
 			<h1>
-				Do less.<br />
-				Learn more.
+				The ultimate<br />
+				memorization tool
 			</h1>
-			<h3>Truly effective AI flashcards</h3>
+			<h3>
+				We use <b>AI</b> to accurately predict when you need to review.
+				Welcome to efficient and effective memorization.
+			</h3>
 			<div className="footer">
 				<AuthButton className="join-button">
 					Get started

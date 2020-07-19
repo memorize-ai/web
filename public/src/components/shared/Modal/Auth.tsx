@@ -146,7 +146,7 @@ const AuthModal = () => {
 						className={cx({ selected: mode === AuthenticationMode.SignUp })}
 						onClick={() => setMode(AuthenticationMode.SignUp)}
 					>
-						Sign up
+						Sign up for free
 					</button>
 				</div>
 			</div>

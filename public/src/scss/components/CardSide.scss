@@ -13,12 +13,11 @@
 	--ck-todo-list-checkmark-size: 16px;
 	
 	display: flex;
-	align-items: center;
 	height: 100%;
 	
 	> .content {
 		max-width: 100%;
-		margin: 0 auto;
+		margin: auto;
 		
 		* {
 			font-weight: initial;

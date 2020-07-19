@@ -4,7 +4,7 @@ import WebP from './WebP'
 
 export enum ScreenshotType {
 	Cram = 'cram',
-	Decks = 'decks',
+	Sections = 'sections',
 	Editor = 'editor',
 	Home = 'home',
 	Market = 'market',

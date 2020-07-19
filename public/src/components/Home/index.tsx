@@ -7,7 +7,7 @@ import Navbar from '../shared/Navbar'
 import Header from './Header'
 import SpacedRepetition from './SpacedRepetition'
 import Preview from './Preview'
-import Features from './Features'
+import SectionDivider from './SectionDivider'
 import Screenshots from './Screenshots'
 import Classroom from './Classroom'
 import Footer from './Footer'
@@ -39,7 +39,7 @@ const Home = () => {
 			</TopGradient>
 			<SpacedRepetition />
 			<Preview />
-			<Features />
+			<SectionDivider />
 			<Screenshots />
 			<Classroom />
 			<Footer />

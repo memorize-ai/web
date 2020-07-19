@@ -29,16 +29,10 @@ const HomeScreenshots = () => {
 			<div className="content">
 				<h2 className="title">{title}</h2>
 				<div className="screenshot">
-					<ScreenshotBackground />
-					<Screenshot
-						type={type}
-						data-aos="fade-up"
-					/>
+					<ScreenshotBackground className="background" />
+					<Screenshot className="foreground" type={type} />
 				</div>
-				<div
-					className="info"
-					data-aos="fade-down"
-				>
+				<div className="info">
 					<h2 className="title">
 						{title}
 					</h2>
