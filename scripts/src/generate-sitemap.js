@@ -18,7 +18,7 @@ if (require.main === module)
 				lastmod: deck.get('updated').toDate().toISOString()
 			}
 		
-		writeFileSync(join(__dirname, '../../public/public/sitemap.xml'), create(
+		writeFileSync(join(__dirname, '../../public/main/public/sitemap.xml'), create(
 			{ version: '1.0', encoding: 'UTF-8' },
 			{
 				urlset: {

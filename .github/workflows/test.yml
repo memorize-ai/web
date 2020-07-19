@@ -15,11 +15,16 @@ jobs:
         uses: actions/setup-node@master
         with:
           node-version: 12
-      - name: Install dependencies for public
+      - name: Install dependencies for public/main
         run: |
-          cd public
+          cd public/main
           npm ci
-          cd ..
+          cd ../..
+      - name: Install dependencies for public/blog
+        run: |
+          cd public/blog
+          npm ci
+          cd ../..
       - name: Install dependencies for functions
         run: |
           cd functions
@@ -30,8 +35,10 @@ jobs:
           cd npm
           npm ci
           cd ..
-      - name: Build public
-        run: npm run build -C public
+      - name: Build public/main
+        run: npm run build -C public/main
+      - name: Build public/blog
+        run: npm run build -C public/blog
       - name: Build functions
         run: npm run build -C functions
       - name: Build npm
