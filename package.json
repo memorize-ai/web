@@ -15,7 +15,7 @@
 		"update:scripts": "npm update -C scripts",
 		
 		"clean:all": "rm -rf .firebase *.log ios-libraries/lib && npm run clean:public && npm run clean:functions && npm run clean:scripts",
-		"clean:public": "rm -rf public/main/build public/blog/.next public/blog/out",
+		"clean:public": "rm -rf public/main/build && npm run clean -C public/blog",
 		"clean:functions": "rm -rf functions/lib functions/public.html",
 		"clean:scripts": "rm -rf scripts/src/generate-password-reset-email/index.html",
 		
