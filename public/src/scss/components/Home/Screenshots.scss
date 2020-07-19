@@ -1,7 +1,7 @@
 @import '../../mixins';
 @import '../../trigonometry';
 
-$row-min-width: 1170px;
+$row-min-width: 1200px;
 
 $animation-duration: 400ms;
 $transform-length: 100px;
@@ -24,7 +24,7 @@ $transform-length: 100px;
 	@each $direction in (left, right) {
 		&.#{$direction} > .content {
 			> .title,
-			> .screenshot > :last-child > img,
+			> .screenshot > .foreground > img,
 			> .info > .title {
 				animation: screenshots-#{$direction} $animation-duration ease-in-out;
 			}
@@ -51,18 +51,15 @@ $transform-length: 100px;
 		
 		> .title {
 			flex-shrink: 0;
-			height: 105px;
-			margin-bottom: 30px;
 			text-align: center;
 			font-size: 20px;
 			line-height: 34px;
 			color: white;
 			transition: font-size 0.3s, line-height 0.3s;
 			
-			@media (min-height: 775px) {
-				height: 115px;
-				font-size: 24px;
-				line-height: 38px;
+			@media (min-width: 175px) {
+				font-size: 38px;
+				line-height: 44px;
 			}
 			
 			@media (min-width: $row-min-width) {
@@ -71,20 +68,43 @@ $transform-length: 100px;
 		}
 		
 		> .screenshot {
-			@include stack;
-			
-			flex-grow: 1;
-			justify-items: center;
+			display: flex;
+			position: relative;
+			justify-content: center;
 			align-items: center;
-			margin: 0 60px;
-			transition: height 0.3s;
+			margin: 110px 5px;
+			transition: height 0.3s, margin 0.3s;
+			
+			@media (min-width: 500px) { margin: 100px 10px; }
+			@media (min-width: 600px) { margin: 80px 20px; }
+			@media (min-width: 750px) { margin: 80px 30px; }
+			@media (min-width: 800px) { margin: 60px 40px; }
+			@media (min-width: 900px) { margin: 40px; }
+			@media (min-width: 950px) { margin: 40px 60px; }
+			@media (min-width: $row-min-width) { margin: 0 40px; }
+			@media (min-width: 1350px) { margin: 0 60px; }
 			
 			> .background {
-				margin: -65px -40px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: -1;
+				
+				@media (min-width: 100px) { max-height: 45vh; }
+				@media (min-width: 400px) { max-height: 50vh; }
+				@media (min-width: 500px) { max-height: 55vh; }
+				@media (min-width: 650px) { max-height: 60vh; }
+				@media (min-width: 720px) { max-height: 65vh; }
+				@media (min-width: $row-min-width) { max-height: none; }
 			}
 			
 			> .foreground > img {
-				@include screenshot-height(60px);
+				max-height: 60vh;
+				
+				@media (min-width: $row-min-width) {
+					@include screenshot-height(60px);
+				}
 			}
 		}
 		
@@ -93,7 +113,11 @@ $transform-length: 100px;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			width: 360px;
+			
+			@media (min-width: $row-min-width) {
+				align-items: flex-start;
+				width: 360px;
+			}
 			
 			@media (min-width: 1220px) { width: 400px; }
 			@media (min-width: 1250px) { width: 435px; }
@@ -101,13 +125,10 @@ $transform-length: 100px;
 			@media (min-width: 1370px) { width: 510px; }
 			@media (min-width: 1470px) { width: 550px; }
 			
-			@media (min-width: $row-min-width) {
-				align-items: flex-start;
-			}
-			
 			> .title {
 				display: none;
 				height: 150px;
+				margin-bottom: 40px;
 				font-size: 38px;
 				line-height: 50px;
 				color: white;
@@ -149,7 +170,6 @@ $transform-length: 100px;
 			
 			> .navigation {
 				display: flex;
-				margin-top: 40px;
 				
 				> button {
 					$height: 50px;

@@ -36,10 +36,7 @@ const HomeScreenshots = () => {
 						data-aos="fade-up"
 					/>
 				</div>
-				<div
-					className="info"
-					data-aos="fade-down"
-				>
+				<div className="info">
 					<h2 className="title">
 						{title}
 					</h2>

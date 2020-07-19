@@ -178,7 +178,7 @@
 					margin-left: auto;
 					padding: 8px 10px;
 					color: white;
-					background: transparentize(white, 0.8);
+					background: transparentize(white, 0.85);
 					border-radius: 8px;
 					transition: background 0.3s;
 					
@@ -193,7 +193,7 @@
 					
 					&:hover,
 					&:focus {
-						background: transparentize(white, 0.7);
+						background: transparentize(white, 0.75);
 					}
 				}
 			}

@@ -28,7 +28,7 @@
 	}
 	
 	> .title {
-		margin-bottom: 40px;
+		margin-bottom: 30px;
 		text-align: center;
 		font-size: 20px;
 		line-height: 26px;
@@ -51,7 +51,7 @@
 	}
 	
 	> picture > img {
-		max-height: calc(100vh - #{130px * 2});
+		max-height: calc(100vh - #{170px * 2});
 		margin: 0 auto;
 	}
 }

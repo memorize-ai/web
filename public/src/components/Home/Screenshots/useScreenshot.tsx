@@ -18,7 +18,7 @@ export const SCREENSHOTS = [
 	},
 	{
 		type: ScreenshotType.Review,
-		title: <>Advanced editor<br />with <b>math, images,<br />tables, and code</b></>
+		title: <>The ultimate<br /><b>card editor</b></>
 	},
 	{
 		type: ScreenshotType.Review,
@@ -30,7 +30,7 @@ export const SCREENSHOTS = [
 	},
 	{
 		type: ScreenshotType.Review,
-		title: <>Everything you<br />need to learn.<br /><b>Search no further</b>.</>
+		title: <><b>Everything</b> you<br />need to learn</>
 	},
 	{
 		type: ScreenshotType.Review,
