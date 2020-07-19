@@ -12,11 +12,17 @@ export enum ScreenshotType {
 	Review = 'review'
 }
 
+export const urlForScreenshot = (type: ScreenshotType): string =>
+	require(`../../images/screenshots/${type}.webp`)
+
+export const fallbackUrlForScreenshot = (type: ScreenshotType): string =>
+	require(`../../images/fallbacks/screenshots/${type}.jpg`)
+
 const Screenshot = ({ type, ...props }: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => (
 	<WebP
 		{...props}
-		src={require(`../../images/screenshots/${type}.webp`)}
-		fallback={require(`../../images/fallbacks/screenshots/${type}.jpg`)}
+		src={urlForScreenshot(type)}
+		fallback={fallbackUrlForScreenshot(type)}
 		alt="Screenshot"
 	/>
 )

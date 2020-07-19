@@ -1,8 +1,9 @@
 import React, { memo } from 'react'
+import Helmet from 'react-helmet'
 import cx from 'classnames'
 
-import useScreenshot from './useScreenshot'
-import Screenshot from '../../shared/Screenshot'
+import useScreenshot, { SCREENSHOTS } from './useScreenshot'
+import Screenshot, { urlForScreenshot } from '../../shared/Screenshot'
 
 import { ReactComponent as ScreenshotBackground } from '../../../images/home/screenshot-background.svg'
 import { ReactComponent as LeftArrow } from '../../../images/icons/left-arrow.svg'
@@ -25,6 +26,17 @@ const HomeScreenshots = () => {
 			id="screenshots"
 			className={cx('screenshots', className)}
 		>
+			<Helmet>
+				{SCREENSHOTS.slice(1).map(({ type }) => (
+					<link
+						key={type}
+						rel="preload"
+						href={urlForScreenshot(type)}
+						as="image"
+						type="image/webp"
+					/>
+				))}
+			</Helmet>
 			<div className="background" />
 			<div className="content">
 				<h2 className="title">{title}</h2>
