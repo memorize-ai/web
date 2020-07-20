@@ -5,11 +5,11 @@ import Post from 'models/Post'
 
 const POSTS = join(process.cwd(), 'posts')
 
-export default async (): Promise<Post[]> => {
+export default async () => {
 	const files = await readdir(POSTS)
 	
 	return files.map(path => ({
 		slug: path.replace(/\.mdx$/, ''),
-		...require(join(process.cwd(), `posts/${path}`)).meta
-	}))
+		...require(`../posts/${path}`).meta
+	} as Post))
 }
