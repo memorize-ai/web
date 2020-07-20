@@ -2,17 +2,16 @@ import { GetStaticProps } from 'next'
 
 import Post from 'models/Post'
 import getPosts from 'lib/getPosts'
-import PostList from 'components/PostList'
+import WithSidebar from 'components/WithSidebar'
 
 import styles from 'styles/pages/index.module.scss'
 
 const Home = ({ posts }: { posts: Post[] }) => (
-	<div className={styles.root}>
+	<WithSidebar posts={posts}>
 		<h1 className={styles.title}>
 			memorize.ai blog
 		</h1>
-		<PostList posts={posts} />
-	</div>
+	</WithSidebar>
 )
 
 export const getStaticProps: GetStaticProps = async () => ({

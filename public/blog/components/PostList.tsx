@@ -1,11 +1,13 @@
 import Post from 'models/Post'
 
+import PostRow from './PostRow'
+
+import styles from 'styles/components/PostList.module.scss'
+
 const PostList = ({ posts }: { posts: Post[] }) => (
-	<ol>
+	<ol className={styles.root}>
 		{posts.map(post => (
-			<li key={post.slug}>
-				{post.name}
-			</li>
+			<PostRow key={post.slug} post={post} />
 		))}
 	</ol>
 )
