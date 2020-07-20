@@ -1,7 +1,8 @@
 import * as admin from 'firebase-admin'
 import { v4 as uuid } from 'uuid'
 
-import { EmailTemplate } from '../Email'
+import { sendEmail, EmailTemplate } from '../Email'
+import { SUPPORT_EMAIL } from '../constants'
 
 const auth = admin.auth()
 const firestore = admin.firestore()
@@ -21,6 +22,7 @@ export default class User {
 	id: string
 	name: string
 	email: string
+	source: 'web' | null
 	apiKey: string | null
 	numberOfDecks: number
 	interests: string[]
@@ -33,6 +35,7 @@ export default class User {
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
+		this.source = snapshot.get('source') ?? null
 		this.apiKey = snapshot.get('apiKey') ?? null
 		this.numberOfDecks = snapshot.get('deckCount') ?? 0
 		this.interests = snapshot.get('topics') ?? []
@@ -66,13 +69,33 @@ export default class User {
 	static decrementCounter = (amount: number = 1) =>
 		User.incrementCounter(-amount)
 	
+	sendSignUpNotification = () =>
+		sendEmail({
+			template: EmailTemplate.UserSignUpNotification,
+			to: {
+				name: 'memorize.ai',
+				email: SUPPORT_EMAIL
+			},
+			context: {
+				url: 'https://memorize.ai',
+				user: {
+					id: this.id,
+					name: this.name,
+					email: this.email,
+					source: this.source === 'web' ? 'Web' : 'iOS'
+				}
+			}
+		})
+	
 	onCreate = () => {
 		const apiKey = uuid()
 		
 		return Promise.all([
 			User.incrementCounter(),
 			this.normalizeDisplayName(),
+			this.sendSignUpNotification(),
 			firestore.doc(`users/${this.id}`).update({
+				source: this.source ?? 'ios',
 				apiKey,
 				unsubscribed: {
 					[EmailTemplate.DueCardsNotification]: false

@@ -1,0 +1,81 @@
+<mjml>
+	<mj-head>
+		<mj-font
+			name="Muli"
+			href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700;900&display=swap"
+		/>
+		<mj-attributes>
+			<mj-all
+				padding-top="0"
+				padding-bottom="0"
+				font-family="Muli, Ubuntu, Arial, Helvetica, sans-serif"
+			/>
+			<mj-text color="#4a4a4a" />
+		</mj-attributes>
+		<mj-style>
+			a {
+				text-decoration: none;
+			}
+		</mj-style>
+		<mj-title>
+			{{user.name}} ({{user.email}}) signed up on {{user.source}}
+		</mj-title>
+		<mj-preview>
+			UID: {{user.id}}
+		</mj-preview>
+	</mj-head>
+	<mj-body background-color="white">
+		<mj-section>
+			<mj-column>
+				<mj-image
+					width="400px"
+					padding-top="30px"
+					padding-bottom="50px"
+					href="{{url}}"
+					src="https://memorize.ai/images/logos/large.jpg"
+					alt="Logo"
+				/>
+			</mj-column>
+		</mj-section>
+		<mj-section padding-bottom="50px">
+			<mj-column>
+				<mj-text
+					font-size="20px"
+					font-weight="900"
+				>
+					{{user.name}} ({{user.email}}) signed up on {{user.source}}
+				</mj-text>
+				<mj-text
+					padding-top="30px"
+					font-size="20px"
+					font-weight="700"
+				>
+					<b style="font-weight: 900;">UID:</b> {{user.id}}
+				</mj-text>
+			</mj-column>
+		</mj-section>
+		<mj-section
+			full-width="full-width"
+			padding-top="24px"
+			padding-bottom="24px"
+			background-color="#efeefa"
+		>
+			<mj-column>
+				<mj-image
+					width="200px"
+					href="{{url}}"
+					src="https://memorize.ai/images/logos/capital-inverted-grayscale.png"
+					alt="Logo"
+				/>
+				<mj-text
+					align="center"
+					padding-top="24px"
+					line-height="18px"
+				>
+					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
+					All rights reserved.
+				</mj-text>
+			</mj-column>
+		</mj-section>
+	</mj-body>
+</mjml>

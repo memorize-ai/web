@@ -12,3 +12,5 @@ export const DECK_DUE_CARD_COUNT_SCHEDULE = 'every 5 minutes'
 
 export const PRERENDER_TOKEN: string = config.prerender.token
 export const SENDGRID_API_KEY: string = config.sendgrid.api_key
+
+export const SUPPORT_EMAIL = 'support@memorize.ai'
