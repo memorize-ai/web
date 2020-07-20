@@ -30,7 +30,7 @@ const HomeScreenshots = () => {
 				{SCREENSHOTS.slice(1).map(({ type }) => (
 					<link
 						key={type}
-						rel="preload"
+						rel="prefetch"
 						href={urlForScreenshot(type)}
 						as="image"
 						type="image/webp"
