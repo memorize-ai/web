@@ -5,7 +5,8 @@ import { SENDGRID_API_KEY } from '../constants'
 sendgrid.setApiKey(SENDGRID_API_KEY)
 
 export enum EmailTemplate {
-	DueCardsNotification = 'due-cards'
+	DueCardsNotification = 'due-cards',
+	UserSignUpNotification = 'user-sign-up'
 }
 
 export interface EmailUser {
@@ -29,6 +30,8 @@ export const getTemplateId = (template: EmailTemplate) => {
 	switch (template) {
 		case EmailTemplate.DueCardsNotification:
 			return 'd-8d3445ce4d31446faf1a8dfc19b2824f'
+		case EmailTemplate.UserSignUpNotification:
+			return 'd-2e7844e1dff14713bbeda01b04d8a342'
 	}
 }
 

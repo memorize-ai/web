@@ -1,25 +1,27 @@
 {
 	"name": "memorize.ai-web",
 	"scripts": {
-		"start": "npm start -C public",
+		"start": "npm start -C public/main",
+		"start:public": "npm start -C public/blog",
 		
 		"install:all": "npm run install:public && npm run install:functions && npm run install:scripts",
-		"install:public": "npm i -C public",
+		"install:public": "npm i -C public/main && npm i -C public/blog",
 		"install:functions": "npm i -C functions",
 		"install:scripts": "npm i -C scripts",
 		
 		"update:all": "npm run update:public && npm run update:functions && npm run update:scripts",
-		"update:public": "npm update -C public",
+		"update:public": "npm update -C public/main && npm update -C public/blog",
 		"update:functions": "npm update -C functions",
 		"update:scripts": "npm update -C scripts",
 		
 		"clean:all": "rm -rf .firebase *.log ios-libraries/lib && npm run clean:public && npm run clean:functions && npm run clean:scripts",
-		"clean:public": "rm -rf public/build",
+		"clean:public": "rm -rf public/main/build && npm run clean -C public/blog",
 		"clean:functions": "rm -rf functions/lib functions/public.html",
 		"clean:scripts": "rm -rf scripts/src/generate-password-reset-email/index.html",
 		
-		"build:all": "npm run build:public && npm run build:functions",
-		"build:public": "npm run build -C public && npm run save-public-assets && mv public/build/index.html functions/public.html",
+		"build:all": "npm run build:public:main && npm run build:public:blog && npm run build:functions",
+		"build:public:main": "npm run build -C public/main && npm run save-public-assets && mv public/main/build/index.html functions/public.html",
+		"build:public:blog": "npm run build -C public/blog",
 		"build:functions": "npm run build -C functions",
 		
 		"test:functions": "npm test -C functions",

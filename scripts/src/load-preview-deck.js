@@ -4,7 +4,7 @@ const { writeFileSync: writeFile } = require('fs')
 const { firestore } = require('../utils/firebase-admin')
 
 const DECK_ID = 'OS2C4B49vb1rR1i1ALUL'
-const PATH = join(__dirname, '../../public/src/data/preview.json')
+const PATH = join(__dirname, '../../public/main/src/data/preview.json')
 
 if (require.main === module)
 	(async () => {
