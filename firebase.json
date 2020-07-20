@@ -30,7 +30,7 @@
 				{
 					"type": 301,
 					"source": "/blog",
-					"destination": "blog.memorize.ai"
+					"destination": "https://blog.memorize.ai"
 				}
 			],
 			"headers": [
