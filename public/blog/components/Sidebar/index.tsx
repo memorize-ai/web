@@ -1,24 +1,22 @@
 import { useRouter } from 'next/router'
 
 import Post from 'models/Post'
+import HomeLink from './HomeLink'
+import PostList from './PostList'
 
-import PostRow from './PostRow'
-
-import styles from 'styles/components/PostList.module.scss'
+import styles from 'styles/components/Sidebar/index.module.scss'
 
 export interface SidebarProps {
 	posts: Post[]
 }
 
 const Sidebar = ({ posts }: SidebarProps) => {
-	const { slug } = useRouter().query
+	const { route } = useRouter()
 	
 	return (
 		<aside className={styles.root}>
-			
-			{posts.map(post => (
-				<PostRow key={post.slug} post={post} />
-			))}
+			<HomeLink selected={route === '/'} />
+			<PostList posts={posts} route={route} />
 		</aside>
 	)
 }
