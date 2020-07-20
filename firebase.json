@@ -26,13 +26,6 @@
 					"function": "app"
 				}
 			],
-			"redirects": [
-				{
-					"type": 301,
-					"source": "/blog",
-					"destination": "https://blog.memorize.ai"
-				}
-			],
 			"headers": [
 				{
 					"source": "**",
