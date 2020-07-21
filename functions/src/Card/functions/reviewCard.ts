@@ -5,7 +5,6 @@ import Algorithm from '../../Algorithm'
 import PerformanceRating, { NumberPerformanceRating, performanceRatingFromNumber } from '../PerformanceRating'
 import CardUserData from '../UserData'
 import Section from '../../Section'
-import { cauterize } from '../../utils'
 
 type UpdateCard = (
 	userData: CardUserData,
@@ -18,7 +17,7 @@ type UpdateCard = (
 const firestore = admin.firestore()
 
 // Returns if the user newly mastered the card
-export default functions.https.onCall(cauterize(async (
+export default functions.https.onCall(async (
 	{
 		deck: deckId,
 		section: sectionId,
@@ -59,7 +58,7 @@ export default functions.https.onCall(cauterize(async (
 	return (userData.isNew ? updateNewCard : updateExistingCard)(
 		userData, cardRef, now, rating, viewTime
 	)
-}, Promise.resolve(false)))
+})
 
 const updateNewCard: UpdateCard = async (userData, ref, now, rating, viewTime) => {
 	const isCorrect = Algorithm.isPerformanceRatingCorrect(rating)
