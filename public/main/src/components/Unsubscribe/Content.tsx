@@ -1,29 +1,47 @@
-import React, { memo } from 'react'
+import React, { useState, useCallback } from 'react'
+import { useParams } from 'react-router-dom'
 
+import firebase from '../../firebase'
 import LoadingState from '../../models/LoadingState'
-import Loader from '../shared/Loader'
+import ConfirmationForm from '../shared/ConfirmationForm'
 
-const UnsubscribeContent = (
-	{ loadingState, errorMessage }: {
-		loadingState: LoadingState
-		errorMessage: string | null
-	}
-) => {
-	switch (loadingState) {
-		case LoadingState.Loading:
-			return (
-				<>
-					<h1>Unsubscribing...</h1>
-					<Loader size="24px" thickness="4px" color="#582efe" />
-				</>
-			)
-		case LoadingState.Success:
-			return <h1>Unsubscribed</h1>
-		case LoadingState.Fail:
-			return <h1>{errorMessage ?? 'An unknown error occurred'}</h1>
-		default:
-			return null
-	}
+import 'firebase/analytics'
+import 'firebase/firestore'
+
+const analytics = firebase.analytics()
+const firestore = firebase.firestore()
+
+const UnsubscribeContent = () => {
+	const { uid, type } = useParams()
+	
+	const [loadingState, setLoadingState] = useState(LoadingState.None)
+	
+	const onSubmit = useCallback(() => {
+		if (!(uid && type))
+			return
+		
+		setLoadingState(LoadingState.Loading)
+		analytics.logEvent('unsubscribe', { uid, type })
+		
+		firestore.doc(`users/${uid}`)
+			.update({ [`unsubscribed.${type}`]: true })
+			.then(() => setLoadingState(LoadingState.Success))
+			.catch(error => {
+				setLoadingState(LoadingState.Fail)
+				console.error(error)
+			})
+	}, [uid, type, setLoadingState])
+	
+	return (
+		<ConfirmationForm
+			title="Unsubscribe"
+			description="Unsubscribe from our mailing list"
+			loadingState={loadingState}
+			submitMessage="Unsubscribe"
+			submitButtonText="Unsubscribe"
+			onSubmit={onSubmit}
+		/>
+	)
 }
 
-export default memo(UnsubscribeContent)
+export default UnsubscribeContent
