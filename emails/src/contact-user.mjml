@@ -25,16 +25,19 @@
 			a {
 				text-decoration: none;
 			}
-			
-			.image-cover img {
-				object-fit: cover;
-			}
 		</mj-style>
 		<mj-title>
-			You have {{user.card_due_count}} card{{#unless user.card_due_count_is_one}}s{{/unless}} due in {{user.deck_due_count}} deck{{#unless user.deck_due_count_is_one}}s{{/unless}}
+			{{#if subject}}
+				{{subject}}
+			{{else}}
+				{{from_name}} sent you a message on memorize.ai
+			{{/if}}
 		</mj-title>
 		<mj-preview>
-			Click here to review
+			{{#if subject}}
+				{{from_name}} sent you a message on memorize.ai
+			{{/if}}
+			{{body}}
 		</mj-preview>
 	</mj-head>
 	<mj-body background-color="white">
@@ -50,75 +53,36 @@
 				/>
 			</mj-column>
 		</mj-section>
+		<mj-section
+			padding-bottom="8px"
+			border-bottom="1px solid #efeefa"
+		>
+			<mj-column>
+				<mj-text>
+					Hello, {{to_name}}
+				</mj-text>
+				<mj-text padding-top="8px">
+					{{from_name}} sent you a message
+				</mj-text>
+			</mj-column>
+		</mj-section>
 		<mj-section>
 			<mj-column>
 				<mj-text
 					font-size="30px"
 					font-weight="900"
 				>
-					Hello, {{user.name}}
+					Hello, {{to_name}}
 				</mj-text>
 				<mj-text
 					padding-top="30px"
 					font-size="20px"
 					font-weight="700"
 				>
-					You have {{user.card_due_count}} card{{#unless user.card_due_count_is_one}}s{{/unless}} due in {{user.deck_due_count}} deck{{#unless user.deck_due_count_is_one}}s{{/unless}}
+					{{from_name}}
 				</mj-text>
-				<mj-button
-					mj-class="review-button"
-					align="left"
-					href="{{user.review_url}}"
-				>
-					Review all
-				</mj-button>
 			</mj-column>
 		</mj-section>
-		<mj-raw>
-			{{#each decks}}
-		</mj-raw>
-		<mj-section padding-top="40px">
-			<mj-column width="145px">
-				<mj-image
-					css-class="image-cover"
-					height="145px"
-					padding-left="0"
-					padding-right="0"
-					padding-bottom="8px"
-					border="1px solid #eee"
-					border-radius="8px"
-					href="{{this.url}}"
-					src="{{this.image_url}}"
-					alt="Deck"
-				/>
-			</mj-column>
-			<mj-column padding-top="14px">
-				<mj-text
-					font-size="20px"
-					font-weight="900"
-				>
-					{{this.name}}
-				</mj-text>
-				<mj-text
-					padding-top="24px"
-					font-size="16px"
-					font-weight="700"
-				>
-					{{this.card_due_count}} card{{#unless this.card_due_count_is_one}}s{{/unless}} due in {{this.section_due_count}} section{{#unless this.section_due_count_is_one}}s{{/unless}}
-				</mj-text>
-				<mj-button
-					mj-class="review-button"
-					width="100%"
-					href="{{this.review_url}}"
-				>
-					Review
-				</mj-button>
-			</mj-column>
-		</mj-section>
-		<mj-raw>
-			{{/each}}
-		</mj-raw>
-		<mj-section padding-top="40px" />
 		<mj-section
 			full-width="full-width"
 			padding-top="24px"
@@ -139,23 +103,6 @@
 				>
 					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
 					All rights reserved.
-				</mj-text>
-				<mj-text
-					align="center"
-					padding-top="24px"
-				>
-					This email is sent {{frequency}}
-				</mj-text>
-				<mj-text
-					align="center"
-					padding-top="12px"
-				>
-					<a
-						style="text-decoration: none; color: #582efe;"
-						href="{{unsubscribe_url}}"
-					>
-						Unsubscribe
-					</a>
 				</mj-text>
 			</mj-column>
 		</mj-section>
