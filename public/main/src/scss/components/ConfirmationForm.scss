@@ -49,6 +49,10 @@
 				background: #e53e3e;
 				transition: width 0.3s, background 0.3s;
 				
+				&:disabled {
+					cursor: default;
+				}
+				
 				&.loading,
 				&.success,
 				&.error {
