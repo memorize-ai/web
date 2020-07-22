@@ -2,10 +2,11 @@ import * as admin from 'firebase-admin'
 import { v4 as uuid } from 'uuid'
 
 import { sendEmail, EmailTemplate, EmailUser, DEFAULT_FROM } from '../Email'
-import { SUPPORT_EMAIL } from '../constants'
 
 const auth = admin.auth()
 const firestore = admin.firestore()
+
+export type UserSource = 'web' | 'ios'
 
 export default class User {
 	static xp = {
@@ -22,7 +23,8 @@ export default class User {
 	id: string
 	name: string
 	email: string
-	source: 'web' | null
+	source: UserSource
+	allowContact: boolean
 	apiKey: string | null
 	numberOfDecks: number
 	interests: string[]
@@ -35,7 +37,8 @@ export default class User {
 		this.id = snapshot.id
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
-		this.source = snapshot.get('source') ?? null
+		this.source = snapshot.get('source') ?? 'ios'
+		this.allowContact = snapshot.get('allowContact') ?? true
 		this.apiKey = snapshot.get('apiKey') ?? null
 		this.numberOfDecks = snapshot.get('deckCount') ?? 0
 		this.interests = snapshot.get('topics') ?? []
@@ -86,29 +89,31 @@ export default class User {
 		})
 	
 	onCreate = () => {
-		const apiKey = uuid()
+		this.apiKey = uuid()
 		
 		return Promise.all([
 			User.incrementCounter(),
 			this.normalizeDisplayName(),
 			this.sendSignUpNotification(),
 			firestore.doc(`users/${this.id}`).update({
-				source: this.source ?? 'ios',
-				apiKey,
+				source: this.source,
+				apiKey: this.apiKey,
+				allowContact: this.allowContact,
 				unsubscribed: {
 					[EmailTemplate.DueCardsNotification]: false
 				}
 			}),
-			firestore.doc(`api-keys/${apiKey}`).set({
+			firestore.doc(`api-keys/${this.apiKey}`).set({
 				user: this.id
 			})
 		])
 	}
 	
-	onDelete = () => Promise.all([
-		this.removeAuth(),
-		firestore.doc(`api-keys/${this.apiKey}`).delete()
-	])
+	onDelete = () =>
+		Promise.all([
+			this.removeAuth(),
+			firestore.doc(`api-keys/${this.apiKey}`).delete()
+		])
 	
 	addDeckToAllDecks = (deckId: string) =>
 		firestore.doc(`users/${this.id}`).update({
@@ -128,6 +133,9 @@ export default class User {
 	
 	removeAuth = () =>
 		auth.deleteUser(this.id)
+	
+	didBlockUserWithId = async (id: string) =>
+		(await firestore.doc(`users/${this.id}/blocked/${id}`).get()).exists
 	
 	get json() {
 		return {

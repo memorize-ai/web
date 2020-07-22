@@ -12,12 +12,12 @@ export default onCall(async (data, { auth }) => {
 	if (typeof data !== 'object')
 		throw new HttpsError('invalid-argument', 'You must pass in an object')
 	
-	const { id, subject, message } = data
+	const { id, subject, body } = data
 	
-	if (!(typeof id === 'string' && typeof subject === 'string' && typeof message === 'string'))
+	if (!(typeof id === 'string' && typeof subject === 'string' && typeof body === 'string'))
 		throw new HttpsError(
 			'invalid-argument',
-			'You must specify an "id", "subject", and "message"'
+			'You must specify an "id", "subject", and "body" as strings'
 		)
 	
 	const [from, to] = await Promise.all([
@@ -25,18 +25,24 @@ export default onCall(async (data, { auth }) => {
 		User.fromId(id)
 	])
 	
-	sendEmail({
+	if (!to.allowContact || await to.didBlockUserWithId(from.id))
+		throw new HttpsError(
+			'permission-denied',
+			'You were blocked or the recipient does not allow contact'
+		)
+	
+	await sendEmail({
 		template: EmailTemplate.ContactUser,
-		to: {
-			name: to.name,
-			email: to.email
-		},
-		replyTo: {
-			name: from.name,
-			email: from.email
-		},
+		to: to.emailUser,
+		replyTo: from.emailUser,
 		context: {
-			
+			url: 'https://memorize.ai',
+			subject,
+			body,
+			from_name: from.name,
+			to_name: to.name,
+			block_url: `https://memorize.ai/block/${to.id}/${from.id}`,
+			restrict_contact_url: `https://memorize.ai/restrict-contact/${to.id}`
 		}
 	})
 })
