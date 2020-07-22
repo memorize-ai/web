@@ -44,9 +44,11 @@ export default class Topic {
 		return docs.map(doc => new Topic(doc))
 	}
 	
-	toJSON = () => ({
-		id: this.id,
-		name: this.name,
-		category: this.category
-	})
+	get json() {
+		return {
+			id: this.id,
+			name: this.name,
+			category: this.category
+		}
+	}
 }

@@ -76,6 +76,10 @@ export default class User {
 				name: 'memorize.ai',
 				email: SUPPORT_EMAIL
 			},
+			replyTo: {
+				name: this.name,
+				email: this.email
+			},
 			context: {
 				url: 'https://memorize.ai',
 				user: {
@@ -131,12 +135,14 @@ export default class User {
 	removeAuth = () =>
 		auth.deleteUser(this.id)
 	
-	toJSON = () => ({
-		id: this.id,
-		name: this.name,
-		email: this.email,
-		interests: this.interests,
-		decks: this.numberOfDecks,
-		all_decks: this.allDecks
-	})
+	get json() {
+		return {
+			id: this.id,
+			name: this.name,
+			email: this.email,
+			interests: this.interests,
+			decks: this.numberOfDecks,
+			all_decks: this.allDecks
+		}
+	}
 }

@@ -14,10 +14,10 @@ export default (app: Express) => {
 		try {
 			switch ('string') {
 				case typeof id:
-					res.json((await Deck.fromId(id as string)).toJSON())
+					res.json((await Deck.fromId(id as string)).json)
 					break
 				case typeof shortId:
-					res.json((await Deck.fromSlugId(shortId as string)).toJSON())
+					res.json((await Deck.fromSlugId(shortId as string)).json)
 					break
 				default:
 					res.status(400).send('You must pass an "id" or "short_id" as query parameters')
@@ -69,7 +69,7 @@ export default (app: Express) => {
 				return
 			}
 			
-			res.json(deck.toJSON())
+			res.json(deck.json)
 		} catch {
 			res.status(404).send(`There are no decks matching "${deckId}"`)
 		}
