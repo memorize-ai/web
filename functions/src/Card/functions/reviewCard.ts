@@ -45,19 +45,22 @@ export default functions.https.onCall(async (
 	const { uid } = auth
 	const cardRef = firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`)
 	
-	firestore.doc(`users/${uid}/decks/${deckId}`).update({
-		dueCardCount: admin.firestore.FieldValue.increment(-1),
-		[sectionId === Section.unsectionedId
-			? 'unsectionedDueCardCount'
-			: `sections.${sectionId}`
-		]: admin.firestore.FieldValue.increment(-1)
-	})
+	const [isNewlyMastered] = await Promise.all([
+		CardUserData.fromId(uid, deckId, cardId).then(userData =>
+			(userData.isNew ? updateNewCard : updateExistingCard)(
+				userData, cardRef, now, rating, viewTime
+			)
+		),
+		firestore.doc(`users/${uid}/decks/${deckId}`).update({
+			dueCardCount: admin.firestore.FieldValue.increment(-1),
+			[sectionId === Section.unsectionedId
+				? 'unsectionedDueCardCount'
+				: `sections.${sectionId}`
+			]: admin.firestore.FieldValue.increment(-1)
+		})
+	])
 	
-	const userData = await CardUserData.fromId(uid, deckId, cardId)
-	
-	return (userData.isNew ? updateNewCard : updateExistingCard)(
-		userData, cardRef, now, rating, viewTime
-	)
+	return isNewlyMastered
 })
 
 const updateNewCard: UpdateCard = async (userData, ref, now, rating, viewTime) => {

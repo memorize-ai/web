@@ -40,10 +40,7 @@ const getEmailOptions = (
 			
 			return {
 				template: EMAIL_TEMPLATE,
-				to: {
-					name: user.name,
-					email: user.email
-				},
+				to: user.emailUser,
 				context: await getContext(
 					user,
 					deckSnapshots.filter(({ exists }) => exists)

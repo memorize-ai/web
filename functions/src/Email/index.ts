@@ -1,6 +1,6 @@
 import * as sendgrid from '@sendgrid/mail'
 
-import { SENDGRID_API_KEY } from '../constants'
+import { SENDGRID_API_KEY, SUPPORT_EMAIL } from '../constants'
 
 sendgrid.setApiKey(SENDGRID_API_KEY)
 
@@ -25,7 +25,7 @@ export interface EmailOptions {
 
 export const DEFAULT_FROM: EmailUser = {
 	name: 'memorize.ai',
-	email: 'support@memorize.ai'
+	email: SUPPORT_EMAIL
 }
 
 export const getTemplateId = (template: EmailTemplate) => {

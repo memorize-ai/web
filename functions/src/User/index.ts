@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin'
 import { v4 as uuid } from 'uuid'
 
-import { sendEmail, EmailTemplate } from '../Email'
+import { sendEmail, EmailTemplate, EmailUser, DEFAULT_FROM } from '../Email'
 import { SUPPORT_EMAIL } from '../constants'
 
 const auth = admin.auth()
@@ -72,14 +72,8 @@ export default class User {
 	sendSignUpNotification = () =>
 		sendEmail({
 			template: EmailTemplate.UserSignUpNotification,
-			to: {
-				name: 'memorize.ai',
-				email: SUPPORT_EMAIL
-			},
-			replyTo: {
-				name: this.name,
-				email: this.email
-			},
+			to: DEFAULT_FROM,
+			replyTo: this.emailUser,
 			context: {
 				url: 'https://memorize.ai',
 				user: {
@@ -143,6 +137,13 @@ export default class User {
 			interests: this.interests,
 			decks: this.numberOfDecks,
 			all_decks: this.allDecks
+		}
+	}
+	
+	get emailUser(): EmailUser {
+		return {
+			name: this.name,
+			email: this.email
 		}
 	}
 }
