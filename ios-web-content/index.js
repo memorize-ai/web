@@ -19,37 +19,37 @@ mkdir(join(__dirname, 'lib'))
 const bundles = {
 	display: {
 		css: [
-			join(__dirname, 'src/display/css/ckeditor-content-styles.css'),
-			join(__dirname, 'src/display/css/katex.css'),
-			join(__dirname, 'src/display/css/prism.css'),
-			join(__dirname, 'src/display/css/custom.css')
+			join(__dirname, 'src', 'display', 'css', 'ckeditor-content-styles.css'),
+			join(__dirname, 'src', 'display', 'css', 'katex.css'),
+			join(__dirname, 'src', 'display', 'css', 'prism.css'),
+			join(__dirname, 'src', 'display', 'css', 'custom.css')
 		],
 		js: [
-			join(__dirname, 'src/display/js/katex.js'),
-			join(__dirname, 'src/display/js/auto-render.js'),
-			join(__dirname, 'src/display/js/prism.js')
+			join(__dirname, 'src', 'display', 'js', 'katex.js'),
+			join(__dirname, 'src', 'display', 'js', 'auto-render.js'),
+			join(__dirname, 'src', 'display', 'js', 'prism.js')
 		]
 	},
 	editor: {
 		css: [
-			join(__dirname, 'src/editor/css/custom.css')
+			join(__dirname, 'src', 'editor', 'css', 'custom.css')
 		],
 		js: [
-			join(__dirname, 'node_modules/ckeditor5-memorize.ai/build/ckeditor.js')
+			join(__dirname, 'node_modules', 'ckeditor5-memorize.ai', 'build', 'ckeditor.js')
 		]
 	}
 }
 
 for (const [bundle, { css, js }] of Object.entries(bundles)) {
-	mkdir(join(__dirname, `lib/${bundle}`))
+	mkdir(join(__dirname, 'lib', bundle))
 	
 	writeFile(
-		join(__dirname, `lib/${bundle}/index.css`),
+		join(__dirname, 'lib', bundle, 'index.css'),
 		minifyCSS(css)
 	)
 	
 	writeFile(
-		join(__dirname, `lib/${bundle}/index.js`),
+		join(__dirname, 'lib', bundle, 'index.js'),
 		minifyJS(js)
 	)
 }
