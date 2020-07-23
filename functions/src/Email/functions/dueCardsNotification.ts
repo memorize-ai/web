@@ -98,7 +98,6 @@ const getContext = async (
 	).filter(Boolean)
 	
 	return {
-		url: 'https://memorize.ai',
 		frequency: 'weekly',
 		user: {
 			name: user.name,

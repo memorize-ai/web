@@ -78,7 +78,6 @@ export default class User {
 			to: DEFAULT_FROM,
 			replyTo: this.emailUser,
 			context: {
-				url: 'https://memorize.ai',
 				user: {
 					id: this.id,
 					name: this.name,

@@ -1,15 +1,7 @@
 <mjml>
 	<mj-head>
-		<mj-font
-			name="Muli"
-			href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700;900&display=swap"
-		/>
+		<mj-include path="shared/attributes.mjml" />
 		<mj-attributes>
-			<mj-all
-				padding-top="0"
-				padding-bottom="0"
-				font-family="Muli, Ubuntu, Arial, Helvetica, sans-serif"
-			/>
 			<mj-class
 				name="review-button"
 				padding-top="16px"
@@ -19,7 +11,6 @@
 				background-color="#582efe"
 				border-radius="8px"
 			/>
-			<mj-text color="#4a4a4a" />
 		</mj-attributes>
 		<mj-style>
 			a {
@@ -38,18 +29,7 @@
 		</mj-preview>
 	</mj-head>
 	<mj-body background-color="white">
-		<mj-section>
-			<mj-column>
-				<mj-image
-					width="400px"
-					padding-top="30px"
-					padding-bottom="50px"
-					href="{{url}}"
-					src="https://memorize.ai/images/logos/large.jpg"
-					alt="Logo"
-				/>
-			</mj-column>
-		</mj-section>
+		<mj-include path="shared/header.mjml" />
 		<mj-section>
 			<mj-column>
 				<mj-text
@@ -119,45 +99,6 @@
 			{{/each}}
 		</mj-raw>
 		<mj-section padding-top="40px" />
-		<mj-section
-			full-width="full-width"
-			padding-top="24px"
-			padding-bottom="24px"
-			background-color="#efeefa"
-		>
-			<mj-column>
-				<mj-image
-					width="200px"
-					href="{{url}}"
-					src="https://memorize.ai/images/logos/capital-inverted-grayscale.png"
-					alt="Logo"
-				/>
-				<mj-text
-					align="center"
-					padding-top="24px"
-					line-height="18px"
-				>
-					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
-					All rights reserved.
-				</mj-text>
-				<mj-text
-					align="center"
-					padding-top="24px"
-				>
-					This email is sent {{frequency}}
-				</mj-text>
-				<mj-text
-					align="center"
-					padding-top="12px"
-				>
-					<a
-						style="text-decoration: none; color: #582efe;"
-						href="{{unsubscribe_url}}"
-					>
-						Unsubscribe
-					</a>
-				</mj-text>
-			</mj-column>
-		</mj-section>
+		<mj-include path="shared/footer-frequency-unsubscribe.mjml" />
 	</mj-body>
 </mjml>

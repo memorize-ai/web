@@ -1,15 +1,7 @@
 <mjml>
 	<mj-head>
-		<mj-font
-			name="Muli"
-			href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700;900&display=swap"
-		/>
+		<mj-include path="shared/attributes.mjml" />
 		<mj-attributes>
-			<mj-all
-				padding-top="0"
-				padding-bottom="0"
-				font-family="Muli, Ubuntu, Arial, Helvetica, sans-serif"
-			/>
 			<mj-class
 				name="purple-button"
 				padding-top="16px"
@@ -19,7 +11,6 @@
 				background-color="#582efe"
 				border-radius="8px"
 			/>
-			<mj-text color="#4a4a4a" />
 		</mj-attributes>
 		<mj-style>
 			a {
@@ -34,18 +25,7 @@
 		</mj-preview>
 	</mj-head>
 	<mj-body background-color="white">
-		<mj-section>
-			<mj-column>
-				<mj-image
-					width="400px"
-					padding-top="30px"
-					padding-bottom="50px"
-					href="{{url}}"
-					src="https://memorize.ai/images/logos/large.jpg"
-					alt="Logo"
-				/>
-			</mj-column>
-		</mj-section>
+		<mj-include path="shared/header.mjml" />
 		<mj-section>
 			<mj-column>
 				<mj-text
@@ -67,7 +47,7 @@
 				<mj-button
 					mj-class="purple-button"
 					align="left"
-					href="{{url}}"
+					href="https://memorize.ai"
 				>
 					Get started
 				</mj-button>

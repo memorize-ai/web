@@ -36,7 +36,6 @@ export default onCall(async (data, { auth }) => {
 		to: to.emailUser,
 		replyTo: from.emailUser,
 		context: {
-			url: 'https://memorize.ai',
 			subject,
 			body,
 			from_name: from.name,

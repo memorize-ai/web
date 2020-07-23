@@ -14,12 +14,15 @@ if (require.main === module) {
 	
 	try { mkdir(join(__dirname, 'lib')) } catch {}
 	
+	const sourcePath = join(__dirname, `src/${name}.mjml`)
+	
 	writeFile(
 		join(__dirname, `lib/${name}.html`),
-		compile(
-			readFile(join(__dirname, `src/${name}.mjml`), 'utf8'),
-			{ validationLevel: 'strict', minify: true }
-		).html
+		compile(readFile(sourcePath, 'utf8'), {
+			validationLevel: 'strict',
+			minify: true,
+			filePath: sourcePath
+		}).html
 	)
 	
 	console.log(join(__dirname, `lib/${name}.html`))
