@@ -10,7 +10,7 @@ const minifyCSS = require('uglifycss').processFiles
 
 const minifyJS = paths =>
 	babelMinify(
-		paths.map(path => readFile(path).toString()).join('\n'),
+		paths.map(path => readFile(path, 'utf8')).join('\n'),
 		{ mangle: false }
 	).code || '' 
 

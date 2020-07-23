@@ -17,7 +17,7 @@ if (require.main === module) {
 	writeFile(
 		join(__dirname, `lib/${name}.html`),
 		compile(
-			readFile(join(__dirname, `src/${name}.mjml`)).toString(),
+			readFile(join(__dirname, `src/${name}.mjml`), 'utf8'),
 			{ validationLevel: 'strict', minify: true }
 		).html
 	)
