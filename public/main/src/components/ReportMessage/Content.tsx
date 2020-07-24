@@ -71,6 +71,7 @@ const RestrictContactContent = () => {
 				className="report-message-text-area"
 				minHeight={100}
 				placeholder="Reason (optional)"
+				autoFocus
 				value={reason}
 				setValue={setReason}
 			/>
