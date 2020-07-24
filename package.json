@@ -4,40 +4,25 @@
 		"start": "npm start -C public/main",
 		"start:public": "npm start -C public/blog",
 		
-		"install:all": "npm run install:public && npm run install:functions && npm run install:scripts",
+		"install:all": "npm run install:public && npm run install:functions && npm run install:scripts && npm run install:npm && npm run install:emails",
 		"install:public": "npm i -C public/main && npm i -C public/blog",
 		"install:functions": "npm i -C functions",
 		"install:scripts": "npm i -C scripts",
+		"install:npm": "npm i -C npm",
+		"install:emails": "npm i -C emails",
 		
-		"update:all": "npm run update:public && npm run update:functions && npm run update:scripts",
+		"update:all": "npm run update:public && npm run update:functions && npm run update:scripts && npm run update:npm && npm run update:emails",
 		"update:public": "npm update -C public/main && npm update -C public/blog",
 		"update:functions": "npm update -C functions",
 		"update:scripts": "npm update -C scripts",
-		
-		"clean:all": "rm -rf .firebase *.log ios-libraries/lib && npm run clean:public && npm run clean:functions && npm run clean:scripts",
-		"clean:public": "rm -rf public/main/build && npm run clean -C public/blog",
-		"clean:functions": "rm -rf functions/lib functions/public.html",
-		"clean:scripts": "rm -rf scripts/src/generate-password-reset-email/index.html",
-		
-		"build:all": "npm run build:public:main && npm run build:public:blog && npm run build:functions",
-		"build:public:main": "npm run build -C public/main && npm run save-public-assets && mv public/main/build/index.html functions/public.html",
-		"build:public:blog": "npm run build -C public/blog",
-		"build:functions": "npm run build -C functions",
-		
-		"test:functions": "npm test -C functions",
-		
-		"predeploy": "npm run clean:all && npm run install:all && npm run update:all && npm run build:all",
-		"postdeploy": "npm run clean:all",
-		
-		"deploy": "firebase deploy",
-		"deploy-only-hosting": "npm run predeploy && firebase deploy -P default --only hosting,functions:app && npm run postdeploy",
-		"deploy-except-hosting": "npm run predeploy && firebase deploy -P default --except hosting && npm run postdeploy",
+		"update:npm": "npm update -C npm",
+		"update:emails": "npm update -C emails",
 		
 		"save-public-assets": "node scripts/src/save-public-assets",
 		"generate-sitemap": "node scripts/src/generate-sitemap",
 		"load-preview-deck": "node scripts/src/load-preview-deck",
 		
-		"build-email": "node emails"
+		"upload-emails": "node emails"
 	},
 	"private": true
 }

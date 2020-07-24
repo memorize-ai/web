@@ -1,6 +1,8 @@
 {
 	"name": "emails",
 	"dependencies": {
+		"@sendgrid/client": "^7.2.2",
+		"cheerio": "^1.0.0-rc.3",
 		"mjml": "^4.6.3"
 	},
 	"private": true
