@@ -30,6 +30,11 @@ jobs:
           cd functions
           npm ci
           cd ..
+      - name: Install dependencies for emails
+        run: |
+          cd emails
+          npm ci
+          cd ..
       - name: Install dependencies for npm
         run: |
           cd npm
