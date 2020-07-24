@@ -20,15 +20,7 @@
 			All rights reserved.
 		</mj-text>
 		<mj-text align="center" padding-top="24px">
-			This email is sent {{frequency}}
-		</mj-text>
-		<mj-text align="center" padding-top="12px">
-			<a
-				style="text-decoration: none; color: #582efe;"
-				href="{{unsubscribe_url}}"
-			>
-				Unsubscribe
-			</a>
+			Sent by {{from.email}}
 		</mj-text>
 	</mj-column>
 </mj-section>

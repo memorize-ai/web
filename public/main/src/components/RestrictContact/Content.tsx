@@ -34,10 +34,10 @@ const RestrictContactContent = () => {
 	
 	return (
 		<ConfirmationForm
-			title="Restrict Contact"
-			description="Don't allow anyone to contact you on memorize.ai"
+			title="Stop Receiving Messages"
+			description="Stop receiving messages on memorize.ai"
 			loadingState={loadingState}
-			submitMessage="Restrict Contact"
+			submitMessage="Stop receiving messages"
 			submitButtonText="Turn off"
 			onSubmit={onSubmit}
 		/>

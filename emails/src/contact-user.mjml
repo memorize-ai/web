@@ -5,17 +5,21 @@
 			a {
 				text-decoration: none;
 			}
+			
+			.message a {
+				text-decoration: underline;
+			}
 		</mj-style>
 		<mj-title>
 			{{#if subject}}
 				{{subject}}
 			{{else}}
-				{{from_name}} sent you a message on memorize.ai
+				{{from.name}} sent you a message on memorize.ai
 			{{/if}}
 		</mj-title>
 		<mj-preview>
 			{{#if subject}}
-				{{from_name}} sent you a message on memorize.ai
+				{{from.name}} sent you a message on memorize.ai
 			{{/if}}
 			{{body}}
 		</mj-preview>
@@ -28,34 +32,58 @@
 		>
 			<mj-column>
 				<mj-text font-size="20px" font-weight="900">
-					Hello, {{to_name}}
+					Hello, {{to.name}}
 				</mj-text>
 				<mj-text font-size="16px" padding-top="12px">
-					{{from_name}} sent you a message
+					{{from.name}} sent you a message
 				</mj-text>
 			</mj-column>
 		</mj-section>
 		<mj-section>
-			<mj-column>
+			<mj-column css-class="message">
+				<mj-raw>
+					{{#if subject}}
+				</mj-raw>
 				<mj-text
+					padding-top="20px"
 					font-size="30px"
 					font-weight="900"
 				>
-					{{#if subject}}
-						{{subject}}
-					{{else}}
-						(no subject)
-					{{/if}}
+					{{subject}}
 				</mj-text>
+				<mj-raw>
+					{{/if}}
+				</mj-raw>
 				<mj-text
-					padding-top="30px"
+					padding-top="24px"
+					padding-bottom="24px"
 					font-size="20px"
-					font-weight="700"
 				>
-					{{from_name}}
+					{{body}}
 				</mj-text>
 			</mj-column>
 		</mj-section>
-		<mj-include path="shared/footer.mjml" />
+		<mj-section
+			padding-top="16px"
+			padding-bottom="16px"
+			border-top="1px solid #efeefa"
+		>
+			<mj-column>
+				<mj-text font-weight="bold">
+					<a href="{{block_url}}">
+						Block
+					</a>
+					&nbsp;&middot;&nbsp;
+					<a href="{{report_url}}">
+						Report
+					</a>
+					&nbsp;&middot;&nbsp;
+					<a href="{{restrict_contact_url}}">
+						Stop receiving messages
+					</a>
+				</mj-text>
+			</mj-column>
+		</mj-section>
+		<mj-include path="shared/footer-sent-by.mjml" />
 	</mj-body>
 </mjml>

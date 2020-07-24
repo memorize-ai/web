@@ -75,6 +75,14 @@
 			}
 		}
 	},
+	"messages (collection)": {
+		"ab23D8da (document)": {
+			"from": "asdf3af",
+			"to": "as4baad",
+			"subject": "Subject",
+			"body": "Body"
+		}
+	},
 	"topics (collection)": {
 		"ab23D8da (document)": { // Random ID, same as in Storage
 			"name": "Math" // Unique

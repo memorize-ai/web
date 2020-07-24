@@ -1,9 +1,11 @@
 import { https } from 'firebase-functions'
+import * as admin from 'firebase-admin'
 
 import User from '../../User'
 import { sendEmail, EmailTemplate } from '../../Email'
 
 const { onCall, HttpsError } = https
+const firestore = admin.firestore()
 
 export default onCall(async (data, { auth }) => {
 	if (!auth)
@@ -31,17 +33,33 @@ export default onCall(async (data, { auth }) => {
 			'You were blocked or the recipient does not allow contact'
 		)
 	
-	await sendEmail({
-		template: EmailTemplate.ContactUser,
-		to: to.emailUser,
-		replyTo: from.emailUser,
-		context: {
+	const doc = firestore.collection('messages').doc()
+	
+	await Promise.all([
+		doc.create({
+			from: from.id,
+			to: to.id,
 			subject,
-			body,
-			from_name: from.name,
-			to_name: to.name,
-			block_url: `https://memorize.ai/block/${to.id}/${from.id}`,
-			restrict_contact_url: `https://memorize.ai/restrict-contact/${to.id}`
-		}
-	})
+			body
+		}),
+		sendEmail({
+			template: EmailTemplate.ContactUser,
+			to: to.emailUser,
+			replyTo: from.emailUser,
+			context: {
+				subject,
+				body,
+				from: {
+					name: from.name,
+					email: from.email
+				},
+				to: {
+					name: to.name
+				},
+				block_url: `https://memorize.ai/block/${to.id}/${from.id}`,
+				report_url: `https://memorize.ai/report/message/${doc.id}`,
+				restrict_contact_url: `https://memorize.ai/restrict-contact/${to.id}`
+			}
+		})
+	])
 })
