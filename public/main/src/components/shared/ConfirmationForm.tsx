@@ -1,4 +1,4 @@
-import React, { useCallback, FormEvent, useState } from 'react'
+import React, { useCallback, FormEvent, useState, PropsWithChildren } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -9,7 +9,7 @@ import Loader from './Loader'
 
 import '../../scss/components/ConfirmationForm.scss'
 
-export interface ConfirmationFormProps {
+export interface ConfirmationFormProps extends PropsWithChildren<{}> {
 	title: string
 	description: string
 	loadingState: LoadingState
@@ -24,7 +24,8 @@ const ConfirmationForm = ({
 	loadingState,
 	submitMessage,
 	submitButtonText,
-	onSubmit: _onSubmit
+	onSubmit: _onSubmit,
+	children
 }: ConfirmationFormProps) => {
 	const [submitButtonWidth, setSubmitButtonWidth] = useState(
 		undefined as number | undefined
@@ -57,6 +58,7 @@ const ConfirmationForm = ({
 				<h1 className="title">
 					{submitMessage}
 				</h1>
+				{children}
 				<form onSubmit={onSubmit}>
 					<p className="submit-message">
 						Are you sure?
