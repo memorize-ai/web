@@ -70,6 +70,12 @@
 		>
 			<mj-column>
 				<mj-text font-weight="bold">
+					Reply to this email to respond
+				</mj-text>
+				<mj-text
+					padding-top="16px"
+					font-weight="bold"
+				>
 					<a href="{{block_url}}">
 						Block
 					</a>
