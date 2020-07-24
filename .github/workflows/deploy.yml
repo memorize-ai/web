@@ -10,15 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@main
       - name: Set up Node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@main
         with:
           node-version: 12
       - name: Create protected directory
         run: mkdir protected
       - name: Copy Firebase admin key
         run: echo '${{ secrets.FIREBASE_ADMIN_KEY }}' > protected/firebase-admin.json
+      - name: Copy environment variables
+        uses: w9jds/firebase-action@master
+        with:
+          args: functions:config:get > protected/env.json
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Install dependencies for public/main
         run: |
           cd public/main
@@ -53,6 +59,8 @@ jobs:
         run: mv public/main/build/index.html functions/public.html
       - name: Build functions
         run: npm run build -C functions
+      - name: Upload emails
+        run: npm run upload-emails
       - name: Deploy
         uses: w9jds/firebase-action@master
         with:

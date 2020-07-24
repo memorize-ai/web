@@ -4,6 +4,16 @@ const { create } = require('xmlbuilder2')
 
 const { firestore } = require('../utils/firebase-admin')
 
+const PATH = join(
+	__dirname,
+	'..',
+	'..',
+	'public',
+	'main',
+	'public',
+	'sitemap.xml'
+)
+
 if (require.main === module)
 	(async () => {
 		const urls = {
@@ -18,7 +28,7 @@ if (require.main === module)
 				lastmod: deck.get('updated').toDate().toISOString()
 			}
 		
-		writeFileSync(join(__dirname, '../../public/main/public/sitemap.xml'), create(
+		writeFileSync(PATH, create(
 			{ version: '1.0', encoding: 'UTF-8' },
 			{
 				urlset: {

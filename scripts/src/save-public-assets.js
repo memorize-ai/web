@@ -4,9 +4,21 @@ const { getType } = require('mime')
 
 const { storage } = require('../utils/firebase-admin')
 
+const PATH = join(
+	__dirname,
+	'..',
+	'..',
+	'public',
+	'main',
+	'build',
+	'static',
+	'**',
+	'*.*'
+)
+
 if (require.main === module)
 	(async () => {
-		const paths = glob.sync(join(__dirname, '../../public/main/build/static/**/*.*'))
+		const paths = glob.sync(PATH)
 		
 		console.log(`Found ${paths.length} assets`)
 		

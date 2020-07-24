@@ -1,0 +1,12 @@
+<mj-font
+	name="Muli"
+	href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700;900&display=swap"
+/>
+<mj-attributes>
+	<mj-all
+		padding-top="0"
+		padding-bottom="0"
+		font-family="Muli, Ubuntu, Arial, Helvetica, sans-serif"
+	/>
+	<mj-text color="#4a4a4a" />
+</mj-attributes>

@@ -40,10 +40,7 @@ const getEmailOptions = (
 			
 			return {
 				template: EMAIL_TEMPLATE,
-				to: {
-					name: user.name,
-					email: user.email
-				},
+				to: user.emailUser,
 				context: await getContext(
 					user,
 					deckSnapshots.filter(({ exists }) => exists)
@@ -101,7 +98,6 @@ const getContext = async (
 	).filter(Boolean)
 	
 	return {
-		url: 'https://memorize.ai',
 		frequency: 'weekly',
 		user: {
 			name: user.name,

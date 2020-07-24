@@ -11,37 +11,37 @@ import 'firebase/firestore'
 const analytics = firebase.analytics()
 const firestore = firebase.firestore()
 
-const UnsubscribeContent = () => {
-	const { uid, type } = useParams()
+const RestrictContactContent = () => {
+	const { uid } = useParams()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	
 	const onSubmit = useCallback(() => {
-		if (!(uid && type))
+		if (!uid)
 			return
 		
 		setLoadingState(LoadingState.Loading)
-		analytics.logEvent('unsubscribe', { uid, type })
+		analytics.logEvent('restrict-contact', { uid })
 		
 		firestore.doc(`users/${uid}`)
-			.update({ [`unsubscribed.${type}`]: true })
+			.update({ allowContact: false })
 			.then(() => setLoadingState(LoadingState.Success))
 			.catch(error => {
 				setLoadingState(LoadingState.Fail)
 				console.error(error)
 			})
-	}, [uid, type, setLoadingState])
+	}, [uid, setLoadingState])
 	
 	return (
 		<ConfirmationForm
-			title="Unsubscribe"
-			description="Unsubscribe from our mailing list"
+			title="Stop Receiving Messages"
+			description="Stop receiving messages on memorize.ai"
 			loadingState={loadingState}
-			submitMessage="Unsubscribe"
-			submitButtonText="Unsubscribe"
+			submitMessage="Stop receiving messages"
+			submitButtonText="Turn off"
 			onSubmit={onSubmit}
 		/>
 	)
 }
 
-export default UnsubscribeContent
+export default RestrictContactContent

@@ -1,8 +1,16 @@
 const { join } = require('path')
 const admin = require('firebase-admin')
 
+const PATH = join(
+	__dirname,
+	'..',
+	'..',
+	'protected',
+	'firebase-admin.json'
+)
+
 admin.initializeApp({
-	credential: admin.credential.cert(join(__dirname, '../../protected/firebase-admin.json')),
+	credential: admin.credential.cert(PATH),
 	storageBucket: 'memorize-ai.appspot.com'
 })
 

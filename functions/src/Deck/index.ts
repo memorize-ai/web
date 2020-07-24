@@ -456,36 +456,38 @@ export default class Deck {
 		}
 	}
 	
-	toJSON = () => ({
-		id: this.id,
-		short_id: this.slugId,
-		slug: this.slug,
-		url: this.url,
-		topics: this.topics,
-		has_image: this.hasImage,
-		image_url: this.imageUrl,
-		name: this.name,
-		subtitle: this.subtitle,
-		description: this.description,
-		ratings: {
-			average: this.averageRating,
-			total: this.numberOfRatings,
-			individual: [
-				this.numberOf1StarRatings,
-				this.numberOf2StarRatings,
-				this.numberOf3StarRatings,
-				this.numberOf4StarRatings,
-				this.numberOf5StarRatings
-			]
-		},
-		downloads: this.numberOfDownloads,
-		cards: this.numberOfCards,
-		unsectioned_cards: this.numberOfUnsectionedCards,
-		current_users: this.numberOfCurrentUsers,
-		all_time_users: this.numberOfAllTimeUsers,
-		favorites: this.numberOfFavorites,
-		creator_id: this.creatorId,
-		date_created: this.dateCreated.getTime(),
-		date_last_updated: this.dateLastUpdated.getTime()
-	})
+	get json() {
+		return {
+			id: this.id,
+			short_id: this.slugId,
+			slug: this.slug,
+			url: this.url,
+			topics: this.topics,
+			has_image: this.hasImage,
+			image_url: this.imageUrl,
+			name: this.name,
+			subtitle: this.subtitle,
+			description: this.description,
+			ratings: {
+				average: this.averageRating,
+				total: this.numberOfRatings,
+				individual: [
+					this.numberOf1StarRatings,
+					this.numberOf2StarRatings,
+					this.numberOf3StarRatings,
+					this.numberOf4StarRatings,
+					this.numberOf5StarRatings
+				]
+			},
+			downloads: this.numberOfDownloads,
+			cards: this.numberOfCards,
+			unsectioned_cards: this.numberOfUnsectionedCards,
+			current_users: this.numberOfCurrentUsers,
+			all_time_users: this.numberOfAllTimeUsers,
+			favorites: this.numberOfFavorites,
+			creator_id: this.creatorId,
+			date_created: this.dateCreated.getTime(),
+			date_last_updated: this.dateLastUpdated.getTime()
+		}
+	}
 }

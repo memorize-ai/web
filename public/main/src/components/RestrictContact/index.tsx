@@ -2,10 +2,10 @@ import React, { lazy, Suspense } from 'react'
 
 const Content = lazy(() => import('./Content'))
 
-const Unsubscribe = () => (
+const RestrictContact = () => (
 	<Suspense fallback={null}>
 		<Content />
 	</Suspense>
 )
 
-export default Unsubscribe
+export default RestrictContact

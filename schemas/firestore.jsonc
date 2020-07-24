@@ -6,6 +6,7 @@
 			"source": "web", // (("web" | "ios" | "android")?) Not standardized
 			"deckCount": 4, // (Int?) The number of decks in this user's library. If nonexistent, treat as 0
 			"xp": 400, // (Int?) The XP that the user has. If nonexistent, treat as 0
+			"allowContact": true,
 			"unsubscribed": {
 				"due-cards": true
 			},
@@ -17,6 +18,9 @@
 				"a3gsb2D3n", // Deck ID
 				"asd2SDfC4"
 			],
+			"blocked (collection)": {
+				"a3gsb2D3n (document)": {} // User ID
+			},
 			"decks (collection)": {
 				"a3gsb2D3n (document)": { // Deck ID
 					"added": "DATE", // (Date) The date that this deck was added to this user's libray
@@ -69,6 +73,14 @@
 					}
 				}
 			}
+		}
+	},
+	"messages (collection)": {
+		"ab23D8da (document)": {
+			"from": "asdf3af",
+			"to": "as4baad",
+			"subject": "Subject",
+			"body": "Body"
 		}
 	},
 	"topics (collection)": {
