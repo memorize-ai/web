@@ -1,0 +1,91 @@
+<mjml>
+	<mj-head>
+		<mj-include path="shared/attributes.mjml" />
+		<mj-style>
+			a {
+				text-decoration: none;
+			}
+			
+			.message a {
+				text-decoration: underline;
+			}
+		</mj-style>
+		<mj-title>
+			{{from.name}} reported a message sent by {{to.name}}
+		</mj-title>
+		<mj-preview>
+			{{reason}} {{subject}}
+		</mj-preview>
+	</mj-head>
+	<mj-body background-color="white">
+		<mj-include path="shared/header.mjml" />
+		<mj-section
+			padding-bottom="16px"
+			border-bottom="1px solid #efeefa"
+		>
+			<mj-column>
+				<mj-text font-size="20px" font-weight="900">
+					{{from.name}} reported a message sent by {{to.name}}
+				</mj-text>
+				<mj-text font-size="16px" padding-top="12px">
+					<b>{{from.name}} (from) UID:</b> {{from.id}} ({{from.email}})
+				</mj-text>
+				<mj-text font-size="16px" padding-top="12px">
+					<b>{{to.name}} (to) UID:</b> {{to.id}} ({{to.email}})
+				</mj-text>
+			</mj-column>
+		</mj-section>
+		<mj-raw>
+			{{#if reason}}
+		</mj-raw>
+		<mj-section
+			padding-top="24px"
+			padding-bottom="24px"
+			border-bottom="1px solid #efeefa"
+		>
+			<mj-column>
+				<mj-text
+					font-size="20px"
+					font-weight="900"
+				>
+					Reason
+				</mj-text>
+				<mj-text
+					padding-top="16px"
+					font-size="20px"
+				>
+					{{reason}}
+				</mj-text>
+			</mj-column>
+		</mj-section>
+		<mj-raw>
+			{{/if}}
+		</mj-raw>
+		<mj-section
+			padding-top="20px"
+			padding-bottom="24px"
+		>
+			<mj-column css-class="message">
+				<mj-raw>
+					{{#if subject}}
+				</mj-raw>
+				<mj-text
+					font-size="30px"
+					font-weight="900"
+				>
+					{{subject}}
+				</mj-text>
+				<mj-raw>
+					{{/if}}
+				</mj-raw>
+				<mj-text
+					padding-top="24px"
+					font-size="20px"
+				>
+					{{body}}
+				</mj-text>
+			</mj-column>
+		</mj-section>
+		<mj-include path="shared/footer.mjml" />
+	</mj-body>
+</mjml>
