@@ -45,6 +45,11 @@ jobs:
           cd scripts
           npm ci
           cd ..
+      - name: Install dependencies for emails
+        run: |
+          cd emails
+          npm ci
+          cd ..
       - name: Generate sitemap
         run: npm run generate-sitemap
       - name: Load preview deck
