@@ -9,17 +9,21 @@ import TextArea from '../shared/TextArea'
 
 import 'firebase/analytics'
 import 'firebase/firestore'
+import 'firebase/functions'
 
 import '../../scss/components/ReportMessage.scss'
 
 const analytics = firebase.analytics()
 const firestore = firebase.firestore()
+const functions = firebase.functions()
+
+const reportMessage = functions.httpsCallable('reportMessage')
 
 const RestrictContactContent = () => {
-	const { uid, messageId } = useParams()
+	const { fromId, toId, messageId } = useParams()
 	
 	const [user, setUser] = useState(null as User | null)
-	const [message, setMessage] = useState('')
+	const [reason, setReason] = useState('')
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	
 	const name = useMemo(() => (
@@ -27,17 +31,32 @@ const RestrictContactContent = () => {
 	), [user])
 	
 	const onSubmit = useCallback(() => {
-		if (!(uid && messageId))
+		if (!(fromId && toId && messageId))
 			return
 		
 		setLoadingState(LoadingState.Loading)
-		analytics.logEvent('restrict-message', { messageId, message })
-	}, [uid, messageId, message, setLoadingState])
+		
+		const data = {
+			from: fromId,
+			to: toId,
+			message: messageId,
+			reason
+		}
+		
+		analytics.logEvent('report-message', data)
+		
+		reportMessage(data)
+			.then(() => setLoadingState(LoadingState.Success))
+			.catch(error => {
+				setLoadingState(LoadingState.Fail)
+				console.error(error)
+			})
+	}, [fromId, toId, messageId, reason, setLoadingState])
 	
 	useEffect(() => {
-		firestore.doc(`users/${uid}`).get()
+		firestore.doc(`users/${toId}`).get()
 			.then(snapshot => setUser(User.fromSnapshot(snapshot)))
-	}, [uid, setUser])
+	}, [toId, setUser])
 	
 	return (
 		<ConfirmationForm
@@ -52,11 +71,9 @@ const RestrictContactContent = () => {
 				className="report-message-text-area"
 				minHeight={100}
 				placeholder="Reason"
-				value={message}
-				setValue={setMessage}
-			>
-				
-			</TextArea>
+				value={reason}
+				setValue={setReason}
+			/>
 		</ConfirmationForm>
 	)
 }
