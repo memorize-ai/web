@@ -11,9 +11,9 @@
 		"axios": "^0.19.2"
 	},
 	"devDependencies": {
-		"jest": "^26.0.1",
+		"jest": "^26.1.0",
 		"tslint": "^6.1.2",
-		"typescript": "^3.9.5"
+		"typescript": "^3.9.7"
 	},
 	"keywords": [
 		"memorize",
