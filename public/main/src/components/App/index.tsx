@@ -25,6 +25,7 @@ import DeckPage from '../Dashboard/DeckPage'
 
 import Unsubscribe from '../Unsubscribe'
 import BlockUser from '../BlockUser'
+import ReportMessage from '../ReportMessage'
 import RestrictContact from '../RestrictContact'
 
 import CatchAll from '../404'
@@ -90,6 +91,7 @@ const App = () => (
 			
 			<Route exact path="/unsubscribe/:uid/:type" component={Unsubscribe} />
 			<Route exact path="/block/:to/:from" component={BlockUser} />
+			<Route exact path="/report/:uid/message/:messageId" component={ReportMessage} />
 			<Route exact path="/restrict-contact/:uid" component={RestrictContact} />
 			
 			<Route status={404} component={CatchAll} />
