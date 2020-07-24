@@ -70,7 +70,7 @@ const RestrictContactContent = () => {
 			<TextArea
 				className="report-message-text-area"
 				minHeight={100}
-				placeholder="Reason"
+				placeholder="Reason (optional)"
 				value={reason}
 				setValue={setReason}
 			/>
