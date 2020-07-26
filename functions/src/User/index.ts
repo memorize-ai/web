@@ -25,6 +25,7 @@ export default class User {
 	email: string
 	source: UserSource
 	allowContact: boolean
+	isMuted: boolean
 	apiKey: string | null
 	numberOfDecks: number
 	interests: string[]
@@ -39,6 +40,7 @@ export default class User {
 		this.email = snapshot.get('email')
 		this.source = snapshot.get('source') ?? 'ios'
 		this.allowContact = snapshot.get('allowContact') ?? true
+		this.isMuted = snapshot.get('muted') ?? false
 		this.apiKey = snapshot.get('apiKey') ?? null
 		this.numberOfDecks = snapshot.get('deckCount') ?? 0
 		this.interests = snapshot.get('topics') ?? []
@@ -98,6 +100,7 @@ export default class User {
 				source: this.source,
 				apiKey: this.apiKey,
 				allowContact: this.allowContact,
+				muted: this.isMuted,
 				unsubscribed: {
 					[EmailTemplate.DueCardsNotification]: false
 				}

@@ -12,6 +12,7 @@ export interface UserData {
 	name: string | null
 	email: string | null
 	allowContact: boolean | null
+	isMuted: boolean | null
 	apiKey: string | null
 	numberOfDecks: number | null
 	xp: number | null
@@ -29,6 +30,7 @@ export default class User implements UserData {
 	name: string | null
 	email: string | null
 	allowContact: boolean | null
+	isMuted: boolean | null
 	apiKey: string | null
 	
 	numberOfDecks: number | null
@@ -41,6 +43,7 @@ export default class User implements UserData {
 		this.name = data.name
 		this.email = data.email
 		this.allowContact = data.allowContact
+		this.isMuted = data.isMuted
 		this.apiKey = data.apiKey
 		this.numberOfDecks = data.numberOfDecks
 		this.xp = data.xp
@@ -53,6 +56,7 @@ export default class User implements UserData {
 			name: user.displayName,
 			email: user.email,
 			allowContact: null,
+			isMuted: null,
 			apiKey: null,
 			numberOfDecks: null,
 			xp: null,
@@ -64,7 +68,8 @@ export default class User implements UserData {
 		new User(snapshot.id, {
 			name: snapshot.get('name') ?? '(error)',
 			email: snapshot.get('email') ?? '(error)',
-			allowContact: snapshot.get('allowContact') ?? null,
+			allowContact: snapshot.get('allowContact') ?? true,
+			isMuted: snapshot.get('muted') ?? false,
 			apiKey: snapshot.get('apiKey') ?? null,
 			numberOfDecks: snapshot.get('deckCount') ?? 0,
 			xp: snapshot.get('xp') ?? 0,
