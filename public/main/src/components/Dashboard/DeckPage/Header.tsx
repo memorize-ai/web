@@ -9,8 +9,10 @@ import LoadingState from '../../../models/LoadingState'
 import useAuthState from '../../../hooks/useAuthState'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useCreator from '../../../hooks/useCreator'
+import useContactUserLoadingState from '../../../hooks/useContactUserLoadingState'
 import useAuthModal from '../../../hooks/useAuthModal'
 import Button from '../../shared/Button'
+import Loader from '../../shared/Loader'
 import Stars from '../../shared/Stars'
 import { DisqusCommentCount } from '../../shared/Disqus'
 import ContactUserModal from '../../shared/Modal/ContactUser'
@@ -29,6 +31,7 @@ const DeckPageHeader = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => 
 	const [currentUser] = useCurrentUser()
 	
 	const creator = useCreator(deck.creatorId)
+	const contactLoadingState = useContactUserLoadingState(creator)
 	
 	const {
 		setIsShowing: setIsAuthModalShowing,
@@ -115,18 +118,19 @@ const DeckPageHeader = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => 
 						)
 					}
 					<div className="secondary">
-						<Button
-							className="contact"
-							loaderSize="16px"
-							loaderThickness="3px"
-							loaderColor="white"
-							loading={getLoadingState === LoadingState.Loading}
-							disabled={false}
-							onClick={showContactUserModal}
-						>
-							<FontAwesomeIcon icon={faComments} />
-							<p>Chat</p>
-						</Button>
+						{contactLoadingState === LoadingState.Fail || (
+							<button
+								className="contact"
+								disabled={contactLoadingState !== LoadingState.Success}
+								onClick={showContactUserModal}
+							>
+								{contactLoadingState === LoadingState.Loading
+									? <Loader size="20px" thickness="4px" color="white" />
+									: <FontAwesomeIcon icon={faComments} />
+								}
+								<p>Chat</p>
+							</button>
+						)}
 						<button
 							className="share"
 							onClick={() => setIsShareModalShowing(true)}

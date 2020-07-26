@@ -11,6 +11,7 @@ const firestore = firebase.firestore()
 export interface UserData {
 	name: string | null
 	email: string | null
+	allowContact: boolean | null
 	apiKey: string | null
 	numberOfDecks: number | null
 	xp: number | null
@@ -19,11 +20,15 @@ export interface UserData {
 }
 
 export default class User implements UserData {
+	static didInitialize = false
 	static creatorObservers: Record<string, boolean> = {}
+	
+	isObserving = false
 	
 	id: string
 	name: string | null
 	email: string | null
+	allowContact: boolean | null
 	apiKey: string | null
 	
 	numberOfDecks: number | null
@@ -35,6 +40,7 @@ export default class User implements UserData {
 		this.id = id
 		this.name = data.name
 		this.email = data.email
+		this.allowContact = data.allowContact
 		this.apiKey = data.apiKey
 		this.numberOfDecks = data.numberOfDecks
 		this.xp = data.xp
@@ -46,6 +52,7 @@ export default class User implements UserData {
 		new User(user.uid, {
 			name: user.displayName,
 			email: user.email,
+			allowContact: null,
 			apiKey: null,
 			numberOfDecks: null,
 			xp: null,
@@ -57,6 +64,7 @@ export default class User implements UserData {
 		new User(snapshot.id, {
 			name: snapshot.get('name') ?? '(error)',
 			email: snapshot.get('email') ?? '(error)',
+			allowContact: snapshot.get('allowContact') ?? null,
 			apiKey: snapshot.get('apiKey') ?? null,
 			numberOfDecks: snapshot.get('deckCount') ?? 0,
 			xp: snapshot.get('xp') ?? 0,

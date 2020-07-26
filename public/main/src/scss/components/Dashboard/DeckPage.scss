@@ -192,14 +192,14 @@
 							@include overflow-ellipsis;
 							
 							font-size: 20px;
-							font-weight: 600;
+							font-weight: bold;
 						}
 						
 						&:last-of-type {
 							flex-shrink: 0;
 							margin-left: 8px;
 							font-size: 15px;
-							font-weight: bold;
+							font-weight: 900;
 							color: #582efe;
 						}
 					}
@@ -208,7 +208,6 @@
 				> .buttons {
 					display: flex;
 					flex-direction: column;
-					overflow-x: auto;
 					margin-top: 10px;
 					
 					@media (min-width: 465px) {

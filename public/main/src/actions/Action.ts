@@ -64,5 +64,7 @@ export enum ActionType {
 	AddCardsAdd,
 	AddCardsUpdate,
 	AddCardsRemove,
-	AddCardsRemoveAll
+	AddCardsRemoveAll,
+	
+	SetContactUserLoadingState
 }
