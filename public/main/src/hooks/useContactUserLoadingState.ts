@@ -33,8 +33,19 @@ export default (user: User | null): LoadingState => {
 				return LoadingState.Fail
 			
 			if (currentUser) {
-				const { exists } = await firestore.doc(`users/${user.id}/blocked/${currentUser.id}`).get()
-				return exists ? LoadingState.Fail : LoadingState.Success
+				if (currentUser.isMuted === null)
+					return LoadingState.Loading
+				
+				if (currentUser.isMuted)
+					return LoadingState.Fail
+				
+				const { exists: isBlocked } = await firestore
+					.doc(`users/${user.id}/blocked/${currentUser.id}`)
+					.get()
+				
+				return isBlocked
+					? LoadingState.Fail
+					: LoadingState.Success
 			}
 			
 			// Not signed in

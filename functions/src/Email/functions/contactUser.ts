@@ -27,10 +27,10 @@ export default onCall(async (data, { auth }) => {
 		User.fromId(id)
 	])
 	
-	if (!to.allowContact || await to.didBlockUserWithId(from.id))
+	if (from.isMuted || !to.allowContact || await to.didBlockUserWithId(from.id))
 		throw new HttpsError(
 			'permission-denied',
-			'You were blocked or the recipient does not allow contact'
+			'You are muted, the recipient blocked you, or the recipient does not allow contact'
 		)
 	
 	const doc = firestore.collection('messages').doc()
