@@ -142,8 +142,12 @@ $rating-colors: (
 		}
 		
 		> .card-container {
-			margin-top: 40px;
+			margin-top: 20px;
 			padding-bottom: $card-offset * 2;
+			
+			@media (min-width: 350px) {
+				margin-top: 40px;
+			}
 			
 			> .location {
 				display: flex;
@@ -206,10 +210,14 @@ $rating-colors: (
 			> .cards {
 				position: relative;
 				min-height: 40px;
-				max-height: calc(100vh - #{$card-offset * 2 + 320px});
+				max-height: calc(100vh - #{$card-offset * 2 + 300px});
 				height: 350px;
 				margin-top: 8px;
 				transition: height 0.3s;
+				
+				@media (min-width: 350px) {
+					max-height: calc(100vh - #{$card-offset * 2 + 320px});
+				}
 				
 				@media (min-width: 320px) { height: 400px; }
 				@media (min-width: 350px) { height: 450px; }
@@ -337,6 +345,7 @@ $rating-colors: (
 				
 				> .completion {
 					display: flex;
+					position: relative;
 					flex-direction: column;
 					justify-content: center;
 					width: 100%;
@@ -350,18 +359,28 @@ $rating-colors: (
 					}
 					
 					> .emoji {
+						margin: 35px 0 -10px;
 						font-size: 70px;
 						
 						@media (min-width: 400px) {
+							margin-bottom: 0;
 							font-size: 100px;
+						}
+						
+						@media (min-width: 600px) {
+							margin-top: 0;
 						}
 					}
 					
 					> .title {
-						font-size: 24px;
+						font-size: 20px;
 						font-weight: 900;
 						color: white;
 						transition: font-size 0.3s;
+						
+						@media (min-width: 350px) {
+							font-size: 24px;
+						}
 						
 						@media (min-width: 405px) {
 							font-size: 30px;
@@ -452,16 +471,22 @@ $rating-colors: (
 			
 			> .buttons {
 				display: flex;
+				justify-content: center;
 				opacity: 0;
 				pointer-events: none;
 				transform: translateY($vertical-offset);
 				
 				> button {
-					width: 100px;
+					width: 75px;
+					overflow: hidden;
 					background: white;
 					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
 					transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
+					
+					@media (min-width: 350px) {
+						width: 100px;
+					}
 					
 					@media (min-width: 500px) {
 						width: 130px;
@@ -514,16 +539,22 @@ $rating-colors: (
 						$height: 25px;
 						
 						min-width: 50px;
-						width: max-content;
+						width: 100%;
 						height: $height;
 						line-height: $height;
-						margin: 0 auto 12px;
+						margin: 0;
 						padding: 0 10px;
 						text-align: center;
-						font-size: 12px;
+						font-size: 10px;
 						font-weight: 900;
 						color: $dark-gray;
-						border-radius: 8px;
+						
+						@media (min-width: 350px) {
+							width: max-content;
+							margin: 0 auto 12px;
+							font-size: 12px;
+							border-radius: 8px;
+						}
 						
 						@media (min-width: 420px) {
 							min-width: 65px;
