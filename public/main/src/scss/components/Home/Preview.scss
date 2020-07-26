@@ -350,7 +350,11 @@ $rating-colors: (
 					}
 					
 					> .emoji {
-						font-size: 100px;
+						font-size: 70px;
+						
+						@media (min-width: 400px) {
+							font-size: 100px;
+						}
 					}
 					
 					> .title {
