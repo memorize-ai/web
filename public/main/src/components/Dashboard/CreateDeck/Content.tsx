@@ -128,8 +128,8 @@ const CreateDeckContent = () => {
 			<div className="header">
 				<h1>Create deck</h1>
 				<Button
-					loaderSize="16px"
-					loaderThickness="3px"
+					loaderSize="20px"
+					loaderThickness="4px"
 					loaderColor="#582efe"
 					loading={isLoading}
 					disabled={isDisabled}
