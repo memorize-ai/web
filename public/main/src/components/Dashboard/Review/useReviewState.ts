@@ -11,7 +11,7 @@ import PerformanceRating from '../../../models/PerformanceRating'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
 import useSections from '../../../hooks/useSections'
-import { sleep } from '../../../utils'
+import { sleep, handleError } from '../../../utils'
 
 import 'firebase/firestore'
 import 'firebase/functions'
@@ -686,7 +686,7 @@ export default (
 			
 			setPredictionLoadingState(LoadingState.Success)
 		}).catch(error => {
-			console.error(error)
+			handleError(error)
 			setPredictionLoadingState(LoadingState.Fail)
 		})
 	}, [deck, card, loadingState, setPredictionLoadingState])

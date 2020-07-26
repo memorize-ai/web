@@ -5,6 +5,7 @@ import firebase from '../../firebase'
 import User from '../../models/User'
 import LoadingState from '../../models/LoadingState'
 import ConfirmationForm from '../shared/ConfirmationForm'
+import { handleError } from '../../utils'
 
 import 'firebase/analytics'
 import 'firebase/firestore'
@@ -34,7 +35,7 @@ const BlockUserContent = () => {
 			.then(() => setLoadingState(LoadingState.Success))
 			.catch(error => {
 				setLoadingState(LoadingState.Fail)
-				console.error(error)
+				handleError(error)
 			})
 	}, [toId, fromId, setLoadingState])
 	

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import firebase from '../../firebase'
 import LoadingState from '../../models/LoadingState'
 import ConfirmationForm from '../shared/ConfirmationForm'
+import { handleError } from '../../utils'
 
 import 'firebase/analytics'
 import 'firebase/firestore'
@@ -28,7 +29,7 @@ const UnsubscribeContent = () => {
 			.then(() => setLoadingState(LoadingState.Success))
 			.catch(error => {
 				setLoadingState(LoadingState.Fail)
-				console.error(error)
+				handleError(error)
 			})
 	}, [uid, type, setLoadingState])
 	
