@@ -15,8 +15,16 @@
 	border-radius: 8px;
 	
 	> .top {
-		padding: 20px 30px;
+		padding: 20px;
 		background: linear-gradient(10deg, #5a2aff, #00e5f4);
+		
+		@media (min-width: 385px) {
+			padding: 20px 25px;
+		}
+		
+		@media (min-width: 400px) {
+			padding: 20px 30px;
+		}
 		
 		> .header {
 			display: flex;
@@ -26,8 +34,16 @@
 			
 			> .title {
 				margin-bottom: 4px;
-				font-size: 22px;
+				font-size: 18px;
 				font-weight: 900;
+				
+				@media (min-width: 345px) {
+					font-size: 20px;
+				}
+				
+				@media (min-width: 370px) {
+					font-size: 22px;
+				}
 				
 				@media (min-width: 420px) {
 					margin-bottom: 0;
@@ -40,9 +56,14 @@
 			}
 			
 			> .hide {
-				margin: 0 8px 0 20px;
-				transform: scale(2);
+				margin: 0 8px 0 12px;
+				transform: scale(1.7);
 				transition: opacity 0.3s;
+				
+				@media (min-width: 345px) {
+					margin: 0 8px 0 20px;
+					transform: scale(2);
+				}
 				
 				&:hover {
 					opacity: 0.5;
@@ -57,12 +78,20 @@
 			
 			> button {
 				padding: 0 10px 1px;
-				font-size: 20px;
+				font-size: 16px;
 				font-weight: 900;
 				color: white;
 				opacity: 0.8;
 				border-bottom: 2px solid transparent;
-				transition: opacity 0.3s, border-color 0.3s;
+				transition: font-size 0.3s, opacity 0.3s, border-color 0.3s;
+				
+				@media (min-width: 350px) {
+					font-size: 18px;
+				}
+				
+				@media (min-width: 370px) {
+					font-size: 20px;
+				}
 				
 				&.selected {
 					opacity: 1;
@@ -84,17 +113,32 @@
 	> form {
 		display: flex;
 		flex-direction: column;
-		padding: 30px;
+		padding: 4px 24px 20px;
+		overflow-y: auto;
+		
+		@media (min-height: 550px) {
+			padding: 8px 30px 30px;
+		}
+		
+		> label {
+			margin: 12px 0 8px;
+			font-weight: 900;
+			color: $dark-gray;
+			
+			> span {
+				opacity: 0.7;
+			}
+		}
 		
 		> input {
-			padding: 12px 30px;
+			padding: 8px 16px;
 			color: $dark-gray;
-			background: transparentize(#f0f1f8, 0.32);
-			border: none;
-			border-radius: 100px;
+			background: transparentize(#f0f1f8, 0.18);
+			border-radius: 8px;
 			
-			&:not(:first-child) {
-				margin-top: 12px;
+			@media (min-height: 550px) {
+				padding: 12px 20px;
+				border-radius: 15px;
 			}
 		}
 		
@@ -102,7 +146,11 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: flex-end;
-			margin-top: 24px;
+			margin-top: 16px;
+			
+			@media (min-height: 550px) {
+				margin-top: 24px;
+			}
 			
 			> button {
 				$small-dimension: 43px;

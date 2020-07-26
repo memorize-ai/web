@@ -113,8 +113,8 @@ const EditDeckContent = () => {
 				</Link>
 				<h1>Edit <span>{deck?.name ?? 'deck'}</span></h1>
 				<Button
-					loaderSize="16px"
-					loaderThickness="3px"
+					loaderSize="20px"
+					loaderThickness="4px"
 					loaderColor="#582efe"
 					loading={isLoading}
 					disabled={isDisabled}

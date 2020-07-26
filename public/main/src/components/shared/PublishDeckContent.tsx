@@ -1,13 +1,11 @@
 import React, { useEffect, useCallback, useMemo, memo } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignature, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Topic from '../../models/Topic'
 import ImagePicker from './ImagePicker'
-import Input from './Input'
-import TextArea from './TextArea'
 
 import '../../scss/components/PublishDeckContent.scss'
 
@@ -50,7 +48,7 @@ const PublishDeckContent = ({
 			setImage(acceptedFiles[0])
 	}, [acceptedFiles, setImage])
 	
-	const focusNameInput = useCallback((input: HTMLInputElement | null) => {
+	const onNameInputRef = useCallback((input: HTMLInputElement | null) => {
 		input?.focus()
 	}, [])
 	
@@ -69,29 +67,33 @@ const PublishDeckContent = ({
 			/>
 			<div className="right">
 				<div className="inputs">
-					<label>Name (eg. SAT Math Prep)</label>
-					<Input
-						ref={focusNameInput}
-						icon={faSignature}
-						type="name"
-						placeholder="Required"
+					<label htmlFor="publish-deck-name-input">
+						Name <span>(SAT Math Prep)</span>
+					</label>
+					<input
+						ref={onNameInputRef}
+						id="publish-deck-name-input"
+						placeholder="A good name shows your deck to more people"
 						value={name}
-						setValue={setName}
+						onChange={({ target: { value } }) => setName(value)}
 					/>
-					<label>Subtitle (eg. The best way to study for the SAT)</label>
-					<Input
-						icon={faSignature}
-						type="name"
-						placeholder="Optional"
+					<label htmlFor="publish-deck-subtitle-input">
+						Subtitle <span>(Trusted by over 1,000 memorize.ai users)</span>
+					</label>
+					<input
+						id="publish-deck-subtitle-input"
+						placeholder="Optional, but subtitles make your deck stand out"
 						value={subtitle}
-						setValue={setSubtitle}
+						onChange={({ target: { value } }) => setSubtitle(value)}
 					/>
-					<label>Description</label>
-					<TextArea
-						minHeight={100}
-						placeholder="Optional"
+					<label htmlFor="publish-deck-description-textarea">
+						Description
+					</label>
+					<textarea
+						id="publish-deck-description-textarea"
+						placeholder="Optional, but good descriptions often convince users to get your deck"
 						value={description}
-						setValue={setDescription}
+						onChange={({ target: { value } }) => setDescription(value)}
 					/>
 				</div>
 				{selectedTopics.length === 0 && (

@@ -152,24 +152,38 @@ const AuthModal = () => {
 			</div>
 			<form onSubmit={onSubmit}>
 				{mode === AuthenticationMode.SignUp && (
-					<input
-						ref={onNameRef}
-						type="name"
-						autoComplete="name"
-						placeholder="Name"
-						value={name}
-						onChange={({ target: { value } }) => setName(value)}
-					/>
+					<>
+						<label htmlFor="auth-modal-name-input">
+							Name
+						</label>
+						<input
+							ref={onNameRef}
+							id="auth-modal-name-input"
+							type="name"
+							autoComplete="name"
+							placeholder="John Smith"
+							value={name}
+							onChange={({ target: { value } }) => setName(value)}
+						/>
+					</>
 				)}
+				<label htmlFor="auth-modal-email-input">
+					Email
+				</label>
 				<input
 					ref={onEmailRef}
+					id="auth-modal-email-input"
 					type="email"
 					autoComplete="email"
-					placeholder="Email"
+					placeholder="name@example.com"
 					value={email}
 					onChange={({ target: { value } }) => setEmail(value)}
 				/>
+				<label htmlFor="auth-modal-password-input">
+					Password
+				</label>
 				<input
+					id="auth-modal-password-input"
 					type="password"
 					autoComplete={
 						`${mode === AuthenticationMode.SignUp
@@ -177,7 +191,7 @@ const AuthModal = () => {
 							: 'current'
 						}-password`
 					}
-					placeholder="Password"
+					placeholder="••••••"
 					value={password}
 					onChange={({ target: { value } }) => setPassword(value)}
 				/>
