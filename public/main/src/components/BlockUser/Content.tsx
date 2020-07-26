@@ -14,7 +14,7 @@ const analytics = firebase.analytics()
 const firestore = firebase.firestore()
 
 const BlockUserContent = () => {
-	const { to: toId, from: fromId } = useParams()
+	const { fromId, toId } = useParams()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	const [from, setFrom] = useState(null as User | null)

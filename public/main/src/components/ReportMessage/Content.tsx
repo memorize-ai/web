@@ -55,9 +55,9 @@ const RestrictContactContent = () => {
 	}, [fromId, toId, messageId, reason, setLoadingState])
 	
 	useEffect(() => {
-		firestore.doc(`users/${toId}`).get()
+		firestore.doc(`users/${fromId}`).get()
 			.then(snapshot => setUser(User.fromSnapshot(snapshot)))
-	}, [toId, setUser])
+	}, [fromId, setUser])
 	
 	return (
 		<ConfirmationForm
