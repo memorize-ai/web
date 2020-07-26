@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { DropzoneRootProps, DropzoneInputProps } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faTimesCircle, faImage } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Loader from './Loader'
@@ -42,8 +42,13 @@ const ImagePicker = (
 				)
 				: (
 					<div className="message">
-						<p>Choose image</p>
-						<p>Click or drag</p>
+						<FontAwesomeIcon icon={faImage} />
+						<p className="title">
+							Choose image
+						</p>
+						<p className="subtitle">
+							Click or drag
+						</p>
 					</div>
 				)
 		}

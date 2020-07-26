@@ -30,15 +30,22 @@
 		font-weight: 900;
 		text-align: center;
 		text-transform: uppercase;
+		color: $dark-gray;
 		
-		> p:first-child {
-			font-size: 1.1rem;
-			color: transparentize($dark-gray, 0.5);
+		> svg {
+			margin: 4px 0 12px;
+			opacity: 0.5;
+			transform: scale(2.5);
 		}
 		
-		> p:last-child {
-			font-size: 0.8rem;
-			color: transparentize($dark-gray, 0.7);
+		> .title {
+			font-size: 1.1em;
+			opacity: 0.5;
+		}
+		
+		> .subtitle {
+			font-size: 0.8em;
+			opacity: 0.3;
 		}
 	}
 	
