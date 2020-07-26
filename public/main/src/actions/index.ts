@@ -254,3 +254,10 @@ export const addCardsRemove = (id: string) => ({
 export const addCardsRemoveAll = () => ({
 	type: ActionType.AddCardsRemoveAll
 })
+
+// Contact User
+
+export const setContactUserLoadingState = (id: string, loadingState: LoadingState) => ({
+	type: ActionType.SetContactUserLoadingState,
+	payload: { id, loadingState }
+})

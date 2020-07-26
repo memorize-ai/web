@@ -56,7 +56,7 @@ export default onCall(async (data, { auth }) => {
 				to: {
 					name: to.name
 				},
-				block_url: `https://memorize.ai/block/${to.id}/${from.id}`,
+				block_url: `https://memorize.ai/block/${from.id}/${to.id}`,
 				report_url: `https://memorize.ai/report/${from.id}/${to.id}/message/${doc.id}`,
 				restrict_contact_url: `https://memorize.ai/restrict-contact/${to.id}`
 			}

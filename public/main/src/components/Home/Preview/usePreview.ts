@@ -1,10 +1,9 @@
 import { MouseEvent, useState, useMemo, useCallback, SetStateAction, useEffect, useRef } from 'react'
-import { toast } from 'react-toastify'
 
 import firebase from '../../../firebase'
 import PerformanceRating from '../../../models/PerformanceRating'
 import useAuthModal from '../../../hooks/useAuthModal'
-import { sleep } from '../../../utils'
+import { sleep, handleError } from '../../../utils'
 import deck from '../../../data/preview.json'
 
 import 'firebase/firestore'
@@ -280,10 +279,7 @@ export default () => {
 					value: relativeScore
 				})
 			})
-			.catch(error => {
-				console.error(error)
-				toast.error('Oh no! An error occurred.')
-			})
+			.catch(handleError)
 	}, [cards.length, predictionMultiplier, setRanking])
 	
 	return {

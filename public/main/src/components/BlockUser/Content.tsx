@@ -5,6 +5,7 @@ import firebase from '../../firebase'
 import User from '../../models/User'
 import LoadingState from '../../models/LoadingState'
 import ConfirmationForm from '../shared/ConfirmationForm'
+import { handleError } from '../../utils'
 
 import 'firebase/analytics'
 import 'firebase/firestore'
@@ -13,7 +14,7 @@ const analytics = firebase.analytics()
 const firestore = firebase.firestore()
 
 const BlockUserContent = () => {
-	const { to: toId, from: fromId } = useParams()
+	const { fromId, toId } = useParams()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	const [from, setFrom] = useState(null as User | null)
@@ -34,7 +35,7 @@ const BlockUserContent = () => {
 			.then(() => setLoadingState(LoadingState.Success))
 			.catch(error => {
 				setLoadingState(LoadingState.Fail)
-				console.error(error)
+				handleError(error)
 			})
 	}, [toId, fromId, setLoadingState])
 	

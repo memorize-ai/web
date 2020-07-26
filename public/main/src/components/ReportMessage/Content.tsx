@@ -6,6 +6,7 @@ import User from '../../models/User'
 import LoadingState from '../../models/LoadingState'
 import ConfirmationForm from '../shared/ConfirmationForm'
 import TextArea from '../shared/TextArea'
+import { handleError } from '../../utils'
 
 import 'firebase/analytics'
 import 'firebase/firestore'
@@ -49,14 +50,14 @@ const RestrictContactContent = () => {
 			.then(() => setLoadingState(LoadingState.Success))
 			.catch(error => {
 				setLoadingState(LoadingState.Fail)
-				console.error(error)
+				handleError(error)
 			})
 	}, [fromId, toId, messageId, reason, setLoadingState])
 	
 	useEffect(() => {
-		firestore.doc(`users/${toId}`).get()
+		firestore.doc(`users/${fromId}`).get()
 			.then(snapshot => setUser(User.fromSnapshot(snapshot)))
-	}, [toId, setUser])
+	}, [fromId, setUser])
 	
 	return (
 		<ConfirmationForm
