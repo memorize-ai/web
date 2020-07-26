@@ -105,8 +105,18 @@
 				border-radius: 100px;
 				transition: width 0.3s, background 0.3s, opacity 0.3s;
 				
-				&.loading {
+				&.loading,
+				&.success {
 					width: $small-dimension;
+				}
+				
+				&.success {
+					background: #00d388;
+					opacity: 1 !important;
+					
+					> svg {
+						transform: scale(1.1) translateY(1px);
+					}
 				}
 				
 				&.disabled {
