@@ -20,7 +20,7 @@
 			All rights reserved.
 		</mj-text>
 		<mj-text align="center" padding-top="24px">
-			Sent by {{from.email}}
+			Sent by <b>{{from.email}}</b>
 		</mj-text>
 	</mj-column>
 </mj-section>

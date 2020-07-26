@@ -35,7 +35,7 @@
 					Hello, {{to.name}}
 				</mj-text>
 				<mj-text font-size="16px" padding-top="12px">
-					{{from.name}} sent you a message
+					<b>{{from.name}}</b> sent you a message
 				</mj-text>
 			</mj-column>
 		</mj-section>
