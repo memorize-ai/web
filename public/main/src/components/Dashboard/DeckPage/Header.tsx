@@ -166,6 +166,8 @@ const DeckPageHeader = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) => 
 				</a>
 			</div>
 			<ContactUserModal
+				subjectPlaceholder={`I have a question about ${deck.name}`}
+				bodyPlaceholder={`Hi ${creator?.name ?? '...'}...`}
 				user={creator}
 				isShowing={isContactUserModalShowing}
 				setIsShowing={setIsContactUserModalShowing}
