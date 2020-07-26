@@ -179,6 +179,8 @@ export default class User implements UserData {
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
+		this.allowContact = snapshot.get('allowContact') ?? true
+		this.isMuted = snapshot.get('muted') ?? false
 		this.apiKey = snapshot.get('apiKey') ?? null
 		
 		this.numberOfDecks = snapshot.get('deckCount') ?? 0
