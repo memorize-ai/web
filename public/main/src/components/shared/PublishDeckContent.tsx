@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useMemo, memo } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignature, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Topic from '../../models/Topic'
