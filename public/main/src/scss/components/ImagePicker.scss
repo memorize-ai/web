@@ -11,7 +11,7 @@
 	width: $dimension;
 	height: $dimension;
 	cursor: pointer;
-	background: #eee;
+	background: #f0f1f8;
 	box-shadow:
 		0 0 15px -3px rgba(0, 0, 0, 0.1),
 		0 0 6px -2px rgba(0, 0, 0, 0.05);
@@ -22,7 +22,7 @@
 	
 	&,
 	> img {
-		border-radius: 12px;
+		border-radius: 15px;
 	}
 	
 	> .message {

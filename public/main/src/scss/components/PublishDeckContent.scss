@@ -23,19 +23,41 @@
 		flex-grow: 1;
 		align-self: stretch;
 		
-		> .inputs > label {
-			display: block;
-			margin-bottom: 6px;
-			font-weight: bold;
-			color: #9b9b9b;
+		> .inputs {
+			display: flex;
+			flex-direction: column;
+			margin-top: -24px;
 			
-			&:not(:first-child) {
-				margin-top: 20px;
+			> label {
+				margin: 24px 0 12px;
+				font-weight: 900;
+				color: $dark-gray;
+				
+				> span {
+					opacity: 0.7;
+				}
+			}
+			
+			> input,
+			> textarea {
+				color: $dark-gray;
+				background: transparentize(#f0f1f8, 0.18);
+				border-radius: 15px;
+			}
+			
+			> input {
+				padding: 12px 20px;
+			}
+			
+			> textarea {
+				min-height: 100px;
+				height: 150px;
+				padding: 16px 20px;
 			}
 		}
 		
 		> .no-topics-message {
-			margin-top: 8px;
+			margin-top: 24px;
 			font-weight: bold;
 			color: $red-600;
 		}
