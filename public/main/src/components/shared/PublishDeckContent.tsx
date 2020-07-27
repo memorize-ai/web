@@ -94,7 +94,7 @@ const PublishDeckContent = ({
 					</label>
 					<textarea
 						id="publish-deck-description-textarea"
-						placeholder="Optional, but good descriptions often convince users to get your deck"
+						placeholder="Optional, but add keywords to help expose your deck in search results"
 						value={description}
 						onChange={({ target: { value } }) => setDescription(value)}
 					/>
