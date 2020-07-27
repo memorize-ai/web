@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo, memo } from 'react'
+import React, { useEffect, useCallback, useMemo, PropsWithChildren } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -9,7 +9,7 @@ import ImagePicker from './ImagePicker'
 
 import '../../scss/components/PublishDeckContent.scss'
 
-export interface PublishDeckContentProps {
+export interface PublishDeckContentProps extends PropsWithChildren<{}> {
 	imageUrl: string | null
 	name: string
 	subtitle: string
@@ -36,7 +36,9 @@ const PublishDeckContent = ({
 	setName,
 	setSubtitle,
 	setDescription,
-	setSelectedTopics
+	setSelectedTopics,
+	
+	children
 }: PublishDeckContentProps) => {
 	const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone()
 	
@@ -66,6 +68,7 @@ const PublishDeckContent = ({
 				removeImage={removeImage}
 			/>
 			<div className="right">
+				{children}
 				<div className="inputs">
 					<label htmlFor="publish-deck-name-input">
 						Name <span>(SAT Math Prep)</span>
@@ -138,4 +141,4 @@ const PublishDeckContent = ({
 	)
 }
 
-export default memo(PublishDeckContent)
+export default PublishDeckContent
