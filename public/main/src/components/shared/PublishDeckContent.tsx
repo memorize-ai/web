@@ -96,7 +96,7 @@ const PublishDeckContent = ({
 						onChange={({ target: { value } }) => setDescription(value)}
 					/>
 				</div>
-				{selectedTopics.length === 0 && (
+				{!selectedTopics.length && (
 					<p className="no-topics-message">
 						You must select relevant topics for your deck to be recommended
 					</p>
