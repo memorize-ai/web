@@ -7,7 +7,7 @@ import cx from 'classnames'
 import firebase from '../../../firebase'
 import User from '../../../models/User'
 import LoadingState from '../../../models/LoadingState'
-import Modal from '.'
+import Modal, { ModalShowingProps } from '.'
 import Button from '../Button'
 import { sleep } from '../../../utils'
 
@@ -23,9 +23,7 @@ const ContactUserModal = (
 		subjectPlaceholder: string
 		bodyPlaceholder: string
 		user: User | null
-		isShowing: boolean
-		setIsShowing: (isShowing: boolean) => void
-	}
+	} & ModalShowingProps
 ) => {
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)

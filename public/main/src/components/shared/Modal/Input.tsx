@@ -1,12 +1,12 @@
 import React, { useCallback, memo } from 'react'
 
-import Modal from '../../shared/Modal'
+import Modal, { ModalShowingProps } from '../../shared/Modal'
 
 import { ReactComponent as TimesIcon } from '../../../images/icons/times.svg'
 
 import '../../../scss/components/Modal/Input.scss'
 
-export interface InputModalProps {
+export interface InputModalProps extends ModalShowingProps {
 	title: string
 	placeholder: string
 	buttonText: string
@@ -15,8 +15,6 @@ export interface InputModalProps {
 	setValue: (value: string) => void
 	onClick: () => void
 	isDisabled: boolean
-	isShowing: boolean
-	setIsShowing: (isShowing: boolean) => void
 }
 
 const InputModal = ({

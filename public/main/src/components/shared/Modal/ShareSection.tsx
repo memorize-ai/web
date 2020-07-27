@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { ModalShowingProps } from '.'
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import ShareModal from './Share'
@@ -8,9 +9,7 @@ const ShareSectionModal = (
 	{ deck, section, isShowing, setIsShowing }: {
 		deck: Deck
 		section: Section | null
-		isShowing: boolean
-		setIsShowing: (isShowing: boolean) => void
-	}
+	} & ModalShowingProps
 ) => (
 	<ShareModal
 		title="Share unlock link"

@@ -5,13 +5,12 @@ import Section from '../../../models/Section'
 import InputModal from './Input'
 import useSections from '../../../hooks/useSections'
 import { handleError } from '../../../utils'
+import { ModalShowingProps } from '.'
 
 const CreateSectionModal = (
 	{ deck, isShowing, setIsShowing }: {
 		deck: Deck
-		isShowing: boolean
-		setIsShowing: (isShowing: boolean) => void
-	}
+	} & ModalShowingProps
 ) => {
 	const sections = useSections(deck.id)
 	const [name, setName] = useState('')

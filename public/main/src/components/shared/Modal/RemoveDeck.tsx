@@ -1,13 +1,12 @@
 import React, { useCallback } from 'react'
 
+import { ModalShowingProps } from '.'
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import ConfirmationModal from './Confirmation'
 
-export interface RemoveDeckModalProps {
+export interface RemoveDeckModalProps extends ModalShowingProps {
 	deck: Deck | null
-	isShowing: boolean
-	setIsShowing: (isShowing: boolean) => void
 }
 
 const RemoveDeckModal = ({ deck, isShowing, setIsShowing }: RemoveDeckModalProps) => {
