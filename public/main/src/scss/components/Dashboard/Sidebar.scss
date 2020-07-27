@@ -210,7 +210,7 @@ $divider-color: transparentize(#ddd, 0.8);
 				> .slider {
 					width: 100%;
 					margin-right: 20px;
-					background: white;
+					background: transparentize(white, 0.9);
 					
 					&,
 					> div {
