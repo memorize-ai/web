@@ -60,6 +60,13 @@
 			margin-top: 24px;
 			font-weight: bold;
 			color: $red-600;
+			transition: margin-top 0.3s, opacity 0.3s;
+			
+			&[hidden] {
+				display: block;
+				margin-top: -6px;
+				opacity: 0;
+			}
 		}
 		
 		> .topics {

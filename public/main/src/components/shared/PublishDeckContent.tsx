@@ -96,11 +96,12 @@ const PublishDeckContent = ({
 						onChange={({ target: { value } }) => setDescription(value)}
 					/>
 				</div>
-				{!selectedTopics.length && (
-					<p className="no-topics-message">
-						You must select relevant topics for your deck to be recommended
-					</p>
-				)}
+				<p
+					className="no-topics-message"
+					hidden={selectedTopics.length > 0}
+				>
+					You must select relevant topics for your deck to be recommended
+				</p>
 				<div className="topics" {...Topic.schemaProps}>
 					{topics?.map((topic, i) => {
 						const isSelected = selectedTopics.includes(topic.id)

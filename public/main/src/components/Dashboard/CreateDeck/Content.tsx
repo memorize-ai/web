@@ -141,6 +141,8 @@ const CreateDeckContent = () => {
 			<div className="content">
 				<div className="box">
 					<PublishDeckContent
+						
+						
 						imageUrl={imageUrl.current}
 						name={name}
 						subtitle={subtitle}
