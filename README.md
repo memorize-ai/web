@@ -1,10 +1,10 @@
 # [memorize.ai](https://memorize.ai)
 
-![Deploy](https://github.com/kenmueller/memorize.ai-web/workflows/Deploy/badge.svg)
+![Deploy](https://github.com/memorize-ai/web/workflows/Deploy/badge.svg)
 
 **memorize.ai Website**
 
-Also see [the iOS repository](https://github.com/kenmueller/memorize.ai-ios)
+Also see [the iOS repository](https://github.com/memorize-ai/ios)
 
 ## Get started
 
@@ -13,13 +13,13 @@ Also see [the iOS repository](https://github.com/kenmueller/memorize.ai-ios)
 #### Production
 
 ```bash
-git clone https://github.com/kenmueller/memorize.ai-web.git
+git clone https://github.com/memorize-ai/web.git
 ```
 
 #### Development (to contribute)
 
 ```bash
-git clone -b staging https://github.com/kenmueller/memorize.ai-web.git
+git clone -b staging https://github.com/memorize-ai/web.git
 ```
 
 ### Install dependencies
@@ -60,7 +60,7 @@ npm start
 
 ## Notes
 
-- Does not include AI algorithm
+- Does not include AI algorithm (closed source)
 - Performance rating encoding:
     - `Easy: 0`
     - `Struggled: 1`
