@@ -1,3 +1,62 @@
 .import-deck-buttons {
+	display: flex;
+	flex-direction: column;
+	width: max-content;
+	margin: 0 auto 20px;
 	
+	@media (min-width: 415px) {
+		flex-direction: row;
+	}
+	
+	@media (min-width: 1150px) {
+		margin: 0 0 20px;
+	}
+	
+	> button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 8px 12px;
+		font-weight: 900;
+		color: white;
+		background: #4355f9;
+		border-radius: 8px;
+		transition: background 0.3s;
+		
+		@media (min-width: 480px) {
+			padding: 8px 20px;
+		}
+		
+		> svg {
+			margin-right: 8px;
+			transform: translateY(-1px);
+			
+			@media (min-width: 445px) {
+				margin-right: 12px;
+				transform: scale(1.2);
+			}
+		}
+		
+		> p {
+			font-size: 14px;
+			
+			@media (min-width: 445px) {
+				font-size: 16px;
+			}
+		}
+		
+		&:hover,
+		&:focus {
+			background: #f85ea1;
+		}
+		
+		&:not(:last-child) {
+			margin-bottom: 12px;
+			
+			@media (min-width: 415px) {
+				margin-right: 12px;
+				margin-bottom: 0;
+			}
+		}
+	}
 }
