@@ -28,6 +28,7 @@ $divider-color: transparentize(#ddd, 0.8);
 	
 	> .top {
 		grid-area: top;
+		margin-bottom: 12px;
 		
 		> a {
 			$left-margin: 12px;
@@ -86,6 +87,10 @@ $divider-color: transparentize(#ddd, 0.8);
 		
 		> div {
 			margin-top: 16px;
+			
+			&:first-child {
+				margin-top: 4px;
+			}
 			
 			> p {
 				margin: 0 20px 8px 20px;
