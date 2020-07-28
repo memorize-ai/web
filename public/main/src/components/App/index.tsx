@@ -1,8 +1,9 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
 
 import Root from './Root'
+import ToastPortal from './ToastPortal'
+
 import Home from '../Home'
 
 import Privacy from '../Privacy'
@@ -31,8 +32,6 @@ import RestrictContact from '../RestrictContact'
 import CatchAll from '../404'
 
 import AuthModal from '../shared/Modal/Auth'
-
-import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => (
 	<BrowserRouter>
@@ -97,7 +96,7 @@ const App = () => (
 			<Route status={404} component={CatchAll} />
 		</Switch>
 		<AuthModal />
-		<ToastContainer />
+		<ToastPortal />
 	</BrowserRouter>
 )
 
