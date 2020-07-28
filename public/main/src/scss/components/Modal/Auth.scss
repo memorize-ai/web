@@ -120,8 +120,35 @@
 			padding: 8px 30px 30px;
 		}
 		
-		> label {
+		> .header {
 			margin: 12px 0 8px;
+			
+			&.row {
+				display: flex;
+				align-items: flex-end;
+				
+				> label {
+					flex-grow: 1;
+				}
+			}
+			
+			> .forgot-password-button {
+				font-size: 15px;
+				font-weight: bold;
+				color: #5a2aff;
+				
+				&:disabled {
+					margin-right: 12px;
+					cursor: default;
+				}
+				
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+		
+		label {
 			font-weight: 900;
 			color: $dark-gray;
 			
