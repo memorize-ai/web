@@ -141,10 +141,10 @@ const AuthModal = () => {
 		}
 	}, [currentUser, isShowing, callback, setCallback, setIsShowing])
 	
-	// Clear the error message when you change the authentication mode
+	// Clear the error message when you change the state
 	useEffect(() => {
 		setErrorMessage(null)
-	}, [mode, setErrorMessage])
+	}, [name, email, password, mode, isShowing, setErrorMessage])
 	
 	return (
 		<Modal
