@@ -1,4 +1,8 @@
+import * as admin from 'firebase-admin'
 import * as get from 'user-request'
+
+import Deck from '../Deck'
+import User from '../User'
 
 interface RawPageDataTerm {
 	id: number
@@ -22,6 +26,8 @@ interface RawPageData {
 const RAW_URL_REGEX = /^(?:https?:\/\/)?quizlet\.com\/(\d+?)\/([^\/]+?)\/?$/i
 const PAGE_DATA_REGEX = /<script\sid=".+?">\(function\(\)\{window\.Quizlet\["setPageData"\]\s=\s(\{.+?\});\sQLoad\("Quizlet.setPageData"\);\}\)\.call\(this\);/i
 
+const firestore = admin.firestore()
+
 const normalizeUrl = (url: string) => {
 	const [, id, slug] = url.match(RAW_URL_REGEX) ?? []
 	
@@ -30,21 +36,23 @@ const normalizeUrl = (url: string) => {
 		: null
 }
 
-const getPage = async (_url: string) => {
-	const url = normalizeUrl(_url)
+export const getPage = async (rawUrl: string) => {
+	const url = normalizeUrl(rawUrl)
 	
 	return url
 		? { url, response: await get(url) }
 		: null
 }
 
-const getPageData = (html: string) => {
+export const getPageData = (html: string) => {
 	const rawData = html.match(PAGE_DATA_REGEX)?.[1]
 	
 	try {
-		const data: RawPageData = JSON.parse(rawData)
+		const data = rawData
+			? JSON.parse(rawData) as RawPageData
+			: null
 		
-		return {
+		return data && {
 			id: data.set.id.toString(),
 			name: data.set.title,
 			cards: data.originalOrder.map(id => {
@@ -59,6 +67,52 @@ const getPageData = (html: string) => {
 					backAudioUrl: term._definitionAudioUrl
 				}
 			})
+		}
+	} catch {
+		return null
+	}
+}
+
+export const isExistingDeckFromOriginalId = async (id: string) => {
+	try {
+		const { docs } = await firestore
+			.collection('decks')
+			.where('source', '==', 'quizlet')
+			.where('originalId', '==', id)
+			.limit(1)
+			.get()
+		
+		const snapshot = docs[0]
+		
+		if (!snapshot)
+			return null
+		
+		const deck = new Deck(snapshot)
+		const user = await User.fromId(deck.creatorId)
+		
+		return {
+			user: {
+				id: user.id,
+				name: user.name
+			},
+			url: deck.url
+		}
+	} catch {
+		return null
+	}
+}
+
+export const isExistingDeckFromId = async (id: string) => {
+	try {
+		const deck = await Deck.fromId(id)
+		const user = await User.fromId(deck.creatorId)
+		
+		return {
+			user: {
+				id: user.id,
+				name: user.name
+			},
+			url: deck.url
 		}
 	} catch {
 		return null
