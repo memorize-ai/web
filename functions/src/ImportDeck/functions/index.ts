@@ -1,1 +1,1 @@
-export { default as getImportDeckQuizletData } from './getImportDeckQuizletData'
+export { default as getImportDeckDataFromQuizlet } from './getImportDeckDataFromQuizlet'
