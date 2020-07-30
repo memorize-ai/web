@@ -11,6 +11,7 @@
 	left: 0;
 	pointer-events: none;
 	z-index: $modal-z-index;
+	will-change: background;
 	transition: background 0.3s;
 	
 	&.showing {
@@ -26,6 +27,7 @@
 	> .content {
 		opacity: 0;
 		transform: translateY(-100px);
+		will-change: opacity, transform;
 		transition: opacity 0.3s, transform 0.3s;
 	}
 }
