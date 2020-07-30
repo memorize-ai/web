@@ -117,6 +117,8 @@
 			"creator": "ada3a8B", // (String) The uid of the creator of this deck
 			"created": "DATE", // (Date) The date that this deck was created
 			"updated": "DATE", // (Date) The last date that this deck was updated on
+			"source": "quizlet", // (String?) The source of this deck
+			"originalId": "1439518", // (String?) The original ID of this deck if it was imported
 			"currentUsers (collection)": {
 				"f3adD8ag (document)": {} // User ID
 			},
