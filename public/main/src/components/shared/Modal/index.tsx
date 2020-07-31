@@ -5,14 +5,23 @@ import useKeyPress from '../../../hooks/useKeyPress'
 
 import '../../../scss/components/Modal/index.scss'
 
-const Modal = (
-	{ className, isLazy, isShowing, setIsShowing, children }: PropsWithChildren<{
-		className?: string
-		isLazy: boolean
-		isShowing: boolean
-		setIsShowing: (isShowing: boolean) => void
-	}>
-) => {
+export interface ModalShowingProps {
+	isShowing: boolean
+	setIsShowing: (isShowing: boolean) => void
+}
+
+export interface ModalProps extends ModalShowingProps {
+	className?: string
+	isLazy: boolean
+}
+
+const Modal = ({
+	className,
+	isLazy,
+	isShowing,
+	setIsShowing,
+	children
+}: PropsWithChildren<ModalProps>) => {
 	const element = useRef(document.createElement('div'))
 	const content = useRef(null as HTMLDivElement | null)
 	

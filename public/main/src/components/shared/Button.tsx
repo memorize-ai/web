@@ -1,9 +1,9 @@
-import React, { PropsWithChildren } from 'react'
+import React, { ButtonHTMLAttributes, PropsWithChildren } from 'react'
 import cx from 'classnames'
 
 import Loader from './Loader'
 
-export interface ButtonProps {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	loaderSize?: string
 	loaderThickness?: string
 	loaderColor?: string
@@ -21,7 +21,7 @@ const Button = ({
 	onClick,
 	children,
 	...props
-}: PropsWithChildren<ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>>) => (
+}: PropsWithChildren<ButtonProps>) => (
 	<button
 		{...props}
 		className={cx(className, { loading, disabled })}

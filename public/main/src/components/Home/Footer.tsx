@@ -36,7 +36,7 @@ const HomeFooter = () => (
 					</a>
 					<div className="divider" />
 					<a
-						href="https://github.com/kenmueller/memorize.ai-web"
+						href="https://github.com/memorize-ai"
 						target="_blank"
 						rel="noopener noreferrer nofollow"
 					>

@@ -69,7 +69,7 @@
 		> .title {
 			font-size: 20px;
 			line-height: 26px;
-			color: #572efe;
+			color: #582efe;
 			
 			@include title($screen-width: 300px, $font-size: 22px);
 			@include title($screen-width: 370px, $font-size: 26px);

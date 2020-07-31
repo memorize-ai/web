@@ -28,6 +28,7 @@
 		"prerender-node": "^3.2.5",
 		"string-strip-html": "^4.5.0",
 		"twitter": "^1.7.1",
+		"user-request": "^1.0.1",
 		"uuid": "^3.4.0"
 	},
 	"devDependencies": {

@@ -18,6 +18,7 @@ import {
 import Head from '../../shared/Head'
 import PublishDeckContent from '../../shared/PublishDeckContent'
 import Button from '../../shared/Button'
+// import ImportDeckButtons from '../../shared/ImportDeckButtons'
 import { compose, handleError } from '../../../utils'
 
 import '../../../scss/components/Dashboard/CreateDeck.scss'
@@ -153,7 +154,9 @@ const CreateDeckContent = () => {
 						setSubtitle={setSubtitle}
 						setDescription={setDescription}
 						setSelectedTopics={setSelectedTopics}
-					/>
+					>
+						{/* <ImportDeckButtons /> */}
+					</PublishDeckContent>
 				</div>
 			</div>
 		</>

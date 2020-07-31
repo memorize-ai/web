@@ -28,6 +28,7 @@ $divider-color: transparentize(#ddd, 0.8);
 	
 	> .top {
 		grid-area: top;
+		margin-bottom: 12px;
 		
 		> a {
 			$left-margin: 12px;
@@ -86,6 +87,10 @@ $divider-color: transparentize(#ddd, 0.8);
 		
 		> div {
 			margin-top: 16px;
+			
+			&:first-child {
+				margin-top: 4px;
+			}
 			
 			> p {
 				margin: 0 20px 8px 20px;
@@ -203,18 +208,20 @@ $divider-color: transparentize(#ddd, 0.8);
 				align-items: center;
 				
 				> .slider {
+					$height: 12px;
+					
 					width: 100%;
 					margin-right: 20px;
-					background: white;
+					background: transparentize(white, 0.9);
 					
 					&,
 					> div {
-						height: 12px;
-						border-radius: 6px;
+						height: $height;
+						border-radius: $height / 2;
 					}
 					
 					> div {
-						background: #582efe;
+						background: #00d388;
 						transition: width 0.3s ease-in-out;
 					}
 				}

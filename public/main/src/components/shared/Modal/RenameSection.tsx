@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 
+import { ModalShowingProps } from '.'
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
 import InputModal from './Input'
@@ -9,9 +10,7 @@ const RenameSectionModal = (
 	{ deck, section, isShowing, setIsShowing }: {
 		deck: Deck
 		section: Section | null
-		isShowing: boolean
-		setIsShowing: (isShowing: boolean) => void
-	}
+	} & ModalShowingProps
 ) => {
 	const [name, setName] = useState('')
 	

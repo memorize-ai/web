@@ -43,6 +43,18 @@
 		@include gradient-height(730px);
 	}
 	
+	@media (min-width: 2000px) {
+		@include gradient-height(760px);
+	}
+	
+	@media (min-width: 2400px) {
+		@include gradient-height(820px);
+	}
+	
+	@media (min-width: 2800px) {
+		@include gradient-height(860px);
+	}
+	
 	&,
 	> .background {
 		transition: 0.3s height;

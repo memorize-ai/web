@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faLink } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import Modal from '.'
+import Modal, { ModalShowingProps } from '.'
 
 import '../../../scss/components/Modal/Share.scss'
 
@@ -13,9 +13,7 @@ const ShareModal = (
 		title: string
 		message?: ReactNode
 		url: string
-		isShowing: boolean
-		setIsShowing: (isShowing: boolean) => void
-	}
+	} & ModalShowingProps
 ) => {
 	const { copy } = useClipboard()
 	const [didCopy, setDidCopy] = useState(false)

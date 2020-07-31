@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { ModalShowingProps } from '.'
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import ShareModal from './Share'
@@ -7,9 +8,7 @@ import ShareModal from './Share'
 const ShareDeckModal = (
 	{ deck, isShowing, setIsShowing }: {
 		deck: Deck
-		isShowing: boolean
-		setIsShowing: (isShowing: boolean) => void
-	}
+	} & ModalShowingProps
 ) => {
 	const [currentUser] = useCurrentUser()
 	

@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, FormEvent, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { faApple } from '@fortawesome/free-brands-svg-icons'
+import { toast } from 'react-toastify'
 import cx from 'classnames'
 
 import firebase from '../../../firebase'
@@ -12,7 +12,9 @@ import useAuthModal from '../../../hooks/useAuthModal'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import Modal from '.'
 import Button from '../Button'
-import { IS_IOS, APP_STORE_URL } from '../../../constants'
+import { EMAIL_REGEX, IS_IOS, APP_STORE_URL } from '../../../constants'
+
+import { ReactComponent as GoogleIcon } from '../../../images/icons/google.svg'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -23,6 +25,12 @@ import '../../../scss/components/Modal/Auth.scss'
 const auth = firebase.auth()
 const firestore = firebase.firestore()
 const analytics = firebase.analytics()
+
+auth.useDeviceLanguage()
+
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
+
+googleAuthProvider.addScope('https://www.googleapis.com/auth/userinfo.email')
 
 const AuthModal = () => {
 	const history = useHistory()
@@ -39,6 +47,7 @@ const AuthModal = () => {
 	} = useAuthModal()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
+	const [forgotPasswordLoadingState, setForgotPasswordLoadingState] = useState(LoadingState.None)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
 	
 	const [name, setName] = useState('')
@@ -82,7 +91,10 @@ const AuthModal = () => {
 					})
 					
 					if (!callback)
-						history.push('/interests')
+						if (IS_IOS)
+							window.location.href = APP_STORE_URL
+						else
+							history.push('/interests')
 					
 					break
 			}
@@ -104,6 +116,80 @@ const AuthModal = () => {
 			input[isShowing ? 'focus' : 'blur']()
 	}, [mode, isShowing])
 	
+	const forgotPassword = useCallback(async () => {
+		try {
+			if (!email)
+				throw new Error('Enter your email')
+			
+			if (!EMAIL_REGEX.test(email))
+				throw new Error('Invalid email')
+			
+			analytics.logEvent('forgot-password', { email })
+			setForgotPasswordLoadingState(LoadingState.Loading)
+			setErrorMessage(null)
+			
+			await auth.sendPasswordResetEmail(email)
+			
+			toast.success('Sent! Check your email')
+			setForgotPasswordLoadingState(LoadingState.Success)
+		} catch (error) {
+			console.error(error)
+			setForgotPasswordLoadingState(LoadingState.Fail)
+			setErrorMessage(error.message)
+		}
+	}, [email, setForgotPasswordLoadingState, setErrorMessage])
+	
+	const logInWithGoogle = useCallback(async () => {
+		try {
+			analytics.logEvent('sign_up', { method: 'google', component: 'Auth' })
+			
+			setLoadingState(LoadingState.None)
+			setErrorMessage(null)
+			
+			const {
+				user,
+				additionalUserInfo
+			} = await auth.signInWithPopup(googleAuthProvider)
+			
+			if (!(user && additionalUserInfo))
+				throw new Error('An unknown error occurred. Please try again')
+			
+			if (!user.email)
+				throw new Error('Unable to get your email address')
+			
+			if (!additionalUserInfo.isNewUser)
+				return
+			
+			setLoadingState(LoadingState.Loading)
+			
+			await firestore.doc(`users/${user.uid}`).set({
+				name: user.displayName ?? 'Anonymous',
+				email: user.email,
+				source: 'web',
+				xp: initialXp,
+				joined: firebase.firestore.FieldValue.serverTimestamp()
+			})
+		
+			if (!callback)
+				if (IS_IOS)
+					window.location.href = APP_STORE_URL
+				else
+					history.push('/interests')
+			
+			setLoadingState(LoadingState.Success)
+		} catch (error) {
+			if (error.code === 'auth/popup-closed-by-user') {
+				setLoadingState(LoadingState.None)
+				setErrorMessage(null)
+				return
+			}
+			
+			console.error(error)
+			setLoadingState(LoadingState.Fail)
+			setErrorMessage(error.message)
+		}
+	}, [setLoadingState, setErrorMessage, initialXp, callback, history])
+	
 	useEffect(() => {
 		if (!(currentUser && isShowing))
 			return
@@ -115,6 +201,11 @@ const AuthModal = () => {
 			callback(currentUser)
 		}
 	}, [currentUser, isShowing, callback, setCallback, setIsShowing])
+	
+	// Clear the error message when you change the state
+	useEffect(() => {
+		setErrorMessage(null)
+	}, [name, email, password, mode, isShowing, setErrorMessage])
 	
 	return (
 		<Modal
@@ -153,12 +244,13 @@ const AuthModal = () => {
 			<form onSubmit={onSubmit}>
 				{mode === AuthenticationMode.SignUp && (
 					<>
-						<label htmlFor="auth-modal-name-input">
+						<label className="header" htmlFor="auth-modal-name-input">
 							Name
 						</label>
 						<input
 							ref={onNameRef}
 							id="auth-modal-name-input"
+							required
 							type="name"
 							autoComplete="name"
 							placeholder="John Smith"
@@ -167,23 +259,42 @@ const AuthModal = () => {
 						/>
 					</>
 				)}
-				<label htmlFor="auth-modal-email-input">
+				<label className="header" htmlFor="auth-modal-email-input">
 					Email
 				</label>
 				<input
 					ref={onEmailRef}
 					id="auth-modal-email-input"
+					required
 					type="email"
 					autoComplete="email"
 					placeholder="name@example.com"
 					value={email}
 					onChange={({ target: { value } }) => setEmail(value)}
 				/>
-				<label htmlFor="auth-modal-password-input">
-					Password
-				</label>
+				<div className="header row">
+					<label htmlFor="auth-modal-password-input">
+						Password
+					</label>
+					{mode === AuthenticationMode.LogIn && (
+						<Button
+							type="button"
+							className="forgot-password-button"
+							loaderSize="20px"
+							loaderThickness="4px"
+							loaderColor="#5a2aff"
+							loading={forgotPasswordLoadingState === LoadingState.Loading}
+							disabled={false}
+							onClick={forgotPassword}
+							tabIndex={-1}
+						>
+							Forgot password?
+						</Button>
+					)}
+				</div>
 				<input
 					id="auth-modal-password-input"
+					required
 					type="password"
 					autoComplete={
 						`${mode === AuthenticationMode.SignUp
@@ -197,7 +308,7 @@ const AuthModal = () => {
 				/>
 				<div className="footer">
 					<Button
-						type="submit"
+						className="submit-button"
 						loaderSize="20px"
 						loaderThickness="4px"
 						loaderColor="white"
@@ -212,18 +323,16 @@ const AuthModal = () => {
 								{errorMessage}
 							</p>
 						)
-						: IS_IOS
-							? (
-								<a
-									className="app-store"
-									href={APP_STORE_URL}
-									rel="nofollow noreferrer noopener"
-								>
-									<FontAwesomeIcon icon={faApple} />
-									<p>Download</p>
-								</a>
-							)
-							: null
+						: (
+							<button
+								type="button"
+								className="google-auth-button"
+								onClick={logInWithGoogle}
+							>
+								<GoogleIcon />
+								<p>Log in with Google</p>
+							</button>
+						)
 					}
 				</div>
 			</form>

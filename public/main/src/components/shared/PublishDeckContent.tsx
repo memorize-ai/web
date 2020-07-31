@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo, memo } from 'react'
+import React, { useEffect, useCallback, useMemo, PropsWithChildren } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -9,7 +9,7 @@ import ImagePicker from './ImagePicker'
 
 import '../../scss/components/PublishDeckContent.scss'
 
-export interface PublishDeckContentProps {
+export interface PublishDeckContentProps extends PropsWithChildren<{}> {
 	imageUrl: string | null
 	name: string
 	subtitle: string
@@ -36,7 +36,9 @@ const PublishDeckContent = ({
 	setName,
 	setSubtitle,
 	setDescription,
-	setSelectedTopics
+	setSelectedTopics,
+	
+	children
 }: PublishDeckContentProps) => {
 	const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone()
 	
@@ -66,6 +68,7 @@ const PublishDeckContent = ({
 				removeImage={removeImage}
 			/>
 			<div className="right">
+				{children}
 				<div className="inputs">
 					<label htmlFor="publish-deck-name-input">
 						Name <span>(SAT Math Prep)</span>
@@ -91,16 +94,17 @@ const PublishDeckContent = ({
 					</label>
 					<textarea
 						id="publish-deck-description-textarea"
-						placeholder="Optional, but good descriptions often convince users to get your deck"
+						placeholder="Optional, but add keywords to help expose your deck in search results"
 						value={description}
 						onChange={({ target: { value } }) => setDescription(value)}
 					/>
 				</div>
-				{selectedTopics.length === 0 && (
-					<p className="no-topics-message">
-						You must select relevant topics for your deck to be recommended
-					</p>
-				)}
+				<p
+					className="no-topics-message"
+					hidden={selectedTopics.length > 0}
+				>
+					You must select relevant topics for your deck to be recommended
+				</p>
 				<div className="topics" {...Topic.schemaProps}>
 					{topics?.map((topic, i) => {
 						const isSelected = selectedTopics.includes(topic.id)
@@ -137,4 +141,4 @@ const PublishDeckContent = ({
 	)
 }
 
-export default memo(PublishDeckContent)
+export default PublishDeckContent

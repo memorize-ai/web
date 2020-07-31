@@ -1,6 +1,6 @@
 import React, { ReactNode, memo } from 'react'
 
-import Modal from '.'
+import Modal, { ModalShowingProps } from '.'
 
 import { ReactComponent as TimesIcon } from '../../../images/icons/times.svg'
 
@@ -13,9 +13,7 @@ const ConfirmationModal = (
 		onConfirm: () => void
 		buttonText: string
 		buttonBackground: string
-		isShowing: boolean
-		setIsShowing: (isShowing: boolean) => void
-	}
+	} & ModalShowingProps
 ) => (
 	<Modal
 		className="confirmation"

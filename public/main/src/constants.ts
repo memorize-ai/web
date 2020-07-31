@@ -23,3 +23,5 @@ export const EMOJIS = ['😃', '😇', '😌', '😘', '🥳', '💪']
 export const DEFAULT_DECK_COUNT = '47k'
 
 export const FIRESTORE_BATCH_LIMIT = 500
+
+export const EMAIL_REGEX = /^.+?@.+?\..{2,}$/
