@@ -170,6 +170,8 @@
 		}
 		
 		> .footer {
+			$height: 43px;
+			
 			display: flex;
 			justify-content: space-between;
 			align-items: flex-end;
@@ -179,15 +181,13 @@
 				margin-top: 24px;
 			}
 			
-			> button {
-				$small-dimension: 43px;
-				
+			> .submit-button {
 				flex-shrink: 0;
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				width: 112px;
-				height: $small-dimension;
+				height: $height;
 				font-size: 18px;
 				font-weight: 900;
 				color: white;
@@ -196,7 +196,7 @@
 				transition: width 0.3s, background 0.3s, opacity 0.3s;
 				
 				&.loading {
-					width: $small-dimension;
+					width: $height;
 				}
 				
 				&.disabled {
@@ -214,27 +214,30 @@
 				color: $red-600;
 			}
 			
-			> .app-store {
+			> .google-auth-button {
 				display: flex;
 				align-items: center;
-				padding: 8px 10px;
-				color: $dark-gray;
-				background: transparentize(#f0f1f8, 0.32);
+				height: $height;
+				padding: 8px 16px;
+				color: white;
+				background: #051e34;
 				border-radius: 8px;
-				transition: background 0.3s;
+				transition: color 0.3s, background 0.3s;
 				
 				> svg {
-					margin: 0 12px 0 4px;
-					transform: scale(1.5) translateY(-0.5px);
+					flex-shrink: 0;
+					height: 100%;
+					margin-right: 12px;
 				}
 				
 				> p {
-					font-weight: bold;
+					font-weight: 900;
 				}
 				
 				&:hover,
 				&:focus {
-					background: #f0f1f8;
+					color: $dark-gray;
+					background: transparentize(#f0f1f8, 0.18);
 				}
 			}
 		}

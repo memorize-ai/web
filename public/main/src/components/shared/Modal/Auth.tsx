@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect, FormEvent, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { faApple } from '@fortawesome/free-brands-svg-icons'
 import { toast } from 'react-toastify'
 import cx from 'classnames'
 
@@ -14,6 +13,8 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import Modal from '.'
 import Button from '../Button'
 import { EMAIL_REGEX, IS_IOS, APP_STORE_URL } from '../../../constants'
+
+import { ReactComponent as GoogleIcon } from '../../../images/icons/google.svg'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -84,7 +85,10 @@ const AuthModal = () => {
 					})
 					
 					if (!callback)
-						history.push('/interests')
+						if (IS_IOS)
+							window.location.href = APP_STORE_URL
+						else
+							history.push('/interests')
 					
 					break
 			}
@@ -128,6 +132,10 @@ const AuthModal = () => {
 			setErrorMessage(error.message)
 		}
 	}, [email, setForgotPasswordLoadingState, setErrorMessage])
+	
+	const logInWithGoogle = useCallback(() => {
+		
+	}, [])
 	
 	useEffect(() => {
 		if (!(currentUser && isShowing))
@@ -247,6 +255,7 @@ const AuthModal = () => {
 				/>
 				<div className="footer">
 					<Button
+						className="submit-button"
 						loaderSize="20px"
 						loaderThickness="4px"
 						loaderColor="white"
@@ -261,18 +270,16 @@ const AuthModal = () => {
 								{errorMessage}
 							</p>
 						)
-						: IS_IOS
-							? (
-								<a
-									className="app-store"
-									href={APP_STORE_URL}
-									rel="nofollow noreferrer noopener"
-								>
-									<FontAwesomeIcon icon={faApple} />
-									<p>Download</p>
-								</a>
-							)
-							: null
+						: (
+							<button
+								type="button"
+								className="google-auth-button"
+								onClick={logInWithGoogle}
+							>
+								<GoogleIcon />
+								<p>Log in with Google</p>
+							</button>
+						)
 					}
 				</div>
 			</form>
