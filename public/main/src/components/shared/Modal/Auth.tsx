@@ -225,6 +225,7 @@ const AuthModal = () => {
 							loading={forgotPasswordLoadingState === LoadingState.Loading}
 							disabled={false}
 							onClick={forgotPassword}
+							tabIndex={-1}
 						>
 							Forgot password?
 						</Button>
