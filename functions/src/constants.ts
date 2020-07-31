@@ -14,3 +14,5 @@ export const PRERENDER_TOKEN: string = config.prerender.token
 export const SENDGRID_API_KEY: string = config.sendgrid.api_key
 
 export const SUPPORT_EMAIL = 'support@memorize.ai'
+
+export const SLACK_INVITE_URL = 'https://join.slack.com/t/memorizeai/shared_invite/zt-fonasrkz-~lttgde~yDum5IMiAydXNQ'
