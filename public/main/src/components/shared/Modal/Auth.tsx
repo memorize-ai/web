@@ -26,6 +26,12 @@ const auth = firebase.auth()
 const firestore = firebase.firestore()
 const analytics = firebase.analytics()
 
+auth.useDeviceLanguage()
+
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
+
+googleAuthProvider.addScope('https://www.googleapis.com/auth/userinfo.email')
+
 const AuthModal = () => {
 	const history = useHistory()
 	
@@ -133,9 +139,55 @@ const AuthModal = () => {
 		}
 	}, [email, setForgotPasswordLoadingState, setErrorMessage])
 	
-	const logInWithGoogle = useCallback(() => {
+	const logInWithGoogle = useCallback(async () => {
+		try {
+			analytics.logEvent('sign_up', { method: 'google', component: 'Auth' })
+			
+			setLoadingState(LoadingState.None)
+			setErrorMessage(null)
+			
+			const {
+				user,
+				additionalUserInfo
+			} = await auth.signInWithPopup(googleAuthProvider)
+			
+			if (!(user && additionalUserInfo))
+				throw new Error('An unknown error occurred. Please try again')
+			
+			if (!user.email)
+				throw new Error('Unable to get your email address')
+			
+			if (!additionalUserInfo.isNewUser)
+				return
+			
+			setLoadingState(LoadingState.Loading)
+			
+			await firestore.doc(`users/${user.uid}`).set({
+				name: user.displayName ?? 'Anonymous',
+				email: user.email,
+				source: 'web',
+				xp: initialXp,
+				joined: firebase.firestore.FieldValue.serverTimestamp()
+			})
 		
-	}, [])
+			if (!callback)
+				if (IS_IOS)
+					window.location.href = APP_STORE_URL
+				else
+					history.push('/interests')
+			
+			setLoadingState(LoadingState.Success)
+		} catch (error) {
+			if (error.code === 'auth/popup-closed-by-user') {
+				setLoadingState(LoadingState.None)
+				return
+			}
+			
+			console.error(error)
+			setLoadingState(LoadingState.Fail)
+			setErrorMessage(error.message)
+		}
+	}, [setLoadingState, setErrorMessage, initialXp, callback, history])
 	
 	useEffect(() => {
 		if (!(currentUser && isShowing))
