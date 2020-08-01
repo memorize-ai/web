@@ -5,7 +5,7 @@ import {
 	getPageData,
 	isExistingDeckFromOriginalId,
 	isExistingDeckFromId
-} from '../quizlet'
+} from '../quizlet/meta'
 
 const { onCall, HttpsError } = https
 

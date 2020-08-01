@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin'
-import { v4 as uuid } from 'uuid'
+import * as uuid from 'uuid/v4'
 
 import { sendEmail, EmailTemplate, EmailUser, DEFAULT_FROM } from '../Email'
 

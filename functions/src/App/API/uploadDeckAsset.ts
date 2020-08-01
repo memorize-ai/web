@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin'
 import { Express } from 'express'
-import { v4 as uuid } from 'uuid'
+import * as uuid from 'uuid/v4'
 
 import { API_PREFIX } from '../../constants'
 import { storageUrl } from '../../utils'
