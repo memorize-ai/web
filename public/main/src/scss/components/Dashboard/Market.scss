@@ -75,7 +75,7 @@
 		padding: 4px raw-repeat(3, 30px);
 		
 		> div {
-			$cell-margin-bottom: 25px;
+			$cell-margin-bottom: 16px;
 			
 			display: flex;
 			flex-direction: column;
@@ -105,8 +105,8 @@
 				overflow: hidden;
 				margin-bottom: $cell-margin-bottom;
 				background: white;
+				border: 1px solid #eee;
 				border-radius: 8px;
-				box-shadow: 0 0 5px 0 transparentize(black, 0.9);
 				
 				@media (min-width: 700px) {
 					$full-width: calc(#{unquote(
@@ -132,7 +132,7 @@
 						'100vw - var(--sidebar-width) - #{30px * 2} - #{$height}'
 					)});
 					
-					--image-dimension: unset;
+					--image-dimension: #{$height - $image-margin * 2};
 					
 					grid:
 						'image content' auto
@@ -141,9 +141,12 @@
 						#{css-min($max-width, $full-width)};
 					
 					> img {
-						margin: 0 !important;
-						border: none !important;
-						border-radius: 0 !important;
+						margin: $image-margin !important;
+					}
+					
+					> .content,
+					> .footer {
+						padding-left: 0 !important;
 					}
 					
 					> .content {
@@ -162,7 +165,7 @@
 				}
 				
 				> img {
-					$dimension: var(--image-dimension, $height);
+					$dimension: var(--image-dimension);
 					
 					grid-area: image;
 					width: $dimension;
