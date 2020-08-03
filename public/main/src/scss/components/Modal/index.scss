@@ -1,10 +1,10 @@
 @import '../../variables';
 
 .modal {
-	display: grid;
+	display: flex;
 	position: fixed;
 	justify-content: center;
-	align-content: center;
+	align-items: center;
 	top: 0;
 	right: 0;
 	bottom: 0;

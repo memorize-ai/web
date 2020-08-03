@@ -1,8 +1,8 @@
 import * as admin from 'firebase-admin'
 import * as get from 'user-request'
 
-import Deck from '../Deck'
-import User from '../User'
+import Deck from '../../Deck'
+import User from '../../User'
 
 interface RawPageDataTerm {
 	id: number

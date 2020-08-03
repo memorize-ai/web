@@ -1,14 +1,13 @@
 @import '../../variables';
 @import '../../mixins';
-@import '../../functions';
 
 @include modal-content('share') {
-	$max-width: 800px;
 	$margin: 20px;
 	
 	display: flex;
 	flex-direction: column;
-	width: css-min($max-width, calc(100vw - #{$margin * 2}));
+	width: 100vw;
+	max-width: 800px;
 	overflow: hidden;
 	margin: $margin;
 	background: white;
