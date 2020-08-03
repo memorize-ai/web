@@ -12,7 +12,7 @@ import useAuthModal from '../../../hooks/useAuthModal'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import Modal from '.'
 import Button from '../Button'
-import { EMAIL_REGEX, IS_IOS, APP_STORE_URL } from '../../../constants'
+import { EMAIL_REGEX, IS_IOS_HANDHELD, APP_STORE_URL } from '../../../constants'
 
 import { ReactComponent as GoogleIcon } from '../../../images/icons/google.svg'
 
@@ -91,7 +91,7 @@ const AuthModal = () => {
 					})
 					
 					if (!callback)
-						if (IS_IOS)
+						if (IS_IOS_HANDHELD)
 							window.location.href = APP_STORE_URL
 						else
 							history.push('/interests')
@@ -171,7 +171,7 @@ const AuthModal = () => {
 			})
 		
 			if (!callback)
-				if (IS_IOS)
+				if (IS_IOS_HANDHELD)
 					window.location.href = APP_STORE_URL
 				else
 					history.push('/interests')
