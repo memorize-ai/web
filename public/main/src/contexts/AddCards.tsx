@@ -1,5 +1,5 @@
 import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
-import * as uuid from 'uuid/v4'
+import uuid from 'uuid/v4'
 
 import { OptionalAction, ActionType } from '../actions/Action'
 import { CardDraft, CardDraftUpdateObject } from '../models/Card'
