@@ -1,11 +1,10 @@
 @import '../../mixins';
-@import '../../functions';
 
 @include modal-content('input-modal') {
-	$max-width: 500px;
 	$margin: 8px;
 	
-	width: css-min($max-width, calc(100vw - #{$margin * 2}));
+	width: 100vw;
+	max-width: 500px;
 	margin: $margin;
 	background: white;
 	border-radius: 8px;

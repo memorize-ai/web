@@ -1,18 +1,19 @@
 @import '../../variables';
 @import '../../mixins';
-@import '../../functions';
 
 @include modal-content('auth') {
-	$max-width: 800px;
-	$margin: 20px;
-	
 	display: flex;
 	flex-direction: column;
-	width: css-min($max-width, calc(100vw - #{$margin * 2}));
+	width: 100vw;
+	max-width: 800px;
 	overflow: hidden;
-	margin: $margin;
+	margin: 8px;
 	background: white;
 	border-radius: 8px;
+	
+	@media (min-width: 330px) {
+		margin: 20px;
+	}
 	
 	> .top {
 		padding: 20px;
@@ -133,6 +134,7 @@
 			}
 			
 			> .forgot-password-button {
+				margin-left: 8px;
 				font-size: 15px;
 				font-weight: 900;
 				color: #5a2aff;
@@ -227,11 +229,16 @@
 				> svg {
 					flex-shrink: 0;
 					height: 100%;
-					margin-right: 12px;
 				}
 				
 				> p {
+					display: none;
+					margin-left: 12px;
 					font-weight: 900;
+					
+					@media (min-width: 460px) {
+						display: block;
+					}
 				}
 				
 				&:hover,
