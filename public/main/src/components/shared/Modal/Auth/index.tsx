@@ -92,6 +92,8 @@ const AuthModal = () => {
 						joined: firebase.firestore.FieldValue.serverTimestamp()
 					})
 					
+					user.updateProfile({ displayName: name })
+					
 					setIsDisabled(false)
 					
 					if (!callback)
