@@ -22,7 +22,7 @@ const Home = () => {
 	return (
 		<div className="home">
 			<Head
-				title="memorize.ai: Intelligent flashcards"
+				title="memorize.ai: Learn Lazily"
 				canonicalUrl="https://memorize.ai"
 				breadcrumbs={[
 					[
