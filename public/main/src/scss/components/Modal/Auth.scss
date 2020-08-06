@@ -216,6 +216,67 @@
 				color: $red-600;
 			}
 			
+			> .providers {
+				display: flex;
+				
+				> button {
+					display: flex;
+					align-items: center;
+					height: $height;
+					padding: 9px 12px;
+					color: white;
+					background: #051e34;
+					border-radius: 8px;
+					box-shadow: 0 0 20px 5px transparentize(black, 0.9);
+					transition: background 0.3s;
+					
+					@media (min-width: 340px) {
+						padding: 9px 16px;
+					}
+					
+					@media (min-width: 460px) {
+						padding: 9px 12px;
+					}
+					
+					@media (min-width: 475px) {
+						padding: 9px 16px;
+					}
+					
+					> svg {
+						height: 100%;
+					}
+					
+					> p {
+						display: none;
+						margin-left: 10px;
+						font-weight: 900;
+						
+						@media (min-width: 460px) {
+							display: block;
+						}
+					}
+					
+					&:disabled {
+						cursor: default;
+					}
+					
+					&:not(:last-child) {
+						margin-right: 8px;
+						
+						@media (min-width: 360px) {
+							margin-right: 12px;
+						}
+					}
+					
+					&:not(:disabled) {
+						&:hover,
+						&:focus {
+							background: #5a2aff;
+						}
+					}
+				}
+			}
+			
 			> .google-auth-button {
 				display: flex;
 				align-items: center;
