@@ -192,7 +192,10 @@ export default class User implements UserData {
 	}
 	
 	updateName = (name: string) =>
-		firestore.doc(`users/${this.id}`).update({ name })
+		Promise.all([
+			firestore.doc(`users/${this.id}`).update({ name }),
+			auth.currentUser?.updateProfile({ displayName: name })
+		].filter(Boolean))
 	
 	toggleInterest = (id: string) => {
 		if (!this.interestIds)
