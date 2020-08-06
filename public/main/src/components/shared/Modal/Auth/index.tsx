@@ -5,32 +5,27 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
 import cx from 'classnames'
 
-import firebase from '../../../firebase'
-import LoadingState from '../../../models/LoadingState'
-import AuthenticationMode from '../../../models/AuthenticationMode'
-import useAuthModal from '../../../hooks/useAuthModal'
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import Modal from '.'
-import Button from '../Button'
-import { EMAIL_REGEX, IS_IOS_HANDHELD, APP_STORE_URL } from '../../../constants'
-
-import { ReactComponent as GoogleIcon } from '../../../images/icons/google.svg'
+import firebase from '../../../../firebase'
+import LoadingState from '../../../../models/LoadingState'
+import AuthenticationMode from '../../../../models/AuthenticationMode'
+import useAuthModal from '../../../../hooks/useAuthModal'
+import useCurrentUser from '../../../../hooks/useCurrentUser'
+import Modal from '..'
+import Button from '../../Button'
+import Providers from './Providers'
+import { EMAIL_REGEX, IS_IOS_HANDHELD, APP_STORE_URL } from '../../../../constants'
 
 import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/analytics'
 
-import '../../../scss/components/Modal/Auth.scss'
+import '../../../../scss/components/Modal/Auth.scss'
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()
 const analytics = firebase.analytics()
 
 auth.useDeviceLanguage()
-
-const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
-
-googleAuthProvider.addScope('https://www.googleapis.com/auth/userinfo.email')
 
 const AuthModal = () => {
 	const history = useHistory()
@@ -50,11 +45,13 @@ const AuthModal = () => {
 	const [forgotPasswordLoadingState, setForgotPasswordLoadingState] = useState(LoadingState.None)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
 	
+	const [isDisabled, setIsDisabled] = useState(false)
+	
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	
-	const isSubmitButtonDisabled = !(
+	const isSubmitButtonDisabled = isDisabled || !(
 		(mode === AuthenticationMode.LogIn || name) &&
 		email &&
 		password
@@ -65,6 +62,8 @@ const AuthModal = () => {
 		event.preventDefault()
 		
 		try {
+			setIsDisabled(true)
+			
 			setLoadingState(LoadingState.Loading)
 			setErrorMessage(null)
 			
@@ -73,6 +72,8 @@ const AuthModal = () => {
 					analytics.logEvent('login', { method: 'email', component: 'Auth' })
 					
 					await auth.signInWithEmailAndPassword(email, password)
+					
+					setIsDisabled(false)
 					break
 				case AuthenticationMode.SignUp:
 					analytics.logEvent('sign_up', { method: 'email', component: 'Auth' })
@@ -86,9 +87,12 @@ const AuthModal = () => {
 						name,
 						email,
 						source: 'web',
+						method: 'email',
 						xp: initialXp,
 						joined: firebase.firestore.FieldValue.serverTimestamp()
 					})
+					
+					setIsDisabled(false)
 					
 					if (!callback)
 						if (IS_IOS_HANDHELD)
@@ -101,6 +105,8 @@ const AuthModal = () => {
 			
 			setLoadingState(LoadingState.Success)
 		} catch (error) {
+			setIsDisabled(false)
+			
 			setLoadingState(LoadingState.Fail)
 			setErrorMessage(error.message)
 		}
@@ -138,57 +144,6 @@ const AuthModal = () => {
 			setErrorMessage(error.message)
 		}
 	}, [email, setForgotPasswordLoadingState, setErrorMessage])
-	
-	const logInWithGoogle = useCallback(async () => {
-		try {
-			analytics.logEvent('sign_up', { method: 'google', component: 'Auth' })
-			
-			setLoadingState(LoadingState.None)
-			setErrorMessage(null)
-			
-			const {
-				user,
-				additionalUserInfo
-			} = await auth.signInWithPopup(googleAuthProvider)
-			
-			if (!(user && additionalUserInfo))
-				throw new Error('An unknown error occurred. Please try again')
-			
-			if (!user.email)
-				throw new Error('Unable to get your email address')
-			
-			if (!additionalUserInfo.isNewUser)
-				return
-			
-			setLoadingState(LoadingState.Loading)
-			
-			await firestore.doc(`users/${user.uid}`).set({
-				name: user.displayName ?? 'Anonymous',
-				email: user.email,
-				source: 'web',
-				xp: initialXp,
-				joined: firebase.firestore.FieldValue.serverTimestamp()
-			})
-		
-			if (!callback)
-				if (IS_IOS_HANDHELD)
-					window.location.href = APP_STORE_URL
-				else
-					history.push('/interests')
-			
-			setLoadingState(LoadingState.Success)
-		} catch (error) {
-			if (error.code === 'auth/popup-closed-by-user') {
-				setLoadingState(LoadingState.None)
-				setErrorMessage(null)
-				return
-			}
-			
-			console.error(error)
-			setLoadingState(LoadingState.Fail)
-			setErrorMessage(error.message)
-		}
-	}, [setLoadingState, setErrorMessage, initialXp, callback, history])
 	
 	useEffect(() => {
 		if (!(currentUser && isShowing))
@@ -324,14 +279,13 @@ const AuthModal = () => {
 							</p>
 						)
 						: (
-							<button
-								type="button"
-								className="google-auth-button"
-								onClick={logInWithGoogle}
-							>
-								<GoogleIcon />
-								<p>Log in with Google</p>
-							</button>
+							<Providers
+								initialXp={initialXp}
+								callback={callback}
+								isDisabled={isDisabled}
+								setIsDisabled={setIsDisabled}
+								setErrorMessage={setErrorMessage}
+							/>
 						)
 					}
 				</div>
