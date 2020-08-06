@@ -14,7 +14,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@main
         with:
-          node-version: 12
+          node-version: '12'
+          check-latest: true
       - name: Install dependencies for public/main
         run: |
           cd public/main
