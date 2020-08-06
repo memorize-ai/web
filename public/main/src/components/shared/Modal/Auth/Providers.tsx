@@ -67,7 +67,7 @@ const AuthModalProviders = (
 				return
 			
 			setLoadingState(LoadingState.Loading)
-			console.log(user, user.displayName, user.email, additionalUserInfo)
+			
 			await firestore.doc(`users/${user.uid}`).set({
 				name: user.displayName ?? 'Anonymous',
 				email: user.email,
