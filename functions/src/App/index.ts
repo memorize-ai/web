@@ -6,7 +6,7 @@ import { getType } from 'mime'
 
 import Deck from '../Deck'
 import { setCacheControl, setContentType } from '../utils'
-import { SLACK_INVITE_URL, PRERENDER_TOKEN } from '../constants'
+import { PRERENDER_TOKEN } from '../constants'
 
 import handleAPI from './API'
 import handleBadges from './badges'
@@ -28,10 +28,6 @@ app.get('/d/:slug', async ({ params: { slug } }, res) => {
 	} catch (error) {
 		res.status(404).send(error)
 	}
-})
-
-app.get('/slack', (_, res) => {
-	res.redirect(301, SLACK_INVITE_URL)
 })
 
 handleAPI(app)
