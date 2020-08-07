@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import { PING_KEY } from '../constants'
 
-const BODY = { key: PING_KEY }
+const BODY = { data: PING_KEY }
 
 const FUNCTIONS = [
 	'contactUser',

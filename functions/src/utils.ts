@@ -18,7 +18,7 @@ export const cauterize = <Args extends any[], Result, Fallback>(
 }
 
 export const pingable = <T>(fn: HttpsCallableFunction<T>): HttpsCallableFunction<T | void> => (data, context) =>
-	typeof data === 'object' && data.key === PING_KEY
+	data === PING_KEY
 		? Promise.resolve() // Do nothing
 		: fn(data, context)
 
