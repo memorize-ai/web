@@ -2,9 +2,7 @@ import * as functions from 'firebase-functions'
 
 const config = functions.config()
 
-export const DEBUG = false
-
-export const DEFAULT_STORAGE_BUCKET = `memorize-ai${DEBUG ? '-dev' : ''}.appspot.com`
+export const DEFAULT_STORAGE_BUCKET = 'memorize-ai.appspot.com'
 
 export const API_PREFIX = '_api'
 
@@ -15,5 +13,7 @@ export const PRERENDER_TOKEN: string = config.prerender.token
 export const SENDGRID_API_KEY: string = config.sendgrid.api_key
 
 export const PING_KEY: string = config.ping.key
+export const ADMIN_KEY: string = config.admin.key
 
+export const SUPPORT_ID = 's6yreK4ZTRfIjxiYsch0ze1YnR93'
 export const SUPPORT_EMAIL = 'support@memorize.ai'
