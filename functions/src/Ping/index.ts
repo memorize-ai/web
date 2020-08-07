@@ -16,9 +16,16 @@ const FUNCTIONS = [
 const functionUrl = (name: string) =>
 	`https://us-central1-memorize-ai.cloudfunctions.net/${name}`
 
-export default () => Promise.all([
-	axios.get('https://memorize.ai'),
-	...FUNCTIONS.map(name =>
-		axios.post(functionUrl(name), BODY)
-	)
-])
+export default async () => {
+	try {
+		await Promise.all([
+			axios.get('https://memorize.ai'),
+			...FUNCTIONS.map(name =>
+				axios.post(functionUrl(name), BODY)
+			)
+		])
+	} catch (error) {
+		const message = error.response?.data
+		throw message ? new Error(message) : error
+	}
+}
