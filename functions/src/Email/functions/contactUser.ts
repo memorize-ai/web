@@ -3,11 +3,12 @@ import * as admin from 'firebase-admin'
 
 import User from '../../User'
 import { sendEmail, EmailTemplate } from '../../Email'
+import { pingable } from '../../utils'
 
 const { onCall, HttpsError } = https
 const firestore = admin.firestore()
 
-export default onCall(async (data, { auth }) => {
+export default onCall(pingable(async (data, { auth }) => {
 	if (!auth)
 		throw new HttpsError('unauthenticated', 'You need to be signed in')
 	
@@ -62,4 +63,4 @@ export default onCall(async (data, { auth }) => {
 			}
 		})
 	])
-})
+}))

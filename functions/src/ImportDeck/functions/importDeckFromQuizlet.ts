@@ -1,8 +1,9 @@
 import { https } from 'firebase-functions'
+import { pingable } from '../../utils'
 
 const { onCall, HttpsError } = https
 
-export default onCall(async (data, auth) => {
+export default onCall(pingable(async (data, auth) => {
 	if (!auth)
 		throw new HttpsError(
 			'unauthenticated',
@@ -12,4 +13,4 @@ export default onCall(async (data, auth) => {
 	// TODO: Import deck
 	
 	return data
-})
+}))

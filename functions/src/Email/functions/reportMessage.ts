@@ -3,11 +3,12 @@ import * as admin from 'firebase-admin'
 
 import User from '../../User'
 import { sendEmail, EmailTemplate, DEFAULT_FROM } from '../../Email'
+import { pingable } from '../../utils'
 
 const { onCall, HttpsError } = https
 const firestore = admin.firestore()
 
-export default onCall(async data => {
+export default onCall(pingable(async data => {
 	if (typeof data !== 'object')
 		throw new HttpsError('invalid-argument', 'You must pass in an object')
 	
@@ -59,4 +60,4 @@ export default onCall(async data => {
 			body: message.get('body')
 		}
 	})
-})
+}))
