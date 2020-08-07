@@ -2,6 +2,8 @@ import axios from 'axios'
 
 import { PING_KEY } from '../constants'
 
+const BODY = { key: PING_KEY }
+
 const FUNCTIONS = [
 	'contactUser',
 	'getCardPrediction',
@@ -17,10 +19,6 @@ const functionUrl = (name: string) =>
 export default () => Promise.all([
 	axios.get('https://memorize.ai'),
 	...FUNCTIONS.map(name =>
-		axios.post(functionUrl(name), PING_KEY, {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		})
+		axios.post(functionUrl(name), BODY)
 	)
 ])
