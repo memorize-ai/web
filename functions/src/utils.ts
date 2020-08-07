@@ -1,6 +1,9 @@
+import { https } from 'firebase-functions'
 import { Response } from 'express'
 
-import { DEFAULT_STORAGE_BUCKET } from './constants'
+import { PING_KEY, DEFAULT_STORAGE_BUCKET } from './constants'
+
+export type HttpsCallableFunction<T> = (data: any, context: https.CallableContext) => Promise<T>
 
 export const cauterize = <Args extends any[], Result, Fallback>(
 	fn: (...args: Args) => Result,
@@ -13,6 +16,11 @@ export const cauterize = <Args extends any[], Result, Fallback>(
 		return fallback ?? Promise.resolve()
 	}
 }
+
+export const pingable = <T>(fn: HttpsCallableFunction<T>): HttpsCallableFunction<T | void> => (data, context) =>
+	data === PING_KEY
+		? Promise.resolve() // Do nothing
+		: fn(data, context)
 
 export const storageUrl = (pathComponents: string[], token?: string) =>
 	`https://firebasestorage.googleapis.com/v0/b/${

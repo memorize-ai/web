@@ -3,8 +3,9 @@ import * as functions from 'firebase-functions'
 import CardUserData from '../UserData'
 import Algorithm from '../../Algorithm'
 import PerformanceRating from '../PerformanceRating'
+import { pingable } from '../../utils'
 
-export default functions.https.onCall(async (
+export default functions.https.onCall(pingable(async (
 	{ deck: deckId, card: cardId }: { deck: string, card: string },
 	{ auth }
 ) => {
@@ -22,4 +23,4 @@ export default functions.https.onCall(async (
 		[PerformanceRating.Struggled]: getPrediction(PerformanceRating.Struggled),
 		[PerformanceRating.Forgot]: getPrediction(PerformanceRating.Forgot)
 	}
-})
+}))

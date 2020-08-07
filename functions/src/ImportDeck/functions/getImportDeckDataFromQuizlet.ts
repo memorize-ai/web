@@ -6,10 +6,11 @@ import {
 	isExistingDeckFromOriginalId,
 	isExistingDeckFromId
 } from '../quizlet/meta'
+import { pingable } from '../../utils'
 
 const { onCall, HttpsError } = https
 
-export default onCall(async rawUrl => {
+export default onCall(pingable(async rawUrl => {
 	if (typeof rawUrl !== 'string')
 		throw new HttpsError('invalid-argument', 'You must send a Quizlet set URL')
 	
@@ -37,4 +38,4 @@ export default onCall(async rawUrl => {
 			await isExistingDeckFromOriginalId(data.id) ??
 			await isExistingDeckFromId(data.id)
 	}
-})
+}))
