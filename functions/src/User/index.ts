@@ -50,6 +50,21 @@ export default class User {
 	static fromId = async (id: string) =>
 		new User(await firestore.doc(`users/${id}`).get())
 	
+	static fromEmail = async (email: string) => {
+		const { docs } = await firestore
+			.collection('users')
+			.where('email', '==', email)
+			.limit(1)
+			.get()
+		
+		const snapshot = docs[0]
+		
+		if (snapshot)
+			return new User(snapshot)
+		
+		throw new Error(`There are no users with email "${email}"`)
+	}
+	
 	static incrementDeckCount = (uid: string, amount: number = 1) =>
 		firestore.doc(`users/${uid}`).update({
 			deckCount: admin.firestore.FieldValue.increment(amount)
