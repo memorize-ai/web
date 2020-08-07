@@ -6,7 +6,8 @@
 		"memorize-ai": {
 			"hosting": {
 				"main": ["memorize-ai"],
-				"blog": ["memorize-ai-blog"]
+				"blog": ["memorize-ai-blog"],
+				"admin": ["memorize-ai-admin"]
 			}
 		}
 	}

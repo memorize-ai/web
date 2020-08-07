@@ -101,6 +101,7 @@ export default class Deck {
 		const { empty, docs } = await firestore
 			.collection('decks')
 			.where('slugId', '==', slugId)
+			.limit(1)
 			.get()
 		
 		if (empty)
@@ -302,6 +303,7 @@ export default class Deck {
 		const { docs } = await firestore
 			.collection(`decks/${this.id}/sections`)
 			.where('index', '==', 0)
+			.limit(1)
 			.get()
 		
 		const section: (
