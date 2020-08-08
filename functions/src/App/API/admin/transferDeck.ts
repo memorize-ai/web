@@ -23,7 +23,14 @@ export default (app: Express) => {
 				return
 			}
 			
-			const { email, url } = JSON.parse(req.body)
+			const { body } = req
+			
+			if (typeof body !== 'object') {
+				res.status(400).send('Invalid request body')
+				return
+			}
+			
+			const { email, url } = body
 			
 			if (!(typeof email === 'string' && typeof url === 'string')) {
 				res.status(400).send('You must send an "email" and "url" as strings')
@@ -37,33 +44,28 @@ export default (app: Express) => {
 				return
 			}
 			
-			try {
-				const [deck, user] = await Promise.all([
-					Deck.fromSlugId(slugId).catch(() => {
-						throw new Error('There are no decks with the specified URL')
-					}),
-					User.fromEmail(email).catch(() => {
-						throw new Error('There are no users with the specified email')
-					})
-				])
-				
-				if (deck.creatorId !== SUPPORT_ID) {
-					res.status(401).send('You can only transfer decks that were created by the official memorize.ai account')
-					return
-				}
-				
-				await firestore.doc(`decks/${deck.id}`).update({
-					creator: user.id
+			const [deck, user] = await Promise.all([
+				Deck.fromSlugId(slugId).catch(() => {
+					throw new Error('There are no decks with the specified URL')
+				}),
+				User.fromEmail(email).catch(() => {
+					throw new Error('There are no users with the specified email')
 				})
-				
-				res.send(`Successfully transfered "${deck.name}" to "${user.name}"`)
-			} catch (error) {
-				console.error(error)
-				res.status(404).send(error.message)
+			])
+			
+			if (deck.creatorId !== SUPPORT_ID) {
+				res.status(401).send('You can only transfer decks that were created by the official memorize.ai account')
+				return
 			}
+			
+			await firestore.doc(`decks/${deck.id}`).update({
+				creator: user.id
+			})
+			
+			res.send(`Successfully transfered "${deck.name}" to "${user.name}"`)
 		} catch (error) {
 			console.error(error)
-			res.status(400).send('Invalid JSON')
+			res.status(404).send(error.message)
 		}
 	})
 }
