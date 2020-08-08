@@ -14,7 +14,7 @@ export default (app: Express) => {
 	app.post(PATH, async (req, res) => {
 		try {
 			if (req.header('Authorization') !== `Bearer ${ADMIN_KEY}`) {
-				res.status(401).send('Invalid authorization')
+				res.status(401).send('Incorrect admin key')
 				return
 			}
 			
@@ -62,7 +62,7 @@ export default (app: Express) => {
 				creator: user.id
 			})
 			
-			res.send(`Successfully transfered "${deck.name}" to "${user.name}"`)
+			res.send(`Successfully transferred "${deck.name}" to "${user.name}"`)
 		} catch (error) {
 			console.error(error)
 			res.status(404).send(error.message)
