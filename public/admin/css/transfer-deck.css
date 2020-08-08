@@ -43,3 +43,17 @@ button {
 button:disabled {
 	opacity: 0.5;
 }
+
+#status-text {
+	margin-top: 12px;
+	font-weight: 900;
+	color: #4a4a4a;
+}
+
+#status-text[data-value='success'] {
+	color: #00d388;
+}
+
+#status-text[data-value='error'] {
+	color: #e53e3e;
+}
