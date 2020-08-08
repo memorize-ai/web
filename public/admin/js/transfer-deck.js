@@ -16,6 +16,9 @@ const onSubmit = async event => {
 	
 	const key = keyInput.value
 	
+	statusText.removeAttribute('data-value')
+	statusText.innerHTML = 'Loading...'
+	
 	try {
 		const response = await fetch('https://memorize.ai/_api/admin/transfer-deck', {
 			method: 'POST',
@@ -29,12 +32,16 @@ const onSubmit = async event => {
 			})
 		})
 		
-		const { status } = response
-		const text = await response.text()
+		const success = response.status === 200
 		
-		statusText.innerHTML = text
+		statusText.setAttribute('data-value', success ? 'success' : 'error')
+		statusText.innerHTML = await response.text()
+		
+		if (success)
+			emailInput.value = urlInput.value = ''
 	} catch (error) {
-		console.error(error)
+		statusText.setAttribute('data-value', 'error')
+		statusText.innerHTML = error.message
 	} finally {
 		localStorage.setItem('key', key)
 	}
