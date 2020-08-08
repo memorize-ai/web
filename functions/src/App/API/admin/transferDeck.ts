@@ -6,7 +6,7 @@ import Deck from '../../../Deck'
 import { API_PREFIX, ADMIN_KEY, SUPPORT_ID } from '../../../constants'
 
 const PATH = `/${API_PREFIX}/admin/transfer-deck`
-const URL_REGEX = /^(?:https?:\/\/)?memorize\.ai\/(.+?)\/.+?$/i
+const URL_REGEX = /^(?:https?:\/\/)?memorize\.ai\/d\/(.+?)\/.+?$/i
 
 const firestore = admin.firestore()
 
