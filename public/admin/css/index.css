@@ -1,15 +1,5 @@
-*,
-::before,
-::after {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	border: none;
-}
-
 body {
 	padding: 30px;
-	font-family: Muli, Arial, Helvetica, sans-serif;
 }
 
 .title {
