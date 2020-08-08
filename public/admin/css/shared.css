@@ -1,0 +1,28 @@
+*,
+::before,
+::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: Muli, Arial, Helvetica, sans-serif;
+	border: none;
+}
+
+input,
+textarea,
+button {
+	font-size: 100%;
+	outline: none;
+}
+
+input::placeholder {
+	color: #a0aec0;
+}
+
+button {
+	cursor: pointer;
+}
+
+button:disabled {
+	cursor: default;
+}
