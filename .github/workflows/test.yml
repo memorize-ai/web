@@ -5,8 +5,8 @@ on:
       - staging
 
 jobs:
-  setup:
-    name: Setup
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,12 +16,6 @@ jobs:
         with:
           node-version: '12'
           check-latest: true
-  install-dependencies:
-    name: Install dependencies
-    runs-on: ubuntu-latest
-    needs:
-      - setup
-    steps:
       - name: Install dependencies for public/main
         run: |
           cd public/main
@@ -47,13 +41,6 @@ jobs:
           cd npm
           npm ci
           cd ..
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    needs:
-      - setup
-      - install-dependencies
-    steps:
       - name: Build public/main
         run: npm run build -C public/main
       - name: Build public/blog
@@ -62,14 +49,6 @@ jobs:
         run: npm run build -C functions
       - name: Build npm
         run: npm run build -C npm
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    needs:
-      - setup
-      - install-dependencies
-      - build
-    steps:
       - name: Test functions
         run: npm test -C functions
       - name: Test npm
