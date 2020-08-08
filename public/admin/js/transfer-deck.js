@@ -5,6 +5,8 @@ const keyInput = document.getElementById('key-input')
 const submitButton = document.getElementById('submit-button')
 const statusText = document.getElementById('status-text')
 
+keyInput.value = localStorage.getItem('key') || ''
+
 const onInput = () => {
 	submitButton.disabled = !(emailInput.value && urlInput.value && keyInput.value)
 }
@@ -12,11 +14,13 @@ const onInput = () => {
 const onSubmit = async event => {
 	event.preventDefault()
 	
+	const key = keyInput.value
+	
 	try {
 		const response = await fetch('https://memorize.ai/_api/admin/transfer-deck', {
 			method: 'POST',
 			headers: {
-				Authorization: `Bearer ${keyInput.value}`,
+				Authorization: `Bearer ${key}`,
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
@@ -31,5 +35,7 @@ const onSubmit = async event => {
 		statusText.innerHTML = text
 	} catch (error) {
 		console.error(error)
+	} finally {
+		localStorage.setItem('key', key)
 	}
 }
