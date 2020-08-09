@@ -21,6 +21,12 @@
 			"blocked (collection)": {
 				"a3gsb2D3n (document)": {} // User ID
 			},
+			"activity (collection)": {
+				"1204 (document)": { // Document ID is day
+					"day": 1204, // (Int) Matches document ID
+					"value": 12 // (Int) Number of cards reviewed
+				}
+			},
 			"decks (collection)": {
 				"a3gsb2D3n (document)": { // Deck ID
 					"added": "DATE", // (Date) The date that this deck was added to this user's libray
