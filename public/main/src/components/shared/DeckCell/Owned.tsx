@@ -17,6 +17,7 @@ const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
 	const hasDueCards = Boolean(numberOfDueCards)
 	
 	const numberOfSections = useMemo(() => (
+		(userData?.numberOfUnsectionedDueCards ? 1 : 0) +
 		Object.values(userData?.sections ?? {}).reduce((acc, count) => (
 			acc + (count ? 1 : 0)
 		), 0)
