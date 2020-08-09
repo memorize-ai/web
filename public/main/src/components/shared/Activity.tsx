@@ -70,14 +70,10 @@ const Activity = () => {
 		<div className="activity">
 			<div className="content">
 				<div className="days">
-					{DAYS.map(day => (
-						<p key={day} className="day">{day}</p>
-					))}
+					{DAYS.map(day => <p key={day}>{day}</p>)}
 				</div>
 				<div className="months">
-					{MONTHS.map(month => (
-						<p key={month} className="month">{month}</p>
-					))}
+					{MONTHS.map(month => <p key={month}>{month}</p>)}
 				</div>
 				<div className="cells">
 					<div className="past-cells">

@@ -1,0 +1,74 @@
+$cell-dimension: 12px;
+$cell-gap: 3px;
+
+.activity {
+	display: flex;
+	justify-content: flex-end;
+	overflow: hidden;
+	padding: 30px;
+	background: white;
+	border: 1px solid #eee;
+	border-radius: 15px;
+	
+	> .content {
+		display: grid;
+		grid:
+			'empty dates' auto
+			'days cells' auto /
+			auto auto;
+		
+		> .days,
+		> .months {
+			font-size: 12px;
+			font-weight: bold;
+			color: #4a4a4a;
+			opacity: 0.7;
+		}
+		
+		> .days {
+			grid-area: days;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			margin-right: 8px;
+			text-align: right;
+		}
+		
+		> .months {
+			grid-area: dates;
+			display: flex;
+			justify-content: space-around;
+			margin-bottom: 6px;
+		}
+		
+		> .cells {
+			grid-area: cells;
+			display: flex;
+			
+			> .past-cells,
+			> .current-cells {
+				> .cell {
+					width: $cell-dimension;
+					height: $cell-dimension;
+					background: #f85ea1;
+					border-radius: 2px;
+					border: 1px solid #1b1f230a;
+				}
+			}
+			
+			> .past-cells {
+				display: grid;
+				grid-template-columns: repeat(52, $cell-dimension);
+				gap: $cell-gap;
+			}
+			
+			> .current-cells {
+				margin-left: $cell-gap;
+				
+				> .cell:not(:last-child) {
+					margin-bottom: $cell-gap;
+				}
+			}
+		}
+	}
+}
