@@ -16,6 +16,7 @@ import { AuthModalProvider } from './contexts/AuthModal'
 import { CreatorsProvider } from './contexts/Creators'
 import { AddCardsProvider } from './contexts/AddCards'
 import { ContactUserLoadingStateProvider } from './contexts/ContactUserLoadingState'
+import { ActivityProvider } from './contexts/Activity'
 import App from './components/App'
 import firebase from './firebase'
 import { ROOT_ELEMENT } from './constants'
@@ -43,7 +44,9 @@ ReactDOM.render((
 												<CreatorsProvider>
 													<AddCardsProvider>
 														<ContactUserLoadingStateProvider>
-															<App />
+															<ActivityProvider>
+																<App />
+															</ActivityProvider>
 														</ContactUserLoadingStateProvider>
 													</AddCardsProvider>
 												</CreatorsProvider>
