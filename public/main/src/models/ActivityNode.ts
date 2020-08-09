@@ -15,7 +15,7 @@ export const getBeforeFirstVisibleDay = () =>
 	getDay() - ActivityNode.PAST_COUNT - getCurrentCount()
 
 export default class ActivityNode {
-	static PAST_COUNT = 52 * 4
+	static PAST_COUNT = 52 * 7
 	
 	static isObserving = false
 	
