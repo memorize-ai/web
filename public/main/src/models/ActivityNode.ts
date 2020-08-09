@@ -11,7 +11,7 @@ export const getDay = () =>
 export const getCurrentCount = () =>
 	new Date().getDay() + 1
 
-export const getFirstVisibleDay = () =>
+export const getBeforeFirstVisibleDay = () =>
 	getDay() - ActivityNode.PAST_COUNT - getCurrentCount()
 
 export default class ActivityNode {

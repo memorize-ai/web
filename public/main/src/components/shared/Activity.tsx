@@ -8,7 +8,7 @@ import ActivityNode, {
 	MONTHS,
 	getDay,
 	getCurrentCount,
-	getFirstVisibleDay
+	getBeforeFirstVisibleDay
 } from '../../models/ActivityNode'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import { handleError, formatLongDate } from '../../utils'
@@ -28,10 +28,23 @@ const Activity = () => {
 		const count = ActivityNode.PAST_COUNT
 		const nodes = new Array<ActivityNode>(count)
 		
-		// The node before the first node
-		const offset = getDay() - getCurrentCount() - count
+		// The first node
+		const offset = getDay() - getCurrentCount() - count + 1
 		
-		for (let i = 1; i <= count; i++)
+		for (let i = 0; i < count; i++)
+			nodes[i] = state[offset + i] ?? new ActivityNode(offset + i, 0)
+		
+		return nodes
+	}, [state])
+	
+	const currentNodes = useMemo(() => {
+		const count = getCurrentCount()
+		const nodes = new Array<ActivityNode>(count)
+		
+		// The first current node
+		const offset = getDay() - count + 1
+		
+		for (let i = 0; i < count; i++)
 			nodes[i] = state[offset + i] ?? new ActivityNode(offset + i, 0)
 		
 		return nodes
@@ -45,7 +58,7 @@ const Activity = () => {
 		
 		firestore
 			.collection(`users/${currentUser.id}/activity`)
-			.where('day', '>=', getFirstVisibleDay())
+			.where('day', '>', getBeforeFirstVisibleDay())
 			.onSnapshot(snapshot => {
 				for (const { type, doc } of snapshot.docChanges())
 					if (type === 'added' || type === 'modified')
@@ -78,7 +91,14 @@ const Activity = () => {
 						))}
 					</div>
 					<div className="current-cells">
-						
+						{currentNodes.map(node => (
+							<div
+								key={node.day}
+								className="cell"
+								aria-label={`${formatLongDate(node.date)} - ${node.value} card${node.value === 1 ? '' : 's'}`}
+								data-balloon-pos="up"
+							/>
+						))}
 					</div>
 				</div>
 			</div>
