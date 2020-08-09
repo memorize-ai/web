@@ -7,6 +7,7 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
 import useRecommendedDecks from '../../../hooks/useRecommendedDecks'
 import Head from '../../shared/Head'
+import Activity from '../../shared/Activity'
 import OwnedDeckCell from '../../shared/DeckCell/Owned'
 import DeckCell from '../../shared/DeckCell'
 import { formatNumber } from '../../../utils'
@@ -63,6 +64,7 @@ const DashboardHomeContent = () => {
 					<p>Create deck</p>
 				</Link>
 			</div>
+			<Activity />
 			{decks.length === 0 || (
 				<div className="my-decks">
 					<h1>My decks</h1>
