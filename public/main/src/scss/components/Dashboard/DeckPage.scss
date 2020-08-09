@@ -402,7 +402,9 @@
 		}
 		
 		> .preview {
-			max-width: 700px;
+			$max-width: 700px;
+			
+			max-width: $max-width + $margin * 2;
 			margin: ($margin * 2) auto ($margin * 3 / 2);
 			padding: 0 $margin;
 			
@@ -460,7 +462,10 @@
 					padding: $padding;
 					
 					@include card-side-katex-width(
-						calc(100vw - var(--sidebar-width) - #{$margin * 4 + $padding * 2})
+						css-min(
+							$max-width - $padding * 2,
+							calc(100vw - var(--sidebar-width) - #{$margin * 4 + $padding * 2})
+						)
 					);
 					
 					> .card-side {
