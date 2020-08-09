@@ -134,75 +134,73 @@ const DeckPagePreview = ({ deck }: { deck: Deck }) => {
 	
 	return (
 		<div className="preview">
-			<div>
-				<div className="header">
-					<Select
-						className="section-select"
-						options={_sections ?? []}
-						getOptionLabel={property('name')}
-						getOptionValue={property('id')}
-						isOptionDisabled={isSectionDisabled}
-						placeholder="Loading..."
-						isLoading={!section}
-						value={section}
-						onChange={setSection as any}
-					/>
-					<h3 className="message">
-						Preview this deck
-					</h3>
-				</div>
-				<div
-					className={cx('box', { loading: !card })}
-					onClick={toggleSide}
-					style={{
-						opacity: boxOpacity,
-						transform: boxTransform
-					}}
-				>
-					{card
-						? (
-							<div className="content-container">
-								<CardSide>
-									{card[isFront ? 'front' : 'back']}
-								</CardSide>
-							</div>
-						)
-						: <Loader size="24px" thickness="4px" color="#582efe" />
-					}
-					<div className="toggle">
-						<p className="side">
-							{isFront ? 'Front' : 'Back'}
-						</p>
-						<ToggleIcon
-							className="icon"
-							style={{
-								transform: `scale(2) rotate(${toggleButtonDegrees}deg)`
-							}}
-						/>
-					</div>
-				</div>
-				<div className="footer">
-					<button
-						className="left"
-						disabled={isLeftDisabled}
-						onClick={() => nextCard(false)}
-					>
-						<LeftArrowHead />
-					</button>
-					<div className={cx('progress', { disabled: cardIndex === undefined })}>
-						<div className="slider">
-							<div style={{ width: `${100 * ((cardIndex ?? 0) + 1) / deck.numberOfCards}%` }} />
+			<div className="header">
+				<Select
+					className="section-select"
+					options={_sections ?? []}
+					getOptionLabel={property('name')}
+					getOptionValue={property('id')}
+					isOptionDisabled={isSectionDisabled}
+					placeholder="Loading..."
+					isLoading={!section}
+					value={section}
+					onChange={setSection as any}
+				/>
+				<h3 className="message">
+					Preview this deck
+				</h3>
+			</div>
+			<div
+				className={cx('box', { loading: !card })}
+				onClick={toggleSide}
+				style={{
+					opacity: boxOpacity,
+					transform: boxTransform
+				}}
+			>
+				{card
+					? (
+						<div className="content-container">
+							<CardSide>
+								{card[isFront ? 'front' : 'back']}
+							</CardSide>
 						</div>
-						<p>{formatNumber((cardIndex ?? 0) + 1)} <span>/</span> {formatNumber(deck.numberOfCards)}</p>
-					</div>
-					<button
-						className="right"
-						disabled={isRightDisabled}
-						onClick={() => nextCard(true)}
-					>
-						<RightArrowHead />
-					</button>
+					)
+					: <Loader size="24px" thickness="4px" color="#582efe" />
+				}
+				<div className="toggle">
+					<p className="side">
+						{isFront ? 'Front' : 'Back'}
+					</p>
+					<ToggleIcon
+						className="icon"
+						style={{
+							transform: `scale(2) rotate(${toggleButtonDegrees}deg)`
+						}}
+					/>
 				</div>
+			</div>
+			<div className="footer">
+				<button
+					className="left"
+					disabled={isLeftDisabled}
+					onClick={() => nextCard(false)}
+				>
+					<LeftArrowHead />
+				</button>
+				<div className={cx('progress', { disabled: cardIndex === undefined })}>
+					<div className="slider">
+						<div style={{ width: `${100 * ((cardIndex ?? 0) + 1) / deck.numberOfCards}%` }} />
+					</div>
+					<p>{formatNumber((cardIndex ?? 0) + 1)} <span>/</span> {formatNumber(deck.numberOfCards)}</p>
+				</div>
+				<button
+					className="right"
+					disabled={isRightDisabled}
+					onClick={() => nextCard(true)}
+				>
+					<RightArrowHead />
+				</button>
 			</div>
 		</div>
 	)
