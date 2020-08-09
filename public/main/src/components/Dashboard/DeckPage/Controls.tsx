@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faStarFilled } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarOutlined } from '@fortawesome/free-regular-svg-icons'
-import moment from 'moment'
 import TimeAgo from 'javascript-time-ago'
 import enLocale from 'javascript-time-ago/locale/en'
 
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import Stars from '../../shared/Stars'
-import { formatNumber } from '../../../utils'
+import { formatNumber, formatLongDate } from '../../../utils'
 
 import { ReactComponent as GrayStar } from '../../../images/icons/gray-star.svg'
 
@@ -125,7 +124,7 @@ const DeckPageControls = ({ deck, hasDeck }: { deck: Deck, hasDeck: boolean }) =
 				</div>
 				<div>
 					<p>Date created</p>
-					<p>{moment(deck.created).format('MMM D, YYYY')}</p>
+					<p>{formatLongDate(deck.created)}</p>
 				</div>
 			</div>
 		</div>
