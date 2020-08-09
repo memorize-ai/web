@@ -1,5 +1,10 @@
 const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24
 
+export const DAYS = ['Mon', 'Wed', 'Fri']
+
+export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+MONTHS.unshift(...MONTHS.splice(new Date().getMonth() + 1))
+
 export const getDay = () =>
 	Math.floor(Date.now() / MILLISECONDS_IN_DAY)
 
