@@ -1,9 +1,12 @@
 import { https } from 'firebase-functions'
 import { Response } from 'express'
 
-import { PING_KEY, DEFAULT_STORAGE_BUCKET } from './constants'
+import { PING_KEY, DEFAULT_STORAGE_BUCKET, MILLISECONDS_IN_DAY } from './constants'
 
 export type HttpsCallableFunction<T> = (data: any, context: https.CallableContext) => Promise<T>
+
+export const getDay = () =>
+	Math.floor(Date.now() / MILLISECONDS_IN_DAY)
 
 export const cauterize = <Args extends any[], Result, Fallback>(
 	fn: (...args: Args) => Result,
