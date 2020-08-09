@@ -74,12 +74,21 @@
 		}
 	}
 	
+	> .activity {
+		margin: 30px;
+	}
+	
 	> .my-decks,
 	> .recommended-decks {
 		> h1 {
+			display: inline-block;
 			margin: 0 30px;
+			padding: 4px 12px;
 			font-size: 25px;
-			font-weight: 800;
+			font-weight: 900;
+			color: #4a4a4a;
+			background: transparentize(white, 0.7);
+			border-radius: 5px;
 		}
 		
 		> .decks {
@@ -107,10 +116,6 @@
 	
 	> .my-decks {
 		margin-top: 20px;
-		
-		> h1 {
-			color: white;
-		}
 	}
 	
 	> .recommended-decks {
