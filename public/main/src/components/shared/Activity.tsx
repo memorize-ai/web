@@ -19,6 +19,14 @@ import '../../scss/components/Activity.scss'
 
 const firestore = firebase.firestore()
 
+const ActivityCell = ({ node }: { node: ActivityNode }) => (
+	<div
+		className={`cell intensity-${node.intensity}`}
+		aria-label={`${formatLongDate(node.date)} - ${node.value} card${node.value === 1 ? '' : 's'}`}
+		data-balloon-pos="up"
+	/>
+)
+
 const Activity = () => {
 	const [state, dispatch] = useContext(ActivityContext)
 	
@@ -78,22 +86,12 @@ const Activity = () => {
 				<div className="cells">
 					<div className="past-cells">
 						{pastNodes.map(node => (
-							<div
-								key={node.day}
-								className="cell"
-								aria-label={`${formatLongDate(node.date)} - ${node.value} card${node.value === 1 ? '' : 's'}`}
-								data-balloon-pos="up"
-							/>
+							<ActivityCell key={node.day} node={node} />
 						))}
 					</div>
 					<div className="current-cells">
 						{currentNodes.map(node => (
-							<div
-								key={node.day}
-								className="cell"
-								aria-label={`${formatLongDate(node.date)} - ${node.value} card${node.value === 1 ? '' : 's'}`}
-								data-balloon-pos="up"
-							/>
+							<ActivityCell key={node.day} node={node} />
 						))}
 					</div>
 				</div>

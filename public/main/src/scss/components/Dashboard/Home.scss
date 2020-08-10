@@ -74,8 +74,12 @@
 		}
 	}
 	
-	> .activity {
+	> .activity-container {
 		margin: 30px;
+		
+		> .activity {
+			margin: 0 auto;
+		}
 	}
 	
 	> .my-decks,

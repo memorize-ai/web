@@ -32,4 +32,17 @@ export default class ActivityNode {
 		this.value = snapshot.get('value')
 		return this
 	}
+	
+	get intensity() {
+		const { value } = this
+		
+		if (!value) return 0
+		
+		if (value <= 5) return 1
+		if (value <= 10) return 2
+		if (value <= 15) return 3
+		if (value <= 20) return 4
+		
+		return 5
+	}
 }

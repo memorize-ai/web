@@ -13,11 +13,12 @@ $colors: (
 .activity {
 	display: flex;
 	justify-content: flex-end;
+	max-width: max-content;
 	overflow: hidden;
-	padding: 30px;
+	padding: 20px 30px 30px 20px;
 	background: white;
 	border: 1px solid #eee;
-	border-radius: 15px;
+	border-radius: 8px;
 	
 	> .content {
 		display: grid;
@@ -60,18 +61,13 @@ $colors: (
 					width: $cell-dimension;
 					height: $cell-dimension;
 					cursor: default;
-					background: #f85ea1;
 					border-radius: 2px;
 					border: 1px solid #1b1f230a;
 					
 					@for $i from 0 through 5 {
 						&.intensity-#{$i} {
-							color: map-get($colors, $i);
+							background: map-get($colors, $i);
 						}
-					}
-					
-					&:hover {
-						background: #582efe;
 					}
 				}
 			}
