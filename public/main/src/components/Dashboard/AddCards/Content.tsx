@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useContext, memo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo, useContext, useCallback } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import Select from 'react-select'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -265,4 +265,4 @@ const AddCardsContent = () => {
 	)
 }
 
-export default memo(AddCardsContent)
+export default AddCardsContent

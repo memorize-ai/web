@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import Star from './Star'
 
@@ -15,4 +15,4 @@ const Stars = ({ children: rating }: { children: number }) => (
 	</div>
 )
 
-export default memo(Stars)
+export default Stars

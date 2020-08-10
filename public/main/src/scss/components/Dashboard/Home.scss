@@ -3,28 +3,13 @@
 
 @include dashboard-content('home') {
 	> .header {
-		--right-offset: 0px;
-		
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin: 16px 30px 0 30px;
-		
-		@media (min-width: 450px) {
-			--right-offset: 180px;
-			
-			> .create-deck-link {
-				display: flex !important;
-			}
-		}
-		
-		> .left,
-		> .create-deck-link {
-			flex-shrink: 0;
-		}
+		margin: 16px 30px 0;
 		
 		> .left {
-			width: calc(100vw - var(--sidebar-width) - #{30px * 2} - var(--right-offset));
+			overflow: hidden;
 			color: white;
 			
 			> .title,
@@ -59,13 +44,19 @@
 		}
 		
 		> .create-deck-link {
+			flex-shrink: 0;
 			display: none;
 			align-items: center;
+			margin-left: 24px;
 			padding: 10px 16px;
 			color: #582efe;
 			background: white;
 			border-radius: 8px;
 			transition: color 0.3s, background 0.3s;
+			
+			@media (min-width: 450px) {
+				display: flex;
+			}
 			
 			> svg {
 				margin-right: 10px;
@@ -83,12 +74,36 @@
 		}
 	}
 	
+	> .activity-container,
 	> .my-decks,
 	> .recommended-decks {
 		> h1 {
+			display: inline-block;
 			margin: 0 30px;
+			font-weight: 900;
+		}
+	}
+	
+	> .activity-container {
+		margin: 30px 0;
+		
+		> h1 {
+			color: white;
+		}
+		
+		> .activity {
+			margin: 8px 30px 0;
+		}
+	}
+	
+	> .my-decks,
+	> .recommended-decks {
+		> h1 {
+			padding: 4px 12px;
 			font-size: 25px;
-			font-weight: 800;
+			color: #4a4a4a;
+			background: transparentize(white, 0.7);
+			border-radius: 5px;
 		}
 		
 		> .decks {
@@ -116,10 +131,6 @@
 	
 	> .my-decks {
 		margin-top: 20px;
-		
-		> h1 {
-			color: white;
-		}
 	}
 	
 	> .recommended-decks {

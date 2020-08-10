@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 
@@ -39,4 +39,4 @@ const HomeHeader = () => (
 	</div>
 )
 
-export default memo(HomeHeader)
+export default HomeHeader

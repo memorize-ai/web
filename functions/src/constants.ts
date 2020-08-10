@@ -17,3 +17,5 @@ export const ADMIN_KEY: string = config.admin.key
 
 export const SUPPORT_ID = 's6yreK4ZTRfIjxiYsch0ze1YnR93'
 export const SUPPORT_EMAIL = 'support@memorize.ai'
+
+export const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24

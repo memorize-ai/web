@@ -25,3 +25,7 @@ export const DEFAULT_DECK_COUNT = '47k'
 export const FIRESTORE_BATCH_LIMIT = 500
 
 export const EMAIL_REGEX = /^.+?@.+?\..{2,}$/
+
+export const LONG_DATE_FORMATTER_YEAR = new Intl.DateTimeFormat('en-US', { year: 'numeric' })
+export const LONG_DATE_FORMATTER_MONTH = new Intl.DateTimeFormat('en-US', { month: 'short' })
+export const LONG_DATE_FORMATTER_DAY = new Intl.DateTimeFormat('en-US', { day: 'numeric' })

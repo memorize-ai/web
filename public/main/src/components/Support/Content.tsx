@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 const SupportContent = () => (
 	<>
@@ -10,4 +10,4 @@ const SupportContent = () => (
 	</>
 )
 
-export default memo(SupportContent)
+export default SupportContent

@@ -1,4 +1,4 @@
-import React, { lazy, memo } from 'react'
+import React, { lazy } from 'react'
 
 import Dashboard, {
 	DashboardNavbarSelection as Selection,
@@ -19,4 +19,4 @@ const Cram = () => (
 	</Dashboard>
 )
 
-export default memo(Cram)
+export default Cram

@@ -1,4 +1,4 @@
-import React, { memo, ImgHTMLAttributes } from 'react'
+import React, { ImgHTMLAttributes } from 'react'
 
 const WebP = (
 	{ id, className, src, fallback, ...props }: {
@@ -12,4 +12,4 @@ const WebP = (
 		</picture>
 	)
 
-export default memo(WebP)
+export default WebP

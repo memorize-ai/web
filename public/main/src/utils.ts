@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 import sample from 'lodash/sample'
 
-import { LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, EMOJIS } from './constants'
+import { LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, EMOJIS, LONG_DATE_FORMATTER_MONTH, LONG_DATE_FORMATTER_DAY, LONG_DATE_FORMATTER_YEAR } from './constants'
 
 export const compose = <T extends any[], U, V>(
 	b: (u: U) => V,
@@ -121,3 +121,6 @@ export const hubSpotIdentifyUser = (user: firebase.User) => {
 		...user.email && { email: user.email }
 	}])
 }
+
+export const formatLongDate = (date: Date) =>
+	`${LONG_DATE_FORMATTER_MONTH.format(date)} ${LONG_DATE_FORMATTER_DAY.format(date)}, ${LONG_DATE_FORMATTER_YEAR.format(date)}`

@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import Row from './SliderRow'
 import { safeDivide } from '../../../utils'
@@ -20,4 +20,4 @@ const CramSliders = (
 	</table>
 )
 
-export default memo(CramSliders)
+export default CramSliders

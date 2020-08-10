@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, memo } from 'react'
+import React, { HTMLAttributes } from 'react'
 
 import WebP from './WebP'
 
@@ -18,4 +18,4 @@ const Logo = ({ type, ...props }: { type: LogoType } & HTMLAttributes<HTMLImageE
 	/>
 )
 
-export default memo(Logo)
+export default Logo

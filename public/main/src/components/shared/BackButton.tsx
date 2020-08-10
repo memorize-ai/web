@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, memo } from 'react'
+import React, { AnchorHTMLAttributes } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -13,4 +13,4 @@ const BackButton = ({ to, className, ...props }: { to: string } & AnchorHTMLAttr
 	</Link>
 )
 
-export default memo(BackButton)
+export default BackButton

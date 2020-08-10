@@ -1,4 +1,4 @@
-import React, { lazy, memo } from 'react'
+import React, { lazy } from 'react'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useSearchState from '../../../hooks/useSearchState'
@@ -23,4 +23,4 @@ const Market = () => (
 	</Dashboard>
 )
 
-export default memo(Market)
+export default Market

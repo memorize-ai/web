@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, memo } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 
 import firebase from '../../firebase'
 import Head from './Head'
@@ -49,4 +49,4 @@ const Policy = (
 	)
 }
 
-export default memo(Policy)
+export default Policy

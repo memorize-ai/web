@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, memo } from 'react'
+import React, { lazy, Suspense } from 'react'
 
 import Policy from '../shared/Policy'
 
@@ -16,4 +16,4 @@ const Privacy = () => (
 	</Policy>
 )
 
-export default memo(Privacy)
+export default Privacy

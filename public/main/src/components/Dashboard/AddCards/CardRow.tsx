@@ -1,4 +1,4 @@
-import React, { useMemo, memo } from 'react'
+import React, { useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -73,4 +73,4 @@ const AddCardsCardRow = (
 	)
 }
 
-export default memo(AddCardsCardRow)
+export default AddCardsCardRow

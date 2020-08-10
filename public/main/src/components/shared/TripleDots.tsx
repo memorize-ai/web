@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import '../../scss/components/TripleDots.scss'
 
@@ -10,4 +10,4 @@ const TripleDots = ({ color }: { color: string }) => (
 	</div>
 )
 
-export default memo(TripleDots)
+export default TripleDots

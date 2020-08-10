@@ -1,4 +1,4 @@
-import React, { memo, useCallback, MouseEvent, useState, useEffect, useMemo } from 'react'
+import React, { useCallback, MouseEvent, useState, useEffect, useMemo } from 'react'
 import cx from 'classnames'
 
 import Deck from '../../../models/Deck'
@@ -93,4 +93,4 @@ const ReviewCardContainer = (
 	)
 }
 
-export default memo(ReviewCardContainer)
+export default ReviewCardContainer

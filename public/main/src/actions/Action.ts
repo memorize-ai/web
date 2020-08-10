@@ -66,5 +66,7 @@ export enum ActionType {
 	AddCardsRemove,
 	AddCardsRemoveAll,
 	
-	SetContactUserLoadingState
+	SetContactUserLoadingState,
+	
+	SetActivityNode
 }

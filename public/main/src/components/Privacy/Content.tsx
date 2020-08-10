@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 const PrivacyContent = () => (
 	<>
@@ -88,4 +88,4 @@ const PrivacyContent = () => (
 	</>
 )
 
-export default memo(PrivacyContent)
+export default PrivacyContent

@@ -1,4 +1,4 @@
-import React, { lazy, memo } from 'react'
+import React, { lazy } from 'react'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 
@@ -15,4 +15,4 @@ const Review = () => (
 	</Dashboard>
 )
 
-export default memo(Review)
+export default Review

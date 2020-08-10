@@ -1,4 +1,4 @@
-import React, { useMemo, memo } from 'react'
+import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -7,6 +7,7 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import useDecks from '../../../hooks/useDecks'
 import useRecommendedDecks from '../../../hooks/useRecommendedDecks'
 import Head from '../../shared/Head'
+import Activity from '../../shared/Activity'
 import OwnedDeckCell from '../../shared/DeckCell/Owned'
 import DeckCell from '../../shared/DeckCell'
 import { formatNumber } from '../../../utils'
@@ -63,6 +64,10 @@ const DashboardHomeContent = () => {
 					<p>Create deck</p>
 				</Link>
 			</div>
+			<div className="activity-container">
+				<h1>Activity</h1>
+				<Activity />
+			</div>
 			{decks.length === 0 || (
 				<div className="my-decks">
 					<h1>My decks</h1>
@@ -88,9 +93,7 @@ const DashboardHomeContent = () => {
 			)}
 			{recommendedDecks.length === 0 || (
 				<div className="recommended-decks">
-					<h1 style={{ color: decks.length ? 'black' : 'white' }}>
-						Recommended decks
-					</h1>
+					<h1>Recommended decks</h1>
 					<div className="decks">
 						<div>
 							{recommendedDecks
@@ -115,4 +118,4 @@ const DashboardHomeContent = () => {
 	)
 }
 
-export default memo(DashboardHomeContent)
+export default DashboardHomeContent

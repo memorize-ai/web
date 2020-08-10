@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import cx from 'classnames'
 
 import PerformanceRating from '../../../models/PerformanceRating'
@@ -40,4 +40,4 @@ const CramFooter = (
 	</footer>
 )
 
-export default memo(CramFooter)
+export default CramFooter

@@ -5,7 +5,7 @@ import Algorithm from '../../Algorithm'
 import PerformanceRating, { NumberPerformanceRating, performanceRatingFromNumber } from '../PerformanceRating'
 import CardUserData from '../UserData'
 import Section from '../../Section'
-import { pingable } from '../../utils'
+import { pingable, getDay } from '../../utils'
 
 type UpdateCard = (
 	userData: CardUserData,
@@ -45,6 +45,7 @@ export default functions.https.onCall(pingable(async (
 	const now = new Date()
 	const { uid } = auth
 	const cardRef = firestore.doc(`users/${uid}/decks/${deckId}/cards/${cardId}`)
+	const day = getDay()
 	
 	const [isNewlyMastered] = await Promise.all([
 		CardUserData.fromId(uid, deckId, cardId).then(userData =>
@@ -58,6 +59,10 @@ export default functions.https.onCall(pingable(async (
 				? 'unsectionedDueCardCount'
 				: `sections.${sectionId}`
 			]: admin.firestore.FieldValue.increment(-1)
+		}),
+		firestore.doc(`users/${uid}/activity/${day}`).set({
+			day,
+			value: admin.firestore.FieldValue.increment(1)
 		})
 	])
 	

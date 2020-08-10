@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import Base from '../shared/AuthButton'
 
@@ -10,4 +10,4 @@ const AuthButton = () => (
 	</Base>
 )
 
-export default memo(AuthButton)
+export default AuthButton

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, MouseEvent } from 'react'
+import React, { useCallback, MouseEvent } from 'react'
 import TimeAgo from 'javascript-time-ago'
 import enLocale from 'javascript-time-ago/locale/en'
 import cx from 'classnames'
@@ -55,4 +55,4 @@ const ReviewRateButton = (
 	)
 }
 
-export default memo(ReviewRateButton)
+export default ReviewRateButton

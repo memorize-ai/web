@@ -7,6 +7,7 @@ import LoadingState from '../models/LoadingState'
 import { Counter } from '../models/Counters'
 import { SearchActionPayload } from '../contexts/Search'
 import AuthenticationMode from '../models/AuthenticationMode'
+import ActivityNode from '../models/ActivityNode'
 
 // Current user
 
@@ -260,4 +261,11 @@ export const addCardsRemoveAll = () => ({
 export const setContactUserLoadingState = (id: string, loadingState: LoadingState) => ({
 	type: ActionType.SetContactUserLoadingState,
 	payload: { id, loadingState }
+})
+
+// Activity
+
+export const setActivityNode = (node: ActivityNode) => ({
+	type: ActionType.SetActivityNode,
+	payload: node
 })

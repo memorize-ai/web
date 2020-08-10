@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import WebP from '../../shared/WebP'
 
@@ -16,4 +16,4 @@ const Star = ({ fill }: { fill: number }) => (
 	</div>
 )
 
-export default memo(Star)
+export default Star

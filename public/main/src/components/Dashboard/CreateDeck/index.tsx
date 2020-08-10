@@ -1,4 +1,4 @@
-import React, { lazy, memo } from 'react'
+import React, { lazy } from 'react'
 
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import useAuthState from '../../../hooks/useAuthState'
@@ -18,4 +18,4 @@ const CreateDeck = () => {
 	)
 }
 
-export default memo(CreateDeck)
+export default CreateDeck

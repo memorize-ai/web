@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import Helmet from 'react-helmet'
 import cx from 'classnames'
 
@@ -71,4 +71,4 @@ const HomeScreenshots = () => {
 	)
 }
 
-export default memo(HomeScreenshots)
+export default HomeScreenshots

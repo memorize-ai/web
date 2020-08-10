@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import List from './List'
@@ -35,4 +35,4 @@ const HomeClassroom = () => (
 	</div>
 )
 
-export default memo(HomeClassroom)
+export default HomeClassroom

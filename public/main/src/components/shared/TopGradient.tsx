@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, memo } from 'react'
+import React, { HTMLAttributes } from 'react'
 
 import '../../scss/components/TopGradient.scss'
 
@@ -9,4 +9,4 @@ const TopGradient = ({ children, ...props }: HTMLAttributes<HTMLDivElement>) => 
 	</div>
 )
 
-export default memo(TopGradient)
+export default TopGradient

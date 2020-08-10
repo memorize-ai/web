@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { DropzoneRootProps, DropzoneInputProps } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle, faImage } from '@fortawesome/free-solid-svg-icons'
@@ -55,4 +55,4 @@ const ImagePicker = (
 	</div>
 )
 
-export default memo(ImagePicker)
+export default ImagePicker

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useRef, useEffect, memo } from 'react'
+import React, { PropsWithChildren, useRef, useEffect } from 'react'
 import cx from 'classnames'
 
 import '../../scss/components/Dropdown.scss'
@@ -75,4 +75,4 @@ const Dropdown = (
 	)
 }
 
-export default memo(Dropdown)
+export default Dropdown

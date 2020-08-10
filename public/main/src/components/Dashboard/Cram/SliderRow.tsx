@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import cx from 'classnames'
 
 const CramSliderRow = (
@@ -19,4 +19,4 @@ const CramSliderRow = (
 	</tr>
 )
 
-export default memo(CramSliderRow)
+export default CramSliderRow

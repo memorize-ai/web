@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, memo } from 'react'
+import React, { HTMLAttributes } from 'react'
 import cx from 'classnames'
 
 import '../../scss/components/Loader.scss'
@@ -23,4 +23,4 @@ const Loader = (
 	/>
 )
 
-export default memo(Loader)
+export default Loader

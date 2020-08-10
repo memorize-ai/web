@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import Loader from '../Loader'
 
@@ -8,4 +8,4 @@ const CKEditorLoader = () => (
 	</div>
 )
 
-export default memo(CKEditorLoader)
+export default CKEditorLoader

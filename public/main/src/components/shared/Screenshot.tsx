@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, memo } from 'react'
+import React, { HTMLAttributes } from 'react'
 
 import WebP from './WebP'
 
@@ -27,4 +27,4 @@ const Screenshot = ({ type, ...props }: { type: ScreenshotType } & HTMLAttribute
 	/>
 )
 
-export default memo(Screenshot)
+export default Screenshot
