@@ -1,6 +1,15 @@
 $cell-dimension: 12px;
 $cell-gap: 3px;
 
+$colors: (
+	0: #ebedf0,
+	1: transparentize(#f85ea1, 0.8),
+	2: transparentize(#f85ea1, 0.6),
+	3: transparentize(#f85ea1, 0.4),
+	4: transparentize(#f85ea1, 0.2),
+	5: #f85ea1
+);
+
 .activity {
 	display: flex;
 	justify-content: flex-end;
@@ -50,9 +59,20 @@ $cell-gap: 3px;
 				> .cell {
 					width: $cell-dimension;
 					height: $cell-dimension;
+					cursor: default;
 					background: #f85ea1;
 					border-radius: 2px;
 					border: 1px solid #1b1f230a;
+					
+					@for $i from 0 through 5 {
+						&.intensity-#{$i} {
+							color: map-get($colors, $i);
+						}
+					}
+					
+					&:hover {
+						background: #582efe;
+					}
 				}
 			}
 			
