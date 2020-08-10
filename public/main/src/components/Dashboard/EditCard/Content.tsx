@@ -116,14 +116,14 @@ const EditCardContent = () => {
 	}, [deck, card, section, front, back, close])
 	
 	const deleteCard = useCallback(async () => {
-		if (!(deck && card))
+		if (!(currentUser && deck && card))
 			return
 		
-		card.delete(deck)
+		card.delete(currentUser, deck)
 		
 		setIsDeleteModalShowing(false)
 		close()
-	}, [deck, card, setIsDeleteModalShowing, close])
+	}, [currentUser, deck, card, setIsDeleteModalShowing, close])
 	
 	const onConfirmGoBack = useCallback(() => {
 		setIsCloseModalShowing(false)

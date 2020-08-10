@@ -104,18 +104,18 @@ const AddCardsContent = () => {
 	), [history, deck])
 	
 	const publish = useCallback(async () => {
-		if (!(deck && section))
+		if (!(currentUser && deck && section))
 			return
 		
 		const validCards = cards.filter(({ front, back }) => front && back)
 		const remainingCards = cards.filter(({ front, back }) => !(front && back))
 		
-		section.publishCards(deck, validCards)
+		section.publishCards(currentUser, deck, validCards)
 		dispatch(set(remainingCards))
 		
 		if (!remainingCards.length)
 			close()
-	}, [deck, section, dispatch, close, cards])
+	}, [currentUser, deck, section, dispatch, close, cards])
 	
 	const onConfirmGoBack = useCallback(() => {
 		setIsCloseModalShowing(false)

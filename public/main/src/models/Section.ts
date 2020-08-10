@@ -1,6 +1,7 @@
 import chunk from 'lodash/chunk'
 
 import firebase from '../firebase'
+import User from './User'
 import Deck from './Deck'
 import { CardDraft } from './Card'
 import { handleError } from '../utils'
@@ -8,6 +9,7 @@ import { FIRESTORE_BATCH_LIMIT } from '../constants'
 
 import 'firebase/firestore'
 
+const { FieldValue } = firebase.firestore
 const firestore = firebase.firestore()
 
 export interface SectionData {
@@ -106,10 +108,10 @@ export default class Section implements SectionData {
 	delete = (deck: Deck) =>
 		firestore.doc(`decks/${deck.id}/sections/${this.id}`).delete()
 	
-	publishCards = (deck: Deck, cards: CardDraft[]) => {
+	publishCards = (user: User, deck: Deck, cards: CardDraft[]) => {
 		const chunks = chunk(cards, FIRESTORE_BATCH_LIMIT)
 		
-		return Promise.all(chunks.map(chunk => {
+		const promises: Promise<any>[] = chunks.map(chunk => {
 			const batch = firestore.batch()
 			
 			for (const { front, back } of chunk)
@@ -123,6 +125,19 @@ export default class Section implements SectionData {
 				})
 			
 			return batch.commit()
-		}))
+		})
+		
+		if (deck.isSectionUnlocked(this))
+			promises.push(
+				firestore.doc(`users/${user.id}/decks/${deck.id}`).update({
+					dueCardCount: FieldValue.increment(1),
+					[this.isUnsectioned
+						? 'unsectionedDueCardCount'
+						: `sections.${this.id}`
+					]: FieldValue.increment(1)
+				})
+			)
+		
+		return Promise.all(promises)
 	}
 }
