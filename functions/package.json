@@ -26,7 +26,7 @@
 		"lodash": "^4.17.19",
 		"mime": "^2.4.6",
 		"prerender-node": "^3.2.5",
-		"string-strip-html": "^4.5.0",
+		"string-strip-html": "^4.5.1",
 		"twitter": "^1.7.1",
 		"user-request": "^1.0.1",
 		"uuid": "^3.4.0"
