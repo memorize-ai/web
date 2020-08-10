@@ -1,6 +1,7 @@
 import stripHtml from 'string-strip-html'
 
 import firebase from '../../firebase'
+import User from '../User'
 import Deck from '../Deck'
 import Section from '../Section'
 import UserData from './UserData'
@@ -8,6 +9,7 @@ import { handleError } from '../../utils'
 
 import 'firebase/firestore'
 
+const { FieldValue } = firebase.firestore
 const firestore = firebase.firestore()
 
 export interface CardDraft {
@@ -195,6 +197,22 @@ export default class Card implements CardData {
 		return firestore.doc(`decks/${deck.id}/cards/${this.id}`).update(data)
 	}
 	
-	delete = (deck: Deck) =>
-		firestore.doc(`decks/${deck.id}/cards/${this.id}`).delete()
+	delete = (user: User, deck: Deck) => {
+		const promises: Promise<any>[] = [
+			firestore.doc(`decks/${deck.id}/cards/${this.id}`).delete()
+		]
+		
+		if (this.isDue)
+			promises.push(
+				firestore.doc(`users/${user.id}/decks/${deck.id}`).update({
+					dueCardCount: FieldValue.increment(-1),
+					[this.isUnsectioned
+						? 'unsectionedDueCardCount'
+						: `sections.${this.sectionId}`
+					]: FieldValue.increment(-1)
+				})
+			)
+		
+		return Promise.all(promises)
+	}
 }
