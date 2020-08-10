@@ -20,4 +20,4 @@ const AppStoreDownloadButton = (props: HTMLAttributes<HTMLAnchorElement>) => (
 	</a>
 )
 
-export default memo(AppStoreDownloadButton)
+export default AppStoreDownloadButton

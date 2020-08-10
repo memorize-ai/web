@@ -49,4 +49,4 @@ const Policy = (
 	)
 }
 
-export default memo(Policy)
+export default Policy

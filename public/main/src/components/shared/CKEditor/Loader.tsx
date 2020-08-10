@@ -8,4 +8,4 @@ const CKEditorLoader = () => (
 	</div>
 )
 
-export default memo(CKEditorLoader)
+export default CKEditorLoader

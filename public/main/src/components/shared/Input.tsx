@@ -33,4 +33,4 @@ const Input = (
 	</div>
 )
 
-export default memo(forwardRef(Input))
+export default forwardRef(Input)

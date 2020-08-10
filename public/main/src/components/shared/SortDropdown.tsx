@@ -53,4 +53,4 @@ const SortDropdown = (
 	</Dropdown>
 )
 
-export default memo(SortDropdown)
+export default SortDropdown

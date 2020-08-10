@@ -10,4 +10,4 @@ const EditDeck = () => (
 	</Dashboard>
 )
 
-export default memo(EditDeck)
+export default EditDeck

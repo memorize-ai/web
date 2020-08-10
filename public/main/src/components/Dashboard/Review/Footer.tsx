@@ -60,4 +60,4 @@ const ReviewFooter = (
 	</footer>
 )
 
-export default memo(ReviewFooter)
+export default ReviewFooter

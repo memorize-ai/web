@@ -23,4 +23,4 @@ const WhiteArrowAuthButton = ({
 	</AuthButton>
 )
 
-export default memo(WhiteArrowAuthButton)
+export default WhiteArrowAuthButton

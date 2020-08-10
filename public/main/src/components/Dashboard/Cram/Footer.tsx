@@ -40,4 +40,4 @@ const CramFooter = (
 	</footer>
 )
 
-export default memo(CramFooter)
+export default CramFooter

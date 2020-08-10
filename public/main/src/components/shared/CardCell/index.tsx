@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import Card from '../../../models/Card'
 import Base from './Base'
@@ -14,4 +14,4 @@ const CardCell = ({ card }: { card: Card }) => (
 	</div>
 )
 
-export default memo(CardCell)
+export default CardCell

@@ -16,4 +16,4 @@ const Support = () => (
 	</Policy>
 )
 
-export default memo(Support)
+export default Support

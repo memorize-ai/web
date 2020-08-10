@@ -88,4 +88,4 @@ const PrivacyContent = () => (
 	</>
 )
 
-export default memo(PrivacyContent)
+export default PrivacyContent

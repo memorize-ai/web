@@ -18,4 +18,4 @@ const CKEditor = (props: CKEditorProps) => (
 	</Suspense>
 )
 
-export default memo(CKEditor)
+export default CKEditor

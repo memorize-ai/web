@@ -35,4 +35,4 @@ const HomeClassroom = () => (
 	</div>
 )
 
-export default memo(HomeClassroom)
+export default HomeClassroom

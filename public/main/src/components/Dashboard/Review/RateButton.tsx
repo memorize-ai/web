@@ -55,4 +55,4 @@ const ReviewRateButton = (
 	)
 }
 
-export default memo(ReviewRateButton)
+export default ReviewRateButton

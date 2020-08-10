@@ -75,4 +75,4 @@ const Dropdown = (
 	)
 }
 
-export default memo(Dropdown)
+export default Dropdown

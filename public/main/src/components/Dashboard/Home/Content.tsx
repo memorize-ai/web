@@ -118,4 +118,4 @@ const DashboardHomeContent = () => {
 	)
 }
 
-export default memo(DashboardHomeContent)
+export default DashboardHomeContent

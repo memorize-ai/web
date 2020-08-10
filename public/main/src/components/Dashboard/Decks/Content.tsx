@@ -98,4 +98,4 @@ const DecksContent = () => {
 	)
 }
 
-export default memo(DecksContent)
+export default DecksContent

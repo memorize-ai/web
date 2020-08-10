@@ -18,4 +18,4 @@ const PageNotFound = () => (
 	</div>
 )
 
-export default memo(PageNotFound)
+export default PageNotFound

@@ -164,4 +164,4 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 	)
 }
 
-export default memo(DashboardNavbar)
+export default DashboardNavbar

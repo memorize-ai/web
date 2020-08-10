@@ -9,4 +9,4 @@ const TopGradient = ({ children, ...props }: HTMLAttributes<HTMLDivElement>) => 
 	</div>
 )
 
-export default memo(TopGradient)
+export default TopGradient

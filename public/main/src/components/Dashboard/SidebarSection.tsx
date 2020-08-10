@@ -33,4 +33,4 @@ const DashboardSidebarSection = (
 		: null
 }
 
-export default memo(DashboardSidebarSection)
+export default DashboardSidebarSection

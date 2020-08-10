@@ -10,4 +10,4 @@ const AuthButton = () => (
 	</Base>
 )
 
-export default memo(AuthButton)
+export default AuthButton

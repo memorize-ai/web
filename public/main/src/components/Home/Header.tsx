@@ -39,4 +39,4 @@ const HomeHeader = () => (
 	</div>
 )
 
-export default memo(HomeHeader)
+export default HomeHeader

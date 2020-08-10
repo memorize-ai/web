@@ -174,4 +174,3 @@ const Head = <SchemaItems extends Thing[]>({
 }
 
 export default memo(Head)
-export * from 'schema.org-react'

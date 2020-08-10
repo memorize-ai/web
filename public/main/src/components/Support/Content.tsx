@@ -10,4 +10,4 @@ const SupportContent = () => (
 	</>
 )
 
-export default memo(SupportContent)
+export default SupportContent

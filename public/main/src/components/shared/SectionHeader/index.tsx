@@ -50,4 +50,4 @@ const SectionHeader = (
 	)
 }
 
-export default memo(SectionHeader)
+export default SectionHeader

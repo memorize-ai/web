@@ -8,4 +8,4 @@ const Root = () => (
 	useAuthState() ? <DashboardHome /> : <Home />
 )
 
-export default memo(Root)
+export default Root

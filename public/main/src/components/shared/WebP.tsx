@@ -12,4 +12,4 @@ const WebP = (
 		</picture>
 	)
 
-export default memo(WebP)
+export default WebP

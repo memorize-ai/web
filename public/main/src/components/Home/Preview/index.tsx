@@ -149,4 +149,4 @@ const Preview = () => {
 	)
 }
 
-export default memo(Preview)
+export default Preview

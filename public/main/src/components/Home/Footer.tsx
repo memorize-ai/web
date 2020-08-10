@@ -69,4 +69,4 @@ const HomeFooter = () => (
 	</footer>
 )
 
-export default memo(HomeFooter)
+export default HomeFooter

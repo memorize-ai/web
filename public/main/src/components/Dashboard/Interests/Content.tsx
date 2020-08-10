@@ -77,4 +77,4 @@ const InterestsContent = () => {
 	)
 }
 
-export default memo(InterestsContent)
+export default InterestsContent

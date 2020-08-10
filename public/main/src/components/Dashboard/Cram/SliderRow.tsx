@@ -19,4 +19,4 @@ const CramSliderRow = (
 	</tr>
 )
 
-export default memo(CramSliderRow)
+export default CramSliderRow

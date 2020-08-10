@@ -275,4 +275,4 @@ const EditCardContent = () => {
 	)
 }
 
-export default memo(EditCardContent)
+export default EditCardContent

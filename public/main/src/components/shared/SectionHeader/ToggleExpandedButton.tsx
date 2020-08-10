@@ -18,4 +18,4 @@ const SectionHeaderToggleExpandedButton = (
 	</button>
 )
 
-export default memo(SectionHeaderToggleExpandedButton)
+export default SectionHeaderToggleExpandedButton

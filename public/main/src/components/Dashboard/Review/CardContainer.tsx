@@ -93,4 +93,4 @@ const ReviewCardContainer = (
 	)
 }
 
-export default memo(ReviewCardContainer)
+export default ReviewCardContainer

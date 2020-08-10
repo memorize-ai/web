@@ -10,4 +10,4 @@ const Decks = () => (
 	</Dashboard>
 )
 
-export default memo(Decks)
+export default Decks

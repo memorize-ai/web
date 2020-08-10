@@ -18,4 +18,4 @@ const CreateDeck = () => {
 	)
 }
 
-export default memo(CreateDeck)
+export default CreateDeck

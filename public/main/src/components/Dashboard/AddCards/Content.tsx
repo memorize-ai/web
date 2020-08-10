@@ -265,4 +265,4 @@ const AddCardsContent = () => {
 	)
 }
 
-export default memo(AddCardsContent)
+export default AddCardsContent

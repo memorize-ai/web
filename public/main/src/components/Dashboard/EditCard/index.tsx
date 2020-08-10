@@ -10,4 +10,4 @@ const EditCard = () => (
 	</Dashboard>
 )
 
-export default memo(EditCard)
+export default EditCard

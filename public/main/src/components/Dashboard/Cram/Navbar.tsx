@@ -47,4 +47,4 @@ const CramNavbar = (
 	</div>
 )
 
-export default memo(CramNavbar)
+export default CramNavbar

@@ -163,4 +163,4 @@ const CreateDeckContent = () => {
 	)
 }
 
-export default memo(CreateDeckContent)
+export default CreateDeckContent

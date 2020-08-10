@@ -10,4 +10,4 @@ const TripleDots = ({ color }: { color: string }) => (
 	</div>
 )
 
-export default memo(TripleDots)
+export default TripleDots

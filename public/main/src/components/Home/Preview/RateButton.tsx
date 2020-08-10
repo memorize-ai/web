@@ -45,4 +45,4 @@ const PreviewRateButton = (
 	)
 }
 
-export default memo(PreviewRateButton)
+export default PreviewRateButton

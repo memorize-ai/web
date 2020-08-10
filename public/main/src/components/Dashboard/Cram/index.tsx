@@ -19,4 +19,4 @@ const Cram = () => (
 	</Dashboard>
 )
 
-export default memo(Cram)
+export default Cram

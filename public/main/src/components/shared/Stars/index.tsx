@@ -15,4 +15,4 @@ const Stars = ({ children: rating }: { children: number }) => (
 	</div>
 )
 
-export default memo(Stars)
+export default Stars

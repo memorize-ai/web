@@ -33,4 +33,4 @@ const ImportDeckButtons = () => {
 	)
 }
 
-export default memo(ImportDeckButtons)
+export default ImportDeckButtons

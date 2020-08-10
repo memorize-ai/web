@@ -10,4 +10,4 @@ const DashboardHome = () => (
 	</Dashboard>
 )
 
-export default memo(DashboardHome)
+export default DashboardHome

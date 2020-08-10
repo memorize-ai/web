@@ -16,4 +16,4 @@ const Privacy = () => (
 	</Policy>
 )
 
-export default memo(Privacy)
+export default Privacy

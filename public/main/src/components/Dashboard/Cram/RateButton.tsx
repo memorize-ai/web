@@ -28,4 +28,4 @@ const CramRateButton = (
 	)
 }
 
-export default memo(CramRateButton)
+export default CramRateButton

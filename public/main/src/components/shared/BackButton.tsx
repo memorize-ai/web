@@ -13,4 +13,4 @@ const BackButton = ({ to, className, ...props }: { to: string } & AnchorHTMLAttr
 	</Link>
 )
 
-export default memo(BackButton)
+export default BackButton

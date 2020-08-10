@@ -23,4 +23,4 @@ const Market = () => (
 	</Dashboard>
 )
 
-export default memo(Market)
+export default Market

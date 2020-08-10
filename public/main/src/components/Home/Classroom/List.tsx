@@ -44,4 +44,4 @@ const HomeClassroomList = () => (
 	</ol>
 )
 
-export default memo(HomeClassroomList)
+export default HomeClassroomList

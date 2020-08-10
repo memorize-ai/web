@@ -93,4 +93,4 @@ const CramCardContainer = (
 	)
 }
 
-export default memo(CramCardContainer)
+export default CramCardContainer

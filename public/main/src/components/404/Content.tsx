@@ -37,4 +37,4 @@ const PageNotFoundContent = () => {
 	)
 }
 
-export default memo(PageNotFoundContent)
+export default PageNotFoundContent

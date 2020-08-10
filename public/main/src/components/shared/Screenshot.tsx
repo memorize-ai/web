@@ -27,4 +27,4 @@ const Screenshot = ({ type, ...props }: { type: ScreenshotType } & HTMLAttribute
 	/>
 )
 
-export default memo(Screenshot)
+export default Screenshot

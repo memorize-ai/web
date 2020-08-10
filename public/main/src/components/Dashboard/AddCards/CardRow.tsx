@@ -73,4 +73,4 @@ const AddCardsCardRow = (
 	)
 }
 
-export default memo(AddCardsCardRow)
+export default AddCardsCardRow

@@ -20,4 +20,4 @@ const CramSliders = (
 	</table>
 )
 
-export default memo(CramSliders)
+export default CramSliders

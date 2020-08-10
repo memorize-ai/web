@@ -55,4 +55,4 @@ const ImagePicker = (
 	</div>
 )
 
-export default memo(ImagePicker)
+export default ImagePicker

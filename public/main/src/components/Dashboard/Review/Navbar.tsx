@@ -37,4 +37,4 @@ const ReviewNavbar = (
 	</div>
 )
 
-export default memo(ReviewNavbar)
+export default ReviewNavbar

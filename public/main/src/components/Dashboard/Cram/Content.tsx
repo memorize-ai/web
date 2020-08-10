@@ -103,4 +103,4 @@ const CramContent = () => {
 	)
 }
 
-export default memo(CramContent)
+export default CramContent

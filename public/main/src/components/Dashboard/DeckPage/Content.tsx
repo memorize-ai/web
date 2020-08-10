@@ -191,4 +191,4 @@ const DeckPageContent = () => {
 	)
 }
 
-export default memo(DeckPageContent)
+export default DeckPageContent

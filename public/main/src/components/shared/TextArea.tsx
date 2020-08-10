@@ -22,4 +22,4 @@ const TextArea = (
 	/>
 )
 
-export default memo(TextArea)
+export default TextArea

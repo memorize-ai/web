@@ -32,4 +32,4 @@ const CardSide = ({ className, children, ...props }: { children: string } & HTML
 	)
 }
 
-export default memo(CardSide)
+export default CardSide

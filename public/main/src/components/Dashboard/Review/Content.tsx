@@ -97,4 +97,4 @@ const ReviewContent = () => {
 	)
 }
 
-export default memo(ReviewContent)
+export default ReviewContent

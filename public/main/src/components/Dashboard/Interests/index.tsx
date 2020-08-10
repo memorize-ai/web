@@ -10,4 +10,4 @@ const Interests = () => (
 	</Dashboard>
 )
 
-export default memo(Interests)
+export default Interests

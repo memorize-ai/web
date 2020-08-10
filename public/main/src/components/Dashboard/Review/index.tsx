@@ -15,4 +15,4 @@ const Review = () => (
 	</Dashboard>
 )
 
-export default memo(Review)
+export default Review

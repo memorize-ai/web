@@ -117,4 +117,4 @@ const DashboardSidebar = () => {
 	)
 }
 
-export default memo(DashboardSidebar)
+export default DashboardSidebar

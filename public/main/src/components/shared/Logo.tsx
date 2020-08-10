@@ -18,4 +18,4 @@ const Logo = ({ type, ...props }: { type: LogoType } & HTMLAttributes<HTMLImageE
 	/>
 )
 
-export default memo(Logo)
+export default Logo

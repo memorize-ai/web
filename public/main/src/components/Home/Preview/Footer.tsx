@@ -63,4 +63,4 @@ const PreviewFooter = (
 	</div>
 )
 
-export default memo(PreviewFooter)
+export default PreviewFooter

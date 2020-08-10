@@ -31,4 +31,4 @@ const HomeSpacedRepetition = () => (
 	</div>
 )
 
-export default memo(HomeSpacedRepetition)
+export default HomeSpacedRepetition

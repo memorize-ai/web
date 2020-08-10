@@ -16,4 +16,4 @@ const AddCards = () => (
 	</Dashboard>
 )
 
-export default memo(AddCards)
+export default AddCards

@@ -150,4 +150,4 @@ const EditDeckContent = () => {
 	)
 }
 
-export default memo(EditDeckContent)
+export default EditDeckContent

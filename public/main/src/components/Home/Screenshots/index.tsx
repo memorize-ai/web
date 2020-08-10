@@ -71,4 +71,4 @@ const HomeScreenshots = () => {
 	)
 }
 
-export default memo(HomeScreenshots)
+export default HomeScreenshots
