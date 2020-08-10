@@ -63,7 +63,7 @@ export default functions.https.onCall(pingable(async (
 		firestore.doc(`users/${uid}/activity/${day}`).set({
 			day,
 			value: admin.firestore.FieldValue.increment(1)
-		})
+		}, { merge: true })
 	])
 	
 	return isNewlyMastered
