@@ -1,4 +1,4 @@
-import React, { memo, useCallback, MouseEvent } from 'react'
+import React, { useCallback, MouseEvent } from 'react'
 
 import PerformanceRating from '../../../models/PerformanceRating'
 

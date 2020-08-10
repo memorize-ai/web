@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, memo, useCallback } from 'react'
+import React, { useContext, useRef, useState, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import CreateDeckContext from '../../../contexts/CreateDeck'

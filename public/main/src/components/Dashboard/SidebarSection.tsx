@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import Deck from '../../models/Deck'
 import { includesNormalized } from '../../utils'

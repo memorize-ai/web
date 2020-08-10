@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import useAuthState from '../../hooks/useAuthState'
 import Home from '../Home'

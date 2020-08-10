@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import useCramState from './useCramState'

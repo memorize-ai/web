@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, memo } from 'react'
+import React, { HTMLAttributes } from 'react'
 
 import { APP_STORE_URL } from '../../constants'
 import { ReactComponent as AppStoreDownloadImage } from '../../images/app-store-download.svg'

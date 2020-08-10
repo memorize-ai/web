@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react'
+import React, { useState, useCallback } from 'react'
 
 import Section from '../../../models/Section'
 import ToggleExpandedButton from './ToggleExpandedButton'

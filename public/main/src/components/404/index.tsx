@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, memo } from 'react'
+import React, { lazy, Suspense } from 'react'
 
 import TopGradient from '../shared/TopGradient'
 import Navbar from '../shared/Navbar'

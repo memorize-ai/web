@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useCallback, memo } from 'react'
+import React, { HTMLAttributes, useCallback } from 'react'
 import renderMathInElement from 'katex/dist/contrib/auto-render'
 import { highlightAllUnder } from 'prismjs'
 import cx from 'classnames'

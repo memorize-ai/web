@@ -1,4 +1,4 @@
-import React, { ReactNode, memo } from 'react'
+import React, { ReactNode } from 'react'
 
 import { ReactComponent as Bullet } from '../../../images/home/bullet.svg'
 

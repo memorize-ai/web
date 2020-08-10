@@ -1,4 +1,4 @@
-import React, { useState, useMemo, memo, useCallback } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'

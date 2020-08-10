@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import spacedRepetitionImage from '../../images/home/spaced-repetition.png'
 

@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react'
+import React, { useEffect } from 'react'
 
 import firebase from '../../firebase'
 import Head, { APP_SCHEMA } from '../shared/Head'

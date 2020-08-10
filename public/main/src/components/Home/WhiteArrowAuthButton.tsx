@@ -1,4 +1,4 @@
-import React, { memo, PropsWithChildren, ButtonHTMLAttributes } from 'react'
+import React, { PropsWithChildren, ButtonHTMLAttributes } from 'react'
 import cx from 'classnames'
 
 import AuthButton from '../shared/AuthButton'

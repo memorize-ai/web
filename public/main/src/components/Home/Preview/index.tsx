@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import Confetti from 'react-dom-confetti'
 import cx from 'classnames'
 
