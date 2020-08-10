@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo, memo } from 'react'
 
 import firebase from '../../firebase'
 import ActivityContext from '../../contexts/Activity'
@@ -19,11 +19,14 @@ import '../../scss/components/Activity.scss'
 
 const firestore = firebase.firestore()
 
-const ActivityCell = ({ node }: { node: ActivityNode }) => (
-	<div
+const ActivityCell = ({ node, popUpDirection }: {
+	node: ActivityNode
+	popUpDirection: 'up' | 'right' | 'left'
+}) => (
+	<span
 		className={`cell intensity-${node.intensity}`}
 		aria-label={`${formatLongDate(node.date)} - ${node.value} card${node.value === 1 ? '' : 's'}`}
-		data-balloon-pos="up"
+		data-balloon-pos={popUpDirection}
 	/>
 )
 
@@ -32,30 +35,17 @@ const Activity = () => {
 	
 	const [currentUser] = useCurrentUser()
 	
-	const pastNodes = useMemo(() => {
-		const count = ActivityNode.PAST_COUNT
-		const nodes = new Array<ActivityNode>(count)
+	const nodes = useMemo(() => {
+		const count = ActivityNode.PAST_COUNT + getCurrentCount()
+		const acc = new Array<ActivityNode>(count)
 		
 		// The first node
-		const offset = getDay() - getCurrentCount() - count + 1
-		
-		for (let i = 0; i < count; i++)
-			nodes[i] = state[offset + i] ?? new ActivityNode(offset + i, 0)
-		
-		return nodes
-	}, [state])
-	
-	const currentNodes = useMemo(() => {
-		const count = getCurrentCount()
-		const nodes = new Array<ActivityNode>(count)
-		
-		// The first current node
 		const offset = getDay() - count + 1
 		
 		for (let i = 0; i < count; i++)
-			nodes[i] = state[offset + i] ?? new ActivityNode(offset + i, 0)
+			acc[i] = state[offset + i] ?? new ActivityNode(offset + i, 0)
 		
-		return nodes
+		return acc
 	}, [state])
 	
 	useEffect(() => {
@@ -84,20 +74,18 @@ const Activity = () => {
 					{MONTHS.map(month => <p key={month}>{month}</p>)}
 				</div>
 				<div className="cells">
-					<div className="past-cells">
-						{pastNodes.map(node => (
-							<ActivityCell key={node.day} node={node} />
-						))}
-					</div>
-					<div className="current-cells">
-						{currentNodes.map(node => (
-							<ActivityCell key={node.day} node={node} />
-						))}
-					</div>
+					{nodes.map((node, i) => (
+						<ActivityCell
+							key={node.day}
+							node={node}
+							// Last two columns
+							popUpDirection={i >= nodes.length - getCurrentCount() - 14 ? 'left' : 'up'}
+						/>
+					))}
 				</div>
 			</div>
 		</div>
 	)
 }
 
-export default Activity
+export default memo(Activity)

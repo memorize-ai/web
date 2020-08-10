@@ -65,6 +65,7 @@ const DashboardHomeContent = () => {
 				</Link>
 			</div>
 			<div className="activity-container">
+				<h1>Activity</h1>
 				<Activity />
 			</div>
 			{decks.length === 0 || (
