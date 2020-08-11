@@ -7,6 +7,13 @@
 		margin-top: auto;
 		font-weight: bold;
 		color: #9b9b9b;
+		
+		> span {
+			display: inline-block;
+			margin-right: 2px;
+			font-size: 1.4em;
+			transform: translateY(2px);
+		}
 	}
 	
 	> .review-button {

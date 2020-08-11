@@ -2,8 +2,12 @@ rules_version = '2'
 
 service firebase.storage {
 	match /b/{bucket}/o {
-		match /{allPaths=**} {
+		match /decks/{deckId} {
 			allow read, write
+		}
+		
+		match /deck-assets/{deckId}/{assetId} {
+			allow read
 		}
 	}
 }

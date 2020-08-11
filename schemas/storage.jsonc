@@ -1,7 +1,4 @@
 {
-	"topics (folder)": {
-		"ab23D8da": "IMAGE_DATA" // Topic ID : Topic image
-	},
 	"decks (folder)": {
 		"a3gsb2D3n": "IMAGE_DATA" // Deck ID : Deck image
 	},
@@ -9,5 +6,11 @@
 		"a3gsb2D3n (folder)": { // Deck ID
 			"a3gsb2D3as2n": "DATA" // Asset ID : Data
 		}
+	},
+	"public-assets (folder)": {
+		"a3gsb2D3as2n.js": "DATA" // Asset ID : Data
+	},
+	"backups (folder)": {
+		"abc.txt": "DATA" // Backup ID : Data
 	}
 }

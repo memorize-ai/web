@@ -2,8 +2,72 @@ rules_version = '2'
 
 service cloud.firestore {
 	match /databases/{database}/documents {
-		match /{allPaths=**} {
-			allow read, write
+		match /users/{uid} {
+			allow read
+			allow create, update: if isSignedInWith(uid)
+			
+			match /activity/{day} {
+				allow read
+			}
+			
+			match /decks/{deckId} {
+				allow read, write: if isSignedInWith(uid)
+				
+				match /drafts/{draftId} {
+					allow read, write: if isSignedInWith(uid)
+				}
+				
+				match /cards/{cardId} {
+					allow read: if isSignedInWith(uid)
+				}
+			}
+		}
+		
+		match /topics/{topicId} {
+			allow read
+		}
+		
+		match /decks/{deckId} {
+			allow read
+			allow write: if isSignedInAsDeckCreator(getOldData())
+			
+			match /sections/{sectionId} {
+				allow read
+				allow write: if isSignedInAsDeckCreator(getDeck(deckId))
+			}
+			
+			match /cards/{cardId} {
+				allow read
+				allow write: if isSignedInAsDeckCreator(getDeck(deckId))
+			}
+		}
+		
+		match /counters/{counter} {
+			allow read
+		}
+		
+		match /previewDeckScores/{scoreId} {
+			allow read, create
+		}
+		
+		function isSignedIn() {
+			return request.auth != null
+		}
+		
+		function isSignedInWith(uid) {
+			return isSignedIn() && request.auth.uid == uid
+		}
+		
+		function getOldData() {
+			return resource.data
+		}
+		
+		function getDeck(deckId) {
+			return get(/databases/$(database)/documents/decks/$(deckId)).data
+		}
+		
+		function isSignedInAsDeckCreator(deck) {
+			return isSignedInWith(deck.creator)
 		}
 	}
 }

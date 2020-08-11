@@ -48,7 +48,13 @@ const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
 					} section${
 						numberOfSections === 1 ? '' : 's'
 					}`
-					: `${emoji.current} Woohoo! No cards due`
+					: (
+						<>
+							<span aria-hidden="true" role="img">
+								{emoji.current}
+							</span> Woohoo! No cards due
+						</>
+					)
 				}
 			</p>
 			{hasDueCards && (
