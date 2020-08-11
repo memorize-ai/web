@@ -159,8 +159,6 @@ export default class Card implements CardData {
 	}
 	
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
-		console.log(snapshot.get('front'))
-		
 		this.sectionId = snapshot.get('section') ?? ''
 		this.front = snapshot.get('front')
 		this.back = snapshot.get('back')
