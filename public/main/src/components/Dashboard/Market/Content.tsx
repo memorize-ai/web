@@ -14,6 +14,8 @@ import DeckSearch, {
 	DeckSortAlgorithm
 } from '../../../models/Deck/Search'
 import Counters, { Counter } from '../../../models/Counters'
+import LoadingState from '../../../models/LoadingState'
+import useCurrentUser from '../../../hooks/useCurrentUser'
 import Head from '../../shared/Head'
 import Input from '../../shared/Input'
 import SortDropdown from '../../shared/SortDropdown'
@@ -31,6 +33,7 @@ const MarketContent = () => {
 	const history = useHistory()
 	const searchParams = useQuery()
 	
+	const [currentUser, currentUserLoadingState] = useCurrentUser()
 	const [, setSearchState] = useSearchState()
 	
 	const query = searchParams.get('q') ?? ''
@@ -51,13 +54,15 @@ const MarketContent = () => {
 		sortAlgorithm === DeckSortAlgorithm.Relevance
 	)
 	
+	const topics = currentUser && currentUser.interestIds
+	
 	const getDecks = useCallback(async (pageNumber: number) => {
 		try {
 			const decks = await DeckSearch.search(query, {
 				pageNumber,
 				pageSize: 40,
 				sortAlgorithm,
-				filterForTopics: null
+				filterForTopics: sortAlgorithm === DeckSortAlgorithm.Recommended ? topics : null
 			})
 			
 			if (!decks.length)
@@ -70,7 +75,7 @@ const MarketContent = () => {
 			
 			return []
 		}
-	}, [query, sortAlgorithm, setIsLastPage])
+	}, [query, sortAlgorithm, topics, setIsLastPage])
 	
 	const loadMoreDecks = useCallback(async (pageNumber: number) => {
 		if (isLoading.current)
@@ -84,6 +89,9 @@ const MarketContent = () => {
 	}, [setDecks, decks, getDecks])
 	
 	useEffect(() => {
+		if (currentUserLoadingState !== LoadingState.Success || (currentUser && !topics))
+			return
+		
 		isLoading.current = true
 		
 		setIsLastPage(false)
@@ -111,7 +119,7 @@ const MarketContent = () => {
 			shouldContinue = false
 			isLoading.current = false
 		}
-	}, [query, sortAlgorithm, getDecks, setSearchState])
+	}, [currentUserLoadingState, currentUser, topics, query, sortAlgorithm, getDecks, setSearchState])
 	
 	const onInputRef = useCallback((input: HTMLInputElement | null) => {
 		input?.focus()
