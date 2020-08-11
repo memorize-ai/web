@@ -78,7 +78,6 @@ const Activity = () => {
 						<ActivityCell
 							key={node.day}
 							node={node}
-							// Last two columns
 							popUpDirection={
 								i < 14
 									? 'right'
