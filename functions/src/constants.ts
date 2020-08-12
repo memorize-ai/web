@@ -6,7 +6,7 @@ export const DEFAULT_STORAGE_BUCKET = 'memorize-ai.appspot.com'
 
 export const API_PREFIX = '_api'
 
-export const DECK_DUE_CARD_COUNT_SCHEDULE = 'every 5 minutes'
+export const DECK_DUE_CARD_COUNT_SCHEDULE = 'every 10 minutes'
 export const PING_SCHEDULE = 'every 1 minutes'
 
 export const PRERENDER_TOKEN: string = config.prerender.token

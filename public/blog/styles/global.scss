@@ -11,3 +11,18 @@
 body {
 	overscroll-behavior: none;
 }
+
+input,
+textarea,
+button {
+	font-size: 100%;
+	outline: none;
+}
+
+button {
+	cursor: pointer;
+	
+	&:disabled {
+		cursor: default;
+	}
+}

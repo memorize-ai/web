@@ -16,6 +16,11 @@ const App = ({ Component, pageProps }: AppProps) => (
 				rel="stylesheet"
 				href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700;900&display=swap"
 			/>
+			<link
+				key="icon"
+				rel="icon"
+				href="https://memorize.ai/favicon.png"
+			/>
 		</Head>
 		<Component {...pageProps} />
 	</>
