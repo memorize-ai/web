@@ -1,3 +1,4 @@
+import { useState, useCallback, ChangeEvent } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,6 +18,11 @@ export interface SidebarProps {
 
 const Sidebar = ({ posts }: SidebarProps) => {
 	const { route } = useRouter()
+	const [query, setQuery] = useState('')
+	
+	const onQueryChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+		setQuery(event.target.value)
+	}, [setQuery])
 	
 	return (
 		<aside className={styles.root}>
@@ -38,6 +44,8 @@ const Sidebar = ({ posts }: SidebarProps) => {
 				<input
 					className={styles.searchInput}
 					placeholder="Posts"
+					value={query}
+					onChange={onQueryChange}
 				/>
 			</div>
 			{posts.map(post => (
