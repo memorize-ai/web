@@ -6,4 +6,5 @@ export default interface Post {
 	date: string
 	topics: string[]
 	by: User
+	data: string
 }
