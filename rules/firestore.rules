@@ -34,6 +34,7 @@ service cloud.firestore {
 		
 		match /decks/{deckId} {
 			allow read
+			allow create: if isSignedInAsDeckCreator(getNewData())
 			allow write: if isSignedInAsDeckCreator(getOldData())
 			
 			match /sections/{sectionId} {
