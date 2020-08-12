@@ -10,7 +10,9 @@ import Head from 'next/head'
 const Home = ({ posts }: { posts: Post[] }) => (
 	<WithSidebar posts={posts} className={styles.root}>
 		<Head>
-			
+			<title key="title">
+				Blog | memorize.ai
+			</title>
 		</Head>
 		<h1 className={styles.title}>
 			memorize.ai blog
