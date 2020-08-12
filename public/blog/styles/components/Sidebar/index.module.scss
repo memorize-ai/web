@@ -1,5 +1,60 @@
+$horizontal-padding: 20px;
+
 .root {
 	width: 300px;
 	overflow-y: auto;
 	background: #051e34;
+}
+
+.logoContainer {
+	$vertical-padding: 15px;
+	
+	display: block;
+	padding: $vertical-padding 0 $vertical-padding ($horizontal-padding + 12px);
+	
+	&:hover .logo {
+		transform: translateY(-2px);
+	}
+}
+
+.logo {
+	height: 41px;
+	transition: transform 0.3s;
+}
+
+.divider {
+	$height: 2px;
+	
+	margin: 0 $horizontal-padding;
+	height: $height;
+	background: transparentize(white, 0.9);
+	border-radius: $height / 2;
+}
+
+.searchContainer {
+	position: relative;
+	margin: 20px $horizontal-padding 0;
+}
+
+.searchIcon {
+	$offset: 12px;
+	
+	position: absolute;
+	top: $offset;
+	left: $offset;
+	color: white;
+}
+
+.searchInput {
+	$vertical-padding: 10px;
+	
+	width: 100%;
+	padding: $vertical-padding 6px $vertical-padding 36px;
+	color: white;
+	background: transparentize(#eee, 0.9);
+	border-radius: 8px;
+	
+	&::placeholder {
+		color: #a0aec0;
+	}
 }
