@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 
 import firebase from '../../firebase'
@@ -155,7 +156,8 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 					)
 					: (
 						<AuthButton className="auth-button">
-							Log in <span>/</span> Sign up
+							<p>Log in <span>/</span> Sign up</p>
+							<FontAwesomeIcon icon={faKey} />
 						</AuthButton>
 					)
 				}

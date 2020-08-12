@@ -249,8 +249,22 @@
 			white-space: nowrap;
 			transition: color 0.3s, background 0.3s;
 			
-			> span {
-				opacity: 0.7;
+			> p {
+				display: none;
+				
+				@media (min-width: 600px) {
+					display: initial;
+				}
+				
+				> span {
+					opacity: 0.7;
+				}
+			}
+			
+			> svg {
+				@media (min-width: 600px) {
+					display: none;
+				}
 			}
 			
 			&:hover,
