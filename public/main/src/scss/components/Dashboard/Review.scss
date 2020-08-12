@@ -22,13 +22,11 @@ $rating-colors: (
 
 @include dashboard-content('review') {
 	> .mask {
-		$margin: 30px;
-		
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
 		overflow: hidden;
-		padding: 0 $margin;
+		padding: 0 var(--horizontal-padding);
 		
 		> .review-navbar {
 			$button-height: 40px;
@@ -182,7 +180,7 @@ $rating-colors: (
 						
 						> .container {
 							$full-katex-width: calc(#{unquote(
-								'100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2}'
+								'100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 + #{$content-padding * 2}'
 							)});
 							
 							position: relative;

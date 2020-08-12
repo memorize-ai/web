@@ -3,8 +3,6 @@
 @import '../../functions';
 
 @include dashboard-content('add-cards') {
-	$margin: 30px;
-	
 	display: grid;
 	grid:
 		'header' auto
@@ -13,7 +11,7 @@
 	
 	> .header,
 	> .content {
-		padding: 0 $margin;
+		padding: 0 var(--horizontal-padding);
 	}
 	
 	> .header {
@@ -122,7 +120,7 @@
 	> .content {
 		grid-area: content;
 		overflow-y: auto;
-		padding-bottom: $margin;
+		padding-bottom: var(--horizontal-padding);
 		
 		> .box {
 			$min-row-width: 1350px;
@@ -131,7 +129,7 @@
 			
 			display: flex;
 			flex-direction: column;
-			padding: 16px raw-repeat(3, $margin);
+			padding: 16px var(--inner-horizontal-padding) var(--inner-horizontal-padding);
 			background: white;
 			border-radius: 8px;
 			
@@ -157,7 +155,7 @@
 			
 			> .header,
 			> .content > .cards > .card > .header {
-				width: calc(100vw - var(--sidebar-width) - #{$margin * 4});
+				width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 - var(--inner-horizontal-padding) * 2);
 			}
 			
 			> .header {
@@ -240,7 +238,7 @@
 									> .ck.ck-editor {
 										@include ck-editor-dropdown {
 											width: calc(
-												(100vw - var(--sidebar-width) - #{$margin * 4}) / 2 -
+												(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 - var(--inner-horizontal-padding) * 2) / 2 -
 												#{16px + $space-between}
 											);
 										}
@@ -340,7 +338,7 @@
 								
 								> .ck.ck-editor {
 									@include ck-editor-dropdown {
-										width: calc(100vw - var(--sidebar-width) - #{$margin * 4 + 20px});
+										width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 - var(--inner-horizontal-padding) * 2 - 20px);
 									}
 								}
 							}

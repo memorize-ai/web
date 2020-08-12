@@ -9,7 +9,7 @@
 	grid:
 		'tabs right' auto /
 		1fr auto;
-	margin: 0 30px;
+	margin: 0 var(--horizontal-padding);
 	border-bottom: $bottom-border-width solid transparentize(#ddd, 0.8);
 	
 	> .tabs {

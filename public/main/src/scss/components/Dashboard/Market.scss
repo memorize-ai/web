@@ -16,7 +16,7 @@
 		grid-area: header;
 		display: flex;
 		align-items: center;
-		margin: $margin 30px 0 30px;
+		margin: $margin var(--horizontal-padding) 0;
 		
 		> .create {
 			$dimension: 45px;
@@ -72,7 +72,7 @@
 		grid-area: decks;
 		overflow-y: auto;
 		margin-top: 12px;
-		padding: 4px raw-repeat(3, 30px);
+		padding: 4px var(--horizontal-padding) var(--horizontal-padding);
 		
 		> div {
 			$cell-margin-bottom: 16px;
@@ -89,7 +89,7 @@
 					'var(--image-dimension) + #{$image-margin}'
 				)});
 				$full-width: calc(#{unquote(
-					'100vw - var(--sidebar-width) - #{30px * 2}'
+					'100vw - var(--sidebar-width) - var(--horizontal-padding) * 2'
 				)});
 				
 				--image-dimension: 150px;
@@ -110,7 +110,7 @@
 				
 				@media (min-width: 700px) {
 					$full-width: calc(#{unquote(
-						'100vw - var(--sidebar-width) - var(--image-dimension) - #{30px * 2 + $image-margin}'
+						'100vw - var(--sidebar-width) - var(--image-dimension) - var(--horizontal-padding) * 2 + #{$image-margin}'
 					)});
 					
 					grid:
@@ -129,7 +129,7 @@
 				
 				@media (min-width: 1300px) {
 					$full-width: calc(#{unquote(
-						'100vw - var(--sidebar-width) - #{30px * 2} - #{$height}'
+						'100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 - #{$height}'
 					)});
 					
 					--image-dimension: #{$height - $image-margin * 2};
