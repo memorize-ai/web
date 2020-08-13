@@ -1,6 +1,9 @@
+@use '../mixins' as *;
+
 .root {
+	@include gradient-background;
+	
 	padding: 30px;
-	background: linear-gradient(45deg, #5a2aff, #00e5f4);
 }
 
 .title {
