@@ -43,6 +43,10 @@
 	font-weight: bold;
 	color: white;
 	
+	> :last-child {
+		margin-bottom: 0;
+	}
+	
 	* {
 		margin-bottom: 16px;
 	}
@@ -69,10 +73,27 @@
 		border-left: thick solid white;
 	}
 	
+	pre,
+	code {
+		background: #202331;
+	}
+	
+	pre {
+		padding: 16px 20px;
+		border-radius: 8px;
+		
+		> :last-child {
+			display: none;
+		}
+		
+		* {
+			margin-bottom: 0;
+		}
+	}
+	
 	code {
 		padding: 4px 8px;
 		color: #f78c6c;
-		background: transparentize(#202331, 0.2);
 		border-radius: 5px;
 	}
 }

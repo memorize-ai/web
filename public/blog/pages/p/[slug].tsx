@@ -6,12 +6,13 @@ import Head from 'next/head'
 import Post from 'models/Post'
 import getPosts from 'lib/getPosts'
 import WithSidebar from 'components/WithSidebar'
+import CustomMDXProvider from 'components/CustomMDXProvider'
 
 import styles from 'styles/pages/Post.module.scss'
 
 const PostPage = ({ posts }: { posts: Post[] }) => {
 	const { slug } = useRouter().query
-	const { default: Body } = require(`posts/${slug}.mdx`)
+	const Body = require(`posts/${slug}.mdx`).default
 	
 	const post = useMemo(() => (
 		posts.find(post => post.slug === slug)
@@ -46,7 +47,9 @@ const PostPage = ({ posts }: { posts: Post[] }) => {
 				</a>
 			</p>
 			<article className={styles.body}>
-				<Body />
+				<CustomMDXProvider>
+					<Body />
+				</CustomMDXProvider>
 			</article>
 		</WithSidebar>
 	)
