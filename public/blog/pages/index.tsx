@@ -1,11 +1,12 @@
 import { GetStaticProps } from 'next'
+import Head from 'next/head'
 
 import Post from 'models/Post'
 import getPosts from 'lib/getPosts'
 import WithSidebar from 'components/WithSidebar'
+import PostPreview from 'components/PostPreview'
 
 import styles from 'styles/pages/index.module.scss'
-import Head from 'next/head'
 
 const Home = ({ posts }: { posts: Post[] }) => (
 	<WithSidebar posts={posts} className={styles.root}>
@@ -22,6 +23,11 @@ const Home = ({ posts }: { posts: Post[] }) => (
 		<h1 className={styles.title}>
 			memorize.ai blog
 		</h1>
+		<div className={styles.posts}>
+			{posts.map(post => (
+				<PostPreview key={post.slug} post={post} />
+			))}
+		</div>
 	</WithSidebar>
 )
 
