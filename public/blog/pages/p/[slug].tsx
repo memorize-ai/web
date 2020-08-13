@@ -6,6 +6,7 @@ import Head from 'next/head'
 import Post from 'models/Post'
 import getPosts from 'lib/getPosts'
 import WithSidebar from 'components/WithSidebar'
+import PostHeader from 'components/PostHeader'
 import PostBody from 'components/PostBody'
 
 import styles from 'styles/pages/Post.module.scss'
@@ -29,22 +30,7 @@ const PostPage = ({ posts }: { posts: Post[] }) => {
 					{post.title} | memorize.ai blog
 				</title>
 			</Head>
-			<h1 className={styles.title}>
-				{post.title}
-			</h1>
-			<h3 className={styles.description}>
-				{post.description}
-			</h3>
-			<p className={styles.by}>
-				By {post.by.name} • <a
-					className={styles.email}
-					rel="noopener noreferrer author"
-					href={`mailto:${post.by.email}`}
-					target="_blank"
-				>
-					{post.by.email}
-				</a>
-			</p>
+			<PostHeader post={post} />
 			<PostBody post={post} />
 		</WithSidebar>
 	)

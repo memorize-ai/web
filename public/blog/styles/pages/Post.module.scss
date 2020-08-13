@@ -5,34 +5,3 @@
 	
 	padding: 30px;
 }
-
-.title {
-	font-size: 40px;
-	font-weight: 900;
-	color: white;
-}
-
-.description {
-	margin-top: 8px;
-	font-size: 20px;
-	font-weight: 900;
-	color: white;
-}
-
-.by {
-	margin: 20px 0;
-	padding-bottom: 12px;
-	font-weight: 900;
-	color: white;
-	opacity: 0.7;
-	border-bottom: 2px solid transparentize(white, 0.9);
-}
-
-.email {
-	text-decoration: none;
-	color: inherit;
-	
-	&:hover {
-		text-decoration: underline;
-	}
-}
