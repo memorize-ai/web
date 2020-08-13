@@ -26,11 +26,12 @@ const Sidebar = ({ posts }: SidebarProps) => {
 		
 		return posts.filter(post =>
 			normalize(post.name).includes(normalizedQuery) ||
+			normalize(post.description).includes(normalizedQuery) ||
 			normalize(post.date).includes(normalizedQuery) ||
 			post.topics.some(topic => normalize(topic).includes(normalizedQuery)) ||
 			normalize(post.by.name).includes(normalizedQuery) ||
 			normalize(post.by.email).includes(normalizedQuery) ||
-			normalize(post.data).includes(normalizedQuery)
+			normalize(post.body).includes(normalizedQuery)
 		)
 	}, [posts, query])
 	

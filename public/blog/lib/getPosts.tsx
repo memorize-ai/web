@@ -10,7 +10,7 @@ const POSTS = join(process.cwd(), 'posts')
 
 export default (): Post[] =>
 	readdirSync(POSTS).map(path => {
-		const { default: Data, meta } = require(`../posts/${path}`)
+		const { default: Body, meta } = require(`../posts/${path}`)
 		const by = USERS[meta.by]
 		
 		if (!by)
@@ -20,6 +20,6 @@ export default (): Post[] =>
 			...meta,
 			slug: path.replace(/\.mdx$/, ''),
 			by,
-			data: stripHtml(renderToString(<Data />))
+			body: stripHtml(renderToString(<Body />))
 		}
 	})
