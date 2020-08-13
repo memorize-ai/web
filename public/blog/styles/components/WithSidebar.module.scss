@@ -2,3 +2,7 @@
 	display: grid;
 	grid: 100vh / auto 1fr;
 }
+
+.body {
+	overflow-y: auto;
+}
