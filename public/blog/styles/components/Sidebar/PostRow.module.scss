@@ -1,8 +1,13 @@
 .root {
 	display: block;
 	padding: 20px;
+	transition: background 0.3s;
+	
+	&:not(.selected):hover {
+		background: transparentize(#5a2aff, 0.5);
+	}
 }
 
 .selected {
-	
+	background: #5a2aff;
 }

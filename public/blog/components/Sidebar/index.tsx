@@ -18,7 +18,7 @@ export interface SidebarProps {
 }
 
 const Sidebar = ({ posts }: SidebarProps) => {
-	const { route } = useRouter()
+	const { slug } = useRouter().query
 	const [query, setQuery] = useState('')
 	
 	const filteredPosts = useMemo(() => {
@@ -67,7 +67,7 @@ const Sidebar = ({ posts }: SidebarProps) => {
 				<PostRow
 					key={post.slug}
 					post={post}
-					selected={route === `/p/${post.slug}`}
+					selected={post.slug === slug}
 				/>
 			))}
 		</aside>
