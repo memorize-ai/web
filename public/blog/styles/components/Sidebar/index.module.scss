@@ -1,14 +1,16 @@
 $horizontal-padding: 20px;
 
 .root {
+	display: flex;
+	flex-direction: column;
 	width: 300px;
-	overflow-y: auto;
 	background: #051e34;
 }
 
 .logoContainer {
 	$vertical-padding: 15px;
 	
+	flex-shrink: 0;
 	display: block;
 	padding: $vertical-padding 0 $vertical-padding ($horizontal-padding + 12px);
 	
@@ -25,6 +27,7 @@ $horizontal-padding: 20px;
 .divider {
 	$height: 2px;
 	
+	flex-shrink: 0;
 	margin: 0 $horizontal-padding;
 	height: $height;
 	background: transparentize(white, 0.9);
@@ -32,6 +35,7 @@ $horizontal-padding: 20px;
 }
 
 .searchContainer {
+	flex-shrink: 0;
 	position: relative;
 	margin: 20px $horizontal-padding 0;
 }
@@ -60,5 +64,10 @@ $horizontal-padding: 20px;
 }
 
 .posts {
-	margin: 20px 0;
+	$vertical-padding: 20px;
+	
+	flex-grow: 1;
+	overflow-y: auto;
+	margin-top: $vertical-padding / 2;
+	padding: ($vertical-padding / 2) 0 $vertical-padding;
 }
