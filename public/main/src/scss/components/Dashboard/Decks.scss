@@ -14,8 +14,6 @@
 }
 
 @include dashboard-content('decks') {
-	$margin: 30px;
-	
 	display: grid;
 	grid:
 		'header' auto
@@ -25,7 +23,7 @@
 	
 	> .header,
 	> .content {
-		padding: 0 $margin;
+		padding: 0 var(--horizontal-padding);
 	}
 	
 	> .header {
@@ -269,10 +267,10 @@
 		> .box {
 			@include shadow-lg;
 			
-			width: calc(100vw - var(--sidebar-width) - #{$margin * 2});
+			width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2);
 			height: max-content;
-			margin-bottom: 30px;
-			padding: $margin;
+			margin-bottom: var(--horizontal-padding);
+			padding: var(--inner-horizontal-padding);
 			background: white;
 			border-radius: 8px;
 			

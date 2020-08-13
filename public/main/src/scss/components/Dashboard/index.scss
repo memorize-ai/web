@@ -5,12 +5,19 @@
 
 .dashboard {
 	--sidebar-width: 305px;
+	--horizontal-padding: 8px;
+	--inner-horizontal-padding: 16px;
 	
 	display: grid;
 	grid:
 		'sidebar content' auto /
 		var(--sidebar-width) auto;
 	height: 100vh;
+	
+	@media (min-width: 450px) {
+		--horizontal-padding: 30px;
+		--inner-horizontal-padding: 30px;
+	}
 	
 	> .content {
 		@include stack;

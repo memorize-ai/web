@@ -1,10 +1,11 @@
-import { useState, useCallback, ChangeEvent } from 'react'
+import { useState, useCallback, ChangeEvent, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import Post from 'models/Post'
+import normalize from 'lib/normalize'
 import PostRow from './PostRow'
 
 import logo from 'images/logos/capital.webp'
@@ -19,6 +20,19 @@ export interface SidebarProps {
 const Sidebar = ({ posts }: SidebarProps) => {
 	const { route } = useRouter()
 	const [query, setQuery] = useState('')
+	
+	const filteredPosts = useMemo(() => {
+		const normalizedQuery = normalize(query)
+		
+		return posts.filter(post =>
+			normalize(post.name).includes(normalizedQuery) ||
+			normalize(post.date).includes(normalizedQuery) ||
+			post.topics.some(topic => normalize(topic).includes(normalizedQuery)) ||
+			normalize(post.by.name).includes(normalizedQuery) ||
+			normalize(post.by.email).includes(normalizedQuery) ||
+			normalize(post.data).includes(normalizedQuery)
+		)
+	}, [posts, query])
 	
 	const onQueryChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		setQuery(event.target.value)
@@ -48,7 +62,7 @@ const Sidebar = ({ posts }: SidebarProps) => {
 					onChange={onQueryChange}
 				/>
 			</div>
-			{posts.map(post => (
+			{filteredPosts.map(post => (
 				<PostRow
 					key={post.slug}
 					post={post}

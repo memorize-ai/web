@@ -35,7 +35,7 @@
 		grid-area: header;
 		display: flex;
 		align-items: center;
-		margin: $vertical-margin $margin;
+		margin: $vertical-margin var(--horizontal-padding);
 		
 		> .create {
 			$dimension: 45px;
@@ -95,8 +95,8 @@
 		overflow: hidden;
 		background: white;
 		border-radius: 8px;
-		margin: 0 raw-repeat(3, $margin);
-		padding-bottom: $margin;
+		margin: 0 var(--horizontal-padding) var(--horizontal-padding);
+		padding-bottom: var(--inner-horizontal-padding);
 		
 		&.loading {
 			display: grid;
@@ -106,7 +106,7 @@
 		}
 		
 		> .header {
-			$full-width: calc(100vw - var(--sidebar-width) - #{$margin * 4});
+			$full-width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 - var(--inner-horizontal-padding) * 2);
 			
 			--image-dimension: 180px;
 			
@@ -116,11 +116,11 @@
 				'content' auto
 				'stats' auto /
 				#{$full-width};
-			margin: $margin $margin 0 $margin;
+			margin: var(--inner-horizontal-padding) var(--inner-horizontal-padding) 0;
 			width: 100%;
 			
 			@media (min-width: 705px) {
-				$partial-width: calc(100vw - var(--sidebar-width) - #{$margin * 4} - var(--image-dimension));
+				$partial-width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 - var(--inner-horizontal-padding) * 2 - var(--image-dimension));
 				
 				--image-dimension: 220px;
 				
@@ -404,9 +404,9 @@
 		> .preview {
 			$max-width: 700px;
 			
-			max-width: $max-width + $margin * 2;
-			margin: ($margin * 2) auto ($margin * 3 / 2);
-			padding: 0 $margin;
+			max-width: calc(#{$max-width} + var(--inner-horizontal-padding) * 2);
+			margin: calc(var(--inner-horizontal-padding) * 2) auto calc(var(--inner-horizontal-padding) * 3 / 2);
+			padding: 0 var(--inner-horizontal-padding);
 			
 			> .header {
 				display: flex;
@@ -464,7 +464,7 @@
 					@include card-side-katex-width(
 						css-min(
 							$max-width - $padding * 2,
-							calc(100vw - var(--sidebar-width) - #{$margin * 4 + $padding * 2})
+							calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 - var(--inner-horizontal-padding) * 2 - #{$padding * 2})
 						)
 					);
 					
@@ -620,7 +620,7 @@
 		> .controls {
 			display: flex;
 			flex-direction: column;
-			margin: 24px $margin 0 $margin;
+			margin: 24px var(--inner-horizontal-padding) 0;
 			
 			@media (min-width: 750px) {
 				flex-direction: row;
@@ -849,10 +849,10 @@
 		}
 		
 		> .similar-decks {
-			margin: 32px 0 16px 0;
+			margin: 32px 0 16px;
 			
 			> .title {
-				margin: 0 $margin;
+				margin: 0 var(--inner-horizontal-padding);
 				font-size: 20px;
 				font-weight: bold;
 				color: $dark-gray;
@@ -877,7 +877,7 @@
 				
 				overflow-x: auto;
 				margin-top: $margin-top - $padding-top;
-				padding: $padding-top $margin 16px $margin;
+				padding: $padding-top var(--inner-horizontal-padding) 16px;
 				
 				> div {
 					display: flex;
@@ -898,7 +898,7 @@
 		}
 		
 		> .cards {
-			margin: 0 $margin 0 $margin;
+			margin: 0 var(--inner-horizontal-padding);
 			
 			> .title {
 				font-size: 24px;
@@ -934,7 +934,7 @@
 		}
 		
 		@include disqus {
-			margin: $margin $margin 0 $margin;
+			margin: $margin var(--inner-horizontal-padding) 0;
 		}
 	}
 }

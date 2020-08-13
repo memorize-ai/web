@@ -2,8 +2,6 @@
 @import '../../mixins';
 
 @include dashboard-content('publish-deck') {
-	$margin: 30px;
-	
 	display: grid;
 	grid:
 		'header' auto
@@ -12,7 +10,7 @@
 	
 	> .header,
 	> .content {
-		padding: 0 $margin;
+		padding: 0 var(--horizontal-padding);
 	}
 	
 	> .header {
@@ -62,12 +60,12 @@
 	> .content {
 		grid-area: content;
 		overflow-y: auto;
-		padding-bottom: $margin;
+		padding-bottom: var(--horizontal-padding);
 		
 		> .box {
 			@include shadow-lg;
 			
-			padding: $margin;
+			padding: var(--inner-horizontal-padding);
 			background: white;
 			border-radius: 8px;
 		}
