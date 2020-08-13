@@ -13,9 +13,12 @@ export interface SidebarPostRowProps {
 const SidebarPostRow = ({ post, selected }: SidebarPostRowProps) => (
 	<Link href="/p/[slug]" as={`/p/${post.slug}`}>
 		<a className={cx(styles.root, { [styles.selected]: selected })}>
-			<h3 className={styles.title}>
+			<p className={styles.title}>
 				{post.title}
-			</h3>
+			</p>
+			<p className={styles.description}>
+				{post.description}
+			</p>
 			<p className={styles.date}>
 				{post.date}
 			</p>

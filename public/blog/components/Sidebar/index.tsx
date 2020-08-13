@@ -63,13 +63,15 @@ const Sidebar = ({ posts }: SidebarProps) => {
 					onChange={onQueryChange}
 				/>
 			</div>
-			{filteredPosts.map(post => (
-				<PostRow
-					key={post.slug}
-					post={post}
-					selected={post.slug === slug}
-				/>
-			))}
+			<div className={styles.posts}>
+				{filteredPosts.map(post => (
+					<PostRow
+						key={post.slug}
+						post={post}
+						selected={post.slug === slug}
+					/>
+				))}
+			</div>
 		</aside>
 	)
 }

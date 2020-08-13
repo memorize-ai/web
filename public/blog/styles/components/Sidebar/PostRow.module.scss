@@ -1,13 +1,53 @@
 .root {
+	$vertical-padding: 12px;
+	$spacing: 12px;
+	
 	display: block;
-	padding: 20px;
+	position: relative;
+	padding: $vertical-padding 20px;
+	text-decoration: none;
+	color: white;
 	transition: background 0.3s;
 	
 	&:not(.selected):hover {
 		background: transparentize(#5a2aff, 0.5);
 	}
+	
+	&:not(:last-child) {
+		margin-bottom: $spacing;
+		
+		&::after {
+			$height: 2px;
+			$horizontal-margin: 20px;
+			
+			content: '';
+			position: absolute;
+			height: $height;
+			right: $horizontal-margin;
+			bottom: -7px;
+			left: $horizontal-margin;
+			background: transparentize(white, 0.9);
+			border-radius: $height / 2;
+		}
+	}
 }
 
 .selected {
 	background: #5a2aff;
+}
+
+.title {
+	font-size: 20px;
+	font-weight: 900;
+}
+
+.description {
+	margin-top: 4px;
+	font-weight: bold;
+}
+
+.date {
+	margin-top: 16px;
+	font-size: 14px;
+	font-weight: bold;
 }
