@@ -26,3 +26,28 @@
 	text-decoration: none;
 	color: inherit;
 }
+
+.body {
+	color: white;
+	
+	* {
+		margin-bottom: 16px;
+	}
+	
+	li,
+	ul ul,
+	ul ol,
+	ol ol,
+	ol ul {
+		margin-bottom: 0;
+	}
+	
+	li:not(:first-child) {
+		margin-top: 0.25em;
+	}
+	
+	ul,
+	ol {
+		padding-left: 2em;
+	}
+}

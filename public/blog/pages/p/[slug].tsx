@@ -45,7 +45,9 @@ const PostPage = ({ posts }: { posts: Post[] }) => {
 					{post.by.email}
 				</a>
 			</p>
-			<Body />
+			<article className={styles.body}>
+				<Body />
+			</article>
 		</WithSidebar>
 	)
 }
