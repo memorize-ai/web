@@ -2,3 +2,27 @@
 	padding: 30px;
 	background: linear-gradient(45deg, #5a2aff, #00e5f4);
 }
+
+.title {
+	font-weight: 900;
+	color: white;
+}
+
+.description {
+	margin-top: 8px;
+	color: white;
+}
+
+.by {
+	margin: 20px 0;
+	padding-bottom: 12px;
+	font-weight: 900;
+	color: white;
+	opacity: 0.7;
+	border-bottom: 2px solid transparentize(white, 0.9);
+}
+
+.email {
+	text-decoration: none;
+	color: inherit;
+}

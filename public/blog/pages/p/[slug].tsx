@@ -26,9 +26,25 @@ const PostPage = ({ posts }: { posts: Post[] }) => {
 					content={post.description}
 				/>
 				<title key="title">
-					{post.name} | memorize.ai blog
+					{post.title} | memorize.ai blog
 				</title>
 			</Head>
+			<h1 className={styles.title}>
+				{post.title}
+			</h1>
+			<h3 className={styles.description}>
+				{post.description}
+			</h3>
+			<p className={styles.by}>
+				By {post.by.name} • <a
+					className={styles.email}
+					rel="noopener noreferrer author"
+					href={`mailto:${post.by.email}`}
+					target="_blank"
+				>
+					{post.by.email}
+				</a>
+			</p>
 			<Body />
 		</WithSidebar>
 	)

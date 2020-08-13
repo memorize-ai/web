@@ -15,8 +15,8 @@ const SidebarPostRow = ({ post, selected }: SidebarPostRowProps) => (
 		<a className={cx(styles.root, {
 			[styles.selected]: selected
 		})}>
-			<h3 className={styles.name}>
-				{post.name}
+			<h3 className={styles.title}>
+				{post.title}
 			</h3>
 			<p className={styles.date}>
 				{post.date}

@@ -25,7 +25,7 @@ const Sidebar = ({ posts }: SidebarProps) => {
 		const normalizedQuery = normalize(query)
 		
 		return posts.filter(post =>
-			normalize(post.name).includes(normalizedQuery) ||
+			normalize(post.title).includes(normalizedQuery) ||
 			normalize(post.description).includes(normalizedQuery) ||
 			normalize(post.date).includes(normalizedQuery) ||
 			post.topics.some(topic => normalize(topic).includes(normalizedQuery)) ||
