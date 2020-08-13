@@ -1,3 +1,8 @@
+@font-face {
+	font-family: OperatorMono-Bold;
+	src: url('../fonts/OperatorMono-Bold.otf') format('opentype');
+}
+
 *,
 ::before,
 ::after {
@@ -30,4 +35,8 @@ button {
 b,
 strong {
 	font-weight: bolder;
+}
+
+code {
+	font-family: OperatorMono-Bold, monospace;
 }
