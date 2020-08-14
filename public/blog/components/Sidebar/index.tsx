@@ -1,8 +1,10 @@
-import { useState, useCallback, ChangeEvent, useMemo } from 'react'
+import { useCallback, ChangeEvent, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { atom, useRecoilState } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import Post from 'models/Post'
 import normalize from 'lib/normalize'
@@ -13,24 +15,32 @@ import logoFallback from 'images/logos/capital.jpg'
 
 import styles from 'styles/components/Sidebar/index.module.scss'
 
+const queryState = atom({
+	key: 'query',
+	default: ''
+})
+
 export interface SidebarProps {
+	className?: string
 	posts: Post[]
+	onRowClick?(): void
 }
 
-const Sidebar = ({ posts }: SidebarProps) => {
-	const { route } = useRouter()
-	const [query, setQuery] = useState('')
+const Sidebar = ({ className, posts, onRowClick }: SidebarProps) => {
+	const { slug } = useRouter().query
+	const [query, setQuery] = useRecoilState(queryState)
 	
 	const filteredPosts = useMemo(() => {
 		const normalizedQuery = normalize(query)
 		
 		return posts.filter(post =>
-			normalize(post.name).includes(normalizedQuery) ||
+			normalize(post.title).includes(normalizedQuery) ||
+			normalize(post.description).includes(normalizedQuery) ||
 			normalize(post.date).includes(normalizedQuery) ||
 			post.topics.some(topic => normalize(topic).includes(normalizedQuery)) ||
 			normalize(post.by.name).includes(normalizedQuery) ||
 			normalize(post.by.email).includes(normalizedQuery) ||
-			normalize(post.data).includes(normalizedQuery)
+			normalize(post.body).includes(normalizedQuery)
 		)
 	}, [posts, query])
 	
@@ -39,9 +49,9 @@ const Sidebar = ({ posts }: SidebarProps) => {
 	}, [setQuery])
 	
 	return (
-		<aside className={styles.root}>
+		<aside className={cx(styles.root, className)}>
 			<Link href="/">
-				<a className={styles.logoContainer}>
+				<a className={styles.logoContainer} onClick={onRowClick}>
 					<picture>
 						<source srcSet={logo} type="image/webp" />
 						<img className={styles.logo} src={logoFallback} alt="Logo" />
@@ -62,13 +72,16 @@ const Sidebar = ({ posts }: SidebarProps) => {
 					onChange={onQueryChange}
 				/>
 			</div>
-			{filteredPosts.map(post => (
-				<PostRow
-					key={post.slug}
-					post={post}
-					selected={route === `/p/${post.slug}`}
-				/>
-			))}
+			<div className={styles.posts}>
+				{filteredPosts.map(post => (
+					<PostRow
+						key={post.slug}
+						post={post}
+						selected={post.slug === slug}
+						onClick={onRowClick}
+					/>
+				))}
+			</div>
 		</aside>
 	)
 }

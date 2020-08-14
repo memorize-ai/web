@@ -1,14 +1,20 @@
 $horizontal-padding: 20px;
 
 .root {
+	flex-shrink: 0;
+	display: flex;
+	position: relative;
+	flex-direction: column;
 	width: 300px;
-	overflow-y: auto;
 	background: #051e34;
+	z-index: 1;
+	box-shadow: -4px 0 30px 0 transparentize(black, 0.1);
 }
 
 .logoContainer {
 	$vertical-padding: 15px;
 	
+	flex-shrink: 0;
 	display: block;
 	padding: $vertical-padding 0 $vertical-padding ($horizontal-padding + 12px);
 	
@@ -18,6 +24,7 @@ $horizontal-padding: 20px;
 }
 
 .logo {
+	display: block;
 	height: 41px;
 	transition: transform 0.3s;
 }
@@ -25,6 +32,7 @@ $horizontal-padding: 20px;
 .divider {
 	$height: 2px;
 	
+	flex-shrink: 0;
 	margin: 0 $horizontal-padding;
 	height: $height;
 	background: transparentize(white, 0.9);
@@ -32,8 +40,9 @@ $horizontal-padding: 20px;
 }
 
 .searchContainer {
+	flex-shrink: 0;
 	position: relative;
-	margin: 20px $horizontal-padding 0;
+	margin: 15px $horizontal-padding 0;
 }
 
 .searchIcon {
@@ -57,4 +66,13 @@ $horizontal-padding: 20px;
 	&::placeholder {
 		color: #a0aec0;
 	}
+}
+
+.posts {
+	$vertical-padding: 20px;
+	
+	flex-grow: 1;
+	overflow-y: auto;
+	margin-top: $vertical-padding / 2;
+	padding: ($vertical-padding / 2) 0 $vertical-padding;
 }

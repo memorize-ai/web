@@ -2,9 +2,10 @@ import User from './User'
 
 export default interface Post {
 	slug: string
-	name: string
+	title: string
+	description: string
 	date: string
 	topics: string[]
 	by: User
-	data: string
+	body: string
 }

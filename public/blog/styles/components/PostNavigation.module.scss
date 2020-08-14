@@ -1,0 +1,45 @@
+$spacing: 10px;
+
+.root {
+	display: flex;
+	justify-content: space-between;
+}
+
+.link {
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	padding: 8px 12px;
+	text-decoration: none;
+	font-weight: 900;
+	color: white;
+	background: transparentize(white, 0.9);
+	border-radius: 8px;
+	transition: background 0.3s;
+	
+	&:hover {
+		background: transparentize(white, 0.8);
+	}
+	
+	&:not(:last-child) {
+		margin-right: 12px;
+	}
+}
+
+.title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.icon {
+	flex-shrink: 0;
+}
+
+.iconLeft {
+	margin-right: $spacing;
+}
+
+.iconRight {
+	margin-left: $spacing;
+}
