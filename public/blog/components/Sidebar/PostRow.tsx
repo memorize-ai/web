@@ -19,6 +19,9 @@ const SidebarPostRow = ({ post, selected }: SidebarPostRowProps) => (
 			<p className={styles.description}>
 				{post.description}
 			</p>
+			<p className={styles.topics}>
+				{post.topics.join(', ')}
+			</p>
 			<p className={styles.date}>
 				{post.date}
 			</p>
