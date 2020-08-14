@@ -1,7 +1,10 @@
 import { useMemo } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import Head from 'next/head'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 import Post from 'models/Post'
 import getPosts from 'lib/getPosts'
@@ -10,6 +13,9 @@ import PostHeader from 'components/PostHeader'
 import PostBody from 'components/PostBody'
 
 import styles from 'styles/pages/Post.module.scss'
+import PostNavigation from 'components/PostNavigation'
+
+
 
 const PostPage = ({ posts }: { posts: Post[] }) => {
 	const { slug } = useRouter().query
@@ -17,6 +23,15 @@ const PostPage = ({ posts }: { posts: Post[] }) => {
 	const post = useMemo(() => (
 		posts.find(post => post.slug === slug)
 	), [posts, slug])
+	
+	const indexOfPost = useMemo(() => (
+		posts.indexOf(post)
+	), [posts, post])
+	
+	const adjacentPosts = {
+		previousPost: posts[indexOfPost - 1],
+		nextPost: posts[indexOfPost + 1]
+	}
 	
 	return (
 		<WithSidebar posts={posts} className={styles.root}>
@@ -32,6 +47,10 @@ const PostPage = ({ posts }: { posts: Post[] }) => {
 			</Head>
 			<PostHeader post={post} />
 			<PostBody post={post} />
+			<PostNavigation
+				className={styles.navigation}
+				{...adjacentPosts}
+			/>
 		</WithSidebar>
 	)
 }
