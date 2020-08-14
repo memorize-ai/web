@@ -42,14 +42,17 @@ const PostNavigationLink = ({ previous = false, post }: PostNavigationLinkProps)
 	</Link>
 )
 
-const PostNavigation = ({ className, previousPost, nextPost }: PostNavigationProps) => (
-	<nav className={cx(styles.root, className)}>
-		{previousPost
-			? <PostNavigationLink previous post={previousPost} />
-			: <span />
-		}
-		{nextPost && <PostNavigationLink post={nextPost} />}
-	</nav>
-)
+const PostNavigation = ({ className, previousPost, nextPost }: PostNavigationProps) =>
+	previousPost || nextPost
+		? (
+			<nav className={cx(styles.root, className)}>
+				{previousPost
+					? <PostNavigationLink previous post={previousPost} />
+					: <span />
+				}
+				{nextPost && <PostNavigationLink post={nextPost} />}
+			</nav>
+		)
+		: null
 
 export default PostNavigation
