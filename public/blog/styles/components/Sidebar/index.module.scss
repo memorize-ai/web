@@ -22,6 +22,7 @@ $horizontal-padding: 20px;
 }
 
 .logo {
+	display: block;
 	height: 41px;
 	transition: transform 0.3s;
 }
@@ -39,7 +40,7 @@ $horizontal-padding: 20px;
 .searchContainer {
 	flex-shrink: 0;
 	position: relative;
-	margin: 20px $horizontal-padding 0;
+	margin: 15px $horizontal-padding 0;
 }
 
 .searchIcon {

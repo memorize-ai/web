@@ -5,10 +5,13 @@
 	color: white;
 	
 	> :last-child {
-		margin-bottom: 0;
+		&,
+		:last-child {
+			margin-bottom: 0;
+		}
 	}
 	
-	* {
+	:not(:last-child) {
 		margin-bottom: 16px;
 	}
 	
@@ -60,5 +63,14 @@
 		padding: 4px 8px;
 		color: #f78c6c;
 		border-radius: 5px;
+	}
+	
+	img {
+		display: block;
+		margin: {
+			left: auto;
+			right: auto;
+		}
+		border-radius: 8px;
 	}
 }
