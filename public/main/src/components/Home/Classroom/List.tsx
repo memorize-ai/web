@@ -19,6 +19,10 @@ const ITEMS: ListItem[] = [
 	{
 		lines: 1,
 		text: 'Share keys with students to unlock sections'
+	},
+	{
+		lines: 1,
+		text: 'Students can use memorize.ai anywhere!'
 	}
 ]
 
