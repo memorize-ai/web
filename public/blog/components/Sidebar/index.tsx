@@ -1,6 +1,7 @@
-import { useState, useCallback, ChangeEvent, useMemo } from 'react'
+import { useCallback, ChangeEvent, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { atom, useRecoilState } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
@@ -13,13 +14,18 @@ import logoFallback from 'images/logos/capital.jpg'
 
 import styles from 'styles/components/Sidebar/index.module.scss'
 
+const queryState = atom({
+	key: 'query',
+	default: ''
+})
+
 export interface SidebarProps {
 	posts: Post[]
 }
 
 const Sidebar = ({ posts }: SidebarProps) => {
 	const { slug } = useRouter().query
-	const [query, setQuery] = useState('')
+	const [query, setQuery] = useRecoilState(queryState)
 	
 	const filteredPosts = useMemo(() => {
 		const normalizedQuery = normalize(query)
