@@ -26,17 +26,21 @@ const PostPage = ({ posts }: { posts: Post[] }) => {
 		posts.indexOf(post)
 	), [posts, post])
 	
+	const url = `https://blog.memorize.ai/p/${slug}`
+	const title = `${post.title} | memorize.ai blog`
+	const { description } = post
+	
 	return (
 		<WithSidebar posts={posts} className={styles.root}>
 			<Head>
-				<meta
-					key="description"
-					name="description"
-					content={post.description}
-				/>
-				<title key="title">
-					{post.title} | memorize.ai blog
-				</title>
+				<link key="canonical" rel="canonical" href={url} />
+				<meta key="description" name="description" content={description} />
+				<meta key="meta-og-url" property="og:url" content={url} />
+				<meta key="meta-og-title" property="og:title" content={title} />
+				<meta key="meta-og-description" property="og:description" content={description} />
+				<meta key="meta-twitter-title" name="twitter:title" content={title} />
+				<meta key="meta-twitter-description" name="twitter:description" content={description} />
+				<title key="title">{title}</title>
 			</Head>
 			<PostHeader post={post} />
 			<PostBody post={post} />
