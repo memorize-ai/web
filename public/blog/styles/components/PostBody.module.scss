@@ -4,13 +4,6 @@
 	font-weight: bold;
 	color: white;
 	
-	> :last-child {
-		&,
-		:last-child {
-			margin-bottom: 0;
-		}
-	}
-	
 	:not(:last-child) {
 		margin-bottom: 16px;
 	}
@@ -55,7 +48,7 @@
 		}
 		
 		* {
-			margin-bottom: 0;
+			margin-bottom: 0 !important;
 		}
 	}
 	
