@@ -31,6 +31,9 @@ const PostHeader = ({ allowLinks = true, post }: PostHeaderProps) => (
 					: post.by.email
 			}
 		</p>
+		<p className={styles.topics}>
+			{post.topics.join(', ')}
+		</p>
 		<p className={styles.date}>
 			{post.date}
 		</p>
