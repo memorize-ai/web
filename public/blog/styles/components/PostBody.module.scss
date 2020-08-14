@@ -1,8 +1,11 @@
 .root {
 	line-height: 1.5;
-	font-size: larger;
 	font-weight: bold;
 	color: white;
+	
+	@media (min-width: 800px) {
+		font-size: larger;
+	}
 	
 	:not(:last-child) {
 		margin-bottom: 16px;

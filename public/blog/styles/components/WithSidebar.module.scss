@@ -1,8 +1,8 @@
 .root {
-	display: grid;
-	grid: 100vh / auto 1fr;
+	display: flex;
 }
 
 .body {
+	flex-grow: 1;
 	overflow-y: auto;
 }
