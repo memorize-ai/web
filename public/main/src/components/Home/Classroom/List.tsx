@@ -21,8 +21,8 @@ const ITEMS: ListItem[] = [
 		text: 'Share keys with students to unlock sections'
 	},
 	{
-		lines: 2,
-		text: <>Students can use memorize.ai on their<br />computers and Apple devices</>
+		lines: 1,
+		text: 'Students can use memorize.ai anywhere!'
 	}
 ]
 

@@ -58,6 +58,14 @@ const HomeFooter = () => (
 					>
 						Slack
 					</a>
+					<div className="divider" />
+					<a
+						href="https://blog.memorize.ai"
+						target="_blank"
+						rel="noopener noreferrer nofollow"
+					>
+						Blog
+					</a>
 				</div>
 				<AppStoreDownloadButton className="download-app" />
 				<p className="copyright">
