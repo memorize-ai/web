@@ -8,11 +8,15 @@ import styles from 'styles/components/Sidebar/PostRow.module.scss'
 export interface SidebarPostRowProps {
 	post: Post
 	selected: boolean
+	onClick?(): void
 }
 
-const SidebarPostRow = ({ post, selected }: SidebarPostRowProps) => (
+const SidebarPostRow = ({ post, selected, onClick }: SidebarPostRowProps) => (
 	<Link href="/p/[slug]" as={`/p/${post.slug}`}>
-		<a className={cx(styles.root, { [styles.selected]: selected })}>
+		<a
+			className={cx(styles.root, { [styles.selected]: selected })}
+			onClick={onClick}
+		>
 			<p className={styles.title}>
 				{post.title}
 			</p>

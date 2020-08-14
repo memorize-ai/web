@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { atom, useRecoilState } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import Post from 'models/Post'
 import normalize from 'lib/normalize'
@@ -20,10 +21,12 @@ const queryState = atom({
 })
 
 export interface SidebarProps {
+	className?: string
 	posts: Post[]
+	onRowClick?(): void
 }
 
-const Sidebar = ({ posts }: SidebarProps) => {
+const Sidebar = ({ className, posts, onRowClick }: SidebarProps) => {
 	const { slug } = useRouter().query
 	const [query, setQuery] = useRecoilState(queryState)
 	
@@ -46,9 +49,9 @@ const Sidebar = ({ posts }: SidebarProps) => {
 	}, [setQuery])
 	
 	return (
-		<aside className={styles.root}>
+		<aside className={cx(styles.root, className)}>
 			<Link href="/">
-				<a className={styles.logoContainer}>
+				<a className={styles.logoContainer} onClick={onRowClick}>
 					<picture>
 						<source srcSet={logo} type="image/webp" />
 						<img className={styles.logo} src={logoFallback} alt="Logo" />
@@ -75,6 +78,7 @@ const Sidebar = ({ posts }: SidebarProps) => {
 						key={post.slug}
 						post={post}
 						selected={post.slug === slug}
+						onClick={onRowClick}
 					/>
 				))}
 			</div>

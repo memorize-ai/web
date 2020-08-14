@@ -11,11 +11,9 @@ import getPosts from 'lib/getPosts'
 import WithSidebar from 'components/WithSidebar'
 import PostHeader from 'components/PostHeader'
 import PostBody from 'components/PostBody'
-
-import styles from 'styles/pages/Post.module.scss'
 import PostNavigation from 'components/PostNavigation'
 
-
+import styles from 'styles/pages/Post.module.scss'
 
 const PostPage = ({ posts }: { posts: Post[] }) => {
 	const { slug } = useRouter().query
@@ -27,11 +25,6 @@ const PostPage = ({ posts }: { posts: Post[] }) => {
 	const indexOfPost = useMemo(() => (
 		posts.indexOf(post)
 	), [posts, post])
-	
-	const adjacentPosts = {
-		previousPost: posts[indexOfPost - 1],
-		nextPost: posts[indexOfPost + 1]
-	}
 	
 	return (
 		<WithSidebar posts={posts} className={styles.root}>
@@ -49,7 +42,8 @@ const PostPage = ({ posts }: { posts: Post[] }) => {
 			<PostBody post={post} />
 			<PostNavigation
 				className={styles.navigation}
-				{...adjacentPosts}
+				previousPost={posts[indexOfPost - 1]}
+				nextPost={posts[indexOfPost + 1]}
 			/>
 		</WithSidebar>
 	)

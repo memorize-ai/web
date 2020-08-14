@@ -15,6 +15,11 @@ $spacing: 10px;
 	color: white;
 	background: transparentize(white, 0.9);
 	border-radius: 8px;
+	transition: background 0.3s;
+	
+	&:hover {
+		background: transparentize(white, 0.8);
+	}
 	
 	&:not(:last-child) {
 		margin-right: 12px;
