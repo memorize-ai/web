@@ -54,6 +54,7 @@ export const getPageData = (html: string) => {
 		
 		return data && {
 			id: data.set.id.toString(),
+			imageUrl: data.set._thumbnailUrl,
 			name: data.set.title,
 			cards: data.originalOrder.map(id => {
 				const term = data.termIdToTermsMap[id]

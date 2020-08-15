@@ -10,11 +10,11 @@ import { pingable } from '../../utils'
 
 const { onCall, HttpsError } = https
 
-export default onCall(pingable(async rawUrl => {
-	if (typeof rawUrl !== 'string')
+export default onCall(pingable(async url => {
+	if (typeof url !== 'string')
 		throw new HttpsError('invalid-argument', 'You must send a Quizlet set URL')
 	
-	const page = await getPage(rawUrl)
+	const page = await getPage(url)
 	
 	if (!page)
 		throw new HttpsError('invalid-argument', 'Invalid Quizlet set URL')
@@ -33,6 +33,7 @@ export default onCall(pingable(async rawUrl => {
 	
 	return {
 		url: page.url,
+		image: data.imageUrl,
 		name: data.name,
 		existing:
 			await isExistingDeckFromOriginalId(data.id) ??
