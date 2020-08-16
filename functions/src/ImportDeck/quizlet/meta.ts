@@ -23,6 +23,15 @@ interface RawPageData {
 	termIdToTermsMap: Record<string, RawPageDataTerm>
 }
 
+export interface PageDataTerm {
+	id: string
+	front: string
+	back: string
+	backImageUrl: string | null
+	frontAudioUrl: string | null
+	backAudioUrl: string | null
+}
+
 const RAW_URL_REGEX = /^(?:https?:\/\/)?quizlet\.com\/(\d+?)\/([^\/]+?)\/?$/i
 const PAGE_DATA_REGEX = /<script\sid=".+?">\(function\(\)\{window\.Quizlet\["setPageData"\]\s=\s(\{.+?\});\sQLoad\("Quizlet.setPageData"\);\}\)\.call\(this\);/i
 
@@ -63,10 +72,10 @@ export const getPageData = (html: string) => {
 					id: term.id.toString(),
 					front: term.word,
 					back: term.definition,
-					frontImageUrl: term._imageUrl,
+					backImageUrl: term._imageUrl,
 					frontAudioUrl: term._wordAudioUrl,
 					backAudioUrl: term._definitionAudioUrl
-				}
+				} as PageDataTerm
 			})
 		}
 	} catch {

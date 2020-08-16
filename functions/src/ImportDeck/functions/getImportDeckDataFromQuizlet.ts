@@ -1,4 +1,4 @@
-import { https } from 'firebase-functions'
+import * as functions from 'firebase-functions'
 
 import {
 	getPage,
@@ -8,9 +8,12 @@ import {
 } from '../quizlet/meta'
 import { pingable } from '../../utils'
 
-const { onCall, HttpsError } = https
+const { HttpsError } = functions.https
 
-export default onCall(pingable(async url => {
+export default functions.runWith({
+	timeoutSeconds: 540,
+	memory: '2GB'
+}).https.onCall(pingable(async url => {
 	if (typeof url !== 'string')
 		throw new HttpsError('invalid-argument', 'You must send a Quizlet set URL')
 	

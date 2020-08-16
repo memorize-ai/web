@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin'
 import Batch from 'firestore-batch'
 import axios from 'axios'
-import * as _ from 'lodash'
+import { isEqual } from 'lodash'
 
 import decksClient from '../AppSearch/decks'
 import User from '../User'
@@ -378,7 +378,7 @@ export default class Deck {
 		})
 	
 	wasUpdatedByUser = (newDeck: Deck) => !(
-		_.isEqual(this.topics, newDeck.topics) &&
+		isEqual(this.topics, newDeck.topics) &&
 		this.hasImage === newDeck.hasImage &&
 		this.name === newDeck.name &&
 		this.subtitle === newDeck.subtitle &&
@@ -389,7 +389,7 @@ export default class Deck {
 	shouldIndex = (newDeck: Deck) => !(
 		this.slugId === newDeck.slugId &&
 		this.slug === newDeck.slug &&
-		_.isEqual(this.topics, newDeck.topics) &&
+		isEqual(this.topics, newDeck.topics) &&
 		this.hasImage === newDeck.hasImage &&
 		this.name === newDeck.name &&
 		this.subtitle === newDeck.subtitle &&
@@ -405,7 +405,7 @@ export default class Deck {
 	shouldCache = (newDeck: Deck) => !(
 		this.slugId === newDeck.slugId &&
 		this.slug === newDeck.slug &&
-		_.isEqual(this.topics, newDeck.topics) &&
+		isEqual(this.topics, newDeck.topics) &&
 		this.hasImage === newDeck.hasImage &&
 		this.name === newDeck.name &&
 		this.subtitle === newDeck.subtitle &&
