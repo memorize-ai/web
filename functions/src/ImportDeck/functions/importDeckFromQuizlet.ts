@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions'
 
 import { pingable } from '../../utils'
 import { getPage, getPageData } from '../quizlet/meta'
-import { createDeck, importCards } from '../quizlet/import'
+import { createDeck, importCards, addDeck } from '../quizlet/import'
 
 const { HttpsError } = functions.https
 
@@ -62,5 +62,9 @@ export default functions.runWith({
 		topics
 	})
 	
-	await importCards(uid, deckId, data.cards)
+	await addDeck(
+		uid,
+		deckId,
+		await importCards(uid, deckId, data.cards)
+	)
 }))

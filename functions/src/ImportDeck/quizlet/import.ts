@@ -31,6 +31,11 @@ export interface CreateDeckData {
 	topics: string[]
 }
 
+export interface AddDeckSectionData {
+	id: string
+	numberOfCards: number
+}
+
 interface CardSide {
 	front: string
 	back: string
@@ -105,6 +110,7 @@ export const createDeck = async (uid: string, {
 	return doc.id
 }
 
+/** @returns The first section */
 export const importCards = async (uid: string, deckId: string, cards: PageDataTerm[]) => {
 	const sections = await createSections(deckId, cards.length)
 	const assets: Asset[] = []
@@ -150,6 +156,29 @@ export const importCards = async (uid: string, deckId: string, cards: PageDataTe
 		batch.commit(),
 		uploadAssets(uid, assets)
 	])
+	
+	return sections.length
+		? {
+			id: sections[0],
+			numberOfCards: Math.min(cards.length, MAX_SECTION_SIZE)
+		} as AddDeckSectionData
+		: null
+}
+
+export const addDeck = (uid: string, deckId: string, section: AddDeckSectionData | null) => {
+	const numberOfCards = section?.numberOfCards ?? 0
+	
+	const data: Record<string, any> = {
+		added: FieldValue.serverTimestamp(),
+		dueCardCount: numberOfCards,
+		unsectionedDueCardCount: 0,
+		unlockedCardCount: numberOfCards
+	}
+	
+	if (section)
+		data.sections = { [section.id]: numberOfCards }
+	
+	return firestore.doc(`users/${uid}/decks/${deckId}`).set(data)
 }
 
 const createSections = async (deckId: string, cards: number) => {
