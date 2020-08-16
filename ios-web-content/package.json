@@ -1,5 +1,6 @@
 {
 	"name": "ios-web-content",
+	"version": "1.0.0",
 	"devDependencies": {
 		"babel-minify": "^0.5.1",
 		"uglifycss": "^0.0.29"

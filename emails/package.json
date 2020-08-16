@@ -1,5 +1,6 @@
 {
 	"name": "emails",
+	"version": "1.0.0",
 	"dependencies": {
 		"@sendgrid/client": "^7.2.3",
 		"cheerio": "^1.0.0-rc.3",

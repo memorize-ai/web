@@ -1,5 +1,6 @@
 {
 	"name": "main",
+	"version": "1.0.0",
 	"dependencies": {
 		"@ckeditor/ckeditor5-react": "^2.1.0",
 		"@elastic/app-search-javascript": "^7.8.0",
