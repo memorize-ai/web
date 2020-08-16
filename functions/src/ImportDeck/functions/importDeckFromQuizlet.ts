@@ -19,11 +19,16 @@ export default functions.runWith({
 	if (typeof requestData !== 'object')
 		throw new HttpsError('invalid-argument', 'You must pass in an object')
 	
+	const { uid } = auth
 	const { url, image, name, subtitle, description, topics } = requestData
 	
 	if (!(
 		typeof url === 'string' &&
-		(image === null || Buffer.isBuffer(image)) &&
+		(image === null || (
+			typeof image === 'object' &&
+			typeof image.type === 'string' &&
+			Buffer.isBuffer(image.data)
+		)) &&
 		typeof name === 'string' &&
 		typeof subtitle === 'string' &&
 		typeof description === 'string' &&
@@ -48,7 +53,7 @@ export default functions.runWith({
 	if (!data)
 		throw new HttpsError('internal', 'Unable to retrieve the Quizlet set data')
 	
-	const deckId = await createDeck(auth.uid, {
+	const deckId = await createDeck(uid, {
 		originalId: data.id,
 		image,
 		name,
@@ -57,5 +62,5 @@ export default functions.runWith({
 		topics
 	})
 	
-	await importCards(deckId, data.cards)
+	await importCards(uid, deckId, data.cards)
 }))

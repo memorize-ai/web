@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin'
 import Batch from 'firestore-batch'
+import axios from 'axios'
 import { AllHtmlEntities } from 'html-entities'
 import { getType } from 'mime'
 import { v4 as uuid } from 'uuid'
@@ -20,7 +21,10 @@ const ASSET_CHUNK_SIZE = 200
 
 export interface CreateDeckData {
 	originalId: string
-	image: Buffer | null
+	image: {
+		data: Buffer
+		type: string
+	} | null
 	name: string
 	subtitle: string
 	description: string
@@ -42,41 +46,66 @@ interface Asset {
 	token: string
 }
 
-export const createDeck = async (uid: string, data: CreateDeckData) => {
+export const createDeck = async (uid: string, {
+	image,
+	name,
+	subtitle,
+	description,
+	topics,
+	originalId
+}: CreateDeckData) => {
 	const doc = firestore.collection('decks').doc()
 	
-	await doc.set({
-		topics: data.topics,
-		hasImage: data.image !== null,
-		name: data.name,
-		subtitle: data.subtitle,
-		description: data.description,
-		viewCount: 0,
-		uniqueViewCount: 0,
-		ratingCount: 0,
-		'1StarRatingCount': 0,
-		'2StarRatingCount': 0,
-		'3StarRatingCount': 0,
-		'4StarRatingCount': 0,
-		'5StarRatingCount': 0,
-		averageRating: 0,
-		downloadCount: 0,
-		cardCount: 0,
-		unsectionedCardCount: 0,
-		currentUserCount: 0,
-		allTimeUserCount: 0,
-		favoriteCount: 0,
-		creator: uid,
-		created: FieldValue.serverTimestamp(),
-		updated: FieldValue.serverTimestamp(),
-		source: 'quizlet',
-		originalId: data.originalId
-	})
+	const promises: Promise<any>[] = [
+		doc.set({
+			topics,
+			hasImage: Boolean(image),
+			name,
+			subtitle,
+			description,
+			viewCount: 0,
+			uniqueViewCount: 0,
+			ratingCount: 0,
+			'1StarRatingCount': 0,
+			'2StarRatingCount': 0,
+			'3StarRatingCount': 0,
+			'4StarRatingCount': 0,
+			'5StarRatingCount': 0,
+			averageRating: 0,
+			downloadCount: 0,
+			cardCount: 0,
+			unsectionedCardCount: 0,
+			currentUserCount: 0,
+			allTimeUserCount: 0,
+			favoriteCount: 0,
+			creator: uid,
+			created: FieldValue.serverTimestamp(),
+			updated: FieldValue.serverTimestamp(),
+			source: 'quizlet',
+			originalId
+		})
+	]
+	
+	if (image)
+		promises.push(
+			storage.file(`decks/${doc.id}`).save(image.data, {
+				public: true,
+				contentType: image.type,
+				metadata: {
+					metadata: {
+						firebaseStorageDownloadTokens: uuid(),
+						owner: uid
+					}
+				}
+			})
+		)
+	
+	await Promise.all(promises)
 	
 	return doc.id
 }
 
-export const importCards = async (deckId: string, cards: PageDataTerm[]) => {
+export const importCards = async (uid: string, deckId: string, cards: PageDataTerm[]) => {
 	const sections = await createSections(deckId, cards.length)
 	const assets: Asset[] = []
 	
@@ -119,7 +148,7 @@ export const importCards = async (deckId: string, cards: PageDataTerm[]) => {
 	
 	await Promise.all([
 		batch.commit(),
-		uploadAssets(assets)
+		uploadAssets(uid, assets)
 	])
 }
 
@@ -209,31 +238,26 @@ const normalizeUrl = (url: string) =>
 const getContentType = (url: string) =>
 	getType(url.split('?')[0])
 
-const uploadAssets = (assets: Asset[]) => {
+const uploadAssets = async (uid: string, assets: Asset[]) => {
 	const chunks = chunk(assets, ASSET_CHUNK_SIZE)
 	
-	for (const assetChunk of chunks) {
-		await Promise.all(chunk.map(async ({ destination, url, contentType, token }) => {
+	for (const assetChunk of chunks)
+		await Promise.all(assetChunk.map(async ({ destination, url, contentType, token }) => {
 			try {
 				const { data } = await axios.get(url, { responseType: 'arraybuffer' })
 				
 				await storage.file(destination).save(data, {
 					public: true,
+					contentType,
 					metadata: {
-						contentType,
-						owner: ACCOUNT_ID,
 						metadata: {
-							firebaseStorageDownloadTokens: token
+							firebaseStorageDownloadTokens: token,
+							owner: uid
 						}
 					}
 				})
-				
-				process.stdout.write(`${message}${++j}/${chunk.length}\r`)
 			} catch (error) {
-				console.error(`Error uploading asset ${++j}/${chunk.length}: ${error}`)
+				console.error(error)
 			}
 		}))
-		
-		console.log()
-	}
 }
