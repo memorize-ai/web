@@ -1,1 +1,1 @@
-export { default as topicDeleted } from './topicDeleted'
+export { default as topicDeleted } from "./topicDeleted";

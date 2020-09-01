@@ -1,1 +1,1 @@
-export { default as pingPubSub } from './pingPubSub'
+export { default as pingPubSub } from "./pingPubSub";

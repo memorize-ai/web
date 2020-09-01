@@ -1,1 +1,1 @@
-export { default as cardPosterPubSub } from './cardPosterPubSub'
+export { default as cardPosterPubSub } from "./cardPosterPubSub";

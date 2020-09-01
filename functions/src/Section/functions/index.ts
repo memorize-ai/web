@@ -1,1 +1,1 @@
-export { default as sectionDeleted } from './sectionDeleted'
+export { default as sectionDeleted } from "./sectionDeleted";

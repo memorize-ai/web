@@ -1,3 +1,3 @@
-it('runs', () => {
-	expect(true)
-})
+it("runs", () => {
+  expect(true);
+});

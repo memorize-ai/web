@@ -1,8 +1,8 @@
-import * as functions from 'firebase-functions'
+import * as functions from "firebase-functions";
 
-import { modifyCounter } from '..'
-import { cauterize } from '../../utils'
+import { modifyCounter } from "..";
+import { cauterize } from "../../utils";
 
 export default functions.firestore
-	.document('messages/{messageId}')
-	.onCreate(cauterize(() => modifyCounter(1)))
+  .document("messages/{messageId}")
+  .onCreate(cauterize(() => modifyCounter(1)));
