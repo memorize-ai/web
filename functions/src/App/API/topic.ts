@@ -22,7 +22,7 @@ export default (app: Express) => {
 					)
 					break
 				default:
-					res.status(400).send('You must pass an "id", "name", or "category" as query parameters')
+					res.json((await Topic.all()).map(({ json }) => json))
 			}
 		} catch (error) {
 			console.error(error)
