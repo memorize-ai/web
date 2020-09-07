@@ -678,7 +678,7 @@
 						}
 						
 						> .sliders {
-							width: 100%;
+							flex-grow: 1;
 							margin-top: $margin;
 							border-collapse: separate;
 							border-spacing: 6px 0;
