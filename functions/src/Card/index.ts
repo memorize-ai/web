@@ -46,4 +46,13 @@ export default class Card {
 	
 	decrementSectionCardCount = (deckId: string, amount: number = 1) =>
 		this.incrementSectionCardCount(deckId, -amount)
+	
+	get json() {
+		return {
+			id: this.id,
+			section_id: this.sectionId,
+			front: this.front,
+			back: this.back
+		}
+	}
 }

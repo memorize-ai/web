@@ -1,5 +1,6 @@
 {
 	"name": "scripts",
+	"version": "1.0.0",
 	"dependencies": {
 		"firebase-admin": "^8.13.0",
 		"glob": "^7.1.6",

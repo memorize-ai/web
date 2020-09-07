@@ -1,5 +1,6 @@
 {
 	"name": "memorize.ai-web",
+	"version": "1.0.0",
 	"scripts": {
 		"start": "npm start -C public/main",
 		"start:public": "npm start -C public/blog",

@@ -97,6 +97,8 @@
 	"decks (collection)": {
 		"a3gsb2D3n (document)": { // Random ID, same as in Storage
 			"lastPostedCardIndex": 1, // (Int?) The last posted card index, for the Daily Facts twitter account
+			"slugId": "abc", // (String) A shorter ID
+			"slug": "geometry-prep", // (String) The deck's slug
 			"topics (array)": [ // The topics that this deck is associated with
 				"ab23D8da", // Topic ID
 				"sdf3r3oD"
