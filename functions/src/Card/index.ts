@@ -50,7 +50,7 @@ export default class Card {
 	get json() {
 		return {
 			id: this.id,
-			section_id: this.sectionId,
+			section_id: this.sectionId || null,
 			front: this.front,
 			back: this.back
 		}

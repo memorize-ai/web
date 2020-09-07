@@ -20,6 +20,11 @@ export default class Topic {
 		return firestore.doc(`topics/${this.id}`)
 	}
 	
+	static all = async () =>
+		(await firestore.collection('topics').get())
+			.docs
+			.map(doc => new Topic(doc))
+	
 	static fromId = async (id: string) =>
 		new Topic(await firestore.doc(`topics/${id}`).get())
 	
