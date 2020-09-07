@@ -66,6 +66,14 @@ const HomeFooter = () => (
 					>
 						Blog
 					</a>
+					<div className="divider" />
+					<a
+						href="https://github.com/memorize-ai/web/blob/master/API.md"
+						target="_blank"
+						rel="noopener noreferrer nofollow"
+					>
+						API
+					</a>
 				</div>
 				<AppStoreDownloadButton className="download-app" />
 				<p className="copyright">
