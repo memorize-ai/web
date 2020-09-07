@@ -36,4 +36,12 @@ export default class Section {
 		
 		return batch.commit()
 	}
+	
+	get json() {
+		return {
+			id: this.id,
+			name: this.name,
+			cards: this.numberOfCards
+		}
+	}
 }
