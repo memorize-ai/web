@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import AuthButton from './AuthButton'
 import AppStoreDownloadButton from '../shared/AppStoreDownloadButton'
 import Logo, { LogoType } from '../shared/Logo'
-import { SLACK_INVITE_URL } from '../../constants'
+import { SLACK_INVITE_URL, API_URL } from '../../constants'
 
 import '../../scss/components/Home/Footer.scss'
 
@@ -65,6 +65,14 @@ const HomeFooter = () => (
 						rel="noopener noreferrer nofollow"
 					>
 						Blog
+					</a>
+					<div className="divider" />
+					<a
+						href={API_URL}
+						target="_blank"
+						rel="noopener noreferrer nofollow"
+					>
+						API
 					</a>
 				</div>
 				<AppStoreDownloadButton className="download-app" />

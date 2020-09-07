@@ -13,7 +13,7 @@ import Dropdown, { DropdownShadow } from '../shared/Dropdown'
 import AuthButton from '../shared/AuthButton'
 import { urlForMarket } from './Market'
 import { isNullish, showSuccess, handleError } from '../../utils'
-import { APP_STORE_URL, SLACK_INVITE_URL } from '../../constants'
+import { APP_STORE_URL, SLACK_INVITE_URL, API_URL } from '../../constants'
 
 import { ReactComponent as Home } from '../../images/icons/home.svg'
 import { ReactComponent as Cart } from '../../images/icons/cart.svg'
@@ -137,7 +137,10 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 							<button className="sign-out" onClick={signOut}>
 								Sign out
 							</button>
-							<p className="footer">
+							<label className="footer-label">
+								Contact
+							</label>
+							<p className="footer-info">
 								<a
 									href={SLACK_INVITE_URL}
 									target="_blank"
@@ -150,6 +153,24 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 									rel="nofollow noreferrer noopener"
 								>
 									support@memorize.ai
+								</a>
+							</p>
+							<label className="footer-label">
+								Developers
+							</label>
+							<p className="footer-info">
+								<a
+									href="https://github.com/memorize-ai"
+									target="_blank"
+									rel="noopener noreferrer nofollow"
+								>
+									GitHub
+								</a> • <a
+									href={API_URL}
+									target="_blank"
+									rel="nofollow noreferrer noopener"
+								>
+									API
 								</a>
 							</p>
 						</Dropdown>
