@@ -158,7 +158,6 @@ export default class User {
 		return {
 			id: this.id,
 			name: this.name,
-			email: this.email,
 			interests: this.interests,
 			decks: this.numberOfDecks,
 			all_decks: this.allDecks

@@ -18,7 +18,6 @@ https://memorize.ai/_api/{method}
 
 - `id: string` The user's ID
 - `name: string` The user's name
-- `email: string` The user's email
 - `interests: string[]` The users' interests. An array of topic IDs.
 - `decks: number` The number of decks this user has
 - `all_decks: string[]` All the decks this user has ever owned, even deleted ones. An array of deck IDs.
