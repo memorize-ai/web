@@ -156,7 +156,7 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 								</a>
 							</p>
 							<label className="footer-label">
-								Developers
+								Develop
 							</label>
 							<p className="footer-info">
 								<a
