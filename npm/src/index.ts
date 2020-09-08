@@ -15,6 +15,9 @@ export const fetch = (path: string) =>
 			)
 		})
 
+export const userFromId = (id: string) =>
+	fetch(`user?id=${id}`)
+
 export const deckFromId = (id: string) =>
 	fetch(`deck?id=${id}`)
 
