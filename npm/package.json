@@ -5,7 +5,9 @@
 	"types": "types/index.d.ts",
 	"scripts": {
 		"build": "tsc",
-		"test": "jest --verbose tests"
+		"pretest": "npm run build",
+		"test": "jest --verbose tests",
+		"prepublishOnly": "npm run build"
 	},
 	"dependencies": {
 		"axios": "^0.19.2"
