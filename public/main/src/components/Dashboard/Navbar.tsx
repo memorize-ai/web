@@ -11,6 +11,7 @@ import useDecks from '../../hooks/useDecks'
 import Tab from './NavbarTab'
 import Dropdown, { DropdownShadow } from '../shared/Dropdown'
 import AuthButton from '../shared/AuthButton'
+import ApiKeyModal from '../shared/Modal/ApiKey'
 import { urlForMarket } from './Market'
 import { isNullish, showSuccess, handleError } from '../../utils'
 import { APP_STORE_URL, SLACK_INVITE_URL, API_URL } from '../../constants'
@@ -33,6 +34,7 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 	const [decks] = useDecks()
 	
 	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(false)
+	const [isApiKeyModalShowing, setIsApiKeyModalShowing] = useState(false)
 	
 	const sendForgotPasswordEmail = useCallback(async () => {
 		const email = currentUser?.email
@@ -128,8 +130,6 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 								/>
 								<label>Email{isNullish(currentUser?.email) ? ' (LOADING)' : ''}</label>
 								<p className="email">{currentUser?.email ?? ''}</p>
-								{/* <label>API key{isNullish(currentUser?.apiKey) ? ' (LOADING)' : ''}</label>
-								<p className="api-key">{currentUser?.apiKey ?? ''}</p> */}
 							</div>
 							<button className="forgot-password" onClick={sendForgotPasswordEmail}>
 								Forgot password
@@ -170,8 +170,10 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 									target="_blank"
 									rel="nofollow noreferrer noopener"
 								>
-									API
-								</a>
+									API docs
+								</a> • <button onClick={() => setIsApiKeyModalShowing(true)}>
+									My API key
+								</button>
 							</p>
 						</Dropdown>
 					)
@@ -183,6 +185,13 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 					)
 				}
 			</div>
+			{currentUser?.apiKey && (
+				<ApiKeyModal
+					value={currentUser.apiKey}
+					isShowing={isApiKeyModalShowing}
+					setIsShowing={setIsApiKeyModalShowing}
+				/>
+			)}
 		</div>
 	)
 }

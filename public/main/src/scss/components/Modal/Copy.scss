@@ -1,7 +1,7 @@
 @import '../../variables';
 @import '../../mixins';
 
-@include modal-content('share') {
+@include modal-content('copy') {
 	$margin: 20px;
 	
 	display: flex;
@@ -82,7 +82,7 @@
 	> form {
 		padding: 30px;
 		
-		> .url {
+		> .text {
 			display: flex;
 			align-items: center;
 			max-width: max-content;

@@ -120,8 +120,10 @@ export default class User {
 					[EmailTemplate.DueCardsNotification]: false
 				}
 			}),
-			firestore.doc(`api-keys/${this.apiKey}`).set({
-				user: this.id
+			firestore.doc(`apiKeys/${this.apiKey}`).set({
+				user: this.id,
+				requests: 0,
+				enabled: true
 			})
 		])
 	}
@@ -129,7 +131,7 @@ export default class User {
 	onDelete = () =>
 		Promise.all([
 			this.removeAuth(),
-			firestore.doc(`api-keys/${this.apiKey}`).delete()
+			firestore.doc(`apiKeys/${this.apiKey}`).delete()
 		])
 	
 	addDeckToAllDecks = (deckId: string) =>

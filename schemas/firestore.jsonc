@@ -149,6 +149,13 @@
 			}
 		}
 	},
+	"apiKeys (collection)": {
+		"a-badc-c (document)": { // API key
+			"user": "asdb84", // (String) User ID
+			"requests": 20, // (Int) Number of requests made using this API key
+			"enabled": true // (Boolean) If the API key is allowed to make requests
+		}
+	},
 	"counters (collection)": {
 		"decks (document)": {
 			"value": 100 // (Int) The counter value

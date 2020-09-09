@@ -6,8 +6,11 @@
 	
 	> .content {
 		position: absolute;
+		pointer-events: none;
+		transform: translateX(-20px);
+		opacity: 0;
 		z-index: $dropdown-z-index;
-		animation: dropdown-fade-in linear 0.1s;
+		transition: transform 0.2s, opacity 0.2s;
 		
 		&:not(.right-aligned) {
 			left: 0;
@@ -30,11 +33,10 @@
 	&.showing > .trigger {
 		cursor: default;
 	}
-}
-
-@keyframes dropdown-fade-in {
-	from {
-		opacity: 0.5;
-		transform: translateX(-20px);
+	
+	&.showing > .content {
+		pointer-events: all;
+		transform: none;
+		opacity: 1;
 	}
 }
