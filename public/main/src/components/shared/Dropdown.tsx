@@ -60,17 +60,15 @@ const Dropdown = (
 			>
 				{trigger}
 			</button>
-			{isShowing && (
-				<div
-					className={cx('content', {
-						[`shadow-${shadow}`]: shadow !== DropdownShadow.None,
-						'right-aligned': isRightAligned
-					})}
-					style={{ top: `calc(100% + ${topMargin})` }}
-				>
-					{children}
-				</div>
-			)}
+			<div
+				className={cx('content', {
+					[`shadow-${shadow}`]: shadow !== DropdownShadow.None,
+					'right-aligned': isRightAligned
+				})}
+				style={{ marginTop: topMargin }}
+			>
+				{children}
+			</div>
 		</div>
 	)
 }
