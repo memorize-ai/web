@@ -18,6 +18,8 @@ export default class Memorize {
 	topics(category?: string | null): Promise<Topic[]>
 }
 
+export { Memorize }
+
 export class MemorizeError extends Error {
 	status: MemorizeErrorStatus
 	message: string

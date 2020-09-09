@@ -41,4 +41,5 @@ export default class Memorize {
 		this.fetch('topic', { category })
 }
 
+export { Memorize }
 export { default as MemorizeError } from './error'
