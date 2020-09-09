@@ -1,18 +1,19 @@
 import React, { ReactNode, useState, useCallback, FormEvent, memo } from 'react'
 import { useClipboard } from 'use-clipboard-copy'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faLink } from '@fortawesome/free-solid-svg-icons'
+import { IconDefinition, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Modal, { ModalShowingProps } from '.'
 
-import '../../../scss/components/Modal/Share.scss'
+import '../../../scss/components/Modal/Copy.scss'
 
-const ShareModal = (
-	{ title, message, url, isShowing, setIsShowing }: {
+const CopyModal = (
+	{ title, message, icon, text, isShowing, setIsShowing }: {
 		title: string
 		message?: ReactNode
-		url: string
+		icon: IconDefinition
+		text: string
 	} & ModalShowingProps
 ) => {
 	const { copy } = useClipboard()
@@ -21,13 +22,13 @@ const ShareModal = (
 	const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		
-		copy(url)
+		copy(text)
 		setDidCopy(true)
-	}, [copy, url, setDidCopy])
+	}, [copy, text, setDidCopy])
 	
 	return (
 		<Modal
-			className="share"
+			className="copy"
 			isLazy={false}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
@@ -49,9 +50,9 @@ const ShareModal = (
 				)}
 			</div>
 			<form onSubmit={onSubmit}>
-				<div className="url">
-					<FontAwesomeIcon icon={faLink} />
-					<p>{url}</p>
+				<div className="text">
+					<FontAwesomeIcon icon={icon} />
+					<p>{text}</p>
 				</div>
 				<button type="submit" className={cx({ copied: didCopy })}>
 					{didCopy ? 'Copied!' : 'Copy'}
@@ -61,4 +62,4 @@ const ShareModal = (
 	)
 }
 
-export default memo(ShareModal)
+export default memo(CopyModal)
