@@ -1,9 +1,10 @@
 import React from 'react'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 import { ModalShowingProps } from '.'
 import Deck from '../../../models/Deck'
 import useCurrentUser from '../../../hooks/useCurrentUser'
-import ShareModal from './Share'
+import CopyModal from './Copy'
 
 const ShareDeckModal = (
 	{ deck, isShowing, setIsShowing }: {
@@ -13,13 +14,14 @@ const ShareDeckModal = (
 	const [currentUser] = useCurrentUser()
 	
 	return (
-		<ShareModal
+		<CopyModal
 			title={
 				currentUser?.id === deck.creatorId
 					? 'Promote your deck!'
 					: 'Like this deck? Share it!'
 			}
-			url={deck.urlWithOrigin}
+			icon={faLink}
+			text={deck.urlWithOrigin}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		/>
