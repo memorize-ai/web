@@ -231,7 +231,9 @@
 					margin-top: 2px;
 					color: $dark-gray;
 					
-					> a {
+					> a,
+					> button {
+						vertical-align: initial;
 						font-weight: bold;
 						color: #007aff;
 						transition: opacity 0.3s;
