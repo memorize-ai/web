@@ -1,5 +1,15 @@
 # memorize.ai API
 
+## Where to find your API key
+
+<img
+	src="https://storage.googleapis.com/file-in.appspot.com/files/XeTXzcNpuK.png"
+	alt="Where to find your API key"
+	width="400"
+/>
+
+Click **"My API key"** at the bottom. Your API key must be included in every request.
+
 ## Base URL
 
 ```
@@ -12,6 +22,7 @@ https://memorize.ai/_api/{method}
 
 #### Query Parameters
 
+- `key` (required) Your API key
 - `id` (required) The user's ID
 
 #### Response
@@ -26,10 +37,12 @@ https://memorize.ai/_api/{method}
 
 #### Query Parameters
 
+- `key` (required) Your API key
 - `id` (required) The deck's ID
 
 or
 
+- `key` (required) Your API key
 - `short_id` (required) The deck's short ID. Can be found in the URL
 	- `/d/{short_id}/...`
 
@@ -68,6 +81,7 @@ or
 
 #### Query Parameters
 
+- `key` (required) Your API key
 - `deck_id` (required) The deck's ID
 - `section_id` (optional) The section's ID
 - `limit` (optional) The limit on how many sections should be returned
@@ -84,6 +98,7 @@ If the `section_id` is specified, a single section is returned. Otherwise, an ar
 
 #### Query Parameters
 
+- `key` (required) Your API key
 - `deck_id` (required) The deck's ID
 - `section_id` (optional) The section's ID
 - `card_id` (optional) The card's ID
@@ -104,19 +119,22 @@ You can filter what cards should be returned by specifying the `section_id`.
 
 #### Query Parameters
 
+- `key` (required) Your API key
 - `id` (required) The topic's ID
 
 or
 
+- `key` (required) Your API key
 - `name` (required) The topic's name
 
 or
 
+- `key` (required) Your API key
 - `category` (required) The topic's category
 
 or
 
-**None**
+- `key` (required) Your API key
 
 #### Response
 
