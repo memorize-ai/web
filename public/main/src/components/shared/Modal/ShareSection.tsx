@@ -1,9 +1,10 @@
 import React from 'react'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 import { ModalShowingProps } from '.'
 import Deck from '../../../models/Deck'
 import Section from '../../../models/Section'
-import ShareModal from './Share'
+import CopyModal from './Copy'
 
 const ShareSectionModal = (
 	{ deck, section, isShowing, setIsShowing }: {
@@ -11,10 +12,11 @@ const ShareSectionModal = (
 		section: Section | null
 	} & ModalShowingProps
 ) => (
-	<ShareModal
+	<CopyModal
 		title="Share unlock link"
 		message={<>This link unlocks <b>{section?.name ?? '...'}</b> when visited.</>}
-		url={`${deck.urlWithOrigin}/u/${section?.id ?? '...'}`}
+		icon={faLink}
+		text={`${deck.urlWithOrigin}/u/${section?.id ?? '...'}`}
 		isShowing={isShowing}
 		setIsShowing={setIsShowing}
 	/>
