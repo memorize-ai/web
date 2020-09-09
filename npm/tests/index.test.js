@@ -1,8 +1,5 @@
-const { deckFromId } = require('..')
+const queryToString = require('../lib/query').default
 
-it('fetches decks', async () => {
-	const deck = await deckFromId('479340263')
-	
-	console.log(deck)
-	expect(typeof deck).toBe('object')
+it('builds query strings', () => {
+	expect(queryToString({ key: 'abc', id: 'def', something: null })).toBe('?key=abc&id=def')
 })
