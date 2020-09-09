@@ -1,23 +1,24 @@
-export function url(path: string): string
-export function fetch(path: string): Promise<object>
+export default class Memorize {
+	constructor(apiKey: string)
+	
+	userFromId(id: string): Promise<User>
+	
+	deckFromId(id: string): Promise<Deck>
+	deckFromShortId(shortId: string): Promise<Deck>
+	
+	sectionFromId(deckId: string, sectionId: string): Promise<Section>
+	sectionsFromDeck(deckId: string, limit?: number | null): Promise<Section[]>
+	
+	cardFromId(deckId: string, cardId: string): Promise<Card>
+	cardsFromDeck(deckId: string, limit?: number | null): Promise<Card[]>
+	cardsFromSection(deckId: string, sectionId: string, limit?: number | null): Promise<Card[]>
+	
+	topicFromId(id: string): Promise<Topic>
+	topicFromName(name: string): Promise<Topic>
+	topics(category?: string | null): Promise<Topic[]>
+}
 
-export function userFromId(id: string): Promise<User>
-
-export function deckFromId(id: string): Promise<Deck>
-export function deckFromShortId(shortId: string): Promise<Deck>
-
-export function sectionFromId(deckId: string, sectionId: string): Promise<Section>
-export function sectionsFromDeck(deckId: string, limit?: number | null): Promise<Section[]>
-
-export function cardFromId(deckId: string, cardId: string): Promise<Card>
-export function cardsFromDeck(deckId: string, limit?: number | null): Promise<Card[]>
-export function cardsFromSection(deckId: string, sectionId: string, limit?: number | null): Promise<Card[]>
-
-export function topicFromId(id: string): Promise<Topic>
-export function topicFromName(name: string): Promise<Topic>
-export function topics(category?: string | null): Promise<Topic[]>
-
-export class MemorizeError {
+export class MemorizeError extends Error {
 	status: MemorizeErrorStatus
 	message: string
 	
