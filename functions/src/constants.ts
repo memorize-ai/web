@@ -4,7 +4,8 @@ const config = functions.config()
 
 export const DEFAULT_STORAGE_BUCKET = 'memorize-ai.appspot.com'
 
-export const API_PREFIX = '_api'
+export const API_PREFIX = 'api'
+export const PRIVATE_API_PREFIX = '_api'
 
 export const DECK_DUE_CARD_COUNT_SCHEDULE = 'every 10 minutes'
 export const PING_SCHEDULE = 'every 1 minutes'

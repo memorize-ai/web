@@ -3,9 +3,9 @@ import { Express } from 'express'
 
 import User from '../../../User'
 import Deck from '../../../Deck'
-import { API_PREFIX, ADMIN_KEY, SUPPORT_ID } from '../../../constants'
+import { PRIVATE_API_PREFIX, ADMIN_KEY, SUPPORT_ID } from '../../../constants'
 
-const PATH = `/${API_PREFIX}/admin/transfer-deck`
+const PATH = `/${PRIVATE_API_PREFIX}/admin/transfer-deck`
 const URL_REGEX = /^(?:https?:\/\/)?memorize\.ai\/d\/(.+?)\/.+?$/i
 
 const firestore = admin.firestore()
