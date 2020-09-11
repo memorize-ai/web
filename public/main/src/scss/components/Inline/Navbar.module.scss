@@ -1,0 +1,31 @@
+.root {
+	display: flex;
+	justify-content: space-between;
+	height: 50px;
+	padding: 8px;
+	background: white;
+	border-bottom: 1px solid #eee;
+}
+
+.action {
+	width: 80px;
+	font-weight: 900;
+	color: #4a4a4a;
+	background: transparentize(#eee, 0.5);
+	border-radius: 8px;
+	transition: background 0.3s;
+	
+	&:hover,
+	&:focus {
+		background: #eee;
+	}
+}
+
+.logoContainer,
+.logo {
+	height: 100%;
+}
+
+.logoContainer {
+	padding: 2px 0;
+}
