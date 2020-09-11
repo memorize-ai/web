@@ -22,13 +22,11 @@ $padding: 16px;
 	box-shadow: 0 4px 8px transparentize(black, 0.9);
 }
 
-.backgroundCard {
-	@for $i from 1 through 2 {
-		&_#{$i} {
-			left: $i * $padding;
-			right: $i * $padding;
-			z-index: -$i;
-			transform: translateY($i * $padding);
-		}
+@for $i from 1 through 2 {
+	.backgroundCard_#{$i} {
+		left: $i * $padding;
+		right: $i * $padding;
+		z-index: -$i;
+		transform: translateY($i * $padding);
 	}
 }
