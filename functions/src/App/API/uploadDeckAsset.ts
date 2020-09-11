@@ -2,10 +2,10 @@ import * as admin from 'firebase-admin'
 import { Express } from 'express'
 import { v4 as uuid } from 'uuid'
 
-import { API_PREFIX } from '../../constants'
+import { PRIVATE_API_PREFIX } from '../../constants'
 import { storageUrl } from '../../utils'
 
-const PATH = `/${API_PREFIX}/upload-deck-asset`
+const PATH = `/${PRIVATE_API_PREFIX}/upload-deck-asset`
 
 const firestore = admin.firestore()
 const storage = admin.storage().bucket()
