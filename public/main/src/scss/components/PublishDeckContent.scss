@@ -65,6 +65,7 @@
 			&[hidden] {
 				display: block;
 				margin-top: -6px;
+				pointer-events: none;
 				opacity: 0;
 			}
 		}
