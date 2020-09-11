@@ -5,7 +5,7 @@ $rating-colors: (
 );
 
 .root {
-	padding: 6px 14px;
+	padding: 4px 14px;
 	background: white;
 	border: 1px solid #eee;
 	border-radius: 8px;
@@ -44,7 +44,7 @@ $rating-colors: (
 	min-width: 65px;
 	width: max-content;
 	height: 25px;
-	margin: 6px auto;
+	margin: 4px auto 6px;
 	padding: 0 10px;
 	text-align: center;
 	font-size: 14px;

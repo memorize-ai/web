@@ -51,7 +51,7 @@ $footer-offset: 40px;
 	display: grid;
 	justify-items: center;
 	align-items: center;
-	margin: ($padding * 3 / 2) 0 ($padding / 2);
+	margin-top: $padding;
 }
 
 .waitForRating,
