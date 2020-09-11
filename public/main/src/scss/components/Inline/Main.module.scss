@@ -30,3 +30,13 @@ $padding: 16px;
 		transform: translateY($i * $padding);
 	}
 }
+
+.footer {
+	margin: ($padding * 3 / 2) 0 ($padding / 2);
+}
+
+.waitingForRating {
+	text-align: center;
+	font-weight: 900;
+	color: #4a4a4a;
+}

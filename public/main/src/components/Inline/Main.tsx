@@ -19,10 +19,10 @@ const InlineMain = ({ deck, rate }: InlineMainProps) => {
 				<div className={cx(styles.card, styles.backgroundCard_1)} />
 				<div className={cx(styles.card, styles.backgroundCard_2)} />
 			</div>
-			<footer>
-				<button>
-					Rate
-				</button>
+			<footer className={styles.footer}>
+				<p className={styles.waitingForRating}>
+					Tap anywhere to continue
+				</p>
 			</footer>
 		</main>
 	)
