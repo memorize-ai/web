@@ -15,6 +15,9 @@
 }
 
 .action {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: 80px;
 	font-weight: 900;
 	color: #4a4a4a;

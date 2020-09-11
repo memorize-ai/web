@@ -3,12 +3,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
 
 import Deck from '../../models/Deck'
+import LoadingState from '../../models/LoadingState'
+import useCurrentUser from '../../hooks/useCurrentUser'
+import Loader from '../shared/Loader'
+
 import logo from '../../images/logos/transparent.webp'
 import logoFallback from '../../images/fallbacks/logos/transparent.jpg'
 
 import styles from '../../scss/components/Inline/Navbar.module.scss'
 
-const InlineNavbar = ({ deck }: { deck: Deck | null }) => {
+export interface InlineNavbarProps {
+	deck: Deck | null
+	action: () => void
+}
+
+const InlineNavbar = ({ deck, action }: InlineNavbarProps) => {
+	const [user, userLoadingState] = useCurrentUser()
+	
 	const openDeck = useCallback(() => {
 		if (deck)
 			window.open(`https://memorize.ai/d/${deck.slugId}/${deck.slug}`)
@@ -18,14 +29,13 @@ const InlineNavbar = ({ deck }: { deck: Deck | null }) => {
 		window.open('https://memorize.ai')
 	}, [])
 	
-	const action = useCallback(() => {
-		
-	}, [])
-	
 	return (
 		<nav className={styles.root}>
 			<button className={styles.action} onClick={openDeck}>
-				<FontAwesomeIcon icon={faShareSquare} />
+				{deck
+					? <FontAwesomeIcon icon={faShareSquare} />
+					: <Loader size="16px" thickness="3px" color="#4a4a4a" />
+				}
 			</button>
 			<button className={styles.logoContainer} onClick={openHome}>
 				<picture>
@@ -34,7 +44,10 @@ const InlineNavbar = ({ deck }: { deck: Deck | null }) => {
 				</picture>
 			</button>
 			<button className={styles.action} onClick={action}>
-				Log in
+				{userLoadingState === LoadingState.Success
+					? user ? 'Done' : 'Log in'
+					: <Loader size="16px" thickness="3px" color="#4a4a4a" />
+				}
 			</button>
 		</nav>
 	)

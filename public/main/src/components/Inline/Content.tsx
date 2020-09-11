@@ -22,6 +22,10 @@ const InlineContent = () => {
 		cards ? cards[index] : null
 	), [cards, index])
 	
+	const action = useCallback(() => {
+		// TODO: Either log in or complete
+	}, [])
+	
 	useEffect(() => (
 		firestore.doc(`decks/${deckId}`).onSnapshot(
 			snapshot => setDeck(Deck.fromSnapshot(snapshot, null)),
@@ -29,27 +33,13 @@ const InlineContent = () => {
 		)
 	), [deckId, setDeck])
 	
-	useEffect(() => {
-		if (cards)
-			return
-		
-		firestore
-			.collection(`decks/${deckId}/cards`)
-			.where('section', '==', sectionId)
-			.get()
-			.then(({ docs }) => {
-				setCards(docs.map(doc => Card.fromSnapshot(doc, null)))
-			})
-			.catch(handleError)
-	}, [deckId, sectionId, cards, setCards])
-	
 	const next = useCallback(() => {
 		setIndex(index => index + 1)
 	}, [setIndex])
 	
 	return (
 		<>
-			<Navbar deck={deck} />
+			<Navbar deck={deck} action={action} />
 			{card
 				? <p dangerouslySetInnerHTML={{ __html: card.front }} />
 				: 'Loading...'
