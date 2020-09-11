@@ -1,9 +1,25 @@
 $padding: 16px;
+$footer-offset: 40px;
 
 .root {
 	display: grid;
 	grid-template-rows: 1fr auto;
 	padding: $padding;
+	cursor: pointer;
+}
+
+.waitingForRating {
+	cursor: default;
+	
+	.waitForRating {
+		opacity: 0;
+		transform: translateY($footer-offset);
+	}
+	
+	.rateButtons {
+		opacity: 1;
+		transform: none;
+	}
 }
 
 .cards {
@@ -32,11 +48,26 @@ $padding: 16px;
 }
 
 .footer {
+	display: grid;
+	justify-items: center;
+	align-items: center;
 	margin: ($padding * 3 / 2) 0 ($padding / 2);
 }
 
-.waitingForRating {
+.waitForRating,
+.rateButtons {
+	grid-row: 1;
+	grid-column: 1;
+	transition: opacity 0.3s, transform 0.3s;
+}
+
+.waitForRating {
 	text-align: center;
 	font-weight: 900;
 	color: #4a4a4a;
+}
+
+.rateButtons {
+	opacity: 0;
+	transform: translateY($footer-offset);
 }
