@@ -13,7 +13,7 @@ Click **"My API key"** at the bottom. Your API key must be included in every req
 ## Base URL
 
 ```
-https://memorize.ai/_api/{method}
+https://memorize.ai/api/{method}
 ```
 
 ## Methods
