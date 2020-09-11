@@ -3,8 +3,10 @@ import cx from 'classnames'
 
 import Deck from '../../models/Deck'
 import PerformanceRating from '../../models/PerformanceRating'
+import RateButtons from './RateButtons'
 
 import styles from '../../scss/components/Inline/Main.module.scss'
+import LoadingState from '../../models/LoadingState'
 
 export interface InlineMainProps {
 	deck: Deck | null
@@ -31,14 +33,15 @@ const InlineMain = ({ deck, rate }: InlineMainProps) => {
 				<div className={cx(styles.card, styles.backgroundCard_2)} />
 			</div>
 			<footer className={styles.footer}>
-				<p className={styles.waitForRating}>
+				<p className={styles.waitForRating} tabIndex={-1}>
 					Tap anywhere to continue
 				</p>
-				<div className={styles.rateButtons}>
-					<button>Easy</button>
-					<button>Struggled</button>
-					<button>Forgot</button>
-				</div>
+				<RateButtons
+					className={styles.rateButtons}
+					prediction={null}
+					predictionLoadingState={LoadingState.Loading}
+					rate={rate}
+				/>
 			</footer>
 		</main>
 	)
