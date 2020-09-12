@@ -11,8 +11,13 @@ import Main from './Main'
 import styles from '../../scss/components/Inline/index.module.scss'
 
 import 'firebase/firestore'
+import 'firebase/functions'
 
 const firestore = firebase.firestore()
+const functions = firebase.functions()
+
+const getCardPrediction = functions.httpsCallable('getCardPrediction')
+const reviewCard = functions.httpsCallable('reviewCard')
 
 const InlineContent = () => {
 	const { deckId, sectionId } = useParams()
