@@ -58,7 +58,6 @@ export interface ReviewPrediction {
 	[PerformanceRating.Forgot]: Date
 }
 
-
 export const REVIEW_MASTERED_STREAK = 6
 
 const SHIFT_ANIMATION_DURATION = 400
