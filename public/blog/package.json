@@ -27,7 +27,7 @@
 	"devDependencies": {
 		"@types/classnames": "^2.2.10",
 		"@types/mdx-js__react": "^1.5.2",
-		"@types/node": "^14.10.0",
+		"@types/node": "^14.10.1",
 		"@types/react": "^16.9.49",
 		"@types/react-dom": "^16.9.8",
 		"@types/string-strip-html": "^4.3.1",
