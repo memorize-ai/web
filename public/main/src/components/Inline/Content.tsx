@@ -1,42 +1,38 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useCallback } from 'react'
 
-import firebase from '../../firebase'
-import Deck from '../../models/Deck'
-import PerformanceRating from '../../models/PerformanceRating'
-import { handleError } from '../../utils'
+import useDeckAndSection from './useDeckAndSection'
+import useInlineState from './useInlineState'
 import Navbar from './Navbar'
 import Main from './Main'
 
 import styles from '../../scss/components/Inline/index.module.scss'
 
-import 'firebase/firestore'
-import 'firebase/functions'
-
-const firestore = firebase.firestore()
-const functions = firebase.functions()
-
-const getCardPrediction = functions.httpsCallable('getCardPrediction')
-const reviewCard = functions.httpsCallable('reviewCard')
-
 const InlineContent = () => {
-	const { deckId, sectionId } = useParams()
-	const [deck, setDeck] = useState(null as Deck | null)
+	const { deck, sectionId } = useDeckAndSection()
+	const {
+		card,
+		loadingState,
+		predictionLoadingState,
+		isWaitingForRating,
+		waitForRating,
+		cardClassName,
+		currentSide,
+		currentIndex,
+		count,
+		flip,
+		rate,
+		progressData,
+		isProgressShowing,
+		setIsProgressShowing,
+		recapData,
+		isRecapShowing,
+		setIsRecapShowing,
+		showRecap
+	} = useInlineState(deck, sectionId)
 	
 	const action = useCallback(() => {
 		// TODO: Either log in or complete
 	}, [])
-	
-	const rate = useCallback((rating: PerformanceRating) => {
-		// TODO: Rate
-	}, [])
-	
-	useEffect(() => (
-		firestore.doc(`decks/${deckId}`).onSnapshot(
-			snapshot => setDeck(Deck.fromSnapshot(snapshot, null)),
-			handleError
-		)
-	), [deckId, setDeck])
 	
 	return (
 		<div className={styles.root}>
