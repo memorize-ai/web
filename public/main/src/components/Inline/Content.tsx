@@ -37,7 +37,13 @@ const InlineContent = () => {
 	return (
 		<div className={styles.root}>
 			<Navbar deck={deck} action={action} />
-			<Main deck={deck} rate={rate} />
+			<Main
+				deck={deck}
+				card={card}
+				cardLoadingState={loadingState}
+				predictionLoadingState={predictionLoadingState}
+				rate={rate}
+			/>
 		</div>
 	)
 }

@@ -3,17 +3,29 @@ import cx from 'classnames'
 
 import Deck from '../../models/Deck'
 import PerformanceRating from '../../models/PerformanceRating'
+import LoadingState from '../../models/LoadingState'
+import { _Card } from './models'
+import CardSide from '../shared/CardSide'
+import Loader from '../shared/Loader'
 import RateButtons from './RateButtons'
 
 import styles from '../../scss/components/Inline/Main.module.scss'
-import LoadingState from '../../models/LoadingState'
 
 export interface InlineMainProps {
 	deck: Deck | null
+	card: _Card | null
+	cardLoadingState: LoadingState
+	predictionLoadingState: LoadingState
 	rate: (rating: PerformanceRating) => void
 }
 
-const InlineMain = ({ deck, rate }: InlineMainProps) => {
+const InlineMain = ({
+	deck,
+	card,
+	cardLoadingState,
+	predictionLoadingState,
+	rate
+}: InlineMainProps) => {
 	const [isWaitingForRating, setIsWaitingForRating] = useState(false)
 	
 	const waitForRating = useCallback(() => {
@@ -28,7 +40,12 @@ const InlineMain = ({ deck, rate }: InlineMainProps) => {
 			onClick={waitForRating}
 		>
 			<div className={styles.cards}>
-				<div className={styles.card} />
+				<div className={styles.card}>
+					{card && cardLoadingState === LoadingState.Success
+						? <CardSide>{card.value.front}</CardSide>
+						: <Loader size="16px" thickness="3px" color="#4a4a4a" />
+					}
+				</div>
 				<div className={cx(styles.card, styles.backgroundCard_1)} />
 				<div className={cx(styles.card, styles.backgroundCard_2)} />
 			</div>
