@@ -4,11 +4,12 @@ import * as express from 'express'
 import * as cors from 'cors'
 import { getType } from 'mime'
 
-import Deck from '../Deck'
 import { setCacheControl, setContentType } from '../utils'
 import { PRERENDER_TOKEN } from '../constants'
 
+import handleFallbacks from './fallbacks'
 import handleAPI from './API'
+import handlePDF from './PDF'
 import handleBadges from './badges'
 
 const storage = admin.storage().bucket()
@@ -18,19 +19,9 @@ export default functions.https.onRequest(app)
 
 app.use(cors())
 
-app.get('/d/:slug', async ({ params: { slug } }, res) => {
-	try {
-		const deck = await Deck.fromId(
-			slug.slice(slug.lastIndexOf('-') + 1)
-		)
-		
-		res.redirect(301, `https://memorize.ai/d/${deck.slugId}/${deck.slug}`)
-	} catch (error) {
-		res.status(404).send(error)
-	}
-})
-
+handleFallbacks(app)
 handleAPI(app)
+handlePDF(app)
 handleBadges(app)
 
 app.use(require('prerender-node').set('prerenderToken', PRERENDER_TOKEN))
