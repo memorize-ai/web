@@ -5,8 +5,8 @@
 		"firebase-admin": "^8.13.0",
 		"glob": "^7.1.6",
 		"mime": "^2.4.6",
-		"mjml": "^4.6.3",
-		"xmlbuilder2": "^2.3.1"
+		"mjml": "^4.7.0",
+		"xmlbuilder2": "^2.4.0"
 	},
 	"private": true
 }

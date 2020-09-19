@@ -1,6 +1,6 @@
 {
 	"name": "memorize.ai",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"main": "lib/index.js",
 	"types": "types/index.d.ts",
 	"scripts": {

@@ -1,0 +1,69 @@
+$rating-colors: (
+	0: #00d388,
+	1: #f5a623,
+	2: #f55d23
+);
+
+.root {
+	padding: 4px 14px;
+	background: white;
+	border: 1px solid #eee;
+	border-radius: 8px;
+	transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
+	
+	&:hover {
+		border-color: white;
+		box-shadow: 0 4px 8px transparentize(black, 0.9);
+	}
+	
+	&:not(:last-child) {
+		margin-right: 12px;
+	}
+}
+
+.text {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.emoji {
+	margin-right: 6px;
+	font-size: 20px;
+	transition: margin-right 0.3s, font-size 0.3s;
+}
+
+.title {
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 900;
+	color: #4a4a4a;
+}
+
+.prediction {
+	min-width: 65px;
+	width: max-content;
+	height: 25px;
+	margin: 4px auto 6px;
+	padding: 0 10px;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 900;
+	color: #4a4a4a;
+	border-radius: 8px;
+}
+
+@for $i from 0 through 2 {
+	.predictionRating_#{$i} {
+		background: transparentize(
+			map-get($rating-colors, $i),
+			0.84
+		);
+	}
+}
+
+.predictionLoading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

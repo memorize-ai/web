@@ -12,7 +12,7 @@ import handleTopic from './topic'
 import handleAdmin from './admin'
 
 export default (app: Express) => {
-	app.get('/api', (_, res) =>
+	app.get(`/${API_PREFIX}`, (_, res) =>
 		res.redirect(301, 'https://github.com/memorize-ai/web/blob/master/API.md')
 	)
 	

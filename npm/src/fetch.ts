@@ -4,7 +4,7 @@ import queryToString, { Query } from './query'
 import MemorizeError from './error'
 
 const url = (path: string, query: Query) =>
-	`https://memorize.ai/_api/${path}${queryToString(query)}`
+	`https://memorize.ai/api/${path}${queryToString(query)}`
 
 export default (path: string, query: Query) =>
 	axios.get(url(path, query))

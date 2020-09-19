@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useEffect, Suspense } from 'react'
 import cx from 'classnames'
 
+import hideChat from '../../hooks/hideChat'
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
 
@@ -30,10 +31,12 @@ const Dashboard = ({
 	selection,
 	gradientStyle = DashboardGradientStyle.Blue,
 	isNavbarHidden = false,
-	hideChat = false,
+	hideChat: shouldHideChat = false,
 	className,
 	children
 }: PropsWithChildren<DashboardProps>) => {
+	hideChat(shouldHideChat)
+	
 	useEffect(() => {
 		const { body } = document
 		
@@ -41,17 +44,6 @@ const Dashboard = ({
 		
 		return () => body.classList.remove('clipped')
 	}, [])
-	
-	useEffect(() => {
-		if (!hideChat)
-			return
-		
-		const { body } = document
-		
-		body.classList.add('hide-chat')
-		
-		return () => body.classList.remove('hide-chat')
-	}, [hideChat])
 	
 	return (
 		<div className={cx('dashboard', className)}>

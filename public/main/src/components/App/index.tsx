@@ -24,6 +24,8 @@ import Interests from '../Dashboard/Interests'
 
 import DeckPage from '../Dashboard/DeckPage'
 
+import Inline from '../Inline'
+
 import Unsubscribe from '../Unsubscribe'
 import BlockUser from '../BlockUser'
 import ReportMessage from '../ReportMessage'
@@ -87,6 +89,8 @@ const App = () => (
 			<Route exact path="/interests" component={Interests} />
 			
 			<Route exact path="/d/:slugId/:slug" component={DeckPage} />
+			
+			<Route exact path="/inline/:deckId/:sectionId" component={Inline} />
 			
 			<Route exact path="/unsubscribe/:uid/:type" component={Unsubscribe} />
 			<Route exact path="/block/:fromId/:toId" component={BlockUser} />
