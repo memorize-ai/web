@@ -3,9 +3,10 @@ import * as functions from 'firebase-functions'
 import * as express from 'express'
 import * as cors from 'cors'
 import { getType } from 'mime'
+import { join } from 'path'
 
 import { setCacheControl, setContentType } from '../utils'
-import { PRERENDER_TOKEN } from '../constants'
+import { PRERENDER_TOKEN, BASE_PATH } from '../constants'
 
 import handleFallbacks from './fallbacks'
 import handleAPI from './API'
@@ -31,7 +32,7 @@ app.get('*', async ({ url }, res) => {
 		setCacheControl(res, 60 * 60 * 24) // 1 day
 		setContentType(res, 'text/html')
 		
-		res.sendFile('/srv/public.html')
+		res.sendFile(join(BASE_PATH, 'public.html'))
 		return
 	}
 	

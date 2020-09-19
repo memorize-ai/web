@@ -15,13 +15,13 @@
 			}
 			
 			body {
-				-webkit-print-color-adjust: exact;
-				color-adjust: exact;
+				-webkit-print-color-adjust: exact !important;
+				color-adjust: exact !important;
 				margin: 0;
 				font-family: Muli, Arial, Helvetica, sans-serif;
 			}
 			
-			#__table {
+			#__cards {
 				--ck-highlight-marker-blue: #72cdfd;
 				--ck-highlight-marker-green: #63f963;
 				--ck-highlight-marker-pink: #fc7999;
@@ -33,15 +33,26 @@
 				
 				width: 100%;
 				table-layout: fixed;
+				page-break-inside: auto;
 				border-collapse: collapse;
 				border-spacing: 0;
 				border-style: hidden;
 			}
 			
-			.__side {
+			.__card {
+				page-break-inside: avoid;
+				page-break-after: auto;
+			}
+			
+			.__card-side-container {
 				height: 25vh;
 				padding: 20px;
 				border: 2px dashed black;
+			}
+			
+			.__card-side {
+				max-width: max-content;
+				margin: 0 auto;
 			}
 			
 			.katex-display {
@@ -326,19 +337,23 @@
 		</style>
 	</head>
 	<body>
-		<table id="__table">
+		<table id="__cards">
 			<tbody>
 				{{#each cards}}
-				<tr>
-					<td class="__side">{{this.front}}</td>
-					<td class="__side">{{this.back}}</td>
+				<tr class="__card">
+					<td class="__card-side-container">
+						<div class="__card-side">{{{this.front}}}</div>
+					</td>
+					<td class="__card-side-container">
+						<div class="__card-side">{{{this.back}}}</div>
+					</td>
 				</tr>
 				{{/each}}
 			</tbody>
 		</table>
 		<script src="https://cdn.jsdelivr.net/combine/npm/katex@latest/dist/katex.min.js,npm/katex@latest/dist/contrib/auto-render.min.js,npm/prismjs@latest/prism.min.js,npm/prismjs@latest/plugins/autoloader/prism-autoloader.min.js"></script>
 		<script>
-			renderMathInElement(document.getElementById('__table'))
+			renderMathInElement(document.getElementById('__cards'))
 		</script>
 	</body>
 </html>

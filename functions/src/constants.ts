@@ -1,8 +1,11 @@
 import * as functions from 'firebase-functions'
+import { join } from 'path'
 
 const config = functions.config()
 
 export const DEFAULT_STORAGE_BUCKET = 'memorize-ai.appspot.com'
+
+export const BASE_PATH = join(__dirname, '../..')
 
 export const API_PREFIX = 'api'
 export const PRIVATE_API_PREFIX = '_api'

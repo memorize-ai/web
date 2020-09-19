@@ -4,26 +4,27 @@
 	"scripts": {
 		"start": "npm start -C public/main",
 		"start:public": "npm start -C public/blog",
-		
-		"install:all": "npm run install:public && npm run install:functions && npm run install:scripts && npm run install:npm && npm run install:emails",
+		"install:all": "npm run install:root && npm run install:public && npm run install:functions && npm run install:scripts && npm run install:npm && npm run install:emails",
+		"install:root": "npm i",
 		"install:public": "npm i -C public/main && npm i -C public/blog",
 		"install:functions": "npm i -C functions",
 		"install:scripts": "npm i -C scripts",
 		"install:npm": "npm i -C npm",
 		"install:emails": "npm i -C emails",
-		
-		"update:all": "npm run update:public && npm run update:functions && npm run update:scripts && npm run update:npm && npm run update:emails",
-		"update:public": "npm update -C public/main && npm update -C public/blog",
-		"update:functions": "npm update -C functions",
-		"update:scripts": "npm update -C scripts",
-		"update:npm": "npm update -C npm",
-		"update:emails": "npm update -C emails",
-		
+		"update:all": "npm run update:root && npm run update:public && npm run update:functions && npm run update:scripts && npm run update:npm && npm run update:emails && npm run install:all",
+		"update:root": "ncu -u",
+		"update:public": "ncu -u --prefix public/main && ncu -u --prefix public/blog",
+		"update:functions": "ncu -u --prefix functions",
+		"update:scripts": "ncu -u --prefix scripts",
+		"update:npm": "ncu -u --prefix npm",
+		"update:emails": "ncu -u --prefix emails",
 		"save-public-assets": "node scripts/src/save-public-assets",
 		"generate-sitemap": "node scripts/src/generate-sitemap",
 		"load-preview-deck": "node scripts/src/load-preview-deck",
-		
 		"upload-emails": "node emails"
+	},
+	"dependencies": {
+		"npm-check-updates": "^9.0.1"
 	},
 	"private": true
 }
