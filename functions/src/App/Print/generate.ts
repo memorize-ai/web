@@ -3,7 +3,9 @@ import { join } from 'path'
 import { Browser, launch } from 'puppeteer'
 import { compile } from 'handlebars'
 
-const TEMPLATE_PATH = join(__dirname, 'template.html')
+import { BASE_PATH } from '../../constants'
+
+const TEMPLATE_PATH = join(BASE_PATH, 'assets/print.html')
 
 let browser: Browser | null = null
 let template: HandlebarsTemplateDelegate | null = null
