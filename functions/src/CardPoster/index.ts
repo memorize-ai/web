@@ -55,10 +55,7 @@ const getNextDeck = async () => {
 		.limit(1)
 		.get()
 	
-	if (empty)
-		throw new Error('Unable to find deck')
-	
-	return new Deck(docs[0])
+	return empty ? null : new Deck(docs[0])
 }
 
 const getNextCard = async (deck: Deck) => {
@@ -67,10 +64,7 @@ const getNextCard = async (deck: Deck) => {
 		.limit(deck.nextPostedCardIndex + 1)
 		.get()
 	
-	if (empty)
-		throw new Error('Unable to find card')
-	
-	return new Card(docs[docs.length - 1])
+	return empty ? null : new Card(docs[docs.length - 1])
 }
 
 const getTopics = async (deck: Deck) => {
@@ -90,26 +84,39 @@ const getTopics = async (deck: Deck) => {
 	return topics.filter(topic => topic !== null) as Topic[]
 }
 
-export const getNextFact = async (): Promise<Fact> => {
-	const deck = await getNextDeck()
+export const getNextFact = async (deck: Deck): Promise<Fact | null> => {
 	const card = await getNextCard(deck)
 	
-	const [section, creator, topics] = await Promise.all([
-		card.isUnsectioned
-			? null
-			: Section.fromId(card.sectionId, deck.id),
-		User.fromId(deck.creatorId),
-		getTopics(deck)
-	])
+	if (!card)
+		return null
 	
-	return { deck, section, card, creator, topics }
+	try {
+		const [section, creator, topics] = await Promise.all([
+			card.isUnsectioned
+				? null
+				: Section.fromId(card.sectionId, deck.id),
+			User.fromId(deck.creatorId),
+			getTopics(deck)
+		])
+		
+		return { deck, section, card, creator, topics }
+	} catch (error) {
+		console.error(error)
+		return null
+	}
 }
 
 export const sendNextFact = async () => {
-	const fact = await getNextFact()
+	const deck = await getNextDeck()
 	
-	await Promise.all([
-		sendFact(fact),
-		fact.deck.updateNextPostedCard()
-	])
+	if (!deck)
+		return
+	
+	const promises: Promise<any>[] = [deck.updateNextPostedCard()]
+	const fact = await getNextFact(deck)
+	
+	if (fact)
+		promises.push(sendFact(fact))
+	
+	await Promise.all(promises)
 }

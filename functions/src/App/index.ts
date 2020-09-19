@@ -9,7 +9,7 @@ import { PRERENDER_TOKEN } from '../constants'
 
 import handleFallbacks from './fallbacks'
 import handleAPI from './API'
-import handlePDF from './PDF'
+import handlePrint from './Print'
 import handleBadges from './badges'
 
 const storage = admin.storage().bucket()
@@ -21,7 +21,7 @@ app.use(cors())
 
 handleFallbacks(app)
 handleAPI(app)
-handlePDF(app)
+handlePrint(app)
 handleBadges(app)
 
 app.use(require('prerender-node').set('prerenderToken', PRERENDER_TOKEN))
