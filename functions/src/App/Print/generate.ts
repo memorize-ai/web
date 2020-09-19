@@ -14,17 +14,17 @@ export interface PrintableCard {
 }
 
 const getPage = async () =>
-	(browser ?? (browser = await launch())).newPage()
+	(browser ??= await launch()).newPage()
 
 const getTemplate = async () =>
-	template ?? (template = compile(
+	template ??= compile(
 		await new Promise((resolve, reject) => readFile(
 			TEMPLATE_PATH,
 			'utf8',
 			(error, data) => error ? reject(error) : resolve(data)
 		)),
 		{ strict: true }
-	))
+	)
 
 const getContent = async (cards: PrintableCard[]) =>
 	(await getTemplate())({ cards })
