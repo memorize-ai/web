@@ -5,7 +5,7 @@ import generate from './generate'
 
 export default (app: Express) => {
 	app.get(
-		'/pdf/:slugId/:slug',
+		'/print/:slugId/:slug',
 		async ({ query: { slugId } }, res) => {
 			try {
 				if (typeof slugId !== 'string') {
@@ -24,7 +24,7 @@ export default (app: Express) => {
 	)
 	
 	app.get(
-		'/pdf/:slugId/:slug/s/:sectionId',
+		'/print/:slugId/:slug/s/:sectionId',
 		async ({ query: { slugId, sectionId } }, res) => {
 			try {
 				if (!(typeof slugId === 'string' && typeof sectionId === 'string')) {
