@@ -16,7 +16,10 @@ import handleBadges from './badges'
 const storage = admin.storage().bucket()
 const app = express()
 
-export default functions.https.onRequest(app)
+export default functions
+	.runWith({ timeoutSeconds: 540, memory: '2GB' })
+	.https
+	.onRequest(app)
 
 app.use(cors())
 
