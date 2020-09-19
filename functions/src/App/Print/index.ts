@@ -6,13 +6,8 @@ import generate from './generate'
 export default (app: Express) => {
 	app.get(
 		'/print/:slugId/:slug',
-		async ({ query: { slugId } }, res) => {
+		async ({ params: { slugId } }, res) => {
 			try {
-				if (typeof slugId !== 'string') {
-					res.redirect('/')
-					return
-				}
-				
 				res
 					.contentType('application/pdf')
 					.send(await generate(await query(slugId)))
@@ -25,13 +20,8 @@ export default (app: Express) => {
 	
 	app.get(
 		'/print/:slugId/:slug/s/:sectionId',
-		async ({ query: { slugId, sectionId } }, res) => {
+		async ({ params: { slugId, sectionId } }, res) => {
 			try {
-				if (!(typeof slugId === 'string' && typeof sectionId === 'string')) {
-					res.redirect('/')
-					return
-				}
-				
 				res
 					.contentType('application/pdf')
 					.send(await generate(await query(slugId, sectionId)))
