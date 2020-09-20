@@ -47,14 +47,10 @@ const registerValidSW = async (swUrl: string, config?: Config) => {
 				
 				if (navigator.serviceWorker.controller) {
 					console.log('New content is available and will be used when all tabs for this page are closed. See https://bit.ly/CRA-PWA.')
-					
-					if (config?.onUpdate)
-						config.onUpdate(registration)
+					config?.onUpdate?.(registration)
 				} else {
 					console.log('Content is cached for offline use.')
-					
-					if (config?.onSuccess)
-						config.onSuccess(registration)
+					config?.onSuccess?.(registration)
 				}
 			}
 		}
@@ -78,7 +74,7 @@ const checkValidServiceWorker = async (swUrl: string, config?: Config) => {
 	}
 }
 
-export const unregister = async () =>
-	'serviceWorker' in navigator
-		? (await navigator.serviceWorker.ready).unregister()
-		: null
+export const unregister = async () => {
+	if ('serviceWorker' in navigator)
+		(await navigator.serviceWorker.ready).unregister()
+}
