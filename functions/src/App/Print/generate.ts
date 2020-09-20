@@ -4,16 +4,12 @@ import { Browser, launch } from 'puppeteer'
 import { compile } from 'handlebars'
 
 import { BASE_PATH } from '../../constants'
+import Print from './models'
 
 const TEMPLATE_PATH = join(BASE_PATH, 'assets/print.html')
 
 let browser: Browser | null = null
 let template: HandlebarsTemplateDelegate | null = null
-
-export interface PrintableCard {
-	front: string
-	back: string
-}
 
 const getPage = async () =>
 	(browser ??= await launch()).newPage()
@@ -28,13 +24,13 @@ const getTemplate = async () =>
 		{ strict: true }
 	)
 
-const getContent = async (cards: PrintableCard[]) =>
-	(await getTemplate())({ cards })
+const getContent = async (context: Print.Context) =>
+	(await getTemplate())(context)
 
-export default async (cards: PrintableCard[]) => {
+export default async (context: Print.Context) => {
 	const [page, content] = await Promise.all([
 		getPage(),
-		getContent(cards)
+		getContent(context)
 	])
 	
 	await page.setContent(content)
