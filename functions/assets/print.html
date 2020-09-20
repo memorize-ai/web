@@ -46,13 +46,50 @@
 			
 			.__card-side-container {
 				height: 25vh;
-				padding: 20px;
 				border: 2px dashed black;
 			}
 			
 			.__card-side {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				padding: 20px;
+			}
+			
+			.__card-side-meta {
+				display: flex;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+			
+			.__card-side-meta-logo {
+				width: 30px;
+				height: 16px;
+				object-fit: cover;
+			}
+			
+			.__card-side-meta-info,
+			.__card-side-meta-indicator {
+				font-weight: 900;
+				color: #4a4a4a;
+			}
+			
+			.__card-side-meta-info {
+				margin: 0 8px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			
+			.__card-side-meta-indicator {
+				margin: 0 0 0 auto;
+				text-transform: uppercase;
+				opacity: 0.7;
+			}
+			
+			.__card-side-content {
 				max-width: max-content;
-				margin: 0 auto;
+				margin: auto;
 			}
 			
 			.katex-display {
@@ -342,10 +379,36 @@
 				{{#each cards}}
 				<tr class="__card">
 					<td class="__card-side-container">
-						<div class="__card-side">{{{this.front}}}</div>
+						<div class="__card-side">
+							<div class="__card-side-meta">
+								<img
+									class="__card-side-meta-logo"
+									src="https://memorize.ai/favicon.png"
+									alt="Logo"
+								>
+								<p class="__card-side-meta-info">
+									{{@root.deck_name}} • {{this.section.name}} ({{this.section_index}}/{{this.section.card_count}})
+								</p>
+								<p class="__card-side-meta-indicator">Front</p>
+							</div>
+							<div class="__card-side-content">{{{this.front}}}</div>
+						</div>
 					</td>
 					<td class="__card-side-container">
-						<div class="__card-side">{{{this.back}}}</div>
+						<div class="__card-side">
+							<div class="__card-side-meta">
+								<img
+									class="__card-side-meta-logo"
+									src="https://memorize.ai/favicon.png"
+									alt="Logo"
+								>
+								<p class="__card-side-meta-info">
+									{{@root.deck_name}} • {{this.section.name}} ({{this.section_index}}/{{this.section.card_count}})
+								</p>
+								<p class="__card-side-meta-indicator">Back</p>
+							</div>
+							<div class="__card-side-content">{{{this.back}}}</div>
+						</div>
 					</td>
 				</tr>
 				{{/each}}
