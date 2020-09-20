@@ -198,6 +198,11 @@
 							transform: scale(1.5);
 						}
 						
+						&.print {
+							margin: 0 12px 0 2px;
+							transform: scale(1.4);
+						}
+						
 						&.cart {
 							margin-right: 10px;
 							fill: #4355f9;

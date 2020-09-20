@@ -297,6 +297,10 @@ export default class Deck implements DeckData {
 		return `/d/${this.slugId}/${encodeURIComponent(this.slug)}`
 	}
 	
+	get printUrl() {
+		return `/print/${this.slugId}/${encodeURIComponent(this.slug)}`
+	}
+	
 	get urlWithOrigin() {
 		return `https://memorize.ai${this.url}`
 	}
