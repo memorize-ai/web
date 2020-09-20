@@ -63,4 +63,4 @@ ReactDOM.render((
 	</CurrentUserProvider>
 ), ROOT_ELEMENT)
 
-serviceWorker.register()
+serviceWorker.unregister()
