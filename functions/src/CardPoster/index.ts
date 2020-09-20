@@ -31,9 +31,9 @@ const factToTweetBody = ({ deck, section, card, creator, topics }: Fact) =>
 	}${
 		section ? ` (${section.name})` : ''
 	}\n\n${
-		stripHtml(card.front)
+		stripHtml(card.front).result
 	}\n\n${
-		stripHtml(card.back)
+		stripHtml(card.back).result
 	}\n\n${
 		topics
 			.map(({ name }) => `#${name.replace(/\s+/g, '').toLowerCase()}`)
