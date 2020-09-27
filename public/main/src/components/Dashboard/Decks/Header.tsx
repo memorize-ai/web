@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faStar as faStarFilled, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faPrint, faStar as faStarFilled, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarOutlined } from '@fortawesome/free-regular-svg-icons'
 import cx from 'classnames'
 
@@ -99,6 +99,10 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 					/>
 					<p>{isFavorite ? 'Unf' : 'F'}avorite ({formatNumber(deck?.numberOfFavorites ?? 0)})</p>
 				</button>
+				<a href={deck?.printUrl} rel="noopener noreferrer" target="_blank">
+					<FontAwesomeIcon icon={faPrint} className="print" />
+					<p>Print</p>
+				</a>
 				<Link to={deck?.url ?? '/market'}>
 					<CartIcon className="cart" />
 					<p>Visit page</p>
