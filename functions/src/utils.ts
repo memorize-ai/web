@@ -34,8 +34,8 @@ export const storageUrl = (pathComponents: string[], token?: string) =>
 		token ? `&token=${token}` : ''
 	}`
 
-export const setCacheControl = (res: Response, seconds: number) =>
-	res.set('Cache-Control', `public, max-age=${seconds}, s-maxage=${seconds}`)
+export const setCacheControl = (res: Response, seconds: number, shared: boolean) =>
+	res.set('Cache-Control', `public, max-age=${seconds}${shared ? `, s-maxage=${seconds}` : ''}`)
 
 export const setContentType = (res: Response, contentType: string | null) =>
 	contentType

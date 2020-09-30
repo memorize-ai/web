@@ -32,14 +32,14 @@ app.use(require('prerender-node').set('prerenderToken', PRERENDER_TOKEN))
 
 app.get('*', async ({ url }, res) => {
 	if (!url.startsWith('/static')) {
-		setCacheControl(res, 60 * 60 * 24) // 1 day
+		setCacheControl(res, 60 * 60 * 24, false) // 1 day
 		setContentType(res, 'text/html')
 		
 		res.sendFile(join(BASE_PATH, 'public.html'))
 		return
 	}
 	
-	setCacheControl(res, 60 * 60 * 24 * 365) // 1 year
+	setCacheControl(res, 60 * 60 * 24 * 365, true) // 1 year
 	
 	try {
 		const [data] = await storage
