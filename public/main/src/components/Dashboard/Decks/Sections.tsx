@@ -11,8 +11,12 @@ import ConfirmationModal from '../../shared/Modal/Confirmation'
 import RenameSectionModal from '../../shared/Modal/RenameSection'
 import ShareSectionModal from '../../shared/Modal/ShareSection'
 
+interface Params {
+	unlockSectionId?: string
+}
+
 const DecksSections = ({ deck }: { deck: Deck }) => {
-	const { unlockSectionId } = useParams()
+	const { unlockSectionId } = useParams<Params>()
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()

@@ -29,9 +29,13 @@ import { urlWithQuery, formatNumber } from '../../../utils'
 
 import '../../../scss/components/Dashboard/DeckPage.scss'
 
+interface Params {
+	slugId: string
+}
+
 const DeckPageContent = () => {
 	const history = useHistory()
-	const { slugId } = useParams()
+	const { slugId } = useParams<Params>()
 	const [{ query, sortAlgorithm }] = useSearchState()
 	
 	const { deck, hasDeck } = useDeck(slugId)

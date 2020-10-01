@@ -12,15 +12,16 @@ import 'firebase/firestore'
 const analytics = firebase.analytics()
 const firestore = firebase.firestore()
 
+interface Params {
+	uid: string
+	type: string
+}
+
 const UnsubscribeContent = () => {
-	const { uid, type } = useParams()
-	
+	const { uid, type } = useParams<Params>()
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	
 	const onSubmit = useCallback(() => {
-		if (!(uid && type))
-			return
-		
 		setLoadingState(LoadingState.Loading)
 		analytics.logEvent('unsubscribe', { uid, type })
 		

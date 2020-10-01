@@ -20,8 +20,14 @@ const functions = firebase.functions()
 
 const reportMessage = functions.httpsCallable('reportMessage')
 
+interface Params {
+	fromId: string
+	toId: string
+	messageId: string
+}
+
 const RestrictContactContent = () => {
-	const { fromId, toId, messageId } = useParams()
+	const { fromId, toId, messageId } = useParams<Params>()
 	
 	const [user, setUser] = useState(null as User | null)
 	const [reason, setReason] = useState('')
@@ -32,9 +38,6 @@ const RestrictContactContent = () => {
 	), [user])
 	
 	const onSubmit = useCallback(() => {
-		if (!(fromId && toId && messageId))
-			return
-		
 		setLoadingState(LoadingState.Loading)
 		
 		const data = {

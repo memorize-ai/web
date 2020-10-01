@@ -10,11 +10,16 @@ import { handleError } from '../../utils'
 import 'firebase/analytics'
 import 'firebase/firestore'
 
+interface Params {
+	fromId: string
+	toId: string
+}
+
 const analytics = firebase.analytics()
 const firestore = firebase.firestore()
 
 const BlockUserContent = () => {
-	const { fromId, toId } = useParams()
+	const { fromId, toId } = useParams<Params>()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	const [from, setFrom] = useState(null as User | null)
@@ -24,9 +29,6 @@ const BlockUserContent = () => {
 	), [from])
 	
 	const onSubmit = useCallback(() => {
-		if (!(toId && fromId))
-			return
-		
 		setLoadingState(LoadingState.Loading)
 		analytics.logEvent('block-user', { to: toId, from: fromId })
 		
