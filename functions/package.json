@@ -29,8 +29,8 @@
 		"lodash": "^4.17.20",
 		"mime": "^2.4.6",
 		"prerender-node": "^3.2.5",
-		"puppeteer": "^5.3.0",
-		"string-strip-html": "^6.0.0",
+		"puppeteer": "^5.3.1",
+		"string-strip-html": "^6.0.4",
 		"twitter": "^1.7.1",
 		"user-request": "^1.0.1",
 		"uuid": "^8.3.0"
