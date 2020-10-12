@@ -14,8 +14,14 @@ import Loader from '../../shared/Loader'
 
 import '../../../scss/components/Dashboard/Decks.scss'
 
+interface Params {
+	slugId?: string
+	slug?: string
+	unlockSectionId?: string
+}
+
 const DecksContent = () => {
-	const { slugId, slug, unlockSectionId } = useParams()
+	const { slugId, slug, unlockSectionId } = useParams<Params>()
 	
 	requiresAuth(!unlockSectionId)
 	

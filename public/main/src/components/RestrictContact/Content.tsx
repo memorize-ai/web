@@ -12,15 +12,16 @@ import 'firebase/firestore'
 const analytics = firebase.analytics()
 const firestore = firebase.firestore()
 
+interface Params {
+	uid: string
+}
+
 const RestrictContactContent = () => {
-	const { uid } = useParams()
+	const { uid } = useParams<Params>()
 	
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	
 	const onSubmit = useCallback(() => {
-		if (!uid)
-			return
-		
 		setLoadingState(LoadingState.Loading)
 		analytics.logEvent('restrict-contact', { uid })
 		

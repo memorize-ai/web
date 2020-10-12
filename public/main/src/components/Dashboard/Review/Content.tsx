@@ -11,8 +11,14 @@ import RecapModal from './RecapModal'
 
 import '../../../scss/components/Dashboard/Review.scss'
 
+interface Params {
+	slugId?: string
+	slug?: string
+	sectionId?: string
+}
+
 const ReviewContent = () => {
-	const { slugId, slug, sectionId } = useParams()
+	const { slugId, slug, sectionId } = useParams<Params>()
 	const {
 		deck,
 		card,

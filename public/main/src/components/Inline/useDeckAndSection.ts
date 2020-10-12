@@ -9,8 +9,13 @@ import 'firebase/firestore'
 
 const firestore = firebase.firestore()
 
+interface Params {
+	deckId: string
+	sectionId: string
+}
+
 export default () => {
-	const { deckId, sectionId } = useParams()
+	const { deckId, sectionId } = useParams<Params>()
 	
 	const [deck, setDeck] = useState(null as Deck | null)
 	// const [hasDeck, setHasDeck] = useState(null as boolean | null)

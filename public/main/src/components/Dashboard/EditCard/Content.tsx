@@ -23,10 +23,16 @@ import '../../../scss/components/Dashboard/EditCard.scss'
 
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? You have unsaved changes that will be lost.'
 
+interface Params {
+	slugId: string
+	slug: string
+	cardId: string
+}
+
 const EditCardContent = () => {
 	requiresAuth()
 	
-	const { slugId, slug, cardId } = useParams()
+	const { slugId, slug, cardId } = useParams<Params>()
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()

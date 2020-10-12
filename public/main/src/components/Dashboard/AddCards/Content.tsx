@@ -30,13 +30,19 @@ import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from '../../../constants'
 
 import '../../../scss/components/Dashboard/AddCards.scss'
 
+interface Params {
+	slugId: string
+	slug: string
+	sectionId: string
+}
+
 const GO_BACK_MESSAGE = 'Your drafts will be kept during this session.'
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? Your drafts will be lost.'
 
 const AddCardsContent = () => {
 	requiresAuth()
 	
-	const { slugId, slug, sectionId } = useParams()
+	const { slugId, slug, sectionId } = useParams<Params>()
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()
@@ -71,7 +77,7 @@ const AddCardsContent = () => {
 		), 0)
 	), [cards])
 	
-	const closeUrl = `/decks/${slugId ?? ''}/${slug ?? ''}`
+	const closeUrl = `/decks/${slugId}/${slug}`
 	const headDescription = `Add cards to ${deck?.name ?? 'your deck'}.`
 	
 	const canPublish = numberOfValidCards > 0

@@ -1,3 +1,5 @@
+import { HTMLAttributes, ImgHTMLAttributes, MetaHTMLAttributes } from 'react'
+
 import { DeckSortAlgorithm } from '../Deck/Search'
 import Category, { categoryFromString, imageUrlFromCategory, defaultCategory } from './Category'
 import firebase from '../../firebase'
@@ -65,7 +67,7 @@ export default class Topic {
 		}
 	}
 	
-	get schemaProps() {
+	get schemaProps(): HTMLAttributes<HTMLElement> {
 		return {
 			itemProp: 'itemListElement',
 			itemScope: true,
@@ -73,28 +75,29 @@ export default class Topic {
 		}
 	}
 	
-	positionSchemaProps = (index: number) => ({
+	positionSchemaProps = (index: number): MetaHTMLAttributes<HTMLMetaElement> => ({
 		itemProp: 'position',
 		content: (index + 1).toString()
 	})
 	
-	get urlSchemaProps() {
+	get urlSchemaProps(): MetaHTMLAttributes<HTMLMetaElement> {
 		return {
 			itemProp: 'url',
 			content: `https://memorize.ai${this.marketUrl}`
 		}
 	}
 	
-	get imageSchemaProps() {
+	get imageSchemaProps(): ImgHTMLAttributes<HTMLImageElement> {
 		return {
 			hidden: true,
 			itemProp: 'image',
 			src: this.imageUrl,
-			alt: this.name
+			alt: this.name,
+			loading: 'lazy'
 		}
 	}
 	
-	get nameSchemaProps() {
+	get nameSchemaProps(): HTMLAttributes<HTMLElement> {
 		return {
 			itemProp: 'name'
 		}

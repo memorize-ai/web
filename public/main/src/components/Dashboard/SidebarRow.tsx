@@ -18,7 +18,11 @@ const DashboardSidebarRow = ({ deck }: { deck: Deck }) => {
 				selected: selectedDeck?.id === deck.id
 			})}
 		>
-			<img src={deck.imageUrl ?? Deck.DEFAULT_IMAGE_URL} alt={deck.name} />
+			<img
+				src={deck.imageUrl ?? Deck.DEFAULT_IMAGE_URL}
+				alt={deck.name}
+				loading="lazy"
+			/>
 			<p className="title">
 				{deck.name}
 			</p>

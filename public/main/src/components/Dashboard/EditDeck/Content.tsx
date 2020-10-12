@@ -17,12 +17,17 @@ import { handleError } from '../../../utils'
 
 import '../../../scss/components/Dashboard/EditDeck.scss'
 
+interface Params {
+	slugId: string
+	slug: string
+}
+
 const EditDeckContent = () => {
 	requiresAuth()
 	
 	const didUpdateFromDeck = useRef(false)
 	
-	const { slugId, slug } = useParams()
+	const { slugId, slug } = useParams<Params>()
 	const history = useHistory()
 	
 	const [currentUser] = useCurrentUser()

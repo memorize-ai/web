@@ -75,6 +75,7 @@ const MarketDeckRow = ({ deck }: { deck: Deck }) => {
 				itemProp="image"
 				src={deck.imageUrl ?? Deck.DEFAULT_IMAGE_URL}
 				alt={deck.name}
+				loading="lazy"
 			/>
 			<div className="content">
 				<p className="name" itemProp="name">

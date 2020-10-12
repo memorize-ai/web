@@ -12,8 +12,14 @@ import RecapModal from './RecapModal'
 
 import '../../../scss/components/Dashboard/Cram.scss'
 
+interface Params {
+	slugId: string
+	slug: string
+	sectionId: string
+}
+
 const CramContent = () => {
-	const { slugId, slug, sectionId } = useParams()
+	const { slugId, slug, sectionId } = useParams<Params>()
 	const {
 		deck,
 		section,

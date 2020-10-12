@@ -27,6 +27,7 @@ const DeckCellBase = (
 			itemProp="image"
 			src={deck.imageUrl ?? Deck.DEFAULT_IMAGE_URL}
 			alt={deck.name}
+			loading="lazy"
 		/>
 		<div className="content">
 			<p {...nameProps} className="name" itemProp="name">
