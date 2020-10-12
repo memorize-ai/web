@@ -28,7 +28,7 @@
 		"upload-emails": "node emails"
 	},
 	"dependencies": {
-		"npm-check-updates": "^9.0.3"
+		"npm-check-updates": "^9.0.4"
 	},
 	"private": true
 }
