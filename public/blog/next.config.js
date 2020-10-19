@@ -1,7 +1,5 @@
-const compose = require('next-compose-plugins')
-
-module.exports = compose([
-	[require('next-images')],
+module.exports = require('next-compose-plugins')([
+	[require('next-optimized-images')],
 	[require('@next/mdx')()],
 	[require('next-pwa'), {
 		pwa: {

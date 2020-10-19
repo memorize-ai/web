@@ -1,12 +1,14 @@
-import { PropsWithChildren, AnchorHTMLAttributes, useMemo } from 'react'
+import { PropsWithChildren, ImgHTMLAttributes, AnchorHTMLAttributes, useMemo } from 'react'
 import Link from 'next/link'
-import { MDXProvider } from '@mdx-js/react'
+import { MDXProviderComponents, MDXProvider } from '@mdx-js/react'
+import Img from 'react-optimized-image'
 
 import Pre from './Pre'
 
 import styles from 'styles/components/CustomMDXProvider.module.scss'
 
-const baseComponents = {
+const baseComponents: MDXProviderComponents = {
+	img: ({ src, alt }: ImgHTMLAttributes<HTMLImageElement>) => <Img src={require(`images/posts/${src}`)} alt={alt} webp />,
 	pre: ({ children }: PropsWithChildren<{}>) => <>{children}</>,
 	code: Pre
 }
@@ -31,7 +33,7 @@ const DisabledLink = ({ href, children, ...props }: AnchorHTMLAttributes<HTMLAnc
 	</span>
 )
 
-const getComponents = (allowLinks: boolean) => ({
+const getComponents = (allowLinks: boolean): MDXProviderComponents => ({
 	...baseComponents,
 	a: allowLinks ? EnabledLink : DisabledLink
 })

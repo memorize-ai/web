@@ -1,12 +1,11 @@
 import { PropsWithChildren, useCallback, MouseEvent } from 'react'
 import Link from 'next/link'
 import { atom, useRecoilState } from 'recoil'
+import Img from 'react-optimized-image'
 import cx from 'classnames'
 
 import Sidebar, { SidebarProps } from './Sidebar'
-
-import logo from 'images/logos/capital.webp'
-import logoFallback from 'images/logos/capital.jpg'
+import logo from 'images/logo.jpg'
 
 import styles from 'styles/components/WithSidebar.module.scss'
 
@@ -58,10 +57,7 @@ const WithSidebar = ({
 					</button>
 					<Link href="/">
 						<a className={styles.logoContainer}>
-							<picture>
-								<source srcSet={logo} type="image/webp" />
-								<img className={styles.logo} src={logoFallback} alt="Logo" />
-							</picture>
+							<Img className={styles.logo} src={logo} alt="Logo" webp />
 						</a>
 					</Link>
 				</header>

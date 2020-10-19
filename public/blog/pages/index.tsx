@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next'
+import { NextPage, GetStaticProps } from 'next'
 import Head from 'next/head'
 
 import Post from 'models/Post'
@@ -12,7 +12,11 @@ const URL = 'https://blog.memorize.ai'
 const TITLE = 'Blog | memorize.ai'
 const DESCRIPTION = 'Browse articles written by the team behind memorize.ai, the ultimate memorization platform'
 
-const Home = ({ posts }: { posts: Post[] }) => (
+export interface HomeProps {
+	posts: Post[]
+}
+
+const Home: NextPage<HomeProps> = ({ posts }) => (
 	<WithSidebar posts={posts} className={styles.root}>
 		<Head>
 			<link key="canonical" rel="canonical" href={URL} />

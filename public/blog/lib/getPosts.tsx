@@ -8,7 +8,7 @@ import { USERS } from 'models/User'
 
 const POSTS = join(process.cwd(), 'posts')
 
-export default () =>
+const getPosts = () =>
 	readdirSync(POSTS)
 		.map(path => {
 			const { default: Body, meta } = require(`../posts/${path}`)
@@ -21,7 +21,9 @@ export default () =>
 				...meta,
 				slug: path.replace(/\.mdx$/, ''),
 				by,
-				body: stripHtml(renderToString(<Body />))
+				body: stripHtml(renderToString(<Body />)).result.replace(/\s/g, '')
 			} as Post
 		})
 		.sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
+
+export default getPosts

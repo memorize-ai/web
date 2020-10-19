@@ -2,6 +2,7 @@ import { useCallback, ChangeEvent, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { atom, useRecoilState } from 'recoil'
+import Img from 'react-optimized-image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -9,9 +10,7 @@ import cx from 'classnames'
 import Post from 'models/Post'
 import normalize from 'lib/normalize'
 import PostRow from './PostRow'
-
-import logo from 'images/logos/capital.webp'
-import logoFallback from 'images/logos/capital.jpg'
+import logo from 'images/logo.jpg'
 
 import styles from 'styles/components/Sidebar/index.module.scss'
 
@@ -52,10 +51,7 @@ const Sidebar = ({ className, posts, onRowClick }: SidebarProps) => {
 		<aside className={cx(styles.root, className)}>
 			<Link href="/">
 				<a className={styles.logoContainer} onClick={onRowClick}>
-					<picture>
-						<source srcSet={logo} type="image/webp" />
-						<img className={styles.logo} src={logoFallback} alt="Logo" />
-					</picture>
+					<Img className={styles.logo} src={logo} alt="Logo" webp />
 				</a>
 			</Link>
 			<div className={styles.divider} />

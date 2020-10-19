@@ -1,10 +1,7 @@
 import { useMemo } from 'react'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import Head from 'next/head'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 import Post from 'models/Post'
 import getPosts from 'lib/getPosts'
@@ -15,7 +12,11 @@ import PostNavigation from 'components/PostNavigation'
 
 import styles from 'styles/pages/Post.module.scss'
 
-const PostPage = ({ posts }: { posts: Post[] }) => {
+export interface PostPageProps {
+	posts: Post[]
+}
+
+const PostPage: NextPage<PostPageProps> = ({ posts }) => {
 	const { slug } = useRouter().query
 	
 	const post = useMemo(() => (

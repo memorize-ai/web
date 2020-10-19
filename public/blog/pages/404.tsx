@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next'
+import { NextPage, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 
@@ -11,7 +11,11 @@ import styles from 'styles/pages/404.module.scss'
 const TITLE = '404 | memorize.ai blog'
 const DESCRIPTION = 'Oh no! You must be lost. There\'s nothing at this URL.'
 
-const NotFound = ({ posts }: { posts: Post[] }) => {
+export interface NotFoundProps {
+	posts: Post[]
+}
+
+const NotFound: NextPage<NotFoundProps> = ({ posts }) => {
 	const url = `https://blog.memorize.ai${useRouter().asPath}`
 	
 	return (
