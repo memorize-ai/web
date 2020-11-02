@@ -5,9 +5,9 @@
 	"types": "types/index.d.ts",
 	"scripts": {
 		"build": "tsc",
-		"pretest": "npm run build",
+		"pretest": "yarn run build",
 		"test": "jest --verbose tests",
-		"prepublishOnly": "npm run build"
+		"prepublishOnly": "yarn run build"
 	},
 	"dependencies": {
 		"axios": "^0.20.0"
