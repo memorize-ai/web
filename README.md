@@ -25,13 +25,13 @@ git clone -b staging https://github.com/memorize-ai/web.git
 ### Install dependencies
 
 ```bash
-npm run install:all
+yarn run install:all
 ```
 
 ### Start local server
 
 ```bash
-npm start
+yarn start
 ```
 
 ## Rules
@@ -45,7 +45,7 @@ npm start
 
 ### Deploy
 
-**Push to master** or `npm run deploy`
+**Push to master** or `yarn run deploy`
 
 ### `/public`
 
@@ -55,7 +55,7 @@ npm start
 ### Start local server
 
 ```bash
-npm start
+yarn start
 ```
 
 ## Notes
