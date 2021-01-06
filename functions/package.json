@@ -18,7 +18,7 @@
 	"dependencies": {
 		"@elastic/app-search-node": "^7.9.0",
 		"@sendgrid/mail": "^7.2.6",
-		"axios": "^0.20.0",
+		"axios": "^0.21.1",
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"firebase-admin": "^9.2.0",
