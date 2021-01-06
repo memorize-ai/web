@@ -1,0 +1,8 @@
+@use '../variables' as *;
+
+.section-header.default {
+	> .name {
+		font-weight: bold;
+		color: $dark-gray;
+	}
+}
