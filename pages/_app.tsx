@@ -106,7 +106,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 				<meta key="author" name="author" content="Ken Mueller" />
 				<link key="icon" rel="icon" href={favicon} />
 				<link key="apple-touch-icon" rel="apple-touch-icon" href={favicon} />
-				<link key="manifest" rel="manifest" href="/manifest.json" />
+				<link key="manifest" rel="manifest" href="/manifest.webmanifest" />
 				<link key="sitemap" rel="sitemap" type="application/xml" href="/sitemap.xml" />
 			</Head>
 			<Provider>
