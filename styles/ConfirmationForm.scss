@@ -1,0 +1,81 @@
+@use 'variables' as *;
+
+.confirmation-form {
+	display: flex;
+	min-height: 100vh;
+	padding: 30px;
+	background: white;
+	
+	> .content {
+		margin: auto;
+		border-radius: 15px;
+		
+		> .title {
+			text-align: center;
+			font-weight: 900;
+		}
+		
+		> form {
+			$height: 44px;
+			
+			display: flex;
+			align-items: center;
+			width: max-content;
+			margin: 30px auto 0;
+			overflow: hidden;
+			border-radius: 8px;
+			font-size: 18px;
+			
+			> .submit-message,
+			> .submit-button {
+				height: $height;
+				line-height: $height;
+			}
+			
+			> .submit-message {
+				padding: 0 20px;
+				font-weight: 900;
+				color: $dark-gray;
+				background: transparentize(#f0f1f8, 0.32);
+			}
+			
+			> .submit-button {
+				flex-shrink: 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 0 14px;
+				white-space: nowrap;
+				font-weight: 900;
+				color: white;
+				background: #e53e3e;
+				transition: width 0.3s, background 0.3s;
+				
+				&:disabled {
+					cursor: default;
+				}
+				
+				&.loading,
+				&.success,
+				&.error {
+					width: 48px !important;
+				}
+				
+				&.loading {
+					background: #5a2aff;
+				}
+				
+				&.success {
+					background: #00d388;
+				}
+				
+				&:hover,
+				&:focus {
+					&:not(:disabled) {
+						background: #051e34;
+					}
+				}
+			}
+		}
+	}
+}

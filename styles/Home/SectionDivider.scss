@@ -1,0 +1,9 @@
+@use '../trigonometry' as *;
+
+.home-section-divider {
+	$degrees: 6deg;
+	
+	height: 50px;
+	transform: skewY($degrees);
+	transform-origin: top right;
+}
