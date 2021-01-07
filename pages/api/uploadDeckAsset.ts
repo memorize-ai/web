@@ -13,17 +13,21 @@ interface Query {
 }
 
 type Response =
+	| void
 	| { url: string }
 	| { error: { message: string } }
 
 const handler: NextApiHandler<Response> = async ({ method, query, body }, res) => {
 	res.setHeader('Access-Control-Allow-Origin', '*')
-	res.setHeader('Access-Control-Allow-Methods', 'POST')
+	res.setHeader('Access-Control-Allow-Methods', ['OPTIONS', 'POST'])
 	
 	const error = (status: number, message: string) =>
 		res.status(status).send({ error: { message } })
 	
 	try {
+		if (method === 'OPTIONS')
+			return res.send()
+		
 		if (method !== 'POST')
 			return error(400, 'Invalid method')
 		
