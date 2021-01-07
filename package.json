@@ -40,7 +40,8 @@
 		"react-toastify": "^6.2.0",
 		"sass": "^1.32.0",
 		"string-strip-html": "^7.0.3",
-		"uuid": "^8.3.2"
+		"uuid": "^8.3.2",
+		"xmlbuilder2": "^2.4.0"
 	},
 	"devDependencies": {
 		"@babel/preset-env": "^7.12.11",

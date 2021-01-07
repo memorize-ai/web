@@ -1,0 +1,24 @@
+name: Test
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Set up Node
+        uses: actions/setup-node@main
+        with:
+          node-version: '12'
+          check-latest: true
+      - name: Install dependencies
+        run: npm ci
+      - name: Test
+        run: npm test
+      - name: Lint
+        run: npm run lint
