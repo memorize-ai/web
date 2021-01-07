@@ -38,7 +38,6 @@
 		max-width: calc(100vw - 60px);
 		width: 275px;
 		height: auto;
-		transition: width 0.3s;
 
 		@include diagram($screen-width: 700px, $width: 300px);
 		@include diagram($screen-width: 850px, $width: 350px);
@@ -49,7 +48,6 @@
 
 	> .text {
 		margin-top: 20px;
-		transition: margin-top 0.3s, margin-left 0.3s;
 
 		@media (min-width: 675px) {
 			margin-top: 0;
@@ -85,7 +83,6 @@
 			margin-top: 30px;
 			padding: 0;
 			list-style: none;
-			transition: margin-top 0.3s;
 
 			@media (min-width: 800px) {
 				margin-top: 40px;
@@ -102,7 +99,6 @@
 					position: relative;
 					margin: 0 15px 0 0;
 					transform: scale(0.9);
-					transition: margin 0.3s, transform 0.3s;
 
 					@media (min-width: 800px) {
 						margin-right: 20px;
@@ -135,7 +131,6 @@
 					font-size: 10px;
 					font-weight: bold;
 					color: $dark-gray;
-					transition: margin-bottom 0.3s, font-size 0.3s;
 
 					@include list-item($screen-width: 300px, $font-size: 12px);
 					@include list-item($screen-width: 370px, $font-size: 14px);
@@ -178,7 +173,7 @@
 			color: white;
 			background: #5a2aff;
 			border-radius: $height / 2;
-			transition: margin-top 0.3s, margin-bottom 0.3s, border-radius 0.3s;
+			transition: border-radius 0.3s;
 
 			@media (min-width: 675px) {
 				margin-bottom: 0;
@@ -196,7 +191,6 @@
 				margin-right: 15px;
 				font-size: 16px;
 				font-weight: 900;
-				transition: font-size 0.3s;
 
 				@media (min-width: 375px) {
 					font-size: 20px;

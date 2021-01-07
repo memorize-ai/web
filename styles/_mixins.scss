@@ -8,7 +8,7 @@
 }
 
 @mixin raise-on-hover {
-	transition: box-shadow 0.25s, transform 0.25s;
+	transition: transform 0.25s;
 
 	&:hover,
 	&:focus {
@@ -18,6 +18,8 @@
 
 @mixin shadow-raise-on-hover {
 	@include raise-on-hover;
+	
+	transition: box-shadow 0.25s, transform 0.25s;
 
 	&:hover,
 	&:focus {
@@ -39,7 +41,6 @@
 	background: linear-gradient(to bottom, $top-color, $bottom-color);
 	transform: skewY(if($is-right, 1, -1) * $degrees);
 	transform-origin: top if($is-right, right, left);
-	transition: background 0.3s, transform 0.3s, transform-origin 0.3s;
 }
 
 @mixin dashboard-sidebar-collapse($class, $max-width) {

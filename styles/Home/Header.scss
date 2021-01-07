@@ -2,7 +2,6 @@
 	$horizontal-padding: 135px;
 
 	padding: 0 20px;
-	transition: padding 0.3s;
 
 	@media (min-width: 350px) {
 		padding: 0 30px;
@@ -34,7 +33,6 @@
 	> .header {
 		display: flex;
 		padding-top: 43px;
-		transition: padding-top 0.3s;
 
 		@media (min-width: 500px) {
 			padding-top: 53px;
@@ -52,7 +50,6 @@
 			display: flex;
 			flex-direction: column;
 			color: white;
-			transition: padding 0.3s;
 
 			@media (min-width: 430px) {
 				flex-shrink: 0;
@@ -77,11 +74,6 @@
 
 			@media (min-width: 1480px) {
 				max-width: 454px;
-			}
-
-			> h1,
-			> h3 {
-				transition: font-size 0.3s, line-height 0.3s;
 			}
 
 			> h1 {
@@ -217,7 +209,7 @@
 			max-width: 1000px;
 			margin-left: 30px;
 			transform: $translate;
-			transition: width 0.3s, margin 0.3s, transform 0.3s;
+			transition: transform 0.3s;
 
 			@media (min-width: 830px) {
 				display: block;

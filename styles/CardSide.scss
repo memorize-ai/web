@@ -62,8 +62,6 @@
 			height: 100%;
 			border: 1px solid #333;
 			border-radius: 2px;
-			transition: 250ms ease-in-out box-shadow, 250ms ease-in-out background,
-				250ms ease-in-out border;
 		}
 
 		.todo-list .todo-list__label > input::after {

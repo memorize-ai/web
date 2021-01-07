@@ -50,7 +50,6 @@ $rating-colors: (
 			font-size: 23px;
 			font-weight: 900;
 			color: white;
-			transition: margin-bottom 0.3s, font-size 0.3s;
 
 			@media (min-width: 400px) {
 				font-size: 25px;
@@ -155,7 +154,7 @@ $rating-colors: (
 				align-items: center;
 				max-width: calc(100vw - #{$margin * 2});
 				height: 27px;
-				transition: height 0.3s, opacity 0.3s;
+				transition: opacity 0.3s;
 
 				&.hidden {
 					height: 0;
@@ -214,7 +213,6 @@ $rating-colors: (
 				max-height: calc(100vh - #{$card-offset * 2 + 300px});
 				height: 350px;
 				margin-top: 8px;
-				transition: height 0.3s;
 
 				@media (min-width: 350px) {
 					max-height: calc(100vh - #{$card-offset * 2 + 320px});
@@ -390,7 +388,6 @@ $rating-colors: (
 						font-size: 20px;
 						font-weight: 900;
 						color: white;
-						transition: font-size 0.3s;
 
 						@media (min-width: 350px) {
 							font-size: 24px;
@@ -407,7 +404,6 @@ $rating-colors: (
 						font-weight: 900;
 						color: white;
 						opacity: 0.7;
-						transition: font-size 0.3s;
 
 						@media (min-width: 405px) {
 							font-size: 22px;
@@ -496,7 +492,7 @@ $rating-colors: (
 					background: white;
 					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
-					transition: width 0.3s, padding 0.3s, border-color 0.3s,
+					transition: border-color 0.3s,
 						box-shadow 0.3s;
 
 					@media (min-width: 350px) {
@@ -525,7 +521,6 @@ $rating-colors: (
 							display: none;
 							margin-right: 8px;
 							font-size: 20px;
-							transition: margin-right 0.3s, font-size 0.3s;
 
 							@media (min-width: 500px) {
 								display: block;
@@ -542,7 +537,6 @@ $rating-colors: (
 							font-size: 9px;
 							font-weight: 900;
 							color: $dark-gray;
-							transition: font-size 0.3s;
 
 							@media (min-width: 340px) {
 								font-size: 12px;

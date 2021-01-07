@@ -355,7 +355,7 @@ $flip-animation-duration: 300ms;
 					background: white;
 					border: 1px solid #eee;
 					border-radius: 8px;
-					transition: width 0.3s, padding 0.3s, border-color 0.3s,
+					transition: border-color 0.3s,
 						box-shadow 0.3s;
 
 					@media (min-width: 400px) {
@@ -375,7 +375,6 @@ $flip-animation-duration: 300ms;
 						display: none;
 						margin-right: 8px;
 						font-size: 20px;
-						transition: margin-right 0.3s, font-size 0.3s;
 
 						@media (min-width: 500px) {
 							display: block;
@@ -392,7 +391,6 @@ $flip-animation-duration: 300ms;
 						font-size: 9px;
 						font-weight: 900;
 						color: $dark-gray;
-						transition: font-size 0.3s;
 
 						@media (min-width: 340px) {
 							font-size: 12px;

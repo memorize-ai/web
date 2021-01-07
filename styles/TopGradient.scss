@@ -55,11 +55,6 @@
 		@include gradient-height(860px);
 	}
 
-	&,
-	> .background {
-		transition: 0.3s height;
-	}
-
 	> .background {
 		@include top-gradient($degrees, $is-right: true);
 	}
