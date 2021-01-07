@@ -84,6 +84,7 @@ const CramCardContainer = ({
 									<p>{currentSide}</p>
 									<Svg
 										src={toggle}
+										viewBox={`0 0 ${toggle.width} ${toggle.height}`}
 										style={{
 											transform: `scale(3) rotate(${toggleTurns}turn)`
 										}}

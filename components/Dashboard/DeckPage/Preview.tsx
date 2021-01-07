@@ -164,6 +164,7 @@ const DeckPagePreview = ({
 					<Svg
 						className="icon"
 						src={toggle}
+						viewBox={`0 0 ${toggle.width} ${toggle.height}`}
 						style={{
 							transform: `scale(2) rotate(${toggleButtonDegrees}deg)`
 						}}
