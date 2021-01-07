@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'react-optimized-image'
+import Img from 'react-optimized-image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faKey } from '@fortawesome/free-solid-svg-icons'
 
@@ -18,7 +18,7 @@ const Navbar = () => {
 		<div className="navbar">
 			<Link href="/">
 				<a className="logo">
-					<Image className="logoImage" src={logo} alt="Logo" webp />
+					<Img className="logoImage" src={logo} alt="Logo" webp />
 				</a>
 			</Link>
 			<div className="items">

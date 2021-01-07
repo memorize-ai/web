@@ -1,10 +1,10 @@
-import Image from 'react-optimized-image'
+import Img from 'react-optimized-image'
 
 import spacedRepetition from 'images/home/spaced-repetition.png'
 
 const HomeSpacedRepetition = () => (
 	<div className="spaced-repetition">
-		<Image
+		<Img
 			className="diagram"
 			src={spacedRepetition}
 			alt="Spaced Repetition diagram"

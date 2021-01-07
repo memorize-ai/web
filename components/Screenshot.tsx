@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react'
-import Image from 'react-optimized-image'
+import Img from 'react-optimized-image'
 
 import cram from 'images/screenshots/cram.jpg'
 import sections from 'images/screenshots/sections.jpg'
@@ -44,19 +44,19 @@ const Screenshot = ({
 }: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => {
 	switch (type) {
 		case ScreenshotType.Cram:
-			return <Image {...props} src={cram} alt="Screenshot" webp />
+			return <Img {...props} src={cram} alt="Screenshot" webp />
 		case ScreenshotType.Sections:
-			return <Image {...props} src={sections} alt="Screenshot" webp />
+			return <Img {...props} src={sections} alt="Screenshot" webp />
 		case ScreenshotType.Editor:
-			return <Image {...props} src={editor} alt="Screenshot" webp />
+			return <Img {...props} src={editor} alt="Screenshot" webp />
 		case ScreenshotType.Home:
-			return <Image {...props} src={home} alt="Screenshot" webp />
+			return <Img {...props} src={home} alt="Screenshot" webp />
 		case ScreenshotType.Market:
-			return <Image {...props} src={market} alt="Screenshot" webp />
+			return <Img {...props} src={market} alt="Screenshot" webp />
 		case ScreenshotType.Recap:
-			return <Image {...props} src={recap} alt="Screenshot" webp />
+			return <Img {...props} src={recap} alt="Screenshot" webp />
 		case ScreenshotType.Review:
-			return <Image {...props} src={review} alt="Screenshot" webp />
+			return <Img {...props} src={review} alt="Screenshot" webp />
 	}
 }
 

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'react-optimized-image'
+import Img from 'react-optimized-image'
 
 import AuthButton from './AuthButton'
 import AppStoreDownloadButton from 'components/AppStoreDownloadButton'
@@ -22,7 +22,7 @@ const HomeFooter = () => (
 			<div className="bottom">
 				<Link href="/">
 					<a className="logo">
-						<Image className="logo-image" src={logo} alt="Logo" webp />
+						<Img className="logo-image" src={logo} alt="Logo" webp />
 					</a>
 				</Link>
 				<div className="socials">

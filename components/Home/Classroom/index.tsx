@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image, { Svg } from 'react-optimized-image'
+import Img, { Svg } from 'react-optimized-image'
 
 import List from './List'
 
@@ -8,7 +8,7 @@ import diagram from 'images/home/classroom.png'
 
 const HomeClassroom = () => (
 	<div id="class" className="classroom">
-		<Image className="diagram" src={diagram} alt="Classroom diagram" webp />
+		<Img className="diagram" src={diagram} alt="Classroom diagram" webp />
 		<article className="text">
 			<h2 className="title" data-aos="fade-down">
 				<strong>Teachers and Students</strong>
