@@ -1,6 +1,6 @@
 @mixin stack {
 	display: grid;
-	
+
 	> * {
 		grid-row: 1;
 		grid-column: 1;
@@ -9,7 +9,7 @@
 
 @mixin raise-on-hover {
 	transition: box-shadow 0.25s, transform 0.25s;
-	
+
 	&:hover,
 	&:focus {
 		transform: translateY(-2px) !important;
@@ -18,7 +18,7 @@
 
 @mixin shadow-raise-on-hover {
 	@include raise-on-hover;
-	
+
 	&:hover,
 	&:focus {
 		@include shadow-lg;
@@ -26,12 +26,16 @@
 }
 
 @mixin shadow-lg {
-	box-shadow:
-		0 10px 15px -3px rgba(0, 0, 0, 0.1),
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
 		0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-@mixin top-gradient($degrees, $is-right, $top-color: #5a2aff, $bottom-color: #00e5f4) {
+@mixin top-gradient(
+	$degrees,
+	$is-right,
+	$top-color: #5a2aff,
+	$bottom-color: #00e5f4
+) {
 	background: linear-gradient(to bottom, $top-color, $bottom-color);
 	transform: skewY(if($is-right, 1, -1) * $degrees);
 	transform-origin: top if($is-right, right, left);
@@ -42,7 +46,7 @@
 	@media (max-width: $max-width) {
 		.dashboard.#{$class} {
 			--sidebar-width: 0px;
-			
+
 			> .sidebar {
 				display: none;
 			}
@@ -75,7 +79,9 @@
 }
 
 @mixin ck-editor-dropdown {
-	.ck.ck-dropdown__panel.ck-dropdown__panel_sw > .ck.ck-toolbar > .ck.ck-toolbar__items {
+	.ck.ck-dropdown__panel.ck-dropdown__panel_sw
+		> .ck.ck-toolbar
+		> .ck.ck-toolbar__items {
 		@content;
 	}
 }
@@ -94,7 +100,7 @@
 
 @mixin line-limit($lines) {
 	@include prepare-for-line-limit;
-	
+
 	-webkit-line-clamp: $lines;
 }
 

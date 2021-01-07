@@ -7,7 +7,7 @@ export interface CountersState {
 	decks: number | null
 }
 
-export type CountersAction = Action<{ key: Counter, value: number | null }>
+export type CountersAction = Action<{ key: Counter; value: number | null }>
 
 const initialState: CountersState = {
 	decks: null
@@ -18,7 +18,10 @@ const reducer = (state: CountersState, { type, payload }: CountersAction) =>
 		? { ...state, [payload.key]: payload.value }
 		: state
 
-const Context = createContext<[CountersState, Dispatch<CountersAction>]>([initialState, console.log])
+const Context = createContext<[CountersState, Dispatch<CountersAction>]>([
+	initialState,
+	console.log
+])
 export default Context
 
 export const CountersProvider = ({ children }: { children?: ReactNode }) => (

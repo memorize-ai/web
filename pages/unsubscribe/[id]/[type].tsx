@@ -23,25 +23,24 @@ interface UnsubscribeQuery extends ParsedUrlQuery {
 const Unsubscribe: NextPage = () => {
 	const { id, type } = useRouter().query as UnsubscribeQuery
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
-	
+
 	const onSubmit = useCallback(async () => {
-		if (!(id && type))
-			return
-		
+		if (!(id && type)) return
+
 		try {
 			setLoadingState(LoadingState.Loading)
-			
+
 			await firestore.doc(`users/${id}`).update({
 				[`unsubscribed.${type}`]: true
 			})
-			
+
 			setLoadingState(LoadingState.Success)
 		} catch (error) {
 			setLoadingState(LoadingState.Fail)
 			handleError(error)
 		}
 	}, [id, type, setLoadingState])
-	
+
 	return (
 		<ConfirmationForm
 			title="Unsubscribe"
@@ -54,21 +53,21 @@ const Unsubscribe: NextPage = () => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps<Record<string, never>, UnsubscribeQuery> = async ({ params }) => {
-	if (!params)
-		return { notFound: true }
-	
+export const getServerSideProps: GetServerSideProps<
+	Record<string, never>,
+	UnsubscribeQuery
+> = async ({ params }) => {
+	if (!params) return { notFound: true }
+
 	const firestore = admin.firestore()
 	const { id, type } = params
-	
-	if (!TYPES.includes(type))
-		return { notFound: true }
-	
+
+	if (!TYPES.includes(type)) return { notFound: true }
+
 	const user = await firestore.doc(`users/${id}`).get()
-	
-	if (!user.exists)
-		return { notFound: true }
-	
+
+	if (!user.exists) return { notFound: true }
+
 	return { props: {} }
 }
 

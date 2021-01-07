@@ -7,9 +7,9 @@ import firebase from 'lib/firebase'
 export type SectionsState = Record<string, Section[]>
 
 export type SectionsAction = Action<
-	| { deckId: string, snapshots: firebase.firestore.DocumentSnapshot[] } // AddSection
-	| { deckId: string, snapshot: firebase.firestore.DocumentSnapshot } // UpdateSection
-	| { deckId: string, sectionId: string } // RemoveSection
+	| { deckId: string; snapshots: firebase.firestore.DocumentSnapshot[] } // AddSection
+	| { deckId: string; snapshot: firebase.firestore.DocumentSnapshot } // UpdateSection
+	| { deckId: string; sectionId: string } // RemoveSection
 >
 
 const initialState: SectionsState = {}
@@ -21,7 +21,7 @@ const reducer = (state: SectionsState, { type, payload }: SectionsAction) => {
 				deckId: string
 				snapshots: firebase.firestore.DocumentSnapshot[]
 			}
-			
+
 			return {
 				...state,
 				[deckId]: Section.sort([
@@ -35,7 +35,7 @@ const reducer = (state: SectionsState, { type, payload }: SectionsAction) => {
 				deckId: string
 				snapshot: firebase.firestore.DocumentSnapshot
 			}
-			
+
 			return {
 				...state,
 				[deckId]: Section.sort(
@@ -52,12 +52,10 @@ const reducer = (state: SectionsState, { type, payload }: SectionsAction) => {
 				deckId: string
 				sectionId: string
 			}
-			
+
 			return {
 				...state,
-				[deckId]: state[deckId]?.filter(section =>
-					section.id !== sectionId
-				)
+				[deckId]: state[deckId]?.filter(section => section.id !== sectionId)
 			}
 		}
 		default:

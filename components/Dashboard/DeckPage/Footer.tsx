@@ -10,16 +10,16 @@ export interface DeckPageFooterProps {
 
 const DeckPageFooter = ({ deck, topics }: DeckPageFooterProps) => (
 	<div id="description" className="footer">
-		<p className="description">
-			{deck.description}
-		</p>
+		<p className="description">{deck.description}</p>
 		{topics.length > 0 && (
 			<div className="topics" {...Topic.schemaProps}>
 				{topics.map((topic, i) => (
 					<Link key={topic.id} href={topic.marketUrl}>
 						<a
 							{...topic.schemaProps}
-							style={{ backgroundImage: `url('${topic.imageUrl}')` }}
+							style={{
+								backgroundImage: `url('${topic.imageUrl}')`
+							}}
 						>
 							<meta {...topic.positionSchemaProps(i)} />
 							<meta {...topic.urlSchemaProps} />

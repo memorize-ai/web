@@ -8,7 +8,7 @@ import firebase from 'lib/firebase'
 export type CreatorsState = Record<string, User>
 
 export type CreatorsAction = Action<
-	| { uid: string, snapshot: firebase.firestore.DocumentSnapshot } // AddCreator, UpdateCreator
+	| { uid: string; snapshot: firebase.firestore.DocumentSnapshot } // AddCreator, UpdateCreator
 	| string // RemoveCreator
 >
 
@@ -22,7 +22,7 @@ const reducer = (state: CreatorsState, { type, payload }: CreatorsAction) => {
 				snapshot: firebase.firestore.DocumentSnapshot
 			}
 			const user = state[uid]
-			
+
 			return {
 				...state,
 				[uid]: user

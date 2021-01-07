@@ -2,7 +2,7 @@
 
 .card-side {
 	@import '~prismjs/themes/prism-okaidia';
-	
+
 	--ck-highlight-marker-blue: #72cdfd;
 	--ck-highlight-marker-green: #63f963;
 	--ck-highlight-marker-pink: #fc7999;
@@ -11,22 +11,22 @@
 	--ck-highlight-pen-red: #e91313;
 	--ck-image-style-spacing: 1.5em;
 	--ck-todo-list-checkmark-size: 16px;
-	
+
 	display: flex;
 	height: 100%;
-	
+
 	> .content {
 		max-width: 100%;
 		margin: auto;
-		
+
 		* {
 			font-weight: initial;
 		}
-		
+
 		.katex-display {
 			overflow-x: auto;
 		}
-		
+
 		.todo-list {
 			list-style: none;
 		}
@@ -62,9 +62,7 @@
 			height: 100%;
 			border: 1px solid #333;
 			border-radius: 2px;
-			transition:
-				250ms ease-in-out box-shadow,
-				250ms ease-in-out background,
+			transition: 250ms ease-in-out box-shadow, 250ms ease-in-out background,
 				250ms ease-in-out border;
 		}
 
@@ -294,7 +292,7 @@
 			.page-break {
 				padding: 0;
 			}
-			
+
 			.page-break::after {
 				display: none;
 			}

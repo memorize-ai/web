@@ -28,16 +28,15 @@ const Button = ({
 		disabled={disabled || loading}
 		onClick={onClick}
 	>
-		{loading && loaderSize && loaderThickness && loaderColor
-			? (
-				<Loader
-					size={loaderSize}
-					thickness={loaderThickness}
-					color={loaderColor}
-				/>
-			)
-			: children
-		}
+		{loading && loaderSize && loaderThickness && loaderColor ? (
+			<Loader
+				size={loaderSize}
+				thickness={loaderThickness}
+				color={loaderColor}
+			/>
+		) : (
+			children
+		)}
 	</button>
 )
 

@@ -5,13 +5,15 @@ import Deck from 'models/Deck'
 import useCurrentUser from 'hooks/useCurrentUser'
 import CopyModal from './Copy'
 
-const ShareDeckModal = (
-	{ deck, isShowing, setIsShowing }: {
-		deck: Deck
-	} & ModalShowingProps
-) => {
+const ShareDeckModal = ({
+	deck,
+	isShowing,
+	setIsShowing
+}: {
+	deck: Deck
+} & ModalShowingProps) => {
 	const [currentUser] = useCurrentUser()
-	
+
 	return (
 		<CopyModal
 			title={

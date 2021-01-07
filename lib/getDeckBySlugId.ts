@@ -9,7 +9,7 @@ const getDeckBySlugId = async (slugId: string) => {
 		.where('slugId', '==', slugId)
 		.limit(1)
 		.get()
-	
+
 	const snapshot = docs[0]
 	return snapshot?.exists ? Deck.fromSnapshot(snapshot) : null
 }

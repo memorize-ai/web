@@ -8,14 +8,18 @@ import Deck from 'models/Deck'
 import { src as defaultImage } from 'images/logos/icon.jpg'
 import user from 'images/icons/user.svg'
 
-const DeckCellBase = (
-	{ className, deck, href, nameProps, children }: PropsWithChildren<{
-		className?: string
-		deck: Deck
-		href: string
-		nameProps?: HTMLAttributes<HTMLParagraphElement>
-	}>
-) => (
+const DeckCellBase = ({
+	className,
+	deck,
+	href,
+	nameProps,
+	children
+}: PropsWithChildren<{
+	className?: string
+	deck: Deck
+	href: string
+	nameProps?: HTMLAttributes<HTMLParagraphElement>
+}>) => (
 	<Link href={href}>
 		<a
 			className={cx('deck-cell', className)}
@@ -33,9 +37,7 @@ const DeckCellBase = (
 				<span {...nameProps} className="name" itemProp="name">
 					{deck.name}
 				</span>
-				<span className="subtitle">
-					{deck.subtitle}
-				</span>
+				<span className="subtitle">{deck.subtitle}</span>
 				<span hidden itemProp="description">
 					{deck.description}
 				</span>

@@ -11,11 +11,12 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ previewDeck }) =>
-	useLayoutAuthState()
-		? <Dashboard />
-		: <Landing previewDeck={previewDeck} />
+	useLayoutAuthState() ? <Dashboard /> : <Landing previewDeck={previewDeck} />
 
-export const getStaticProps: GetStaticProps<HomeProps, Record<string, never>> = async () => ({
+export const getStaticProps: GetStaticProps<
+	HomeProps,
+	Record<string, never>
+> = async () => ({
 	props: { previewDeck: await getPreviewDeck() },
 	revalidate: 3600 // 1 hour
 })

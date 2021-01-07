@@ -2,7 +2,10 @@ import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 import pickBy from 'lodash/pickBy'
 
 import Action, { ActionType } from 'actions/Action'
-import { DeckSortAlgorithm, DEFAULT_DECK_SORT_ALGORITHM } from 'models/Deck/Search'
+import {
+	DeckSortAlgorithm,
+	DEFAULT_DECK_SORT_ALGORITHM
+} from 'models/Deck/Search'
 
 export interface SearchState {
 	query: string
@@ -23,7 +26,10 @@ const initialState: SearchState = {
 
 const reducer = (state: SearchState, { type, payload }: SearchAction) =>
 	type === ActionType.SetSearchState
-		? { ...state, ...pickBy(payload, value => value !== null) as SearchState }
+		? {
+				...state,
+				...(pickBy(payload, value => value !== null) as SearchState)
+		  }
 		: state
 
 const Context = createContext<[SearchState, Dispatch<SearchAction>]>([

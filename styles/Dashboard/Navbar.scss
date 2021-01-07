@@ -3,7 +3,7 @@
 
 .dashboard > .content > .container > .dashboard-navbar {
 	$bottom-border-width: 2px;
-	
+
 	grid-area: navbar;
 	display: grid;
 	grid:
@@ -11,31 +11,31 @@
 		1fr auto;
 	margin: 0 var(--horizontal-padding);
 	border-bottom: $bottom-border-width solid transparentize(#ddd, 0.8);
-	
+
 	> .tabs {
 		grid-area: tabs;
 		align-self: stretch;
 		display: flex;
 		align-items: flex-end;
 		overflow-x: auto;
-		
+
 		> .tab {
 			$horizontal-padding: 20px;
 			$bottom-padding: 13px;
-			
+
 			display: flex;
 			position: relative;
 			align-items: center;
 			padding: 0 $horizontal-padding $bottom-padding;
 			color: white;
 			opacity: 0.7;
-			
+
 			&,
 			> p,
 			> svg {
 				transition: opacity 0.3s;
 			}
-			
+
 			> .overlay {
 				position: absolute;
 				top: 0;
@@ -44,144 +44,144 @@
 				left: 0;
 				z-index: 1;
 			}
-			
+
 			> span {
 				margin-left: 10px;
 				font-weight: bold;
 				color: white;
 			}
-			
+
 			> svg {
 				fill: white;
 			}
-			
+
 			&:not(.selected):not(.disabled):hover {
 				opacity: 0.9;
 			}
-			
+
 			&.selected {
 				opacity: 1;
 			}
-			
+
 			&.disabled {
 				&,
 				> .overlay {
 					cursor: default;
 				}
-				
+
 				> p,
 				> svg {
 					opacity: 0.5;
 				}
-				
+
 				&:hover {
 					opacity: 1;
 				}
 			}
 		}
 	}
-	
+
 	> .right {
 		align-self: end;
 		display: flex;
 		align-items: center;
-		
+
 		> .download-app {
 			margin: 0 20px;
-			
+
 			> svg {
 				color: white;
 				transform: scale(2.7) translateY(-2px);
 				transition: opacity 0.3s;
 			}
-			
+
 			&:hover > svg {
 				opacity: 0.5;
 			}
 		}
-		
+
 		> .profile-dropdown,
 		> .auth-button {
 			grid-area: right;
 			margin: 0 raw-repeat(3, 10px);
 		}
-		
+
 		> .profile-dropdown {
 			> .trigger {
 				padding: 10px;
 				background: white;
 				border-radius: 50%;
 				transition: background 0.3s;
-				
+
 				> svg {
 					fill: #582efe;
 					transition: fill 0.3s;
 				}
-				
+
 				&:hover {
 					background: #051e34;
-					
+
 					> svg {
 						fill: white;
 					}
 				}
 			}
-			
+
 			> .content {
 				width: 400px;
 				padding: 20px;
 				background: white;
-				
+
 				&,
 				> .settings,
 				> .settings > .name-input,
 				> button {
 					border-radius: 4px;
 				}
-				
+
 				> .settings,
 				> button {
 					width: 100%;
 				}
-				
+
 				> .settings,
 				> .forgot-password {
 					border: 1px solid #ddd;
 				}
-				
+
 				> .settings {
 					display: flex;
 					flex-direction: column;
 					padding: 20px 16px;
-					
+
 					> label {
 						margin-bottom: 4px;
 						font-size: 14px;
 						font-weight: bold;
 						color: #9b9b9b;
-						
+
 						&:not(:first-child) {
 							margin-top: 14px;
 						}
 					}
-					
+
 					> .name-input,
 					> .email,
 					> .api-key {
 						color: $dark-gray;
 					}
-					
+
 					> .name-input,
 					> .api-key {
 						padding: 8px 10px;
 						background: transparentize(#f0f1f8, 1 / 3);
 					}
-					
+
 					> .email {
 						margin-top: -4px;
 						font-size: 17px;
 					}
-					
+
 					> .api-key {
 						overflow-x: auto;
 						white-space: nowrap;
@@ -189,18 +189,18 @@
 						border-radius: 4px;
 					}
 				}
-				
+
 				> .forgot-password,
 				> .sign-out {
 					height: 40px;
 					margin-top: 12px;
 					font-weight: bold;
 				}
-				
+
 				> .forgot-password {
 					color: #4355f9;
 					transition: color 0.3s, background 0.3s, border 0.3s;
-					
+
 					&:hover,
 					&:focus {
 						color: white;
@@ -208,36 +208,36 @@
 						border: none;
 					}
 				}
-				
+
 				> .sign-out {
 					color: white;
 					background: #f55d23;
 					transition: background 0.3s;
-					
+
 					&:hover,
 					&:hover {
 						background: #051e34;
 					}
 				}
-				
+
 				> .footer-label {
 					display: block;
 					margin-top: 16px;
 					font-weight: 900;
 					color: $dark-gray;
 				}
-				
+
 				> .footer-info {
 					margin-top: 2px;
 					color: $dark-gray;
-					
+
 					> a,
 					> button {
 						vertical-align: initial;
 						font-weight: bold;
 						color: #007aff;
 						transition: opacity 0.3s;
-						
+
 						&:hover {
 							opacity: 0.5;
 						}
@@ -245,7 +245,7 @@
 				}
 			}
 		}
-		
+
 		> .auth-button {
 			margin-right: 14px;
 			padding: 8px 14px;
@@ -256,25 +256,25 @@
 			border-radius: 8px;
 			white-space: nowrap;
 			transition: color 0.3s, background 0.3s;
-			
+
 			> p {
 				display: none;
-				
+
 				@media (min-width: 600px) {
 					display: initial;
 				}
-				
+
 				> span {
 					opacity: 0.7;
 				}
 			}
-			
+
 			> svg {
 				@media (min-width: 600px) {
 					display: none;
 				}
 			}
-			
+
 			&:hover,
 			&:focus {
 				color: #051e34;

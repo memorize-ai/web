@@ -6,9 +6,10 @@ import { CardDraft, CardDraftUpdateObject } from 'models/Card'
 
 export type AddCardsState = CardDraft[]
 
-export type AddCardsAction = OptionalAction< // AddCardsAdd, AddCardsRemoveAll
+export type AddCardsAction = OptionalAction<
+	// AddCardsAdd, AddCardsRemoveAll
 	| CardDraft[] // AddCardsSet
-	| { id: string, card: CardDraftUpdateObject } // AddCardsUpdate
+	| { id: string; card: CardDraftUpdateObject } // AddCardsUpdate
 	| string // AddCardsRemove
 >
 
@@ -24,10 +25,8 @@ const reducer = (cards: AddCardsState, { type, payload }: AddCardsAction) => {
 	switch (type) {
 		case ActionType.AddCardsSet: {
 			const cards = payload as CardDraft[]
-			
-			return cards.length
-				? cards
-				: initialState
+
+			return cards.length ? cards : initialState
 		}
 		case ActionType.AddCardsAdd:
 			return [...cards, createEmptyCard()]
@@ -36,20 +35,16 @@ const reducer = (cards: AddCardsState, { type, payload }: AddCardsAction) => {
 				id: string
 				card: CardDraftUpdateObject
 			}
-			
+
 			return cards.map(card =>
-				card.id === id
-					? { ...card, ...updateObject }
-					: card
+				card.id === id ? { ...card, ...updateObject } : card
 			)
 		}
 		case ActionType.AddCardsRemove: {
 			const id = payload as string
 			const remainingCards = cards.filter(card => card.id !== id)
-			
-			return remainingCards.length
-				? remainingCards
-				: initialState
+
+			return remainingCards.length ? remainingCards : initialState
 		}
 		case ActionType.AddCardsRemoveAll:
 			return initialState

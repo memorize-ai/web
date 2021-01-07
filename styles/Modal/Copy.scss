@@ -3,7 +3,7 @@
 
 @include modal-content('copy') {
 	$margin: 20px;
-	
+
 	display: flex;
 	flex-direction: column;
 	width: 100vw;
@@ -12,47 +12,47 @@
 	margin: $margin;
 	background: white;
 	border-radius: 8px;
-	
+
 	> .top {
 		padding: 20px 30px;
 		color: white;
 		background: linear-gradient(10deg, #5a2aff, #00e5f4);
-		
+
 		> .header {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			
+
 			> .title {
 				font-size: 30px;
 				font-weight: 900;
 			}
-			
+
 			> .hide {
 				margin: 0 8px;
 				transform: scale(2);
 				transition: opacity 0.3s;
-				
+
 				&:hover {
 					opacity: 0.5;
 				}
 			}
 		}
-		
+
 		> .message {
 			margin-top: 6px;
 			font-weight: bold;
-			
+
 			> b {
 				font-weight: 900;
 			}
 		}
-		
+
 		> .tabs {
 			display: flex;
 			align-items: center;
 			margin-top: 10px;
-			
+
 			> button {
 				padding: 0 10px 1px;
 				font-size: 20px;
@@ -61,27 +61,27 @@
 				opacity: 0.8;
 				border-bottom: 2px solid transparent;
 				transition: opacity 0.3s, border-color 0.3s;
-				
+
 				&.selected {
 					opacity: 1;
 					border-color: white;
 				}
-				
+
 				&:not(.selected):hover {
 					opacity: 1;
 					border-color: transparentize(white, 0.5);
 				}
-				
+
 				&:not(:last-child) {
 					margin-right: 12px;
 				}
 			}
 		}
 	}
-	
+
 	> form {
 		padding: 30px;
-		
+
 		> .text {
 			display: flex;
 			align-items: center;
@@ -91,13 +91,13 @@
 			padding: 0 30px;
 			background: transparentize(#f0f1f8, 0.32);
 			border-radius: 100px;
-			
+
 			> svg {
 				margin-right: 12px;
 				color: #5a2aff;
 				transform: scale(1.2);
 			}
-			
+
 			> p {
 				overflow-x: auto;
 				white-space: nowrap;
@@ -108,7 +108,7 @@
 				transform: translateY(1px);
 			}
 		}
-		
+
 		> button {
 			display: block;
 			width: 110px;
@@ -120,15 +120,15 @@
 			background: #5a2aff;
 			border-radius: 100px;
 			transition: width 0.3s, background 0.3s;
-			
+
 			&.copied {
 				width: 134px;
-				
+
 				&:not(:hover) {
 					background: #00d388;
 				}
 			}
-			
+
 			&:hover,
 			&:focus {
 				background: #051e34;

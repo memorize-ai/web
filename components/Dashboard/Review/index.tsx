@@ -2,7 +2,9 @@ import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
 
 import useReviewState from './useReviewState'
-import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import Dashboard, {
+	DashboardNavbarSelection as Selection
+} from 'components/Dashboard'
 import Head from 'components/Head'
 import Navbar from './Navbar'
 import CardContainer from './CardContainer'
@@ -10,7 +12,7 @@ import Footer from './Footer'
 import ProgressModal from './ProgressModal'
 import RecapModal from './RecapModal'
 
-interface ReviewQuery extends ParsedUrlQuery{
+interface ReviewQuery extends ParsedUrlQuery {
 	slugId?: string
 	slug?: string
 	sectionId?: string
@@ -39,11 +41,9 @@ const Review = () => {
 		setIsRecapModalShowing,
 		showRecap
 	} = useReviewState(slugId, slug, sectionId)
-	
-	const backUrl = slugId && slug
-		? `/decks/${slugId}/${slug}`
-		: '/'
-	
+
+	const backUrl = slugId && slug ? `/decks/${slugId}/${slug}` : '/'
+
 	return (
 		<Dashboard
 			selection={Selection.Decks}

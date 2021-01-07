@@ -35,61 +35,55 @@ export interface DeckPageHeaderProps {
 const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 	const isSignedIn = useLayoutAuthState()
 	const [currentUser] = useCurrentUser()
-	
+
 	const contactLoadingState = useContactUserLoadingState(creator)
-	
+
 	const {
 		setIsShowing: setIsAuthModalShowing,
 		setCallback: setAuthModalCallback
 	} = useAuthModal()
-	
+
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
-	const [isContactUserModalShowing, setIsContactUserModalShowing] = useState(false)
-	
+	const [isContactUserModalShowing, setIsContactUserModalShowing] = useState(
+		false
+	)
+
 	const creatorLevel = formatNumber(creator.level ?? 0)
-	
+
 	const showContactUserModal = useCallback(() => {
-		(isSignedIn
-			? setIsContactUserModalShowing
-			: setIsAuthModalShowing
-		)(true)
+		;(isSignedIn ? setIsContactUserModalShowing : setIsAuthModalShowing)(true)
 	}, [isSignedIn, setIsContactUserModalShowing, setIsAuthModalShowing])
-	
+
 	const get = useCallback(() => {
 		const callback = async (user: User) => {
 			try {
 				setGetLoadingState(LoadingState.Loading)
-				
+
 				await deck.get(user.id)
-				
+
 				setGetLoadingState(LoadingState.Success)
-				
+
 				Router.push(`/decks/${deck.slugId}/${deck.slug}`)
 			} catch (error) {
 				setGetLoadingState(LoadingState.Fail)
 				handleError(error)
 			}
 		}
-		
-		if (currentUser)
-			callback(currentUser)
+
+		if (currentUser) callback(currentUser)
 		else {
 			setIsAuthModalShowing(true)
 			setAuthModalCallback(callback)
 		}
 	}, [setIsAuthModalShowing, setAuthModalCallback, currentUser, deck])
-	
+
 	return (
 		<div className="header">
 			<img src={deck.imageUrl ?? defaultImage} alt={deck.name} />
 			<div className="content">
-				<h1 className="name">
-					{deck.name}
-				</h1>
-				<p className="subtitle">
-					{deck.subtitle}
-				</p>
+				<h1 className="name">{deck.name}</h1>
+				<p className="subtitle">{deck.subtitle}</p>
 				<div className="creator">
 					<Svg src={user} />
 					<p>{creator.name}</p>
@@ -101,26 +95,23 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 					</p>
 				</div>
 				<div className="buttons">
-					{hasDeck
-						? (
-							<Link href={`/decks/${deck.slugId}/${deck.slug}`}>
-								<a className="open">Open</a>
-							</Link>
-						)
-						: (
-							<Button
-								className="get"
-								loaderSize="16px"
-								loaderThickness="3px"
-								loaderColor="white"
-								loading={getLoadingState === LoadingState.Loading}
-								disabled={false}
-								onClick={get}
-							>
-								Get
-							</Button>
-						)
-					}
+					{hasDeck ? (
+						<Link href={`/decks/${deck.slugId}/${deck.slug}`}>
+							<a className="open">Open</a>
+						</Link>
+					) : (
+						<Button
+							className="get"
+							loaderSize="16px"
+							loaderThickness="3px"
+							loaderColor="white"
+							loading={getLoadingState === LoadingState.Loading}
+							disabled={false}
+							onClick={get}
+						>
+							Get
+						</Button>
+					)}
 					<div className="secondary">
 						{contactLoadingState === LoadingState.Fail || (
 							<button
@@ -128,10 +119,11 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 								disabled={contactLoadingState !== LoadingState.Success}
 								onClick={showContactUserModal}
 							>
-								{contactLoadingState === LoadingState.Loading
-									? <Loader size="20px" thickness="4px" color="white" />
-									: <FontAwesomeIcon icon={faComments} />
-								}
+								{contactLoadingState === LoadingState.Loading ? (
+									<Loader size="20px" thickness="4px" color="white" />
+								) : (
+									<FontAwesomeIcon icon={faComments} />
+								)}
 								<p>Chat</p>
 							</button>
 						)}
@@ -161,12 +153,15 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 				</a>
 				<div className="divider" />
 				<a className="cards" href="#cards">
-					{formatNumber(deck.numberOfCards)} card{deck.numberOfCards === 1 ? '' : 's'}
+					{formatNumber(deck.numberOfCards)} card
+					{deck.numberOfCards === 1 ? '' : 's'}
 				</a>
 				<div className="divider" />
 				<a className="comments" href="#comments">
 					<FontAwesomeIcon icon={faComments} />
-					<p>(<CommentCount {...deck.disqusProps} />)</p>
+					<p>
+						(<CommentCount {...deck.disqusProps} />)
+					</p>
 				</a>
 			</div>
 			<ContactUserModal

@@ -5,7 +5,7 @@ const firestore = firebase.firestore()
 
 const getQuery = (limit: number | null) => {
 	const collection = firestore.collection('decks')
-	
+
 	return limit === null
 		? collection
 		: collection.orderBy('currentUserCount', 'desc').limit(limit)

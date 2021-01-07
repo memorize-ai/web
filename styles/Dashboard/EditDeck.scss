@@ -4,7 +4,7 @@
 @include dashboard-content('edit-deck') {
 	> .header {
 		$height: 42px;
-		
+
 		> .close {
 			display: grid;
 			justify-content: center;
@@ -14,19 +14,19 @@
 			margin-right: 12px;
 			border: 1.5px solid transparentize(#eee, 0.8376);
 			border-radius: 8px;
-			
+
 			> svg {
 				color: white;
 				transform: scale(1.3);
 				transition: opacity 0.3s;
 			}
-			
+
 			&:hover > svg {
 				opacity: 0.5;
 			}
 		}
 	}
-	
+
 	> .content > .box.loading {
 		display: grid;
 		justify-content: center;

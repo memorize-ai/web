@@ -37,7 +37,7 @@ const Preview = ({ deck }: PreviewProps) => {
 		rate,
 		waitForRating
 	} = usePreview(deck)
-	
+
 	return (
 		<div id="preview" className="preview" onClick={waitForRating}>
 			<div className="background" />
@@ -59,32 +59,27 @@ const Preview = ({ deck }: PreviewProps) => {
 					<div className={cx('location', { hidden: !cardsRemaining })}>
 						<p className="deck">{deck.name}</p>
 						<div className="divider" />
-						{section && (
-							<p className="section">{section.name}</p>
-						)}
-						{card && !card.forgotCount && (
-							<p className="flag">New</p>
-						)}
+						{section && <p className="section">{section.name}</p>}
+						{card && !card.forgotCount && <p className="flag">New</p>}
 					</div>
 					<div className="cards" onClick={onCardClick}>
 						{card && (
-							<div className={cx(
-								'card',
-								'foreground',
-								cardClassName,
-								{ 'waiting-for-flip': !isWaitingForRating }
-							)}>
+							<div
+								className={cx('card', 'foreground', cardClassName, {
+									'waiting-for-flip': !isWaitingForRating
+								})}
+							>
 								<div className="container">
-									<CardSide className="content">
-										{card[currentSide]}
-									</CardSide>
+									<CardSide className="content">{card[currentSide]}</CardSide>
 									{isWaitingForRating && (
 										<div className="flip">
 											<p>{currentSide}</p>
 											<Svg
 												src={toggle}
 												viewBox={`0 0 ${toggle.width} ${toggle.height}`}
-												style={{ transform: `scale(3) rotate(${toggleTurns}turn)` }}
+												style={{
+													transform: `scale(3) rotate(${toggleTurns}turn)`
+												}}
 											/>
 										</div>
 									)}
@@ -94,22 +89,20 @@ const Preview = ({ deck }: PreviewProps) => {
 						{nextCard && (
 							<div className="card next">
 								<div className="container">
-									<CardSide className="content">
-										{nextCard.front}
-									</CardSide>
+									<CardSide className="content">{nextCard.front}</CardSide>
 								</div>
 							</div>
 						)}
-						<div className={cx(
-							'card',
-							'background-1',
-							{ hidden: cardsRemaining < 2 }
-						)} />
-						<div className={cx(
-							'card',
-							'background-2',
-							{ hidden: cardsRemaining < 3 }
-						)} />
+						<div
+							className={cx('card', 'background-1', {
+								hidden: cardsRemaining < 2
+							})}
+						/>
+						<div
+							className={cx('card', 'background-2', {
+								hidden: cardsRemaining < 3
+							})}
+						/>
 						<div className="completion">
 							<span className="emoji" role="img" aria-label="All done">
 								😌
@@ -118,11 +111,13 @@ const Preview = ({ deck }: PreviewProps) => {
 								Sign up to get <em>detailed performance insights</em>
 							</h3>
 							<h4 className="subtitle">
-								You ranked {
-									ranking === null
-										? <Loader size="20px" thickness="4px" color="white" />
-										: rankingToString(ranking)
-								} place in <em>{deck.name}!</em>
+								You ranked{' '}
+								{ranking === null ? (
+									<Loader size="20px" thickness="4px" color="white" />
+								) : (
+									rankingToString(ranking)
+								)}{' '}
+								place in <em>{deck.name}!</em>
 							</h4>
 							<div className="confetti">
 								<Confetti

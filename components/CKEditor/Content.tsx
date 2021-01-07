@@ -9,15 +9,23 @@ export interface CKEditorProps {
 }
 
 const CKEditor = ({ uploadUrl, data, setData }: CKEditorProps) => {
-	const config = useMemo(() => ({
-		simpleUpload: { uploadUrl }
-	}), [uploadUrl])
-	
-	const onChange = useCallback((_event, editor) => {
-		setData(editor.getData())
-	}, [setData])
-	
-	return <Base editor={Editor} data={data} config={config} onChange={onChange} />
+	const config = useMemo(
+		() => ({
+			simpleUpload: { uploadUrl }
+		}),
+		[uploadUrl]
+	)
+
+	const onChange = useCallback(
+		(_event, editor) => {
+			setData(editor.getData())
+		},
+		[setData]
+	)
+
+	return (
+		<Base editor={Editor} data={data} config={config} onChange={onChange} />
+	)
 }
 
 export default CKEditor

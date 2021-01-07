@@ -29,26 +29,26 @@ body {
 	margin: 0;
 	overflow-x: hidden;
 	overscroll-behavior: none;
-	
+
 	&,
 	.ck.ck-editor * {
 		font-family: $font-family;
 	}
-	
+
 	::before,
 	::after {
 		font-family: $font-family !important;
 	}
-	
+
 	&.clipped,
 	&.modal-showing {
 		overflow: hidden;
 	}
-	
+
 	&.hide-chat {
 		@include hide-chat;
 	}
-	
+
 	&,
 	*,
 	::before,
@@ -287,7 +287,8 @@ pre,
 code,
 kbd,
 samp {
-	font-family: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
+	font-family: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+		monospace !important;
 }
 
 img,

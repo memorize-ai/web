@@ -9,17 +9,20 @@ export interface RemoveDeckModalProps extends ModalShowingProps {
 	deck: Deck | null
 }
 
-const RemoveDeckModal = ({ deck, isShowing, setIsShowing }: RemoveDeckModalProps) => {
+const RemoveDeckModal = ({
+	deck,
+	isShowing,
+	setIsShowing
+}: RemoveDeckModalProps) => {
 	const [currentUser] = useCurrentUser()
-	
+
 	const onConfirm = useCallback(() => {
-		if (!(deck && currentUser))
-			return
-		
+		if (!(deck && currentUser)) return
+
 		deck.remove(currentUser.id)
 		setIsShowing(false)
 	}, [deck, currentUser, setIsShowing])
-	
+
 	return (
 		<ConfirmationModal
 			title="Remove deck from library"

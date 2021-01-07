@@ -31,35 +31,35 @@ const ConfirmationForm = ({
 	const [submitButtonWidth, setSubmitButtonWidth] = useState(
 		undefined as number | undefined
 	)
-	
-	const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault()
-		initialOnSubmit()
-	}, [initialOnSubmit])
-	
-	const onSubmitButtonRef = useCallback((button: HTMLButtonElement | null) => {
-		setSubmitButtonWidth(button?.clientWidth)
-	}, [setSubmitButtonWidth])
-	
+
+	const onSubmit = useCallback(
+		(event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault()
+			initialOnSubmit()
+		},
+		[initialOnSubmit]
+	)
+
+	const onSubmitButtonRef = useCallback(
+		(button: HTMLButtonElement | null) => {
+			setSubmitButtonWidth(button?.clientWidth)
+		},
+		[setSubmitButtonWidth]
+	)
+
 	return (
 		<div className="confirmation-form">
 			<Head
 				url={url}
 				title={`${title} | memorize.ai`}
 				description={description}
-				breadcrumbs={url => [
-					[{ name: title, url }]
-				]}
+				breadcrumbs={url => [[{ name: title, url }]]}
 			/>
 			<div className="content">
-				<h1 className="title">
-					{submitMessage}
-				</h1>
+				<h1 className="title">{submitMessage}</h1>
 				{children}
 				<form onSubmit={onSubmit}>
-					<p className="submit-message">
-						Are you sure?
-					</p>
+					<p className="submit-message">Are you sure?</p>
 					<button
 						ref={onSubmitButtonRef}
 						className={cx('submit-button', {

@@ -13,7 +13,8 @@ export interface AuthModalState {
 
 export type AuthModalAction = Action<
 	| boolean // SetAuthModalIsShowing
-	| ((user: User) => void) | null // SetAuthModalCallback
+	| ((user: User) => void)
+	| null // SetAuthModalCallback
 	| AuthenticationMode // SetAuthModalMode
 	| number // SetAuthModalInitialXp
 >
@@ -30,7 +31,10 @@ const reducer = (state: AuthModalState, { type, payload }: AuthModalAction) => {
 		case ActionType.SetAuthModalIsShowing:
 			return { ...state, isShowing: payload as boolean }
 		case ActionType.SetAuthModalCallback:
-			return { ...state, callback: payload as ((user: User) => void) | null }
+			return {
+				...state,
+				callback: payload as ((user: User) => void) | null
+			}
 		case ActionType.SetAuthModalMode:
 			return { ...state, mode: payload as AuthenticationMode }
 		case ActionType.SetAuthModalInitialXp:

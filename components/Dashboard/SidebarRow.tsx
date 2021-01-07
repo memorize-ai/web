@@ -9,9 +9,9 @@ import { src as defaultImage } from 'images/logos/icon.jpg'
 
 const DashboardSidebarRow = ({ deck }: { deck: Deck }) => {
 	const [selectedDeck] = useSelectedDeck()
-	
+
 	const numberOfDueCards = deck.userData?.numberOfDueCards ?? 0
-	
+
 	return (
 		<Link href={`/decks/${deck.slugId}/${deck.slug}`}>
 			<a className={cx({ selected: selectedDeck?.id === deck.id })}>
@@ -20,13 +20,9 @@ const DashboardSidebarRow = ({ deck }: { deck: Deck }) => {
 					alt={deck.name}
 					loading="lazy"
 				/>
-				<span className="title">
-					{deck.name}
-				</span>
+				<span className="title">{deck.name}</span>
 				{numberOfDueCards > 0 && (
-					<span className="badge">
-						{formatNumber(numberOfDueCards)}
-					</span>
+					<span className="badge">{formatNumber(numberOfDueCards)}</span>
 				)}
 			</a>
 		</Link>

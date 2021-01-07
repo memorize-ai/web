@@ -25,21 +25,21 @@ export interface UserData {
 export default class User {
 	static didInitialize = false
 	static creatorObservers: Record<string, boolean> = {}
-	
+
 	isObserving = false
-	
+
 	id: string
 	name: string | null
 	email: string | null
 	allowContact: boolean | null
 	isMuted: boolean | null
 	apiKey: string | null
-	
+
 	numberOfDecks: number | null
 	xp: number | null
 	interestIds: string[] | null
 	allDecks: string[] | null
-	
+
 	constructor(data: UserData) {
 		this.id = data.id
 		this.name = data.name
@@ -52,7 +52,7 @@ export default class User {
 		this.interestIds = data.interests
 		this.allDecks = data.allDecks
 	}
-	
+
 	static fromFirebaseUser = (user: firebase.User) =>
 		new User({
 			id: user.uid,
@@ -66,11 +66,14 @@ export default class User {
 			interests: null,
 			allDecks: null
 		})
-	
+
 	static fromSnapshot = (snapshot: SnapshotLike) =>
 		new User(User.dataFromSnapshot(snapshot))
-	
-	static dataFromSnapshot = (snapshot: SnapshotLike, fromServer = false): UserData => ({
+
+	static dataFromSnapshot = (
+		snapshot: SnapshotLike,
+		fromServer = false
+	): UserData => ({
 		id: snapshot.id,
 		name: snapshot.get('name') ?? '(error)',
 		email: fromServer ? null : snapshot.get('email') ?? '(error)',
@@ -82,24 +85,24 @@ export default class User {
 		interests: snapshot.get('topics') ?? [],
 		allDecks: fromServer ? null : snapshot.get('allDecks') ?? []
 	})
-	
-	static initialize = (
-		{ setCurrentUser, setCurrentUserLoadingState }: {
-			setCurrentUser: (user: firebase.User | null) => void
-			setCurrentUserLoadingState: (loadingState: LoadingState) => void
-		}
-	) => {
+
+	static initialize = ({
+		setCurrentUser,
+		setCurrentUserLoadingState
+	}: {
+		setCurrentUser: (user: firebase.User | null) => void
+		setCurrentUserLoadingState: (loadingState: LoadingState) => void
+	}) => {
 		setCurrentUserLoadingState(LoadingState.Loading)
-		
+
 		auth.onAuthStateChanged(
 			user => {
 				setCurrentUser(user)
 				setCurrentUserLoadingState(LoadingState.Success)
-				
+
 				setExpectsSignIn(Boolean(user))
-				
-				if (user)
-					hubSpotIdentifyUser(user)
+
+				if (user) hubSpotIdentifyUser(user)
 			},
 			error => {
 				setCurrentUserLoadingState(LoadingState.Fail)
@@ -107,22 +110,28 @@ export default class User {
 			}
 		)
 	}
-	
+
 	static loadCreatorForDeckWithId = (
 		uid: string,
-		{ updateCreator, removeCreator }: {
-			updateCreator: (uid: string, snapshot: firebase.firestore.DocumentSnapshot) => void
+		{
+			updateCreator,
+			removeCreator
+		}: {
+			updateCreator: (
+				uid: string,
+				snapshot: firebase.firestore.DocumentSnapshot
+			) => void
 			removeCreator: (uid: string) => void
 		}
 	) =>
-		firestore.doc(`users/${uid}`).onSnapshot(
-			snapshot =>
-				snapshot.exists
-					? updateCreator(uid, snapshot)
-					: removeCreator(uid),
-			handleError
-		)
-	
+		firestore
+			.doc(`users/${uid}`)
+			.onSnapshot(
+				snapshot =>
+					snapshot.exists ? updateCreator(uid, snapshot) : removeCreator(uid),
+				handleError
+			)
+
 	static xpNeededForLevel = (level: number): number => {
 		switch (level) {
 			case 0:
@@ -139,76 +148,73 @@ export default class User {
 				return User.xpNeededForLevel(level - 1) + 25 * (level - 4)
 		}
 	}
-	
+
 	static levelForXP = (xp: number) => {
-		for (let level = 1;; level++)
-			if (xp < User.xpNeededForLevel(level))
-				return level - 1
+		for (let level = 1; ; level++)
+			if (xp < User.xpNeededForLevel(level)) return level - 1
 	}
-	
+
 	get level() {
 		return this.xp === null ? null : User.levelForXP(this.xp ?? 0)
 	}
-	
+
 	get percentToNextLevel() {
-		if (this.xp === null || this.level === null)
-			return null
-		
+		if (this.xp === null || this.level === null) return null
+
 		const xpNeededForCurrentLevel = User.xpNeededForLevel(this.level)
-		
+
 		return (
 			(this.xp - xpNeededForCurrentLevel) /
 			(User.xpNeededForLevel(this.level + 1) - xpNeededForCurrentLevel)
 		)
 	}
-	
-	observe = (
-		{ updateCurrentUser, setIsObservingCurrentUser }: {
-			updateCurrentUser: (snapshot: firebase.firestore.DocumentSnapshot) => void
-			setIsObservingCurrentUser: (value: boolean) => void
-		}
-	) => {
+
+	observe = ({
+		updateCurrentUser,
+		setIsObservingCurrentUser
+	}: {
+		updateCurrentUser: (snapshot: firebase.firestore.DocumentSnapshot) => void
+		setIsObservingCurrentUser: (value: boolean) => void
+	}) => {
 		setIsObservingCurrentUser(true)
-		
-		firestore.doc(`users/${this.id}`).onSnapshot(
-			updateCurrentUser,
-			handleError
-		)
-		
+
+		firestore.doc(`users/${this.id}`).onSnapshot(updateCurrentUser, handleError)
+
 		return this
 	}
-	
+
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
 		this.allowContact = snapshot.get('allowContact') ?? true
 		this.isMuted = snapshot.get('muted') ?? false
 		this.apiKey = snapshot.get('apiKey') ?? null
-		
+
 		this.numberOfDecks = snapshot.get('deckCount') ?? 0
 		this.xp = snapshot.get('xp') ?? 0
 		this.interestIds = snapshot.get('topics') ?? []
 		this.allDecks = snapshot.get('allDecks') ?? []
-		
+
 		return this
 	}
-	
+
 	updateName = (name: string) =>
-		Promise.all([
-			firestore.doc(`users/${this.id}`).update({ name }),
-			auth.currentUser?.updateProfile({ displayName: name })
-		].filter(Boolean))
-	
+		Promise.all(
+			[
+				firestore.doc(`users/${this.id}`).update({ name }),
+				auth.currentUser?.updateProfile({ displayName: name })
+			].filter(Boolean)
+		)
+
 	toggleInterest = (id: string) => {
-		if (!this.interestIds)
-			return this
-		
+		if (!this.interestIds) return this
+
 		firestore.doc(`users/${this.id}`).update({
 			topics: this.interestIds.includes(id)
 				? firebase.firestore.FieldValue.arrayRemove(id)
 				: firebase.firestore.FieldValue.arrayUnion(id)
 		})
-		
+
 		return this
 	}
 }

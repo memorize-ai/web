@@ -4,9 +4,7 @@ import CardSide from 'components/CardSide'
 const CardCellBase = ({ card }: { card: Card }) => (
 	<div className="sides">
 		<div className="side">
-			<CardSide itemProp="name">
-				{card.front}
-			</CardSide>
+			<CardSide itemProp="name">{card.front}</CardSide>
 			<p>Front</p>
 		</div>
 		<div className="divider" />

@@ -14,18 +14,22 @@ import Card from 'models/Card'
 import useCurrentUser from './useCurrentUser'
 import { compose } from 'lib/utils'
 
-const useCards = (deck: Deck, section: Section, shouldLoadCards: boolean): Card[] | null => {
+const useCards = (
+	deck: Deck,
+	section: Section,
+	shouldLoadCards: boolean
+): Card[] | null => {
 	const [state, dispatch] = useContext(CardsContext)
-	
+
 	const [currentUser] = useCurrentUser()
 	const cards = state[section.id] as Card[]
-	
+
 	useEffect(() => {
 		if (!shouldLoadCards || Card.observers[section.id] || cards || !currentUser)
 			return
-		
+
 		Card.observers[section.id] = true
-		
+
 		Card.observe({
 			deckId: deck.id,
 			sectionId: section.id,
@@ -37,7 +41,7 @@ const useCards = (deck: Deck, section: Section, shouldLoadCards: boolean): Card[
 			removeCard: compose(dispatch, removeCard)
 		})
 	}, [deck.id, section.id, shouldLoadCards, cards, currentUser, dispatch])
-	
+
 	return cards ?? null
 }
 

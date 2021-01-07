@@ -10,23 +10,28 @@ import {
 import { compose } from 'lib/utils'
 
 const useAuthModal = () => {
-	const [
-		{ isShowing, callback, mode, initialXp },
-		dispatch
-	] = useContext(AuthModalContext)
-	
+	const [{ isShowing, callback, mode, initialXp }, dispatch] = useContext(
+		AuthModalContext
+	)
+
 	return {
 		isShowing,
-		setIsShowing: useCallback(compose(dispatch, setAuthModalIsShowing), [dispatch]),
-		
+		setIsShowing: useCallback(compose(dispatch, setAuthModalIsShowing), [
+			dispatch
+		]),
+
 		callback,
-		setCallback: useCallback(compose(dispatch, setAuthModalCallback), [dispatch]),
-		
+		setCallback: useCallback(compose(dispatch, setAuthModalCallback), [
+			dispatch
+		]),
+
 		mode,
 		setMode: useCallback(compose(dispatch, setAuthModalMode), [dispatch]),
-		
+
 		initialXp,
-		setInitialXp: useCallback(compose(dispatch, setAuthModalInitialXp), [dispatch])
+		setInitialXp: useCallback(compose(dispatch, setAuthModalInitialXp), [
+			dispatch
+		])
 	}
 }
 

@@ -16,58 +16,78 @@ import 'firebase/functions'
 const functions = firebase.functions()
 const contactUser = functions.httpsCallable('contactUser')
 
-const ContactUserModal = (
-	{ subjectPlaceholder, bodyPlaceholder, user, isShowing, setIsShowing }: {
-		subjectPlaceholder: string
-		bodyPlaceholder: string
-		user: User | null
-	} & ModalShowingProps
-) => {
+const ContactUserModal = ({
+	subjectPlaceholder,
+	bodyPlaceholder,
+	user,
+	isShowing,
+	setIsShowing
+}: {
+	subjectPlaceholder: string
+	bodyPlaceholder: string
+	user: User | null
+} & ModalShowingProps) => {
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
-	
+
 	const [success, setSuccess] = useState(false)
 	const [subject, setSubject] = useState('')
 	const [body, setBody] = useState('')
-	
+
 	const isLoading = loadingState === LoadingState.Loading
 	const isDisabled = !(user && body)
-	
-	const onSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
-		try {
-			event.preventDefault()
-			
-			if (!user || isLoading || isDisabled)
-				return
-			
-			setLoadingState(LoadingState.Loading)
-			setErrorMessage(null)
-			
-			await contactUser({ id: user.id, subject, body })
-			
-			setLoadingState(LoadingState.Success)
-			setSuccess(true)
-			setSubject('')
-			setBody('')
-			
-			await sleep(500)
-			setIsShowing(false)
-			
-			await sleep(300)
-			setSuccess(false)
-			toast.success('Sent!')
-		} catch (error) {
-			console.error(error)
-			
-			setLoadingState(LoadingState.Fail)
-			setErrorMessage(error.message)
-		}
-	}, [isLoading, isDisabled, user, subject, body, setLoadingState, setSubject, setBody, setErrorMessage, setIsShowing])
-	
-	const onBodyRef = useCallback((element: HTMLTextAreaElement | null) => {
-		element?.[isShowing ? 'focus' : 'blur']()
-	}, [isShowing])
-	
+
+	const onSubmit = useCallback(
+		async (event: FormEvent<HTMLFormElement>) => {
+			try {
+				event.preventDefault()
+
+				if (!user || isLoading || isDisabled) return
+
+				setLoadingState(LoadingState.Loading)
+				setErrorMessage(null)
+
+				await contactUser({ id: user.id, subject, body })
+
+				setLoadingState(LoadingState.Success)
+				setSuccess(true)
+				setSubject('')
+				setBody('')
+
+				await sleep(500)
+				setIsShowing(false)
+
+				await sleep(300)
+				setSuccess(false)
+				toast.success('Sent!')
+			} catch (error) {
+				console.error(error)
+
+				setLoadingState(LoadingState.Fail)
+				setErrorMessage(error.message)
+			}
+		},
+		[
+			isLoading,
+			isDisabled,
+			user,
+			subject,
+			body,
+			setLoadingState,
+			setSubject,
+			setBody,
+			setErrorMessage,
+			setIsShowing
+		]
+	)
+
+	const onBodyRef = useCallback(
+		(element: HTMLTextAreaElement | null) => {
+			element?.[isShowing ? 'focus' : 'blur']()
+		},
+		[isShowing]
+	)
+
 	return (
 		<Modal
 			className="contact-user"
@@ -76,13 +96,8 @@ const ContactUserModal = (
 			setIsShowing={setIsShowing}
 		>
 			<div className="top">
-				<h2 className="title">
-					Chat with {user?.name ?? '...'}
-				</h2>
-				<button
-					className="hide"
-					onClick={() => setIsShowing(false)}
-				>
+				<h2 className="title">Chat with {user?.name ?? '...'}</h2>
+				<button className="hide" onClick={() => setIsShowing(false)}>
 					<FontAwesomeIcon icon={faTimes} />
 				</button>
 			</div>
@@ -96,9 +111,7 @@ const ContactUserModal = (
 					value={subject}
 					onChange={({ target: { value } }) => setSubject(value)}
 				/>
-				<label htmlFor="contact-user-modal-body-textarea">
-					Message
-				</label>
+				<label htmlFor="contact-user-modal-body-textarea">Message</label>
 				<textarea
 					id="contact-user-modal-body-textarea"
 					ref={onBodyRef}
@@ -115,14 +128,9 @@ const ContactUserModal = (
 						loading={isLoading}
 						disabled={isDisabled}
 					>
-						{success
-							? <FontAwesomeIcon icon={faCheck} />
-							: 'Send'
-						}
+						{success ? <FontAwesomeIcon icon={faCheck} /> : 'Send'}
 					</Button>
-					<p className="error-message">
-						{errorMessage}
-					</p>
+					<p className="error-message">{errorMessage}</p>
 				</div>
 			</form>
 		</Modal>

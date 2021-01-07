@@ -20,25 +20,24 @@ interface RestrictContactQuery extends ParsedUrlQuery {
 const RestrictContact: NextPage<RestrictContactQuery> = () => {
 	const { id } = useRouter().query as RestrictContactQuery
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
-	
+
 	const onSubmit = useCallback(async () => {
-		if (!id)
-			return
-		
+		if (!id) return
+
 		try {
 			setLoadingState(LoadingState.Loading)
-			
+
 			await firestore.doc(`users/${id}`).update({
 				allowContact: false
 			})
-			
+
 			setLoadingState(LoadingState.Success)
 		} catch (error) {
 			setLoadingState(LoadingState.Fail)
 			handleError(error)
 		}
 	}, [id, setLoadingState])
-	
+
 	return (
 		<ConfirmationForm
 			title="Stop receiving messages"
@@ -51,16 +50,17 @@ const RestrictContact: NextPage<RestrictContactQuery> = () => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps<Record<string, never>, RestrictContactQuery> = async ({ params }) => {
-	if (!params)
-		return { notFound: true }
-	
+export const getServerSideProps: GetServerSideProps<
+	Record<string, never>,
+	RestrictContactQuery
+> = async ({ params }) => {
+	if (!params) return { notFound: true }
+
 	const firestore = admin.firestore()
 	const user = await firestore.doc(`users/${params.id}`).get()
-	
-	if (!user.exists)
-		return { notFound: true }
-	
+
+	if (!user.exists) return { notFound: true }
+
 	return { props: {} }
 }
 

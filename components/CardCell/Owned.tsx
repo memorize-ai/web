@@ -17,17 +17,19 @@ import pencil from 'images/icons/pencil.svg'
 TimeAgo.addLocale(enLocale)
 const timeAgo = new TimeAgo('en-US')
 
-const OwnedCardCellContent = (
-	{ currentUser, deck, card }: {
-		currentUser: User
-		deck: Deck
-		card: Card
-	}
-) => {
+const OwnedCardCellContent = ({
+	currentUser,
+	deck,
+	card
+}: {
+	currentUser: User
+	deck: Deck
+	card: Card
+}) => {
 	const { isDue, userData } = card
 	const isOwner = currentUser?.id === deck.creatorId
 	const isNew = userData?.isNew ?? true
-	
+
 	return (
 		<>
 			<Base card={card} />
@@ -35,9 +37,7 @@ const OwnedCardCellContent = (
 			{(userData || isOwner) && (
 				<div className={cx('footer', { 'has-user-data': userData })}>
 					{userData && (
-						<p className="due-date">
-							Due {timeAgo.format(userData?.dueDate)}
-						</p>
+						<p className="due-date">Due {timeAgo.format(userData?.dueDate)}</p>
 					)}
 					{isOwner && (
 						<div className="edit-message">
@@ -47,15 +47,14 @@ const OwnedCardCellContent = (
 					)}
 					{userData && (
 						<p className={cx('stats', { new: isNew })}>
-							{isNew
-								? 'You haven\'t seen this card before'
-								: (
-									<>
-										<FontAwesomeIcon icon={faBolt} />
-										{userData?.streak ?? 1}x streak
-									</>
-								)
-							}
+							{isNew ? (
+								"You haven't seen this card before"
+							) : (
+								<>
+									<FontAwesomeIcon icon={faBolt} />
+									{userData?.streak ?? 1}x streak
+								</>
+							)}
 						</p>
 					)}
 				</div>
@@ -64,31 +63,28 @@ const OwnedCardCellContent = (
 	)
 }
 
-const OwnedCardCell = ({ deck, card }: { deck: Deck, card: Card }) => {
+const OwnedCardCell = ({ deck, card }: { deck: Deck; card: Card }) => {
 	const [currentUser] = useCurrentUser()
 	const isOwner = currentUser?.id === deck.creatorId
-	
-	if (!currentUser)
-		return null
-	
+
+	if (!currentUser) return null
+
 	const containerProps = {
 		className: cx('card-cell', 'owned', { owner: isOwner })
 	}
 	const contentProps = { currentUser, deck, card }
-	
-	return isOwner
-		? (
-			<Link href={`/decks/${deck.slugId}/${deck.slug}/edit/${card.id}`}>
-				<a {...containerProps}>
-					<OwnedCardCellContent {...contentProps} />
-				</a>
-			</Link>
-		)
-		: (
-			<div {...containerProps}>
+
+	return isOwner ? (
+		<Link href={`/decks/${deck.slugId}/${deck.slug}/edit/${card.id}`}>
+			<a {...containerProps}>
 				<OwnedCardCellContent {...contentProps} />
-			</div>
-		)
+			</a>
+		</Link>
+	) : (
+		<div {...containerProps}>
+			<OwnedCardCellContent {...contentProps} />
+		</div>
+	)
 }
 
 export default OwnedCardCell

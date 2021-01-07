@@ -3,7 +3,7 @@
 
 .input {
 	position: relative;
-	
+
 	> svg {
 		position: absolute;
 		left: 12px;
@@ -11,7 +11,7 @@
 		pointer-events: none;
 		color: $gray-300;
 	}
-	
+
 	> input {
 		width: 100%;
 		padding: raw-repeat(3, 6px) 2.25em;
@@ -19,18 +19,18 @@
 		border: 2px solid $gray-300;
 		border-radius: 0.25rem;
 		outline: none;
-		
+
 		&:hover {
 			border-color: $gray-400;
-			
+
 			+ svg {
 				color: $gray-400;
 			}
 		}
-		
+
 		&:focus {
 			border-color: $blue-400;
-			
+
 			+ svg {
 				color: $blue-400;
 			}

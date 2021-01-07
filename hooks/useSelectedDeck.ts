@@ -7,7 +7,7 @@ import { compose } from 'lib/utils'
 const useSelectedDeck = () => {
 	const [{ selectedDeck }, dispatch] = useContext(DecksContext)
 	const setDeck = useCallback(compose(dispatch, setSelectedDeck), [dispatch])
-	
+
 	return [selectedDeck, setDeck] as const
 }
 

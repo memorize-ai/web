@@ -9,7 +9,10 @@ import Section from 'models/Section'
 import Card from 'models/Card'
 import Topic from 'models/Topic'
 import Counters, { Counter } from 'models/Counters'
-import { DeckPageQuery, DeckPageProps } from 'components/Dashboard/DeckPage/models'
+import {
+	DeckPageQuery,
+	DeckPageProps
+} from 'components/Dashboard/DeckPage/models'
 import { formatNumber } from 'lib/utils'
 import { BASE_URL, SIMILAR_DECKS_CHUNK_SIZE } from 'lib/constants'
 import useDeck from 'hooks/useDeck'
@@ -18,7 +21,9 @@ import useSections from 'hooks/useSections'
 import useAllCards from 'hooks/useAllCards'
 import useTopicsForDeck from 'hooks/useTopicsForDeck'
 import useSimilarDecks from 'hooks/useSimilarDecks'
-import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import Dashboard, {
+	DashboardNavbarSelection as Selection
+} from 'components/Dashboard'
 import Head, { DEFAULT_OG_IMAGE } from 'components/Head'
 import Navigation from 'components/Dashboard/DeckPage/Navigation'
 import Header from 'components/Dashboard/DeckPage/Header'
@@ -37,41 +42,58 @@ const DeckPage: NextPage<DeckPageProps> = ({
 	cards: initialCardData,
 	topics: initialTopicData
 }) => {
-	const initialDeck = useMemo(() => new Deck(initialDeckData), [initialDeckData])
-	const initialCreator = useMemo(() => new User(initialCreatorData), [initialCreatorData])
-	
-	const initialSections = useMemo(() => (
-		initialSectionData.map(data => new Section(data))
-	), [initialSectionData])
-	
-	const initialCards = useMemo(() => (
-		groupBy(initialCardData.map(data => new Card(data)), 'sectionId')
-	), [initialCardData])
-	
-	const initialTopics = useMemo(() => (
-		initialTopicData.map(data => new Topic(data))
-	), [initialTopicData])
-	
+	const initialDeck = useMemo(() => new Deck(initialDeckData), [
+		initialDeckData
+	])
+	const initialCreator = useMemo(() => new User(initialCreatorData), [
+		initialCreatorData
+	])
+
+	const initialSections = useMemo(
+		() => initialSectionData.map(data => new Section(data)),
+		[initialSectionData]
+	)
+
+	const initialCards = useMemo(
+		() =>
+			groupBy(
+				initialCardData.map(data => new Card(data)),
+				'sectionId'
+			),
+		[initialCardData]
+	)
+
+	const initialTopics = useMemo(
+		() => initialTopicData.map(data => new Topic(data)),
+		[initialTopicData]
+	)
+
 	const router = useRouter()
-	
-	const { deck: nextDeck, hasDeck } = useDeck((router.query as DeckPageQuery).slugId)
+
+	const { deck: nextDeck, hasDeck } = useDeck(
+		(router.query as DeckPageQuery).slugId
+	)
 	const deck = nextDeck ?? initialDeck
-	
+
 	const image = deck.imageUrl ?? DEFAULT_OG_IMAGE
 	const numberOfDecks = Counters.get(Counter.Decks) ?? initialNumberOfDecks
-	
+
 	const creator = useCreator(deck.creatorId) ?? initialCreator
 	const sections = useSections(deck.id) ?? initialSections
 	const cards = useAllCards(deck.id) ?? initialCards
 	const topics = useTopicsForDeck(deck) ?? initialTopics
 	const similarDecks = useSimilarDecks(deck, SIMILAR_DECKS_CHUNK_SIZE)
-	
-	const description = deck.description ||
-		`${deck.averageRating.toFixed(1)} star${deck.averageRating === 1 ? '' : 's'
-		} - ${formatNumber(deck.numberOfCards)} card${deck.numberOfCards === 1 ? '' : 's'
-		} - ${formatNumber(deck.numberOfDownloads)} download${deck.numberOfDownloads === 1 ? '' : 's'
+
+	const description =
+		deck.description ||
+		`${deck.averageRating.toFixed(1)} star${
+			deck.averageRating === 1 ? '' : 's'
+		} - ${formatNumber(deck.numberOfCards)} card${
+			deck.numberOfCards === 1 ? '' : 's'
+		} - ${formatNumber(deck.numberOfDownloads)} download${
+			deck.numberOfDownloads === 1 ? '' : 's'
 		}. Get ${deck.name} on memorize.ai by ${creator.name}.`
-	
+
 	return (
 		<Dashboard selection={Selection.Market} className="deck-page">
 			<Head
@@ -81,9 +103,14 @@ const DeckPage: NextPage<DeckPageProps> = ({
 				labels={[
 					{
 						name: 'Rating',
-						value: deck.numberOfRatings ? deck.averageRating.toFixed(1) : 'No ratings'
+						value: deck.numberOfRatings
+							? deck.averageRating.toFixed(1)
+							: 'No ratings'
 					},
-					{ name: 'Downloads', value: formatNumber(deck.numberOfDownloads) },
+					{
+						name: 'Downloads',
+						value: formatNumber(deck.numberOfDownloads)
+					},
 					{ name: 'Cards', value: formatNumber(deck.numberOfCards) }
 				]}
 				breadcrumbs={url => [
@@ -124,5 +151,8 @@ const DeckPage: NextPage<DeckPageProps> = ({
 	)
 }
 
-export { getStaticPaths, getStaticProps } from 'components/Dashboard/DeckPage/data'
+export {
+	getStaticPaths,
+	getStaticProps
+} from 'components/Dashboard/DeckPage/data'
 export default DeckPage

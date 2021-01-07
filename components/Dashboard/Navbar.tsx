@@ -31,16 +31,17 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 	const isSignedIn = useLayoutAuthState()
 	const [currentUser] = useCurrentUser()
 	const [decks] = useDecks()
-	
-	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(false)
+
+	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(
+		false
+	)
 	const [isApiKeyModalShowing, setIsApiKeyModalShowing] = useState(false)
-	
+
 	const sendForgotPasswordEmail = useCallback(async () => {
 		const email = currentUser?.email
-		
-		if (!email)
-			return
-		
+
+		if (!email) return
+
 		try {
 			await auth.sendPasswordResetEmail(email)
 			showSuccess('Sent password reset email.')
@@ -48,7 +49,7 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 			handleError(error)
 		}
 	}, [currentUser])
-	
+
 	const signOut = useCallback(async () => {
 		try {
 			await auth.signOut()
@@ -57,7 +58,7 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 			handleError(error)
 		}
 	}, [])
-	
+
 	return (
 		<div className="dashboard-navbar">
 			<div className="tabs">
@@ -83,9 +84,7 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 					isSelected={selection === Selection.Decks}
 					isDisabled={!decks.length}
 					message={
-						decks.length
-							? undefined
-							: 'First, get a deck from the Market'
+						decks.length ? undefined : 'First, get a deck from the Market'
 					}
 				>
 					<Svg src={decksIcon} />
@@ -108,81 +107,91 @@ const DashboardNavbar = ({ selection }: { selection: Selection }) => {
 				>
 					<FontAwesomeIcon icon={faApple} />
 				</a>
-				{isSignedIn
-					? (
-						<Dropdown
-							className="profile-dropdown"
-							shadow={DropdownShadow.Screen}
-							trigger={<Svg src={userIcon} />}
-							isShowing={isProfileDropdownShowing}
-							setIsShowing={setIsProfileDropdownShowing}
+				{isSignedIn ? (
+					<Dropdown
+						className="profile-dropdown"
+						shadow={DropdownShadow.Screen}
+						trigger={<Svg src={userIcon} />}
+						isShowing={isProfileDropdownShowing}
+						setIsShowing={setIsProfileDropdownShowing}
+					>
+						<div className="settings">
+							<label>
+								Name
+								{isNullish(currentUser?.name) ? ' (LOADING)' : ''}
+							</label>
+							<input
+								className="name-input"
+								type="name"
+								value={currentUser?.name ?? ''}
+								onChange={({ target: { value } }) =>
+									currentUser?.updateName(value)
+								}
+							/>
+							<label>
+								Email
+								{isNullish(currentUser?.email) ? ' (LOADING)' : ''}
+							</label>
+							<p className="email">{currentUser?.email ?? ''}</p>
+						</div>
+						<button
+							className="forgot-password"
+							onClick={sendForgotPasswordEmail}
 						>
-							<div className="settings">
-								<label>Name{isNullish(currentUser?.name) ? ' (LOADING)' : ''}</label>
-								<input
-									className="name-input"
-									type="name"
-									value={currentUser?.name ?? ''}
-									onChange={({ target: { value } }) =>
-										currentUser?.updateName(value)
-									}
-								/>
-								<label>Email{isNullish(currentUser?.email) ? ' (LOADING)' : ''}</label>
-								<p className="email">{currentUser?.email ?? ''}</p>
-							</div>
-							<button className="forgot-password" onClick={sendForgotPasswordEmail}>
-								Forgot password
+							Forgot password
+						</button>
+						<button className="sign-out" onClick={signOut}>
+							Sign out
+						</button>
+						<label className="footer-label">Contact</label>
+						<p className="footer-info">
+							<a
+								href={SLACK_INVITE_URL}
+								target="_blank"
+								rel="nofollow noreferrer noopener"
+							>
+								Join Slack
+							</a>{' '}
+							or email{' '}
+							<a
+								href="mailto:support@memorize.ai"
+								target="_blank"
+								rel="nofollow noreferrer noopener"
+							>
+								support@memorize.ai
+							</a>
+						</p>
+						<label className="footer-label">Develop</label>
+						<p className="footer-info">
+							<a
+								href="https://github.com/memorize-ai"
+								target="_blank"
+								rel="noopener noreferrer nofollow"
+							>
+								GitHub
+							</a>{' '}
+							•{' '}
+							<a
+								href={API_URL}
+								target="_blank"
+								rel="nofollow noreferrer noopener"
+							>
+								API docs
+							</a>{' '}
+							•{' '}
+							<button onClick={() => setIsApiKeyModalShowing(true)}>
+								My API key
 							</button>
-							<button className="sign-out" onClick={signOut}>
-								Sign out
-							</button>
-							<label className="footer-label">
-								Contact
-							</label>
-							<p className="footer-info">
-								<a
-									href={SLACK_INVITE_URL}
-									target="_blank"
-									rel="nofollow noreferrer noopener"
-								>
-									Join Slack
-								</a> or email <a
-									href="mailto:support@memorize.ai"
-									target="_blank"
-									rel="nofollow noreferrer noopener"
-								>
-									support@memorize.ai
-								</a>
-							</p>
-							<label className="footer-label">
-								Develop
-							</label>
-							<p className="footer-info">
-								<a
-									href="https://github.com/memorize-ai"
-									target="_blank"
-									rel="noopener noreferrer nofollow"
-								>
-									GitHub
-								</a> • <a
-									href={API_URL}
-									target="_blank"
-									rel="nofollow noreferrer noopener"
-								>
-									API docs
-								</a> • <button onClick={() => setIsApiKeyModalShowing(true)}>
-									My API key
-								</button>
-							</p>
-						</Dropdown>
-					)
-					: (
-						<AuthButton className="auth-button">
-							<p>Log in <span>/</span> Sign up</p>
-							<FontAwesomeIcon icon={faKey} />
-						</AuthButton>
-					)
-				}
+						</p>
+					</Dropdown>
+				) : (
+					<AuthButton className="auth-button">
+						<p>
+							Log in <span>/</span> Sign up
+						</p>
+						<FontAwesomeIcon icon={faKey} />
+					</AuthButton>
+				)}
 			</div>
 			{currentUser?.apiKey && (
 				<ApiKeyModal

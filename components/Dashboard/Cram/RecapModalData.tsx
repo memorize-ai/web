@@ -1,8 +1,9 @@
 import { PropsWithChildren } from 'react'
 
-const CramRecapModalData = (
-	{ title, children }: PropsWithChildren<{ title: string }>
-) => (
+const CramRecapModalData = ({
+	title,
+	children
+}: PropsWithChildren<{ title: string }>) => (
 	<div className="data">
 		<p className="title">{title}</p>
 		<p className="content">{children}</p>

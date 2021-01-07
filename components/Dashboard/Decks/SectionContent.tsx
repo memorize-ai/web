@@ -13,40 +13,46 @@ import Loader from 'components/Loader'
 
 export type SetSelectedSectionAction = 'unlock' | 'rename' | 'delete' | 'share'
 
-const DecksSectionContent = (
-	{ deck, section, isExpanded, toggleExpanded, setSelectedSection, numberOfSections, reorder }: {
-		deck: Deck
-		section: Section
-		isExpanded: boolean
-		toggleExpanded: () => void
-		setSelectedSection: (action: SetSelectedSectionAction) => void
-		numberOfSections: number
-		reorder: (delta: number) => void
-	}
-) => {
+const DecksSectionContent = ({
+	deck,
+	section,
+	isExpanded,
+	toggleExpanded,
+	setSelectedSection,
+	numberOfSections,
+	reorder
+}: {
+	deck: Deck
+	section: Section
+	isExpanded: boolean
+	toggleExpanded: () => void
+	setSelectedSection: (action: SetSelectedSectionAction) => void
+	numberOfSections: number
+	reorder: (delta: number) => void
+}) => {
 	const [currentUser] = useCurrentUser()
 	const cards = useCards(deck, section, isExpanded)
-	
+
 	const addUrl = `/decks/${deck.slugId}/${deck.slug}/add${
 		section.isUnsectioned ? '' : `/${section.id}`
 	}`
-	
-	const onUnlock = useCallback(() => (
-		setSelectedSection('unlock')
-	), [setSelectedSection])
-	
-	const onRename = useCallback(() => (
-		setSelectedSection('rename')
-	), [setSelectedSection])
-	
-	const onDelete = useCallback(() => (
-		setSelectedSection('delete')
-	), [setSelectedSection])
-	
-	const onShare = useCallback(() => (
-		setSelectedSection('share')
-	), [setSelectedSection])
-	
+
+	const onUnlock = useCallback(() => setSelectedSection('unlock'), [
+		setSelectedSection
+	])
+
+	const onRename = useCallback(() => setSelectedSection('rename'), [
+		setSelectedSection
+	])
+
+	const onDelete = useCallback(() => setSelectedSection('delete'), [
+		setSelectedSection
+	])
+
+	const onShare = useCallback(() => setSelectedSection('share'), [
+		setSelectedSection
+	])
+
 	return (
 		<div className="section">
 			<SectionHeader
@@ -66,22 +72,24 @@ const DecksSectionContent = (
 					<Link href={addUrl}>
 						<a>
 							<FontAwesomeIcon icon={faPlus} />
-							<p>Add cards to <i>{section.name}</i></p>
+							<p>
+								Add cards to <i>{section.name}</i>
+							</p>
 						</a>
 					</Link>
 				</div>
 			)}
-			{isExpanded && (!cards || cards.length > 0) && (
-				cards
-					? (
-						<div className="cards">
-							{cards.map(card => (
-								<CardCell key={card.id} deck={deck} card={card} />
-							))}
-						</div>
-					)
-					: <Loader size="24px" thickness="4px" color="#582efe" />
-			)}
+			{isExpanded &&
+				(!cards || cards.length > 0) &&
+				(cards ? (
+					<div className="cards">
+						{cards.map(card => (
+							<CardCell key={card.id} deck={deck} card={card} />
+						))}
+					</div>
+				) : (
+					<Loader size="24px" thickness="4px" color="#582efe" />
+				))}
 		</div>
 	)
 }

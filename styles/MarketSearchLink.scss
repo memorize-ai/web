@@ -4,12 +4,12 @@
 	height: 44px;
 	overflow: hidden;
 	border-radius: 8px;
-	
+
 	&,
 	> input {
 		width: 100%;
 	}
-	
+
 	> svg {
 		position: absolute;
 		top: 14px;
@@ -17,14 +17,14 @@
 		color: #eee;
 		pointer-events: none;
 	}
-	
+
 	> input {
 		height: 100%;
 		padding: 0 12px 0 40px;
 		font-weight: bold;
 		color: white;
 		background: transparentize(#eee, 0.8);
-		
+
 		&::placeholder {
 			color: transparentize(#eee, 0.2);
 		}

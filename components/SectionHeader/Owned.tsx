@@ -2,7 +2,14 @@ import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { Svg } from 'react-optimized-image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUnlock, faLock, faEllipsisV, faAngleUp, faAngleDown, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {
+	faUnlock,
+	faLock,
+	faEllipsisV,
+	faAngleUp,
+	faAngleDown,
+	faTrash
+} from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Deck from 'models/Deck'
@@ -16,47 +23,60 @@ import share from 'images/icons/share.svg'
 import pencil from 'images/icons/pencil.svg'
 import decks from 'images/icons/decks.svg'
 
-const OwnedSectionHeader = (
-	{ deck, section, isExpanded, toggleExpanded, onUnlock, onRename, onDelete, onShare, numberOfSections, reorder }: {
-		deck: Deck
-		section: Section
-		isExpanded: boolean
-		toggleExpanded: () => void
-		onUnlock: () => void
-		onRename: () => void
-		onDelete: () => void
-		onShare: () => void
-		numberOfSections: number
-		reorder: (delta: number) => void
-	}
-) => {
+const OwnedSectionHeader = ({
+	deck,
+	section,
+	isExpanded,
+	toggleExpanded,
+	onUnlock,
+	onRename,
+	onDelete,
+	onShare,
+	numberOfSections,
+	reorder
+}: {
+	deck: Deck
+	section: Section
+	isExpanded: boolean
+	toggleExpanded: () => void
+	onUnlock: () => void
+	onRename: () => void
+	onDelete: () => void
+	onShare: () => void
+	numberOfSections: number
+	reorder: (delta: number) => void
+}) => {
 	const [currentUser] = useCurrentUser()
-	
+
 	const [isHoveringLock, setIsHoveringLock] = useState(false)
 	const [degrees, setDegrees] = useState(0)
-	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(false)
-	
+	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(
+		false
+	)
+
 	const isUnlocked = deck.isSectionUnlocked(section)
-	
+
 	const numberOfDueCards = deck.numberOfCardsDueForSection(section)
 	const numberOfDueCardsFormatted = formatNumber(numberOfDueCards)
-	
+
 	const { numberOfCards } = section
 	const numberOfCardsFormatted = formatNumber(numberOfCards)
-	
+
 	const isOwner = deck.creatorId === currentUser?.id
-	
+
 	const canReorderUp = section.index > 0
 	const canReorderDown = section.index < numberOfSections - 1
-	
+
 	const onClick = useCallback(() => {
 		toggleExpanded()
 		setDegrees(degrees => degrees + 180)
 	}, [toggleExpanded, setDegrees])
-	
+
 	return (
 		<div
-			className={cx('section-header', 'owned', { due: numberOfDueCards > 0 })}
+			className={cx('section-header', 'owned', {
+				due: numberOfDueCards > 0
+			})}
 			onClick={onClick}
 		>
 			{isUnlocked || (
@@ -75,18 +95,22 @@ const OwnedSectionHeader = (
 			{isOwner && !section.isUnsectioned && (canReorderUp || canReorderDown) && (
 				<div className="reorder">
 					{canReorderUp && (
-						<button onClick={event => {
-							event.stopPropagation()
-							reorder(-1)
-						}}>
+						<button
+							onClick={event => {
+								event.stopPropagation()
+								reorder(-1)
+							}}
+						>
 							<FontAwesomeIcon icon={faAngleUp} />
 						</button>
 					)}
 					{canReorderDown && (
-						<button onClick={event => {
-							event.stopPropagation()
-							reorder(1)
-						}}>
+						<button
+							onClick={event => {
+								event.stopPropagation()
+								reorder(1)
+							}}
+						>
 							<FontAwesomeIcon icon={faAngleDown} />
 						</button>
 					)}
@@ -95,9 +119,7 @@ const OwnedSectionHeader = (
 			<div className="name">
 				<p>{section.name}</p>
 				{numberOfDueCards > 0 && (
-					<p className="badge">
-						{numberOfDueCardsFormatted} due
-					</p>
+					<p className="badge">{numberOfDueCardsFormatted} due</p>
 				)}
 			</div>
 			<div className="divider" />
@@ -105,11 +127,16 @@ const OwnedSectionHeader = (
 				<>
 					<Link href={deck.reviewUrl(section)}>
 						<a
-							className={cx('review-link', { disabled: !numberOfDueCards })}
+							className={cx('review-link', {
+								disabled: !numberOfDueCards
+							})}
 							aria-label={`Review cards only in ${section.name}`}
 							data-balloon-pos="up"
 						>
-							<p>Review{numberOfDueCards > 0 ? ` ${numberOfDueCardsFormatted}` : ''}</p>
+							<p>
+								Review
+								{numberOfDueCards > 0 ? ` ${numberOfDueCardsFormatted}` : ''}
+							</p>
 							{numberOfDueCards > 0 && <Svg src={decks} />}
 						</a>
 					</Link>
@@ -163,9 +190,7 @@ const OwnedSectionHeader = (
 									<p>Unlock</p>
 								</button>
 							)}
-							{isOwner && !isUnlocked && (
-								<div className="divider" />
-							)}
+							{isOwner && !isUnlocked && <div className="divider" />}
 							{isOwner && (
 								<>
 									<button onClick={onRename}>

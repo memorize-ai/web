@@ -7,11 +7,11 @@ import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect'
 const useLayoutAuthState = () => {
 	const [state, setState] = useState(false)
 	const _state = useAuthState()
-	
+
 	useIsomorphicLayoutEffect(() => {
 		setState(_state)
 	}, [_state, setState])
-	
+
 	return state
 }
 

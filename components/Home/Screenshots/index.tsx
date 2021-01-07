@@ -18,12 +18,9 @@ const HomeScreenshots = () => {
 		goLeft,
 		goRight
 	} = useScreenshot()
-	
+
 	return (
-		<div
-			id="screenshots"
-			className={cx('screenshots', className)}
-		>
+		<div id="screenshots" className={cx('screenshots', className)}>
 			<Head>
 				{SCREENSHOTS.slice(1).map(({ type }) => (
 					<link
@@ -47,9 +44,7 @@ const HomeScreenshots = () => {
 					<Screenshot className="foreground" type={type} />
 				</div>
 				<div className="info">
-					<h2 className="title">
-						{title}
-					</h2>
+					<h2 className="title">{title}</h2>
 					<div className="navigation">
 						<button onClick={goLeft}>
 							<Svg src={leftArrow} />

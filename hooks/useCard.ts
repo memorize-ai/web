@@ -10,43 +10,43 @@ import 'firebase/firestore'
 
 const firestore = firebase.firestore()
 
-const cardFromSectionMap = (id: string, map: Record<string, Card | undefined>) => {
+const cardFromSectionMap = (
+	id: string,
+	map: Record<string, Card | undefined>
+) => {
 	const card = map[id]
-	
-	if (card)
-		return card
-	
+
+	if (card) return card
+
 	for (const cards of Object.values(map)) {
-		if (!Array.isArray(cards))
-			continue
-		
-		for (const card of cards as Card[])
-			if (card.id === id)
-				return card
+		if (!Array.isArray(cards)) continue
+
+		for (const card of cards as Card[]) if (card.id === id) return card
 	}
-	
+
 	return null
 }
 
-const useCard = (deckId: string | null | undefined, cardId: string | null | undefined) => {
+const useCard = (
+	deckId: string | null | undefined,
+	cardId: string | null | undefined
+) => {
 	const [state, dispatch] = useContext(CardsContext)
-	
+
 	const card = cardId
 		? cardFromSectionMap(cardId, state as Record<string, Card | undefined>)
 		: null
-	
+
 	useEffect(() => {
-		if (card || !(deckId && cardId) || Card.isObserving[cardId])
-			return
-		
+		if (card || !(deckId && cardId) || Card.isObserving[cardId]) return
+
 		Card.isObserving[cardId] = true
-		
-		firestore.doc(`decks/${deckId}/cards/${cardId}`).onSnapshot(
-			compose(dispatch, setCard),
-			handleError
-		)
+
+		firestore
+			.doc(`decks/${deckId}/cards/${cardId}`)
+			.onSnapshot(compose(dispatch, setCard), handleError)
 	}, [card, deckId, cardId, dispatch])
-	
+
 	return card
 }
 

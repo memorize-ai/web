@@ -15,24 +15,31 @@ export interface DeckPageCardsProps {
 	cards: Record<string, Card[]>
 }
 
-const DeckPageCards = ({ deck, sections: namedSections, cards }: DeckPageCardsProps) => {
-	const sections = useMemo(() => (
-		deck.numberOfUnsectionedCards > 0
-			? [deck.unsectionedSection, ...namedSections]
-			: namedSections
-	), [deck, namedSections])
-	
-	const [
-		isSectionExpanded,
-		toggleSectionExpanded
-	] = useExpandedSections(deck, { isOwned: false, defaultExpanded: true })
-	
+const DeckPageCards = ({
+	deck,
+	sections: namedSections,
+	cards
+}: DeckPageCardsProps) => {
+	const sections = useMemo(
+		() =>
+			deck.numberOfUnsectionedCards > 0
+				? [deck.unsectionedSection, ...namedSections]
+				: namedSections,
+		[deck, namedSections]
+	)
+
+	const [isSectionExpanded, toggleSectionExpanded] = useExpandedSections(deck, {
+		isOwned: false,
+		defaultExpanded: true
+	})
+
 	const [selectedSection, setSelectedSection] = useState(null as Section | null)
-	const [isShareSectionModalShowing, setIsShareSectionModalShowing] = useState(false)
-	
-	if (!sections.length)
-		return null
-	
+	const [isShareSectionModalShowing, setIsShareSectionModalShowing] = useState(
+		false
+	)
+
+	if (!sections.length) return null
+
 	return (
 		<div id="cards" className="cards">
 			<h2 className="title">
@@ -41,7 +48,7 @@ const DeckPageCards = ({ deck, sections: namedSections, cards }: DeckPageCardsPr
 			<div className="sections">
 				{sections.map(section => {
 					const isExpanded = isSectionExpanded(section.id)
-					
+
 					return (
 						<div key={section.id}>
 							<SectionHeader

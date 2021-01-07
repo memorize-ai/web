@@ -34,20 +34,24 @@ const Dashboard = ({
 	children
 }: PropsWithChildren<DashboardProps>) => {
 	hideChat(shouldHideChat)
-	
+
 	useEffect(() => {
 		const { classList } = document.body
-		
+
 		classList.add('clipped')
 		return () => classList.remove('clipped')
 	}, [])
-	
+
 	return (
 		<div className={cx('dashboard', className)}>
 			<Sidebar />
 			<div className="content">
 				<div className={`background ${gradientStyle}-gradient`} />
-				<div className={cx('container', { 'navbar-hidden': isNavbarHidden })}>
+				<div
+					className={cx('container', {
+						'navbar-hidden': isNavbarHidden
+					})}
+				>
 					<Navbar selection={selection} />
 					<div className="foreground">{children}</div>
 				</div>

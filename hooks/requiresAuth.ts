@@ -5,11 +5,10 @@ import useAuthState from './useAuthState'
 
 const requiresAuth = (assertion = true) => {
 	const isSignedIn = useAuthState()
-	
+
 	useEffect(() => {
-		if (isSignedIn || !assertion)
-			return
-		
+		if (isSignedIn || !assertion) return
+
 		Router.replace({
 			pathname: '/',
 			query: {

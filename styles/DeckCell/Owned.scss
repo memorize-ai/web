@@ -2,12 +2,12 @@
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	
+
 	> .due-cards-message {
 		margin-top: auto;
 		font-weight: bold;
 		color: #9b9b9b;
-		
+
 		> span {
 			display: inline-block;
 			margin-right: 2px;
@@ -15,7 +15,7 @@
 			transform: translateY(2px);
 		}
 	}
-	
+
 	> .review-button {
 		margin-top: 10px;
 		padding: 4px 0;
@@ -27,12 +27,12 @@
 		text-transform: uppercase;
 		border-radius: 8px;
 		transition: background 0.3s;
-		
+
 		> svg {
 			margin-right: 14px;
 			transform: scale(1.4);
 		}
-		
+
 		&:hover,
 		&:focus {
 			background: #051e34;

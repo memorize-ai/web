@@ -1,13 +1,17 @@
 import { HTMLAttributes } from 'react'
 import cx from 'classnames'
 
-const Loader = (
-	{ className, size, thickness, color, ...props }: {
-		size: string
-		thickness: string
-		color: string
-	} & HTMLAttributes<HTMLDivElement>
-) => (
+const Loader = ({
+	className,
+	size,
+	thickness,
+	color,
+	...props
+}: {
+	size: string
+	thickness: string
+	color: string
+} & HTMLAttributes<HTMLDivElement>) => (
 	<div
 		{...props}
 		className={cx('loader', className)}

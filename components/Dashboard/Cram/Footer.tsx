@@ -3,12 +3,13 @@ import cx from 'classnames'
 import PerformanceRating from 'models/PerformanceRating'
 import RateButton from './RateButton'
 
-const CramFooter = (
-	{ isWaitingForRating, rate }: {
-		isWaitingForRating: boolean
-		rate: (rating: PerformanceRating) => void
-	}
-) => (
+const CramFooter = ({
+	isWaitingForRating,
+	rate
+}: {
+	isWaitingForRating: boolean
+	rate: (rating: PerformanceRating) => void
+}) => (
 	<footer className={cx({ 'waiting-for-rating': isWaitingForRating })}>
 		<p className="message" tabIndex={-1}>
 			Tap anywhere to continue

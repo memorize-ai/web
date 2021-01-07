@@ -10,7 +10,9 @@ import Topic, { TopicData } from 'models/Topic'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useUrlForMarket from 'hooks/useUrlForMarket'
 import getTopics from 'lib/getTopics'
-import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import Dashboard, {
+	DashboardNavbarSelection as Selection
+} from 'components/Dashboard'
 import Head, { APP_SCHEMA } from 'components/Head'
 
 import cart from 'images/icons/cart.svg'
@@ -20,28 +22,24 @@ interface InterestsProps {
 }
 
 const Interests: NextPage<InterestsProps> = ({ topics: topicsData }) => {
-	const topics = useMemo(() => (
-		topicsData.map(data => new Topic(data))
-	), [topicsData])
-	
+	const topics = useMemo(() => topicsData.map(data => new Topic(data)), [
+		topicsData
+	])
+
 	const [currentUser] = useCurrentUser()
 	const marketUrl = useUrlForMarket()
-	
+
 	return (
 		<Dashboard selection={Selection.Interests} className="interests">
 			<Head
 				title="Interests | memorize.ai"
 				description="Choose your interests so we can show you recommendations."
-				breadcrumbs={url => [
-					[{ name: 'Interests', url }]
-				]}
+				breadcrumbs={url => [[{ name: 'Interests', url }]]}
 				schema={[APP_SCHEMA]}
 			/>
 			<div className="header">
 				<div className="left">
-					<h1 className="title">
-						Choose your interests
-					</h1>
+					<h1 className="title">Choose your interests</h1>
 					<h3 className="subtitle">
 						Your interests help us show you recommendations
 					</h3>
@@ -68,7 +66,7 @@ const Interests: NextPage<InterestsProps> = ({ topics: topicsData }) => {
 					>
 						<meta {...topic.positionSchemaProps(i)} />
 						<meta {...topic.urlSchemaProps} />
-						<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
+						<img {...topic.imageSchemaProps} />
 						<div className="check">
 							<FontAwesomeIcon icon={faCheck} />
 						</div>
@@ -80,7 +78,10 @@ const Interests: NextPage<InterestsProps> = ({ topics: topicsData }) => {
 	)
 }
 
-export const getStaticProps: GetStaticProps<InterestsProps, Record<string, never>> = async () => ({
+export const getStaticProps: GetStaticProps<
+	InterestsProps,
+	Record<string, never>
+> = async () => ({
 	props: { topics: await getTopics() },
 	revalidate: 3600 // 1 hour
 })

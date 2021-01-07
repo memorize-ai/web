@@ -19,49 +19,59 @@ import users from 'images/icons/users.svg'
 const DeckCell = ({ deck }: { deck: Deck }) => {
 	const [currentUser] = useCurrentUser()
 	const [decks] = useDecks()
-	
+
 	const {
 		setIsShowing: setAuthModalIsShowing,
 		setCallback: setAuthModalCallback
 	} = useAuthModal()
-	
+
 	const [getLoadingState, setGetLoadingState] = useState(LoadingState.None)
-	
-	const hasDeck = useMemo(() => (
-		decks.some(({ id }) => id === deck.id)
-	), [decks, deck])
-	
+
+	const hasDeck = useMemo(() => decks.some(({ id }) => id === deck.id), [
+		decks,
+		deck
+	])
+
 	const get = useCallback(async () => {
 		const callback = async (user: User) => {
 			try {
 				setGetLoadingState(LoadingState.Loading)
-				
+
 				await deck.get(user.id)
-				
+
 				setGetLoadingState(LoadingState.Success)
 			} catch (error) {
 				setGetLoadingState(LoadingState.Fail)
 				handleError(error)
 			}
 		}
-		
-		if (currentUser)
-			callback(currentUser)
+
+		if (currentUser) callback(currentUser)
 		else {
 			setAuthModalIsShowing(true)
 			setAuthModalCallback(callback)
 		}
-	}, [currentUser, deck, setGetLoadingState, setAuthModalIsShowing, setAuthModalCallback])
-	
-	const open = useCallback(() => (
-		Router.push(`/decks/${deck.slugId}/${deck.slug}`)
-	), [deck])
-	
-	const action = useCallback((event: MouseEvent) => {
-		event.preventDefault()
-		hasDeck ? open() : get()
-	}, [hasDeck, open, get])
-	
+	}, [
+		currentUser,
+		deck,
+		setGetLoadingState,
+		setAuthModalIsShowing,
+		setAuthModalCallback
+	])
+
+	const open = useCallback(
+		() => Router.push(`/decks/${deck.slugId}/${deck.slug}`),
+		[deck]
+	)
+
+	const action = useCallback(
+		(event: MouseEvent) => {
+			event.preventDefault()
+			hasDeck ? open() : get()
+		},
+		[hasDeck, open, get]
+	)
+
 	return (
 		<Base
 			className="default"
@@ -78,8 +88,14 @@ const DeckCell = ({ deck }: { deck: Deck }) => {
 					itemScope
 					itemType="https://schema.org/AggregateRating"
 				>
-					<meta itemProp="ratingValue" content={deck.averageRating.toString()} />
-					<meta itemProp="reviewCount" content={(deck.numberOfRatings || 1).toString()} />
+					<meta
+						itemProp="ratingValue"
+						content={deck.averageRating.toString()}
+					/>
+					<meta
+						itemProp="reviewCount"
+						content={(deck.numberOfRatings || 1).toString()}
+					/>
 					<meta itemProp="worstRating" content={deck.worstRating.toString()} />
 					<meta itemProp="bestRating" content={deck.bestRating.toString()} />
 					<Stars>{deck.averageRating}</Stars>

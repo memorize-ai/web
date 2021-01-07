@@ -12,11 +12,9 @@ const HomeFooter = () => (
 		<div className="background" />
 		<div className="content">
 			<div className="top">
-				<h1
-					className="text"
-					data-aos="fade-down"
-				>
-					The ultimate<br />
+				<h1 className="text" data-aos="fade-down">
+					The ultimate
+					<br />
 					memorization tool
 				</h1>
 				<AuthButton />
@@ -68,18 +66,13 @@ const HomeFooter = () => (
 						Blog
 					</a>
 					<div className="divider" />
-					<a
-						href={API_URL}
-						target="_blank"
-						rel="noopener noreferrer nofollow"
-					>
+					<a href={API_URL} target="_blank" rel="noopener noreferrer nofollow">
 						API
 					</a>
 				</div>
 				<AppStoreDownloadButton className="download-app" />
 				<p className="copyright">
-					Copyright &copy; 2020 <b>memorize.ai Inc</b>.
-					All rights reserved.
+					Copyright &copy; 2020 <b>memorize.ai Inc</b>. All rights reserved.
 				</p>
 			</div>
 		</div>

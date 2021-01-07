@@ -8,18 +8,11 @@ import diagram from 'images/home/classroom.png'
 
 const HomeClassroom = () => (
 	<div id="class" className="classroom">
-		<Image
-			className="diagram"
-			src={diagram}
-			alt="Classroom diagram"
-			webp
-		/>
+		<Image className="diagram" src={diagram} alt="Classroom diagram" webp />
 		<article className="text">
-			<h2
-				className="title"
-				data-aos="fade-down"
-			>
-				<strong>Teachers and Students</strong><br />
+			<h2 className="title" data-aos="fade-down">
+				<strong>Teachers and Students</strong>
+				<br />
 				love memorize.ai
 			</h2>
 			<List />

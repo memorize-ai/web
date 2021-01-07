@@ -11,7 +11,8 @@ export interface CreateDeckState {
 }
 
 export type CreateDeckAction = Action<
-	| File | null // SetCreateDeckImage
+	| File
+	| null // SetCreateDeckImage
 	| string // SetCreateDeckName, SetCreateDeckSubtitle, SetCreateDeckDescription
 	| string[] // SetCreateDeckTopics
 >
@@ -24,7 +25,10 @@ const initialState: CreateDeckState = {
 	topics: []
 }
 
-const reducer = (state: CreateDeckState, { type, payload }: CreateDeckAction) => {
+const reducer = (
+	state: CreateDeckState,
+	{ type, payload }: CreateDeckAction
+) => {
 	switch (type) {
 		case ActionType.SetCreateDeckImage:
 			return { ...state, image: payload as File | null }

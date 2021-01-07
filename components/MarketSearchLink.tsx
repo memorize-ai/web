@@ -10,11 +10,11 @@ import { DEFAULT_DECK_COUNT } from 'lib/constants'
 const MarketSearchLink = () => {
 	const [{ query }] = useSearchState()
 	const marketUrl = useUrlForMarket()
-	
+
 	const goToMarket = useCallback(() => {
 		Router.push(marketUrl)
 	}, [marketUrl])
-	
+
 	return (
 		<div className="market-search-link" onClick={goToMarket}>
 			<input

@@ -19,7 +19,9 @@ import {
 } from 'actions'
 import { compose, handleError } from 'lib/utils'
 import getTopics from 'lib/getTopics'
-import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import Dashboard, {
+	DashboardNavbarSelection as Selection
+} from 'components/Dashboard'
 import Head from 'components/Head'
 import PublishDeckContent from 'components/PublishDeckContent'
 import Button from 'components/Button'
@@ -31,35 +33,38 @@ interface CreateDeckProps {
 }
 
 const CreateDeck: NextPage<CreateDeckProps> = ({ topics: initialTopics }) => {
-	const topics = useMemo(() => (
-		initialTopics.map(data => new Topic(data))
-	), [initialTopics])
-	
+	const topics = useMemo(() => initialTopics.map(data => new Topic(data)), [
+		initialTopics
+	])
+
 	const [
 		{ image, name, subtitle, description, topics: selectedTopics },
 		dispatch
 	] = useContext(CreateDeckContext)
-	
+
 	const imageUrl = useRef(null as string | null)
-	
+
 	const {
 		setIsShowing: setAuthModalIsShowing,
 		setCallback: setAuthModalCallback
 	} = useAuthModal()
-	
+
 	const isSignedIn = useLayoutAuthState()
 	const [currentUser] = useCurrentUser()
-	
+
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
-	
+
 	const isLoading = loadingState === LoadingState.Loading
 	const isDisabled = !name
-	
-	const setImage = useCallback((image: File | null) => {
-		imageUrl.current = image && URL.createObjectURL(image)
-		dispatch(setCreateDeckImage(image))
-	}, [dispatch])
-	
+
+	const setImage = useCallback(
+		(image: File | null) => {
+			imageUrl.current = image && URL.createObjectURL(image)
+			dispatch(setCreateDeckImage(image))
+		},
+		[dispatch]
+	)
+
 	const reset = useCallback(() => {
 		dispatch(setCreateDeckImage(null))
 		dispatch(setCreateDeckName(''))
@@ -67,12 +72,12 @@ const CreateDeck: NextPage<CreateDeckProps> = ({ topics: initialTopics }) => {
 		dispatch(setCreateDeckDescription(''))
 		dispatch(setCreateDeckTopics([]))
 	}, [dispatch])
-	
+
 	const create = useCallback(() => {
 		const callback = async (user: User) => {
 			try {
 				setLoadingState(LoadingState.Loading)
-				
+
 				const { slugId, slug } = await Deck.createForUserWithId(user.id, {
 					image,
 					name,
@@ -80,30 +85,47 @@ const CreateDeck: NextPage<CreateDeckProps> = ({ topics: initialTopics }) => {
 					description,
 					topics: selectedTopics
 				})
-				
+
 				setLoadingState(LoadingState.Success)
 				reset()
-				
+
 				Router.push(`/decks/${slugId}/${slug}`)
 			} catch (error) {
 				setLoadingState(LoadingState.Fail)
 				handleError(error)
 			}
 		}
-		
-		if (currentUser)
-			callback(currentUser)
+
+		if (currentUser) callback(currentUser)
 		else {
 			setAuthModalIsShowing(true)
 			setAuthModalCallback(callback)
 		}
-	}, [currentUser, setAuthModalIsShowing, setAuthModalCallback, description, image, name, reset, selectedTopics, subtitle])
-	
+	}, [
+		currentUser,
+		setAuthModalIsShowing,
+		setAuthModalCallback,
+		description,
+		image,
+		name,
+		reset,
+		selectedTopics,
+		subtitle
+	])
+
 	const setName = useCallback(compose(dispatch, setCreateDeckName), [dispatch])
-	const setSubtitle = useCallback(compose(dispatch, setCreateDeckSubtitle), [dispatch])
-	const setDescription = useCallback(compose(dispatch, setCreateDeckDescription), [dispatch])
-	const setSelectedTopics = useCallback(compose(dispatch, setCreateDeckTopics), [dispatch])
-	
+	const setSubtitle = useCallback(compose(dispatch, setCreateDeckSubtitle), [
+		dispatch
+	])
+	const setDescription = useCallback(
+		compose(dispatch, setCreateDeckDescription),
+		[dispatch]
+	)
+	const setSelectedTopics = useCallback(
+		compose(dispatch, setCreateDeckTopics),
+		[dispatch]
+	)
+
 	return (
 		<Dashboard
 			selection={isSignedIn ? Selection.Home : Selection.Market}
@@ -145,7 +167,6 @@ const CreateDeck: NextPage<CreateDeckProps> = ({ topics: initialTopics }) => {
 						description={description}
 						topics={topics}
 						selectedTopics={selectedTopics}
-						
 						setImage={setImage}
 						setName={setName}
 						setSubtitle={setSubtitle}
@@ -158,7 +179,10 @@ const CreateDeck: NextPage<CreateDeckProps> = ({ topics: initialTopics }) => {
 	)
 }
 
-export const getStaticProps: GetStaticProps<CreateDeckProps, Record<string, never>> = async () => ({
+export const getStaticProps: GetStaticProps<
+	CreateDeckProps,
+	Record<string, never>
+> = async () => ({
 	props: { topics: await getTopics() },
 	revalidate: 3600 // 1 hour
 })

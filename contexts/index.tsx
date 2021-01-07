@@ -33,9 +33,7 @@ const Provider = ({ children }: ProviderProps) => (
 											<CreatorsProvider>
 												<AddCardsProvider>
 													<ContactUserLoadingStateProvider>
-														<ActivityProvider>
-															{children}
-														</ActivityProvider>
+														<ActivityProvider>{children}</ActivityProvider>
 													</ContactUserLoadingStateProvider>
 												</AddCardsProvider>
 											</CreatorsProvider>

@@ -12,7 +12,8 @@ export interface CurrentUserState {
 }
 
 export type CurrentUserAction = Action<
-	| firebase.User | null // SetCurrentUser
+	| firebase.User
+	| null // SetCurrentUser
 	| firebase.firestore.DocumentSnapshot // UpdateCurrentUser
 	| LoadingState // SetCurrentUserLoadingState
 	| boolean // SetIsObservingCurrentUser
@@ -24,11 +25,14 @@ const initialState: CurrentUserState = {
 	isObservingCurrentUser: false
 }
 
-const reducer = (state: CurrentUserState, { type, payload }: CurrentUserAction) => {
+const reducer = (
+	state: CurrentUserState,
+	{ type, payload }: CurrentUserAction
+) => {
 	switch (type) {
 		case ActionType.SetCurrentUser: {
 			const user = payload as firebase.User | null
-			
+
 			return {
 				...state,
 				currentUser: user && User.fromFirebaseUser(user),
@@ -38,12 +42,17 @@ const reducer = (state: CurrentUserState, { type, payload }: CurrentUserAction) 
 		case ActionType.UpdateCurrentUser:
 			return {
 				...state,
-				currentUser: state.currentUser && state.currentUser.updateFromSnapshot(
-					payload as firebase.firestore.DocumentSnapshot
-				)
+				currentUser:
+					state.currentUser &&
+					state.currentUser.updateFromSnapshot(
+						payload as firebase.firestore.DocumentSnapshot
+					)
 			}
 		case ActionType.SetCurrentUserLoadingState:
-			return { ...state, currentUserLoadingState: payload as LoadingState }
+			return {
+				...state,
+				currentUserLoadingState: payload as LoadingState
+			}
 		case ActionType.SetIsObservingCurrentUser:
 			return { ...state, isObservingCurrentUser: payload as boolean }
 		default:

@@ -4,7 +4,10 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 
-import { DeckSortAlgorithm, DEFAULT_DECK_SORT_ALGORITHM } from 'models/Deck/Search'
+import {
+	DeckSortAlgorithm,
+	DEFAULT_DECK_SORT_ALGORITHM
+} from 'models/Deck/Search'
 import { flattenQuery, formatNumber } from 'lib/utils'
 import useSearchState from 'hooks/useSearchState'
 import Input from 'components/Input'
@@ -18,31 +21,34 @@ export interface DeckPageNavigationProps {
 const DeckPageNavigation = ({ numberOfDecks }: DeckPageNavigationProps) => {
 	const [{ query, sortAlgorithm }] = useSearchState()
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
-	
-	const setQuery = useCallback((newQuery: string) => {
-		Router.push({
-			pathname: '/market',
-			query: flattenQuery({
-				q: newQuery,
-				s: sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-					? null
-					: sortAlgorithm
+
+	const setQuery = useCallback(
+		(newQuery: string) => {
+			Router.push({
+				pathname: '/market',
+				query: flattenQuery({
+					q: newQuery,
+					s:
+						sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM ? null : sortAlgorithm
+				})
 			})
-		})
-	}, [sortAlgorithm])
-	
-	const setSortAlgorithm = useCallback((newAlgorithm: DeckSortAlgorithm) => {
-		Router.push({
-			pathname: '/market',
-			query: flattenQuery({
-				q: query,
-				s: newAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-					? null
-					: newAlgorithm
+		},
+		[sortAlgorithm]
+	)
+
+	const setSortAlgorithm = useCallback(
+		(newAlgorithm: DeckSortAlgorithm) => {
+			Router.push({
+				pathname: '/market',
+				query: flattenQuery({
+					q: query,
+					s: newAlgorithm === DEFAULT_DECK_SORT_ALGORITHM ? null : newAlgorithm
+				})
 			})
-		})
-	}, [query])
-	
+		},
+		[query]
+	)
+
 	return (
 		<div className="header">
 			<Link href="/new">

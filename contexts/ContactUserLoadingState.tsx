@@ -12,18 +12,24 @@ export type ContactUserLoadingStateAction = Action<{
 
 const initialState: ContactUserLoadingStateState = {}
 
-const reducer = (state: ContactUserLoadingStateState, { type, payload }: ContactUserLoadingStateAction) =>
+const reducer = (
+	state: ContactUserLoadingStateState,
+	{ type, payload }: ContactUserLoadingStateAction
+) =>
 	type === ActionType.SetContactUserLoadingState
 		? { ...state, [payload.id]: payload.loadingState }
 		: state
 
-const Context = createContext<[ContactUserLoadingStateState, Dispatch<ContactUserLoadingStateAction>]>([
-	initialState,
-	console.log
-])
+const Context = createContext<
+	[ContactUserLoadingStateState, Dispatch<ContactUserLoadingStateAction>]
+>([initialState, console.log])
 export default Context
 
-export const ContactUserLoadingStateProvider = ({ children }: { children?: ReactNode }) => (
+export const ContactUserLoadingStateProvider = ({
+	children
+}: {
+	children?: ReactNode
+}) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

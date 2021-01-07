@@ -20,15 +20,19 @@ const SortDropdownTrigger = () => (
 	</>
 )
 
-const SortDropdown = (
-	{ shadow, isShowing, setIsShowing, algorithm, setAlgorithm }: {
-		shadow: DropdownShadow
-		isShowing: boolean
-		setIsShowing: (isShowing: boolean) => void
-		algorithm: DeckSortAlgorithm
-		setAlgorithm: (algorithm: DeckSortAlgorithm) => void
-	}
-) => (
+const SortDropdown = ({
+	shadow,
+	isShowing,
+	setIsShowing,
+	algorithm,
+	setAlgorithm
+}: {
+	shadow: DropdownShadow
+	isShowing: boolean
+	setIsShowing: (isShowing: boolean) => void
+	algorithm: DeckSortAlgorithm
+	setAlgorithm: (algorithm: DeckSortAlgorithm) => void
+}) => (
 	<Dropdown
 		className="sort-dropdown"
 		shadow={shadow}
@@ -38,7 +42,7 @@ const SortDropdown = (
 	>
 		{algorithms.map(({ title, type }) => {
 			const selected = algorithm === type
-			
+
 			return (
 				<button
 					key={type}

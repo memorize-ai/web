@@ -13,7 +13,7 @@ import logo from 'images/logos/capital.jpg'
 const Navbar = () => {
 	const isSignedIn = useLayoutAuthState()
 	const marketUrl = useUrlForMarket()
-	
+
 	return (
 		<div className="navbar">
 			<Link href="/">
@@ -28,19 +28,18 @@ const Navbar = () => {
 						<FontAwesomeIcon icon={faSearch} />
 					</a>
 				</Link>
-				{isSignedIn
-					? (
-						<Link href="/">
-							<a className="dashboard-button">Dashboard</a>
-						</Link>
-					)
-					: (
-						<AuthButton className="auth-button">
-							<p>Log in <span>/</span> Sign up</p>
-							<FontAwesomeIcon icon={faKey} />
-						</AuthButton>
-					)
-				}
+				{isSignedIn ? (
+					<Link href="/">
+						<a className="dashboard-button">Dashboard</a>
+					</Link>
+				) : (
+					<AuthButton className="auth-button">
+						<p>
+							Log in <span>/</span> Sign up
+						</p>
+						<FontAwesomeIcon icon={faKey} />
+					</AuthButton>
+				)}
 			</div>
 		</div>
 	)
