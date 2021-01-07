@@ -1,17 +1,17 @@
 import { resolve } from 'path'
-import { Browser, launch } from 'puppeteer'
+import puppeteer from 'puppeteer'
 import { compile } from 'handlebars'
 
 import { Context } from './models'
 import readFile from 'lib/readFile'
 
-const TEMPLATE_PATH = resolve('./public', 'print.hbs')
+const TEMPLATE_PATH = resolve('assets', 'print.hbs')
 
-let browser: Browser | null = null
+let browser: puppeteer.Browser | null = null
 let template: HandlebarsTemplateDelegate | null = null
 
 const getPage = async () =>
-	(browser ??= await launch()).newPage()
+	(browser ??= await puppeteer.launch()).newPage()
 
 const getTemplate = async () =>
 	template ??= compile(await readFile(TEMPLATE_PATH), { strict: true })

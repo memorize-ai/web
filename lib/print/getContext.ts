@@ -1,6 +1,6 @@
 import flatMap from 'lodash/flatMap'
 
-import { Context, SectionWithId } from './models'
+import { PrintError, Context, SectionWithId } from './models'
 import Deck from 'models/Deck'
 import firebase from 'lib/firebase/admin'
 
@@ -11,7 +11,7 @@ const firestore = firebase.firestore()
 
 const snapshotToSectionWithId = (snapshot: FirebaseFirestore.DocumentSnapshot): SectionWithId => {
 	if (!snapshot.exists)
-		throw new Error(`Unknown section with ID "${snapshot.id}"`)
+		throw new PrintError(404, 'Section not found')
 	
 	return {
 		id: snapshot.id,

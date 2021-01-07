@@ -1,5 +1,6 @@
 import { NextApiHandler } from 'next'
 
+import { PrintError } from './models'
 import getDeckBySlugId from 'lib/getDeckBySlugId'
 import getContext from './getContext'
 import getData from './getData'
@@ -15,10 +16,13 @@ const handler: NextApiHandler<Buffer | string> = async ({ method, query }, res) 
 		res.setHeader('Access-Control-Allow-Origin', '*')
 		
 		if (method !== 'GET')
-			return res.status(400).send('Invalid method')
+			throw new PrintError(400, 'Invalid method')
 		
 		const { slugId, slug, sectionId } = query as any as Query
 		const deck = await getDeckBySlugId(slugId)
+		
+		if (!deck)
+			throw new PrintError(404, 'Deck not found')
 		
 		if (deck.slug !== slug) {
 			res.redirect(301, `/print/${deck.slugId}/${deck.slug}${sectionId ? `/s/${sectionId}` : ''}`)
@@ -29,8 +33,8 @@ const handler: NextApiHandler<Buffer | string> = async ({ method, query }, res) 
 		
 		res.setHeader('Content-Type', 'application/pdf')
 		res.send(data)
-	} catch (error) {
-		res.status(404).send('Not found')
+	} catch ({ code, message }) {
+		res.status(typeof code === 'number' ? code : 500).send(message)
 	}
 }
 
