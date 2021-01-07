@@ -76,12 +76,15 @@ import 'styles/Modal/Copy.scss'
 
 config.autoAddCss = false
 
+const hubspotUrl = process.env.NEXT_PUBLIC_HUBSPOT_URL
+if (!hubspotUrl) throw new Error('Missing HubSpot URL')
+
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 	useEffect(() => {
 		const script = document.createElement('script')
 
 		script.id = 'hs-script-loader'
-		script.src = process.env.NEXT_PUBLIC_HUBSPOT_URL as string
+		script.src = hubspotUrl
 		script.async = true
 
 		document.body.append(script)

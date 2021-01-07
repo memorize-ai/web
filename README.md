@@ -1,20 +1,12 @@
 # [memorize.ai](https://memorize.ai)
 
-**memorize.ai Website**
-
 Also see [the iOS repository](https://github.com/memorize-ai/ios)
 
 ## Get started
 
 ### Clone
 
-#### Production
-
-```bash
-git clone https://github.com/memorize-ai/web.git
-```
-
-#### Development (to contribute)
+> Development is done on the `staging` branch
 
 ```bash
 git clone -b staging https://github.com/memorize-ai/web.git
