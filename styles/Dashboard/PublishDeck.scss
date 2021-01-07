@@ -7,30 +7,30 @@
 		'header' auto
 		'content' 1fr /
 		calc(100vw - var(--sidebar-width));
-	
+
 	> .header,
 	> .content {
 		padding: 0 var(--horizontal-padding);
 	}
-	
+
 	> .header {
 		grid-area: header;
 		display: flex;
 		align-items: center;
 		margin: 12px 4px;
-		
+
 		> :not(h1) {
 			flex-shrink: 0;
 		}
-		
+
 		> h1 {
 			@include overflow-ellipsis;
-			
+
 			margin-right: auto;
 			font-weight: 900;
 			color: white;
 		}
-		
+
 		> button {
 			height: 42px;
 			margin-left: 12px;
@@ -42,11 +42,11 @@
 			text-transform: uppercase;
 			border-radius: 8px;
 			transition: color 0.3s, background 0.3s, opacity 0.3s;
-			
+
 			&.disabled {
 				opacity: 0.8;
 			}
-			
+
 			&:not(.disabled):not(.loading) {
 				&:hover,
 				&:focus {
@@ -56,15 +56,15 @@
 			}
 		}
 	}
-	
+
 	> .content {
 		grid-area: content;
 		overflow-y: auto;
 		padding-bottom: var(--horizontal-padding);
-		
+
 		> .box {
 			@include shadow-lg;
-			
+
 			padding: var(--inner-horizontal-padding);
 			background: white;
 			border-radius: 8px;

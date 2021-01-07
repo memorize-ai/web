@@ -7,7 +7,7 @@ import { compose } from 'lib/utils'
 const useSearchState = () => {
 	const [state, dispatch] = useContext(SearchContext)
 	const setState = useCallback(compose(dispatch, setSearchState), [dispatch])
-	
+
 	return [state, setState] as const
 }
 

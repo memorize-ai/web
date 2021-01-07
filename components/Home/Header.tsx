@@ -10,17 +10,16 @@ const HomeHeader = () => (
 	<div className="header">
 		<div className="left">
 			<h1>
-				The ultimate<br />
+				The ultimate
+				<br />
 				memorization tool
 			</h1>
 			<h3>
-				We use <b>AI</b> to accurately predict when you need to review.
-				Welcome to efficient and effective memorization.
+				We use <b>AI</b> to accurately predict when you need to review. Welcome
+				to efficient and effective memorization.
 			</h3>
 			<div className="footer">
-				<AuthButton className="join-button">
-					Get started
-				</AuthButton>
+				<AuthButton className="join-button">Get started</AuthButton>
 				{isIosHandheld() || (
 					<a
 						className="app-store"

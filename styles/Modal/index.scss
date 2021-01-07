@@ -13,17 +13,17 @@
 	z-index: $modal-z-index;
 	will-change: background;
 	transition: background 0.3s;
-	
+
 	&.showing {
 		pointer-events: all;
 		background: transparentize(black, 0.5);
-		
+
 		> .content {
 			opacity: 1;
 			transform: none;
 		}
 	}
-	
+
 	> .content {
 		opacity: 0;
 		transform: translateY(-100px);

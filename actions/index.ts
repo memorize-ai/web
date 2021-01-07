@@ -16,7 +16,9 @@ export const setCurrentUser = (firebaseUser: firebase.User | null) => ({
 	payload: firebaseUser
 })
 
-export const updateCurrentUser = (snapshot: firebase.firestore.DocumentSnapshot) => ({
+export const updateCurrentUser = (
+	snapshot: firebase.firestore.DocumentSnapshot
+) => ({
 	type: ActionType.UpdateCurrentUser,
 	payload: snapshot
 })
@@ -56,7 +58,9 @@ export const updateDeck = (snapshot: firebase.firestore.DocumentSnapshot) => ({
 	payload: snapshot
 })
 
-export const updateDeckUserData = (snapshot: firebase.firestore.DocumentSnapshot) => ({
+export const updateDeckUserData = (
+	snapshot: firebase.firestore.DocumentSnapshot
+) => ({
 	type: ActionType.UpdateDeckUserData,
 	payload: snapshot
 })
@@ -80,12 +84,18 @@ export const setSimilarDecks = (deckId: string, decks: Deck[]) => ({
 
 // Sections
 
-export const addSections = (deckId: string, snapshots: firebase.firestore.DocumentSnapshot[]) => ({
+export const addSections = (
+	deckId: string,
+	snapshots: firebase.firestore.DocumentSnapshot[]
+) => ({
 	type: ActionType.AddSections,
 	payload: { deckId, snapshots }
 })
 
-export const updateSection = (deckId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
+export const updateSection = (
+	deckId: string,
+	snapshot: firebase.firestore.DocumentSnapshot
+) => ({
 	type: ActionType.UpdateSection,
 	payload: { deckId, snapshot }
 })
@@ -112,17 +122,26 @@ export const setCard = (snapshot: firebase.firestore.DocumentSnapshot) => ({
 	payload: snapshot
 })
 
-export const addCard = (parentId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
+export const addCard = (
+	parentId: string,
+	snapshot: firebase.firestore.DocumentSnapshot
+) => ({
 	type: ActionType.AddCard,
 	payload: { parentId, snapshot }
 })
 
-export const updateCard = (parentId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
+export const updateCard = (
+	parentId: string,
+	snapshot: firebase.firestore.DocumentSnapshot
+) => ({
 	type: ActionType.UpdateCard,
 	payload: { parentId, snapshot }
 })
 
-export const updateCardUserData = (parentId: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
+export const updateCardUserData = (
+	parentId: string,
+	snapshot: firebase.firestore.DocumentSnapshot
+) => ({
 	type: ActionType.UpdateCardUserData,
 	payload: { parentId, snapshot }
 })
@@ -161,7 +180,11 @@ export const setCreateDeckTopics = (value: string[]) => ({
 
 // Expanded sections
 
-export const toggleSectionExpanded = (deckId: string, sectionId: string, isOwned: boolean) => ({
+export const toggleSectionExpanded = (
+	deckId: string,
+	sectionId: string,
+	isOwned: boolean
+) => ({
 	type: ActionType.ToggleSectionExpanded,
 	payload: { deckId, sectionId, isOwned }
 })
@@ -187,7 +210,9 @@ export const setAuthModalIsShowing = (isShowing: boolean) => ({
 	payload: isShowing
 })
 
-export const setAuthModalCallback = (callback: ((user: User) => void) | null) => ({
+export const setAuthModalCallback = (
+	callback: ((user: User) => void) | null
+) => ({
 	type: ActionType.SetAuthModalCallback,
 	payload: callback
 })
@@ -204,7 +229,10 @@ export const setAuthModalInitialXp = (xp: number) => ({
 
 // Creator
 
-export const updateCreator = (uid: string, snapshot: firebase.firestore.DocumentSnapshot) => ({
+export const updateCreator = (
+	uid: string,
+	snapshot: firebase.firestore.DocumentSnapshot
+) => ({
 	type: ActionType.UpdateCreator,
 	payload: { uid, snapshot }
 })
@@ -241,7 +269,10 @@ export const addCardsRemoveAll = () => ({
 
 // Contact User
 
-export const setContactUserLoadingState = (id: string, loadingState: LoadingState) => ({
+export const setContactUserLoadingState = (
+	id: string,
+	loadingState: LoadingState
+) => ({
 	type: ActionType.SetContactUserLoadingState,
 	payload: { id, loadingState }
 })

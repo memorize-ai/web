@@ -2,41 +2,41 @@
 
 @include modal-content('input-modal') {
 	$margin: 8px;
-	
+
 	width: 100vw;
 	max-width: 500px;
 	margin: $margin;
 	background: white;
 	border-radius: 8px;
-	
+
 	> .header {
 		display: grid;
 		position: relative;
 		justify-content: center;
 		align-content: center;
 		height: 100px;
-		
+
 		> .title {
 			font-size: 26px;
 			text-align: center;
 		}
-		
+
 		> .hide {
 			$inset: 16px;
-			
+
 			position: absolute;
 			top: $inset;
 			right: $inset;
 			color: #4355f9;
 			transform: scale(1.4);
 			transition: opacity 0.3s;
-			
+
 			&:hover {
 				opacity: 0.5;
 			}
 		}
 	}
-	
+
 	> .content {
 		display: flex;
 		justify-content: center;
@@ -44,18 +44,18 @@
 		overflow: hidden;
 		margin: 0 30px 30px;
 		border-radius: 8px;
-		
+
 		> input,
 		> button {
 			height: 50px;
 		}
-		
+
 		> input {
 			flex-grow: 1;
 			padding: 0 4px 0 12px;
 			background: transparentize(#f0f1f8, 0.32);
 		}
-		
+
 		> button {
 			display: flex;
 			justify-content: center;
@@ -67,11 +67,11 @@
 			color: white;
 			background: #4355f9;
 			transition: background 0.3s, opacity 0.3s;
-			
+
 			&:disabled {
 				opacity: 0.5;
 			}
-			
+
 			&:not(:disabled) {
 				&:hover,
 				&:focus {

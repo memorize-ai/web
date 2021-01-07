@@ -16,7 +16,7 @@ $rating-colors: (
 
 @mixin background-card($multiplier) {
 	$margin: $card-offset * $multiplier;
-	
+
 	left: $margin;
 	right: $margin;
 	z-index: -$multiplier;
@@ -25,167 +25,167 @@ $rating-colors: (
 
 @include home-content('preview') {
 	$degrees: 6deg;
-	
+
 	@include stack;
-	
+
 	> .background {
 		@include top-gradient($degrees, $is-right: true);
 	}
-	
+
 	> .content {
 		$max-width: 800px + $margin * 2;
 		$vertical-margin: 60px;
-		
+
 		justify-self: center;
 		max-width: $max-width;
 		width: 100%;
-		margin: $vertical-margin 0 calc(#{$vertical-margin} + #{tan($degrees) * 100vw});
+		margin: $vertical-margin 0
+			calc(#{$vertical-margin} + #{tan($degrees) * 100vw});
 		padding: 0 $margin;
 		z-index: 0;
-		
+
 		> .title {
 			margin-bottom: 40px;
 			text-align: center;
 			font-size: 23px;
 			font-weight: 900;
 			color: white;
-			transition: margin-bottom 0.3s, font-size 0.3s;
-			
+
 			@media (min-width: 400px) {
 				font-size: 25px;
 			}
-			
+
 			@media (min-width: 465px) {
 				font-size: 30px;
 			}
-			
+
 			@media (min-width: 535px) {
 				font-size: 35px;
 			}
-			
+
 			@media (min-width: 600px) {
 				font-size: 40px;
 			}
-			
+
 			@media (min-width: 650px) {
 				margin-bottom: 50px;
 			}
-			
+
 			@media (min-width: 780px) {
 				margin-bottom: 60px;
 				font-size: 50px;
 			}
 		}
-		
+
 		> .preview-navbar {
 			display: flex;
 			flex-direction: column-reverse;
-			
+
 			@media (min-width: 650px) {
 				flex-direction: row;
 				justify-content: space-between;
 				align-items: center;
 			}
-			
+
 			> .location {
 				$height: 44px;
-				
+
 				display: flex;
 				align-items: flex-end;
 				margin-top: 30px;
 				font-weight: 900;
 				color: white;
-				
+
 				@media (min-width: 650px) {
 					margin-top: 0;
 				}
-				
+
 				> .count {
 					margin-right: 12px;
 					line-height: $height;
 					font-size: $height;
 				}
-				
+
 				> .text {
 					font-size: $height / 2;
 					opacity: 0.8;
 				}
 			}
-			
+
 			> .items {
 				display: flex;
 				flex-direction: column;
-				
+
 				@media (min-width: 405px) {
 					flex-direction: row;
 				}
-				
+
 				> .market-search-link {
 					@media (min-width: 405px) {
 						margin-right: 12px;
 					}
-					
+
 					@media (max-width: 405px) {
 						max-width: none;
 						margin-bottom: 12px;
 					}
 				}
-				
+
 				> .preview-claim-xp-button {
 					flex-shrink: 0;
-					
+
 					@media (min-width: 405px) and (max-width: 475px) {
 						font-size: 16px;
 					}
 				}
 			}
 		}
-		
+
 		> .card-container {
 			margin-top: 20px;
 			padding-bottom: $card-offset * 2;
-			
+
 			@media (min-width: 350px) {
 				margin-top: 40px;
 			}
-			
+
 			> .location {
 				display: flex;
 				align-items: center;
 				max-width: calc(100vw - #{$margin * 2});
 				height: 27px;
-				transition: height 0.3s, opacity 0.3s;
-				
+				transition: opacity 0.3s;
+
 				&.hidden {
 					height: 0;
 					pointer-events: none;
 					opacity: 0;
 				}
-				
+
 				> .deck,
 				> .section,
 				> .flag {
 					font-size: 16px;
 					font-weight: 900;
 					color: white;
-					
+
 					@media (min-width: 445px) {
 						font-size: 18px;
 					}
 				}
-				
+
 				> .deck {
 					@include overflow-ellipsis;
 				}
-				
+
 				> .divider,
 				> .section {
 					flex-shrink: 0;
 				}
-				
+
 				> .divider {
 					$width: 3px;
-					
+
 					align-self: stretch;
 					width: $width;
 					margin: 2px 12px;
@@ -193,41 +193,50 @@ $rating-colors: (
 					border-radius: $width / 2;
 					transform: translateY(1px);
 				}
-				
+
 				> .flag {
 					display: none;
 					margin-left: auto;
 					padding-left: 12px;
 					text-transform: lowercase;
 					opacity: 0.6;
-					
+
 					@media (min-width: 405px) {
 						display: block;
 					}
 				}
 			}
-			
+
 			> .cards {
 				position: relative;
 				min-height: 40px;
 				max-height: calc(100vh - #{$card-offset * 2 + 300px});
 				height: 350px;
 				margin-top: 8px;
-				transition: height 0.3s;
-				
+
 				@media (min-width: 350px) {
 					max-height: calc(100vh - #{$card-offset * 2 + 320px});
 				}
-				
-				@media (min-width: 320px) { height: 400px; }
-				@media (min-width: 350px) { height: 450px; }
-				@media (min-width: 400px) { height: 450px; }
-				@media (min-width: 460px) { height: 500px; }
-				@media (min-width: 510px) { height: 560px; }
-				
+
+				@media (min-width: 320px) {
+					height: 400px;
+				}
+				@media (min-width: 350px) {
+					height: 450px;
+				}
+				@media (min-width: 400px) {
+					height: 450px;
+				}
+				@media (min-width: 460px) {
+					height: 500px;
+				}
+				@media (min-width: 510px) {
+					height: 560px;
+				}
+
 				> .card {
 					$content-padding: 20px;
-					
+
 					position: absolute;
 					top: 0;
 					bottom: 0;
@@ -235,57 +244,60 @@ $rating-colors: (
 					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
 					transition: opacity 0.3s, transform 0.3s;
-					
+
 					&.foreground,
 					&.next {
 						left: 0;
 						right: 0;
-						
+
 						> .container {
-							$full-katex-width: calc(#{unquote(
-								'100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2}'
-							)});
-							
+							$full-katex-width: calc(
+								#{unquote(
+										'100vw - var(--sidebar-width) - #{$margin * 2 + $content-padding * 2}'
+									)}
+							);
+
 							position: relative;
-							
+
 							@include card-side-katex-width(
 								css-min($max-width - $content-padding * 2, $full-katex-width)
 							);
-							
+
 							&,
 							> .content {
 								width: 100%;
 								height: 100%;
 							}
-							
+
 							> .content {
 								overflow-y: auto;
 								padding: $content-padding;
 							}
 						}
 					}
-					
+
 					&.foreground {
 						cursor: pointer;
 						z-index: 1;
-						
+
 						&.waiting-for-flip:hover {
 							transform: scale(1.02);
 						}
-						
+
 						&.shift {
-							animation: preview-card-shift $shift-animation-duration ease-in-out;
-							
+							animation: preview-card-shift $shift-animation-duration
+								ease-in-out;
+
 							@keyframes preview-card-shift {
 								to {
 									transform: translateX(100vw);
 								}
 							}
 						}
-						
+
 						&.flip > .container > .content {
 							animation: preview-card-flip $flip-animation-duration ease-in-out;
-							
+
 							@keyframes preview-card-flip {
 								50% {
 									opacity: 0;
@@ -293,16 +305,16 @@ $rating-colors: (
 								}
 							}
 						}
-						
+
 						> .container > .flip {
 							$inset: 25px;
-							
+
 							display: flex;
 							position: absolute;
 							align-items: flex-end;
 							right: $inset;
 							bottom: $inset;
-							
+
 							> p {
 								margin-right: 24px;
 								text-transform: uppercase;
@@ -311,10 +323,10 @@ $rating-colors: (
 								opacity: 0.5;
 								transform: translateY(10px);
 							}
-							
+
 							> svg {
 								$dimension: 13px;
-								
+
 								width: $dimension;
 								height: $dimension;
 								padding: 2px;
@@ -325,24 +337,24 @@ $rating-colors: (
 							}
 						}
 					}
-					
+
 					&.next {
 						box-shadow: none;
 					}
-					
+
 					@for $layer from 1 through 2 {
 						&.background-#{$layer} {
 							@include background-card($layer);
 						}
 					}
-					
+
 					&.hidden {
 						pointer-events: none;
 						opacity: 0;
 						transform: none;
 					}
 				}
-				
+
 				> .completion {
 					display: flex;
 					position: relative;
@@ -353,58 +365,56 @@ $rating-colors: (
 					text-align: center;
 					z-index: -3;
 					transition: opacity 0.3s;
-					
+
 					&.hidden {
 						opacity: 0;
 					}
-					
+
 					> .emoji {
 						margin: 35px 0 -10px;
 						font-size: 70px;
-						
+
 						@media (min-width: 400px) {
 							margin-bottom: 0;
 							font-size: 100px;
 						}
-						
+
 						@media (min-width: 600px) {
 							margin-top: 0;
 						}
 					}
-					
+
 					> .title {
 						font-size: 20px;
 						font-weight: 900;
 						color: white;
-						transition: font-size 0.3s;
-						
+
 						@media (min-width: 350px) {
 							font-size: 24px;
 						}
-						
+
 						@media (min-width: 405px) {
 							font-size: 30px;
 						}
 					}
-					
+
 					> .subtitle {
 						margin-top: 8px;
 						font-size: 20px;
 						font-weight: 900;
 						color: white;
 						opacity: 0.7;
-						transition: font-size 0.3s;
-						
+
 						@media (min-width: 405px) {
 							font-size: 22px;
 						}
-						
+
 						> .loader {
 							display: inline-block;
 							margin: 0 2px -3px;
 						}
 					}
-					
+
 					> .confetti {
 						position: absolute;
 						top: 50%;
@@ -414,134 +424,133 @@ $rating-colors: (
 				}
 			}
 		}
-		
+
 		> .footer {
 			$vertical-offset: 100px;
-			
+
 			@include stack;
-			
+
 			justify-items: center;
 			align-items: center;
 			margin-top: 40px;
-			
+
 			&.finished {
 				> .preview-claim-xp-button {
 					pointer-events: all !important;
 					opacity: 1 !important;
 				}
-				
+
 				> .message,
 				> .buttons {
 					pointer-events: none !important;
 					opacity: 0 !important;
 				}
 			}
-			
+
 			&.waiting-for-rating {
 				> .message {
 					opacity: 0;
 					transform: translateY($vertical-offset);
 				}
-				
+
 				> .buttons {
 					pointer-events: all;
 					opacity: 1;
 					transform: none;
 				}
 			}
-			
+
 			> .preview-claim-xp-button {
 				max-width: 350px;
 				width: 100%;
 				pointer-events: none;
 				opacity: 0;
 			}
-			
+
 			> .message,
 			> .buttons {
 				transition: opacity 0.3s, transform 0.3s;
 			}
-			
+
 			> .message {
 				text-align: center;
 				font-size: 20px;
 				font-weight: 900;
 				color: white;
 			}
-			
+
 			> .buttons {
 				display: flex;
 				justify-content: center;
 				opacity: 0;
 				pointer-events: none;
 				transform: translateY($vertical-offset);
-				
+
 				> button {
 					width: 75px;
 					overflow: hidden;
 					background: white;
 					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
-					transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
-					
+					transition: border-color 0.3s,
+						box-shadow 0.3s;
+
 					@media (min-width: 350px) {
 						width: 90px;
 					}
-					
+
 					@media (min-width: 380px) {
 						width: 100px;
 					}
-					
+
 					@media (min-width: 500px) {
 						width: 130px;
 					}
-					
+
 					@media (min-width: 600px) {
 						width: 165px;
 					}
-					
+
 					> .text {
 						display: flex;
 						justify-content: center;
 						align-items: center;
 						height: 52px;
-						
+
 						> .emoji {
 							display: none;
 							margin-right: 8px;
 							font-size: 20px;
-							transition: margin-right 0.3s, font-size 0.3s;
-							
+
 							@media (min-width: 500px) {
 								display: block;
 							}
-							
+
 							@media (min-width: 600px) {
 								margin-right: 12px;
 								font-size: 24px;
 							}
 						}
-						
+
 						> .title {
 							text-transform: uppercase;
 							font-size: 9px;
 							font-weight: 900;
 							color: $dark-gray;
-							transition: font-size 0.3s;
-							
+
 							@media (min-width: 340px) {
 								font-size: 12px;
 							}
-							
+
 							@media (min-width: 600px) {
 								font-size: 16px;
 							}
 						}
 					}
-					
+
 					> .prediction {
 						$height: 25px;
-						
+
 						min-width: 50px;
 						width: 100%;
 						height: $height;
@@ -552,34 +561,31 @@ $rating-colors: (
 						font-size: 10px;
 						font-weight: 900;
 						color: $dark-gray;
-						
+
 						@media (min-width: 350px) {
 							width: max-content;
 							margin: 0 auto 12px;
 							font-size: 12px;
 							border-radius: 8px;
 						}
-						
+
 						@media (min-width: 420px) {
 							min-width: 65px;
 							font-size: 14px;
 						}
-						
+
 						@for $i from 0 through 2 {
 							&.rating-#{$i} {
-								background: transparentize(
-									map-get($rating-colors, $i),
-									0.84
-								);
+								background: transparentize(map-get($rating-colors, $i), 0.84);
 							}
 						}
 					}
-					
+
 					&:hover {
 						border-color: white;
 						box-shadow: none;
 					}
-					
+
 					&:not(:last-child) {
 						margin-right: 12px;
 					}
@@ -591,7 +597,7 @@ $rating-colors: (
 
 @include modal-content('preview-progress') {
 	$margin: 20px;
-	
+
 	display: flex;
 	position: relative;
 	flex-direction: column;
@@ -604,49 +610,49 @@ $rating-colors: (
 	padding: 50px;
 	background: #051e34;
 	border-radius: 15px;
-	
+
 	> .badges {
 		$inset: 20px;
-		
+
 		display: flex;
 		position: absolute;
 		top: $inset;
 		left: $inset;
-		
+
 		> .badge {
 			padding: 2px 8px;
 			font-size: 18px;
 			font-weight: 900;
 			border-radius: 5px;
-			
+
 			&.xp {
 				color: $dark-gray;
 				background: #ffcb6b;
 			}
-			
+
 			&.streak {
 				color: white;
 				background: #06ba7a;
 			}
-			
+
 			&:not(:last-child) {
 				margin-right: 8px;
 			}
 		}
 	}
-	
+
 	> .emoji {
 		margin-bottom: 20px;
 		font-size: 80px;
 	}
-	
+
 	> .message {
 		text-align: center;
 		font-weight: 900;
 		font-size: 40px;
 		color: white;
 	}
-	
+
 	> .next {
 		min-width: 65px;
 		width: max-content;
@@ -657,13 +663,10 @@ $rating-colors: (
 		font-weight: 900;
 		color: white;
 		border-radius: 8px;
-		
+
 		@for $i from 0 through 2 {
 			&.rating-#{$i} {
-				background: transparentize(
-					map-get($rating-colors, $i),
-					0.15
-				);
+				background: transparentize(map-get($rating-colors, $i), 0.15);
 			}
 		}
 	}

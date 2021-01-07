@@ -10,7 +10,7 @@ const PreviewClaimXPButton = ({
 	...props
 }: { inverted?: boolean } & ButtonHTMLAttributes<HTMLButtonElement>) => {
 	const { initialXp } = useAuthModal()
-	
+
 	return (
 		<AuthButton
 			{...props}
@@ -18,10 +18,13 @@ const PreviewClaimXPButton = ({
 			signUp
 			goToAppStoreIfHandheldIos
 		>
-			{initialXp > 0
-				? <>Claim <span>{initialXp} xp</span></>
-				: 'Start learning'
-			}
+			{initialXp > 0 ? (
+				<>
+					Claim <span>{initialXp} xp</span>
+				</>
+			) : (
+				'Start learning'
+			)}
 		</AuthButton>
 	)
 }

@@ -11,26 +11,32 @@ interface Query {
 	sectionId?: string
 }
 
-const handler: NextApiHandler<Buffer | string> = async ({ method, query }, res) => {
+const handler: NextApiHandler<Buffer | string> = async (
+	{ method, query },
+	res
+) => {
 	try {
 		res.setHeader('Access-Control-Allow-Origin', '*')
-		
-		if (method !== 'GET')
-			throw new PrintError(400, 'Invalid method')
-		
-		const { slugId, slug, sectionId } = query as any as Query
+
+		if (method !== 'GET') throw new PrintError(400, 'Invalid method')
+
+		const { slugId, slug, sectionId } = (query as unknown) as Query
 		const deck = await getDeckBySlugId(slugId)
-		
-		if (!deck)
-			throw new PrintError(404, 'Deck not found')
-		
+
+		if (!deck) throw new PrintError(404, 'Deck not found')
+
 		if (deck.slug !== slug) {
-			res.redirect(301, `/print/${deck.slugId}/${deck.slug}${sectionId ? `/s/${sectionId}` : ''}`)
+			res.redirect(
+				301,
+				`/print/${deck.slugId}/${deck.slug}${
+					sectionId ? `/s/${sectionId}` : ''
+				}`
+			)
 			return
 		}
-		
+
 		const data = await getData(await getContext(deck, sectionId))
-		
+
 		res.setHeader('Content-Type', 'application/pdf')
 		res.send(data)
 	} catch ({ code, message }) {

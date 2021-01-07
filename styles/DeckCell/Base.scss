@@ -5,9 +5,9 @@
 	$min-width: 572px;
 	$max-width: $min-width + 100px;
 	$height: 195px;
-	
+
 	@include raise-on-hover;
-	
+
 	display: flex;
 	overflow: hidden;
 	min-width: $min-width;
@@ -16,56 +16,56 @@
 	background: white;
 	border: 1px solid #eee;
 	border-radius: 8px;
-	
+
 	> img {
 		width: $height;
 		height: $height;
 		object-fit: cover;
 		background: white;
 	}
-	
+
 	> .content {
 		padding: 16px;
-		
+
 		> .name,
 		> .subtitle,
 		> .creator > span {
 			@include prepare-for-line-limit;
-			
+
 			overflow: hidden;
 		}
-		
+
 		> .name {
 			font-size: 18px;
 			font-weight: 900;
 			color: $dark-gray;
 		}
-		
+
 		> .subtitle,
 		> .creator {
 			color: #9b9b9b;
 		}
-		
+
 		> .subtitle,
 		> .creator > span {
 			-webkit-line-clamp: 1;
 		}
-		
+
 		> .subtitle {
 			font-size: 15px;
 			font-weight: 800;
 		}
-		
+
 		> .creator {
 			display: flex;
 			align-items: center;
 			margin: 6px 0;
-			
+
 			> svg {
 				margin-right: 8px;
 				transform: scale(1.5);
 			}
-			
+
 			> span {
 				font-weight: bold;
 			}

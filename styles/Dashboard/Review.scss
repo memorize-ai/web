@@ -27,19 +27,19 @@ $rating-colors: (
 		height: 100vh;
 		overflow: hidden;
 		padding: 0 var(--horizontal-padding);
-		
+
 		> .review-navbar {
 			$button-height: 40px;
-			
+
 			display: flex;
 			align-items: center;
 			overflow-x: auto;
 			margin-top: 20px;
-			
+
 			> * {
 				flex-shrink: 0;
 			}
-			
+
 			> .back,
 			> .skip,
 			> .recap {
@@ -48,58 +48,58 @@ $rating-colors: (
 				border: 2px solid transparentize(#eee, 0.8);
 				border-radius: 8px;
 				transition: opacity 0.3s, border-color 0.3s;
-				
+
 				&:hover {
 					opacity: 0.5;
 					border-color: transparentize(#eee, 0.6);
 				}
 			}
-			
+
 			> .back {
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				width: $button-height;
 				margin-right: 12px;
-				
+
 				> svg {
 					transform: scale(1.5);
 					transition: transform 0.3s;
 				}
-				
+
 				&:hover > svg {
 					transform: scale(1.7);
 				}
 			}
-			
+
 			> .progress,
 			> .skip,
 			> .recap {
 				font-weight: 900;
 			}
-			
+
 			> .progress {
 				margin-right: auto;
 				font-size: 25px;
 				color: white;
 				transform: translateY(-1px);
 			}
-			
+
 			> .skip,
 			> .recap {
 				padding: 0 12px;
 				text-transform: uppercase;
 				font-size: 18px;
 			}
-			
+
 			> .skip {
 				margin: 0 12px;
 			}
 		}
-		
+
 		> .card-container {
 			$max-width: 800px;
-			
+
 			flex-grow: 1;
 			align-self: center;
 			display: flex;
@@ -107,11 +107,11 @@ $rating-colors: (
 			max-width: $max-width;
 			width: 100%;
 			margin-top: 50px;
-			
+
 			> .location {
 				display: flex;
 				align-items: center;
-				
+
 				> .deck,
 				> .section,
 				> .flag {
@@ -119,19 +119,19 @@ $rating-colors: (
 					font-weight: 900;
 					color: white;
 				}
-				
+
 				> .deck {
 					@include overflow-ellipsis;
 				}
-				
+
 				> .divider,
 				> .section {
 					flex-shrink: 0;
 				}
-				
+
 				> .divider {
 					$width: 3px;
-					
+
 					align-self: stretch;
 					width: $width;
 					margin: 2px 12px;
@@ -139,7 +139,7 @@ $rating-colors: (
 					border-radius: $width / 2;
 					transform: translateY(1px);
 				}
-				
+
 				> .flag {
 					margin-left: auto;
 					padding-left: 12px;
@@ -147,19 +147,19 @@ $rating-colors: (
 					opacity: 0.6;
 				}
 			}
-			
+
 			> .cards {
 				flex-grow: 1;
 				position: relative;
 				margin: 8px 0 $card-offset * 2;
-				
+
 				&.clickable {
 					cursor: pointer;
 				}
-				
+
 				> .card {
 					$content-padding: 20px;
-					
+
 					position: absolute;
 					top: 0;
 					right: 0;
@@ -168,47 +168,49 @@ $rating-colors: (
 					background: white;
 					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
-					
+
 					&.foreground {
 						&.flip > .container > .content {
 							animation: review-card-flip $flip-animation-duration ease-in-out;
 						}
-						
+
 						&.shift {
 							animation: review-card-shift $shift-animation-duration ease-in-out;
 						}
-						
+
 						> .container {
-							$full-katex-width: calc(#{unquote(
-								'100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 + #{$content-padding * 2}'
-							)});
-							
+							$full-katex-width: calc(
+								#{unquote(
+										'100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 + #{$content-padding * 2}'
+									)}
+							);
+
 							position: relative;
-							
+
 							@include card-side-katex-width(
 								css-min($max-width - $content-padding * 2, $full-katex-width)
 							);
-							
+
 							&,
 							> .content {
 								width: 100%;
 								height: 100%;
 							}
-							
+
 							> .content {
 								overflow-y: auto;
 								padding: $content-padding;
 							}
-							
+
 							> .flip {
 								$inset: 25px;
-								
+
 								display: flex;
 								position: absolute;
 								align-items: flex-end;
 								right: $inset;
 								bottom: $inset;
-								
+
 								> p {
 									margin-right: 24px;
 									text-transform: uppercase;
@@ -217,10 +219,10 @@ $rating-colors: (
 									opacity: 0.5;
 									transform: translateY(10px);
 								}
-								
+
 								> svg {
 									$dimension: 13px;
-									
+
 									width: $dimension;
 									height: $dimension;
 									padding: 2px;
@@ -231,33 +233,33 @@ $rating-colors: (
 								}
 							}
 						}
-						
+
 						@keyframes review-card-flip {
 							50% {
 								opacity: 0;
 								transform: scale(0.9);
 							}
 						}
-						
+
 						@keyframes review-card-shift {
 							50% {
 								opacity: 0;
 								transform: translateX(calc(var(--sidebar-width) - 100vw));
 							}
-							
+
 							50.01% {
 								opacity: 0;
 								transform: translateX(calc(100vw - var(--sidebar-width)));
 							}
 						}
 					}
-					
+
 					&.loading {
 						display: flex;
 						justify-content: center;
 						align-items: center;
 					}
-					
+
 					@for $layer from 1 through 2 {
 						&.background-#{$layer} {
 							@include background-card($layer);
@@ -266,33 +268,33 @@ $rating-colors: (
 				}
 			}
 		}
-		
+
 		> footer {
 			$vertical-offset: 100px;
-			
+
 			@include stack;
-			
+
 			justify-items: center;
 			align-items: center;
 			padding: 40px 0;
-			
+
 			&.waiting-for-rating {
 				> .message {
 					opacity: 0;
 					transform: translateY($vertical-offset);
 				}
-				
+
 				> .buttons {
 					opacity: 1;
 					transform: none;
 				}
 			}
-			
+
 			> .message,
 			> .buttons {
 				transition: opacity 0.3s, transform 0.3s;
 			}
-			
+
 			> .message {
 				text-align: center;
 				font-size: 20px;
@@ -300,71 +302,69 @@ $rating-colors: (
 				color: $dark-gray;
 				opacity: 0.8;
 			}
-			
+
 			> .buttons {
 				display: flex;
 				opacity: 0;
 				transform: translateY($vertical-offset);
-				
+
 				> button {
 					padding: 0 14px;
 					background: white;
 					border: 1px solid #eee;
 					border-radius: 8px;
-					transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
-					
+					transition: border-color 0.3s, box-shadow 0.3s;
+
 					@media (min-width: 400px) {
 						width: 100px;
 						padding: 0;
 					}
-					
+
 					@media (min-width: 500px) {
 						width: 130px;
 					}
-					
+
 					@media (min-width: 600px) {
 						width: 165px;
 					}
-					
+
 					> .text {
 						display: flex;
 						justify-content: center;
 						align-items: center;
 						height: 52px;
-						
+
 						> .emoji {
 							display: none;
 							margin-right: 8px;
 							font-size: 20px;
-							transition: margin-right 0.3s, font-size 0.3s;
-							
+
 							@media (min-width: 500px) {
 								display: block;
 							}
-							
+
 							@media (min-width: 600px) {
 								margin-right: 12px;
 								font-size: 24px;
 							}
 						}
-						
+
 						> .title {
 							text-transform: uppercase;
 							font-size: 9px;
 							font-weight: 900;
 							color: $dark-gray;
-							transition: font-size 0.3s;
-							
+
 							@media (min-width: 340px) {
 								font-size: 12px;
 							}
-							
+
 							@media (min-width: 600px) {
 								font-size: 16px;
 							}
 						}
 					}
-					
+
 					> .prediction {
 						min-width: 65px;
 						width: max-content;
@@ -376,32 +376,29 @@ $rating-colors: (
 						font-weight: 900;
 						color: $dark-gray;
 						border-radius: 8px;
-						
+
 						@for $i from 0 through 2 {
 							&.rating-#{$i} {
-								background: transparentize(
-									map-get($rating-colors, $i),
-									0.84
-								);
+								background: transparentize(map-get($rating-colors, $i), 0.84);
 							}
 						}
-						
+
 						&.loading {
 							display: flex;
 							justify-content: center;
 							align-items: center;
-							
+
 							> .loader {
 								margin-bottom: 1px;
 							}
 						}
 					}
-					
+
 					&:hover {
 						border-color: white;
 						box-shadow: 0 4px 8px transparentize(black, 0.9);
 					}
-					
+
 					&:not(:last-child) {
 						margin-right: 12px;
 					}
@@ -413,7 +410,7 @@ $rating-colors: (
 
 @include modal-content('review-progress') {
 	$margin: 20px;
-	
+
 	display: flex;
 	position: relative;
 	flex-direction: column;
@@ -426,49 +423,49 @@ $rating-colors: (
 	padding: 50px;
 	background: #051e34;
 	border-radius: 15px;
-	
+
 	> .badges {
 		$inset: 20px;
-		
+
 		display: flex;
 		position: absolute;
 		top: $inset;
 		left: $inset;
-		
+
 		> .badge {
 			padding: 2px 8px;
 			font-size: 18px;
 			font-weight: 900;
 			border-radius: 5px;
-			
+
 			&.xp {
 				color: $dark-gray;
 				background: #ffcb6b;
 			}
-			
+
 			&.streak {
 				color: white;
 				background: #06ba7a;
 			}
-			
+
 			&:not(:last-child) {
 				margin-right: 8px;
 			}
 		}
 	}
-	
+
 	> .emoji {
 		margin-bottom: 20px;
 		font-size: 80px;
 	}
-	
+
 	> .message {
 		text-align: center;
 		font-weight: 900;
 		font-size: 40px;
 		color: white;
 	}
-	
+
 	> .next {
 		min-width: 65px;
 		width: max-content;
@@ -479,13 +476,10 @@ $rating-colors: (
 		font-weight: 900;
 		color: white;
 		border-radius: 8px;
-		
+
 		@for $i from 0 through 2 {
 			&.rating-#{$i} {
-				background: transparentize(
-					map-get($rating-colors, $i),
-					0.15
-				);
+				background: transparentize(map-get($rating-colors, $i), 0.15);
 			}
 		}
 	}
@@ -493,7 +487,7 @@ $rating-colors: (
 
 @include modal-content('review-recap') {
 	$margin: 20px;
-	
+
 	display: flex;
 	flex-direction: column;
 	max-width: 650px;
@@ -504,44 +498,44 @@ $rating-colors: (
 	padding: 20px;
 	background: #051e34;
 	border-radius: 15px;
-	
+
 	> .emoji {
 		margin-bottom: -15px;
 		text-align: center;
 		font-size: 80px;
 	}
-	
+
 	> .data {
 		margin-top: 20px;
-		
+
 		> .title {
 			text-transform: uppercase;
 			font-weight: 900;
 			color: white;
 		}
-		
+
 		> .content {
 			font-weight: bold;
 			color: transparentize(white, 0.5);
-			
+
 			> span {
 				color: white;
-				
+
 				&.deck-name {
 					color: #ffcb6b;
 				}
-				
+
 				&.section-name {
 					color: #c792ea;
 				}
-				
+
 				&.section-card-count {
 					color: #89ddff;
 				}
 			}
 		}
 	}
-	
+
 	> .done {
 		margin: 20px 0 0 auto;
 		padding: 6px 20px;
@@ -551,7 +545,7 @@ $rating-colors: (
 		background: #0288d1;
 		border-radius: 13px;
 		transition: color 0.3s, background 0.3s;
-		
+
 		&:hover {
 			color: #0288d1;
 			background: white;

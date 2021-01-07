@@ -2,7 +2,13 @@ import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { Svg } from 'react-optimized-image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faPrint, faStar as faStarFilled, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {
+	faBars,
+	faPrint,
+	faStar as faStarFilled,
+	faTimes,
+	faTrash
+} from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarOutlined } from '@fortawesome/free-regular-svg-icons'
 import cx from 'classnames'
 
@@ -24,55 +30,68 @@ import decks from 'images/icons/decks.svg'
 
 const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	const [currentUser] = useCurrentUser()
-	
-	const [isCreateSectionModalShowing, setIsCreateSectionModalShowing] = useState(false)
+
+	const [
+		isCreateSectionModalShowing,
+		setIsCreateSectionModalShowing
+	] = useState(false)
 	const [isShareModalShowing, setIsShareModalShowing] = useState(false)
 	const [isDeleteModalShowing, setIsDeleteModalShowing] = useState(false)
-	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(false)
+	const [isOptionsDropdownShowing, setIsOptionsDropdownShowing] = useState(
+		false
+	)
 	const [removeDeck, removeDeckModalProps] = useRemoveDeckModal()
-	
+
 	const isFavorite = deck?.userData?.isFavorite ?? false
 	const isOwner = currentUser && deck?.creatorId === currentUser.id
 	const numberOfUnlockedCards = deck?.userData?.numberOfUnlockedCards ?? 0
 	const numberOfUnlockedCardsFormatted = formatNumber(numberOfUnlockedCards)
 	const numberOfDueCards = deck?.userData?.numberOfDueCards ?? 0
 	const numberOfDueCardsFormatted = formatNumber(numberOfDueCards)
-	
+
 	const onConfirmDelete = useCallback(() => {
-		if (!(deck && currentUser))
-			return
-		
+		if (!(deck && currentUser)) return
+
 		deck.delete(currentUser.id)
-		
+
 		setIsOptionsDropdownShowing(false)
 		setIsDeleteModalShowing(false)
 	}, [deck, currentUser, setIsOptionsDropdownShowing, setIsDeleteModalShowing])
-	
+
 	return (
 		<div className={cx('header', { owned: isOwner, loading: !deck })}>
 			<img src={deck?.imageUrl ?? defaultImage} alt="Deck" />
-			<h1 className="name">
-				{deck?.name}
-			</h1>
+			<h1 className="name">{deck?.name}</h1>
 			{deck && (
 				<>
 					<Link href={deck.reviewUrl()}>
 						<a
-							className={cx('review-button', { disabled: !numberOfDueCards })}
+							className={cx('review-button', {
+								disabled: !numberOfDueCards
+							})}
 							aria-label="The magic of memorize.ai - efficient long-term memorization"
 							data-balloon-pos="up"
 						>
-							<p>Review{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted}`}</p>
+							<p>
+								Review
+								{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted}`}
+							</p>
 							{numberOfDueCards > 0 && <Svg src={decks} />}
 						</a>
 					</Link>
 					<Link href={deck.cramUrl()}>
 						<a
-							className={cx('cram-button', { disabled: !numberOfUnlockedCards })}
+							className={cx('cram-button', {
+								disabled: !numberOfUnlockedCards
+							})}
 							aria-label="Fast and easy - perfect right before an exam"
 							data-balloon-pos="up"
 						>
-							<p>Cram{numberOfUnlockedCards > 0 && ` ${numberOfUnlockedCardsFormatted}`}</p>
+							<p>
+								Cram
+								{numberOfUnlockedCards > 0 &&
+									` ${numberOfUnlockedCardsFormatted}`}
+							</p>
 							{numberOfUnlockedCards > 0 && <Svg src={decks} />}
 						</a>
 					</Link>
@@ -96,12 +115,17 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 				isShowing={isOptionsDropdownShowing}
 				setIsShowing={setIsOptionsDropdownShowing}
 			>
-				<button onClick={() => currentUser && deck?.toggleFavorite(currentUser.id)}>
+				<button
+					onClick={() => currentUser && deck?.toggleFavorite(currentUser.id)}
+				>
 					<FontAwesomeIcon
 						icon={isFavorite ? faStarFilled : faStarOutlined}
 						className="star"
 					/>
-					<p>{isFavorite ? 'Unf' : 'F'}avorite ({formatNumber(deck?.numberOfFavorites ?? 0)})</p>
+					<p>
+						{isFavorite ? 'Unf' : 'F'}avorite (
+						{formatNumber(deck?.numberOfFavorites ?? 0)})
+					</p>
 				</button>
 				<a href={deck?.printUrl} rel="noopener noreferrer" target="_blank">
 					<FontAwesomeIcon icon={faPrint} className="print" />

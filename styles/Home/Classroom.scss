@@ -23,54 +23,50 @@
 
 @include home-content('classroom') {
 	$degrees: 6deg;
-	
+
 	display: flex;
 	position: relative;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	
+
 	@media (min-width: 675px) {
 		flex-direction: row;
 	}
-	
+
 	.diagram {
 		max-width: calc(100vw - 60px);
 		width: 275px;
 		height: auto;
-		transition: width 0.3s;
-		
+
 		@include diagram($screen-width: 700px, $width: 300px);
 		@include diagram($screen-width: 850px, $width: 350px);
 		@include diagram($screen-width: 970px, $width: 400px);
 		@include diagram($screen-width: 1120px, $width: 450px);
 		@include diagram($screen-width: 1225px, $width: 500px);
 	}
-	
+
 	> .text {
 		margin-top: 20px;
-		transition:
-			margin-top 0.3s,
-			margin-left 0.3s;
-		
+
 		@media (min-width: 675px) {
 			margin-top: 0;
 			margin-left: 40px;
 		}
-		
+
 		@media (min-width: 800px) {
 			margin-left: 80px;
 		}
-		
+
 		@media (min-width: 1100px) {
 			margin-left: 120px;
 		}
-		
+
 		> .title {
 			font-size: 20px;
 			line-height: 26px;
 			color: #582efe;
-			
+
 			@include title($screen-width: 300px, $font-size: 22px);
 			@include title($screen-width: 370px, $font-size: 26px);
 			@include title($screen-width: 800px, $font-size: 30px);
@@ -82,48 +78,46 @@
 			@include title($screen-width: 1370px, $font-size: 54px);
 			@include title($screen-width: 1430px, $font-size: 58px);
 		}
-		
+
 		> .list {
 			margin-top: 30px;
 			padding: 0;
 			list-style: none;
-			transition: margin-top 0.3s;
-			
+
 			@media (min-width: 800px) {
 				margin-top: 40px;
 			}
-			
+
 			@media (min-width: 1020px) {
 				margin-top: 60px;
 			}
-			
+
 			> li {
 				display: flex;
-				
+
 				> .bullet {
 					position: relative;
 					margin: 0 15px 0 0;
 					transform: scale(0.9);
-					transition: margin 0.3s, transform 0.3s;
-					
+
 					@media (min-width: 800px) {
 						margin-right: 20px;
 						transform: none;
-						
+
 						&.lines-2 {
 							margin-top: 4px;
 						}
 					}
-					
+
 					@media (min-width: 920px) {
 						margin-right: 30px;
 						transform: scale(1.1);
-						
+
 						&.lines-2 {
 							margin-top: 10px;
 						}
 					}
-					
+
 					> p {
 						position: absolute;
 						top: 5px;
@@ -132,13 +126,12 @@
 						color: #4c4372;
 					}
 				}
-				
+
 				> p {
 					font-size: 10px;
 					font-weight: bold;
 					color: $dark-gray;
-					transition: margin-bottom 0.3s, font-size 0.3s;
-					
+
 					@include list-item($screen-width: 300px, $font-size: 12px);
 					@include list-item($screen-width: 370px, $font-size: 14px);
 					@include list-item($screen-width: 800px, $font-size: 16px);
@@ -147,29 +140,29 @@
 					@include list-item($screen-width: 1200px, $font-size: 22px);
 					@include list-item($screen-width: 1250px, $font-size: 24px);
 				}
-				
+
 				&:not(:last-child) {
 					margin-bottom: 25px;
-					
+
 					@media (min-width: 800px) {
 						margin-bottom: 35px;
 					}
-					
+
 					@media (min-width: 1020px) {
 						margin-bottom: 40px;
 					}
-					
+
 					@media (min-width: 1250px) {
 						margin-bottom: 50px;
 					}
 				}
 			}
 		}
-		
+
 		> .get-started {
 			$height: 50px;
 			$arrow-scale: scale(-1.2, 1.2);
-			
+
 			display: flex;
 			align-items: center;
 			width: max-content;
@@ -180,46 +173,42 @@
 			color: white;
 			background: #5a2aff;
 			border-radius: $height / 2;
-			transition:
-				margin-top 0.3s,
-				margin-bottom 0.3s,
-				border-radius 0.3s;
-			
+			transition: border-radius 0.3s;
+
 			@media (min-width: 675px) {
 				margin-bottom: 0;
 			}
-			
+
 			@media (min-width: 800px) {
 				margin-top: 40px;
 			}
-			
+
 			@media (min-width: 1020px) {
 				margin-top: 60px;
 			}
-			
+
 			> .text {
 				margin-right: 15px;
 				font-size: 16px;
 				font-weight: 900;
-				transition: font-size 0.3s;
-				
+
 				@media (min-width: 375px) {
 					font-size: 20px;
 				}
 			}
-			
+
 			> svg {
 				transform: $arrow-scale;
 			}
-			
+
 			&:hover {
 				border-radius: 8px;
-				
+
 				> svg {
 					animation: spin-right-arrow 0.3s ease-out;
 				}
 			}
-			
+
 			@keyframes spin-right-arrow {
 				to {
 					transform: $arrow-scale rotate(-1turn);

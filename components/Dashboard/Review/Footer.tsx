@@ -25,18 +25,21 @@ const BUTTON_CONTENT = {
 	[PerformanceRating.Forgot]: {
 		emoji: '😓',
 		title: 'Forgot',
-		subtitle: 'You tried but couldn\'t remember'
+		subtitle: "You tried but couldn't remember"
 	}
 }
 
-const ReviewFooter = (
-	{ isWaitingForRating, prediction, predictionLoadingState, rate }: {
-		isWaitingForRating: boolean
-		prediction: ReviewPrediction | null
-		predictionLoadingState: LoadingState
-		rate: (rating: PerformanceRating) => void
-	}
-) => (
+const ReviewFooter = ({
+	isWaitingForRating,
+	prediction,
+	predictionLoadingState,
+	rate
+}: {
+	isWaitingForRating: boolean
+	prediction: ReviewPrediction | null
+	predictionLoadingState: LoadingState
+	rate: (rating: PerformanceRating) => void
+}) => (
 	<footer className={cx({ 'waiting-for-rating': isWaitingForRating })}>
 		<p className="message" tabIndex={-1}>
 			Tap anywhere to continue

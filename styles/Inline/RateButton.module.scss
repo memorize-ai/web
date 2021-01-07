@@ -9,13 +9,13 @@ $rating-colors: (
 	background: white;
 	border: 1px solid #eee;
 	border-radius: 8px;
-	transition: width 0.3s, padding 0.3s, border-color 0.3s, box-shadow 0.3s;
-	
+	transition: border-color 0.3s, box-shadow 0.3s;
+
 	&:hover {
 		border-color: white;
 		box-shadow: 0 4px 8px transparentize(black, 0.9);
 	}
-	
+
 	&:not(:last-child) {
 		margin-right: 12px;
 	}
@@ -30,7 +30,6 @@ $rating-colors: (
 .emoji {
 	margin-right: 6px;
 	font-size: 20px;
-	transition: margin-right 0.3s, font-size 0.3s;
 }
 
 .title {
@@ -55,10 +54,7 @@ $rating-colors: (
 
 @for $i from 0 through 2 {
 	.predictionRating_#{$i} {
-		background: transparentize(
-			map-get($rating-colors, $i),
-			0.84
-		);
+		background: transparentize(map-get($rating-colors, $i), 0.84);
 	}
 }
 

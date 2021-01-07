@@ -14,13 +14,12 @@ import { compose } from 'lib/utils'
 const useDecks = () => {
 	const [{ ownedDecks, decksLoadingState }, dispatch] = useContext(DecksContext)
 	const [currentUser] = useCurrentUser()
-	
+
 	useEffect(() => {
-		if (!currentUser || Deck.isObservingOwned[currentUser.id])
-			return
-		
+		if (!currentUser || Deck.isObservingOwned[currentUser.id]) return
+
 		Deck.isObservingOwned[currentUser.id] = true
-		
+
 		Deck.observeForUserWithId(currentUser.id, {
 			setLoadingState: compose(dispatch, setDecksLoadingState),
 			updateDeck: compose(dispatch, updateOwnedDeck),
@@ -28,7 +27,7 @@ const useDecks = () => {
 			removeDeck: compose(dispatch, removeOwnedDeck)
 		})
 	}, [currentUser, dispatch])
-	
+
 	return [ownedDecks, decksLoadingState] as const
 }
 

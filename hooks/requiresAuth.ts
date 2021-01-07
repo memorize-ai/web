@@ -3,13 +3,12 @@ import Router from 'next/router'
 
 import useAuthState from './useAuthState'
 
-const requiresAuth = (assertion: boolean = true) => {
+const requiresAuth = (assertion = true) => {
 	const isSignedIn = useAuthState()
-	
+
 	useEffect(() => {
-		if (isSignedIn || !assertion)
-			return
-		
+		if (isSignedIn || !assertion) return
+
 		Router.replace({
 			pathname: '/',
 			query: {

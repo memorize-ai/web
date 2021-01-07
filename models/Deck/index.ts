@@ -59,19 +59,19 @@ export interface CreateDeckData {
 export default class Deck {
 	static USELESS_WORDS_REGEX = /^(.|from|to|and|by|at|why|in)$/i
 	static SLUG_ID_LENGTH = 10
-	
+
 	/** Key is a user ID */
 	static isObservingOwned: Record<string, boolean> = {}
-	
+
 	/** Key is a deck slug ID */
 	static isObserving: Record<string, boolean> = {}
-	
+
 	/** Key is a deck ID */
 	static similarDeckObservers: Record<string, boolean> = {}
-	
+
 	/** Key is a deck ID */
 	static snapshotListeners: Record<string, () => void> = {}
-	
+
 	id: string
 	slugId: string
 	slug: string
@@ -100,10 +100,10 @@ export default class Deck {
 	creatorName: string | null
 	created: Date
 	lastUpdated: Date
-	
+
 	userData: UserData | null
 	unsectionedSection: Section
-	
+
 	constructor(data: DeckData, userData: UserData | null = null) {
 		this.id = data.id
 		this.slugId = data.slugId
@@ -132,16 +132,18 @@ export default class Deck {
 		this.creatorName = data.creatorName
 		this.created = new Date(data.created)
 		this.lastUpdated = new Date(data.updated)
-		
+
 		this.userData = userData
 		this.unsectionedSection = Section.newUnsectionedSection(
 			this.numberOfUnsectionedCards
 		)
 	}
-	
-	static fromSnapshot = (snapshot: SnapshotLike, userData: UserData | null = null) =>
-		new Deck(Deck.dataFromSnapshot(snapshot), userData)
-	
+
+	static fromSnapshot = (
+		snapshot: SnapshotLike,
+		userData: UserData | null = null
+	) => new Deck(Deck.dataFromSnapshot(snapshot), userData)
+
 	static dataFromSnapshot = (snapshot: SnapshotLike): DeckData => ({
 		id: snapshot.id,
 		slugId: snapshot.get('slugId') ?? '...',
@@ -171,61 +173,63 @@ export default class Deck {
 		created: snapshot.get('created')?.toMillis() ?? Date.now(),
 		updated: snapshot.get('updated')?.toMillis() ?? Date.now()
 	})
-	
+
 	static addSnapshotListener = (id: string, value: () => void) =>
-		Deck.snapshotListeners[id] = value
-	
+		(Deck.snapshotListeners[id] = value)
+
 	static removeSnapshotListener = (id: string) => {
 		Deck.snapshotListeners[id]?.()
 		delete Deck.snapshotListeners[id]
 	}
-	
+
 	static observeForUserWithId = (
 		uid: string,
-		{ setLoadingState, updateDeck, updateDeckUserData, removeDeck }: {
+		{
+			setLoadingState,
+			updateDeck,
+			updateDeckUserData,
+			removeDeck
+		}: {
 			setLoadingState: (loadingState: LoadingState) => void
 			updateDeck: (
 				snapshot: firebase.firestore.DocumentSnapshot,
 				userDataSnapshot: firebase.firestore.DocumentSnapshot
 			) => void
-			updateDeckUserData: (snapshot: firebase.firestore.DocumentSnapshot) => void
+			updateDeckUserData: (
+				snapshot: firebase.firestore.DocumentSnapshot
+			) => void
 			removeDeck: (id: string) => void
 		}
 	) => {
 		setLoadingState(LoadingState.Loading)
-		
+
 		firestore.collection(`users/${uid}/decks`).onSnapshot(
 			snapshot => {
 				const changes = snapshot.docChanges()
-				
-				if (!changes.length)
-					return setLoadingState(LoadingState.Success)
-				
+
+				if (!changes.length) return setLoadingState(LoadingState.Success)
+
 				let pendingAdded = 0
-				
+
 				const updatePendingAdded = (amount: 1 | -1) => {
 					pendingAdded += amount
-					
-					if (pendingAdded <= 0)
-						setLoadingState(LoadingState.Success)
+
+					if (pendingAdded <= 0) setLoadingState(LoadingState.Success)
 				}
-				
+
 				for (const { type, doc } of changes)
 					switch (type) {
 						case 'added':
 							updatePendingAdded(1)
-							
+
 							Deck.addSnapshotListener(
 								doc.id,
-								firestore.doc(`decks/${doc.id}`).onSnapshot(
-									snapshot => {
-										updateDeck(snapshot, doc)
-										updatePendingAdded(-1)
-									},
-									handleError
-								)
+								firestore.doc(`decks/${doc.id}`).onSnapshot(snapshot => {
+									updateDeck(snapshot, doc)
+									updatePendingAdded(-1)
+								}, handleError)
 							)
-							
+
 							break
 						case 'modified':
 							updateDeckUserData(doc)
@@ -242,18 +246,18 @@ export default class Deck {
 			}
 		)
 	}
-	
+
 	static createSlug = (name: string) => ({
 		slugId: nanoid(Deck.SLUG_ID_LENGTH),
 		slug: slugify(name)
 	})
-	
+
 	/** @returns The deck's slug */
 	static createForUserWithId = async (uid: string, data: CreateDeckData) => {
 		const doc = firestore.collection('decks').doc()
 		const deckId = doc.id
 		const slugParts = Deck.createSlug(data.name)
-		
+
 		await doc.set({
 			...slugParts,
 			topics: data.topics,
@@ -280,54 +284,52 @@ export default class Deck {
 			created: firebase.firestore.FieldValue.serverTimestamp(),
 			updated: firebase.firestore.FieldValue.serverTimestamp()
 		})
-		
+
 		if (data.image)
 			await storage.child(`/decks/${deckId}`).put(data.image, {
 				contentType: data.image.type,
 				customMetadata: { owner: uid }
 			})
-		
+
 		await firestore.doc(`users/${uid}/decks/${deckId}`).set({
 			added: firebase.firestore.FieldValue.serverTimestamp()
 		})
-		
+
 		return slugParts
 	}
-	
+
 	get url() {
 		return `/d/${this.slugId}/${encodeURIComponent(this.slug)}`
 	}
-	
+
 	get printUrl() {
 		return `/print/${this.slugId}/${encodeURIComponent(this.slug)}`
 	}
-	
+
 	get urlWithOrigin() {
 		return `${BASE_URL}${this.url}`
 	}
-	
+
 	get imageUrl() {
 		return this.hasImage
 			? `https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/decks%2F${this.id}?alt=media`
 			: null
 	}
-	
+
 	get worstRating() {
 		for (const rating of [1, 2, 3, 4, 5])
-			if ((this as any)[`numberOf${rating}StarRatings`] > 0)
-				return rating
-		
+			if (this[`numberOf${rating}StarRatings`] > 0) return rating
+
 		return 0
 	}
-	
+
 	get bestRating() {
 		for (const rating of [5, 4, 3, 2, 1])
-			if ((this as any)[`numberOf${rating}StarRatings`] > 0)
-				return rating
-		
+			if (this[`numberOf${rating}StarRatings`] > 0) return rating
+
 		return 0
 	}
-	
+
 	get disqusProps(): DisqusProps {
 		return {
 			url: this.urlWithOrigin,
@@ -335,7 +337,7 @@ export default class Deck {
 			title: this.name
 		}
 	}
-	
+
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
 		this.topics = snapshot.get('topics')
 		this.hasImage = snapshot.get('hasImage')
@@ -358,79 +360,75 @@ export default class Deck {
 		this.numberOfAllTimeUsers = snapshot.get('allTimeUserCount')
 		this.numberOfFavorites = snapshot.get('favoriteCount')
 		this.lastUpdated = snapshot.get('updated')?.toDate()
-		
+
 		this.unsectionedSection.numberOfCards = this.numberOfUnsectionedCards
-		
+
 		return this
 	}
-	
-	updateUserDataFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
-		this.userData?.updateFromSnapshot(snapshot) ?? (
-			this.userData = UserData.fromSnapshot(snapshot)
-		)
+
+	updateUserDataFromSnapshot = (
+		snapshot: firebase.firestore.DocumentSnapshot
+	) => {
+		this.userData?.updateFromSnapshot(snapshot) ??
+			(this.userData = UserData.fromSnapshot(snapshot))
 		return this
 	}
-	
+
 	get = async (uid: string) => {
 		const { docs } = await firestore
 			.collection(`decks/${this.id}/sections`)
 			.where('index', '==', 0)
 			.get()
-		
-		const section: (
-			firebase.firestore.DocumentSnapshot | undefined
-		) = docs[0]
-		
+
+		const section: firebase.firestore.DocumentSnapshot | undefined = docs[0]
+
 		const numberOfSectionedCards = section?.get('cardCount') ?? 0
-		const numberOfUnlockedCards = this.numberOfUnsectionedCards + numberOfSectionedCards
-		
-		const data: Record<string, any> = {
+		const numberOfUnlockedCards =
+			this.numberOfUnsectionedCards + numberOfSectionedCards
+
+		const data: Record<string, unknown> = {
 			added: firebase.firestore.FieldValue.serverTimestamp(),
 			dueCardCount: numberOfUnlockedCards,
 			unsectionedDueCardCount: this.numberOfUnsectionedCards,
 			unlockedCardCount: numberOfUnlockedCards
 		}
-		
-		if (section)
-			data.sections = { [section.id]: numberOfSectionedCards }
-		
+
+		if (section) data.sections = { [section.id]: numberOfSectionedCards }
+
 		return firestore.doc(`users/${uid}/decks/${this.id}`).set(data)
 	}
-	
+
 	remove = (uid: string) =>
 		firestore.doc(`users/${uid}/decks/${this.id}`).delete()
-	
+
 	isSectionUnlocked = (section: Section) =>
-		section.isUnsectioned || (
-			this.userData?.sections[section.id] !== undefined
-		)
-	
+		section.isUnsectioned || this.userData?.sections[section.id] !== undefined
+
 	unlockSectionForUserWithId = async (uid: string, section: Section) => {
 		const { numberOfCards } = section
-		
+
 		await firestore.doc(`users/${uid}/decks/${this.id}`).update({
 			dueCardCount: firebase.firestore.FieldValue.increment(numberOfCards),
 			unlockedCardCount: firebase.firestore.FieldValue.increment(numberOfCards),
 			[`sections.${section.id}`]: numberOfCards
 		})
-		
+
 		return this
 	}
-	
+
 	numberOfCardsDueForSection = (section: Section) =>
 		(section.isUnsectioned
 			? this.userData?.numberOfUnsectionedDueCards
-			: this.userData?.sections[section.id]
-		) ?? 0
-	
+			: this.userData?.sections[section.id]) ?? 0
+
 	countForRating = (rating: 1 | 2 | 3 | 4 | 5): number =>
-		(this as any)[`numberOf${rating}StarRatings`]
-	
+		this[`numberOf${rating}StarRatings`]
+
 	rate = (uid: string, rating: 1 | 2 | 3 | 4 | 5 | null) =>
 		firestore.doc(`users/${uid}/decks/${this.id}`).update({
 			rating: rating ?? firebase.firestore.FieldValue.delete()
 		})
-	
+
 	loadSimilarDecks = async (chunkSize: number) => {
 		const chunks = await Promise.all([
 			Search.search(this.name, {
@@ -445,49 +443,48 @@ export default class Deck {
 				sortAlgorithm: SortAlgorithm.Top,
 				filterForTopics: this.topics
 			}),
-			...this.name.split(/\s+/)
+			...(this.name
+				.split(/\s+/)
 				.map(word => {
 					const trimmed = word.trim()
-					
+
 					return trimmed && !Deck.USELESS_WORDS_REGEX.test(trimmed)
 						? Search.search(trimmed, {
-							pageNumber: 1,
-							pageSize: chunkSize / 2,
-							sortAlgorithm: SortAlgorithm.Top,
-							filterForTopics: null
-						})
+								pageNumber: 1,
+								pageSize: chunkSize / 2,
+								sortAlgorithm: SortAlgorithm.Top,
+								filterForTopics: null
+						  })
 						: null
 				})
-				.filter(Boolean)
+				.filter(Boolean) as Promise<Deck[]>[])
 		])
-		
-		return uniqBy(flatten(chunks), 'id')
-			.filter(deck => deck.id !== this.id)
+
+		return uniqBy(flatten(chunks), 'id').filter(deck => deck.id !== this.id)
 	}
-	
+
 	toggleFavorite = (uid: string) =>
 		firestore.doc(`users/${uid}/decks/${this.id}`).update({
 			favorite: !this.userData?.isFavorite
 		})
-	
+
 	reorderSection = (sections: Section[], section: Section, delta: number) => {
 		const sectionIds = sections.map(({ id }) => id)
-		
+
 		sectionIds.splice(section.index, 1)
 		sectionIds.splice(section.index + delta, 0, section.id)
-		
+
 		const batch = firestore.batch()
-		
+
 		sectionIds.forEach((sectionId, i) =>
-			batch.update(
-				firestore.doc(`decks/${this.id}/sections/${sectionId}`),
-				{ index: i }
-			)
+			batch.update(firestore.doc(`decks/${this.id}/sections/${sectionId}`), {
+				index: i
+			})
 		)
-		
+
 		return batch.commit()
 	}
-	
+
 	/**
 	 * - `image = File`: Update image
 	 * - `image = null`: Remove image
@@ -495,7 +492,13 @@ export default class Deck {
 	 */
 	edit = async (
 		uid: string,
-		{ image, name, subtitle, description, topics }: {
+		{
+			image,
+			name,
+			subtitle,
+			description,
+			topics
+		}: {
 			image: File | null | undefined
 			name: string
 			subtitle: string
@@ -503,71 +506,56 @@ export default class Deck {
 			topics: string[]
 		}
 	) => {
-		const storageChild = image === undefined
-			? undefined
-			: storage.child(`/decks/${this.id}`)
-		
-		const updateData: Record<string, any> = {
+		const storageChild =
+			image === undefined ? undefined : storage.child(`/decks/${this.id}`)
+
+		const updateData: Record<string, unknown> = {
 			topics,
 			name,
 			subtitle,
 			description
 		}
-		
-		if (storageChild)
-			updateData.hasImage = image !== null
-		
-		const promises: PromiseLike<any>[] = [
+
+		if (storageChild) updateData.hasImage = image !== null
+
+		const promises: PromiseLike<unknown>[] = [
 			firestore.doc(`decks/${this.id}`).update(updateData)
 		]
-		
+
 		if (storageChild)
 			promises.push(
 				image
 					? storageChild.put(image, {
-						contentType: image.type,
-						customMetadata: { owner: uid }
-					})
+							contentType: image.type,
+							customMetadata: { owner: uid }
+					  })
 					: storageChild.delete()
 			)
-		
+
 		return Promise.all(promises)
 	}
-	
+
 	delete = (uid: string) => {
-		if (this.creatorId !== uid)
-			return
-		
+		if (this.creatorId !== uid) return
+
 		const batch = firestore.batch()
-		
+
 		batch.delete(firestore.doc(`decks/${this.id}`))
 		batch.delete(firestore.doc(`users/${uid}/decks/${this.id}`))
-		
+
 		return batch.commit()
 	}
-	
+
 	uploadUrl = (uid: string) =>
 		`/_api/upload-deck-asset?user=${uid}&deck=${this.id}`
-	
+
 	reviewUrl = (section?: Section) =>
 		`/review/${this.slugId}/${this.slug}${
-			section
-				? `/${
-					section.isUnsectioned
-						? 'unsectioned'
-						: section.id
-				}`
-				: ''
+			section ? `/${section.isUnsectioned ? 'unsectioned' : section.id}` : ''
 		}`
-	
+
 	cramUrl = (section?: Section) =>
 		`/cram/${this.slugId}/${this.slug}${
-			section
-				? `/${
-					section.isUnsectioned
-						? 'unsectioned'
-						: section.id
-				}`
-				: ''
+			section ? `/${section.isUnsectioned ? 'unsectioned' : section.id}` : ''
 		}`
 }

@@ -27,11 +27,13 @@ const InputModal = ({
 	isShowing,
 	setIsShowing
 }: InputModalProps) => {
-	const onInputRef = useCallback((input: HTMLInputElement | null) => {
-		if (input)
-			input[isShowing ? 'focus' : 'blur']()
-	}, [isShowing])
-	
+	const onInputRef = useCallback(
+		(input: HTMLInputElement | null) => {
+			if (input) input[isShowing ? 'focus' : 'blur']()
+		},
+		[isShowing]
+	)
+
 	return (
 		<Modal
 			className="input-modal"
@@ -40,13 +42,8 @@ const InputModal = ({
 			setIsShowing={setIsShowing}
 		>
 			<div className="header">
-				<h2 className="title">
-					{title}
-				</h2>
-				<button
-					className="hide"
-					onClick={() => setIsShowing(false)}
-				>
+				<h2 className="title">{title}</h2>
+				<button className="hide" onClick={() => setIsShowing(false)}>
 					<Svg src={times} />
 				</button>
 			</div>

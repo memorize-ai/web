@@ -8,20 +8,19 @@ import { compose } from 'lib/utils'
 const useSections = (deckId: string | null | undefined) => {
 	const [_sections, dispatch] = useContext(SectionsContext)
 	const sections = (deckId && _sections[deckId]) || null
-	
+
 	useEffect(() => {
-		if (!deckId || Section.observers[deckId] || sections)
-			return
-		
+		if (!deckId || Section.observers[deckId] || sections) return
+
 		Section.observers[deckId] = true
-		
+
 		Section.observeForDeckWithId(deckId, {
 			addSections: compose(dispatch, addSections),
 			updateSection: compose(dispatch, updateSection),
 			removeSection: compose(dispatch, removeSection)
 		})
 	}, [deckId, sections, dispatch])
-	
+
 	return sections
 }
 

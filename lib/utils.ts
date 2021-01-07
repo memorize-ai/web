@@ -3,17 +3,27 @@ import sample from 'lodash/sample'
 import pickBy from 'lodash/pickBy'
 import identity from 'lodash/identity'
 
-import { LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, EMOJIS, LONG_DATE_FORMATTER_MONTH, LONG_DATE_FORMATTER_DAY, LONG_DATE_FORMATTER_YEAR } from './constants'
+import {
+	LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY,
+	EMOJIS,
+	LONG_DATE_FORMATTER_MONTH,
+	LONG_DATE_FORMATTER_DAY,
+	LONG_DATE_FORMATTER_YEAR
+} from './constants'
 import firebase from './firebase'
 
+type HubSpotQueue = [string, Record<string, unknown>][]
+
 export const isIos = () =>
-	process.browser && /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream
+	process.browser &&
+	/iPhone|iPad|iPod/.test(navigator.userAgent) &&
+	!window.MSStream
 
 /** Does not include iPads */
 export const isIosHandheld = () =>
 	process.browser && /iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 
-export const compose = <T extends any[], U, V>(
+export const compose = <T extends unknown[], U, V>(
 	b: (u: U) => V,
 	a: (...args: T) => U
 ) => (...args: T) => b(a(...args))
@@ -23,8 +33,9 @@ export const sleep = (ms: number) =>
 
 export const expectsSignIn = () => {
 	try {
-		if (typeof localStorage !== 'undefined')
-			return localStorage.getItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY) !== null
+		if (typeof localStorage === 'undefined') return false
+
+		return localStorage.getItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY) !== null
 	} catch {
 		return false
 	}
@@ -32,10 +43,11 @@ export const expectsSignIn = () => {
 
 export const setExpectsSignIn = (value: boolean) => {
 	try {
-		if (typeof localStorage !== 'undefined')
-			return value
-				? localStorage.setItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, '1')
-				: localStorage.removeItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY)
+		if (typeof localStorage === 'undefined') return
+
+		value
+			? localStorage.setItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, '1')
+			: localStorage.removeItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY)
 	} catch ({ message }) {
 		toast.error(message)
 	}
@@ -46,19 +58,19 @@ export const showSuccess = (message: string) => {
 }
 
 export const handleError = (error: { message: string }) => {
-	toast.error(
-		error?.message ?? 'An unknown error occurred',
-		{ className: 'toast' }
-	)
+	toast.error(error?.message ?? 'An unknown error occurred', {
+		className: 'toast'
+	})
 	console.error(error)
 }
 
-export const isNullish = <T>(value: T | null | undefined): value is null | undefined =>
-	value === null || value === undefined
+export const isNullish = <T>(
+	value: T | null | undefined
+): value is null | undefined => value === null || value === undefined
 
 export const includesNormalized = (query: string, values: string[]) => {
 	const normalizedQuery = query.replace(/\s+/g, '').toLowerCase()
-	
+
 	return values.some(value =>
 		value.replace(/\s+/g, '').toLowerCase().includes(normalizedQuery)
 	)
@@ -66,49 +78,47 @@ export const includesNormalized = (query: string, values: string[]) => {
 
 export const formatNumber = (number: number) => {
 	const logResult = Math.log10(Math.abs(number))
-	
-	const decimalResult =
-		toOneDecimalPlace(number / Math.pow(10, Math.min(3, Math.floor(logResult))))
-	
-	const formattedDecimalResult =
-		(Number.isInteger(decimalResult) ? Math.floor(decimalResult) : decimalResult).toString()
-	
+
+	const decimalResult = toOneDecimalPlace(
+		number / Math.pow(10, Math.min(3, Math.floor(logResult)))
+	)
+
+	const formattedDecimalResult = (Number.isInteger(decimalResult)
+		? Math.floor(decimalResult)
+		: decimalResult
+	).toString()
+
 	if (logResult < 3)
-		return (Number.isInteger(number) ? Math.floor(number) : toOneDecimalPlace(number)).toString()
-	
-	if (logResult < 6)
-		return `${formattedDecimalResult}k`
-	
-	if (logResult < 9)
-		return `${formattedDecimalResult}m`
-	
-	if (logResult < 12)
-		return `${formattedDecimalResult}b`
-	
+		return (Number.isInteger(number)
+			? Math.floor(number)
+			: toOneDecimalPlace(number)
+		).toString()
+
+	if (logResult < 6) return `${formattedDecimalResult}k`
+
+	if (logResult < 9) return `${formattedDecimalResult}m`
+
+	if (logResult < 12) return `${formattedDecimalResult}b`
+
 	return 'overflow'
 }
 
 export const formatNumberAsInt = (number: number) =>
-	Math.abs(number) < 1000
-		? Math.floor(number).toString()
-		: formatNumber(number)
+	Math.abs(number) < 1000 ? Math.floor(number).toString() : formatNumber(number)
 
 export const toOneDecimalPlace = (number: number) =>
 	Math.round(number * 10) / 10
 
-export const randomEmoji = () =>
-	sample(EMOJIS) ?? EMOJIS[0]
+export const randomEmoji = () => sample(EMOJIS) ?? EMOJIS[0]
 
-export const slugify = (string: string, delimiter: string = '-') =>
-	(string
+export const slugify = (string: string, delimiter = '-') =>
+	string
 		.replace(/[\s\:\/\?#@\[\]\-_!\$&'\(\)\*\+\.\,;=]+/g, ' ') // eslint-disable-line
 		.trim()
 		.replace(/\s+/g, delimiter)
-		.toLowerCase()
-	) || delimiter.repeat(string.length)
+		.toLowerCase() || delimiter.repeat(string.length)
 
-export const safeDivide = (a: number, b: number) =>
-	a / (b || 1)
+export const safeDivide = (a: number, b: number) => a / (b || 1)
 
 export const rankingToString = (ranking: number) => {
 	switch (ranking) {
@@ -124,16 +134,19 @@ export const rankingToString = (ranking: number) => {
 }
 
 export const hubSpotIdentifyUser = (user: firebase.User) => {
-	const hubSpot = (window as any)._hsq = (window as any)._hsq || []
-	
-	hubSpot.push(['identify', {
-		id: user.uid,
-		...user.email && { email: user.email }
-	}])
+	const queue = (((window as unknown) as Record<
+		string,
+		unknown
+	>)._hsq ||= []) as HubSpotQueue
+
+	queue.push(['identify', { id: user.uid, email: user.email }])
 }
 
 export const formatLongDate = (date: Date) =>
-	`${LONG_DATE_FORMATTER_MONTH.format(date)} ${LONG_DATE_FORMATTER_DAY.format(date)}, ${LONG_DATE_FORMATTER_YEAR.format(date)}`
+	`${LONG_DATE_FORMATTER_MONTH.format(date)} ${LONG_DATE_FORMATTER_DAY.format(
+		date
+	)}, ${LONG_DATE_FORMATTER_YEAR.format(date)}`
 
-export const flattenQuery = (query: Record<string, any>) =>
-	pickBy(query, identity)
+export const flattenQuery = <Query extends Record<string, unknown>>(
+	query: Query
+) => pickBy(query, identity) as Query

@@ -9,11 +9,11 @@ $min-editable-height: 200px;
 
 .ck.ck-editor {
 	height: 100% !important;
-	
+
 	&__main {
 		height: calc(100% - #{$toolbar-height});
 	}
-	
+
 	&__editable {
 		min-height: $min-editable-height;
 		height: 100%;

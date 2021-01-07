@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { NextPage, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -19,7 +19,9 @@ import LoadingState from 'models/LoadingState'
 import getNumberOfDecks from 'lib/getNumberOfDecks'
 import { formatNumber, flattenQuery } from 'lib/utils'
 import useCurrentUser from 'hooks/useCurrentUser'
-import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import Dashboard, {
+	DashboardNavbarSelection as Selection
+} from 'components/Dashboard'
 import Head from 'components/Head'
 import Input from 'components/Input'
 import SortDropdown from 'components/SortDropdown'
@@ -34,139 +36,152 @@ interface MarketProps {
 const Market: NextPage<MarketProps> = ({ decks: initialNumberOfDecks }) => {
 	const isLoading = useRef(true)
 	const scrollingContainerRef = useRef(null as HTMLDivElement | null)
-	
+
 	const router = useRouter()
-	
+
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
 	const [, setSearchState] = useSearchState()
-	
+
 	const query = (router.query.q as string | undefined) ?? ''
-	const sortAlgorithm = decodeDeckSortAlgorithm(
-		(router.query.s as string | undefined) ?? ''
-	) ?? DEFAULT_DECK_SORT_ALGORITHM
-	
+	const sortAlgorithm =
+		decodeDeckSortAlgorithm((router.query.s as string | undefined) ?? '') ??
+		DEFAULT_DECK_SORT_ALGORITHM
+
 	const [decks, setDecks] = useState([] as Deck[])
 	const [isLastPage, setIsLastPage] = useState(false)
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
-	
+
 	const numberOfDecks = Counters.get(Counter.Decks) ?? initialNumberOfDecks
-	
-	const shouldHideSortAlgorithm = (
+
+	const shouldHideSortAlgorithm =
 		sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM ||
 		sortAlgorithm === DeckSortAlgorithm.Relevance
-	)
-	
+
 	const topics = currentUser && currentUser.interestIds
-	
-	const getDecks = useCallback(async (pageNumber: number) => {
-		try {
-			const decks = await DeckSearch.search(query, {
-				pageNumber,
-				pageSize: 40,
-				sortAlgorithm,
-				filterForTopics: sortAlgorithm === DeckSortAlgorithm.Recommended ? topics : null
-			})
-			
-			if (!decks.length)
+
+	const getDecks = useCallback(
+		async (pageNumber: number) => {
+			try {
+				const decks = await DeckSearch.search(query, {
+					pageNumber,
+					pageSize: 40,
+					sortAlgorithm,
+					filterForTopics:
+						sortAlgorithm === DeckSortAlgorithm.Recommended ? topics : null
+				})
+
+				if (!decks.length) setIsLastPage(true)
+
+				return decks
+			} catch (error) {
 				setIsLastPage(true)
-			
-			return decks
-		} catch (error) {
-			setIsLastPage(true)
-			console.error(error)
-			
-			return []
-		}
-	}, [query, sortAlgorithm, topics, setIsLastPage])
-	
-	const loadMoreDecks = useCallback(async (pageNumber: number) => {
-		if (isLoading.current)
-			return
-		
-		isLoading.current = true
-		
-		setDecks([...decks, ...await getDecks(pageNumber)])
-		
-		isLoading.current = false
-	}, [setDecks, decks, getDecks])
-	
+				console.error(error)
+
+				return []
+			}
+		},
+		[query, sortAlgorithm, topics, setIsLastPage]
+	)
+
+	const loadMoreDecks = useCallback(
+		async (pageNumber: number) => {
+			if (isLoading.current) return
+
+			isLoading.current = true
+
+			setDecks([...decks, ...(await getDecks(pageNumber))])
+
+			isLoading.current = false
+		},
+		[setDecks, decks, getDecks]
+	)
+
 	useEffect(() => {
-		if (currentUserLoadingState !== LoadingState.Success || (currentUser && !topics))
+		if (
+			currentUserLoadingState !== LoadingState.Success ||
+			(currentUser && !topics)
+		)
 			return
-		
+
 		isLoading.current = true
-		
+
 		setIsLastPage(false)
-		
+
 		let shouldContinue = true
-		
+
 		getDecks(1).then(decks => {
-			if (!shouldContinue)
-				return
-			
+			if (!shouldContinue) return
+
 			setDecks(decks)
 			isLoading.current = false
-			
+
 			const container = scrollingContainerRef.current
-			
-			if (container)
-				container.scrollTop = 0
+
+			if (container) container.scrollTop = 0
 		})
-		
+
 		setSearchState({ query, sortAlgorithm })
-		
+
 		return () => {
 			shouldContinue = false
 			isLoading.current = false
 		}
-	}, [currentUserLoadingState, currentUser, topics, query, sortAlgorithm, getDecks, setSearchState])
-	
+	}, [
+		currentUserLoadingState,
+		currentUser,
+		topics,
+		query,
+		sortAlgorithm,
+		getDecks,
+		setSearchState
+	])
+
 	const onInputRef = useCallback((input: HTMLInputElement | null) => {
 		input?.focus()
 	}, [])
-	
-	const setQuery = useCallback((newQuery: string) => {
-		router.replace({
-			pathname: '/market',
-			query: flattenQuery({
-				q: newQuery,
-				s: newQuery
-					? sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-						? DeckSortAlgorithm.Relevance
-						: sortAlgorithm
-					: sortAlgorithm === DeckSortAlgorithm.Relevance
+
+	const setQuery = useCallback(
+		(newQuery: string) => {
+			router.replace({
+				pathname: '/market',
+				query: flattenQuery({
+					q: newQuery,
+					s: newQuery
+						? sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+							? DeckSortAlgorithm.Relevance
+							: sortAlgorithm
+						: sortAlgorithm === DeckSortAlgorithm.Relevance
 						? null
 						: sortAlgorithm
+				})
 			})
-		})
-	}, [router, sortAlgorithm])
-	
-	const setSortAlgorithm = useCallback((newAlgorithm: DeckSortAlgorithm) => {
-		router.replace({
-			pathname: '/market',
-			query: flattenQuery({
-				q: query,
-				s: newAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-					? null
-					: newAlgorithm
+		},
+		[router, sortAlgorithm]
+	)
+
+	const setSortAlgorithm = useCallback(
+		(newAlgorithm: DeckSortAlgorithm) => {
+			router.replace({
+				pathname: '/market',
+				query: flattenQuery({
+					q: query,
+					s: newAlgorithm === DEFAULT_DECK_SORT_ALGORITHM ? null : newAlgorithm
+				})
 			})
-		})
-	}, [router, query])
-	
+		},
+		[router, query]
+	)
+
 	return (
 		<Dashboard selection={Selection.Market} className="market">
 			<Head
-				title={
-					`${query && `${query} | `}${
-						shouldHideSortAlgorithm
-							? ''
-							: `${nameForDeckSortAlgorithm(sortAlgorithm)} | `
-					}memorize.ai Marketplace`
-				}
+				title={`${query && `${query} | `}${
+					shouldHideSortAlgorithm
+						? ''
+						: `${nameForDeckSortAlgorithm(sortAlgorithm)} | `
+				}memorize.ai Marketplace`}
 				description="Search the Marketplace on memorize.ai. Unlock your true potential by using Artificial Intelligence to help you learn."
-				breadcrumbs={url => [
-					[{ name: 'Market', url }]
-				]}
+				breadcrumbs={url => [[{ name: 'Market', url }]]}
 			/>
 			<div className="header">
 				<Link href="/new">
@@ -184,9 +199,9 @@ const Market: NextPage<MarketProps> = ({ decks: initialNumberOfDecks }) => {
 					icon={faSearch}
 					type="name"
 					name="search_term_string"
-					placeholder={
-						`Explore ${numberOfDecks === null ? '...' : formatNumber(numberOfDecks)} decks`
-					}
+					placeholder={`Explore ${
+						numberOfDecks === null ? '...' : formatNumber(numberOfDecks)
+					} decks`}
 					value={query}
 					setValue={setQuery}
 				/>
@@ -221,7 +236,10 @@ const Market: NextPage<MarketProps> = ({ decks: initialNumberOfDecks }) => {
 	)
 }
 
-export const getStaticProps: GetStaticProps<MarketProps, {}> = async () => ({
+export const getStaticProps: GetStaticProps<
+	MarketProps,
+	Record<string, never>
+> = async () => ({
 	props: { decks: await getNumberOfDecks() },
 	revalidate: 60
 })

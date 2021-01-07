@@ -1,14 +1,17 @@
 import Row from './SliderRow'
 import { safeDivide } from 'lib/utils'
 
-const CramSliders = (
-	{ mastered, seen, unseen, total }: {
-		mastered: number
-		seen: number
-		unseen: number
-		total: number
-	}
-) => (
+const CramSliders = ({
+	mastered,
+	seen,
+	unseen,
+	total
+}: {
+	mastered: number
+	seen: number
+	unseen: number
+	total: number
+}) => (
 	<table className="sliders">
 		<tbody>
 			<Row fill={safeDivide(mastered, total)}>Mastered</Row>

@@ -7,11 +7,11 @@
 	border: 2px solid $gray-300;
 	border-radius: 0.25rem;
 	outline: none;
-	
+
 	&:hover {
 		border-color: $gray-400;
 	}
-	
+
 	&:focus {
 		border-color: $blue-400;
 	}

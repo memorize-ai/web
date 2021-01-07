@@ -6,7 +6,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useDecks from 'hooks/useDecks'
 import useRecommendedDecks from 'hooks/useRecommendedDecks'
-import Dashboard, { DashboardNavbarSelection as Selection } from 'components/Dashboard'
+import Dashboard, {
+	DashboardNavbarSelection as Selection
+} from 'components/Dashboard'
 import Head from 'components/Head'
 import Activity from 'components/Activity'
 import OwnedDeckCell from 'components/DeckCell/Owned'
@@ -15,37 +17,41 @@ import { formatNumber } from 'lib/utils'
 
 const DashboardHome = () => {
 	const [currentUser] = useCurrentUser()
-	
+
 	const [decks] = useDecks()
 	const recommendedDecks = useRecommendedDecks(20)
-	
-	const dueCards = useMemo(() => (
-		decks.reduce((acc, deck) => (
-			acc + (deck.userData?.numberOfDueCards ?? 0)
-		), 0)
-	), [decks])
-	
-	const decksByCardsDue = useMemo(() => (
-		decks.sort((a, b) =>
-			(b.userData?.numberOfDueCards ?? 0) - (a.userData?.numberOfDueCards ?? 0)
-		)
-	), [decks])
-	
+
+	const dueCards = useMemo(
+		() =>
+			decks.reduce(
+				(acc, deck) => acc + (deck.userData?.numberOfDueCards ?? 0),
+				0
+			),
+		[decks]
+	)
+
+	const decksByCardsDue = useMemo(
+		() =>
+			decks.sort(
+				(a, b) =>
+					(b.userData?.numberOfDueCards ?? 0) -
+					(a.userData?.numberOfDueCards ?? 0)
+			),
+		[decks]
+	)
+
 	return (
 		<Dashboard selection={Selection.Home} className="home">
 			<Head
 				title="memorize.ai"
-				breadcrumbs={url => [
-					[{ name: 'Dashboard', url }]
-				]}
+				breadcrumbs={url => [[{ name: 'Dashboard', url }]]}
 			/>
 			<div className="header">
 				<div className="left">
-					<h1 className="title">
-						Hello, {currentUser?.name}
-					</h1>
+					<h1 className="title">Hello, {currentUser?.name}</h1>
 					<h3 className="subtitle">
-						You have {dueCards ? formatNumber(dueCards) : 'no'} card{dueCards === 1 ? '' : 's'} due
+						You have {dueCards ? formatNumber(dueCards) : 'no'} card
+						{dueCards === 1 ? '' : 's'} due
 					</h3>
 					{dueCards > 0 && (
 						<Link href="/review">
@@ -71,14 +77,16 @@ const DashboardHome = () => {
 						<div>
 							{decksByCardsDue
 								.filter((_, i) => !(i & 1))
-								.map(deck => <OwnedDeckCell key={deck.id} deck={deck} />)
-							}
+								.map(deck => (
+									<OwnedDeckCell key={deck.id} deck={deck} />
+								))}
 						</div>
 						<div>
 							{decksByCardsDue
 								.filter((_, i) => i & 1)
-								.map(deck => <OwnedDeckCell key={deck.id} deck={deck} />)
-							}
+								.map(deck => (
+									<OwnedDeckCell key={deck.id} deck={deck} />
+								))}
 						</div>
 					</div>
 				</div>
@@ -90,14 +98,16 @@ const DashboardHome = () => {
 						<div>
 							{recommendedDecks
 								.filter((_, i) => !(i & 1))
-								.map(deck => <DeckCell key={deck.id} deck={deck} />)
-							}
+								.map(deck => (
+									<DeckCell key={deck.id} deck={deck} />
+								))}
 						</div>
 						<div>
 							{recommendedDecks
 								.filter((_, i) => i & 1)
-								.map(deck => <DeckCell key={deck.id} deck={deck} />)
-							}
+								.map(deck => (
+									<DeckCell key={deck.id} deck={deck} />
+								))}
 						</div>
 					</div>
 				</div>

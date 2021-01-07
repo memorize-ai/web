@@ -14,7 +14,16 @@ export interface InputProps {
 }
 
 const Input = (
-	{ className, required, icon, type, placeholder, value, setValue, ...props }: InputProps & InputHTMLAttributes<HTMLInputElement>,
+	{
+		className,
+		required,
+		icon,
+		type,
+		placeholder,
+		value,
+		setValue,
+		...props
+	}: InputProps & InputHTMLAttributes<HTMLInputElement>,
 	ref: Ref<HTMLInputElement>
 ) => (
 	<div className={cx('input', className)}>

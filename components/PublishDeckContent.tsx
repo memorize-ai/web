@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useMemo, PropsWithChildren } from 'react'
+import { useEffect, useCallback, useMemo, ReactNode } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -7,19 +7,21 @@ import cx from 'classnames'
 import Topic from 'models/Topic'
 import ImagePicker from './ImagePicker'
 
-export interface PublishDeckContentProps extends PropsWithChildren<{}> {
+export interface PublishDeckContentProps {
 	imageUrl: string | null
 	name: string
 	subtitle: string
 	description: string
 	topics: Topic[] | null
 	selectedTopics: string[]
-	
+
 	setImage: (image: File | null) => void
 	setName: (name: string) => void
 	setSubtitle: (subtitle: string) => void
 	setDescription: (description: string) => void
 	setSelectedTopics: (topics: string[]) => void
+
+	children?: ReactNode
 }
 
 const PublishDeckContent = ({
@@ -29,33 +31,37 @@ const PublishDeckContent = ({
 	description,
 	topics,
 	selectedTopics,
-	
+
 	setImage,
 	setName,
 	setSubtitle,
 	setDescription,
 	setSelectedTopics,
-	
+
 	children
 }: PublishDeckContentProps) => {
-	const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone()
-	
+	const {
+		getRootProps,
+		getInputProps,
+		isDragActive,
+		acceptedFiles
+	} = useDropzone()
+
 	const rootProps = useMemo(getRootProps, [getRootProps])
 	const inputProps = useMemo(getInputProps, [getInputProps])
-	
+
 	useEffect(() => {
-		if (acceptedFiles.length)
-			setImage(acceptedFiles[0])
+		if (acceptedFiles.length) setImage(acceptedFiles[0])
 	}, [acceptedFiles, setImage])
-	
+
 	const onNameInputRef = useCallback((input: HTMLInputElement | null) => {
 		input?.focus()
 	}, [])
-	
+
 	const removeImage = useCallback(() => {
 		setImage(null)
 	}, [setImage])
-	
+
 	return (
 		<div className="publish-deck-content">
 			<ImagePicker
@@ -87,9 +93,7 @@ const PublishDeckContent = ({
 						value={subtitle}
 						onChange={({ target: { value } }) => setSubtitle(value)}
 					/>
-					<label htmlFor="publish-deck-description-textarea">
-						Description
-					</label>
+					<label htmlFor="publish-deck-description-textarea">Description</label>
 					<textarea
 						id="publish-deck-description-textarea"
 						placeholder="Optional, but add keywords to help expose your deck in search results"
@@ -97,16 +101,13 @@ const PublishDeckContent = ({
 						onChange={({ target: { value } }) => setDescription(value)}
 					/>
 				</div>
-				<p
-					className="no-topics-message"
-					hidden={selectedTopics.length > 0}
-				>
+				<p className="no-topics-message" hidden={selectedTopics.length > 0}>
 					You must select relevant topics for your deck to be recommended
 				</p>
 				<div className="topics" {...Topic.schemaProps}>
 					{topics?.map((topic, i) => {
 						const isSelected = selectedTopics.includes(topic.id)
-						
+
 						return (
 							<button
 								key={topic.id}
@@ -125,7 +126,7 @@ const PublishDeckContent = ({
 							>
 								<meta {...topic.positionSchemaProps(i)} />
 								<meta {...topic.urlSchemaProps} />
-								<img {...topic.imageSchemaProps} /* eslint-disable-line */ />
+								<img {...topic.imageSchemaProps} />
 								<div className="check">
 									<FontAwesomeIcon icon={faCheck} />
 								</div>

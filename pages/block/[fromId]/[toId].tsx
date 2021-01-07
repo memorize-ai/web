@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
@@ -26,11 +26,10 @@ interface BlockUserProps {
 const BlockUser: NextPage<BlockUserProps> = ({ from }) => {
 	const { toId } = useRouter().query as BlockUserQuery
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
-	
+
 	const onSubmit = useCallback(async () => {
-		if (!toId)
-			return
-		
+		if (!toId) return
+
 		try {
 			setLoadingState(LoadingState.Loading)
 			await firestore.doc(`users/${toId}/blocked/${from.id}`).set({})
@@ -40,7 +39,7 @@ const BlockUser: NextPage<BlockUserProps> = ({ from }) => {
 			handleError(error)
 		}
 	}, [toId, from.id, setLoadingState])
-	
+
 	return (
 		<ConfirmationForm
 			title={`Block ${from.name}`}
@@ -53,23 +52,27 @@ const BlockUser: NextPage<BlockUserProps> = ({ from }) => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps<BlockUserProps, BlockUserQuery> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<
+	BlockUserProps,
+	BlockUserQuery
+> = async ({ params }) => {
+	if (!params) return { notFound: true }
+
 	const firestore = admin.firestore()
 	const { fromId, toId } = params
-	
+
 	if (fromId === toId)
 		return {
 			redirect: { permanent: false, destination: '/' }
 		}
-	
+
 	const [from, to] = await Promise.all([
 		firestore.doc(`users/${fromId}`).get(),
 		firestore.doc(`users/${toId}`).get()
 	])
-	
-	if (!(from.exists && to.exists))
-		return { notFound: true }
-	
+
+	if (!(from.exists && to.exists)) return { notFound: true }
+
 	return {
 		props: { from: User.dataFromSnapshot(from) }
 	}

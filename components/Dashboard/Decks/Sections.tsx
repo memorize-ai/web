@@ -21,70 +21,87 @@ interface DecksSectionsQuery extends ParsedUrlQuery {
 const DecksSections = ({ deck }: { deck: Deck }) => {
 	const router = useRouter()
 	const { unlockSectionId } = router.query as DecksSectionsQuery
-	
+
 	const [currentUser] = useCurrentUser()
-	
+
 	const namedSections = useSections(deck.id) ?? INITIAL_SECTIONS
-	const sections = useMemo(() => (
-		deck.numberOfUnsectionedCards > 0 || currentUser?.id === deck.creatorId
-			? [deck.unsectionedSection, ...namedSections]
-			: namedSections
-	), [deck, currentUser, namedSections])
-	
+	const sections = useMemo(
+		() =>
+			deck.numberOfUnsectionedCards > 0 || currentUser?.id === deck.creatorId
+				? [deck.unsectionedSection, ...namedSections]
+				: namedSections,
+		[deck, currentUser, namedSections]
+	)
+
 	const [isExpanded, toggleExpanded] = useExpandedSections(deck, {
 		isOwned: true,
 		defaultExpanded: false
 	})
-	
+
 	const [selectedSection, setSelectedSection] = useState(null as Section | null)
-	const [isUnlockSectionModalShowing, _setIsUnlockSectionModalShowing] = useState(false)
-	const [isRenameSectionModalShowing, setIsRenameSectionModalShowing] = useState(false)
-	const [isDeleteSectionModalShowing, setIsDeleteSectionModalShowing] = useState(false)
-	const [isShareSectionModalShowing, setIsShareSectionModalShowing] = useState(false)
-	
+	const [
+		isUnlockSectionModalShowing,
+		_setIsUnlockSectionModalShowing
+	] = useState(false)
+	const [
+		isRenameSectionModalShowing,
+		setIsRenameSectionModalShowing
+	] = useState(false)
+	const [
+		isDeleteSectionModalShowing,
+		setIsDeleteSectionModalShowing
+	] = useState(false)
+	const [isShareSectionModalShowing, setIsShareSectionModalShowing] = useState(
+		false
+	)
+
 	const backToBaseUrl = useCallback(() => {
 		router.replace(`/decks/${deck.slugId}/${deck.slug}`)
 	}, [router, deck])
-	
-	const setIsUnlockSectionModalShowing = useCallback((isShowing: boolean) => {
-		_setIsUnlockSectionModalShowing(isShowing)
-		
-		if (!isShowing && unlockSectionId)
-			backToBaseUrl()
-	}, [unlockSectionId, backToBaseUrl])
-	
+
+	const setIsUnlockSectionModalShowing = useCallback(
+		(isShowing: boolean) => {
+			_setIsUnlockSectionModalShowing(isShowing)
+
+			if (!isShowing && unlockSectionId) backToBaseUrl()
+		},
+		[unlockSectionId, backToBaseUrl]
+	)
+
 	useEffect(() => {
-		if (!unlockSectionId || selectedSection)
-			return
-		
+		if (!unlockSectionId || selectedSection) return
+
 		const section = sections.find(({ id }) => id === unlockSectionId)
-		
-		if (!section)
-			return
-		
-		if (deck.isSectionUnlocked(section))
-			return backToBaseUrl()
-		
+
+		if (!section) return
+
+		if (deck.isSectionUnlocked(section)) return backToBaseUrl()
+
 		setSelectedSection(section)
 		setIsUnlockSectionModalShowing(true)
-	}, [unlockSectionId, selectedSection, sections, deck, backToBaseUrl, setIsUnlockSectionModalShowing])
-	
+	}, [
+		unlockSectionId,
+		selectedSection,
+		sections,
+		deck,
+		backToBaseUrl,
+		setIsUnlockSectionModalShowing
+	])
+
 	const onConfirmUnlock = useCallback(() => {
-		if (!(currentUser && selectedSection))
-			return
-		
+		if (!(currentUser && selectedSection)) return
+
 		deck.unlockSectionForUserWithId(currentUser.id, selectedSection)
 		setIsUnlockSectionModalShowing(false)
 	}, [currentUser, selectedSection, deck, setIsUnlockSectionModalShowing])
-	
+
 	const onConfirmDelete = useCallback(() => {
-		if (!(deck && selectedSection))
-			return
-		
+		if (!(deck && selectedSection)) return
+
 		selectedSection.delete(deck)
 		setIsDeleteSectionModalShowing(false)
 	}, [deck, selectedSection, setIsDeleteSectionModalShowing])
-	
+
 	return (
 		<>
 			{sections.map(section => (
@@ -96,7 +113,7 @@ const DecksSections = ({ deck }: { deck: Deck }) => {
 					toggleExpanded={() => toggleExpanded(section.id)}
 					setSelectedSection={action => {
 						setSelectedSection(section)
-						
+
 						switch (action) {
 							case 'unlock':
 								setIsUnlockSectionModalShowing(true)
@@ -121,7 +138,10 @@ const DecksSections = ({ deck }: { deck: Deck }) => {
 			<ConfirmationModal
 				title="Unlock section"
 				message={
-					<>Are you sure you want to unlock <span>{selectedSection?.name ?? '...'}</span>?</>
+					<>
+						Are you sure you want to unlock{' '}
+						<span>{selectedSection?.name ?? '...'}</span>?
+					</>
 				}
 				onConfirm={onConfirmUnlock}
 				buttonText="Unlock"
@@ -138,7 +158,10 @@ const DecksSections = ({ deck }: { deck: Deck }) => {
 			<ConfirmationModal
 				title="Delete section"
 				message={
-					<>Are you sure you want to delete <span>{selectedSection?.name ?? '...'}</span>?</>
+					<>
+						Are you sure you want to delete{' '}
+						<span>{selectedSection?.name ?? '...'}</span>?
+					</>
 				}
 				onConfirm={onConfirmDelete}
 				buttonText="Delete"

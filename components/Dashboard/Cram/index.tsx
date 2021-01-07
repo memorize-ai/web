@@ -45,9 +45,9 @@ const Cram = () => {
 		skip,
 		rate
 	} = useCramState(slugId, slug, sectionId)
-	
+
 	const backUrl = `/decks/${slugId}/${slug}`
-	
+
 	return (
 		<Dashboard
 			selection={Selection.Decks}
@@ -85,10 +85,7 @@ const Cram = () => {
 					currentSide={currentSide}
 					flip={flip}
 				/>
-				<Footer
-					isWaitingForRating={isWaitingForRating}
-					rate={rate}
-				/>
+				<Footer isWaitingForRating={isWaitingForRating} rate={rate} />
 				<ProgressModal
 					data={progressData}
 					isShowing={isProgressModalShowing}

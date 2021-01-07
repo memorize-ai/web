@@ -27,23 +27,28 @@ const BUTTON_CONTENT = {
 	[PerformanceRating.Forgot]: {
 		emoji: '😓',
 		title: 'Forgot',
-		subtitle: 'You tried but couldn\'t remember',
+		subtitle: "You tried but couldn't remember",
 		tooltipPosition: 'up-right'
 	}
 }
 
-const PreviewFooter = (
-	{ isFinished, isWaitingForRating, predictions, rate }: {
-		isFinished: boolean
-		isWaitingForRating: boolean
-		predictions: PreviewPredictions | null
-		rate: (rating: PerformanceRating) => void
-	}
-) => (
-	<div className={cx('footer', {
-		finished: isFinished,
-		'waiting-for-rating': isWaitingForRating
-	})}>
+const PreviewFooter = ({
+	isFinished,
+	isWaitingForRating,
+	predictions,
+	rate
+}: {
+	isFinished: boolean
+	isWaitingForRating: boolean
+	predictions: PreviewPredictions | null
+	rate: (rating: PerformanceRating) => void
+}) => (
+	<div
+		className={cx('footer', {
+			finished: isFinished,
+			'waiting-for-rating': isWaitingForRating
+		})}
+	>
 		<ClaimXPButton inverted />
 		<p className="message" tabIndex={-1}>
 			Try to recall, then flip

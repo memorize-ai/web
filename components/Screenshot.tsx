@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react'
-import Image from 'react-optimized-image'
+import Img from 'react-optimized-image'
 
 import cram from 'images/screenshots/cram.jpg'
 import sections from 'images/screenshots/sections.jpg'
@@ -21,25 +21,42 @@ export enum ScreenshotType {
 
 export const screenshotSrc = (type: ScreenshotType) => {
 	switch (type) {
-		case ScreenshotType.Cram: return cram
-		case ScreenshotType.Sections: return sections
-		case ScreenshotType.Editor: return editor
-		case ScreenshotType.Home: return home
-		case ScreenshotType.Market: return market
-		case ScreenshotType.Recap: return recap
-		case ScreenshotType.Review: return review
+		case ScreenshotType.Cram:
+			return cram
+		case ScreenshotType.Sections:
+			return sections
+		case ScreenshotType.Editor:
+			return editor
+		case ScreenshotType.Home:
+			return home
+		case ScreenshotType.Market:
+			return market
+		case ScreenshotType.Recap:
+			return recap
+		case ScreenshotType.Review:
+			return review
 	}
 }
 
-const Screenshot = ({ type, ...props }: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => {
+const Screenshot = ({
+	type,
+	...props
+}: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => {
 	switch (type) {
-		case ScreenshotType.Cram: return <Image {...props} src={cram} alt="Screenshot" webp />
-		case ScreenshotType.Sections: return <Image {...props} src={sections} alt="Screenshot" webp />
-		case ScreenshotType.Editor: return <Image {...props} src={editor} alt="Screenshot" webp />
-		case ScreenshotType.Home: return <Image {...props} src={home} alt="Screenshot" webp />
-		case ScreenshotType.Market: return <Image {...props} src={market} alt="Screenshot" webp />
-		case ScreenshotType.Recap: return <Image {...props} src={recap} alt="Screenshot" webp />
-		case ScreenshotType.Review: return <Image {...props} src={review} alt="Screenshot" webp />
+		case ScreenshotType.Cram:
+			return <Img {...props} src={cram} alt="Screenshot" webp />
+		case ScreenshotType.Sections:
+			return <Img {...props} src={sections} alt="Screenshot" webp />
+		case ScreenshotType.Editor:
+			return <Img {...props} src={editor} alt="Screenshot" webp />
+		case ScreenshotType.Home:
+			return <Img {...props} src={home} alt="Screenshot" webp />
+		case ScreenshotType.Market:
+			return <Img {...props} src={market} alt="Screenshot" webp />
+		case ScreenshotType.Recap:
+			return <Img {...props} src={recap} alt="Screenshot" webp />
+		case ScreenshotType.Review:
+			return <Img {...props} src={review} alt="Screenshot" webp />
 	}
 }
 

@@ -79,19 +79,27 @@ config.autoAddCss = false
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 	useEffect(() => {
 		const script = document.createElement('script')
-		
+
 		script.id = 'hs-script-loader'
-		script.src = process.env.NEXT_PUBLIC_HUBSPOT_URL
+		script.src = process.env.NEXT_PUBLIC_HUBSPOT_URL as string
 		script.async = true
-		
+
 		document.body.append(script)
 	}, [])
-	
+
 	return (
 		<>
 			<Head>
-				<link key="fonts-googleapis-preconnect" rel="preconnect" href="https://fonts.googleapis.com" />
-				<link key="fonts-gstatic-preconnect" rel="preconnect" href="https://fonts.gstatic.com" />
+				<link
+					key="fonts-googleapis-preconnect"
+					rel="preconnect"
+					href="https://fonts.googleapis.com"
+				/>
+				<link
+					key="fonts-gstatic-preconnect"
+					rel="preconnect"
+					href="https://fonts.gstatic.com"
+				/>
 				<link
 					key="muli-stylesheet"
 					rel="stylesheet"
@@ -107,7 +115,12 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 				<link key="icon" rel="icon" href={favicon} />
 				<link key="apple-touch-icon" rel="apple-touch-icon" href={favicon} />
 				<link key="manifest" rel="manifest" href="/manifest.webmanifest" />
-				<link key="sitemap" rel="sitemap" type="application/xml" href="/sitemap.xml" />
+				<link
+					key="sitemap"
+					rel="sitemap"
+					type="application/xml"
+					href="/sitemap.xml"
+				/>
 			</Head>
 			<Provider>
 				<Component {...pageProps} />

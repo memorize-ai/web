@@ -21,15 +21,13 @@ const Home = ({ previewDeck }: HomeProps) => {
 	useEffect(() => {
 		AOS.init({ anchorPlacement: 'top-bottom' })
 	}, [])
-	
+
 	return (
 		<div className="home">
 			<Head
 				url="/"
 				title="memorize.ai: Learn Lazily"
-				breadcrumbs={url => [
-					[{ name: 'memorize.ai', url }]
-				]}
+				breadcrumbs={url => [[{ name: 'memorize.ai', url }]]}
 			/>
 			<TopGradient>
 				<Navbar />

@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import Action, { ActionType } from 'actions/Action'
 
@@ -11,7 +11,8 @@ export interface CreateDeckState {
 }
 
 export type CreateDeckAction = Action<
-	| File | null // SetCreateDeckImage
+	| File
+	| null // SetCreateDeckImage
 	| string // SetCreateDeckName, SetCreateDeckSubtitle, SetCreateDeckDescription
 	| string[] // SetCreateDeckTopics
 >
@@ -24,7 +25,10 @@ const initialState: CreateDeckState = {
 	topics: []
 }
 
-const reducer = (state: CreateDeckState, { type, payload }: CreateDeckAction) => {
+const reducer = (
+	state: CreateDeckState,
+	{ type, payload }: CreateDeckAction
+) => {
 	switch (type) {
 		case ActionType.SetCreateDeckImage:
 			return { ...state, image: payload as File | null }
@@ -47,7 +51,7 @@ const Context = createContext<[CreateDeckState, Dispatch<CreateDeckAction>]>([
 ])
 export default Context
 
-export const CreateDeckProvider = ({ children }: PropsWithChildren<{}>) => (
+export const CreateDeckProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

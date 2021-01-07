@@ -35,99 +35,108 @@ const AuthModal = () => {
 		setMode,
 		initialXp
 	} = useAuthModal()
-	
+
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
-	const [forgotPasswordLoadingState, setForgotPasswordLoadingState] = useState(LoadingState.None)
+	const [forgotPasswordLoadingState, setForgotPasswordLoadingState] = useState(
+		LoadingState.None
+	)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
-	
+
 	const [isDisabled, setIsDisabled] = useState(false)
-	
+
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	
-	const isSubmitButtonDisabled = isDisabled || !(
-		(mode === AuthenticationMode.LogIn || name) &&
-		email &&
-		password
-	)
+
+	const isSubmitButtonDisabled =
+		isDisabled ||
+		!((mode === AuthenticationMode.LogIn || name) && email && password)
 	const isSubmitButtonLoading = loadingState === LoadingState.Loading
-	
-	const onSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault()
-		
-		try {
-			setIsDisabled(true)
-			
-			setLoadingState(LoadingState.Loading)
-			setErrorMessage(null)
-			
-			switch (mode) {
-				case AuthenticationMode.LogIn:
-					await auth.signInWithEmailAndPassword(email, password)
-					
-					setIsDisabled(false)
-					break
-				case AuthenticationMode.SignUp:
-					const { user } = await auth.createUserWithEmailAndPassword(email, password)
-					
-					if (!user)
-						throw new Error('An unknown error occurred. Please try again')
-					
-					await firestore.doc(`users/${user.uid}`).set({
-						name,
-						email,
-						source: 'web',
-						method: 'email',
-						xp: initialXp,
-						joined: firebase.firestore.FieldValue.serverTimestamp()
-					})
-					
-					user.updateProfile({ displayName: name })
-					
-					setIsDisabled(false)
-					
-					if (!callback)
-						if (isIosHandheld())
-							window.location.href = APP_STORE_URL
-						else
-							Router.push('/interests')
-					
-					break
+
+	const onSubmit = useCallback(
+		async (event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault()
+
+			try {
+				setIsDisabled(true)
+
+				setLoadingState(LoadingState.Loading)
+				setErrorMessage(null)
+
+				switch (mode) {
+					case AuthenticationMode.LogIn:
+						await auth.signInWithEmailAndPassword(email, password)
+
+						setIsDisabled(false)
+						break
+					case AuthenticationMode.SignUp: {
+						const { user } = await auth.createUserWithEmailAndPassword(
+							email,
+							password
+						)
+
+						if (!user)
+							throw new Error('An unknown error occurred. Please try again')
+
+						await firestore.doc(`users/${user.uid}`).set({
+							name,
+							email,
+							source: 'web',
+							method: 'email',
+							xp: initialXp,
+							joined: firebase.firestore.FieldValue.serverTimestamp()
+						})
+
+						user.updateProfile({ displayName: name })
+
+						setIsDisabled(false)
+
+						if (!callback)
+							if (isIosHandheld()) window.location.href = APP_STORE_URL
+							else Router.push('/interests')
+
+						break
+					}
+				}
+
+				setLoadingState(LoadingState.Success)
+			} catch (error) {
+				setIsDisabled(false)
+
+				setLoadingState(LoadingState.Fail)
+				setErrorMessage(error.message)
 			}
-			
-			setLoadingState(LoadingState.Success)
-		} catch (error) {
-			setIsDisabled(false)
-			
-			setLoadingState(LoadingState.Fail)
-			setErrorMessage(error.message)
-		}
-	}, [mode, name, email, password, callback, initialXp])
-	
-	const onNameRef = useCallback((input: HTMLInputElement | null) => {
-		if (input && mode === AuthenticationMode.SignUp)
-			input[isShowing ? 'focus' : 'blur']()
-	}, [mode, isShowing])
-	
-	const onEmailRef = useCallback((input: HTMLInputElement | null) => {
-		if (input && mode === AuthenticationMode.LogIn)
-			input[isShowing ? 'focus' : 'blur']()
-	}, [mode, isShowing])
-	
+		},
+		[mode, name, email, password, callback, initialXp]
+	)
+
+	const onNameRef = useCallback(
+		(input: HTMLInputElement | null) => {
+			if (input && mode === AuthenticationMode.SignUp)
+				input[isShowing ? 'focus' : 'blur']()
+		},
+		[mode, isShowing]
+	)
+
+	const onEmailRef = useCallback(
+		(input: HTMLInputElement | null) => {
+			if (input && mode === AuthenticationMode.LogIn)
+				input[isShowing ? 'focus' : 'blur']()
+		},
+		[mode, isShowing]
+	)
+
 	const forgotPassword = useCallback(async () => {
 		try {
-			if (!email)
-				throw new Error('Enter your email')
-			
-			if (!EMAIL_REGEX.test(email))
-				throw new Error('Invalid email')
-			
+			if (!email) throw new Error('Enter your email')
+
+			if (!EMAIL_REGEX.test(email)) throw new Error('Invalid email')
+
 			setForgotPasswordLoadingState(LoadingState.Loading)
 			setErrorMessage(null)
-			
+
 			await auth.sendPasswordResetEmail(email)
-			
+
 			toast.success('Sent! Check your email')
 			setForgotPasswordLoadingState(LoadingState.Success)
 		} catch (error) {
@@ -136,24 +145,23 @@ const AuthModal = () => {
 			setErrorMessage(error.message)
 		}
 	}, [email, setForgotPasswordLoadingState, setErrorMessage])
-	
+
 	useEffect(() => {
-		if (!(currentUser && isShowing))
-			return
-		
+		if (!(currentUser && isShowing)) return
+
 		setIsShowing(false)
-		
+
 		if (callback) {
 			setCallback(null)
 			callback(currentUser)
 		}
 	}, [currentUser, isShowing, callback, setCallback, setIsShowing])
-	
+
 	// Clear the error message when you change the state
 	useEffect(() => {
 		setErrorMessage(null)
 	}, [name, email, password, mode, isShowing, setErrorMessage])
-	
+
 	return (
 		<Modal
 			className="auth"
@@ -163,25 +171,24 @@ const AuthModal = () => {
 		>
 			<div className="top">
 				<div className="header">
-					<h2 className="title">
-						Change your life today
-					</h2>
-					<button
-						className="hide"
-						onClick={() => setIsShowing(false)}
-					>
+					<h2 className="title">Change your life today</h2>
+					<button className="hide" onClick={() => setIsShowing(false)}>
 						<FontAwesomeIcon icon={faTimes} />
 					</button>
 				</div>
 				<div className="tabs">
 					<button
-						className={cx({ selected: mode === AuthenticationMode.LogIn })}
+						className={cx({
+							selected: mode === AuthenticationMode.LogIn
+						})}
 						onClick={() => setMode(AuthenticationMode.LogIn)}
 					>
 						Log in
 					</button>
 					<button
-						className={cx({ selected: mode === AuthenticationMode.SignUp })}
+						className={cx({
+							selected: mode === AuthenticationMode.SignUp
+						})}
 						onClick={() => setMode(AuthenticationMode.SignUp)}
 					>
 						Sign up for free
@@ -220,9 +227,7 @@ const AuthModal = () => {
 					onChange={({ target: { value } }) => setEmail(value)}
 				/>
 				<div className="header row">
-					<label htmlFor="auth-modal-password-input">
-						Password
-					</label>
+					<label htmlFor="auth-modal-password-input">Password</label>
 					{mode === AuthenticationMode.LogIn && (
 						<Button
 							type="button"
@@ -243,12 +248,9 @@ const AuthModal = () => {
 					id="auth-modal-password-input"
 					required
 					type="password"
-					autoComplete={
-						`${mode === AuthenticationMode.SignUp
-							? 'new'
-							: 'current'
-						}-password`
-					}
+					autoComplete={`${
+						mode === AuthenticationMode.SignUp ? 'new' : 'current'
+					}-password`}
 					placeholder="••••••"
 					value={password}
 					onChange={({ target: { value } }) => setPassword(value)}
@@ -264,22 +266,17 @@ const AuthModal = () => {
 					>
 						Next
 					</Button>
-					{errorMessage
-						? (
-							<p className="error-message">
-								{errorMessage}
-							</p>
-						)
-						: (
-							<Providers
-								initialXp={initialXp}
-								callback={callback}
-								isDisabled={isDisabled}
-								setIsDisabled={setIsDisabled}
-								setErrorMessage={setErrorMessage}
-							/>
-						)
-					}
+					{errorMessage ? (
+						<p className="error-message">{errorMessage}</p>
+					) : (
+						<Providers
+							initialXp={initialXp}
+							callback={callback}
+							isDisabled={isDisabled}
+							setIsDisabled={setIsDisabled}
+							setErrorMessage={setErrorMessage}
+						/>
+					)}
 				</div>
 			</form>
 		</Modal>

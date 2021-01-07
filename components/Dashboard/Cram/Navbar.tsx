@@ -2,21 +2,22 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
-const CramNavbar = (
-	{ backUrl, currentIndex, count, skip, recap }: {
-		backUrl: string
-		currentIndex: number | null
-		count: number | null
-		skip: () => void
-		recap: () => void
-	}
-) => (
+const CramNavbar = ({
+	backUrl,
+	currentIndex,
+	count,
+	skip,
+	recap
+}: {
+	backUrl: string
+	currentIndex: number | null
+	count: number | null
+	skip: () => void
+	recap: () => void
+}) => (
 	<div className="cram-navbar">
 		<Link href={backUrl}>
-			<a
-				className="back"
-				onClick={event => event.stopPropagation()}
-			>
+			<a className="back" onClick={event => event.stopPropagation()}>
 				<FontAwesomeIcon icon={faTimes} />
 			</a>
 		</Link>

@@ -21,22 +21,24 @@ const getPaths = async () => [
 const handler: NextApiHandler<string> = async ({ method }, res) => {
 	try {
 		res.setHeader('Access-Control-Allow-Origin', BASE_URL)
-		
-		if (method !== 'GET')
-			return res.status(400).send('Invalid method')
-		
+
+		if (method !== 'GET') return res.status(400).send('Invalid method')
+
 		const result = xml(
 			{ version: '1.0', encoding: 'UTF-8' },
 			{
 				urlset: {
 					'@xmlns': 'http://www.sitemaps.org/schemas/sitemap/0.9',
 					'@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-					'@xsi:schemaLocation': 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd',
-					url: (await getPaths()).map(path => ({ loc: `${BASE_URL}${path}` }))
+					'@xsi:schemaLocation':
+						'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd',
+					url: (await getPaths()).map(path => ({
+						loc: `${BASE_URL}${path}`
+					}))
 				}
 			}
 		).end()
-		
+
 		res.setHeader('Content-Type', 'application/xml')
 		res.send(result)
 	} catch ({ message }) {

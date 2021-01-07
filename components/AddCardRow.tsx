@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -6,22 +6,25 @@ import cx from 'classnames'
 import Card from 'models/Card'
 import CKEditor from './CKEditor'
 
-const AddCardRow = (
-	{ uploadUrl, front, back, canRemove, remove, updateFront, updateBack }: {
-		uploadUrl: string
-		front: string
-		back: string
-		canRemove: boolean
-		remove: () => void
-		updateFront: (front: string) => void
-		updateBack: (back: string) => void
-	}
-) => {
-	const summary = useMemo(
-		() => Card.getSummary(front) || 'New card',
-		[front]
-	)
-	
+const AddCardRow = ({
+	uploadUrl,
+	front,
+	back,
+	canRemove,
+	remove,
+	updateFront,
+	updateBack
+}: {
+	uploadUrl: string
+	front: string
+	back: string
+	canRemove: boolean
+	remove: () => void
+	updateFront: (front: string) => void
+	updateBack: (back: string) => void
+}) => {
+	const summary = useMemo(() => Card.getSummary(front) || 'New card', [front])
+
 	return (
 		<div className="card">
 			<div className="header">
@@ -48,11 +51,7 @@ const AddCardRow = (
 						/>
 						<label>Front</label>
 					</div>
-					<CKEditor
-						uploadUrl={uploadUrl}
-						data={front}
-						setData={updateFront}
-					/>
+					<CKEditor uploadUrl={uploadUrl} data={front} setData={updateFront} />
 				</div>
 				<div>
 					<div className="header">
@@ -62,11 +61,7 @@ const AddCardRow = (
 						/>
 						<label>Back</label>
 					</div>
-					<CKEditor
-						uploadUrl={uploadUrl}
-						data={back}
-						setData={updateBack}
-					/>
+					<CKEditor uploadUrl={uploadUrl} data={back} setData={updateBack} />
 				</div>
 			</div>
 		</div>

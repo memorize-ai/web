@@ -18,15 +18,14 @@ class DeckPageError extends Error {
 }
 
 const throwIfNull = <Result>(result: Result | null | undefined): Result => {
-	if (!result)
-		throw new DeckPageError({ notFound: true })
-	
+	if (!result) throw new DeckPageError({ notFound: true })
+
 	return result
 }
 
 const getDeckDependentData = async (slugId: string, slug: string) => {
 	const deck = await getDeck(slugId).then(throwIfNull)
-	
+
 	if (deck.slug !== slug)
 		throw new DeckPageError({
 			redirect: {
@@ -34,13 +33,13 @@ const getDeckDependentData = async (slugId: string, slug: string) => {
 				permanent: true
 			}
 		})
-	
+
 	const [creator, sections, cards] = await Promise.all([
 		getUser(deck.creatorId).then(throwIfNull),
 		getSections(deck.id),
 		getCards(deck.id)
 	])
-	
+
 	return { deck, creator, sections, cards }
 }
 
@@ -54,18 +53,23 @@ export const getStaticPaths: GetStaticPaths<DeckPageQuery> = async () => ({
 	fallback: 'blocking'
 })
 
-export const getStaticProps: GetStaticProps<DeckPageProps, DeckPageQuery> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<
+	DeckPageProps,
+	DeckPageQuery
+> = async ({ params }) => {
 	try {
+		if (!params) return { notFound: true }
+
 		const { slugId, slug } = params
-		
+
 		const [deckDependentData, decks, allTopics] = await Promise.all([
 			getDeckDependentData(slugId, slug),
 			getNumberOfDecks(),
 			getTopics()
 		])
-		
+
 		const { topics } = deckDependentData.deck
-		
+
 		return {
 			props: {
 				...deckDependentData,
@@ -75,9 +79,8 @@ export const getStaticProps: GetStaticProps<DeckPageProps, DeckPageQuery> = asyn
 			revalidate: 1
 		}
 	} catch (error) {
-		if (error instanceof DeckPageError)
-			return error.result
-		
+		if (error instanceof DeckPageError) return error.result
+
 		throw error
 	}
 }

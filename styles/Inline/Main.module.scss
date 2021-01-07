@@ -10,12 +10,12 @@ $footer-offset: 40px;
 
 .waitingForRating {
 	cursor: default;
-	
+
 	.waitForRating {
 		opacity: 0;
 		transform: translateY($footer-offset);
 	}
-	
+
 	.rateButtons {
 		opacity: 1;
 		transform: none;

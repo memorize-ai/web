@@ -3,67 +3,62 @@
 
 .top-gradient {
 	$degrees: 6deg;
-	
+
 	@mixin gradient-height($height) {
 		height: calc(#{$height} - #{tan($degrees)} * 100vw);
-		
+
 		> .background {
 			height: $height;
 		}
 	}
-	
+
 	@include stack;
 	@include gradient-height(440px);
-	
+
 	@media (min-width: 375px) {
 		@include gradient-height(450px);
 	}
-	
+
 	@media (min-width: 400px) {
 		@include gradient-height(475px);
 	}
-	
+
 	@media (min-width: 430px) {
 		@include gradient-height(500px);
 	}
-	
+
 	@media (min-width: 500px) {
 		@include gradient-height(550px);
 	}
-	
+
 	@media (min-width: 600px) {
 		@include gradient-height(600px);
 	}
-	
+
 	@media (min-width: 1075px) {
 		@include gradient-height(650px);
 	}
-	
+
 	@media (min-width: 1300px) {
 		@include gradient-height(730px);
 	}
-	
+
 	@media (min-width: 2000px) {
 		@include gradient-height(760px);
 	}
-	
+
 	@media (min-width: 2400px) {
 		@include gradient-height(820px);
 	}
-	
+
 	@media (min-width: 2800px) {
 		@include gradient-height(860px);
 	}
-	
-	&,
-	> .background {
-		transition: 0.3s height;
-	}
-	
+
 	> .background {
 		@include top-gradient($degrees, $is-right: true);
 	}
-	
+
 	> .content {
 		z-index: 0;
 	}

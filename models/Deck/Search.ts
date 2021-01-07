@@ -1,6 +1,10 @@
 import { createClient } from '@elastic/app-search-javascript'
 
-import { DECKS_HOST_IDENTIFIER, DECKS_SEARCH_KEY, DECKS_ENGINE_NAME } from 'lib/constants'
+import {
+	DECKS_HOST_IDENTIFIER,
+	DECKS_SEARCH_KEY,
+	DECKS_ENGINE_NAME
+} from 'lib/constants'
 import Deck, { DeckData } from '.'
 
 export enum DeckSortAlgorithm {
@@ -60,6 +64,7 @@ export const nameForDeckSortAlgorithm = (algorithm: DeckSortAlgorithm) => {
 	}
 }
 
+// eslint-disable-next-line
 type RawSearchResultItemData = Record<string, { raw: any }>
 type RawSearchResultItemDataWrapper = { data: RawSearchResultItemData }
 
@@ -70,7 +75,10 @@ interface SearchFunctionOptions {
 	filterForTopics: string[] | null
 }
 
-type SearchFunction<Item> = (query: string | null, options: SearchFunctionOptions) => Promise<Item[]>
+type SearchFunction<Item> = (
+	query: string | null,
+	options: SearchFunctionOptions
+) => Promise<Item[]>
 
 export default class Search {
 	private static client = createClient({
@@ -78,7 +86,7 @@ export default class Search {
 		searchKey: DECKS_SEARCH_KEY,
 		engineName: DECKS_ENGINE_NAME
 	})
-	
+
 	private static encodeSortAlgorithm = (
 		algorithm: DeckSortAlgorithm
 	): Record<string, string> | null => {
@@ -100,8 +108,10 @@ export default class Search {
 				return { updated: 'desc' }
 		}
 	}
-	
-	private static deckDataFromRawData = ({ data }: RawSearchResultItemDataWrapper): DeckData => ({
+
+	private static deckDataFromRawData = ({
+		data
+	}: RawSearchResultItemDataWrapper): DeckData => ({
 		id: data.id.raw,
 		slugId: data.slug_id?.raw ?? '...',
 		slug: data.slug?.raw ?? '...',
@@ -130,33 +140,33 @@ export default class Search {
 		created: new Date(data.created?.raw).getTime(),
 		updated: new Date(data.updated?.raw).getTime()
 	})
-	
+
 	private static deckFromRawData = (data: RawSearchResultItemDataWrapper) =>
 		new Deck(Search.deckDataFromRawData(data))
-	
-	private static searchToRawData: SearchFunction<RawSearchResultItemDataWrapper> =
-		async (query, { pageNumber, pageSize, sortAlgorithm, filterForTopics }) => {
-			const options: Record<string, any> = {
-				page: { size: pageSize, current: pageNumber }
-			}
-			
-			const encodedSortAlgorithm = Search.encodeSortAlgorithm(sortAlgorithm)
-			
-			if (encodedSortAlgorithm)
-				options.sort = encodedSortAlgorithm
-			
-			if (filterForTopics?.length)
-				options.filters = { topics: filterForTopics }
-			
-			return (await Search.client.search(query ?? '', options)).results
+
+	private static searchToRawData: SearchFunction<RawSearchResultItemDataWrapper> = async (
+		query,
+		{ pageNumber, pageSize, sortAlgorithm, filterForTopics }
+	) => {
+		const options: Record<string, unknown> = {
+			page: { size: pageSize, current: pageNumber }
 		}
-	
+
+		const encodedSortAlgorithm = Search.encodeSortAlgorithm(sortAlgorithm)
+
+		if (encodedSortAlgorithm) options.sort = encodedSortAlgorithm
+
+		if (filterForTopics?.length) options.filters = { topics: filterForTopics }
+
+		return (await Search.client.search(query ?? '', options)).results
+	}
+
 	static searchToDeckData: SearchFunction<DeckData> = async (...options) =>
 		(await Search.searchToRawData(...options)).map(Search.deckDataFromRawData)
-	
+
 	static search: SearchFunction<Deck> = async (...options) =>
 		(await Search.searchToRawData(...options)).map(Search.deckFromRawData)
-	
+
 	static recommendedDecks = (pageSize: number, interests: string[]) =>
 		Search.search(null, {
 			pageNumber: 1,

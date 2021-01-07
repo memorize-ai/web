@@ -7,54 +7,54 @@ export enum DropdownShadow {
 	Screen = 'screen'
 }
 
-const Dropdown = (
-	{
-		className,
-		shadow,
-		isRightAligned = true,
-		topMargin = '8px',
-		trigger,
-		isShowing,
-		setIsShowing,
-		children
-	}: PropsWithChildren<{
-		className?: string
-		shadow: DropdownShadow
-		isRightAligned?: boolean
-		topMargin?: string
-		trigger: JSX.Element
-		isShowing: boolean
-		setIsShowing: (isShowing: boolean) => void
-	}>
-) => {
+const Dropdown = ({
+	className,
+	shadow,
+	isRightAligned = true,
+	topMargin = '8px',
+	trigger,
+	isShowing,
+	setIsShowing,
+	children
+}: PropsWithChildren<{
+	className?: string
+	shadow: DropdownShadow
+	isRightAligned?: boolean
+	topMargin?: string
+	trigger: JSX.Element
+	isShowing: boolean
+	setIsShowing: (isShowing: boolean) => void
+}>) => {
 	const ref = useRef(null as HTMLDivElement | null)
-	
+
 	useEffect(() => {
 		const onClick = ({ target }: Event) => {
 			const { current } = ref
-			
-			if (!current || target === current || current.contains(target as Node | null) || !isShowing)
+
+			if (
+				!current ||
+				target === current ||
+				current.contains(target as Node | null) ||
+				!isShowing
+			)
 				return
-			
+
 			setIsShowing(false)
 		}
-		
+
 		const { body } = document
-		
+
 		body.addEventListener('click', onClick)
 		return () => body.removeEventListener('click', onClick)
 	}, [isShowing, setIsShowing])
-	
+
 	return (
 		<div
 			ref={ref}
 			className={cx('dropdown', className, { showing: isShowing })}
 			onClick={event => event.stopPropagation()}
 		>
-			<button
-				className="trigger"
-				onClick={() => setIsShowing(!isShowing)}
-			>
+			<button className="trigger" onClick={() => setIsShowing(!isShowing)}>
 				{trigger}
 			</button>
 			<div

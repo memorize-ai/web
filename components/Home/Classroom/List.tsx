@@ -11,11 +11,23 @@ export interface ListItem {
 const ITEMS: ListItem[] = [
 	{
 		lines: 2,
-		text: <>Create cards and split them into sections<br />for your class</>
+		text: (
+			<>
+				Create cards and split them into sections
+				<br />
+				for your class
+			</>
+		)
 	},
 	{
 		lines: 2,
-		text: <><em>Optionally</em> lock sections according to class<br />schedule</>
+		text: (
+			<>
+				<em>Optionally</em> lock sections according to class
+				<br />
+				schedule
+			</>
+		)
 	},
 	{
 		lines: 1,
@@ -30,11 +42,7 @@ const ITEMS: ListItem[] = [
 const HomeClassroomList = () => (
 	<ol className="list">
 		{ITEMS.map(({ lines, text }, i) => (
-			<li
-				key={i}
-				data-aos="fade-down"
-				data-aos-delay={i * 100}
-			>
+			<li key={i} data-aos="fade-down" data-aos-delay={i * 100}>
 				<div className={`bullet lines-${lines}`}>
 					<Svg src={bullet} />
 					<p>{i + 1}</p>

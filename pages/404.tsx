@@ -11,16 +11,12 @@ const NotFound: NextPage = () => (
 		<Head
 			title="404 | memorize.ai"
 			description="Oops! Looks like you have the wrong URL."
-			breadcrumbs={url => [
-				[{ name: '404', url }]
-			]}
+			breadcrumbs={url => [[{ name: '404', url }]]}
 			schema={[APP_SCHEMA]}
 		/>
 		<TopGradient>
 			<Navbar />
-			<h1 className={styles.title}>
-				Oh no! Are you lost?
-			</h1>
+			<h1 className={styles.title}>Oh no! Are you lost?</h1>
 		</TopGradient>
 	</div>
 )

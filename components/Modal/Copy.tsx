@@ -6,23 +6,31 @@ import cx from 'classnames'
 
 import Modal, { ModalShowingProps } from '.'
 
-const CopyModal = (
-	{ title, message, icon, text, isShowing, setIsShowing }: {
-		title: string
-		message?: ReactNode
-		icon: IconDefinition
-		text: string
-	} & ModalShowingProps
-) => {
+const CopyModal = ({
+	title,
+	message,
+	icon,
+	text,
+	isShowing,
+	setIsShowing
+}: {
+	title: string
+	message?: ReactNode
+	icon: IconDefinition
+	text: string
+} & ModalShowingProps) => {
 	const [didCopy, setDidCopy] = useState(false)
-	
-	const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault()
-		
-		copy(text)
-		setDidCopy(true)
-	}, [text, setDidCopy])
-	
+
+	const onSubmit = useCallback(
+		(event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault()
+
+			copy(text)
+			setDidCopy(true)
+		},
+		[text, setDidCopy]
+	)
+
 	return (
 		<Modal
 			className="copy"
@@ -32,19 +40,12 @@ const CopyModal = (
 		>
 			<div className="top">
 				<div className="header">
-					<h2 className="title">
-						{title}
-					</h2>
-					<button
-						className="hide"
-						onClick={() => setIsShowing(false)}
-					>
+					<h2 className="title">{title}</h2>
+					<button className="hide" onClick={() => setIsShowing(false)}>
 						<FontAwesomeIcon icon={faTimes} />
 					</button>
 				</div>
-				{message && (
-					<p className="message">{message}</p>
-				)}
+				{message && <p className="message">{message}</p>}
 			</div>
 			<form onSubmit={onSubmit}>
 				<div className="text">

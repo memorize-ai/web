@@ -1,4 +1,4 @@
-import { useCallback, FormEvent, useState, PropsWithChildren } from 'react'
+import { useCallback, FormEvent, useState, ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -7,7 +7,7 @@ import LoadingState from 'models/LoadingState'
 import Head from './Head'
 import Loader from './Loader'
 
-export interface ConfirmationFormProps extends PropsWithChildren<{}> {
+export interface ConfirmationFormProps {
 	url?: string
 	title: string
 	description: string
@@ -15,6 +15,7 @@ export interface ConfirmationFormProps extends PropsWithChildren<{}> {
 	submitMessage: string
 	submitButtonText: string
 	onSubmit: () => void
+	children?: ReactNode
 }
 
 const ConfirmationForm = ({
@@ -30,35 +31,35 @@ const ConfirmationForm = ({
 	const [submitButtonWidth, setSubmitButtonWidth] = useState(
 		undefined as number | undefined
 	)
-	
-	const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault()
-		initialOnSubmit()
-	}, [initialOnSubmit])
-	
-	const onSubmitButtonRef = useCallback((button: HTMLButtonElement | null) => {
-		setSubmitButtonWidth(button?.clientWidth)
-	}, [setSubmitButtonWidth])
-	
+
+	const onSubmit = useCallback(
+		(event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault()
+			initialOnSubmit()
+		},
+		[initialOnSubmit]
+	)
+
+	const onSubmitButtonRef = useCallback(
+		(button: HTMLButtonElement | null) => {
+			setSubmitButtonWidth(button?.clientWidth)
+		},
+		[setSubmitButtonWidth]
+	)
+
 	return (
 		<div className="confirmation-form">
 			<Head
 				url={url}
 				title={`${title} | memorize.ai`}
 				description={description}
-				breadcrumbs={url => [
-					[{ name: title, url }]
-				]}
+				breadcrumbs={url => [[{ name: title, url }]]}
 			/>
 			<div className="content">
-				<h1 className="title">
-					{submitMessage}
-				</h1>
+				<h1 className="title">{submitMessage}</h1>
 				{children}
 				<form onSubmit={onSubmit}>
-					<p className="submit-message">
-						Are you sure?
-					</p>
+					<p className="submit-message">Are you sure?</p>
 					<button
 						ref={onSubmitButtonRef}
 						className={cx('submit-button', {

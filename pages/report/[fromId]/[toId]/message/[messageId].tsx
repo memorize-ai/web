@@ -28,31 +28,30 @@ interface ReportMessageProps {
 
 const ReportMessage: NextPage<ReportMessageProps> = ({ from }) => {
 	const { toId, messageId } = useRouter().query as ReportMessageQuery
-	
+
 	const [reason, setReason] = useState('')
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
-	
+
 	const onSubmit = useCallback(async () => {
-		if (!(toId && messageId))
-			return
-		
+		if (!(toId && messageId)) return
+
 		try {
 			setLoadingState(LoadingState.Loading)
-			
+
 			await reportMessage({
 				from: from.id,
 				to: toId,
 				message: messageId,
 				reason
 			})
-			
+
 			setLoadingState(LoadingState.Success)
 		} catch (error) {
 			setLoadingState(LoadingState.Fail)
 			handleError(error)
 		}
 	}, [from.id, toId, messageId, reason, setLoadingState])
-	
+
 	return (
 		<ConfirmationForm
 			title={`Report ${from.name}`}
@@ -74,29 +73,33 @@ const ReportMessage: NextPage<ReportMessageProps> = ({ from }) => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps<ReportMessageProps, ReportMessageQuery> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<
+	ReportMessageProps,
+	ReportMessageQuery
+> = async ({ params }) => {
+	if (!params) return { notFound: true }
+
 	const firestore = admin.firestore()
 	const { fromId, toId, messageId } = params
-	
+
 	if (fromId === toId)
 		return {
 			redirect: { permanent: false, destination: '/' }
 		}
-	
+
 	const [from, to, message] = await Promise.all([
 		firestore.doc(`users/${fromId}`).get(),
 		firestore.doc(`users/${toId}`).get(),
 		firestore.doc(`messages/${messageId}`).get()
 	])
-	
-	if (!(from.exists && to.exists && message.exists))
-		return { notFound: true }
-	
+
+	if (!(from.exists && to.exists && message.exists)) return { notFound: true }
+
 	if (!(message.get('from') === from.id && message.get('to') === to.id))
 		return {
 			redirect: { permanent: false, destination: '/' }
 		}
-	
+
 	return {
 		props: { from: User.dataFromSnapshot(from) }
 	}

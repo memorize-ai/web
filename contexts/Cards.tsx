@@ -1,4 +1,4 @@
-import { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import { createContext, Dispatch, ReactNode, useReducer } from 'react'
 import groupBy from 'lodash/groupBy'
 
 import Card from 'models/Card'
@@ -9,10 +9,10 @@ export type CardsState = Record<string, Card | Card[] | Record<string, Card[]>>
 
 export type CardsAction = Action<
 	| string // InitializeCards
-	| { parentId: string, cards: Card[] } // SetCards
+	| { parentId: string; cards: Card[] } // SetCards
 	| firebase.firestore.DocumentSnapshot // SetCard
-	| { parentId: string, snapshot: firebase.firestore.DocumentSnapshot } // AddCard, UpdateCard, UpdateCardUserData
-	| { parentId: string, cardId: string } // RemoveCard
+	| { parentId: string; snapshot: firebase.firestore.DocumentSnapshot } // AddCard, UpdateCard, UpdateCardUserData
+	| { parentId: string; cardId: string } // RemoveCard
 >
 
 const initialState: CardsState = {}
@@ -21,7 +21,7 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 	switch (type) {
 		case ActionType.InitializeCards: {
 			const parentId = payload as string
-			
+
 			return {
 				...state,
 				[parentId]: state[parentId] ?? []
@@ -32,7 +32,7 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 				parentId: string
 				cards: Card[]
 			}
-			
+
 			return {
 				...state,
 				[parentId]: groupBy(cards, 'sectionId')
@@ -43,7 +43,7 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 				payload as firebase.firestore.DocumentSnapshot,
 				null
 			)
-			
+
 			return { ...state, [card.id]: card }
 		}
 		case ActionType.AddCard: {
@@ -51,11 +51,11 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 				parentId: string
 				snapshot: firebase.firestore.DocumentSnapshot
 			}
-			
+
 			return {
 				...state,
 				[parentId]: [
-					...(state[parentId] as Card[] | undefined) ?? [],
+					...((state[parentId] as Card[] | undefined) ?? []),
 					Card.fromSnapshot(snapshot, null)
 				]
 			}
@@ -66,13 +66,11 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 				snapshot: firebase.firestore.DocumentSnapshot
 			}
 			const cards = (state[parentId] as Card[] | undefined) ?? []
-			
+
 			return {
 				...state,
 				[parentId]: cards.map(card =>
-					card.id === snapshot.id
-						? card.updateFromSnapshot(snapshot)
-						: card
+					card.id === snapshot.id ? card.updateFromSnapshot(snapshot) : card
 				)
 			}
 		}
@@ -82,7 +80,7 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 				snapshot: firebase.firestore.DocumentSnapshot
 			}
 			const cards = (state[parentId] as Card[] | undefined) ?? []
-			
+
 			return {
 				...state,
 				[parentId]: cards.map(card =>
@@ -98,7 +96,7 @@ const reducer = (state: CardsState, { type, payload }: CardsAction) => {
 				cardId: string
 			}
 			const cards = (state[parentId] as Card[] | undefined) ?? []
-			
+
 			return {
 				...state,
 				[parentId]: cards.filter(card => card.id !== cardId)
@@ -115,7 +113,7 @@ const Context = createContext<[CardsState, Dispatch<CardsAction>]>([
 ])
 export default Context
 
-export const CardsProvider = ({ children }: PropsWithChildren<{}>) => (
+export const CardsProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

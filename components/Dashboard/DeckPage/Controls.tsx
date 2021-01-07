@@ -23,11 +23,13 @@ export interface DeckPageControlsProps {
 
 const DeckPageControls = ({ deck, hasDeck }: DeckPageControlsProps) => {
 	const [currentUser] = useCurrentUser()
-	const [hoverRating, setHoverRating] = useState(null as 1 | 2 | 3 | 4 | 5 | null)
-	
+	const [hoverRating, setHoverRating] = useState(
+		null as 1 | 2 | 3 | 4 | 5 | null
+	)
+
 	const uid = currentUser?.id
 	const rating = deck.userData?.rating ?? 0
-	
+
 	return (
 		<div className="controls">
 			<div id="ratings" className="ratings">
@@ -35,9 +37,7 @@ const DeckPageControls = ({ deck, hasDeck }: DeckPageControlsProps) => {
 					<div className="left">
 						<Stars>{deck.averageRating}</Stars>
 						<div className="info">
-							<h3 className="rating">
-								{deck.averageRating.toFixed(1)}
-							</h3>
+							<h3 className="rating">{deck.averageRating.toFixed(1)}</h3>
 							<p className="count">
 								<span>{formatNumber(deck.numberOfRatings)} </span>
 								review{deck.numberOfRatings === 1 ? '' : 's'}
@@ -48,7 +48,7 @@ const DeckPageControls = ({ deck, hasDeck }: DeckPageControlsProps) => {
 						<tbody>
 							{([5, 4, 3, 2, 1] as const).map(i => {
 								const count = deck.countForRating(i)
-								
+
 								return (
 									<tr key={i}>
 										<td className="star">{i}</td>
@@ -57,14 +57,16 @@ const DeckPageControls = ({ deck, hasDeck }: DeckPageControlsProps) => {
 										</td>
 										<td className="slider">
 											<div>
-												<div style={{
-													width: `${100 * count / (deck.numberOfRatings || 1)}%`
-												}} />
+												<div
+													style={{
+														width: `${
+															(100 * count) / (deck.numberOfRatings || 1)
+														}%`
+													}}
+												/>
 											</div>
 										</td>
-										<td className="count">
-											{formatNumber(count)}
-										</td>
+										<td className="count">{formatNumber(count)}</td>
 									</tr>
 								)
 							})}
@@ -75,24 +77,17 @@ const DeckPageControls = ({ deck, hasDeck }: DeckPageControlsProps) => {
 					<>
 						<div className="divider" />
 						<div className="bottom">
-							<p className="rate-message">
-								Click to rate
-							</p>
+							<p className="rate-message">Click to rate</p>
 							<div className="stars">
 								{([1, 2, 3, 4, 5] as const).map(i => {
 									const props = {
 										key: i,
 										onClick: () =>
-											uid && deck.rate(
-												uid,
-												rating === i ? null : i
-											),
-										onMouseEnter: () =>
-											setHoverRating(i),
-										onMouseLeave: () =>
-											setHoverRating(null)
+											uid && deck.rate(uid, rating === i ? null : i),
+										onMouseEnter: () => setHoverRating(i),
+										onMouseLeave: () => setHoverRating(null)
 									}
-									
+
 									return (
 										<FontAwesomeIcon
 											{...props}

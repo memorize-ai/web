@@ -15,48 +15,62 @@ import logo from 'images/logos/capital.jpg'
 
 const DashboardSidebar = () => {
 	const isSignedIn = useLayoutAuthState()
-	
+
 	const [decks, decksLoadingState] = useDecks()
 	const [currentUser] = useCurrentUser()
-	
+
 	const [query, setQuery] = useState('')
-	
+
 	const isLevelLoading = isSignedIn && isNullish(currentUser?.level)
-	
-	const level = isLevelLoading ? '...' : formatNumberAsInt(currentUser?.level ?? 0)
-	const nextLevel = isLevelLoading ? '...' : formatNumberAsInt((currentUser?.level ?? 0) + 1)
-	const xp = isSignedIn && isNullish(currentUser?.xp) ? '...' : formatNumber(currentUser?.xp ?? 0)
-	
+
+	const level = isLevelLoading
+		? '...'
+		: formatNumberAsInt(currentUser?.level ?? 0)
+	const nextLevel = isLevelLoading
+		? '...'
+		: formatNumberAsInt((currentUser?.level ?? 0) + 1)
+	const xp =
+		isSignedIn && isNullish(currentUser?.xp)
+			? '...'
+			: formatNumber(currentUser?.xp ?? 0)
+
 	const sliderPercent = (currentUser?.percentToNextLevel ?? 0) * 100
-	
-	const hasNoDecks = !isSignedIn || (
-		(decksLoadingState === LoadingState.Success) &&
-		!decks.length
+
+	const hasNoDecks =
+		!isSignedIn || (decksLoadingState === LoadingState.Success && !decks.length)
+
+	const dueDecks = useMemo(
+		() =>
+			(decks ?? [])
+				.filter(deck => deck.userData?.isDue ?? false)
+				.sort(
+					(a, b) =>
+						(b.userData?.numberOfDueCards ?? 0) -
+						(a.userData?.numberOfDueCards ?? 0)
+				),
+		[decks]
 	)
-	
-	const dueDecks = useMemo(() => (
-		(decks ?? [])
-			.filter(deck => deck.userData?.isDue ?? false)
-			.sort((a, b) =>
-				(b.userData?.numberOfDueCards ?? 0) - (a.userData?.numberOfDueCards ?? 0)
-			)
-	), [decks])
-	
-	const favoriteDecks = useMemo(() => (
-		(decks ?? [])
-			.filter(deck => deck.userData?.isFavorite ?? false)
-			.sort((a, b) => a.name.localeCompare(b.name))
-	), [decks])
-	
-	const allDecks = useMemo(() => (
-		(decks ?? []).sort((a, b) => a.name.localeCompare(b.name))
-	), [decks])
-	
+
+	const favoriteDecks = useMemo(
+		() =>
+			(decks ?? [])
+				.filter(deck => deck.userData?.isFavorite ?? false)
+				.sort((a, b) => a.name.localeCompare(b.name)),
+		[decks]
+	)
+
+	const allDecks = useMemo(
+		() => (decks ?? []).sort((a, b) => a.name.localeCompare(b.name)),
+		[decks]
+	)
+
 	return (
 		<div className="sidebar">
 			<div className="top">
 				<Link href="/">
-					<a><Image src={logo} alt="Logo" webp /></a>
+					<a>
+						<Image className="logo" src={logo} alt="Logo" webp />
+					</a>
 				</Link>
 				<div className="divider" />
 				<Input
@@ -68,30 +82,25 @@ const DashboardSidebar = () => {
 				/>
 			</div>
 			<div className="sections">
-				{hasNoDecks
-					? <p>Go on. Explore!</p>
-					: (
-						<>
-							<Section
-								title="Due"
-								decks={dueDecks}
-								query={query}
-								includesDivider
-							/>
-							<Section
-								title="Favorites"
-								decks={favoriteDecks}
-								query={query}
-								includesDivider
-							/>
-							<Section
-								title="All"
-								decks={allDecks}
-								query={query}
-							/>
-						</>
-					)
-				}
+				{hasNoDecks ? (
+					<p>Go on. Explore!</p>
+				) : (
+					<>
+						<Section
+							title="Due"
+							decks={dueDecks}
+							query={query}
+							includesDivider
+						/>
+						<Section
+							title="Favorites"
+							decks={favoriteDecks}
+							query={query}
+							includesDivider
+						/>
+						<Section title="All" decks={allDecks} query={query} />
+					</>
+				)}
 			</div>
 			<div
 				className="bottom"

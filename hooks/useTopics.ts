@@ -15,11 +15,11 @@ const getTopics = async () =>
 
 const useTopics = () => {
 	const [topics, setTopics] = useState(null as Topic[] | null)
-	
+
 	useEffect(() => {
 		getTopics().then(setTopics).catch(handleError)
 	}, [setTopics])
-	
+
 	return topics
 }
 

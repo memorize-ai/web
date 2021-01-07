@@ -7,29 +7,28 @@ import useSections from 'hooks/useSections'
 import { handleError } from 'lib/utils'
 import { ModalShowingProps } from '.'
 
-const CreateSectionModal = (
-	{ deck, isShowing, setIsShowing }: {
-		deck: Deck
-	} & ModalShowingProps
-) => {
+const CreateSectionModal = ({
+	deck,
+	isShowing,
+	setIsShowing
+}: {
+	deck: Deck
+} & ModalShowingProps) => {
 	const sections = useSections(deck.id)
 	const [name, setName] = useState('')
-	
+
 	useEffect(() => {
-		if (isShowing)
-			setName('')
+		if (isShowing) setName('')
 	}, [isShowing, setName])
-	
+
 	const create = useCallback(() => {
-		if (!sections)
-			return
-		
-		Section.createForDeck(deck, name, sections.length)
-			.catch(handleError)
-		
+		if (!sections) return
+
+		Section.createForDeck(deck, name, sections.length).catch(handleError)
+
 		setIsShowing(false)
 	}, [sections, deck, name, setIsShowing])
-	
+
 	return (
 		<InputModal
 			title="Create section"
