@@ -64,14 +64,17 @@
 			}
 
 			&.disabled {
-				&,
-				> .overlay {
-					cursor: default;
-				}
+				cursor: default;
 
 				> p,
 				> svg {
 					opacity: 0.5;
+				}
+			}
+
+			&.has-overlay {
+				> .overlay {
+					cursor: default;
 				}
 
 				&:hover {

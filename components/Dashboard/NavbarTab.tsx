@@ -21,11 +21,18 @@ const DashboardNavbarTab = ({
 		<a
 			className={cx('tab', {
 				selected: isSelected,
-				disabled: isDisabled
+				disabled: isDisabled,
+				'has-overlay': message
 			})}
 			onClick={event => isDisabled && event.preventDefault()}
 		>
-			<span className="overlay" aria-label={message} data-balloon-pos="left" />
+			{message && (
+				<span
+					className="overlay"
+					aria-label={message}
+					data-balloon-pos="left"
+				/>
+			)}
 			{children}
 			<span>{title}</span>
 		</a>
