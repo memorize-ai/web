@@ -41,7 +41,7 @@ $divider-color: transparentize(#ddd, 0.8);
 			height: 41px;
 			margin: $vertical-margin 0 $vertical-margin $left-margin;
 
-			> picture > img {
+			.logo {
 				height: 100%;
 			}
 		}

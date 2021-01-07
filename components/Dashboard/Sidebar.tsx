@@ -69,7 +69,7 @@ const DashboardSidebar = () => {
 			<div className="top">
 				<Link href="/">
 					<a>
-						<Image src={logo} alt="Logo" webp />
+						<Image className="logo" src={logo} alt="Logo" webp />
 					</a>
 				</Link>
 				<div className="divider" />
