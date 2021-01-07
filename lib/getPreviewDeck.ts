@@ -1,10 +1,13 @@
 import PreviewDeck, { PreviewCard } from 'models/PreviewDeck'
 import firebase from './firebase/admin'
 
+const deckId = process.env.PREVIEW_DECK_ID
 const firestore = firebase.firestore()
 
+if (!deckId) throw new Error('Missing preview deck ID')
+
 const getPreviewDeck = async (): Promise<PreviewDeck> => {
-	const doc = firestore.doc(`decks/${process.env.PREVIEW_DECK_ID}`)
+	const doc = firestore.doc(`decks/${deckId}`)
 
 	const [deck, { docs: _sections }, { docs: _cards }] = await Promise.all([
 		doc.get(),
