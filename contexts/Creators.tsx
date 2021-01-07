@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
+import { createContext, Dispatch, ReactNode, useReducer } from 'react'
 import omit from 'lodash/omit'
 
 import User from 'models/User'

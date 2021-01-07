@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
+import { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import { Counter } from 'models/Counters'
 import Action, { ActionType } from 'actions/Action'
