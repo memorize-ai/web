@@ -2,11 +2,12 @@
 	"name": "memorize.ai",
 	"version": "1.0.0",
 	"scripts": {
+		"postinstall": "is-ci || husky install",
+		"lint": "tsc --noEmit && eslint .",
+		"format": "prettier --write .",
 		"dev": "next",
 		"build": "next build",
-		"start": "next start",
-		"lint": "tsc --noEmit && eslint .",
-		"format": "prettier --write ."
+		"start": "next start"
 	},
 	"dependencies": {
 		"@ckeditor/ckeditor5-react": "~2.1.0",
@@ -68,6 +69,8 @@
 		"eslint": "^7.17.0",
 		"eslint-config-prettier": "^7.1.0",
 		"eslint-plugin-prettier": "^3.3.1",
+		"husky": "^5.0.6",
+		"is-ci": "^2.0.0",
 		"prettier": "^2.2.1",
 		"typescript": "^4.1.3"
 	},
