@@ -36,7 +36,9 @@ const CramRecapModal = ({
 		(role: 'easiest' | 'hardest') => {
 			if (!data) return null
 
-			const section: Section | null = data[`${role}Section`]
+			const section = ((data as unknown) as Record<string, Section | null>)[
+				`${role}Section`
+			]
 
 			return section && !data.isSameSection ? (
 				<Data title={`${role} section`}>
