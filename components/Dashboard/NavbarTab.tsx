@@ -25,7 +25,7 @@ const DashboardNavbarTab = ({
 			})}
 			onClick={event => isDisabled && event.preventDefault()}
 		>
-			<span className="overlay" aria-label={message} data-balloon-pos="right" />
+			<span className="overlay" aria-label={message} data-balloon-pos="left" />
 			{children}
 			<span>{title}</span>
 		</a>
