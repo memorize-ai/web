@@ -1,4 +1,4 @@
-module.exports = require('next-optimized-images')({
+module.exports = require('next-optimized-images')({ // eslint-disable-line
 	rewrites: () => [
 		{ source: '/sitemap.xml', destination: '/api/sitemap' },
 		{ source: '/_api/upload-deck-asset', destination: '/api/uploadDeckAsset' },

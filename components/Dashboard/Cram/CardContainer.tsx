@@ -68,11 +68,11 @@ const CramCardContainer = (
 					cardClassName,
 					{ loading: !isReady }
 				)}>
-					{isReady
+					{card && isReady
 						? (
 							<div className="container">
 								<CardSide className="content">
-									{card!.value[currentSide]}
+									{card.value[currentSide]}
 								</CardSide>
 								{isWaitingForRating && (
 									<div className="flip">

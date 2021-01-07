@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import Action, { ActionType } from 'actions/Action'
 
@@ -47,7 +47,7 @@ const Context = createContext<[CreateDeckState, Dispatch<CreateDeckAction>]>([
 ])
 export default Context
 
-export const CreateDeckProvider = ({ children }: PropsWithChildren<{}>) => (
+export const CreateDeckProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

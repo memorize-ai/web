@@ -18,7 +18,7 @@ const useCards = (deck: Deck, section: Section, shouldLoadCards: boolean): Card[
 	const [state, dispatch] = useContext(CardsContext)
 	
 	const [currentUser] = useCurrentUser()
-	const cards: Card[] = state[section.id] as any
+	const cards = state[section.id] as Card[]
 	
 	useEffect(() => {
 		if (!shouldLoadCards || Card.observers[section.id] || cards || !currentUser)

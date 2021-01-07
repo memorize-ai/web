@@ -6,8 +6,7 @@ import Card from 'models/Card'
 
 const useAllCards = (deckId: string | null | undefined): Record<string, Card[]> | null => {
 	const [state, dispatch] = useContext(CardsContext)
-	
-	const sections: Record<string, Card[]> | null = (deckId && state[deckId] as any) || null
+	const sections = (deckId && state[deckId] as Record<string, Card[]>) || null
 	
 	useEffect(() => {
 		if (!deckId || Card.observers[deckId] || sections)

@@ -10,8 +10,8 @@ import 'firebase/firestore'
 
 const firestore = firebase.firestore()
 
-const cardFromSectionMap = (id: string, map: Record<string, any>) => {
-	const card: Card | undefined = map[id]
+const cardFromSectionMap = (id: string, map: Record<string, Card | undefined>) => {
+	const card = map[id]
 	
 	if (card)
 		return card
@@ -32,7 +32,7 @@ const useCard = (deckId: string | null | undefined, cardId: string | null | unde
 	const [state, dispatch] = useContext(CardsContext)
 	
 	const card = cardId
-		? cardFromSectionMap(cardId, state)
+		? cardFromSectionMap(cardId, state as Record<string, Card | undefined>)
 		: null
 	
 	useEffect(() => {

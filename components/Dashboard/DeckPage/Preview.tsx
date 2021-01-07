@@ -85,6 +85,9 @@ const DeckPagePreview = ({ deck, sections: namedSections, cards: cardsBySectionI
 	}, [setBoxOpacity, setBoxTransform, setIsFront, setToggleButtonDegrees])
 	
 	const nextCard = useCallback(async (isRight: boolean) => {
+		if (cardIndex === undefined)
+			return
+		
 		const direction = isRight ? 1 : -1
 		
 		setBoxOpacity(0)

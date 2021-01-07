@@ -8,7 +8,6 @@ import cx from 'classnames'
 import property from 'lodash/property'
 import { ParsedUrlQuery } from 'querystring'
 
-import Deck from 'models/Deck'
 import Section from 'models/Section'
 import AddCardsContext from 'contexts/AddCards'
 import requiresAuth from 'hooks/requiresAuth'

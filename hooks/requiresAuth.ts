@@ -3,7 +3,7 @@ import Router from 'next/router'
 
 import useAuthState from './useAuthState'
 
-const requiresAuth = (assertion: boolean = true) => {
+const requiresAuth = (assertion = true) => {
 	const isSignedIn = useAuthState()
 	
 	useEffect(() => {

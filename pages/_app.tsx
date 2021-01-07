@@ -81,7 +81,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 		const script = document.createElement('script')
 		
 		script.id = 'hs-script-loader'
-		script.src = process.env.NEXT_PUBLIC_HUBSPOT_URL
+		script.src = process.env.NEXT_PUBLIC_HUBSPOT_URL! // eslint-disable-line
 		script.async = true
 		
 		document.body.append(script)

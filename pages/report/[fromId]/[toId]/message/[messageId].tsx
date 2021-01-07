@@ -75,6 +75,9 @@ const ReportMessage: NextPage<ReportMessageProps> = ({ from }) => {
 }
 
 export const getServerSideProps: GetServerSideProps<ReportMessageProps, ReportMessageQuery> = async ({ params }) => {
+	if (!params)
+		return { notFound: true }
+	
 	const firestore = admin.firestore()
 	const { fromId, toId, messageId } = params
 	

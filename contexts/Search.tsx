@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 import pickBy from 'lodash/pickBy'
 
 import Action, { ActionType } from 'actions/Action'
@@ -32,7 +32,7 @@ const Context = createContext<[SearchState, Dispatch<SearchAction>]>([
 ])
 export default Context
 
-export const SearchProvider = ({ children }: PropsWithChildren<{}>) => (
+export const SearchProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

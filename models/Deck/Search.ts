@@ -60,7 +60,7 @@ export const nameForDeckSortAlgorithm = (algorithm: DeckSortAlgorithm) => {
 	}
 }
 
-type RawSearchResultItemData = Record<string, { raw: any }>
+type RawSearchResultItemData = Record<string, { raw: any }> // eslint-disable-line
 type RawSearchResultItemDataWrapper = { data: RawSearchResultItemData }
 
 interface SearchFunctionOptions {
@@ -136,7 +136,7 @@ export default class Search {
 	
 	private static searchToRawData: SearchFunction<RawSearchResultItemDataWrapper> =
 		async (query, { pageNumber, pageSize, sortAlgorithm, filterForTopics }) => {
-			const options: Record<string, any> = {
+			const options: Record<string, unknown> = {
 				page: { size: pageSize, current: pageNumber }
 			}
 			

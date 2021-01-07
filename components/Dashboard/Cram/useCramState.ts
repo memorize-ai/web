@@ -232,7 +232,7 @@ const useCramState = (
 			: goBack()
 	}, [_setIsRecapModalShowing, goBack])
 	
-	const showRecap = useCallback((flag: boolean = true) => {
+	const showRecap = useCallback((flag: boolean = true) => { // eslint-disable-line
 		if (!(flag && sections && count))
 			return
 		

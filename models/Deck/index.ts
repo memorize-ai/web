@@ -314,7 +314,7 @@ export default class Deck {
 	
 	get worstRating() {
 		for (const rating of [1, 2, 3, 4, 5])
-			if ((this as any)[`numberOf${rating}StarRatings`] > 0)
+			if (this[`numberOf${rating}StarRatings`] > 0)
 				return rating
 		
 		return 0
@@ -322,7 +322,7 @@ export default class Deck {
 	
 	get bestRating() {
 		for (const rating of [5, 4, 3, 2, 1])
-			if ((this as any)[`numberOf${rating}StarRatings`] > 0)
+			if (this[`numberOf${rating}StarRatings`] > 0)
 				return rating
 		
 		return 0
@@ -384,7 +384,7 @@ export default class Deck {
 		const numberOfSectionedCards = section?.get('cardCount') ?? 0
 		const numberOfUnlockedCards = this.numberOfUnsectionedCards + numberOfSectionedCards
 		
-		const data: Record<string, any> = {
+		const data: Record<string, unknown> = {
 			added: firebase.firestore.FieldValue.serverTimestamp(),
 			dueCardCount: numberOfUnlockedCards,
 			unsectionedDueCardCount: this.numberOfUnsectionedCards,
@@ -424,7 +424,7 @@ export default class Deck {
 		) ?? 0
 	
 	countForRating = (rating: 1 | 2 | 3 | 4 | 5): number =>
-		(this as any)[`numberOf${rating}StarRatings`]
+		this[`numberOf${rating}StarRatings`]
 	
 	rate = (uid: string, rating: 1 | 2 | 3 | 4 | 5 | null) =>
 		firestore.doc(`users/${uid}/decks/${this.id}`).update({
@@ -458,7 +458,7 @@ export default class Deck {
 						})
 						: null
 				})
-				.filter(Boolean)
+				.filter(Boolean) as Promise<Deck[]>[]
 		])
 		
 		return uniqBy(flatten(chunks), 'id')
@@ -507,7 +507,7 @@ export default class Deck {
 			? undefined
 			: storage.child(`/decks/${this.id}`)
 		
-		const updateData: Record<string, any> = {
+		const updateData: Record<string, unknown> = {
 			topics,
 			name,
 			subtitle,
@@ -517,7 +517,7 @@ export default class Deck {
 		if (storageChild)
 			updateData.hasImage = image !== null
 		
-		const promises: PromiseLike<any>[] = [
+		const promises: PromiseLike<unknown>[] = [
 			firestore.doc(`decks/${this.id}`).update(updateData)
 		]
 		

@@ -6,6 +6,8 @@ import identity from 'lodash/identity'
 import { LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, EMOJIS, LONG_DATE_FORMATTER_MONTH, LONG_DATE_FORMATTER_DAY, LONG_DATE_FORMATTER_YEAR } from './constants'
 import firebase from './firebase'
 
+type HubSpotQueue = [string, Record<string, unknown>][]
+
 export const isIos = () =>
 	process.browser && /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream
 
@@ -13,7 +15,7 @@ export const isIos = () =>
 export const isIosHandheld = () =>
 	process.browser && /iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 
-export const compose = <T extends any[], U, V>(
+export const compose = <T extends unknown[], U, V>(
 	b: (u: U) => V,
 	a: (...args: T) => U
 ) => (...args: T) => b(a(...args))
@@ -23,8 +25,10 @@ export const sleep = (ms: number) =>
 
 export const expectsSignIn = () => {
 	try {
-		if (typeof localStorage !== 'undefined')
-			return localStorage.getItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY) !== null
+		if (typeof localStorage === 'undefined')
+			return false
+		
+		return localStorage.getItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY) !== null
 	} catch {
 		return false
 	}
@@ -32,10 +36,12 @@ export const expectsSignIn = () => {
 
 export const setExpectsSignIn = (value: boolean) => {
 	try {
-		if (typeof localStorage !== 'undefined')
-			return value
-				? localStorage.setItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, '1')
-				: localStorage.removeItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY)
+		if (typeof localStorage === 'undefined')
+			return
+		
+		value
+			? localStorage.setItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, '1')
+			: localStorage.removeItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY)
 	} catch ({ message }) {
 		toast.error(message)
 	}
@@ -99,7 +105,7 @@ export const toOneDecimalPlace = (number: number) =>
 export const randomEmoji = () =>
 	sample(EMOJIS) ?? EMOJIS[0]
 
-export const slugify = (string: string, delimiter: string = '-') =>
+export const slugify = (string: string, delimiter = '-') =>
 	(string
 		.replace(/[\s\:\/\?#@\[\]\-_!\$&'\(\)\*\+\.\,;=]+/g, ' ') // eslint-disable-line
 		.trim()
@@ -124,16 +130,15 @@ export const rankingToString = (ranking: number) => {
 }
 
 export const hubSpotIdentifyUser = (user: firebase.User) => {
-	const hubSpot = (window as any)._hsq = (window as any)._hsq || []
+	const queue = (
+		(window as unknown as Record<string, unknown>)._hsq ||= []
+	) as HubSpotQueue
 	
-	hubSpot.push(['identify', {
-		id: user.uid,
-		...user.email && { email: user.email }
-	}])
+	queue.push(['identify', { id: user.uid, email: user.email }])
 }
 
 export const formatLongDate = (date: Date) =>
 	`${LONG_DATE_FORMATTER_MONTH.format(date)} ${LONG_DATE_FORMATTER_DAY.format(date)}, ${LONG_DATE_FORMATTER_YEAR.format(date)}`
 
-export const flattenQuery = (query: Record<string, any>) =>
-	pickBy(query, identity)
+export const flattenQuery = <Query extends Record<string, unknown>>(query: Query) =>
+	pickBy(query, identity) as Query

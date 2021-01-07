@@ -35,8 +35,8 @@ export const categoryFromString = (string: string) => {
 
 export const imageUrlFromCategory = (category: Category, name: string): string => {
 	try {
-		return require(`images/topics/${name}.jpg`).src
+		return require(`images/topics/${name}.jpg`).src // eslint-disable-line
 	} catch {
-		return require(`images/topics/${category}.jpg`).src
+		return require(`images/topics/${category}.jpg`).src // eslint-disable-line
 	}
 }

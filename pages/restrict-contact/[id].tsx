@@ -51,7 +51,10 @@ const RestrictContact: NextPage<RestrictContactQuery> = () => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps<{}, RestrictContactQuery> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<Record<string, never>, RestrictContactQuery> = async ({ params }) => {
+	if (!params)
+		return { notFound: true }
+	
 	const firestore = admin.firestore()
 	const user = await firestore.doc(`users/${params.id}`).get()
 	

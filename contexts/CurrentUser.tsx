@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import User from 'models/User'
 import LoadingState from 'models/LoadingState'
@@ -57,7 +57,7 @@ const Context = createContext<[CurrentUserState, Dispatch<CurrentUserAction>]>([
 ])
 export default Context
 
-export const CurrentUserProvider = ({ children }: PropsWithChildren<{}>) => (
+export const CurrentUserProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

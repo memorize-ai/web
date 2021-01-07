@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import Deck from 'models/Deck'
 import DeckUserData from 'models/Deck/UserData'
@@ -113,7 +113,7 @@ const reducer = (state: DecksState, { type, payload }: DecksAction) => {
 const Context = createContext<[DecksState, Dispatch<DecksAction>]>([initialState, console.log])
 export default Context
 
-export const DecksProvider = ({ children }: PropsWithChildren<{}>) => (
+export const DecksProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

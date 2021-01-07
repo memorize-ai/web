@@ -12,7 +12,7 @@ export interface DeckPageSimilarDecksProps {
 }
 
 const DeckPageSimilarDecks = ({ similarDecks }: DeckPageSimilarDecksProps) => {
-	const withFilter = useCallback((filter: (i: number) => any) => {
+	const withFilter = useCallback((filter: (i: number) => boolean) => {
 		if (!similarDecks)
 			return null
 		

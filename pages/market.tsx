@@ -221,7 +221,7 @@ const Market: NextPage<MarketProps> = ({ decks: initialNumberOfDecks }) => {
 	)
 }
 
-export const getStaticProps: GetStaticProps<MarketProps, {}> = async () => ({
+export const getStaticProps: GetStaticProps<MarketProps, Record<string, never>> = async () => ({
 	props: { decks: await getNumberOfDecks() },
 	revalidate: 60
 })

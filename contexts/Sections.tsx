@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import Section from 'models/Section'
 import Action, { ActionType } from 'actions/Action'
@@ -71,7 +71,7 @@ const Context = createContext<[SectionsState, Dispatch<SectionsAction>]>([
 ])
 export default Context
 
-export const SectionsProvider = ({ children }: PropsWithChildren<{}>) => (
+export const SectionsProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

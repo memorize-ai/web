@@ -1,4 +1,4 @@
-import { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import Action, { ActionType } from 'actions/Action'
 import ActivityNode from 'models/ActivityNode'
@@ -19,7 +19,7 @@ const Context = createContext<[ActivityState, Dispatch<ActivityAction>]>([
 ])
 export default Context
 
-export const ActivityProvider = ({ children }: PropsWithChildren<{}>) => (
+export const ActivityProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

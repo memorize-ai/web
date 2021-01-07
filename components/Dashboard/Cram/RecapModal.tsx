@@ -30,7 +30,7 @@ const CramRecapModal = (
 		if (!data)
 			return null
 		
-		const section: Section | null = (data as any)[`${role}Section`]
+		const section: Section | null = data[`${role}Section`]
 		
 		return section && !data.isSameSection
 			? (

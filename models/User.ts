@@ -70,7 +70,7 @@ export default class User {
 	static fromSnapshot = (snapshot: SnapshotLike) =>
 		new User(User.dataFromSnapshot(snapshot))
 	
-	static dataFromSnapshot = (snapshot: SnapshotLike, fromServer: boolean = false): UserData => ({
+	static dataFromSnapshot = (snapshot: SnapshotLike, fromServer = false): UserData => ({
 		id: snapshot.id,
 		name: snapshot.get('name') ?? '(error)',
 		email: fromServer ? null : snapshot.get('email') ?? '(error)',

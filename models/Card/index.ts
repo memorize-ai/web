@@ -191,7 +191,7 @@ export default class Card {
 			back: string
 		}
 	) => {
-		const data: Record<string, any> = { front, back }
+		const data: Record<string, unknown> = { front, back }
 		
 		if (section)
 			data.section = section.id
@@ -200,7 +200,7 @@ export default class Card {
 	}
 	
 	delete = (user: User, deck: Deck) => {
-		const promises: Promise<any>[] = [
+		const promises = [
 			firestore.doc(`decks/${deck.id}/cards/${this.id}`).delete()
 		]
 		

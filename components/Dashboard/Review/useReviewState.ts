@@ -217,7 +217,7 @@ const useReviewState = (
 			: goBack()
 	}, [_setIsRecapModalShowing, goBack])
 	
-	const showRecap = useCallback((flag: boolean = true) => {
+	const showRecap = useCallback((flag: boolean = true) => { // eslint-disable-line
 		if (!(flag && cards && count !== null))
 			return
 		

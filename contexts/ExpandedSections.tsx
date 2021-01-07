@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import Action, { ActionType } from 'actions/Action'
 
@@ -47,7 +47,7 @@ const Context = createContext<[ExpandedSectionsState, Dispatch<ExpandedSectionsA
 ])
 export default Context
 
-export const ExpandedSectionsProvider = ({ children }: PropsWithChildren<{}>) => (
+export const ExpandedSectionsProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

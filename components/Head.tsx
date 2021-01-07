@@ -25,7 +25,7 @@ export interface HeadProps {
 	image?: string
 	labels?: Label[]
 	breadcrumbs(url: string): Breadcrumb[][]
-	schema?: any[]
+	schema?: Record<string, unknown>[]
 }
 
 export const DEFAULT_DESCRIPTION = 'Tired of long study sessions? We use artificial intelligence to accurately predict when you need to review. Welcome to efficient and effective memorization.'

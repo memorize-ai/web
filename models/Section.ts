@@ -117,7 +117,7 @@ export default class Section {
 	publishCards = (user: User, deck: Deck, cards: CardDraft[]) => {
 		const chunks = chunk(cards, FIRESTORE_BATCH_LIMIT)
 		
-		const promises: Promise<any>[] = chunks.map(chunk => {
+		const promises = chunks.map(chunk => {
 			const batch = firestore.batch()
 			
 			for (const { front, back } of chunk)

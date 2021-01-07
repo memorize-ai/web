@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import Deck from 'models/Deck'
 import Action, { ActionType } from 'actions/Action'
@@ -30,7 +30,7 @@ const Context = createContext<[SimilarDecksState, Dispatch<SimilarDecksAction>]>
 ])
 export default Context
 
-export const SimilarDecksProvider = ({ children }: PropsWithChildren<{}>) => (
+export const SimilarDecksProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

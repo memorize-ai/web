@@ -56,6 +56,9 @@ export const getStaticPaths: GetStaticPaths<DeckPageQuery> = async () => ({
 
 export const getStaticProps: GetStaticProps<DeckPageProps, DeckPageQuery> = async ({ params }) => {
 	try {
+		if (!params)
+			return { notFound: true }
+		
 		const { slugId, slug } = params
 		
 		const [deckDependentData, decks, allTopics] = await Promise.all([

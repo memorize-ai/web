@@ -15,7 +15,7 @@ const Home: NextPage<HomeProps> = ({ previewDeck }) =>
 		? <Dashboard />
 		: <Landing previewDeck={previewDeck} />
 
-export const getStaticProps: GetStaticProps<HomeProps, {}> = async () => ({
+export const getStaticProps: GetStaticProps<HomeProps, Record<string, never>> = async () => ({
 	props: { previewDeck: await getPreviewDeck() },
 	revalidate: 3600 // 1 hour
 })

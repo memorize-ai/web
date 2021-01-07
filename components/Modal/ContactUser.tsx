@@ -37,13 +37,13 @@ const ContactUserModal = (
 		try {
 			event.preventDefault()
 			
-			if (isLoading || isDisabled)
+			if (!user || isLoading || isDisabled)
 				return
 			
 			setLoadingState(LoadingState.Loading)
 			setErrorMessage(null)
 			
-			await contactUser({ id: user!.id, subject, body })
+			await contactUser({ id: user.id, subject, body })
 			
 			setLoadingState(LoadingState.Success)
 			setSuccess(true)

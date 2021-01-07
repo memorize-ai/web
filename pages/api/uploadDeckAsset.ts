@@ -31,7 +31,7 @@ const handler: NextApiHandler<Response> = async ({ method, query, body }, res) =
 		if (method !== 'POST')
 			return error(400, 'Invalid method')
 		
-		const { user: uid, deck: deckId } = query as any as Query
+		const { user: uid, deck: deckId } = query as unknown as Query
 		
 		if (!(typeof uid === 'string' && typeof deckId === 'string'))
 			return error(400, 'Invalid query parameters. Required: "user", "deck"')
@@ -39,7 +39,7 @@ const handler: NextApiHandler<Response> = async ({ method, query, body }, res) =
 		if (typeof body !== 'string')
 			return error(400, 'You must send a base64 encoded string as a body')
 		
-		const contentTypeMatch = body.match(/^data\:(.+?);base64,/)
+		const contentTypeMatch = body.match(/^data:(.+?);base64,/)
 		
 		if (!contentTypeMatch)
 			return error(400, 'Invalid image data')

@@ -19,8 +19,8 @@ const CramProgressModal = (
 			setIsShowing={setIsShowing}
 		>
 			<div className="badges">
-				{didEarnXp && (
-					<p className="badge xp">+{data!.xp} xp</p>
+				{data && didEarnXp && (
+					<p className="badge xp">+{data.xp} xp</p>
 				)}
 				<p className="badge streak">
 					{data?.streak} / {CRAM_MASTERED_STREAK} streak

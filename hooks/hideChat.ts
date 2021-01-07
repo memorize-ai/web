@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 const CLASS = 'hide-chat'
 
-const hideChat = (hide: boolean = true) => {
+const hideChat = (hide = true) => {
 	useEffect(() => {
 		if (!hide)
 			return

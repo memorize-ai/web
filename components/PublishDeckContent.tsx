@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useMemo, PropsWithChildren } from 'react'
+import { useEffect, useCallback, useMemo, ReactNode } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -7,7 +7,7 @@ import cx from 'classnames'
 import Topic from 'models/Topic'
 import ImagePicker from './ImagePicker'
 
-export interface PublishDeckContentProps extends PropsWithChildren<{}> {
+export interface PublishDeckContentProps {
 	imageUrl: string | null
 	name: string
 	subtitle: string
@@ -20,6 +20,8 @@ export interface PublishDeckContentProps extends PropsWithChildren<{}> {
 	setSubtitle: (subtitle: string) => void
 	setDescription: (description: string) => void
 	setSelectedTopics: (topics: string[]) => void
+	
+	children?: ReactNode
 }
 
 const PublishDeckContent = ({

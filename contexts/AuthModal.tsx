@@ -1,4 +1,4 @@
-import { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import Action, { ActionType } from 'actions/Action'
 import User from 'models/User'
@@ -46,7 +46,7 @@ const Context = createContext<[AuthModalState, Dispatch<AuthModalAction>]>([
 ])
 export default Context
 
-export const AuthModalProvider = ({ children }: PropsWithChildren<{}>) => (
+export const AuthModalProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

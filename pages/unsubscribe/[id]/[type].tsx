@@ -54,7 +54,10 @@ const Unsubscribe: NextPage = () => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps<{}, UnsubscribeQuery> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<Record<string, never>, UnsubscribeQuery> = async ({ params }) => {
+	if (!params)
+		return { notFound: true }
+	
 	const firestore = admin.firestore()
 	const { id, type } = params
 	

@@ -18,7 +18,7 @@ const handler: NextApiHandler<Buffer | string> = async ({ method, query }, res) 
 		if (method !== 'GET')
 			throw new PrintError(400, 'Invalid method')
 		
-		const { slugId, slug, sectionId } = query as any as Query
+		const { slugId, slug, sectionId } = query as unknown as Query
 		const deck = await getDeckBySlugId(slugId)
 		
 		if (!deck)

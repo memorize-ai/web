@@ -1,4 +1,4 @@
-import { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import { createContext, Dispatch, ReactNode, useReducer } from 'react'
 import { v4 as uuid } from 'uuid'
 
 import { OptionalAction, ActionType } from 'actions/Action'
@@ -64,7 +64,7 @@ const Context = createContext<[AddCardsState, Dispatch<AddCardsAction>]>([
 ])
 export default Context
 
-export const AddCardsProvider = ({ children }: PropsWithChildren<{}>) => (
+export const AddCardsProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

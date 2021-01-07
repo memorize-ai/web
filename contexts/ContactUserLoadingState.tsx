@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import LoadingState from 'models/LoadingState'
 import Action, { ActionType } from 'actions/Action'
@@ -23,7 +23,7 @@ const Context = createContext<[ContactUserLoadingStateState, Dispatch<ContactUse
 ])
 export default Context
 
-export const ContactUserLoadingStateProvider = ({ children }: PropsWithChildren<{}>) => (
+export const ContactUserLoadingStateProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

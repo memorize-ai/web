@@ -158,7 +158,7 @@ const CreateDeck: NextPage<CreateDeckProps> = ({ topics: initialTopics }) => {
 	)
 }
 
-export const getStaticProps: GetStaticProps<CreateDeckProps, {}> = async () => ({
+export const getStaticProps: GetStaticProps<CreateDeckProps, Record<string, never>> = async () => ({
 	props: { topics: await getTopics() },
 	revalidate: 3600 // 1 hour
 })

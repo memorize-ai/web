@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 
 import { Counter } from 'models/Counters'
 import Action, { ActionType } from 'actions/Action'
@@ -21,7 +21,7 @@ const reducer = (state: CountersState, { type, payload }: CountersAction) =>
 const Context = createContext<[CountersState, Dispatch<CountersAction>]>([initialState, console.log])
 export default Context
 
-export const CountersProvider = ({ children }: PropsWithChildren<{}>) => (
+export const CountersProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

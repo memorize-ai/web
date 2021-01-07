@@ -68,7 +68,7 @@ const AuthModal = () => {
 					
 					setIsDisabled(false)
 					break
-				case AuthenticationMode.SignUp:
+				case AuthenticationMode.SignUp: {
 					const { user } = await auth.createUserWithEmailAndPassword(email, password)
 					
 					if (!user)
@@ -94,6 +94,7 @@ const AuthModal = () => {
 							Router.push('/interests')
 					
 					break
+				}
 			}
 			
 			setLoadingState(LoadingState.Success)

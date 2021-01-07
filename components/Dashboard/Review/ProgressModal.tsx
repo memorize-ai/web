@@ -25,8 +25,8 @@ const ReviewProgressModal = (
 			setIsShowing={setIsShowing}
 		>
 			<div className="badges">
-				{didEarnXp && (
-					<p className="badge xp">+{data!.xp} xp</p>
+				{data && didEarnXp && (
+					<p className="badge xp">+{data.xp} xp</p>
 				)}
 				<p className="badge streak">
 					{data?.streak} / {REVIEW_MASTERED_STREAK} streak

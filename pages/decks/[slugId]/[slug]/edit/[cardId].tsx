@@ -217,7 +217,7 @@ const EditCard = () => {
 						placeholder="Loading..."
 						isLoading={!section}
 						value={section}
-						onChange={setSection as any}
+						onChange={setSection as any} // eslint-disable-line
 					/>
 					<div className={cx('sides', { row: !isEditorStacked })}>
 						{card && didUpdateFromCard && uploadUrl

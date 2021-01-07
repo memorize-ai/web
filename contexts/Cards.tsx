@@ -1,4 +1,4 @@
-import { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import { createContext, Dispatch, ReactNode, useReducer } from 'react'
 import groupBy from 'lodash/groupBy'
 
 import Card from 'models/Card'
@@ -115,7 +115,7 @@ const Context = createContext<[CardsState, Dispatch<CardsAction>]>([
 ])
 export default Context
 
-export const CardsProvider = ({ children }: PropsWithChildren<{}>) => (
+export const CardsProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

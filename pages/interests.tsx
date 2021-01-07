@@ -80,7 +80,7 @@ const Interests: NextPage<InterestsProps> = ({ topics: topicsData }) => {
 	)
 }
 
-export const getStaticProps: GetStaticProps<InterestsProps, {}> = async () => ({
+export const getStaticProps: GetStaticProps<InterestsProps, Record<string, never>> = async () => ({
 	props: { topics: await getTopics() },
 	revalidate: 3600 // 1 hour
 })

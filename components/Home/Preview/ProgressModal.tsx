@@ -22,8 +22,8 @@ const PreviewProgressModal = (
 		setIsShowing={setIsShowing}
 	>
 		<div className="badges">
-			{(data?.xp ?? 0) > 0 && (
-				<p className="badge xp">+{data!.xp} xp</p>
+			{data && data.xp > 0 && (
+				<p className="badge xp">+{data.xp} xp</p>
 			)}
 			<p className={cx(
 				'badge',

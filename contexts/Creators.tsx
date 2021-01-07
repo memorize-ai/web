@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
 import omit from 'lodash/omit'
 
 import User from 'models/User'
@@ -43,7 +43,7 @@ const Context = createContext<[CreatorsState, Dispatch<CreatorsAction>]>([
 ])
 export default Context
 
-export const CreatorsProvider = ({ children }: PropsWithChildren<{}>) => (
+export const CreatorsProvider = ({ children }: { children?: ReactNode }) => (
 	<Context.Provider value={useReducer(reducer, initialState)}>
 		{children}
 	</Context.Provider>

@@ -68,6 +68,9 @@ const OwnedCardCell = ({ deck, card }: { deck: Deck, card: Card }) => {
 	const [currentUser] = useCurrentUser()
 	const isOwner = currentUser?.id === deck.creatorId
 	
+	if (!currentUser)
+		return null
+	
 	const containerProps = {
 		className: cx('card-cell', 'owned', { owner: isOwner })
 	}

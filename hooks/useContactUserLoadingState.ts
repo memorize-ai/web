@@ -57,9 +57,10 @@ const useContactUserLoadingState = (user: User | null): LoadingState => {
 				: LoadingState.Success
 		}
 		
-		// Not signed in
-		if (currentUserLoadingState === LoadingState.Success)
+		if (currentUserLoadingState === LoadingState.Success) // Not signed in
 			return LoadingState.Success
+		
+		return LoadingState.Loading
 	}, [userId, currentUserId, userAllowsContact, currentUserIsMuted, currentUserLoadingState])
 	
 	useEffect(() => {

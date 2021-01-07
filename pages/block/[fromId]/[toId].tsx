@@ -54,6 +54,9 @@ const BlockUser: NextPage<BlockUserProps> = ({ from }) => {
 }
 
 export const getServerSideProps: GetServerSideProps<BlockUserProps, BlockUserQuery> = async ({ params }) => {
+	if (!params)
+		return { notFound: true }
+	
 	const firestore = admin.firestore()
 	const { fromId, toId } = params
 	

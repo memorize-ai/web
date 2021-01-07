@@ -1,4 +1,4 @@
-import { useCallback, FormEvent, useState, PropsWithChildren } from 'react'
+import { useCallback, FormEvent, useState, ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
@@ -7,7 +7,7 @@ import LoadingState from 'models/LoadingState'
 import Head from './Head'
 import Loader from './Loader'
 
-export interface ConfirmationFormProps extends PropsWithChildren<{}> {
+export interface ConfirmationFormProps {
 	url?: string
 	title: string
 	description: string
@@ -15,6 +15,7 @@ export interface ConfirmationFormProps extends PropsWithChildren<{}> {
 	submitMessage: string
 	submitButtonText: string
 	onSubmit: () => void
+	children?: ReactNode
 }
 
 const ConfirmationForm = ({
