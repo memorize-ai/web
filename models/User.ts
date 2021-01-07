@@ -162,10 +162,6 @@ export default class User {
 		)
 	}
 	
-	get xpBadge() {
-		return `https://memorize.ai/badges/xp/${this.id}`
-	}
-	
 	observe = (
 		{ updateCurrentUser, setIsObservingCurrentUser }: {
 			updateCurrentUser: (snapshot: firebase.firestore.DocumentSnapshot) => void

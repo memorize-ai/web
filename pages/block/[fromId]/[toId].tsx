@@ -43,7 +43,6 @@ const BlockUser: NextPage<BlockUserProps> = ({ from }) => {
 	
 	return (
 		<ConfirmationForm
-			url={`https://memorize.ai/block/${from.id}/${toId}`}
 			title={`Block ${from.name}`}
 			description={`Block ${from.name} from contacting you on memorize.ai`}
 			loadingState={loadingState}

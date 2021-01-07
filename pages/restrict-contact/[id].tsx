@@ -41,7 +41,6 @@ const RestrictContact: NextPage<RestrictContactQuery> = () => {
 	
 	return (
 		<ConfirmationForm
-			url={`https://memorize.ai/restrict-contact/${id}`}
 			title="Stop receiving messages"
 			description="Stop receiving messages on memorize.ai"
 			loadingState={loadingState}

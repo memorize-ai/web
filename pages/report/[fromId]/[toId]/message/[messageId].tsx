@@ -55,7 +55,6 @@ const ReportMessage: NextPage<ReportMessageProps> = ({ from }) => {
 	
 	return (
 		<ConfirmationForm
-			url={`https://memorize.ai/report/${from.id}/${toId}/message/${messageId}`}
 			title={`Report ${from.name}`}
 			description={`Report ${from.name} on memorize.ai`}
 			loadingState={loadingState}

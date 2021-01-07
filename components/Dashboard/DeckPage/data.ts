@@ -9,6 +9,8 @@ import getSections from 'lib/getSections'
 import getCards from 'lib/getCards'
 import getTopics from 'lib/getTopics'
 
+const INITIAL_DECK_COUNT = 1000
+
 class DeckPageError extends Error {
 	constructor(public result: GetStaticPropsResult<DeckPageProps>) {
 		super()
@@ -43,7 +45,7 @@ const getDeckDependentData = async (slugId: string, slug: string) => {
 }
 
 export const getStaticPaths: GetStaticPaths<DeckPageQuery> = async () => ({
-	paths: (await getDecks()).map(deck => ({
+	paths: (await getDecks(INITIAL_DECK_COUNT)).map(deck => ({
 		params: {
 			slugId: deck.slugId,
 			slug: encodeURIComponent(deck.slug)

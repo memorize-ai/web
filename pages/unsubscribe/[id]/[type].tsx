@@ -44,7 +44,6 @@ const Unsubscribe: NextPage = () => {
 	
 	return (
 		<ConfirmationForm
-			url={`https://memorize.ai/unsubscribe/${id}/${type}`}
 			title="Unsubscribe"
 			description="Unsubscribe from our mailing list"
 			loadingState={loadingState}

@@ -18,9 +18,12 @@ const getPaths = async () => [
 	...(await getDecks()).map(deckToPath)
 ]
 
-const handler: NextApiHandler<string> = async (_req, res) => {
+const handler: NextApiHandler<string> = async ({ method }, res) => {
 	try {
 		res.setHeader('Access-Control-Allow-Origin', BASE_URL)
+		
+		if (method !== 'GET')
+			return res.status(400).send('Invalid method')
 		
 		const result = xml(
 			{ version: '1.0', encoding: 'UTF-8' },

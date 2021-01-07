@@ -2,7 +2,6 @@ import Policy from 'components/Policy'
 
 const Privacy = () => (
 	<Policy
-		url="https://memorize.ai/privacy"
 		title="Privacy"
 		description="Review memorize.ai's Privacy Policy to learn how your information is being used."
 	>

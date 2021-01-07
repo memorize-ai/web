@@ -4,6 +4,7 @@ import { UrlObject } from 'url'
 import { DeckSortAlgorithm } from 'models/Deck/Search'
 import Category, { categoryFromString, imageUrlFromCategory, defaultCategory } from './Category'
 import SnapshotLike from 'models/SnapshotLike'
+import { BASE_URL } from 'lib/constants'
 
 export interface TopicData {
 	id: string
@@ -58,7 +59,7 @@ export default class Topic {
 	get urlSchemaProps(): MetaHTMLAttributes<HTMLMetaElement> {
 		return {
 			itemProp: 'url',
-			content: `https://memorize.ai${this.marketUrl}`
+			content: `${BASE_URL}${this.marketUrl}`
 		}
 	}
 	
