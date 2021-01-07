@@ -1,4 +1,4 @@
-import PreviewDeck from 'models/PreviewDeck'
+import PreviewDeck, { PreviewCard } from 'models/PreviewDeck'
 import firebase from './firebase/admin'
 
 const firestore = firebase.firestore()
@@ -50,7 +50,7 @@ const getPreviewDeck = async (): Promise<PreviewDeck> => {
 			{}
 		),
 		cards: sections.reduce(
-			(acc, section) => [
+			(acc: PreviewCard[], section) => [
 				...acc,
 				...cards.filter(card => card.sectionId === section.id)
 			],

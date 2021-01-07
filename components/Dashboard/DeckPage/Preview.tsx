@@ -147,7 +147,8 @@ const DeckPagePreview = ({
 					placeholder="Loading..."
 					isLoading={!section}
 					value={section}
-					onChange={setSection}
+					// eslint-disable-next-line
+					onChange={setSection as any}
 				/>
 				<h3 className="message">Preview this deck</h3>
 			</div>

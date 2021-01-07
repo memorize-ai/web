@@ -318,14 +318,24 @@ export default class Deck {
 
 	get worstRating() {
 		for (const rating of [1, 2, 3, 4, 5])
-			if (this[`numberOf${rating}StarRatings`] > 0) return rating
+			if (
+				((this as unknown) as Record<string, number>)[
+					`numberOf${rating}StarRatings`
+				] > 0
+			)
+				return rating
 
 		return 0
 	}
 
 	get bestRating() {
 		for (const rating of [5, 4, 3, 2, 1])
-			if (this[`numberOf${rating}StarRatings`] > 0) return rating
+			if (
+				((this as unknown) as Record<string, number>)[
+					`numberOf${rating}StarRatings`
+				] > 0
+			)
+				return rating
 
 		return 0
 	}
@@ -421,8 +431,10 @@ export default class Deck {
 			? this.userData?.numberOfUnsectionedDueCards
 			: this.userData?.sections[section.id]) ?? 0
 
-	countForRating = (rating: 1 | 2 | 3 | 4 | 5): number =>
-		this[`numberOf${rating}StarRatings`]
+	countForRating = (rating: 1 | 2 | 3 | 4 | 5) =>
+		((this as unknown) as Record<string, number>)[
+			`numberOf${rating}StarRatings`
+		]
 
 	rate = (uid: string, rating: 1 | 2 | 3 | 4 | 5 | null) =>
 		firestore.doc(`users/${uid}/decks/${this.id}`).update({

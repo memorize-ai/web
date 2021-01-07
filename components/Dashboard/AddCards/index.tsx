@@ -223,7 +223,8 @@ const AddCards = () => {
 						placeholder="Loading..."
 						isLoading={!section}
 						value={section}
-						onChange={setSection}
+						// eslint-disable-next-line
+						onChange={setSection as any}
 					/>
 					<div className="content">
 						{deck ? (
