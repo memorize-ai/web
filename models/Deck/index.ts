@@ -9,6 +9,7 @@ import SnapshotLike from 'models/SnapshotLike'
 import LoadingState from 'models/LoadingState'
 import { DisqusProps } from 'components/Disqus'
 import { slugify, handleError } from 'lib/utils'
+import { BASE_URL } from 'lib/constants'
 import firebase from 'lib/firebase'
 
 import 'firebase/firestore'
@@ -302,7 +303,7 @@ export default class Deck {
 	}
 	
 	get urlWithOrigin() {
-		return `https://memorize.ai${this.url}`
+		return `${BASE_URL}${this.url}`
 	}
 	
 	get imageUrl() {
@@ -546,7 +547,7 @@ export default class Deck {
 	}
 	
 	uploadUrl = (uid: string) =>
-		`https://memorize.ai/_api/upload-deck-asset?user=${uid}&deck=${this.id}`
+		`/_api/upload-deck-asset?user=${uid}&deck=${this.id}`
 	
 	reviewUrl = (section?: Section) =>
 		`/review/${this.slugId}/${this.slug}${

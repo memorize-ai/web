@@ -2,7 +2,6 @@ import Policy from 'components/Policy'
 
 const Support = () => (
 	<Policy
-		url="https://memorize.ai/support"
 		title="Support"
 		description="Contact memorize.ai's support by emailing support@memorize.ai."
 	>
