@@ -18,7 +18,7 @@
 
 @mixin shadow-raise-on-hover {
 	@include raise-on-hover;
-	
+
 	transition: box-shadow 0.25s, transform 0.25s;
 
 	&:hover,

@@ -52,7 +52,9 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 	const creatorLevel = formatNumber(creator.level ?? 0)
 
 	const showContactUserModal = useCallback(() => {
-		;(isSignedIn ? setIsContactUserModalShowing : setIsAuthModalShowing)(true)
+		isSignedIn
+			? setIsContactUserModalShowing(true)
+			: setIsAuthModalShowing(true)
 	}, [isSignedIn, setIsContactUserModalShowing, setIsAuthModalShowing])
 
 	const get = useCallback(() => {

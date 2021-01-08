@@ -15,10 +15,12 @@ import { rankingToString } from 'lib/utils'
 import toggle from 'images/icons/toggle.svg'
 
 export interface PreviewProps {
-	deck: PreviewDeck
+	deck: PreviewDeck | null
 }
 
 const Preview = ({ deck }: PreviewProps) => {
+	if (!deck) return null
+
 	const {
 		cardsRemaining,
 		currentSide,

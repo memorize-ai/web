@@ -492,8 +492,7 @@ $rating-colors: (
 					background: white;
 					border-radius: 8px;
 					box-shadow: 0 4px 8px transparentize(black, 0.9);
-					transition: border-color 0.3s,
-						box-shadow 0.3s;
+					transition: border-color 0.3s, box-shadow 0.3s;
 
 					@media (min-width: 350px) {
 						width: 90px;
@@ -551,6 +550,7 @@ $rating-colors: (
 					> .prediction {
 						$height: 25px;
 
+						display: block;
 						min-width: 50px;
 						width: 100%;
 						height: $height;

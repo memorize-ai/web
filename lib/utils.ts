@@ -4,7 +4,6 @@ import pickBy from 'lodash/pickBy'
 import identity from 'lodash/identity'
 
 import {
-	LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY,
 	EMOJIS,
 	LONG_DATE_FORMATTER_MONTH,
 	LONG_DATE_FORMATTER_DAY,
@@ -30,28 +29,6 @@ export const compose = <T extends unknown[], U, V>(
 
 export const sleep = (ms: number) =>
 	new Promise(resolve => setTimeout(resolve, ms))
-
-export const expectsSignIn = () => {
-	try {
-		if (typeof localStorage === 'undefined') return false
-
-		return localStorage.getItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY) !== null
-	} catch {
-		return false
-	}
-}
-
-export const setExpectsSignIn = (value: boolean) => {
-	try {
-		if (typeof localStorage === 'undefined') return
-
-		value
-			? localStorage.setItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY, '1')
-			: localStorage.removeItem(LOCAL_STORAGE_EXPECTS_SIGN_IN_KEY)
-	} catch ({ message }) {
-		toast.error(message)
-	}
-}
 
 export const showSuccess = (message: string) => {
 	toast.success(message, { className: 'toast' })

@@ -32,6 +32,7 @@
 		"nanoid": "^3.1.20",
 		"next": "^10.0.4",
 		"next-optimized-images": "^3.0.0-canary.10",
+		"nookies": "^2.5.0",
 		"prismjs": "^1.23.0",
 		"puppeteer": "^5.5.0",
 		"react": "^17.0.1",

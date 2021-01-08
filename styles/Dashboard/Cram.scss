@@ -355,8 +355,7 @@ $flip-animation-duration: 300ms;
 					background: white;
 					border: 1px solid #eee;
 					border-radius: 8px;
-					transition: border-color 0.3s,
-						box-shadow 0.3s;
+					transition: border-color 0.3s, box-shadow 0.3s;
 
 					@media (min-width: 400px) {
 						width: 100px;
