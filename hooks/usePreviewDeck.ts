@@ -1,5 +1,12 @@
+import { useEffect } from 'react'
+import { useRecoilState } from 'recoil'
+
 import PreviewDeck, { PreviewCard } from 'models/PreviewDeck'
-import firebase from './firebase/admin'
+import state from 'state/previewDeck'
+import firebase from 'lib/firebase'
+import { handleError } from 'lib/utils'
+
+import 'firebase/firestore'
 
 const deckId = process.env.NEXT_PUBLIC_PREVIEW_DECK_ID
 const firestore = firebase.firestore()
@@ -62,4 +69,16 @@ const getPreviewDeck = async (): Promise<PreviewDeck> => {
 	}
 }
 
-export default getPreviewDeck
+const usePreviewDeck = () => {
+	const [previewDeck, setPreviewDeck] = useRecoilState(state)
+	const didLoad = Boolean(previewDeck)
+
+	useEffect(() => {
+		if (didLoad) return
+		getPreviewDeck().then(setPreviewDeck).catch(handleError)
+	}, [didLoad, setPreviewDeck])
+
+	return previewDeck
+}
+
+export default usePreviewDeck

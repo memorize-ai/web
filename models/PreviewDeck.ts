@@ -15,7 +15,8 @@ export interface PreviewSection {
 
 export interface PreviewCard {
 	id: string
-	sectionId: string | null
+	sectionId: string
 	front: string
 	back: string
+	forgotCount?: number
 }

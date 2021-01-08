@@ -10,26 +10,12 @@ import {
 
 import PreviewDeck from 'models/PreviewDeck'
 import firebase from 'lib/firebase'
+import { PreviewSection, PreviewCard } from 'models/PreviewDeck'
 import PerformanceRating from 'models/PerformanceRating'
 import useAuthModal from 'hooks/useAuthModal'
 import { sleep, handleError } from 'lib/utils'
 
 import 'firebase/firestore'
-
-export interface PreviewSection {
-	id: string
-	name: string
-	index: number
-	numberOfCards: number
-}
-
-export interface PreviewCard {
-	id: string
-	sectionId: string
-	front: string
-	back: string
-	forgotCount?: number
-}
 
 /** `null` - Immediately after */
 export interface PreviewPredictions {
@@ -122,12 +108,13 @@ const getProgressDataForRating = (rating: PerformanceRating) => {
 	}
 }
 
-const usePreview = (deck: PreviewDeck) => {
+const usePreview = (deck: PreviewDeck | null) => {
 	const isFirstCard = useRef(true)
 
 	const start = useRef(null as Date | null)
 
-	const [cards, setCards] = useState(deck.cards as PreviewCard[])
+	const [cards, setCards] = useState<PreviewCard[] | null>(null)
+	const cardsRemaining = cards && cards.length
 
 	const [cardClassName, setCardClassName] = useState(
 		undefined as string | undefined
@@ -146,14 +133,12 @@ const usePreview = (deck: PreviewDeck) => {
 
 	const { initialXp, setInitialXp } = useAuthModal()
 
-	const card = useMemo(() => (cards.length ? cards[0] : null), [cards])
-
-	const nextCard = useMemo(() => (cards.length > 1 ? cards[1] : null), [cards])
+	const card = useMemo(() => cards?.[0] ?? null, [cards])
+	const nextCard = useMemo(() => cards?.[1] ?? null, [cards])
 
 	const section = useMemo(
-		() =>
-			card && (deck.sections as Record<string, PreviewSection>)[card.sectionId],
-		[card]
+		() => card && (deck?.sections?.[card.sectionId] ?? null),
+		[deck, card]
 	)
 
 	const predictions: PreviewPredictions | null = useMemo(() => {
@@ -218,10 +203,15 @@ const usePreview = (deck: PreviewDeck) => {
 
 	const next = useCallback(
 		(addToBack: boolean) => {
-			setCards(cards => {
+			setCards(_cards => {
+				if (!_cards) return null
+
+				const cards = [..._cards]
 				const card = cards.shift()
 
-				return addToBack && card ? [...cards, card] : [...cards]
+				if (addToBack && card) cards.push(card)
+
+				return cards
 			})
 		},
 		[setCards]
@@ -242,7 +232,7 @@ const usePreview = (deck: PreviewDeck) => {
 	)
 
 	const waitForRating = useCallback(async () => {
-		if (isWaitingForRating || isProgressModalShowing || !cards.length) return
+		if (isWaitingForRating || isProgressModalShowing || !cardsRemaining) return
 
 		setStart()
 
@@ -251,7 +241,7 @@ const usePreview = (deck: PreviewDeck) => {
 	}, [
 		isWaitingForRating,
 		isProgressModalShowing,
-		cards,
+		cardsRemaining,
 		setStart,
 		setIsWaitingForRating,
 		transitionSetCurrentSide
@@ -308,11 +298,15 @@ const usePreview = (deck: PreviewDeck) => {
 	)
 
 	useEffect(() => {
+		if (deck) setCards(deck.cards)
+	}, [deck, setCards])
+
+	useEffect(() => {
 		setToggleTurns(turns => turns + 1)
 	}, [currentSide])
 
 	useEffect(() => {
-		if (cards.length || !start.current) return
+		if (cardsRemaining || !start.current) return
 
 		const relativeScore =
 			predictionMultiplier / (Date.now() - start.current.getTime())
@@ -329,10 +323,10 @@ const usePreview = (deck: PreviewDeck) => {
 				})
 			})
 			.catch(handleError)
-	}, [cards.length, predictionMultiplier, setRanking])
+	}, [cardsRemaining, predictionMultiplier, setRanking])
 
 	return {
-		cardsRemaining: cards.length,
+		cardsRemaining,
 		currentSide,
 		isWaitingForRating,
 		section,
