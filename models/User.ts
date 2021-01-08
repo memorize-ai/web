@@ -1,7 +1,8 @@
 import LoadingState from './LoadingState'
 import SnapshotLike from './SnapshotLike'
 import firebase from 'lib/firebase'
-import { setExpectsSignIn, handleError, hubSpotIdentifyUser } from 'lib/utils'
+import { setExpectsSignIn } from 'lib/expectsSignIn'
+import { handleError, hubSpotIdentifyUser } from 'lib/utils'
 
 import 'firebase/auth'
 import 'firebase/firestore'

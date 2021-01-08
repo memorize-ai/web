@@ -1,24 +1,29 @@
-import { NextPage, GetStaticProps } from 'next'
+import { NextPage } from 'next'
 
 import PreviewDeck from 'models/PreviewDeck'
 import getPreviewDeck from 'lib/getPreviewDeck'
+import expectsSignIn from 'lib/expectsSignIn'
 import useLayoutAuthState from 'hooks/useLayoutAuthState'
 import Dashboard from 'components/Dashboard/Home'
 import Landing from 'components/Home'
 
+let previewDeck: PreviewDeck | null = null
+
 interface HomeProps {
-	previewDeck: PreviewDeck
+	previewDeck: PreviewDeck | null
 }
 
 const Home: NextPage<HomeProps> = ({ previewDeck }) =>
-	useLayoutAuthState() ? <Dashboard /> : <Landing previewDeck={previewDeck} />
+	useLayoutAuthState() ?? !previewDeck ? (
+		<Dashboard />
+	) : (
+		<Landing previewDeck={previewDeck} />
+	)
 
-export const getStaticProps: GetStaticProps<
-	HomeProps,
-	Record<string, never>
-> = async () => ({
-	props: { previewDeck: await getPreviewDeck() },
-	revalidate: 3600 // 1 hour
+Home.getInitialProps = async context => ({
+	previewDeck: expectsSignIn(context)
+		? null
+		: (previewDeck ??= await getPreviewDeck())
 })
 
 export default Home

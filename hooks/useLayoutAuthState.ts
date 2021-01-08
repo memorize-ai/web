@@ -5,8 +5,8 @@ import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect'
 
 /** Layout safe version of `useAuthState` */
 const useLayoutAuthState = () => {
-	const [state, setState] = useState(false)
 	const _state = useAuthState()
+	const [state, setState] = useState(_state)
 
 	useIsomorphicLayoutEffect(() => {
 		setState(_state)

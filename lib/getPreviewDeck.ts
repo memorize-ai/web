@@ -1,7 +1,7 @@
 import PreviewDeck, { PreviewCard } from 'models/PreviewDeck'
-import firebase from './firebase/admin'
+import firebase from './firebase'
 
-const deckId = process.env.PREVIEW_DECK_ID
+const deckId = process.env.NEXT_PUBLIC_PREVIEW_DECK_ID
 const firestore = firebase.firestore()
 
 if (!deckId) throw new Error('Missing preview deck ID')

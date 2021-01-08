@@ -14,7 +14,7 @@ import Classroom from './Classroom'
 import Footer from './Footer'
 
 export interface HomeProps {
-	previewDeck: PreviewDeck
+	previewDeck: PreviewDeck | null
 }
 
 const Home = ({ previewDeck }: HomeProps) => {

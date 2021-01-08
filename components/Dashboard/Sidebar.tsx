@@ -21,7 +21,7 @@ const DashboardSidebar = () => {
 
 	const [query, setQuery] = useState('')
 
-	const isLevelLoading = isSignedIn && isNullish(currentUser?.level)
+	const isLevelLoading = (isSignedIn ?? false) && isNullish(currentUser?.level)
 
 	const level = isLevelLoading
 		? '...'

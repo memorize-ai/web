@@ -1,6 +1,6 @@
 import LoadingState from 'models/LoadingState'
 import useCurrentUser from './useCurrentUser'
-import { expectsSignIn } from 'lib/utils'
+import expectsSignIn from 'lib/expectsSignIn'
 
 const useAuthState = () => {
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
