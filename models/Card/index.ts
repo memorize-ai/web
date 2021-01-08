@@ -1,4 +1,5 @@
 import stripHtml from 'string-strip-html'
+import groupBy from 'lodash/groupBy'
 
 import User from 'models/User'
 import Deck from 'models/Deck'
@@ -6,7 +7,6 @@ import Section from 'models/Section'
 import UserData from './UserData'
 import SnapshotLike from 'models/SnapshotLike'
 import firebase from 'lib/firebase'
-import { handleError } from 'lib/utils'
 
 import 'firebase/firestore'
 
@@ -83,71 +83,15 @@ export default class Card {
 		delete Card.snapshotListeners[id]
 	}
 
-	static observe = ({
-		deckId,
-		sectionId,
-		uid,
-		initializeCards,
-		addCard,
-		updateCard,
-		updateCardUserData,
-		removeCard
-	}: {
+	static getAllForDeck = async (
 		deckId: string
-		sectionId: string
-		uid: string
-		initializeCards: (parentId: string) => void
-		addCard: (
-			parentId: string,
-			snapshot: firebase.firestore.DocumentSnapshot
-		) => void
-		updateCard: (
-			parentId: string,
-			snapshot: firebase.firestore.DocumentSnapshot
-		) => void
-		updateCardUserData: (
-			parentId: string,
-			snapshot: firebase.firestore.DocumentSnapshot
-		) => void
-		removeCard: (parentId: string, cardId: string) => void
-	}) =>
-		firestore
-			.collection(`decks/${deckId}/cards`)
-			.where('section', '==', sectionId)
-			.onSnapshot(snapshot => {
-				initializeCards(sectionId)
-
-				for (const { type, doc } of snapshot.docChanges())
-					switch (type) {
-						case 'added':
-							addCard(sectionId, doc)
-
-							Card.addSnapshotListener(
-								doc.id,
-								firestore
-									.doc(`users/${uid}/decks/${deckId}/cards/${doc.id}`)
-									.onSnapshot(
-										userDataSnapshot =>
-											updateCardUserData(sectionId, userDataSnapshot),
-										handleError
-									)
-							)
-
-							break
-						case 'modified':
-							updateCard(sectionId, doc)
-							break
-						case 'removed':
-							Card.removeSnapshotListener(doc.id)
-							removeCard(sectionId, doc.id)
-							break
-					}
-			}, handleError)
-
-	static getAllForDeck = async (deckId: string) =>
-		(
-			await firestore.collection(`decks/${deckId}/cards`).get()
-		).docs.map(snapshot => Card.fromSnapshot(snapshot, null))
+	): Promise<Record<string, Card[]>> =>
+		groupBy(
+			(
+				await firestore.collection(`decks/${deckId}/cards`).get()
+			).docs.map(snapshot => Card.fromSnapshot(snapshot)),
+			'sectionId'
+		)
 
 	static create = async ({
 		deck,

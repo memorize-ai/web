@@ -1,37 +1,44 @@
-import { useContext, useCallback } from 'react'
+import { useCallback } from 'react'
+import { useRecoilState } from 'recoil'
 
-import AuthModalContext from 'contexts/AuthModal'
-import {
-	setAuthModalIsShowing,
-	setAuthModalCallback,
-	setAuthModalMode,
-	setAuthModalInitialXp
-} from 'actions'
-import { compose } from 'lib/utils'
+import User from 'models/User'
+import AuthenticationMode from 'models/AuthenticationMode'
+import authModalState from 'state/authModal'
 
 const useAuthModal = () => {
-	const [{ isShowing, callback, mode, initialXp }, dispatch] = useContext(
-		AuthModalContext
+	const [{ isShowing, callback, mode, initialXp }, setState] = useRecoilState(
+		authModalState
 	)
 
 	return {
 		isShowing,
-		setIsShowing: useCallback(compose(dispatch, setAuthModalIsShowing), [
-			dispatch
-		]),
-
+		setIsShowing: useCallback(
+			(isShowing: boolean) => {
+				setState(state => ({ ...state, isShowing }))
+			},
+			[setState]
+		),
 		callback,
-		setCallback: useCallback(compose(dispatch, setAuthModalCallback), [
-			dispatch
-		]),
-
+		setCallback: useCallback(
+			(callback: ((user: User) => void) | null) => {
+				setState(state => ({ ...state, callback }))
+			},
+			[setState]
+		),
 		mode,
-		setMode: useCallback(compose(dispatch, setAuthModalMode), [dispatch]),
-
+		setMode: useCallback(
+			(mode: AuthenticationMode) => {
+				setState(state => ({ ...state, mode }))
+			},
+			[setState]
+		),
 		initialXp,
-		setInitialXp: useCallback(compose(dispatch, setAuthModalInitialXp), [
-			dispatch
-		])
+		setInitialXp: useCallback(
+			(initialXp: number) => {
+				setState(state => ({ ...state, initialXp }))
+			},
+			[setState]
+		)
 	}
 }
 

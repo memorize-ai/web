@@ -3,6 +3,7 @@ import Confetti from 'react-dom-confetti'
 import cx from 'classnames'
 
 import PreviewDeck from 'models/PreviewDeck'
+import usePreviewDeck from 'hooks/usePreviewDeck'
 import usePreview from './usePreview'
 import MarketSearchLink from 'components/MarketSearchLink'
 import CardSide from 'components/CardSide'
@@ -18,8 +19,9 @@ export interface PreviewProps {
 	deck: PreviewDeck | null
 }
 
-const Preview = ({ deck }: PreviewProps) => {
-	if (!deck) return null
+const Preview = ({ deck: initialDeck }: PreviewProps) => {
+	const deck = initialDeck ?? usePreviewDeck()
+	const isLoading = !deck
 
 	const {
 		cardsRemaining,
@@ -49,7 +51,7 @@ const Preview = ({ deck }: PreviewProps) => {
 				</h2>
 				<div className="preview-navbar">
 					<div className="location">
-						<p className="count">{cardsRemaining}</p>
+						<p className="count">{isLoading ? '...' : cardsRemaining}</p>
 						<p className="text">card{cardsRemaining === 1 ? '' : 's'} left</p>
 					</div>
 					<div className="items">
@@ -59,20 +61,22 @@ const Preview = ({ deck }: PreviewProps) => {
 				</div>
 				<div className="card-container">
 					<div className={cx('location', { hidden: !cardsRemaining })}>
-						<p className="deck">{deck.name}</p>
+						<p className="deck">{deck?.name ?? '...'}</p>
 						<div className="divider" />
 						{section && <p className="section">{section.name}</p>}
 						{card && !card.forgotCount && <p className="flag">New</p>}
 					</div>
 					<div className="cards" onClick={onCardClick}>
-						{card && (
+						{(isLoading || card) && (
 							<div
 								className={cx('card', 'foreground', cardClassName, {
 									'waiting-for-flip': !isWaitingForRating
 								})}
 							>
 								<div className="container">
-									<CardSide className="content">{card[currentSide]}</CardSide>
+									<CardSide className="content" isLoading={isLoading}>
+										{card?.[currentSide]}
+									</CardSide>
 									{isWaitingForRating && (
 										<div className="flip">
 											<p>{currentSide}</p>
@@ -88,21 +92,21 @@ const Preview = ({ deck }: PreviewProps) => {
 								</div>
 							</div>
 						)}
-						{nextCard && (
+						{(isLoading || nextCard) && (
 							<div className="card next">
 								<div className="container">
-									<CardSide className="content">{nextCard.front}</CardSide>
+									<CardSide className="content">{nextCard?.front}</CardSide>
 								</div>
 							</div>
 						)}
 						<div
 							className={cx('card', 'background-1', {
-								hidden: cardsRemaining < 2
+								hidden: cardsRemaining !== null && cardsRemaining < 2
 							})}
 						/>
 						<div
 							className={cx('card', 'background-2', {
-								hidden: cardsRemaining < 3
+								hidden: cardsRemaining !== null && cardsRemaining < 3
 							})}
 						/>
 						<div className="completion">
@@ -119,7 +123,7 @@ const Preview = ({ deck }: PreviewProps) => {
 								) : (
 									rankingToString(ranking)
 								)}{' '}
-								place in <em>{deck.name}!</em>
+								place in <em>{deck?.name ?? '...'}!</em>
 							</h4>
 							<div className="confetti">
 								<Confetti
@@ -135,7 +139,7 @@ const Preview = ({ deck }: PreviewProps) => {
 					</div>
 				</div>
 				<Footer
-					isFinished={!cardsRemaining}
+					isFinished={!(isLoading || cardsRemaining)}
 					isWaitingForRating={isWaitingForRating}
 					predictions={predictions}
 					rate={rate}

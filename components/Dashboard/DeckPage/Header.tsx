@@ -10,7 +10,7 @@ import Deck from 'models/Deck'
 import LoadingState from 'models/LoadingState'
 import useLayoutAuthState from 'hooks/useLayoutAuthState'
 import useCurrentUser from 'hooks/useCurrentUser'
-import useContactUserLoadingState from 'hooks/useContactUserLoadingState'
+import useContactUserState from 'hooks/useContactUserState'
 import useAuthModal from 'hooks/useAuthModal'
 import Button from 'components/Button'
 import Loader from 'components/Loader'
@@ -36,7 +36,7 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 	const isSignedIn = useLayoutAuthState()
 	const [currentUser] = useCurrentUser()
 
-	const contactLoadingState = useContactUserLoadingState(creator)
+	const contactLoadingState = useContactUserState(creator)
 
 	const {
 		setIsShowing: setIsAuthModalShowing,

@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 
 import Topic from 'models/Topic'
+import state from 'state/topics'
 import firebase from 'lib/firebase'
 import { handleError } from 'lib/utils'
 
@@ -14,11 +16,13 @@ const getTopics = async () =>
 		.sort(({ name: a }, { name: b }) => a.localeCompare(b))
 
 const useTopics = () => {
-	const [topics, setTopics] = useState(null as Topic[] | null)
+	const [topics, setTopics] = useRecoilState(state)
+	const didLoad = Boolean(topics)
 
 	useEffect(() => {
+		if (didLoad) return
 		getTopics().then(setTopics).catch(handleError)
-	}, [setTopics])
+	}, [didLoad, setTopics])
 
 	return topics
 }

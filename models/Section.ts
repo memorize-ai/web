@@ -5,7 +5,6 @@ import Deck from './Deck'
 import { CardDraft } from './Card'
 import SnapshotLike from './SnapshotLike'
 import firebase from 'lib/firebase'
-import { handleError } from 'lib/utils'
 import { FIRESTORE_BATCH_LIMIT } from 'lib/constants'
 
 import 'firebase/firestore'
@@ -52,43 +51,6 @@ export default class Section {
 			index: -1,
 			cards: numberOfCards
 		})
-
-	static observeForDeckWithId = (
-		deckId: string,
-		{
-			addSections,
-			updateSection,
-			removeSection
-		}: {
-			addSections: (
-				deckId: string,
-				snapshots: firebase.firestore.DocumentSnapshot[]
-			) => void
-			updateSection: (
-				deckId: string,
-				snapshot: firebase.firestore.DocumentSnapshot
-			) => void
-			removeSection: (deckId: string, sectionId: string) => void
-		}
-	) =>
-		firestore.collection(`decks/${deckId}/sections`).onSnapshot(snapshot => {
-			const snapshots: firebase.firestore.DocumentSnapshot[] = []
-
-			for (const { type, doc } of snapshot.docChanges())
-				switch (type) {
-					case 'added':
-						snapshots.push(doc)
-						break
-					case 'modified':
-						updateSection(deckId, doc)
-						break
-					case 'removed':
-						removeSection(deckId, doc.id)
-						break
-				}
-
-			addSections(deckId, snapshots)
-		}, handleError)
 
 	static createForDeck = async (
 		deck: Deck,

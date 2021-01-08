@@ -2,15 +2,26 @@ import { HTMLAttributes, useCallback } from 'react'
 import renderMathInElement from 'katex/dist/contrib/auto-render'
 import { highlightAllUnder } from 'prismjs'
 import cx from 'classnames'
+import Loader from './Loader'
+
+export interface CardSideProps extends HTMLAttributes<HTMLDivElement> {
+	isLoading?: boolean
+	children?: string
+}
+
+const CardSideLoader = () => (
+	<Loader size="30px" thickness="5px" color="#582efe" />
+)
 
 const CardSide = ({
 	className,
-	children,
+	isLoading = false,
+	children = '',
 	...props
-}: { children: string } & HTMLAttributes<HTMLDivElement>) => {
+}: CardSideProps) => {
 	const onRef = useCallback(
 		(element: HTMLDivElement | null) => {
-			if (!element) return
+			if (!(element && children)) return
 
 			renderMathInElement(element)
 			highlightAllUnder(element)
@@ -29,7 +40,8 @@ const CardSide = ({
 			<div
 				className="content"
 				ref={onRef}
-				dangerouslySetInnerHTML={{ __html: children }}
+				dangerouslySetInnerHTML={isLoading ? undefined : { __html: children }}
+				children={isLoading ? <CardSideLoader /> : undefined}
 			/>
 		</div>
 	)

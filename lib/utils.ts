@@ -22,11 +22,6 @@ export const isIos = () =>
 export const isIosHandheld = () =>
 	process.browser && /iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 
-export const compose = <T extends unknown[], U, V>(
-	b: (u: U) => V,
-	a: (...args: T) => U
-) => (...args: T) => b(a(...args))
-
 export const sleep = (ms: number) =>
 	new Promise(resolve => setTimeout(resolve, ms))
 

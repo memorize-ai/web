@@ -2,12 +2,11 @@ import { useEffect } from 'react'
 import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
+import { RecoilRoot } from 'recoil'
 import { ToastContainer } from 'react-toastify'
 import { config } from '@fortawesome/fontawesome-svg-core'
 
-import Provider from 'contexts'
 import AuthModal from 'components/Modal/Auth'
-
 import { src as favicon } from 'images/favicon.png'
 
 import 'styles/global.scss'
@@ -125,10 +124,10 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 					href="/sitemap.xml"
 				/>
 			</Head>
-			<Provider>
+			<RecoilRoot>
 				<Component {...pageProps} />
 				<AuthModal />
-			</Provider>
+			</RecoilRoot>
 			<ToastContainer />
 		</>
 	)

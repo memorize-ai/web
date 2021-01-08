@@ -1,14 +1,20 @@
-import { useContext, useCallback } from 'react'
+import { useCallback } from 'react'
+import { useRecoilState } from 'recoil'
 
-import DecksContext from 'contexts/Decks'
-import { setSelectedDeck } from 'actions'
-import { compose } from 'lib/utils'
+import Deck from 'models/Deck'
+import state from 'state/decks'
 
 const useSelectedDeck = () => {
-	const [{ selectedDeck }, dispatch] = useContext(DecksContext)
-	const setDeck = useCallback(compose(dispatch, setSelectedDeck), [dispatch])
+	const [{ selectedDeck }, setState] = useRecoilState(state)
 
-	return [selectedDeck, setDeck] as const
+	return [
+		selectedDeck,
+		useCallback(
+			(selectedDeck: Deck | null) =>
+				setState(state => ({ ...state, selectedDeck })),
+			[setState]
+		)
+	] as const
 }
 
 export default useSelectedDeck

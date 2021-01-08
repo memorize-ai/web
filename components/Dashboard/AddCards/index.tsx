@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useContext, useCallback } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Select from 'react-select'
@@ -14,11 +14,11 @@ import property from 'lodash/property'
 import { ParsedUrlQuery } from 'querystring'
 
 import Section from 'models/Section'
-import AddCardsContext from 'contexts/AddCards'
 import requiresAuth from 'hooks/requiresAuth'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useCreatedDeck from 'hooks/useCreatedDeck'
 import useSections from 'hooks/useSections'
+import useAddCardsState from 'hooks/useAddCardsState'
 import useLocalStorageBoolean from 'hooks/useLocalStorageBoolean'
 import Dashboard, {
 	DashboardNavbarSelection as Selection
@@ -27,14 +27,6 @@ import Head from 'components/Head'
 import CardRow from 'components/AddCardRow'
 import Loader from 'components/Loader'
 import ConfirmationModal from 'components/Modal/Confirmation'
-import {
-	addCardsSet as set,
-	addCardsAdd as add,
-	addCardsUpdate as update,
-	addCardsRemove as remove,
-	addCardsRemoveAll as removeAll
-} from 'actions'
-import { compose } from 'lib/utils'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from 'lib/constants'
 
 import { src as defaultImage } from 'images/logos/icon.jpg'
@@ -77,7 +69,13 @@ const AddCards = () => {
 		[sections, sectionId]
 	)
 
-	const [cards, dispatch] = useContext(AddCardsContext)
+	const {
+		cards,
+		setCards,
+		addCard,
+		updateCard,
+		removeCard
+	} = useAddCardsState()
 
 	const hasDrafts = useMemo(
 		() => cards.some(({ front, back }) => front || back),
@@ -124,19 +122,19 @@ const AddCards = () => {
 		const remainingCards = cards.filter(({ front, back }) => !(front && back))
 
 		section.publishCards(currentUser, deck, validCards)
-		dispatch(set(remainingCards))
+		setCards(remainingCards)
 
 		if (!remainingCards.length) close()
-	}, [currentUser, deck, section, dispatch, close, cards])
+	}, [currentUser, deck, section, cards, setCards, close])
 
 	const onConfirmGoBack = useCallback(() => {
 		setIsCloseModalShowing(false)
 		close()
 	}, [setIsCloseModalShowing, close])
 
-	const onConfirmDeleteDrafts = useCallback(compose(dispatch, removeAll), [
-		dispatch
-	])
+	const onConfirmDeleteDrafts = useCallback(() => {
+		setCards([])
+	}, [setCards])
 
 	return (
 		<Dashboard selection={Selection.Decks} className="add-cards">
@@ -243,13 +241,13 @@ const AddCards = () => {
 											front={front}
 											back={back}
 											canRemove={hasDrafts}
-											remove={() => dispatch(remove(id))}
-											updateFront={front => dispatch(update(id, { front }))}
-											updateBack={back => dispatch(update(id, { back }))}
+											remove={() => removeCard(id)}
+											updateFront={front => updateCard(id, { front })}
+											updateBack={back => updateCard(id, { back })}
 										/>
 									))}
 								</div>
-								<button onClick={compose(dispatch, add)}>
+								<button onClick={addCard}>
 									<FontAwesomeIcon icon={faPlus} />
 									<p>Card below</p>
 								</button>
