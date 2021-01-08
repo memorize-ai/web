@@ -1,24 +1,19 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 
-import SimilarDecksContext from 'contexts/SimilarDecks'
-import { setSimilarDecks } from 'actions'
+import state from 'state/similarDecks'
 import Deck from 'models/Deck'
 
-const useSimilarDecks = (deck: Deck | null | undefined, chunkSize: number) => {
-	const [state, dispatch] = useContext(SimilarDecksContext)
-	const similarDecks = (deck && state[deck.id]) || null
+const useSimilarDecks = (deck: Deck, chunkSize: number) => {
+	const [similarDecks, setSimilarDecks] = useRecoilState(state(deck.id))
+	const didLoad = Boolean(similarDecks)
 
 	useEffect(() => {
-		if (!deck || Deck.similarDeckObservers[deck.id] || similarDecks) return
+		if (didLoad || Deck.similarDeckObservers[deck.id]) return
 
 		Deck.similarDeckObservers[deck.id] = true
-
-		deck
-			.loadSimilarDecks(chunkSize)
-			.then(newSimilarDecks =>
-				dispatch(setSimilarDecks(deck.id, newSimilarDecks))
-			)
-	}, [deck, similarDecks, chunkSize, dispatch])
+		deck.loadSimilarDecks(chunkSize).then(setSimilarDecks)
+	}, [didLoad, deck, chunkSize, setSimilarDecks])
 
 	return similarDecks
 }

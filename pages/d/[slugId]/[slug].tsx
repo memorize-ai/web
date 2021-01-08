@@ -54,7 +54,7 @@ const DeckPage: NextPage<DeckPageProps> = ({
 		[initialSectionData]
 	)
 
-	const initialCards = useMemo(
+	const initialCards: Record<string, Card[]> = useMemo(
 		() =>
 			groupBy(
 				initialCardData.map(data => new Card(data)),

@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { useRecoilValue } from 'recoil'
 import Router from 'next/router'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,8 +9,8 @@ import {
 	DeckSortAlgorithm,
 	DEFAULT_DECK_SORT_ALGORITHM
 } from 'models/Deck/Search'
+import searchState from 'state/search'
 import { flattenQuery, formatNumber } from 'lib/utils'
-import useSearchState from 'hooks/useSearchState'
 import Input from 'components/Input'
 import SortDropdown from 'components/SortDropdown'
 import { DropdownShadow } from 'components/Dropdown'
@@ -19,7 +20,7 @@ export interface DeckPageNavigationProps {
 }
 
 const DeckPageNavigation = ({ numberOfDecks }: DeckPageNavigationProps) => {
-	const [{ query, sortAlgorithm }] = useSearchState()
+	const { query, sortAlgorithm } = useRecoilValue(searchState)
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
 
 	const setQuery = useCallback(

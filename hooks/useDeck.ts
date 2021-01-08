@@ -1,27 +1,31 @@
-import { useContext, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
+import { useRecoilState } from 'recoil'
 
-import firebase from 'lib/firebase'
-import DecksContext from 'contexts/Decks'
-import { updateDeck, removeDeck } from 'actions'
 import Deck from 'models/Deck'
+import state from 'state/decks'
+import firebase from 'lib/firebase'
 import { handleError } from 'lib/utils'
 
 import 'firebase/firestore'
 
 const firestore = firebase.firestore()
 
-const useDeck = (slugId: string | null | undefined) => {
-	const [{ decks, ownedDecks }, dispatch] = useContext(DecksContext)
+const useDeck = (slugId: string | undefined) => {
+	const [{ decks, ownedDecks }, setState] = useRecoilState(state)
 
 	const deck = useMemo(
 		() =>
-			ownedDecks.find(deck => deck.slugId === slugId) ??
-			decks.find(deck => deck.slugId === slugId),
+			slugId
+				? ownedDecks.find(deck => deck.slugId === slugId) ??
+				  decks.find(deck => deck.slugId === slugId)
+				: undefined,
 		[slugId, ownedDecks, decks]
 	)
 
+	const hasDeck = Boolean(deck)
+
 	useEffect(() => {
-		if (deck || !slugId || Deck.isObserving[slugId]) return
+		if (hasDeck || !slugId || Deck.isObserving[slugId]) return
 
 		Deck.isObserving[slugId] = true
 
@@ -34,14 +38,24 @@ const useDeck = (slugId: string | null | undefined) => {
 					switch (type) {
 						case 'added':
 						case 'modified':
-							dispatch(updateDeck(doc))
+							setState(state => ({
+								...state,
+								decks: state.decks.some(({ id }) => id === doc.id)
+									? state.decks.map(deck =>
+											deck.id === doc.id ? deck.updateFromSnapshot(doc) : deck
+									  )
+									: [...state.decks, Deck.fromSnapshot(doc)]
+							}))
 							break
 						case 'removed':
-							dispatch(removeDeck(doc.id))
+							setState(state => ({
+								...state,
+								decks: state.decks.filter(({ id }) => id !== doc.id)
+							}))
 							break
 					}
 			}, handleError)
-	}, [deck, slugId, dispatch])
+	}, [hasDeck, slugId, setState])
 
 	return {
 		deck: deck ?? null,

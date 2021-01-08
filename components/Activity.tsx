@@ -1,8 +1,7 @@
-import { useContext, useEffect, useMemo, memo } from 'react'
+import { useMemo, useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 
 import firebase from 'lib/firebase'
-import ActivityContext from 'contexts/Activity'
-import { setActivityNode } from 'actions'
 import ActivityNode, {
 	DAYS,
 	MONTHS,
@@ -11,6 +10,7 @@ import ActivityNode, {
 	getBeforeFirstVisibleDay
 } from 'models/ActivityNode'
 import useCurrentUser from 'hooks/useCurrentUser'
+import activityState from 'state/activity'
 import { handleError, formatLongDate } from 'lib/utils'
 
 import 'firebase/firestore'
@@ -34,8 +34,7 @@ const ActivityCell = ({
 )
 
 const Activity = () => {
-	const [state, dispatch] = useContext(ActivityContext)
-
+	const [state, setState] = useRecoilState(activityState)
 	const [currentUser] = useCurrentUser()
 
 	const nodes = useMemo(() => {
@@ -60,11 +59,14 @@ const Activity = () => {
 			.collection(`users/${currentUser.id}/activity`)
 			.where('day', '>', getBeforeFirstVisibleDay())
 			.onSnapshot(snapshot => {
-				for (const { type, doc } of snapshot.docChanges())
-					if (type === 'added' || type === 'modified')
-						dispatch(setActivityNode(ActivityNode.fromSnapshot(doc)))
+				for (const { type, doc } of snapshot.docChanges()) {
+					if (!(type === 'added' || type === 'modified')) continue
+
+					const node = ActivityNode.fromSnapshot(doc)
+					setState(state => ({ ...state, [node.day]: node }))
+				}
 			}, handleError)
-	}, [currentUser, dispatch])
+	}, [currentUser, setState])
 
 	return (
 		<div className="activity">
@@ -99,4 +101,4 @@ const Activity = () => {
 	)
 }
 
-export default memo(Activity)
+export default Activity

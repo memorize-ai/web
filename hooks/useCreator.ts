@@ -1,24 +1,27 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 
-import CreatorContext from 'contexts/Creators'
 import User from 'models/User'
-import { updateCreator, removeCreator } from 'actions'
-import { compose } from 'lib/utils'
+import state from 'state/creators'
+import firebase from 'lib/firebase'
+import { handleError } from 'lib/utils'
 
-const useCreator = (uid: string | null | undefined): User | null => {
-	const [creators, dispatch] = useContext(CreatorContext)
-	const creator = (uid && creators[uid]) || null
+import 'firebase/firestore'
+
+const firestore = firebase.firestore()
+
+const useCreator = (uid: string) => {
+	const [creator, setCreator] = useRecoilState(state(uid))
 
 	useEffect(() => {
-		if (!uid || User.creatorObservers[uid] || creator) return
+		if (!uid || creator || User.creatorObservers[uid]) return
 
 		User.creatorObservers[uid] = true
 
-		User.loadCreatorForDeckWithId(uid, {
-			updateCreator: compose(dispatch, updateCreator),
-			removeCreator: compose(dispatch, removeCreator)
-		})
-	}, [uid, creator, dispatch])
+		firestore.doc(`users/${uid}`).onSnapshot(snapshot => {
+			setCreator(snapshot.exists ? User.fromSnapshot(snapshot) : null)
+		}, handleError)
+	}, [uid, creator, setCreator])
 
 	return creator
 }

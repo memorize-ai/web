@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
+import { useSetRecoilState } from 'recoil'
 import { NextPage, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -6,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroller'
 
-import useSearchState from 'hooks/useSearchState'
 import Deck from 'models/Deck'
 import DeckSearch, {
 	DEFAULT_DECK_SORT_ALGORITHM,
@@ -28,6 +28,7 @@ import SortDropdown from 'components/SortDropdown'
 import { DropdownShadow } from 'components/Dropdown'
 import DeckRow from 'components/DeckRow'
 import Loader from 'components/Loader'
+import searchState from 'state/search'
 
 interface MarketProps {
 	decks: number
@@ -40,7 +41,7 @@ const Market: NextPage<MarketProps> = ({ decks: initialNumberOfDecks }) => {
 	const router = useRouter()
 
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
-	const [, setSearchState] = useSearchState()
+	const setSearchState = useSetRecoilState(searchState)
 
 	const query = (router.query.q as string | undefined) ?? ''
 	const sortAlgorithm =

@@ -1,8 +1,8 @@
-import { useContext, useRef, useState, useCallback, useMemo } from 'react'
+import { useRef, useState, useCallback, useMemo } from 'react'
 import { GetStaticProps, NextPage } from 'next'
 import Router from 'next/router'
+import { useRecoilState } from 'recoil'
 
-import CreateDeckContext from 'contexts/CreateDeck'
 import useAuthModal from 'hooks/useAuthModal'
 import useLayoutAuthState from 'hooks/useLayoutAuthState'
 import useCurrentUser from 'hooks/useCurrentUser'
@@ -10,14 +10,8 @@ import User from 'models/User'
 import Deck from 'models/Deck'
 import Topic, { TopicData } from 'models/Topic'
 import LoadingState from 'models/LoadingState'
-import {
-	setCreateDeckImage,
-	setCreateDeckName,
-	setCreateDeckSubtitle,
-	setCreateDeckDescription,
-	setCreateDeckTopics
-} from 'actions'
-import { compose, handleError } from 'lib/utils'
+import state, { initialState } from 'state/createDeck'
+import { handleError } from 'lib/utils'
 import getTopics from 'lib/getTopics'
 import Dashboard, {
 	DashboardNavbarSelection as Selection
@@ -39,8 +33,8 @@ const CreateDeck: NextPage<CreateDeckProps> = ({ topics: initialTopics }) => {
 
 	const [
 		{ image, name, subtitle, description, topics: selectedTopics },
-		dispatch
-	] = useContext(CreateDeckContext)
+		setState
+	] = useRecoilState(state)
 
 	const imageUrl = useRef(null as string | null)
 
@@ -60,18 +54,14 @@ const CreateDeck: NextPage<CreateDeckProps> = ({ topics: initialTopics }) => {
 	const setImage = useCallback(
 		(image: File | null) => {
 			imageUrl.current = image && URL.createObjectURL(image)
-			dispatch(setCreateDeckImage(image))
+			setState(state => ({ ...state, image }))
 		},
-		[dispatch]
+		[setState]
 	)
 
 	const reset = useCallback(() => {
-		dispatch(setCreateDeckImage(null))
-		dispatch(setCreateDeckName(''))
-		dispatch(setCreateDeckSubtitle(''))
-		dispatch(setCreateDeckDescription(''))
-		dispatch(setCreateDeckTopics([]))
-	}, [dispatch])
+		setState(initialState)
+	}, [setState])
 
 	const create = useCallback(() => {
 		const callback = async (user: User) => {
@@ -113,17 +103,21 @@ const CreateDeck: NextPage<CreateDeckProps> = ({ topics: initialTopics }) => {
 		subtitle
 	])
 
-	const setName = useCallback(compose(dispatch, setCreateDeckName), [dispatch])
-	const setSubtitle = useCallback(compose(dispatch, setCreateDeckSubtitle), [
-		dispatch
-	])
+	const setName = useCallback(
+		(name: string) => setState(state => ({ ...state, name })),
+		[setState]
+	)
+	const setSubtitle = useCallback(
+		(subtitle: string) => setState(state => ({ ...state, subtitle })),
+		[setState]
+	)
 	const setDescription = useCallback(
-		compose(dispatch, setCreateDeckDescription),
-		[dispatch]
+		(description: string) => setState(state => ({ ...state, description })),
+		[setState]
 	)
 	const setSelectedTopics = useCallback(
-		compose(dispatch, setCreateDeckTopics),
-		[dispatch]
+		(topics: string[]) => setState(state => ({ ...state, topics })),
+		[setState]
 	)
 
 	return (

@@ -1,34 +1,25 @@
-import { useContext, useEffect, useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 
-import firebase from 'lib/firebase'
 import User from 'models/User'
 import LoadingState from 'models/LoadingState'
-import ContactUserLoadingStateContext from 'contexts/ContactUserLoadingState'
-import { setContactUserLoadingState } from 'actions'
+import state from 'state/contactUser'
+import firebase from 'lib/firebase'
 import useCurrentUser from './useCurrentUser'
 
 import 'firebase/firestore'
 
 const firestore = firebase.firestore()
 
-const useContactUserLoadingState = (user: User | null): LoadingState => {
-	const [loadingStates, dispatch] = useContext(ContactUserLoadingStateContext)
+const useContactUserState = (user: User): LoadingState => {
+	const [loadingState, setLoadingState] = useRecoilState(state(user.id))
 	const [currentUser, currentUserLoadingState] = useCurrentUser()
 
-	const userId = user?.id
+	const userId = user.id
 	const currentUserId = currentUser?.id
 
-	const userAllowsContact = user?.allowContact ?? null
+	const userAllowsContact = user.allowContact
 	const currentUserIsMuted = currentUser?.isMuted ?? null
-
-	const setLoadingState = useCallback(
-		(value: LoadingState) => {
-			if (!userId) return
-
-			dispatch(setContactUserLoadingState(userId, value))
-		},
-		[userId, dispatch]
-	)
 
 	const getLoadingState = useCallback(async () => {
 		if (!userId) return LoadingState.Loading
@@ -68,7 +59,7 @@ const useContactUserLoadingState = (user: User | null): LoadingState => {
 		getLoadingState().then(setLoadingState)
 	}, [getLoadingState, setLoadingState])
 
-	return (user && loadingStates[user.id]) ?? LoadingState.Loading
+	return loadingState
 }
 
-export default useContactUserLoadingState
+export default useContactUserState

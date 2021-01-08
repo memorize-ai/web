@@ -12,7 +12,7 @@ import { formatNumber } from 'lib/utils'
 export interface DeckPageCardsProps {
 	deck: Deck
 	sections: Section[]
-	cards: Record<string, Card[]>
+	cards: Record<string, Card[] | undefined>
 }
 
 const DeckPageCards = ({

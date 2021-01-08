@@ -1,8 +1,8 @@
-import { useContext } from 'react'
+import { useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 
+import state from 'state/counters'
 import firebase from 'lib/firebase'
-import CountersContext from 'contexts/Counters'
-import { setCounterKey } from 'actions'
 
 import 'firebase/firestore'
 
@@ -14,17 +14,18 @@ export enum Counter {
 
 export default class Counters {
 	static get = (key: Counter) => {
-		const [counters, dispatch] = useContext(CountersContext)
-		const currentValue = counters[key]
+		const [value, setValue] = useRecoilState(state(key))
+		const didLoad = value !== null
 
-		if (currentValue === null)
+		useEffect(() => {
+			if (didLoad) return
+
 			firestore
 				.doc(`counters/${key}`)
 				.get()
-				.then(snapshot =>
-					dispatch(setCounterKey(key, snapshot.get('value') ?? 0))
-				)
+				.then(snapshot => setValue(snapshot.get('value') ?? 0))
+		}, [key, didLoad, setValue])
 
-		return currentValue
+		return value
 	}
 }

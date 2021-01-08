@@ -6,9 +6,8 @@ import Search, { DeckSortAlgorithm as SortAlgorithm } from './Search'
 import UserData from './UserData'
 import Section from 'models/Section'
 import SnapshotLike from 'models/SnapshotLike'
-import LoadingState from 'models/LoadingState'
 import { DisqusProps } from 'components/Disqus'
-import { slugify, handleError } from 'lib/utils'
+import { slugify } from 'lib/utils'
 import { BASE_URL } from 'lib/constants'
 import firebase from 'lib/firebase'
 
@@ -180,71 +179,6 @@ export default class Deck {
 	static removeSnapshotListener = (id: string) => {
 		Deck.snapshotListeners[id]?.()
 		delete Deck.snapshotListeners[id]
-	}
-
-	static observeForUserWithId = (
-		uid: string,
-		{
-			setLoadingState,
-			updateDeck,
-			updateDeckUserData,
-			removeDeck
-		}: {
-			setLoadingState: (loadingState: LoadingState) => void
-			updateDeck: (
-				snapshot: firebase.firestore.DocumentSnapshot,
-				userDataSnapshot: firebase.firestore.DocumentSnapshot
-			) => void
-			updateDeckUserData: (
-				snapshot: firebase.firestore.DocumentSnapshot
-			) => void
-			removeDeck: (id: string) => void
-		}
-	) => {
-		setLoadingState(LoadingState.Loading)
-
-		firestore.collection(`users/${uid}/decks`).onSnapshot(
-			snapshot => {
-				const changes = snapshot.docChanges()
-
-				if (!changes.length) return setLoadingState(LoadingState.Success)
-
-				let pendingAdded = 0
-
-				const updatePendingAdded = (amount: 1 | -1) => {
-					pendingAdded += amount
-
-					if (pendingAdded <= 0) setLoadingState(LoadingState.Success)
-				}
-
-				for (const { type, doc } of changes)
-					switch (type) {
-						case 'added':
-							updatePendingAdded(1)
-
-							Deck.addSnapshotListener(
-								doc.id,
-								firestore.doc(`decks/${doc.id}`).onSnapshot(snapshot => {
-									updateDeck(snapshot, doc)
-									updatePendingAdded(-1)
-								}, handleError)
-							)
-
-							break
-						case 'modified':
-							updateDeckUserData(doc)
-							break
-						case 'removed':
-							Deck.removeSnapshotListener(doc.id)
-							removeDeck(doc.id)
-							break
-					}
-			},
-			error => {
-				setLoadingState(LoadingState.Fail)
-				handleError(error)
-			}
-		)
 	}
 
 	static createSlug = (name: string) => ({

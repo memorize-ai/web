@@ -26,7 +26,7 @@ const BOX_TRANSFORM_X_LENGTH = 20
 export interface DeckPagePreviewProps {
 	deck: Deck
 	sections: Section[]
-	cards: Record<string, Card[]>
+	cards: Record<string, Card[] | undefined>
 }
 
 const DeckPagePreview = ({
@@ -68,7 +68,7 @@ const DeckPagePreview = ({
 	const section = card && sectionsById[card.sectionId]
 
 	const cardIndex = useMemo(
-		() => card && cards.findIndex(({ id }) => id === card.id),
+		() => card && cards.findIndex(_card => _card?.id === card.id),
 		[cards, card]
 	)
 

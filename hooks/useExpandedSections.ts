@@ -1,34 +1,31 @@
-import { useContext, useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
+import { useRecoilState } from 'recoil'
 
 import Deck from 'models/Deck'
-import ExpandedSectionsContext from 'contexts/ExpandedSections'
-import { toggleSectionExpanded } from 'actions'
+import state from 'state/expandedSections'
+
+export interface UseExpandedSectionsOptions {
+	isOwned: boolean
+	defaultExpanded: boolean
+}
 
 const useExpandedSections = (
 	deck: Deck,
-	{
-		isOwned,
-		defaultExpanded
-	}: {
-		isOwned: boolean
-		defaultExpanded: boolean
-	}
+	{ isOwned, defaultExpanded }: UseExpandedSectionsOptions
 ) => {
 	const key = isOwned ? 'ownedDecks' : 'decks'
 
 	const [
 		{
-			[key]: { [deck.id]: _sections }
+			[key]: { [deck.id]: sections }
 		},
-		dispatch
-	] = useContext(ExpandedSectionsContext)
-
-	const sections = useMemo(() => _sections ?? {}, [_sections])
+		setState
+	] = useRecoilState(state)
 
 	return [
 		useCallback(
 			(sectionId: string) => {
-				const isExpanded = sections[sectionId]
+				const isExpanded = sections?.[sectionId]
 
 				return isExpanded === undefined
 					? defaultExpanded
@@ -39,9 +36,23 @@ const useExpandedSections = (
 			[sections, defaultExpanded]
 		),
 		useCallback(
-			(sectionId: string) =>
-				dispatch(toggleSectionExpanded(deck.id, sectionId, isOwned)),
-			[dispatch, deck, isOwned]
+			(sectionId: string) => {
+				setState(state => {
+					const sections = state[key][deck.id] ?? {}
+
+					return {
+						...state,
+						[key]: {
+							...state[key],
+							[deck.id]: {
+								...sections,
+								[sectionId]: !sections[sectionId]
+							}
+						}
+					}
+				})
+			},
+			[key, deck.id, setState]
 		)
 	] as const
 }

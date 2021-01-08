@@ -1,22 +1,24 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 
-import CardsContext from 'contexts/Cards'
-import { setCards } from 'actions'
+import cardsState from 'state/cards'
 import Card from 'models/Card'
 
-const useAllCards = (
-	deckId: string | null | undefined
-): Record<string, Card[]> | null => {
-	const [state, dispatch] = useContext(CardsContext)
-	const sections = (deckId && (state[deckId] as Record<string, Card[]>)) || null
+const useAllCards = (deckId: string) => {
+	const [cards, setCards] = useRecoilState(cardsState)
+
+	const sections =
+		(cards[deckId] as Record<string, Card[] | undefined> | undefined) ?? null
+	const didLoad = Boolean(sections)
 
 	useEffect(() => {
-		if (!deckId || Card.observers[deckId] || sections) return
+		if (Card.observers[deckId] || didLoad) return
 
 		Card.observers[deckId] = true
-
-		Card.getAllForDeck(deckId).then(cards => dispatch(setCards(deckId, cards)))
-	}, [sections, deckId, dispatch])
+		Card.getAllForDeck(deckId).then(sections => {
+			setCards(state => ({ ...state, [deckId]: sections }))
+		})
+	}, [deckId, didLoad, setCards])
 
 	return sections
 }

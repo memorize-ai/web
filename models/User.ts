@@ -1,8 +1,5 @@
-import LoadingState from './LoadingState'
 import SnapshotLike from './SnapshotLike'
 import firebase from 'lib/firebase'
-import { setExpectsSignIn } from 'lib/expectsSignIn'
-import { handleError, hubSpotIdentifyUser } from 'lib/utils'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -87,52 +84,6 @@ export default class User {
 		allDecks: fromServer ? null : snapshot.get('allDecks') ?? []
 	})
 
-	static initialize = ({
-		setCurrentUser,
-		setCurrentUserLoadingState
-	}: {
-		setCurrentUser: (user: firebase.User | null) => void
-		setCurrentUserLoadingState: (loadingState: LoadingState) => void
-	}) => {
-		setCurrentUserLoadingState(LoadingState.Loading)
-
-		auth.onAuthStateChanged(
-			user => {
-				setCurrentUser(user)
-				setCurrentUserLoadingState(LoadingState.Success)
-
-				setExpectsSignIn(Boolean(user))
-
-				if (user) hubSpotIdentifyUser(user)
-			},
-			error => {
-				setCurrentUserLoadingState(LoadingState.Fail)
-				handleError(error)
-			}
-		)
-	}
-
-	static loadCreatorForDeckWithId = (
-		uid: string,
-		{
-			updateCreator,
-			removeCreator
-		}: {
-			updateCreator: (
-				uid: string,
-				snapshot: firebase.firestore.DocumentSnapshot
-			) => void
-			removeCreator: (uid: string) => void
-		}
-	) =>
-		firestore
-			.doc(`users/${uid}`)
-			.onSnapshot(
-				snapshot =>
-					snapshot.exists ? updateCreator(uid, snapshot) : removeCreator(uid),
-				handleError
-			)
-
 	static xpNeededForLevel = (level: number): number => {
 		switch (level) {
 			case 0:
@@ -168,20 +119,6 @@ export default class User {
 			(this.xp - xpNeededForCurrentLevel) /
 			(User.xpNeededForLevel(this.level + 1) - xpNeededForCurrentLevel)
 		)
-	}
-
-	observe = ({
-		updateCurrentUser,
-		setIsObservingCurrentUser
-	}: {
-		updateCurrentUser: (snapshot: firebase.firestore.DocumentSnapshot) => void
-		setIsObservingCurrentUser: (value: boolean) => void
-	}) => {
-		setIsObservingCurrentUser(true)
-
-		firestore.doc(`users/${this.id}`).onSnapshot(updateCurrentUser, handleError)
-
-		return this
 	}
 
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
