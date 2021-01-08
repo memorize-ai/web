@@ -1,5 +1,5 @@
 import PreviewDeck, { PreviewCard } from 'models/PreviewDeck'
-import firebase from './firebase'
+import firebase from './firebase/admin'
 
 const deckId = process.env.NEXT_PUBLIC_PREVIEW_DECK_ID
 const firestore = firebase.firestore()

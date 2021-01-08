@@ -1,6 +1,6 @@
 import firebase from 'firebase-admin'
 
-const key = process.env.FIREBASE_ADMIN_KEY
+const key = process.env.NEXT_PUBLIC_FIREBASE_ADMIN_KEY
 const databaseURL = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL
 const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
 
