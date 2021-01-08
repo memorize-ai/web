@@ -16,6 +16,7 @@ import DeckSearch, {
 } from 'models/Deck/Search'
 import Counters, { Counter } from 'models/Counters'
 import LoadingState from 'models/LoadingState'
+import searchState from 'state/search'
 import getNumberOfDecks from 'lib/getNumberOfDecks'
 import { formatNumber, flattenQuery } from 'lib/utils'
 import useCurrentUser from 'hooks/useCurrentUser'
@@ -28,7 +29,6 @@ import SortDropdown from 'components/SortDropdown'
 import { DropdownShadow } from 'components/Dropdown'
 import DeckRow from 'components/DeckRow'
 import Loader from 'components/Loader'
-import searchState from 'state/search'
 
 interface MarketProps {
 	decks: number
