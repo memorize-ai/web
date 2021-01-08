@@ -1,20 +1,29 @@
 import { resolve } from 'path'
-import puppeteer from 'puppeteer'
+import chrome from 'chrome-aws-lambda'
+import puppeteer from 'puppeteer-core'
 import { compile } from 'handlebars'
 
 import { Context } from './models'
 import readFile from 'lib/readFile'
 
-const TEMPLATE_PATH = resolve('assets', 'print.hbs')
+const TEMPLATE_PATH = resolve('templates', 'print.hbs')
 
 let browser: puppeteer.Browser | null = null
 let template: HandlebarsTemplateDelegate | null = null
 
-const getPage = async () => (browser ??= await puppeteer.launch()).newPage()
+const getBrowser = async () =>
+	(browser ??= await chrome.puppeteer.launch({
+		args: [...chrome.args, '--hide-scrollbars', '--disable-web-security'],
+		defaultViewport: chrome.defaultViewport,
+		executablePath: await chrome.executablePath,
+		headless: true,
+		ignoreHTTPSErrors: true
+	}))
 
 const getTemplate = async () =>
 	(template ??= compile(await readFile(TEMPLATE_PATH), { strict: true }))
 
+const getPage = async () => (await getBrowser()).newPage()
 const getContent = async (context: Context) => (await getTemplate())(context)
 
 const getData = async (context: Context) => {
