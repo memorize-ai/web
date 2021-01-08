@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 import cx from 'classnames'
 
 import hideChat from 'hooks/hideChat'
@@ -22,7 +22,9 @@ export interface DashboardProps {
 	gradientStyle?: DashboardGradientStyle
 	isNavbarHidden?: boolean
 	hideChat?: boolean
+	expectsSignIn?: boolean
 	className: string
+	children?: ReactNode
 }
 
 const Dashboard = ({
@@ -30,9 +32,10 @@ const Dashboard = ({
 	gradientStyle = DashboardGradientStyle.Blue,
 	isNavbarHidden = false,
 	hideChat: shouldHideChat = false,
+	expectsSignIn,
 	className,
 	children
-}: PropsWithChildren<DashboardProps>) => {
+}: DashboardProps) => {
 	hideChat(shouldHideChat)
 
 	useEffect(() => {
@@ -44,7 +47,7 @@ const Dashboard = ({
 
 	return (
 		<div className={cx('dashboard', className)}>
-			<Sidebar />
+			<Sidebar expectsSignIn={expectsSignIn} />
 			<div className="content">
 				<div className={`background ${gradientStyle}-gradient`} />
 				<div
@@ -52,7 +55,7 @@ const Dashboard = ({
 						'navbar-hidden': isNavbarHidden
 					})}
 				>
-					<Navbar selection={selection} />
+					<Navbar selection={selection} expectsSignIn={expectsSignIn} />
 					<div className="foreground">{children}</div>
 				</div>
 			</div>

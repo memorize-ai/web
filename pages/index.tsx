@@ -15,7 +15,7 @@ interface HomeProps {
 
 const Home: NextPage<HomeProps> = ({ previewDeck }) =>
 	useLayoutAuthState() ?? !previewDeck ? (
-		<Dashboard />
+		<Dashboard expectsSignIn={!previewDeck} />
 	) : (
 		<Landing previewDeck={previewDeck} />
 	)
