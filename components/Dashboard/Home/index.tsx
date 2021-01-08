@@ -15,7 +15,11 @@ import OwnedDeckCell from 'components/DeckCell/Owned'
 import DeckCell from 'components/DeckCell'
 import { formatNumber } from 'lib/utils'
 
-const DashboardHome = () => {
+export interface DashboardHomeProps {
+	expectsSignIn?: boolean
+}
+
+const DashboardHome = ({ expectsSignIn }: DashboardHomeProps) => {
 	const [currentUser] = useCurrentUser()
 
 	const [decks] = useDecks()
@@ -41,7 +45,11 @@ const DashboardHome = () => {
 	)
 
 	return (
-		<Dashboard selection={Selection.Home} className="home">
+		<Dashboard
+			selection={Selection.Home}
+			expectsSignIn={expectsSignIn}
+			className="home"
+		>
 			<Head
 				title="memorize.ai"
 				breadcrumbs={url => [[{ name: 'Dashboard', url }]]}

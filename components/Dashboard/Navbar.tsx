@@ -27,8 +27,16 @@ import 'firebase/auth'
 
 const auth = firebase.auth()
 
-const DashboardNavbar = ({ selection }: { selection: Selection }) => {
-	const isSignedIn = useLayoutAuthState()
+export interface DashboardNavbarProps {
+	selection: Selection
+	expectsSignIn: boolean | undefined
+}
+
+const DashboardNavbar = ({
+	selection,
+	expectsSignIn
+}: DashboardNavbarProps) => {
+	const isSignedIn = useLayoutAuthState() ?? expectsSignIn
 	const [currentUser] = useCurrentUser()
 	const [decks] = useDecks()
 

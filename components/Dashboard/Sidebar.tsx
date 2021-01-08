@@ -13,8 +13,12 @@ import { isNullish, formatNumber, formatNumberAsInt } from 'lib/utils'
 
 import logo from 'images/logos/capital.jpg'
 
-const DashboardSidebar = () => {
-	const isSignedIn = useLayoutAuthState()
+export interface DashboardSidebarProps {
+	expectsSignIn: boolean | undefined
+}
+
+const DashboardSidebar = ({ expectsSignIn }: DashboardSidebarProps) => {
+	const isSignedIn = useLayoutAuthState() ?? expectsSignIn
 
 	const [decks, decksLoadingState] = useDecks()
 	const [currentUser] = useCurrentUser()
