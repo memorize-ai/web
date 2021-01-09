@@ -10,7 +10,6 @@ import AuthModal from 'components/Modal/Auth'
 import { src as favicon } from 'images/favicon.png'
 
 import 'styles/global.scss'
-import 'styles/Home/Classroom.scss'
 import 'styles/MarketSearchLink.scss'
 import 'styles/Navbar.scss'
 import 'styles/ConfirmationForm.scss'

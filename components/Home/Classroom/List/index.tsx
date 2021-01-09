@@ -1,7 +1,9 @@
 import { ReactNode } from 'react'
 import { Svg } from 'react-optimized-image'
+import cx from 'classnames'
 
 import bullet from 'images/home/bullet.svg'
+import styles from './index.module.scss'
 
 export interface ListItem {
 	lines: number
@@ -40,14 +42,19 @@ const ITEMS: ListItem[] = [
 ]
 
 const HomeClassroomList = () => (
-	<ol className="list">
+	<ol className={styles.root}>
 		{ITEMS.map(({ lines, text }, i) => (
-			<li key={i} data-aos="fade-down" data-aos-delay={i * 100}>
-				<div className={`bullet lines-${lines}`}>
+			<li
+				key={i}
+				className={styles.item}
+				data-aos="fade-down"
+				data-aos-delay={i * 100}
+			>
+				<div className={cx(styles.bullet, styles[`lines_${lines}`])}>
 					<Svg src={bullet} />
-					<p>{i + 1}</p>
+					<p className={styles.index}>{i + 1}</p>
 				</div>
-				<p>{text}</p>
+				<p className={styles.text}>{text}</p>
 			</li>
 		))}
 	</ol>

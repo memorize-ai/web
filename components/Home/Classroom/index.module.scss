@@ -1,0 +1,135 @@
+@use 'styles/trigonometry' as *;
+
+$degrees: 6deg;
+$new-arrow-scale: scale(-1.2, 1.2);
+
+@mixin title($screen-width, $font-size) {
+	@media (min-width: $screen-width) {
+		font-size: $font-size;
+		line-height: $font-size + 6px;
+	}
+}
+
+.root {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	@media (min-width: 675px) {
+		flex-direction: row;
+	}
+}
+
+.diagram {
+	max-width: calc(100vw - 60px);
+	width: 275px;
+	height: auto;
+
+	@media (min-width: 700px) {
+		width: 300px;
+	}
+	@media (min-width: 850px) {
+		width: 350px;
+	}
+	@media (min-width: 970px) {
+		width: 400px;
+	}
+	@media (min-width: 1120px) {
+		width: 450px;
+	}
+	@media (min-width: 1225px) {
+		width: 500px;
+	}
+}
+
+.article {
+	margin-top: 20px;
+
+	@media (min-width: 675px) {
+		margin-top: 0;
+		margin-left: 40px;
+	}
+
+	@media (min-width: 800px) {
+		margin-left: 80px;
+	}
+
+	@media (min-width: 1100px) {
+		margin-left: 120px;
+	}
+}
+
+.title {
+	font-size: 20px;
+	line-height: 26px;
+	color: #582efe;
+
+	@include title($screen-width: 300px, $font-size: 22px);
+	@include title($screen-width: 370px, $font-size: 26px);
+	@include title($screen-width: 800px, $font-size: 30px);
+	@include title($screen-width: 920px, $font-size: 34px);
+	@include title($screen-width: 1020px, $font-size: 38px);
+	@include title($screen-width: 1200px, $font-size: 42px);
+	@include title($screen-width: 1250px, $font-size: 46px);
+	@include title($screen-width: 1300px, $font-size: 50px);
+	@include title($screen-width: 1370px, $font-size: 54px);
+	@include title($screen-width: 1430px, $font-size: 58px);
+}
+
+.new {
+	$height: 50px;
+
+	display: flex;
+	align-items: center;
+	width: max-content;
+	height: $height;
+	margin-top: 30px;
+	margin-bottom: calc(30px + #{tan($degrees) * 50vw});
+	padding: 0 20px;
+	color: white;
+	background: #5a2aff;
+	border-radius: $height / 2;
+	transition: border-radius 0.3s;
+
+	@media (min-width: 675px) {
+		margin-bottom: 0;
+	}
+
+	@media (min-width: 800px) {
+		margin-top: 40px;
+	}
+
+	@media (min-width: 1020px) {
+		margin-top: 60px;
+	}
+
+	&:hover {
+		border-radius: 8px;
+
+		.newIcon {
+			animation: spin 0.3s ease-out;
+
+			@keyframes spin {
+				to {
+					transform: $new-arrow-scale rotate(-1turn);
+				}
+			}
+		}
+	}
+}
+
+.newText {
+	margin-right: 15px;
+	font-size: 16px;
+	font-weight: 900;
+
+	@media (min-width: 375px) {
+		font-size: 20px;
+	}
+}
+
+.newIcon {
+	transform: $new-arrow-scale;
+}
