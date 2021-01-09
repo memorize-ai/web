@@ -13,6 +13,7 @@ import Screenshots from './Screenshots'
 import Classroom from './Classroom'
 import Footer from './Footer'
 
+import 'aos/dist/aos.css'
 import styles from './index.module.scss'
 
 export interface HomeProps {
