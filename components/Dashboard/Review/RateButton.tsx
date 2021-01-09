@@ -49,7 +49,12 @@ const ReviewRateButton = ({
 				</p>
 			) : (
 				<div className={predictionClassName(true)}>
-					<Loader size="14px" thickness="3px" color="#4a4a4a" />
+					<Loader
+						className="loader"
+						size="14px"
+						thickness="3px"
+						color="#4a4a4a"
+					/>
 				</div>
 			)}
 		</button>

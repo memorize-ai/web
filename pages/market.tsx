@@ -221,6 +221,7 @@ const Market: NextPage<MarketProps> = ({ decks: initialNumberOfDecks }) => {
 					loader={
 						<Loader
 							key={0}
+							className="loader"
 							size="24px"
 							thickness="4px"
 							color={decks.length ? '#582efe' : 'white'}

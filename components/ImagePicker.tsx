@@ -29,7 +29,12 @@ const ImagePicker = ({
 	>
 		<input {...inputProps} />
 		{isLoading ? (
-			<Loader size="24px" thickness="4px" color="rgba(74, 74, 74, 0.5)" />
+			<Loader
+				className="loader"
+				size="24px"
+				thickness="4px"
+				color="rgba(74, 74, 74, 0.5)"
+			/>
 		) : url ? (
 			<>
 				<img src={url} alt="Uploaded" />

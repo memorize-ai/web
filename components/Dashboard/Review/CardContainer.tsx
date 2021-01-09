@@ -57,7 +57,12 @@ const ReviewCardContainer = ({
 				{deck ? (
 					<p className="deck">{deck.name}</p>
 				) : (
-					<Loader size="20px" thickness="4px" color="white" />
+					<Loader
+						className="loader"
+						size="20px"
+						thickness="4px"
+						color="white"
+					/>
 				)}
 				{section && (
 					<>
@@ -93,7 +98,12 @@ const ReviewCardContainer = ({
 							)}
 						</div>
 					) : (
-						<Loader size="30px" thickness="5px" color="#582efe" />
+						<Loader
+							className="loader"
+							size="30px"
+							thickness="5px"
+							color="#582efe"
+						/>
 					)}
 				</div>
 				<div className="card background-1" />

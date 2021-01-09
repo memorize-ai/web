@@ -124,7 +124,12 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 								onClick={showContactUserModal}
 							>
 								{contactLoadingState === LoadingState.Loading ? (
-									<Loader size="20px" thickness="4px" color="white" />
+									<Loader
+										className="loader"
+										size="20px"
+										thickness="4px"
+										color="white"
+									/>
 								) : (
 									<FontAwesomeIcon icon={faComments} />
 								)}

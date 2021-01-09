@@ -88,7 +88,12 @@ const DecksSectionContent = ({
 						))}
 					</div>
 				) : (
-					<Loader size="24px" thickness="4px" color="#582efe" />
+					<Loader
+						className="loader"
+						size="24px"
+						thickness="4px"
+						color="#582efe"
+					/>
 				))}
 		</div>
 	)

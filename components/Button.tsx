@@ -30,6 +30,7 @@ const Button = ({
 	>
 		{loading && loaderSize && loaderThickness && loaderColor ? (
 			<Loader
+				className="loader"
 				size={loaderSize}
 				thickness={loaderThickness}
 				color={loaderColor}

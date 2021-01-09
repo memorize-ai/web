@@ -75,7 +75,14 @@ const ConfirmationForm = ({
 								case LoadingState.None:
 									return submitButtonText
 								case LoadingState.Loading:
-									return <Loader size="20px" thickness="4px" color="white" />
+									return (
+										<Loader
+											className="loader"
+											size="20px"
+											thickness="4px"
+											color="white"
+										/>
+									)
 								case LoadingState.Success:
 									return <FontAwesomeIcon icon={faCheck} />
 								case LoadingState.Fail:

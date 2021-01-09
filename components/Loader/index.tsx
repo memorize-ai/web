@@ -1,20 +1,24 @@
 import { HTMLAttributes } from 'react'
 import cx from 'classnames'
 
+import styles from './index.module.scss'
+
+export interface LoaderProps extends HTMLAttributes<HTMLDivElement> {
+	size: string
+	thickness: string
+	color: string
+}
+
 const Loader = ({
 	className,
 	size,
 	thickness,
 	color,
 	...props
-}: {
-	size: string
-	thickness: string
-	color: string
-} & HTMLAttributes<HTMLDivElement>) => (
+}: LoaderProps) => (
 	<div
 		{...props}
-		className={cx('loader', className)}
+		className={cx(styles.root, className)}
 		style={{
 			width: size,
 			height: size,
