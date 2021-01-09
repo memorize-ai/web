@@ -25,11 +25,12 @@ const throwIfNull = <Result>(result: Result | null | undefined): Result => {
 
 const getDeckDependentData = async (slugId: string, slug: string) => {
 	const deck = await getDeck(slugId).then(throwIfNull)
+	const encodedSlug = encodeURIComponent(deck.slug)
 
-	if (deck.slug !== slug)
+	if (encodedSlug !== slug)
 		throw new DeckPageError({
 			redirect: {
-				destination: `/d/${deck.slugId}/${encodeURIComponent(deck.slug)}`,
+				destination: `/d/${deck.slugId}/${encodedSlug}`,
 				permanent: true
 			}
 		})
