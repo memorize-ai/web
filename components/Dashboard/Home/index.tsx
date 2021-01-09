@@ -76,7 +76,7 @@ const DashboardHome = ({ expectsSignIn }: DashboardHomeProps) => {
 			</div>
 			<div className="activity-container">
 				<h1>Activity</h1>
-				<Activity />
+				<Activity className="activity" />
 			</div>
 			{decks.length === 0 || (
 				<div className="my-decks">

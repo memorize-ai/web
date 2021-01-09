@@ -1,5 +1,6 @@
 import { useMemo, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
+import cx from 'classnames'
 
 import firebase from 'lib/firebase'
 import ActivityNode, {
@@ -13,19 +14,20 @@ import useCurrentUser from 'hooks/useCurrentUser'
 import activityState from 'state/activity'
 import { handleError, formatLongDate } from 'lib/utils'
 
+import styles from './index.module.scss'
+
 import 'firebase/firestore'
 
 const firestore = firebase.firestore()
 
-const ActivityCell = ({
-	node,
-	popUpDirection
-}: {
+interface ActivityCellProps {
 	node: ActivityNode
 	popUpDirection: 'up' | 'right' | 'left'
-}) => (
+}
+
+const ActivityCell = ({ node, popUpDirection }: ActivityCellProps) => (
 	<span
-		className={`cell intensity-${node.intensity}`}
+		className={cx(styles.cell, styles[`intensity_${node.intensity}`])}
 		aria-label={`${formatLongDate(node.date)} - ${node.value} card${
 			node.value === 1 ? '' : 's'
 		}`}
@@ -33,7 +35,11 @@ const ActivityCell = ({
 	/>
 )
 
-const Activity = () => {
+export interface ActivityProps {
+	className?: string
+}
+
+const Activity = ({ className }: ActivityProps) => {
 	const [state, setState] = useRecoilState(activityState)
 	const [currentUser] = useCurrentUser()
 
@@ -69,19 +75,19 @@ const Activity = () => {
 	}, [currentUser, setState])
 
 	return (
-		<div className="activity">
-			<div className="content">
-				<div className="days">
+		<div className={cx(styles.root, className)}>
+			<div className={styles.content}>
+				<div className={styles.days}>
 					{DAYS.map(day => (
 						<p key={day}>{day}</p>
 					))}
 				</div>
-				<div className="months">
+				<div className={styles.months}>
 					{MONTHS.map(month => (
 						<p key={month}>{month}</p>
 					))}
 				</div>
-				<div className="cells">
+				<div className={styles.cells}>
 					{nodes.map((node, i) => (
 						<ActivityCell
 							key={node.day}
