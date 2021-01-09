@@ -13,6 +13,8 @@ import Screenshots from './Screenshots'
 import Classroom from './Classroom'
 import Footer from './Footer'
 
+import styles from './index.module.scss'
+
 export interface HomeProps {
 	previewDeck: PreviewDeck | null
 }
@@ -23,7 +25,7 @@ const Home = ({ previewDeck }: HomeProps) => {
 	}, [])
 
 	return (
-		<div className="home">
+		<div className={styles.root}>
 			<Head
 				url="/"
 				title="memorize.ai: Learn Lazily"
