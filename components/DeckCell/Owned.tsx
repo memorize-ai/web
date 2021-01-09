@@ -48,7 +48,7 @@ const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
 					}`
 				) : (
 					<>
-						<span aria-hidden="true" role="img">
+						<span aria-hidden role="img">
 							{emoji.current}
 						</span>{' '}
 						Woohoo! No cards due
