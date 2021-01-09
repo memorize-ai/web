@@ -74,7 +74,7 @@ const DashboardNavbar = ({
 					href="/"
 					title="Home"
 					isSelected={selection === Selection.Home}
-					isDisabled={!isSignedIn}
+					isDisabled={false}
 				>
 					<Svg src={homeIcon} />
 				</Tab>
