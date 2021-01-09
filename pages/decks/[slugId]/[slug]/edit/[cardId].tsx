@@ -73,7 +73,9 @@ const EditCard = () => {
 		[deck, currentUser]
 	)
 
-	const closeUrl = `/decks/${slugId ?? '...'}/${slug ?? '...'}`
+	const closeUrl = `/decks/${slugId ?? '...'}/${
+		slug ? encodeURIComponent(slug) : '...'
+	}`
 	const headDescription = `Edit a card in ${deck?.name ?? 'your deck'}.`
 
 	const isSameContent =
@@ -149,7 +151,9 @@ const EditCard = () => {
 						{ name: 'Decks', url: '/decks' },
 						{
 							name: deck?.name ?? 'Deck',
-							url: `/decks/${deck?.slugId ?? '...'}/${deck?.slug ?? '...'}`
+							url: `/decks/${deck?.slugId ?? '...'}/${
+								deck ? encodeURIComponent(deck.slug) : '...'
+							}`
 						},
 						{ name: 'Edit card', url }
 					]

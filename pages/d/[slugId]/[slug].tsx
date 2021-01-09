@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import groupBy from 'lodash/groupBy'
@@ -42,18 +42,18 @@ const DeckPage: NextPage<DeckPageProps> = ({
 	cards: initialCardData,
 	topics: initialTopicData
 }) => {
+	const content = useRef<HTMLDivElement | null>(null)
+
 	const initialDeck = useMemo(() => new Deck(initialDeckData), [
 		initialDeckData
 	])
 	const initialCreator = useMemo(() => new User(initialCreatorData), [
 		initialCreatorData
 	])
-
 	const initialSections = useMemo(
 		() => initialSectionData.map(data => new Section(data)),
 		[initialSectionData]
 	)
-
 	const initialCards: Record<string, Card[]> = useMemo(
 		() =>
 			groupBy(
@@ -62,17 +62,15 @@ const DeckPage: NextPage<DeckPageProps> = ({
 			),
 		[initialCardData]
 	)
-
 	const initialTopics = useMemo(
 		() => initialTopicData.map(data => new Topic(data)),
 		[initialTopicData]
 	)
 
-	const router = useRouter()
+	const { query, asPath: path } = useRouter()
+	const { slugId } = query as DeckPageQuery
 
-	const { deck: nextDeck, hasDeck } = useDeck(
-		(router.query as DeckPageQuery).slugId
-	)
+	const { deck: nextDeck, hasDeck } = useDeck(slugId)
 	const deck = nextDeck ?? initialDeck
 
 	const image = deck.imageUrl ?? DEFAULT_OG_IMAGE
@@ -94,8 +92,13 @@ const DeckPage: NextPage<DeckPageProps> = ({
 			deck.numberOfDownloads === 1 ? '' : 's'
 		}. Get ${deck.name} on memorize.ai by ${creator.name}.`
 
+	useEffect(() => {
+		if (!content.current) return
+		content.current.scrollTop = 0
+	}, [content, slugId])
+
 	return (
-		<Dashboard selection={Selection.Market} className="deck-page">
+		<Dashboard ref={content} selection={Selection.Market} className="deck-page">
 			<Head
 				title={`${deck.name} | memorize.ai`}
 				description={description}
@@ -126,7 +129,7 @@ const DeckPage: NextPage<DeckPageProps> = ({
 						image,
 						name: deck.name,
 						description: deck.description,
-						url: `${BASE_URL}${router.asPath}`,
+						url: `${BASE_URL}${path}`,
 						aggregateRating: {
 							'@type': 'AggregateRating',
 							ratingValue: deck.averageRating,

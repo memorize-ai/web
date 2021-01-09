@@ -496,12 +496,12 @@ export default class Deck {
 		`/_api/upload-deck-asset?user=${uid}&deck=${this.id}`
 
 	reviewUrl = (section?: Section) =>
-		`/review/${this.slugId}/${this.slug}${
+		`/review/${this.slugId}/${encodeURIComponent(this.slug)}${
 			section ? `/${section.isUnsectioned ? 'unsectioned' : section.id}` : ''
 		}`
 
 	cramUrl = (section?: Section) =>
-		`/cram/${this.slugId}/${this.slug}${
+		`/cram/${this.slugId}/${encodeURIComponent(this.slug)}${
 			section ? `/${section.isUnsectioned ? 'unsectioned' : section.id}` : ''
 		}`
 }

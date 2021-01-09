@@ -46,7 +46,7 @@ const Cram = () => {
 		rate
 	} = useCramState(slugId, slug, sectionId)
 
-	const backUrl = `/decks/${slugId}/${slug}`
+	const backUrl = `/decks/${slugId}/${encodeURIComponent(slug)}`
 
 	return (
 		<Dashboard

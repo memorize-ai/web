@@ -1,4 +1,7 @@
 {
 	"presets": ["next/babel"],
-	"plugins": ["react-optimized-image/plugin"]
+	"plugins": [
+		"@babel/plugin-proposal-logical-assignment-operators",
+		"react-optimized-image/plugin"
+	]
 }

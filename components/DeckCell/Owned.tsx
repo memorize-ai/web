@@ -34,7 +34,7 @@ const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
 		<Base
 			className="owned"
 			deck={deck}
-			href={`/decks/${deck.slugId}/${deck.slug}`}
+			href={`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`}
 			nameProps={{
 				style: { WebkitLineClamp: deck.subtitle ? 2 : 3 }
 			}}
@@ -48,7 +48,7 @@ const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
 					}`
 				) : (
 					<>
-						<span aria-hidden="true" role="img">
+						<span aria-hidden role="img">
 							{emoji.current}
 						</span>{' '}
 						Woohoo! No cards due

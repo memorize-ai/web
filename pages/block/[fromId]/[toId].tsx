@@ -63,7 +63,7 @@ export const getServerSideProps: GetServerSideProps<
 
 	if (fromId === toId)
 		return {
-			redirect: { permanent: false, destination: '/' }
+			redirect: { permanent: true, destination: '/' }
 		}
 
 	const [from, to] = await Promise.all([

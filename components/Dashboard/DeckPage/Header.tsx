@@ -66,7 +66,7 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 
 				setGetLoadingState(LoadingState.Success)
 
-				Router.push(`/decks/${deck.slugId}/${deck.slug}`)
+				Router.push(`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`)
 			} catch (error) {
 				setGetLoadingState(LoadingState.Fail)
 				handleError(error)
@@ -98,7 +98,9 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 				</div>
 				<div className="buttons">
 					{hasDeck ? (
-						<Link href={`/decks/${deck.slugId}/${deck.slug}`}>
+						<Link
+							href={`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`}
+						>
 							<a className="open">Open</a>
 						</Link>
 					) : (

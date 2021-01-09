@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import cx from 'classnames'
 import { ParsedUrlQuery } from 'querystring'
@@ -22,6 +22,8 @@ interface DecksQuery extends ParsedUrlQuery {
 }
 
 const Decks = () => {
+	const content = useRef<HTMLDivElement | null>(null)
+
 	const router = useRouter()
 	const { slugId, slug, unlockSectionId } = router.query as DecksQuery
 
@@ -32,7 +34,9 @@ const Decks = () => {
 
 	useEffect(() => {
 		if (!slugId && selectedDeck)
-			router.replace(`/decks/${selectedDeck.slugId}/${selectedDeck.slug}`)
+			router.replace(
+				`/decks/${selectedDeck.slugId}/${encodeURIComponent(selectedDeck.slug)}`
+			)
 	}, [slugId, selectedDeck, router])
 
 	useEffect(() => {
@@ -45,7 +49,9 @@ const Decks = () => {
 
 		const deck = decks.find(deck => deck.slugId === slugId)
 
-		deck ? setSelectedDeck(deck) : router.replace(`/d/${slugId}/${slug}`)
+		deck
+			? setSelectedDeck(deck)
+			: router.replace(`/d/${slugId}/${encodeURIComponent(slug)}`)
 	}, [
 		slugId,
 		slug,
@@ -55,6 +61,11 @@ const Decks = () => {
 		router,
 		setSelectedDeck
 	])
+
+	useEffect(() => {
+		if (!content.current) return
+		content.current.scrollTop = 0
+	}, [content, selectedDeck])
 
 	return (
 		<Dashboard selection={Selection.Decks} className="decks">
@@ -68,7 +79,7 @@ const Decks = () => {
 				breadcrumbs={url => [[{ name: 'Decks', url }]]}
 			/>
 			<Header deck={selectedDeck} />
-			<div className="content">
+			<div ref={content} className="content">
 				<div className={cx('box', { loading: !selectedDeck })}>
 					{selectedDeck ? (
 						<Sections deck={selectedDeck} />

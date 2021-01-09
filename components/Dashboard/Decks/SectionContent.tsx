@@ -33,7 +33,7 @@ const DecksSectionContent = ({
 	const [currentUser] = useCurrentUser()
 	const cards = useCards(deck, section, isExpanded)
 
-	const addUrl = `/decks/${deck.slugId}/${deck.slug}/add${
+	const addUrl = `/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}/add${
 		section.isUnsectioned ? '' : `/${section.id}`
 	}`
 

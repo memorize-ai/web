@@ -29,7 +29,7 @@ const getDeckDependentData = async (slugId: string, slug: string) => {
 	if (deck.slug !== slug)
 		throw new DeckPageError({
 			redirect: {
-				destination: `/d/${deck.slugId}/${deck.slug}`,
+				destination: `/d/${deck.slugId}/${encodeURIComponent(deck.slug)}`,
 				permanent: true
 			}
 		})
@@ -45,10 +45,7 @@ const getDeckDependentData = async (slugId: string, slug: string) => {
 
 export const getStaticPaths: GetStaticPaths<DeckPageQuery> = async () => ({
 	paths: (await getDecks(INITIAL_DECK_COUNT)).map(deck => ({
-		params: {
-			slugId: deck.slugId,
-			slug: encodeURIComponent(deck.slug)
-		}
+		params: { slugId: deck.slugId, slug: deck.slug }
 	})),
 	fallback: 'blocking'
 })

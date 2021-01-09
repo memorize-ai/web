@@ -27,13 +27,13 @@ const useCreatedDeck = (
 			const deck = decks.find(deck => deck.slugId === slugId)
 
 			if (!deck) {
-				Router.replace(`/d/${slugId}/${slug}`)
+				Router.replace(`/d/${slugId}/${encodeURIComponent(slug)}`)
 				return
 			}
 
 			if (deck.creatorId === currentUser?.id) return deck
 
-			Router.replace(`/decks/${slugId}/${slug}`)
+			Router.replace(`/decks/${slugId}/${encodeURIComponent(slug)}`)
 		}, [slugId, slug, decks, decksLoadingState, currentUser]) ?? null
 	)
 }

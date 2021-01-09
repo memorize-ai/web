@@ -88,7 +88,7 @@ const AddCards = () => {
 		[cards]
 	)
 
-	const closeUrl = `/decks/${slugId}/${slug}`
+	const closeUrl = `/decks/${slugId}/${encodeURIComponent(slug)}`
 	const headDescription = `Add cards to ${deck?.name ?? 'your deck'}.`
 
 	const canPublish = numberOfValidCards > 0
@@ -108,9 +108,9 @@ const AddCards = () => {
 	const setSection = useCallback(
 		(section: Section | undefined) =>
 			router.push(
-				`/decks/${deck?.slugId ?? ''}/${deck?.slug ?? ''}/add${
-					!section || section.isUnsectioned ? '' : `/${section.id}`
-				}`
+				`/decks/${deck?.slugId ?? ''}/${
+					deck ? encodeURIComponent(deck.slug) : ''
+				}/add${!section || section.isUnsectioned ? '' : `/${section.id}`}`
 			),
 		[router, deck]
 	)
@@ -146,7 +146,9 @@ const AddCards = () => {
 						{ name: 'Decks', url: '/decks' },
 						{
 							name: deck?.name ?? 'Deck',
-							url: `/decks/${deck?.slugId ?? '...'}/${deck?.slug ?? '...'}`
+							url: `/decks/${deck?.slugId ?? '...'}/${
+								deck ? encodeURIComponent(deck.slug) : '...'
+							}`
 						},
 						{ name: 'Add cards', url }
 					]

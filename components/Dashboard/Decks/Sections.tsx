@@ -56,7 +56,7 @@ const DecksSections = ({ deck }: { deck: Deck }) => {
 	)
 
 	const backToBaseUrl = useCallback(() => {
-		router.replace(`/decks/${deck.slugId}/${deck.slug}`)
+		router.replace(`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`)
 	}, [router, deck])
 
 	const setIsUnlockSectionModalShowing = useCallback(

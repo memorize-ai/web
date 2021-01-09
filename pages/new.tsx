@@ -79,7 +79,7 @@ const CreateDeck: NextPage<CreateDeckProps> = ({ topics: initialTopics }) => {
 				setLoadingState(LoadingState.Success)
 				reset()
 
-				Router.push(`/decks/${slugId}/${slug}`)
+				Router.push(`/decks/${slugId}/${encodeURIComponent(slug)}`)
 			} catch (error) {
 				setLoadingState(LoadingState.Fail)
 				handleError(error)

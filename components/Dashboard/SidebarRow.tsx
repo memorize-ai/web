@@ -13,7 +13,7 @@ const DashboardSidebarRow = ({ deck }: { deck: Deck }) => {
 	const numberOfDueCards = deck.userData?.numberOfDueCards ?? 0
 
 	return (
-		<Link href={`/decks/${deck.slugId}/${deck.slug}`}>
+		<Link href={`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`}>
 			<a className={cx({ selected: selectedDeck?.id === deck.id })}>
 				<img
 					src={deck.imageUrl ?? defaultImage}

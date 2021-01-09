@@ -53,10 +53,7 @@ const Modal = ({
 		if (!element) return
 
 		element.classList[isShowing ? 'add' : 'remove']('showing')
-
-		isShowing
-			? element.removeAttribute('aria-hidden')
-			: element.setAttribute('aria-hidden', 'true')
+		element.setAttribute('aria-hidden', (!isShowing).toString())
 
 		if (!isShowing) return
 
