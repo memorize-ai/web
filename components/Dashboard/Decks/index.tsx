@@ -32,7 +32,9 @@ const Decks = () => {
 
 	useEffect(() => {
 		if (!slugId && selectedDeck)
-			router.replace(`/decks/${selectedDeck.slugId}/${selectedDeck.slug}`)
+			router.replace(
+				`/decks/${selectedDeck.slugId}/${encodeURIComponent(selectedDeck.slug)}`
+			)
 	}, [slugId, selectedDeck, router])
 
 	useEffect(() => {
@@ -45,7 +47,9 @@ const Decks = () => {
 
 		const deck = decks.find(deck => deck.slugId === slugId)
 
-		deck ? setSelectedDeck(deck) : router.replace(`/d/${slugId}/${slug}`)
+		deck
+			? setSelectedDeck(deck)
+			: router.replace(`/d/${slugId}/${encodeURIComponent(slug)}`)
 	}, [
 		slugId,
 		slug,

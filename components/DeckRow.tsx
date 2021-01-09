@@ -62,7 +62,7 @@ const MarketDeckRow = ({ deck }: { deck: Deck }) => {
 	])
 
 	const open = useCallback(() => {
-		Router.push(`/decks/${deck.slugId}/${deck.slug}`)
+		Router.push(`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`)
 	}, [deck])
 
 	const action = useCallback(

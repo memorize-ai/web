@@ -28,7 +28,7 @@ const handler: NextApiHandler<Buffer | string> = async (
 		if (deck.slug !== slug) {
 			res.redirect(
 				301,
-				`/print/${deck.slugId}/${deck.slug}${
+				`/print/${deck.slugId}/${encodeURIComponent(deck.slug)}${
 					sectionId ? `/s/${sectionId}` : ''
 				}`
 			)

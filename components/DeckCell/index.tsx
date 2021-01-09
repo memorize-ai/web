@@ -60,7 +60,7 @@ const DeckCell = ({ deck }: { deck: Deck }) => {
 	])
 
 	const open = useCallback(
-		() => Router.push(`/decks/${deck.slugId}/${deck.slug}`),
+		() => Router.push(`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`),
 		[deck]
 	)
 

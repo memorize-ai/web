@@ -75,7 +75,11 @@ const OwnedCardCell = ({ deck, card }: { deck: Deck; card: Card }) => {
 	const contentProps = { currentUser, deck, card }
 
 	return isOwner ? (
-		<Link href={`/decks/${deck.slugId}/${deck.slug}/edit/${card.id}`}>
+		<Link
+			href={`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}/edit/${
+				card.id
+			}`}
+		>
 			<a {...containerProps}>
 				<OwnedCardCellContent {...contentProps} />
 			</a>

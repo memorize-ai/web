@@ -138,7 +138,11 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 					</a>
 				</Link>
 				{isOwner && (
-					<Link href={`/edit/${deck?.slugId ?? ''}/${deck?.slug ?? ''}`}>
+					<Link
+						href={`/edit/${deck?.slugId ?? ''}/${
+							deck ? encodeURIComponent(deck.slug) : ''
+						}`}
+					>
 						<a>
 							<Svg className="edit" src={edit} />
 							<p>Edit deck</p>

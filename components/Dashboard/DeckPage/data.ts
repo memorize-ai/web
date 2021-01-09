@@ -29,7 +29,7 @@ const getDeckDependentData = async (slugId: string, slug: string) => {
 	if (deck.slug !== slug)
 		throw new DeckPageError({
 			redirect: {
-				destination: `/d/${deck.slugId}/${deck.slug}`,
+				destination: `/d/${deck.slugId}/${encodeURIComponent(deck.slug)}`,
 				permanent: true
 			}
 		})

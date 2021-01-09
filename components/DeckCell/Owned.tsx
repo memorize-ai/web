@@ -34,7 +34,7 @@ const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
 		<Base
 			className="owned"
 			deck={deck}
-			href={`/decks/${deck.slugId}/${deck.slug}`}
+			href={`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`}
 			nameProps={{
 				style: { WebkitLineClamp: deck.subtitle ? 2 : 3 }
 			}}

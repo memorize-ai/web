@@ -146,11 +146,13 @@ const useCramState = (
 	const [decks, decksLoadingState] = useDecks()
 
 	const goToDeckPage = useCallback(() => {
-		Router.push(`/d/${slugId}/${slug}`)
+		Router.push(`/d/${slugId ?? ''}/${slug ? encodeURIComponent(slug) : ''}`)
 	}, [slugId, slug])
 
 	const goBack = useCallback(() => {
-		Router.push(`/decks/${slugId}/${slug}`)
+		Router.push(
+			`/decks/${slugId ?? ''}/${slug ? encodeURIComponent(slug) : ''}`
+		)
 	}, [slugId, slug])
 
 	const deck = useMemo(() => {

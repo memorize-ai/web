@@ -42,7 +42,10 @@ const Review = () => {
 		showRecap
 	} = useReviewState(slugId, slug, sectionId)
 
-	const backUrl = slugId && slug ? `/decks/${slugId}/${slug}` : '/'
+	const backUrl =
+		slugId && slug
+			? `/decks/${slugId ?? ''}/${slug ? encodeURIComponent(slug) : ''}`
+			: '/'
 
 	return (
 		<Dashboard
