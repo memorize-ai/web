@@ -1,24 +1,27 @@
-import { PropsWithChildren, ButtonHTMLAttributes } from 'react'
+import { ButtonHTMLAttributes } from 'react'
 import { Svg } from 'react-optimized-image'
 import cx from 'classnames'
 
 import AuthButton from 'components/AuthButton'
 
 import leftArrow from 'images/icons/left-arrow.svg'
+import styles from './index.module.scss'
+
+export type WhiteArrowAuthButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
 
 const WhiteArrowAuthButton = ({
 	children,
 	className,
 	...props
-}: PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>) => (
+}: WhiteArrowAuthButtonProps) => (
 	<AuthButton
 		{...props}
-		className={cx('white-arrow-auth-button', className)}
+		className={cx(styles.root, className)}
 		signUp
 		goToAppStoreIfHandheldIos
 	>
-		<span className="text">{children}</span>
-		<Svg src={leftArrow} />
+		<span className={styles.text}>{children}</span>
+		<Svg className={styles.icon} src={leftArrow} />
 	</AuthButton>
 )
 

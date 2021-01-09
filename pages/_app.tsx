@@ -10,7 +10,6 @@ import AuthModal from 'components/Modal/Auth'
 import { src as favicon } from 'images/favicon.png'
 
 import 'styles/global.scss'
-import 'styles/Home/WhiteArrowAuthButton.scss'
 import 'styles/Home/SpacedRepetition.scss'
 import 'styles/Home/Classroom.scss'
 import 'styles/Home/Screenshots.scss'
