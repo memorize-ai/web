@@ -1,8 +1,6 @@
-@use '../trigonometry' as *;
+$degrees: 6deg;
 
-.home-section-divider {
-	$degrees: 6deg;
-
+.root {
 	height: 50px;
 	transform: skewY($degrees);
 	transform-origin: top right;
