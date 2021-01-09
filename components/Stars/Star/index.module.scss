@@ -1,0 +1,20 @@
+@use 'styles/mixins' as *;
+
+$aspect-ratio: 26.2px / 25px;
+$default-height: 25px;
+
+.root {
+	@include stack;
+
+	flex-shrink: 0;
+	width: calc(#{$aspect-ratio} * var(--star-height, #{$default-height}));
+	height: var(--star-height, $default-height);
+
+	&:not(:last-child) {
+		margin-right: 2px;
+	}
+}
+
+.background {
+	background: #00d388;
+}
