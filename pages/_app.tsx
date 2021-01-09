@@ -11,7 +11,6 @@ import { src as favicon } from 'images/favicon.png'
 
 import 'styles/global.scss'
 import 'styles/Home/Classroom.scss'
-import 'styles/Home/Screenshots.scss'
 import 'styles/MarketSearchLink.scss'
 import 'styles/Navbar.scss'
 import 'styles/ConfirmationForm.scss'

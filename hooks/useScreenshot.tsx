@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 import { ScreenshotType } from 'components/Screenshot'
 import useKeyPress from 'hooks/useKeyPress'
@@ -86,17 +86,20 @@ export const SCREENSHOTS = [
 	}
 ]
 
-const useScreenshot = () => {
+export interface UseScreenshotActions {
+	left: string
+	right: string
+}
+
+const useScreenshot = ({ left, right }: UseScreenshotActions) => {
 	const [index, setIndex] = useState(0)
-	const [className, setClassName] = useState(
-		undefined as 'left' | 'right' | undefined
-	)
+	const [className, setClassName] = useState<string | undefined>()
 
 	const shouldGoLeft = useKeyPress(SHOULD_GO_LEFT_KEYS)
 	const shouldGoRight = useKeyPress(SHOULD_GO_RIGHT_KEYS)
 
 	const goLeft = useCallback(async () => {
-		setClassName('left')
+		setClassName(left)
 
 		await sleep(ANIMATION_DURATION / 2)
 
@@ -105,10 +108,10 @@ const useScreenshot = () => {
 		await sleep(ANIMATION_DURATION / 2)
 
 		setClassName(undefined)
-	}, [setClassName, setIndex])
+	}, [left, setClassName, setIndex])
 
 	const goRight = useCallback(async () => {
-		setClassName('right')
+		setClassName(right)
 
 		await sleep(ANIMATION_DURATION / 2)
 
@@ -117,7 +120,7 @@ const useScreenshot = () => {
 		await sleep(ANIMATION_DURATION / 2)
 
 		setClassName(undefined)
-	}, [setClassName, setIndex])
+	}, [right, setClassName, setIndex])
 
 	useEffect(() => {
 		if (shouldGoLeft) goLeft()
@@ -134,7 +137,7 @@ const useScreenshot = () => {
 			async (newIndex: number) => {
 				if (newIndex === index) return
 
-				setClassName(newIndex > index ? 'right' : 'left')
+				setClassName(newIndex > index ? right : left)
 
 				await sleep(ANIMATION_DURATION / 2)
 
@@ -144,9 +147,9 @@ const useScreenshot = () => {
 
 				setClassName(undefined)
 			},
-			[index, setClassName, setIndex]
+			[left, right, index, setClassName, setIndex]
 		),
-		screenshot: useMemo(() => SCREENSHOTS[index], [index]),
+		screenshot: SCREENSHOTS[index],
 		className,
 		goLeft,
 		goRight

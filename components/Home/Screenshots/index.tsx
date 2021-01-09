@@ -2,11 +2,17 @@ import Head from 'next/head'
 import { Svg } from 'react-optimized-image'
 import cx from 'classnames'
 
-import useScreenshot, { SCREENSHOTS } from './useScreenshot'
+import useScreenshot, { UseScreenshotActions } from 'hooks/useScreenshot'
 import Screenshot, { screenshotSrc } from 'components/Screenshot'
 
 import screenshotBackground from 'images/home/screenshot-background.svg'
 import leftArrow from 'images/icons/left-arrow.svg'
+import styles from './index.module.scss'
+
+const ACTIONS: UseScreenshotActions = {
+	left: styles.action_left,
+	right: styles.action_right
+}
 
 const HomeScreenshots = () => {
 	const {
@@ -17,12 +23,12 @@ const HomeScreenshots = () => {
 		className,
 		goLeft,
 		goRight
-	} = useScreenshot()
+	} = useScreenshot(ACTIONS)
 
 	return (
-		<div id="screenshots" className={cx('screenshots', className)}>
+		<div id="screenshots" className={cx(styles.root, className)}>
 			<Head>
-				{SCREENSHOTS.slice(1).map(({ type }) => (
+				{screenshots.slice(1).map(({ type }) => (
 					<link
 						key={type}
 						rel="prefetch"
@@ -32,32 +38,36 @@ const HomeScreenshots = () => {
 					/>
 				))}
 			</Head>
-			<div className="background" />
-			<div className="content">
-				<h2 className="title">{title}</h2>
-				<div className="screenshot">
+			<div className={styles.background} />
+			<div className={styles.content}>
+				<h2 className={styles.title}>{title}</h2>
+				<div className={styles.screenshot}>
 					<Svg
-						className="background"
+						className={styles.screenshotBackground}
 						src={screenshotBackground}
 						viewBox={`0 0 ${screenshotBackground.width} ${screenshotBackground.height}`}
 					/>
-					<Screenshot className="foreground" type={type} />
+					<Screenshot className={styles.screenshotForeground} type={type} />
 				</div>
-				<div className="info">
-					<h2 className="title">{title}</h2>
-					<div className="navigation">
-						<button onClick={goLeft}>
-							<Svg src={leftArrow} />
+				<div className={styles.info}>
+					<h2 className={styles.infoTitle} aria-hidden>
+						{title}
+					</h2>
+					<div className={styles.navigation}>
+						<button className={styles.navigationButton} onClick={goLeft}>
+							<Svg className={styles.navigationButtonIcon} src={leftArrow} />
 						</button>
-						<button onClick={goRight}>
-							<Svg src={leftArrow} />
+						<button className={styles.navigationButton} onClick={goRight}>
+							<Svg className={styles.navigationButtonIcon} src={leftArrow} />
 						</button>
 					</div>
-					<div className="gallery">
+					<div className={styles.gallery}>
 						{screenshots.map((_, i) => (
 							<button
 								key={i}
-								className={cx({ selected: index === i })}
+								className={cx(styles.galleryButton, {
+									[styles.selectedGalleryButton]: index === i
+								})}
 								onClick={() => setIndex(i)}
 							/>
 						))}
