@@ -1,9 +1,11 @@
 import cx from 'classnames'
 
 import PerformanceRating from 'models/PerformanceRating'
-import { PreviewPredictions } from './usePreview'
-import RateButton from './RateButton'
-import ClaimXPButton from './ClaimXPButton'
+import { PreviewPredictions } from 'hooks/usePreview'
+import RateButton from '../RateButton'
+import ClaimXPButton from '../ClaimXPButton'
+
+import styles from './index.module.scss'
 
 const RATINGS = [
 	PerformanceRating.Easy,
@@ -44,16 +46,16 @@ const PreviewFooter = ({
 	rate: (rating: PerformanceRating) => void
 }) => (
 	<div
-		className={cx('footer', {
-			finished: isFinished,
-			'waiting-for-rating': isWaitingForRating
+		className={cx(styles.root, {
+			[styles.finished]: isFinished,
+			[styles.waitingForRating]: isWaitingForRating
 		})}
 	>
-		<ClaimXPButton inverted />
-		<p className="message" tabIndex={-1}>
+		<ClaimXPButton className={styles.claim} inverted />
+		<p className={styles.message} tabIndex={-1}>
 			Try to recall, then flip
 		</p>
-		<div className="buttons" tabIndex={-1}>
+		<div className={styles.buttons} tabIndex={-1}>
 			{RATINGS.map(rating => (
 				<RateButton
 					{...BUTTON_CONTENT[rating]}

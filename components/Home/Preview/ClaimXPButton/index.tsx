@@ -4,23 +4,32 @@ import cx from 'classnames'
 import useAuthModal from 'hooks/useAuthModal'
 import AuthButton from 'components/AuthButton'
 
+import styles from './index.module.scss'
+
+export interface PreviewClaimXPButtonProps
+	extends ButtonHTMLAttributes<HTMLButtonElement> {
+	inverted?: boolean
+}
+
 const PreviewClaimXPButton = ({
-	inverted = false,
 	className,
+	inverted = false,
 	...props
-}: { inverted?: boolean } & ButtonHTMLAttributes<HTMLButtonElement>) => {
+}: PreviewClaimXPButtonProps) => {
 	const { initialXp } = useAuthModal()
 
 	return (
 		<AuthButton
 			{...props}
-			className={cx('preview-claim-xp-button', className, { inverted })}
+			className={cx(styles.root, className, {
+				[styles.inverted]: inverted
+			})}
 			signUp
 			goToAppStoreIfHandheldIos
 		>
 			{initialXp > 0 ? (
 				<>
-					Claim <span>{initialXp} xp</span>
+					Claim <span className={styles.xp}>{initialXp} xp</span>
 				</>
 			) : (
 				'Start learning'

@@ -1,0 +1,106 @@
+@use 'styles/variables' as *;
+
+.root {
+	width: 75px;
+	overflow: hidden;
+	background: white;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px transparentize(black, 0.9);
+	transition: border-color 0.3s, box-shadow 0.3s;
+
+	@media (min-width: 350px) {
+		width: 90px;
+	}
+
+	@media (min-width: 380px) {
+		width: 100px;
+	}
+
+	@media (min-width: 500px) {
+		width: 130px;
+	}
+
+	@media (min-width: 600px) {
+		width: 165px;
+	}
+
+	&:hover {
+		border-color: white;
+		box-shadow: none;
+	}
+
+	&:not(:last-child) {
+		margin-right: 12px;
+	}
+}
+
+.text {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 52px;
+}
+
+.emoji {
+	display: none;
+	margin-right: 8px;
+	font-size: 20px;
+
+	@media (min-width: 500px) {
+		display: block;
+	}
+
+	@media (min-width: 600px) {
+		margin-right: 12px;
+		font-size: 24px;
+	}
+}
+
+.title {
+	text-transform: uppercase;
+	font-size: 9px;
+	font-weight: 900;
+	color: $dark-gray;
+
+	@media (min-width: 340px) {
+		font-size: 12px;
+	}
+
+	@media (min-width: 600px) {
+		font-size: 16px;
+	}
+}
+
+.prediction {
+	$height: 25px;
+
+	display: block;
+	min-width: 50px;
+	width: 100%;
+	height: $height;
+	line-height: $height;
+	margin: 0;
+	padding: 0 10px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: 900;
+	color: $dark-gray;
+
+	@media (min-width: 350px) {
+		width: max-content;
+		margin: 0 auto 12px;
+		font-size: 12px;
+		border-radius: 8px;
+	}
+
+	@media (min-width: 420px) {
+		min-width: 65px;
+		font-size: 14px;
+	}
+}
+
+@for $i from 0 through 2 {
+	.rating_#{$i} {
+		background: transparentize(map-get($rating-colors, $i), 0.84);
+	}
+}

@@ -42,6 +42,11 @@ export interface PreviewRecapData {
 	isSame: boolean
 }
 
+export interface UsePreviewCardActions {
+	flip: string
+	shift: string
+}
+
 export type CardSide = 'front' | 'back'
 
 const DEFAULT_EASY_INTERVAL = 1000 * 60 * 60 * 24 * 2
@@ -108,7 +113,10 @@ const getProgressDataForRating = (rating: PerformanceRating) => {
 	}
 }
 
-const usePreview = (deck: PreviewDeck | null) => {
+const usePreview = (
+	deck: PreviewDeck | null,
+	{ flip: flipAction, shift: shiftAction }: UsePreviewCardActions
+) => {
 	const isFirstCard = useRef(true)
 
 	const start = useRef(null as Date | null)
@@ -190,7 +198,7 @@ const usePreview = (deck: PreviewDeck | null) => {
 
 	const transitionSetCurrentSide = useCallback(
 		async (side: SetStateAction<CardSide>) => {
-			setCardClassName('flip')
+			setCardClassName(flipAction)
 
 			await sleep(FLIP_ANIMATION_DURATION / 2)
 			setCurrentSide(side)
@@ -198,7 +206,7 @@ const usePreview = (deck: PreviewDeck | null) => {
 
 			setCardClassName(undefined)
 		},
-		[setCardClassName, setCurrentSide]
+		[flipAction, setCardClassName, setCurrentSide]
 	)
 
 	const next = useCallback(
@@ -219,7 +227,7 @@ const usePreview = (deck: PreviewDeck | null) => {
 
 	const transitionNext = useCallback(
 		async (addToBack: boolean) => {
-			setCardClassName('shift')
+			setCardClassName(shiftAction)
 
 			await sleep(SHIFT_ANIMATION_DURATION)
 
@@ -228,7 +236,7 @@ const usePreview = (deck: PreviewDeck | null) => {
 
 			setCardClassName(undefined)
 		},
-		[setCardClassName, next]
+		[shiftAction, setCardClassName, next]
 	)
 
 	const waitForRating = useCallback(async () => {

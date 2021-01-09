@@ -4,7 +4,7 @@ import cx from 'classnames'
 
 import PreviewDeck from 'models/PreviewDeck'
 import usePreviewDeck from 'hooks/usePreviewDeck'
-import usePreview from './usePreview'
+import usePreview, { UsePreviewCardActions } from '../../../hooks/usePreview'
 import MarketSearchLink from 'components/MarketSearchLink'
 import CardSide from 'components/CardSide'
 import Footer from './Footer'
@@ -14,6 +14,12 @@ import Loader from 'components/Loader'
 import { rankingToString } from 'lib/utils'
 
 import toggle from 'images/icons/toggle.svg'
+import styles from './index.module.scss'
+
+const CARD_ACTIONS: UsePreviewCardActions = {
+	flip: styles.cardAction_flip,
+	shift: styles.cardAction_shift
+}
 
 export interface PreviewProps {
 	deck: PreviewDeck | null
@@ -40,47 +46,60 @@ const Preview = ({ deck: initialDeck }: PreviewProps) => {
 		onCardClick,
 		rate,
 		waitForRating
-	} = usePreview(deck)
+	} = usePreview(deck, CARD_ACTIONS)
 
 	return (
-		<div id="preview" className="preview" onClick={waitForRating}>
-			<div className="background" />
-			<div className="content">
-				<h2 className="title">
+		<div id="preview" className={styles.root} onClick={waitForRating}>
+			<div className={styles.background} />
+			<div className={styles.content}>
+				<h2 className={styles.title}>
 					How good is <em>your</em> memory?
 				</h2>
-				<div className="preview-navbar">
-					<div className="location">
-						<p className="count">{isLoading ? '...' : cardsRemaining}</p>
-						<p className="text">card{cardsRemaining === 1 ? '' : 's'} left</p>
+				<nav className={styles.navbar}>
+					<div className={styles.navbarLocation}>
+						<p className={styles.navbarLocationCount}>
+							{isLoading ? '...' : cardsRemaining}
+						</p>
+						<p className={styles.navbarLocationText}>
+							card{cardsRemaining === 1 ? '' : 's'} left
+						</p>
 					</div>
-					<div className="items">
-						<MarketSearchLink />
-						<ClaimXPButton />
+					<div className={styles.navbarItems}>
+						<MarketSearchLink className={styles.search} />
+						<ClaimXPButton className={styles.claim} />
 					</div>
-				</div>
-				<div className="card-container">
-					<div className={cx('location', { hidden: !cardsRemaining })}>
-						<p className="deck">{deck?.name ?? '...'}</p>
-						<div className="divider" />
-						{section && <p className="section">{section.name}</p>}
-						{card && !card.forgotCount && <p className="flag">New</p>}
+				</nav>
+				<div className={styles.cardContainer}>
+					<div
+						className={cx(styles.location, {
+							[styles.locationHidden]: !cardsRemaining
+						})}
+					>
+						<p className={styles.locationDeck}>{deck?.name ?? '...'}</p>
+						<div className={styles.locationDivider} />
+						{section && (
+							<p className={styles.locationSection}>{section.name}</p>
+						)}
+						{card && !card.forgotCount && (
+							<p className={styles.locationFlag}>New</p>
+						)}
 					</div>
-					<div className="cards" onClick={onCardClick}>
+					<div className={styles.cards} onClick={onCardClick}>
 						{(isLoading || card) && (
 							<div
-								className={cx('card', 'foreground', cardClassName, {
-									'waiting-for-flip': !isWaitingForRating
+								className={cx(styles.card, styles.foreground, cardClassName, {
+									[styles.waitingForFlip]: !isWaitingForRating
 								})}
 							>
-								<div className="container">
-									<CardSide className="content" isLoading={isLoading}>
+								<div className={styles.sideContainer}>
+									<CardSide className={styles.side} isLoading={isLoading}>
 										{card?.[currentSide]}
 									</CardSide>
 									{isWaitingForRating && (
-										<div className="flip">
-											<p>{currentSide}</p>
+										<div className={styles.flip}>
+											<p className={styles.flipSide}>{currentSide}</p>
 											<Svg
+												className={styles.flipIcon}
 												src={toggle}
 												viewBox={`0 0 ${toggle.width} ${toggle.height}`}
 												style={{
@@ -93,39 +112,50 @@ const Preview = ({ deck: initialDeck }: PreviewProps) => {
 							</div>
 						)}
 						{(isLoading || nextCard) && (
-							<div className="card next">
-								<div className="container">
-									<CardSide className="content">{nextCard?.front}</CardSide>
+							<div className={cx(styles.card, styles.next)}>
+								<div className={styles.sideContainer}>
+									<CardSide className={styles.side}>{nextCard?.front}</CardSide>
 								</div>
 							</div>
 						)}
 						<div
-							className={cx('card', 'background-1', {
-								hidden: cardsRemaining !== null && cardsRemaining < 2
+							className={cx(styles.card, styles.backgroundCard_1, {
+								[styles.hiddenCard]:
+									cardsRemaining !== null && cardsRemaining < 2
 							})}
 						/>
 						<div
-							className={cx('card', 'background-2', {
-								hidden: cardsRemaining !== null && cardsRemaining < 3
+							className={cx(styles.card, styles.backgroundCard_2, {
+								[styles.hiddenCard]:
+									cardsRemaining !== null && cardsRemaining < 3
 							})}
 						/>
-						<div className="completion">
-							<span className="emoji" role="img" aria-label="All done">
+						<div className={styles.completion}>
+							<span
+								className={styles.completionEmoji}
+								role="img"
+								aria-label="All done"
+							>
 								😌
 							</span>
-							<h3 className="title">
+							<h3 className={styles.completionTitle}>
 								Sign up to get <em>detailed performance insights</em>
 							</h3>
-							<h4 className="subtitle">
+							<h4 className={styles.completionSubtitle}>
 								You ranked{' '}
 								{ranking === null ? (
-									<Loader size="20px" thickness="4px" color="white" />
+									<Loader
+										className={styles.completionSubtitleLoader}
+										size="20px"
+										thickness="4px"
+										color="white"
+									/>
 								) : (
 									rankingToString(ranking)
 								)}{' '}
 								place in <em>{deck?.name ?? '...'}!</em>
 							</h4>
-							<div className="confetti">
+							<div className={styles.confetti}>
 								<Confetti
 									active={!(cardsRemaining || isProgressModalShowing)}
 									config={{

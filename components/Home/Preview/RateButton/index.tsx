@@ -5,8 +5,20 @@ import cx from 'classnames'
 
 import PerformanceRating from 'models/PerformanceRating'
 
+import styles from './index.module.scss'
+
 TimeAgo.addLocale(enLocale)
 const timeAgo = new TimeAgo('en-US')
+
+export interface PreviewRateButtonProps {
+	emoji: string
+	title: string
+	subtitle: string
+	rate(rating: PerformanceRating): void
+	rating: PerformanceRating
+	prediction: Date | null
+	tooltipPosition: string
+}
 
 const PreviewRateButton = ({
 	emoji,
@@ -16,15 +28,7 @@ const PreviewRateButton = ({
 	rating,
 	prediction,
 	tooltipPosition
-}: {
-	emoji: string
-	title: string
-	subtitle: string
-	rate: (rating: PerformanceRating) => void
-	rating: PerformanceRating
-	prediction: Date | null
-	tooltipPosition: string
-}) => {
+}: PreviewRateButtonProps) => {
 	const onClick = useCallback(
 		(event: MouseEvent) => {
 			event.stopPropagation()
@@ -35,15 +39,18 @@ const PreviewRateButton = ({
 
 	return (
 		<button
+			className={styles.root}
 			onClick={onClick}
 			aria-label={subtitle}
 			data-balloon-pos={tooltipPosition}
 		>
-			<span className="text">
-				<span className="emoji">{emoji}</span>
-				<span className="title">{title}</span>
+			<span className={styles.text}>
+				<span className={styles.emoji} role="img">
+					{emoji}
+				</span>
+				<span className={styles.title}>{title}</span>
 			</span>
-			<span className={cx('prediction', `rating-${rating}`)}>
+			<span className={cx(styles.prediction, styles[`rating_${rating}`])}>
 				{prediction ? `+${timeAgo.format(prediction, 'time')}` : 'very soon'}
 			</span>
 		</button>

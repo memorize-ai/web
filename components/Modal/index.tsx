@@ -1,5 +1,6 @@
 import { PropsWithChildren, useRef, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import cx from 'classnames'
 
 import useKeyPress from 'hooks/useKeyPress'
 
@@ -7,7 +8,7 @@ const HIDE_KEYS = ['Escape']
 
 export interface ModalShowingProps {
 	isShowing: boolean
-	setIsShowing: (isShowing: boolean) => void
+	setIsShowing(isShowing: boolean): void
 }
 
 export interface ModalProps extends ModalShowingProps {
@@ -35,19 +36,16 @@ const Modal = ({
 	useEffect(() => {
 		if (!element) return
 
-		const { body } = document
-
 		element.classList.add('modal')
 		element.setAttribute('role', 'presentation')
 
-		if (className) element.classList.add(className)
-
+		const { body } = document
 		body.appendChild(element)
 
 		return () => {
 			body.removeChild(element)
 		}
-	}, [element, className])
+	}, [element])
 
 	useEffect(() => {
 		if (!element) return
@@ -90,7 +88,7 @@ const Modal = ({
 	return (
 		element &&
 		createPortal(
-			<div ref={content} className="content">
+			<div ref={content} className={cx('content', className)}>
 				{shouldShowContent && children}
 			</div>,
 			element
