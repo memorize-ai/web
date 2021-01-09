@@ -29,11 +29,7 @@ body {
 	margin: 0;
 	overflow-x: hidden;
 	overscroll-behavior: none;
-
-	&,
-	.ck.ck-editor * {
-		font-family: $font-family;
-	}
+	font-family: $font-family;
 
 	::before,
 	::after {

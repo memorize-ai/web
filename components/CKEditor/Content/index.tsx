@@ -1,14 +1,18 @@
 import { useMemo, useCallback } from 'react'
 import Base from '@ckeditor/ckeditor5-react'
 import Editor from 'ckeditor5-memorize.ai'
+import cx from 'classnames'
+
+import styles from './index.module.scss'
 
 export interface CKEditorProps {
+	className?: string
 	uploadUrl: string
 	data: string
-	setData: (data: string) => void
+	setData(data: string): void
 }
 
-const CKEditor = ({ uploadUrl, data, setData }: CKEditorProps) => {
+const CKEditor = ({ className, uploadUrl, data, setData }: CKEditorProps) => {
 	const config = useMemo(
 		() => ({
 			simpleUpload: { uploadUrl }
@@ -24,7 +28,9 @@ const CKEditor = ({ uploadUrl, data, setData }: CKEditorProps) => {
 	)
 
 	return (
-		<Base editor={Editor} data={data} config={config} onChange={onChange} />
+		<div className={cx(styles.root, className)}>
+			<Base editor={Editor} data={data} config={config} onChange={onChange} />
+		</div>
 	)
 }
 

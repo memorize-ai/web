@@ -51,7 +51,12 @@ const AddCardRow = ({
 						/>
 						<label>Front</label>
 					</div>
-					<CKEditor uploadUrl={uploadUrl} data={front} setData={updateFront} />
+					<CKEditor
+						className="editor"
+						uploadUrl={uploadUrl}
+						data={front}
+						setData={updateFront}
+					/>
 				</div>
 				<div>
 					<div className="header">
@@ -61,7 +66,12 @@ const AddCardRow = ({
 						/>
 						<label>Back</label>
 					</div>
-					<CKEditor uploadUrl={uploadUrl} data={back} setData={updateBack} />
+					<CKEditor
+						className="editor"
+						uploadUrl={uploadUrl}
+						data={back}
+						setData={updateBack}
+					/>
 				</div>
 			</div>
 		</div>

@@ -243,6 +243,7 @@ const EditCard = () => {
 										<label>Front</label>
 									</div>
 									<CKEditor
+										className="editor"
 										uploadUrl={uploadUrl}
 										data={front}
 										setData={setFront}
@@ -257,6 +258,7 @@ const EditCard = () => {
 										<label>Back</label>
 									</div>
 									<CKEditor
+										className="editor"
 										uploadUrl={uploadUrl}
 										data={back}
 										setData={setBack}

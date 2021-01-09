@@ -1,0 +1,32 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+$toolbar-height: 40.2px;
+$min-editable-height: 200px;
+
+.root :global {
+	@include ck-editor-dropdown {
+		flex-wrap: wrap;
+	}
+
+	.ck.ck-editor {
+		height: 100% !important;
+
+		* {
+			font-family: $font-family;
+		}
+
+		&__main {
+			height: calc(100% - #{$toolbar-height});
+		}
+
+		&__editable {
+			min-height: $min-editable-height;
+			height: 100%;
+		}
+	}
+
+	.ck.ck-content * {
+		font-weight: initial;
+	}
+}

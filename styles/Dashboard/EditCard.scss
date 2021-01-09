@@ -231,7 +231,7 @@
 						> div {
 							width: 50%;
 
-							> .ck.ck-editor {
+							> .editor {
 								@include ck-editor-dropdown {
 									width: calc(
 										(
@@ -283,7 +283,9 @@
 						}
 					}
 
-					> .ck.ck-editor {
+					> .editor {
+						height: 100%;
+
 						@include ck-editor-dropdown {
 							width: calc(
 								100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 -
