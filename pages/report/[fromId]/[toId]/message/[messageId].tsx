@@ -84,7 +84,7 @@ export const getServerSideProps: GetServerSideProps<
 
 	if (fromId === toId)
 		return {
-			redirect: { permanent: false, destination: '/' }
+			redirect: { permanent: true, destination: '/' }
 		}
 
 	const [from, to, message] = await Promise.all([
@@ -97,7 +97,7 @@ export const getServerSideProps: GetServerSideProps<
 
 	if (!(message.get('from') === from.id && message.get('to') === to.id))
 		return {
-			redirect: { permanent: false, destination: '/' }
+			redirect: { permanent: true, destination: '/' }
 		}
 
 	return {
