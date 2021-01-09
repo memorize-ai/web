@@ -9,6 +9,8 @@ import searchState from 'state/search'
 import useUrlForMarket from 'hooks/useUrlForMarket'
 import { DEFAULT_DECK_COUNT } from 'lib/constants'
 
+import styles from './index.module.scss'
+
 export interface MarketSearchLinkProps {
 	className?: string
 }
@@ -22,13 +24,14 @@ const MarketSearchLink = ({ className }: MarketSearchLinkProps) => {
 	}, [marketUrl])
 
 	return (
-		<div className={cx('market-search-link', className)} onClick={goToMarket}>
+		<div className={cx(styles.root, className)} onClick={goToMarket}>
 			<input
+				className={styles.input}
 				readOnly
 				placeholder={`Explore ${DEFAULT_DECK_COUNT} decks`}
 				value={query}
 			/>
-			<FontAwesomeIcon icon={faSearch} />
+			<FontAwesomeIcon className={styles.icon} icon={faSearch} />
 		</div>
 	)
 }
