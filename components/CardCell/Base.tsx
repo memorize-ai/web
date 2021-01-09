@@ -4,12 +4,14 @@ import CardSide from 'components/CardSide'
 const CardCellBase = ({ card }: { card: Card }) => (
 	<div className="sides">
 		<div className="side">
-			<CardSide itemProp="name">{card.front}</CardSide>
+			<CardSide className="card-side" itemProp="name">
+				{card.front}
+			</CardSide>
 			<p>Front</p>
 		</div>
 		<div className="divider" />
 		<div className="side">
-			<CardSide>{card.back}</CardSide>
+			<CardSide className="card-side">{card.back}</CardSide>
 			<p>Back</p>
 		</div>
 	</div>

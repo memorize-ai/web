@@ -1,6 +1,7 @@
 @use '../variables' as *;
 @use '../mixins' as *;
 @use '../functions' as *;
+@use '../card-side';
 
 $card-offset: 20px;
 
@@ -225,10 +226,6 @@ $flip-animation-duration: 300ms;
 
 							position: relative;
 
-							@include card-side-katex-width(
-								css-min($max-width - $content-padding * 2, $full-katex-width)
-							);
-
 							&,
 							> .content {
 								width: 100%;
@@ -238,6 +235,10 @@ $flip-animation-duration: 300ms;
 							> .content {
 								overflow-y: auto;
 								padding: $content-padding;
+
+								@include card-side.katex-width(
+									css-min($max-width - $content-padding * 2, $full-katex-width)
+								);
 							}
 
 							> .flip {

@@ -158,7 +158,9 @@ const DeckPagePreview = ({
 				style={{ opacity: boxOpacity, transform: boxTransform }}
 			>
 				<div className="content-container">
-					<CardSide>{card[isFront ? 'front' : 'back']}</CardSide>
+					<CardSide className="content">
+						{card[isFront ? 'front' : 'back']}
+					</CardSide>
 				</div>
 				<div className="toggle">
 					<p className="side">{isFront ? 'Front' : 'Back'}</p>

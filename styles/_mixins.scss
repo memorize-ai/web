@@ -105,12 +105,6 @@
 	-webkit-line-clamp: $lines;
 }
 
-@mixin card-side-katex-width($width) {
-	.card-side > .content .katex-display {
-		width: $width;
-	}
-}
-
 @mixin disqus {
 	#disqus_thread {
 		@content;

@@ -2,7 +2,10 @@ import { HTMLAttributes, useCallback } from 'react'
 import renderMathInElement from 'katex/dist/contrib/auto-render'
 import { highlightAllUnder } from 'prismjs'
 import cx from 'classnames'
-import Loader from './Loader'
+
+import Loader from 'components/Loader'
+
+import styles from './index.module.scss'
 
 export interface CardSideProps extends HTMLAttributes<HTMLDivElement> {
 	isLoading?: boolean
@@ -28,7 +31,6 @@ const CardSide = ({
 
 			element.querySelectorAll('figure.image').forEach(figure => {
 				const image = figure.querySelector('img')
-
 				if (image) image.onerror = () => figure.remove()
 			})
 		},
@@ -36,9 +38,9 @@ const CardSide = ({
 	)
 
 	return (
-		<div {...props} className={cx('card-side', className)}>
+		<div {...props} className={cx(styles.root, className)}>
 			<div
-				className="content"
+				className={styles.content}
 				ref={onRef}
 				dangerouslySetInnerHTML={isLoading ? undefined : { __html: children }}
 				children={isLoading ? <CardSideLoader /> : undefined}

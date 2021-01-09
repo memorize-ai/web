@@ -1,5 +1,6 @@
 @use '../mixins' as *;
 @use '../functions' as *;
+@use '../card-side';
 
 .card-cell {
 	$border-width: 2px;
@@ -13,36 +14,12 @@
 	> .sides {
 		$content-padding-large: 12px;
 		$divider-dimension: 2px;
-
 		$horizontal-view-spacing: var(--horizontal-view-spacing, 30px * 4);
-
-		@include card-side-katex-width(
-			var(
-				--katex-width-stacked,
-				calc(
-					100vw - var(--sidebar-width) - #{$horizontal-view-spacing} - #{(
-							$border-width + $content-padding-large
-						) * 2}
-				)
-			)
-		);
 
 		display: grid;
 		grid: auto #{$divider-dimension} auto / auto;
 
 		@media (min-width: 650px) {
-			@include card-side-katex-width(
-				var(
-					--katex-width-stacked,
-					calc(
-						(
-								100vw - var(--sidebar-width) - #{$horizontal-view-spacing} - #{$border-width *
-									2 + $content-padding-large * 4 + $divider-dimension}
-							) / 2
-					)
-				)
-			);
-
 			grid: auto / 1fr #{$divider-dimension} 1fr;
 
 			> .divider {
@@ -57,8 +34,33 @@
 			flex-direction: column;
 
 			> .card-side {
+				@include card-side.katex-width(
+					var(
+						--katex-width-stacked,
+						calc(
+							100vw - var(--sidebar-width) - #{$horizontal-view-spacing} - #{(
+									$border-width + $content-padding-large
+								) * 2}
+						)
+					)
+				);
+
 				padding: $content-padding-large $content-padding-large 8px
 					$content-padding-large;
+
+				@media (min-width: 650px) {
+					@include card-side.katex-width(
+						var(
+							--katex-width-stacked,
+							calc(
+								(
+										100vw - var(--sidebar-width) - #{$horizontal-view-spacing} -
+											#{$border-width * 2 + $content-padding-large * 4 + $divider-dimension}
+									) / 2
+							)
+						)
+					);
+				}
 			}
 
 			> p {

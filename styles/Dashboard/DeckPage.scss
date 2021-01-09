@@ -1,6 +1,7 @@
 @use '../variables' as *;
 @use '../mixins' as *;
 @use '../functions' as *;
+@use '../card-side';
 
 @mixin show-rate-message {
 	justify-content: space-between;
@@ -466,19 +467,19 @@
 					overflow-y: auto;
 					padding: $padding;
 
-					@include card-side-katex-width(
-						css-min(
-							$max-width - $padding * 2,
-							calc(
-								100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 -
-									var(--inner-horizontal-padding) * 2 - #{$padding * 2}
-							)
-						)
-					);
-
-					> .card-side {
+					> .content {
 						min-height: 100%;
 						height: unset;
+
+						@include card-side.katex-width(
+							css-min(
+								$max-width - $padding * 2,
+								calc(
+									100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 -
+										var(--inner-horizontal-padding) * 2 - #{$padding * 2}
+								)
+							)
+						);
 					}
 				}
 

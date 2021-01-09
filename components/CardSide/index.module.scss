@@ -1,8 +1,4 @@
-@use '~katex/dist/katex';
-
-.card-side {
-	@import '~prismjs/themes/prism-okaidia';
-
+.root {
 	--ck-highlight-marker-blue: #72cdfd;
 	--ck-highlight-marker-green: #63f963;
 	--ck-highlight-marker-pink: #fc7999;
@@ -14,10 +10,15 @@
 
 	display: flex;
 	height: 100%;
+}
 
-	> .content {
-		max-width: 100%;
-		margin: auto;
+.content {
+	max-width: 100%;
+	margin: auto;
+
+	:global {
+		@import '~katex/dist/katex';
+		@import '~prismjs/themes/prism-okaidia';
 
 		* {
 			font-weight: initial;
