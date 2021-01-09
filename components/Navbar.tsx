@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Img from 'react-optimized-image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faKey } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import useLayoutAuthState from 'hooks/useLayoutAuthState'
 import useUrlForMarket from 'hooks/useUrlForMarket'
@@ -10,12 +11,16 @@ import MarketSearchLink from './MarketSearchLink'
 
 import logo from 'images/logos/capital.jpg'
 
-const Navbar = () => {
+export interface NavbarProps {
+	padding?: boolean
+}
+
+const Navbar = ({ padding = true }: NavbarProps) => {
 	const isSignedIn = useLayoutAuthState()
 	const marketUrl = useUrlForMarket()
 
 	return (
-		<div className="navbar">
+		<div className={cx('navbar', { 'no-padding': !padding })}>
 			<Link href="/">
 				<a className="logo">
 					<Img className="logoImage" src={logo} alt="Logo" webp />

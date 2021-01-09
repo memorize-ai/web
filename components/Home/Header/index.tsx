@@ -1,39 +1,41 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 
-import AuthButton from './WhiteArrowAuthButton'
+import AuthButton from '../WhiteArrowAuthButton'
 import Screenshot, { ScreenshotType } from 'components/Screenshot'
 import { APP_STORE_URL } from 'lib/constants'
 import { isIosHandheld } from 'lib/utils'
 
+import styles from './index.module.scss'
+
 const HomeHeader = () => (
-	<div className="header">
-		<div className="left">
-			<h1>
+	<header className={styles.root}>
+		<article className={styles.article}>
+			<h1 className={styles.title}>
 				The ultimate
 				<br />
 				memorization tool
 			</h1>
-			<h3>
+			<h3 className={styles.subtitle}>
 				We use <b>AI</b> to accurately predict when you need to review. Welcome
 				to efficient and effective memorization.
 			</h3>
-			<div className="footer">
-				<AuthButton className="join-button">Get started</AuthButton>
+			<div className={styles.footer}>
+				<AuthButton className={styles.auth}>Get started</AuthButton>
 				{isIosHandheld() || (
 					<a
-						className="app-store"
+						className={styles.download}
 						href={APP_STORE_URL}
 						rel="nofollow noreferrer noopener"
 					>
-						<FontAwesomeIcon icon={faApple} />
-						<span className="text">Download</span>
+						<FontAwesomeIcon className={styles.downloadIcon} icon={faApple} />
+						<span className={styles.downloadText}>Download</span>
 					</a>
 				)}
 			</div>
-		</div>
+		</article>
 		<Screenshot type={ScreenshotType.Review} />
-	</div>
+	</header>
 )
 
 export default HomeHeader

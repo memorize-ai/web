@@ -31,8 +31,8 @@ const Home = ({ previewDeck }: HomeProps) => {
 				title="memorize.ai: Learn Lazily"
 				breadcrumbs={url => [[{ name: 'memorize.ai', url }]]}
 			/>
-			<TopGradient>
-				<Navbar />
+			<TopGradient className={styles.header}>
+				<Navbar padding={false} />
 				<Header />
 			</TopGradient>
 			<SpacedRepetition />
