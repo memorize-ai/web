@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import Image from 'react-optimized-image'
+import Img from 'react-optimized-image'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import LoadingState from 'models/LoadingState'
@@ -73,7 +73,7 @@ const DashboardSidebar = ({ expectsSignIn }: DashboardSidebarProps) => {
 			<div className="top">
 				<Link href="/">
 					<a>
-						<Image className="logo" src={logo} alt="Logo" webp />
+						<Img className="logo" src={logo} alt="Logo" webp />
 					</a>
 				</Link>
 				<div className="divider" />
