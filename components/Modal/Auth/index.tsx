@@ -16,6 +16,8 @@ import Providers from './Providers'
 import { EMAIL_REGEX, APP_STORE_URL } from 'lib/constants'
 import { isIosHandheld } from 'lib/utils'
 
+import styles from './index.module.scss'
+
 import 'firebase/auth'
 import 'firebase/firestore'
 
@@ -164,30 +166,30 @@ const AuthModal = () => {
 
 	return (
 		<Modal
-			className="auth"
+			className={styles.root}
 			isLazy={false}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>
-			<div className="top">
-				<div className="header">
-					<h2 className="title">Change your life today</h2>
-					<button className="hide" onClick={() => setIsShowing(false)}>
+			<div className={styles.top}>
+				<div className={styles.header}>
+					<h2 className={styles.title}>Change your life today</h2>
+					<button className={styles.hide} onClick={() => setIsShowing(false)}>
 						<FontAwesomeIcon icon={faTimes} />
 					</button>
 				</div>
-				<div className="tabs">
+				<div className={styles.tabs}>
 					<button
-						className={cx({
-							selected: mode === AuthenticationMode.LogIn
+						className={cx(styles.tab, {
+							[styles.selectedTab]: mode === AuthenticationMode.LogIn
 						})}
 						onClick={() => setMode(AuthenticationMode.LogIn)}
 					>
 						Log in
 					</button>
 					<button
-						className={cx({
-							selected: mode === AuthenticationMode.SignUp
+						className={cx(styles.tab, {
+							[styles.selectedTab]: mode === AuthenticationMode.SignUp
 						})}
 						onClick={() => setMode(AuthenticationMode.SignUp)}
 					>
@@ -195,15 +197,16 @@ const AuthModal = () => {
 					</button>
 				</div>
 			</div>
-			<form onSubmit={onSubmit}>
+			<form className={styles.form} onSubmit={onSubmit}>
 				{mode === AuthenticationMode.SignUp && (
 					<>
-						<label className="header" htmlFor="auth-modal-name-input">
+						<label className={styles.label} htmlFor="auth-modal-name-input">
 							Name
 						</label>
 						<input
 							ref={onNameRef}
 							id="auth-modal-name-input"
+							className={styles.input}
 							required
 							type="name"
 							autoComplete="name"
@@ -213,12 +216,13 @@ const AuthModal = () => {
 						/>
 					</>
 				)}
-				<label className="header" htmlFor="auth-modal-email-input">
+				<label className={styles.label} htmlFor="auth-modal-email-input">
 					Email
 				</label>
 				<input
 					ref={onEmailRef}
 					id="auth-modal-email-input"
+					className={styles.input}
 					required
 					type="email"
 					autoComplete="email"
@@ -226,12 +230,17 @@ const AuthModal = () => {
 					value={email}
 					onChange={({ target: { value } }) => setEmail(value)}
 				/>
-				<div className="header row">
-					<label htmlFor="auth-modal-password-input">Password</label>
+				<div className={styles.label}>
+					<label
+						className={styles.innerLabel}
+						htmlFor="auth-modal-password-input"
+					>
+						Password
+					</label>
 					{mode === AuthenticationMode.LogIn && (
 						<Button
 							type="button"
-							className="forgot-password-button"
+							className={styles.forgotPassword}
 							loaderSize="20px"
 							loaderThickness="4px"
 							loaderColor="#5a2aff"
@@ -246,6 +255,7 @@ const AuthModal = () => {
 				</div>
 				<input
 					id="auth-modal-password-input"
+					className={styles.input}
 					required
 					type="password"
 					autoComplete={`${
@@ -255,9 +265,11 @@ const AuthModal = () => {
 					value={password}
 					onChange={({ target: { value } }) => setPassword(value)}
 				/>
-				<div className="footer">
+				<div className={styles.footer}>
 					<Button
-						className="submit-button"
+						className={styles.submit}
+						loadingClassName={styles.submitLoading}
+						disabledClassName={styles.submitDisabled}
 						loaderSize="20px"
 						loaderThickness="4px"
 						loaderColor="white"
@@ -267,7 +279,7 @@ const AuthModal = () => {
 						Next
 					</Button>
 					{errorMessage ? (
-						<p className="error-message">{errorMessage}</p>
+						<p className={styles.error}>{errorMessage}</p>
 					) : (
 						<Providers
 							initialXp={initialXp}

@@ -12,6 +12,8 @@ import { isIosHandheld } from 'lib/utils'
 import apple from 'images/icons/apple.svg'
 import google from 'images/icons/google.svg'
 
+import styles from './index.module.scss'
+
 import 'firebase/auth'
 import 'firebase/firestore'
 
@@ -25,19 +27,21 @@ appleAuthProvider.addScope('email')
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 googleAuthProvider.addScope('https://www.googleapis.com/auth/userinfo.email')
 
+export interface AuthModalProvidersProps {
+	initialXp: number
+	callback: ((user: User) => void) | null
+	isDisabled: boolean
+	setIsDisabled(isDisabled: boolean): void
+	setErrorMessage(message: string | null): void
+}
+
 const AuthModalProviders = ({
 	initialXp,
 	callback,
 	isDisabled,
 	setIsDisabled,
 	setErrorMessage
-}: {
-	initialXp: number
-	callback: ((user: User) => void) | null
-	isDisabled: boolean
-	setIsDisabled: (isDisabled: boolean) => void
-	setErrorMessage: (message: string | null) => void
-}) => {
+}: AuthModalProvidersProps) => {
 	const [appleAuthLoadingState, setAppleAuthLoadingState] = useState(
 		LoadingState.None
 	)
@@ -116,10 +120,10 @@ const AuthModalProviders = ({
 	}, [logIn, setGoogleAuthLoadingState])
 
 	return (
-		<div className="providers">
+		<div className={styles.root}>
 			<Button
 				type="button"
-				className="apple-auth-button"
+				className={styles.button}
 				loaderSize="20px"
 				loaderThickness="4px"
 				loaderColor="white"
@@ -127,12 +131,12 @@ const AuthModalProviders = ({
 				disabled={isDisabled}
 				onClick={logInWithApple}
 			>
-				<Svg src={apple} />
-				<p>Log in</p>
+				<Svg className={styles.icon} src={apple} />
+				<p className={styles.text}>Log in</p>
 			</Button>
 			<Button
 				type="button"
-				className="google-auth-button"
+				className={styles.button}
 				loaderSize="20px"
 				loaderThickness="4px"
 				loaderColor="white"
@@ -140,8 +144,8 @@ const AuthModalProviders = ({
 				disabled={isDisabled}
 				onClick={logInWithGoogle}
 			>
-				<Svg src={google} />
-				<p>Log in</p>
+				<Svg className={styles.icon} src={google} />
+				<p className={styles.text}>Log in</p>
 			</Button>
 		</div>
 	)

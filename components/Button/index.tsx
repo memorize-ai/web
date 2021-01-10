@@ -4,6 +4,8 @@ import cx from 'classnames'
 import Loader from '../Loader'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+	loadingClassName?: string
+	disabledClassName?: string
 	loaderSize?: string
 	loaderThickness?: string
 	loaderColor?: string
@@ -14,6 +16,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = ({
 	className,
+	loadingClassName,
+	disabledClassName,
 	loaderSize,
 	loaderThickness,
 	loaderColor,
@@ -25,13 +29,16 @@ const Button = ({
 }: ButtonProps) => (
 	<button
 		{...props}
-		className={cx(className, { loading, disabled })}
+		className={cx(
+			className,
+			loading && loadingClassName,
+			disabled && disabledClassName
+		)}
 		disabled={disabled || loading}
 		onClick={onClick}
 	>
 		{loading && loaderSize && loaderThickness && loaderColor ? (
 			<Loader
-				className="loader"
 				size={loaderSize}
 				thickness={loaderThickness}
 				color={loaderColor}
