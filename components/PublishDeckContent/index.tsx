@@ -1,11 +1,13 @@
-import { useEffect, useCallback, useMemo, ReactNode } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Topic from 'models/Topic'
-import ImagePicker from './ImagePicker'
+import ImagePicker from '../ImagePicker'
+
+import styles from './index.module.scss'
 
 export interface PublishDeckContentProps {
 	imageUrl: string | null
@@ -20,8 +22,6 @@ export interface PublishDeckContentProps {
 	setSubtitle: (subtitle: string) => void
 	setDescription: (description: string) => void
 	setSelectedTopics: (topics: string[]) => void
-
-	children?: ReactNode
 }
 
 const PublishDeckContent = ({
@@ -36,9 +36,7 @@ const PublishDeckContent = ({
 	setName,
 	setSubtitle,
 	setDescription,
-	setSelectedTopics,
-
-	children
+	setSelectedTopics
 }: PublishDeckContentProps) => {
 	const {
 		getRootProps,
@@ -46,9 +44,6 @@ const PublishDeckContent = ({
 		isDragActive,
 		acceptedFiles
 	} = useDropzone()
-
-	const rootProps = useMemo(getRootProps, [getRootProps])
-	const inputProps = useMemo(getInputProps, [getInputProps])
 
 	useEffect(() => {
 		if (acceptedFiles.length) setImage(acceptedFiles[0])
@@ -63,56 +58,68 @@ const PublishDeckContent = ({
 	}, [setImage])
 
 	return (
-		<div className="publish-deck-content">
+		<div className={styles.root}>
 			<ImagePicker
-				className="image-picker"
-				rootProps={rootProps}
-				inputProps={inputProps}
+				className={styles.image}
+				rootProps={getRootProps()}
+				inputProps={getInputProps()}
 				isDragging={isDragActive}
 				url={imageUrl}
 				removeImage={removeImage}
 			/>
-			<div className="right">
-				{children}
-				<div className="inputs">
-					<label htmlFor="publish-deck-name-input">
-						Name <span>(SAT Math Prep)</span>
+			<article className={styles.content}>
+				<div className={styles.inputs}>
+					<label className={styles.label} htmlFor="publish-deck-name-input">
+						Name <span className={styles.example}>(SAT Math Prep)</span>
 					</label>
 					<input
 						ref={onNameInputRef}
 						id="publish-deck-name-input"
+						className={styles.input}
 						placeholder="A good name shows your deck to more people"
 						value={name}
 						onChange={({ target: { value } }) => setName(value)}
 					/>
-					<label htmlFor="publish-deck-subtitle-input">
-						Subtitle <span>(Trusted by over 1,000 memorize.ai users)</span>
+					<label className={styles.label} htmlFor="publish-deck-subtitle-input">
+						Subtitle{' '}
+						<span className={styles.example}>
+							(Trusted by over 1,000 memorize.ai users)
+						</span>
 					</label>
 					<input
 						id="publish-deck-subtitle-input"
+						className={styles.input}
 						placeholder="Optional, but subtitles make your deck stand out"
 						value={subtitle}
 						onChange={({ target: { value } }) => setSubtitle(value)}
 					/>
-					<label htmlFor="publish-deck-description-textarea">Description</label>
+					<label
+						className={styles.label}
+						htmlFor="publish-deck-description-textarea"
+					>
+						Description
+					</label>
 					<textarea
 						id="publish-deck-description-textarea"
+						className={styles.textArea}
 						placeholder="Optional, but add keywords to help expose your deck in search results"
 						value={description}
 						onChange={({ target: { value } }) => setDescription(value)}
 					/>
 				</div>
-				<p className="no-topics-message" hidden={selectedTopics.length > 0}>
+				<p className={styles.noTopics} hidden={selectedTopics.length > 0}>
 					You must select relevant topics for your deck to be recommended
 				</p>
-				<div className="topics" {...Topic.schemaProps}>
+				<div className={styles.topics} {...Topic.schemaProps}>
 					{topics?.map((topic, i) => {
 						const isSelected = selectedTopics.includes(topic.id)
 
 						return (
 							<button
 								key={topic.id}
-								className={cx({ selected: isSelected })}
+								className={cx(styles.topic, {
+									[styles.selectedTopic]: isSelected
+								})}
 								onClick={() =>
 									setSelectedTopics(
 										isSelected
@@ -128,15 +135,20 @@ const PublishDeckContent = ({
 								<meta {...topic.positionSchemaProps(i)} />
 								<meta {...topic.urlSchemaProps} />
 								<img {...topic.imageSchemaProps} />
-								<div className="check">
-									<FontAwesomeIcon icon={faCheck} />
+								<div className={styles.topicCheck}>
+									<FontAwesomeIcon
+										className={styles.topicCheckIcon}
+										icon={faCheck}
+									/>
 								</div>
-								<p {...topic.nameSchemaProps}>{topic.name}</p>
+								<p className={styles.topicName} {...topic.nameSchemaProps}>
+									{topic.name}
+								</p>
 							</button>
 						)
 					})}
 				</div>
-			</div>
+			</article>
 		</div>
 	)
 }
