@@ -1,18 +1,18 @@
-import { PropsWithChildren } from 'react'
+import { ReactNode } from 'react'
 
-import Head from './Head'
+import Head from '../Head'
 
-const Policy = ({
-	url,
-	title,
-	description,
-	children
-}: PropsWithChildren<{
+import styles from './index.module.scss'
+
+export interface PolicyProps {
 	url?: string
 	description: string
 	title: string
-}>) => (
-	<div className="policy">
+	children?: ReactNode
+}
+
+const Policy = ({ url, title, description, children }: PolicyProps) => (
+	<div className={styles.root}>
 		<Head
 			url={url}
 			title={`${title} | memorize.ai`}
@@ -27,8 +27,8 @@ const Policy = ({
 				}
 			]}
 		/>
-		<h1 className="title">{title}</h1>
-		<hr />
+		<h1 className={styles.title}>{title}</h1>
+		<hr className={styles.divider} />
 		{children}
 	</div>
 )

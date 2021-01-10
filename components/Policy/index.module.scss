@@ -1,0 +1,15 @@
+@use 'styles/variables' as *;
+
+.root {
+	padding: 30px;
+	color: $dark-gray;
+}
+
+.title {
+	text-align: center;
+}
+
+.divider {
+	margin: 30px 0;
+	background: transparentize($dark-gray, 0.8);
+}
