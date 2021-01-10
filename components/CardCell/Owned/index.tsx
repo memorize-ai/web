@@ -10,22 +10,26 @@ import User from 'models/User'
 import Deck from 'models/Deck'
 import Card from 'models/Card'
 import useCurrentUser from 'hooks/useCurrentUser'
-import Base from './Base'
+import Base from '../Base'
 
 import pencil from 'images/icons/pencil.svg'
+import styles from './index.module.scss'
+import { HTMLAttributes } from 'react'
 
 TimeAgo.addLocale(enLocale)
 const timeAgo = new TimeAgo('en-US')
+
+interface OwnedCardCellContentProps {
+	currentUser: User
+	deck: Deck
+	card: Card
+}
 
 const OwnedCardCellContent = ({
 	currentUser,
 	deck,
 	card
-}: {
-	currentUser: User
-	deck: Deck
-	card: Card
-}) => {
+}: OwnedCardCellContentProps) => {
 	const { isDue, userData } = card
 	const isOwner = currentUser?.id === deck.creatorId
 	const isNew = userData?.isNew ?? true
@@ -33,25 +37,30 @@ const OwnedCardCellContent = ({
 	return (
 		<>
 			<Base card={card} />
-			{isDue && <div className="due-badge" />}
+			{isDue && <div className={styles.dueBadge} />}
 			{(userData || isOwner) && (
-				<div className={cx('footer', { 'has-user-data': userData })}>
+				<div className={cx(styles.footer, { [styles.hasUserData]: userData })}>
 					{userData && (
-						<p className="due-date">Due {timeAgo.format(userData?.dueDate)}</p>
+						<p className={styles.dueDate}>
+							Due {timeAgo.format(userData?.dueDate)}
+						</p>
 					)}
 					{isOwner && (
-						<div className="edit-message">
-							<Svg src={pencil} />
-							<p>Click to edit</p>
+						<div className={styles.edit}>
+							<Svg className={styles.editIcon} src={pencil} />
+							<p className={styles.editText}>Click to edit</p>
 						</div>
 					)}
 					{userData && (
-						<p className={cx('stats', { new: isNew })}>
+						<p className={styles.stats}>
 							{isNew ? (
 								"You haven't seen this card before"
 							) : (
 								<>
-									<FontAwesomeIcon icon={faBolt} />
+									<FontAwesomeIcon
+										className={styles.streakIcon}
+										icon={faBolt}
+									/>
 									{userData?.streak ?? 1}x streak
 								</>
 							)}
@@ -63,16 +72,22 @@ const OwnedCardCellContent = ({
 	)
 }
 
-const OwnedCardCell = ({ deck, card }: { deck: Deck; card: Card }) => {
+export interface OwnedCardCellProps {
+	className?: string
+	deck: Deck
+	card: Card
+}
+
+const OwnedCardCell = ({ className, deck, card }: OwnedCardCellProps) => {
 	const [currentUser] = useCurrentUser()
 	const isOwner = currentUser?.id === deck.creatorId
 
 	if (!currentUser) return null
 
-	const containerProps = {
-		className: cx('card-cell', 'owned', { owner: isOwner })
+	const containerProps: HTMLAttributes<HTMLElement> = {
+		className: cx(styles.root, className, { [styles.owner]: isOwner })
 	}
-	const contentProps = { currentUser, deck, card }
+	const contentProps: OwnedCardCellContentProps = { currentUser, deck, card }
 
 	return isOwner ? (
 		<Link

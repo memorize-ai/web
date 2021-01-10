@@ -1,0 +1,5 @@
+@use 'styles/card-cell';
+
+.root {
+	@include card-cell.root;
+}
