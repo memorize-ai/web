@@ -1,11 +1,11 @@
 import { useCallback, FormEvent, useState, ReactNode } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import LoadingState from 'models/LoadingState'
-import Head from './Head'
-import Loader from './Loader'
+import Head from '../Head'
+import ButtonContent from './ButtonContent'
+
+import styles from './index.module.scss'
 
 export interface ConfirmationFormProps {
 	url?: string
@@ -48,47 +48,32 @@ const ConfirmationForm = ({
 	)
 
 	return (
-		<div className="confirmation-form">
+		<div className={styles.root}>
 			<Head
 				url={url}
 				title={`${title} | memorize.ai`}
 				description={description}
 				breadcrumbs={url => [[{ name: title, url }]]}
 			/>
-			<div className="content">
-				<h1 className="title">{submitMessage}</h1>
+			<div className={styles.content}>
+				<h1 className={styles.title}>{submitMessage}</h1>
 				{children}
-				<form onSubmit={onSubmit}>
-					<p className="submit-message">Are you sure?</p>
+				<form className={styles.form} onSubmit={onSubmit}>
+					<p className={styles.submitMessage}>Are you sure?</p>
 					<button
 						ref={onSubmitButtonRef}
-						className={cx('submit-button', {
-							loading: loadingState === LoadingState.Loading,
-							success: loadingState === LoadingState.Success,
-							error: loadingState === LoadingState.Fail
+						className={cx(styles.submitButton, {
+							[styles.loading]: loadingState === LoadingState.Loading,
+							[styles.success]: loadingState === LoadingState.Success,
+							[styles.error]: loadingState === LoadingState.Fail
 						})}
 						disabled={loadingState !== LoadingState.None}
 						style={{ width: submitButtonWidth }}
 					>
-						{(() => {
-							switch (loadingState) {
-								case LoadingState.None:
-									return submitButtonText
-								case LoadingState.Loading:
-									return (
-										<Loader
-											className="loader"
-											size="20px"
-											thickness="4px"
-											color="white"
-										/>
-									)
-								case LoadingState.Success:
-									return <FontAwesomeIcon icon={faCheck} />
-								case LoadingState.Fail:
-									return <FontAwesomeIcon icon={faTimes} />
-							}
-						})()}
+						<ButtonContent
+							loadingState={loadingState}
+							text={submitButtonText}
+						/>
 					</button>
 				</form>
 			</div>
