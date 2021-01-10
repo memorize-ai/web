@@ -55,18 +55,6 @@
 	}
 }
 
-@mixin home-content-overlay-gradient($class) {
-	.home > .top-gradient > .content > .#{$class} {
-		@content;
-	}
-}
-
-@mixin home-content($class) {
-	.home > .#{$class} {
-		@content;
-	}
-}
-
 @mixin dashboard-content($class) {
 	.dashboard.#{$class} > .content > .container > .foreground {
 		@content;

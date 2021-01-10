@@ -26,7 +26,7 @@ const Home = ({ previewDeck }: HomeProps) => {
 	}, [])
 
 	return (
-		<div className={styles.root}>
+		<>
 			<Head
 				url="/"
 				title="memorize.ai: Learn Lazily"
@@ -42,7 +42,7 @@ const Home = ({ previewDeck }: HomeProps) => {
 			<Screenshots />
 			<Classroom />
 			<Footer />
-		</div>
+		</>
 	)
 }
 

@@ -1,0 +1,44 @@
+@use 'styles/mixins' as *;
+@use 'styles/trigonometry' as *;
+
+$degrees: 6deg;
+
+@mixin height($height) {
+	.root {
+		height: calc(#{$height} - #{tan($degrees)} * 100vw);
+	}
+
+	.background {
+		height: $height;
+	}
+}
+
+@mixin height-query($min-width, $height) {
+	@media (min-width: $min-width) {
+		@include height($height);
+	}
+}
+
+@include height(440px);
+@include height-query(375px, 450px);
+@include height-query(400px, 475px);
+@include height-query(430px, 500px);
+@include height-query(500px, 550px);
+@include height-query(600px, 600px);
+@include height-query(1075px, 650px);
+@include height-query(1300px, 730px);
+@include height-query(2000px, 760px);
+@include height-query(2400px, 820px);
+@include height-query(2800px, 860px);
+
+.root {
+	@include stack;
+}
+
+.background {
+	@include top-gradient($degrees, $is-right: true);
+}
+
+.content {
+	position: relative;
+}
