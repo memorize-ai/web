@@ -65,6 +65,7 @@ const PublishDeckContent = ({
 	return (
 		<div className="publish-deck-content">
 			<ImagePicker
+				className="image-picker"
 				rootProps={rootProps}
 				inputProps={inputProps}
 				isDragging={isDragActive}
