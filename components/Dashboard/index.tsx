@@ -18,24 +18,28 @@ export enum DashboardGradientStyle {
 }
 
 export interface DashboardProps {
+	className: string
+	contentClassName?: string
+	sidebarClassName: string
 	selection: DashboardNavbarSelection
 	gradientStyle?: DashboardGradientStyle
 	isNavbarHidden?: boolean
 	hideChat?: boolean
 	expectsSignIn?: boolean
-	className: string
 	children?: ReactNode
 }
 
 const Dashboard = forwardRef<HTMLDivElement, DashboardProps>(
 	(
 		{
+			className,
+			contentClassName,
+			sidebarClassName,
 			selection,
 			gradientStyle = DashboardGradientStyle.Blue,
 			isNavbarHidden = false,
 			hideChat: shouldHideChat = false,
 			expectsSignIn,
-			className,
 			children
 		},
 		ref
@@ -51,16 +55,12 @@ const Dashboard = forwardRef<HTMLDivElement, DashboardProps>(
 
 		return (
 			<div className={cx('dashboard', className)}>
-				<Sidebar expectsSignIn={expectsSignIn} />
+				<Sidebar className={sidebarClassName} expectsSignIn={expectsSignIn} />
 				<div className="content">
 					<div className={`background ${gradientStyle}-gradient`} />
-					<div
-						className={cx('container', {
-							'navbar-hidden': isNavbarHidden
-						})}
-					>
+					<div className={cx('container', { 'navbar-hidden': isNavbarHidden })}>
 						<Navbar selection={selection} expectsSignIn={expectsSignIn} />
-						<div ref={ref} className="foreground">
+						<div ref={ref} className={cx('foreground', contentClassName)}>
 							{children}
 						</div>
 					</div>

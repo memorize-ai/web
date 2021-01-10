@@ -43,18 +43,6 @@
 	transform-origin: top if($is-right, right, left);
 }
 
-@mixin dashboard-sidebar-collapse($class, $max-width) {
-	@media (max-width: $max-width) {
-		.dashboard.#{$class} {
-			--sidebar-width: 0px;
-
-			> .sidebar {
-				display: none;
-			}
-		}
-	}
-}
-
 @mixin dashboard-content($class) {
 	.dashboard.#{$class} > .content > .container > .foreground {
 		@content;

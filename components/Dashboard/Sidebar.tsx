@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import Img from 'react-optimized-image'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import LoadingState from 'models/LoadingState'
 import useLayoutAuthState from 'hooks/useLayoutAuthState'
@@ -14,10 +15,14 @@ import { isNullish, formatNumber, formatNumberAsInt } from 'lib/utils'
 import logo from 'images/logos/capital.jpg'
 
 export interface DashboardSidebarProps {
+	className: string
 	expectsSignIn: boolean | undefined
 }
 
-const DashboardSidebar = ({ expectsSignIn }: DashboardSidebarProps) => {
+const DashboardSidebar = ({
+	className,
+	expectsSignIn
+}: DashboardSidebarProps) => {
 	const isSignedIn = useLayoutAuthState() ?? expectsSignIn
 
 	const [decks, decksLoadingState] = useDecks()
@@ -69,7 +74,7 @@ const DashboardSidebar = ({ expectsSignIn }: DashboardSidebarProps) => {
 	)
 
 	return (
-		<div className="sidebar">
+		<div className={cx('sidebar', className)}>
 			<div className="top">
 				<Link href="/">
 					<a>

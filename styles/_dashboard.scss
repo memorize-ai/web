@@ -1,0 +1,11 @@
+@mixin sidebar-collapse($max-width) {
+	@media (max-width: $max-width) {
+		.root {
+			--sidebar-width: 0px;
+		}
+
+		.sidebar {
+			display: none !important;
+		}
+	}
+}
