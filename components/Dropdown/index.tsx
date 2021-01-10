@@ -17,6 +17,8 @@ export enum DropdownShadow {
 
 export interface DropdownProps {
 	className?: string
+	triggerClassName?: string
+	contentClassName?: string
 	shadow: DropdownShadow
 	isRightAligned?: boolean
 	trigger: ReactNode
@@ -27,6 +29,8 @@ export interface DropdownProps {
 
 const Dropdown = ({
 	className,
+	triggerClassName,
+	contentClassName,
 	shadow,
 	isRightAligned = true,
 	trigger,
@@ -68,14 +72,14 @@ const Dropdown = ({
 			onClick={event => event.stopPropagation()}
 		>
 			<button
-				className={styles.trigger}
+				className={cx(styles.trigger, triggerClassName)}
 				onClick={toggleIsShowing}
 				aria-haspopup="menu"
 			>
 				{trigger}
 			</button>
 			<div
-				className={cx(styles.content, {
+				className={cx(styles.content, contentClassName, {
 					[styles[`shadow_${shadow}`]]: shadow !== DropdownShadow.None,
 					[styles.right]: isRightAligned
 				})}

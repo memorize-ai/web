@@ -4,9 +4,10 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import { DeckSortAlgorithm, nameForDeckSortAlgorithm } from 'models/Deck/Search'
-import Dropdown, { DropdownShadow } from './Dropdown'
+import Dropdown, { DropdownShadow } from '../Dropdown'
 
 import sort from 'images/icons/sort.svg'
+import styles from './index.module.scss'
 
 export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 	title: nameForDeckSortAlgorithm(type),
@@ -15,10 +16,18 @@ export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 
 const SortDropdownTrigger = () => (
 	<>
-		<Svg src={sort} />
-		<p>Sort</p>
+		<Svg className={styles.triggerIcon} src={sort} />
+		<p className={styles.triggerText}>Sort</p>
 	</>
 )
+
+export interface SortDropdownProps {
+	shadow: DropdownShadow
+	isShowing: boolean
+	setIsShowing(isShowing: boolean): void
+	algorithm: DeckSortAlgorithm
+	setAlgorithm(algorithm: DeckSortAlgorithm): void
+}
 
 const SortDropdown = ({
 	shadow,
@@ -26,30 +35,29 @@ const SortDropdown = ({
 	setIsShowing,
 	algorithm,
 	setAlgorithm
-}: {
-	shadow: DropdownShadow
-	isShowing: boolean
-	setIsShowing: (isShowing: boolean) => void
-	algorithm: DeckSortAlgorithm
-	setAlgorithm: (algorithm: DeckSortAlgorithm) => void
-}) => (
+}: SortDropdownProps) => (
 	<Dropdown
-		className="sort-dropdown"
+		triggerClassName={styles.trigger}
+		contentClassName={styles.content}
 		shadow={shadow}
 		trigger={<SortDropdownTrigger />}
 		isShowing={isShowing}
 		setIsShowing={setIsShowing}
 	>
 		{algorithms.map(({ title, type }) => {
-			const selected = algorithm === type
+			const isSelected = algorithm === type
 
 			return (
 				<button
 					key={type}
-					className={cx({ selected })}
+					className={cx(styles.algorithm, {
+						[styles.selectedAlgorithm]: isSelected
+					})}
 					onClick={() => setAlgorithm(type)}
 				>
-					{selected && <FontAwesomeIcon icon={faCheck} />}
+					{isSelected && (
+						<FontAwesomeIcon className={styles.algorithmIcon} icon={faCheck} />
+					)}
 					<p>{title}</p>
 				</button>
 			)
