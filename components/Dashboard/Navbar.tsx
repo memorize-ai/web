@@ -3,6 +3,7 @@ import { Svg } from 'react-optimized-image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
+import cx from 'classnames'
 
 import firebase from 'lib/firebase'
 import { DashboardNavbarSelection as Selection } from '.'
@@ -28,11 +29,13 @@ import 'firebase/auth'
 const auth = firebase.auth()
 
 export interface DashboardNavbarProps {
+	className?: string
 	selection: Selection
 	expectsSignIn: boolean | undefined
 }
 
 const DashboardNavbar = ({
+	className,
 	selection,
 	expectsSignIn
 }: DashboardNavbarProps) => {
@@ -68,7 +71,7 @@ const DashboardNavbar = ({
 	}, [])
 
 	return (
-		<div className="dashboard-navbar">
+		<div className={cx('dashboard-navbar', className)}>
 			<div className="tabs">
 				<Tab
 					href="/"

@@ -1,0 +1,141 @@
+@use 'styles/mixins' as *;
+
+$divider-color: transparentize(#ddd, 0.8);
+
+@mixin divider($height) {
+	height: $height;
+	background: $divider-color;
+	border-radius: $height / 2;
+}
+
+.root {
+	display: grid;
+	grid: auto 1fr auto / 1fr;
+	height: 100vh;
+	background: #051e34;
+	box-shadow: -4px 0 30px 0 transparentize(black, 0.1);
+	z-index: 10;
+}
+
+.top,
+.bottom {
+	padding: 0 20px;
+}
+
+.top {
+	margin-bottom: 12px;
+}
+
+.home {
+	$left-margin: 12px;
+	$vertical-margin: 15px;
+
+	@include raise-on-hover;
+
+	display: block;
+	width: max-content;
+	height: 41px;
+	margin: $vertical-margin 0 $vertical-margin $left-margin;
+}
+
+.logo {
+	height: 100%;
+}
+
+.topDivider {
+	@include divider(2px);
+}
+
+.query,
+.queryInput {
+	border-radius: 8px;
+}
+
+.query {
+	margin-top: 20px;
+}
+
+.queryInput {
+	$vertical-padding: 8px;
+
+	padding-top: $vertical-padding;
+	padding-bottom: $vertical-padding;
+	color: white;
+	background: transparentize(#f0f1f8, 0.9);
+	border: none;
+}
+
+.queryIcon {
+	color: white !important;
+}
+
+.sections {
+	overflow-y: auto;
+}
+
+.emptyMessage {
+	margin-top: 20px;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+}
+
+.bottom {
+	cursor: default !important;
+}
+
+.bottomDivider {
+	@include divider(2.5px);
+}
+
+.bottomContent {
+	padding: 20px 0;
+}
+
+.stats {
+	margin-bottom: 4px;
+}
+
+.level {
+	font-weight: bold;
+	color: white;
+}
+
+.statsBullet,
+.xp {
+	color: #9b9b9b;
+}
+
+.statsBullet {
+	opacity: 0.7;
+}
+
+.sliderContainer {
+	display: flex;
+	align-items: center;
+}
+
+.slider,
+.sliderContent {
+	$height: 12px;
+
+	height: $height;
+	border-radius: $height / 2;
+}
+
+.slider {
+	width: 100%;
+	margin-right: 20px;
+	background: transparentize(white, 0.9);
+}
+
+.sliderContent {
+	background: #00d388;
+	transition: width 0.3s ease-in-out;
+}
+
+.sliderValue {
+	white-space: nowrap;
+	font-weight: bold;
+	color: transparentize(white, 0.2);
+}

@@ -6,6 +6,7 @@ import useSelectedDeck from 'hooks/useSelectedDeck'
 import { formatNumber } from 'lib/utils'
 
 import { src as defaultImage } from 'images/logos/icon.jpg'
+import styles from './index.module.scss'
 
 const DashboardSidebarRow = ({ deck }: { deck: Deck }) => {
 	const [selectedDeck] = useSelectedDeck()
@@ -14,15 +15,20 @@ const DashboardSidebarRow = ({ deck }: { deck: Deck }) => {
 
 	return (
 		<Link href={`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`}>
-			<a className={cx({ selected: selectedDeck?.id === deck.id })}>
+			<a
+				className={cx(styles.root, {
+					[styles.selected]: selectedDeck?.id === deck.id
+				})}
+			>
 				<img
+					className={styles.image}
 					src={deck.imageUrl ?? defaultImage}
 					alt={deck.name}
 					loading="lazy"
 				/>
-				<span className="title">{deck.name}</span>
+				<span className={styles.title}>{deck.name}</span>
 				{numberOfDueCards > 0 && (
-					<span className="badge">{formatNumber(numberOfDueCards)}</span>
+					<span className={styles.badge}>{formatNumber(numberOfDueCards)}</span>
 				)}
 			</a>
 		</Link>

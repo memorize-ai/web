@@ -1,0 +1,65 @@
+.root {
+	display: flex;
+	align-items: center;
+	padding: 8px 20px;
+	transition: background 0.3s;
+
+	&:not(.selected) {
+		&:hover,
+		&:focus {
+			background: transparentize(#582efe, 0.5);
+		}
+	}
+
+	&:not(:last-child) {
+		margin-bottom: 4px;
+	}
+}
+
+.selected {
+	background: #582efe;
+
+	.title {
+		font-weight: bold;
+		opacity: 1;
+	}
+}
+
+.image,
+.badge {
+	flex-shrink: 0;
+}
+
+.image {
+	$dimension: 50px;
+
+	width: $dimension;
+	height: $dimension;
+	object-fit: cover;
+	background: white;
+	border-radius: 5px;
+}
+
+.title {
+	margin: 0 12px;
+	color: white;
+	opacity: 0.8;
+	transition: color 0.3s, opacity 0.3s;
+}
+
+.badge {
+	$min-width: 35px;
+	$height: 25px;
+	$horizontal-padding: 8px;
+
+	min-width: $min-width;
+	height: $height;
+	margin-left: auto;
+	padding: 0 $horizontal-padding;
+	text-align: center;
+	font-weight: bold;
+	line-height: $height;
+	color: white;
+	background: #00d388;
+	border-radius: 4px;
+}

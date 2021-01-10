@@ -2,7 +2,9 @@ import { useMemo } from 'react'
 
 import Deck from 'models/Deck'
 import { includesNormalized } from 'lib/utils'
-import Row from './SidebarRow'
+import Row from '../SidebarRow'
+
+import styles from './index.module.scss'
 
 const DashboardSidebarSection = ({
 	title,
@@ -24,14 +26,14 @@ const DashboardSidebarSection = ({
 	)
 
 	return decks.length ? (
-		<div>
-			<p>{title}</p>
-			<div className="decks">
+		<div className={styles.root}>
+			<p className={styles.title}>{title}</p>
+			<div className={styles.decks}>
 				{decks.map(deck => (
 					<Row key={deck.id} deck={deck} />
 				))}
 			</div>
-			{includesDivider && <div className="divider" />}
+			{includesDivider && <div className={styles.divider} />}
 		</div>
 	) : null
 }

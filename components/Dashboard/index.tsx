@@ -5,11 +5,13 @@ import hideChat from 'hooks/hideChat'
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
 
+import styles from './index.module.scss'
+
 export enum DashboardNavbarSelection {
-	Home = 'Home',
-	Market = 'Market',
-	Decks = 'Decks',
-	Interests = 'Interests'
+	Home,
+	Market,
+	Decks,
+	Interests
 }
 
 export enum DashboardGradientStyle {
@@ -54,13 +56,26 @@ const Dashboard = forwardRef<HTMLDivElement, DashboardProps>(
 		}, [])
 
 		return (
-			<div className={cx('dashboard', className)}>
+			<div className={cx(styles.root, className)}>
 				<Sidebar className={sidebarClassName} expectsSignIn={expectsSignIn} />
-				<div className="content">
-					<div className={`background ${gradientStyle}-gradient`} />
-					<div className={cx('container', { 'navbar-hidden': isNavbarHidden })}>
-						<Navbar selection={selection} expectsSignIn={expectsSignIn} />
-						<div ref={ref} className={cx('foreground', contentClassName)}>
+				<div className={styles.content}>
+					<div
+						className={cx(
+							styles.background,
+							styles[`gradient_${gradientStyle}`]
+						)}
+					/>
+					<div
+						className={cx(styles.container, {
+							[styles.hiddenNavbar]: isNavbarHidden
+						})}
+					>
+						<Navbar
+							className={styles.navbar}
+							selection={selection}
+							expectsSignIn={expectsSignIn}
+						/>
+						<div ref={ref} className={cx(styles.foreground, contentClassName)}>
 							{children}
 						</div>
 					</div>

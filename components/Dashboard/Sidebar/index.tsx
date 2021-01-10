@@ -9,10 +9,11 @@ import useLayoutAuthState from 'hooks/useLayoutAuthState'
 import useDecks from 'hooks/useDecks'
 import useCurrentUser from 'hooks/useCurrentUser'
 import Input from 'components/Input'
-import Section from './SidebarSection'
+import Section from '../SidebarSection'
 import { isNullish, formatNumber, formatNumberAsInt } from 'lib/utils'
 
 import logo from 'images/logos/capital.jpg'
+import styles from './index.module.scss'
 
 export interface DashboardSidebarProps {
 	className: string
@@ -74,15 +75,18 @@ const DashboardSidebar = ({
 	)
 
 	return (
-		<div className={cx('sidebar', className)}>
-			<div className="top">
+		<div className={cx(styles.root, className)}>
+			<div className={styles.top}>
 				<Link href="/">
-					<a>
-						<Img className="logo" src={logo} alt="Logo" webp />
+					<a className={styles.home}>
+						<Img className={styles.logo} src={logo} alt="Logo" webp />
 					</a>
 				</Link>
-				<div className="divider" />
+				<div className={styles.topDivider} />
 				<Input
+					className={styles.query}
+					inputClassName={styles.queryInput}
+					iconClassName={styles.queryIcon}
 					icon={faSearch}
 					type="name"
 					placeholder="My decks"
@@ -90,9 +94,9 @@ const DashboardSidebar = ({
 					setValue={setQuery}
 				/>
 			</div>
-			<div className="sections">
+			<div className={styles.sections}>
 				{hasNoDecks ? (
-					<p>Go on. Explore!</p>
+					<p className={styles.emptyMessage}>Go on. Explore!</p>
 				) : (
 					<>
 						<Section
@@ -112,22 +116,25 @@ const DashboardSidebar = ({
 				)}
 			</div>
 			<div
-				className="bottom"
+				className={styles.bottom}
 				aria-label="Earn XP by gaining popularity on your decks"
 				data-balloon-pos="up"
 			>
-				<div className="divider" />
-				<div className="content">
-					<p className="stats">
-						<span className="level">lvl {level}</span>&nbsp;
-						<span className="bullet">&bull;</span>&nbsp;
-						<span className="xp">{xp} xp</span>
+				<div className={styles.bottomDivider} />
+				<div className={styles.bottomContent}>
+					<p className={styles.stats}>
+						<span className={styles.level}>lvl {level}</span>&nbsp;
+						<span className={styles.statsBullet}>&bull;</span>&nbsp;
+						<span className={styles.xp}>{xp} xp</span>
 					</p>
-					<div className="level-container">
-						<div className="slider">
-							<div style={{ width: `${sliderPercent}%` }} />
+					<div className={styles.sliderContainer}>
+						<div className={styles.slider}>
+							<div
+								className={styles.sliderContent}
+								style={{ width: `${sliderPercent}%` }}
+							/>
 						</div>
-						<p className="level">lvl {nextLevel}</p>
+						<p className={styles.sliderValue}>lvl {nextLevel}</p>
 					</div>
 				</div>
 			</div>
