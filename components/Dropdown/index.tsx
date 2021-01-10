@@ -1,5 +1,13 @@
-import { PropsWithChildren, useRef, useEffect } from 'react'
+import {
+	ReactNode,
+	SetStateAction,
+	useRef,
+	useEffect,
+	useCallback
+} from 'react'
 import cx from 'classnames'
+
+import styles from './index.module.scss'
 
 export enum DropdownShadow {
 	None = 'none',
@@ -7,25 +15,30 @@ export enum DropdownShadow {
 	Screen = 'screen'
 }
 
+export interface DropdownProps {
+	className?: string
+	shadow: DropdownShadow
+	isRightAligned?: boolean
+	trigger: ReactNode
+	isShowing: boolean
+	setIsShowing(isShowing: SetStateAction<boolean>): void
+	children?: ReactNode
+}
+
 const Dropdown = ({
 	className,
 	shadow,
 	isRightAligned = true,
-	topMargin = '8px',
 	trigger,
 	isShowing,
 	setIsShowing,
 	children
-}: PropsWithChildren<{
-	className?: string
-	shadow: DropdownShadow
-	isRightAligned?: boolean
-	topMargin?: string
-	trigger: JSX.Element
-	isShowing: boolean
-	setIsShowing: (isShowing: boolean) => void
-}>) => {
+}: DropdownProps) => {
 	const ref = useRef(null as HTMLDivElement | null)
+
+	const toggleIsShowing = useCallback(() => {
+		setIsShowing(isShowing => !isShowing)
+	}, [setIsShowing])
 
 	useEffect(() => {
 		const onClick = ({ target }: Event) => {
@@ -51,18 +64,22 @@ const Dropdown = ({
 	return (
 		<div
 			ref={ref}
-			className={cx('dropdown', className, { showing: isShowing })}
+			className={cx(styles.root, className, { [styles.showing]: isShowing })}
 			onClick={event => event.stopPropagation()}
 		>
-			<button className="trigger" onClick={() => setIsShowing(!isShowing)}>
+			<button
+				className={styles.trigger}
+				onClick={toggleIsShowing}
+				aria-haspopup="menu"
+			>
 				{trigger}
 			</button>
 			<div
-				className={cx('content', {
-					[`shadow-${shadow}`]: shadow !== DropdownShadow.None,
-					'right-aligned': isRightAligned
+				className={cx(styles.content, {
+					[styles[`shadow_${shadow}`]]: shadow !== DropdownShadow.None,
+					[styles.right]: isRightAligned
 				})}
-				style={{ marginTop: topMargin }}
+				aria-hidden={!isShowing}
 			>
 				{children}
 			</div>
