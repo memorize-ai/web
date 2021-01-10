@@ -167,7 +167,6 @@ const AuthModal = () => {
 	return (
 		<Modal
 			className={styles.root}
-			isLazy={false}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>

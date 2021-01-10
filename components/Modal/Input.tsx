@@ -37,7 +37,6 @@ const InputModal = ({
 	return (
 		<Modal
 			className="input-modal"
-			isLazy={true}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>

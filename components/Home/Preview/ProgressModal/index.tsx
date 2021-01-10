@@ -23,7 +23,6 @@ const PreviewProgressModal = ({
 }: PreviewProgressModalProps) => (
 	<Modal
 		className={styles.root}
-		isLazy={false}
 		isShowing={isShowing}
 		setIsShowing={setIsShowing}
 	>

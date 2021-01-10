@@ -32,12 +32,7 @@ const CopyModal = ({
 	)
 
 	return (
-		<Modal
-			className="copy"
-			isLazy={false}
-			isShowing={isShowing}
-			setIsShowing={setIsShowing}
-		>
+		<Modal className="copy" isShowing={isShowing} setIsShowing={setIsShowing}>
 			<div className="top">
 				<div className="header">
 					<h2 className="title">{title}</h2>

@@ -56,7 +56,6 @@ const CramRecapModal = ({
 	return (
 		<Modal
 			className="cram-recap"
-			isLazy={false}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>

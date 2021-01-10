@@ -22,7 +22,6 @@ const ConfirmationModal = ({
 } & ModalShowingProps) => (
 	<Modal
 		className="confirmation"
-		isLazy={true}
 		isShowing={isShowing}
 		setIsShowing={setIsShowing}
 	>

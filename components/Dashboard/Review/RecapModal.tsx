@@ -56,7 +56,6 @@ const ReviewRecapModal = ({
 	return (
 		<Modal
 			className="review-recap"
-			isLazy={false}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>

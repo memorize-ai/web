@@ -16,7 +16,6 @@ const CramProgressModal = ({
 	return (
 		<Modal
 			className="cram-progress"
-			isLazy={false}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>

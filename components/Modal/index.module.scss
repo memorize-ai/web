@@ -1,6 +1,6 @@
-@use '../variables' as *;
+@use 'styles/variables' as *;
 
-.modal {
+.root {
 	display: flex;
 	position: fixed;
 	justify-content: center;
@@ -14,20 +14,20 @@
 	will-change: background;
 	transition: background 0.3s;
 
-	&.showing {
+	&[aria-hidden='false'] {
 		pointer-events: all;
 		background: transparentize(black, 0.5);
 
-		> .content {
+		.content {
 			opacity: 1;
 			transform: none;
 		}
 	}
+}
 
-	> .content {
-		opacity: 0;
-		transform: translateY(-100px);
-		will-change: opacity, transform;
-		transition: opacity 0.3s, transform 0.3s;
-	}
+.content {
+	opacity: 0;
+	transform: translateY(-100px);
+	will-change: opacity, transform;
+	transition: opacity 0.3s, transform 0.3s;
 }

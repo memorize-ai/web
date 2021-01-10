@@ -91,7 +91,6 @@ const ContactUserModal = ({
 	return (
 		<Modal
 			className="contact-user"
-			isLazy={true}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>

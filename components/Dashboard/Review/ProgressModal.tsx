@@ -22,7 +22,6 @@ const ReviewProgressModal = ({
 	return (
 		<Modal
 			className="review-progress"
-			isLazy={false}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>
