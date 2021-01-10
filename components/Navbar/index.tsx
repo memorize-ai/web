@@ -39,7 +39,7 @@ const Navbar = ({ padding = true }: NavbarProps) => {
 						/>
 					</a>
 				</Link>
-				{isSignedIn ? (
+				{isSignedIn === null ? null : isSignedIn ? (
 					<Link href="/">
 						<a className={cx(styles.item, styles.dashboard)}>Dashboard</a>
 					</Link>

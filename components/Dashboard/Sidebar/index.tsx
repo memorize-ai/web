@@ -17,12 +17,12 @@ import styles from './index.module.scss'
 
 export interface DashboardSidebarProps {
 	className: string
-	expectsSignIn: boolean | undefined
+	expectsSignIn?: boolean | null
 }
 
 const DashboardSidebar = ({
 	className,
-	expectsSignIn
+	expectsSignIn = null
 }: DashboardSidebarProps) => {
 	const isSignedIn = useLayoutAuthState() ?? expectsSignIn
 

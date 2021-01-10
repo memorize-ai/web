@@ -33,13 +33,13 @@ const auth = firebase.auth()
 export interface DashboardNavbarProps {
 	className?: string
 	selection: Selection
-	expectsSignIn: boolean | undefined
+	expectsSignIn?: boolean | null
 }
 
 const DashboardNavbar = ({
 	className,
 	selection,
-	expectsSignIn
+	expectsSignIn = null
 }: DashboardNavbarProps) => {
 	const isSignedIn = useLayoutAuthState() ?? expectsSignIn
 	const [currentUser] = useCurrentUser()
@@ -120,7 +120,7 @@ const DashboardNavbar = ({
 				>
 					<FontAwesomeIcon className={styles.downloadIcon} icon={faApple} />
 				</a>
-				{isSignedIn ? (
+				{isSignedIn === null ? null : isSignedIn ? (
 					<Dropdown
 						className={styles.profile}
 						triggerClassName={styles.profileTrigger}

@@ -16,10 +16,10 @@ import DeckCell from 'components/DeckCell'
 import { formatNumber } from 'lib/utils'
 
 export interface DashboardHomeProps {
-	expectsSignIn?: boolean
+	expectsSignIn?: boolean | null
 }
 
-const DashboardHome = ({ expectsSignIn }: DashboardHomeProps) => {
+const DashboardHome = ({ expectsSignIn = null }: DashboardHomeProps) => {
 	const [currentUser] = useCurrentUser()
 
 	const [decks] = useDecks()

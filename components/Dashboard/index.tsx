@@ -27,7 +27,7 @@ export interface DashboardProps {
 	gradientStyle?: DashboardGradientStyle
 	isNavbarHidden?: boolean
 	hideChat?: boolean
-	expectsSignIn?: boolean
+	expectsSignIn?: boolean | null
 	children?: ReactNode
 }
 
@@ -41,7 +41,7 @@ const Dashboard = forwardRef<HTMLDivElement, DashboardProps>(
 			gradientStyle = DashboardGradientStyle.Blue,
 			isNavbarHidden = false,
 			hideChat: shouldHideChat = false,
-			expectsSignIn,
+			expectsSignIn = null,
 			children
 		},
 		ref
