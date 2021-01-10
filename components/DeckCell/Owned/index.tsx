@@ -1,12 +1,19 @@
-import { useMemo, useCallback, MouseEvent, useRef } from 'react'
+import { useMemo, useCallback, MouseEvent } from 'react'
 import Router from 'next/router'
 
 import Deck from 'models/Deck'
-import Base from './Base'
+import Base from '../Base'
 import { randomEmoji } from 'lib/utils'
 
-const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
-	const emoji = useRef(randomEmoji())
+import styles from './index.module.scss'
+
+export interface OwnedDeckCellProps {
+	className?: string
+	deck: Deck
+}
+
+const OwnedDeckCell = ({ className, deck }: OwnedDeckCellProps) => {
+	const emoji = useMemo(randomEmoji, [])
 
 	const { userData } = deck
 	const numberOfDueCards = userData?.numberOfDueCards ?? 0
@@ -32,14 +39,15 @@ const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
 
 	return (
 		<Base
-			className="owned"
+			className={className}
+			contentClassName={styles.content}
 			deck={deck}
 			href={`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`}
 			nameProps={{
 				style: { WebkitLineClamp: deck.subtitle ? 2 : 3 }
 			}}
 		>
-			<span className="due-cards-message">
+			<span className={styles.due}>
 				{hasDueCards ? (
 					`${numberOfDueCards} card${
 						numberOfDueCards === 1 ? '' : 's'
@@ -48,15 +56,15 @@ const OwnedDeckCell = ({ deck }: { deck: Deck }) => {
 					}`
 				) : (
 					<>
-						<span aria-hidden role="img">
-							{emoji.current}
+						<span className={styles.dueEmoji} aria-hidden role="img">
+							{emoji}
 						</span>{' '}
 						Woohoo! No cards due
 					</>
 				)}
 			</span>
 			{hasDueCards && (
-				<span role="button" className="review-button" onClick={review}>
+				<span className={styles.review} role="button" onClick={review}>
 					Review
 				</span>
 			)}

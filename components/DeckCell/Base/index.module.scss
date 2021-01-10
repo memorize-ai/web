@@ -1,0 +1,76 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+$min-width: 572px;
+$max-width: $min-width + 100px;
+$height: 195px;
+
+.root {
+	@include raise-on-hover;
+
+	display: flex;
+	overflow: hidden;
+	min-width: $min-width;
+	max-width: $max-width;
+	height: $height;
+	background: white;
+	border: 1px solid #eee;
+	border-radius: 8px;
+}
+
+.image {
+	flex-shrink: 0;
+	width: $height;
+	height: $height;
+	object-fit: cover;
+	background: white;
+}
+
+.content {
+	flex-grow: 1;
+	padding: 16px;
+}
+
+.name,
+.subtitle,
+.creatorName {
+	@include prepare-for-line-limit;
+
+	overflow: hidden;
+}
+
+.name {
+	font-size: 18px;
+	font-weight: 900;
+	color: $dark-gray;
+}
+
+.subtitle,
+.creator {
+	color: #9b9b9b;
+}
+
+.subtitle,
+.creatorName {
+	-webkit-line-clamp: 1;
+}
+
+.subtitle {
+	font-size: 15px;
+	font-weight: 800;
+}
+
+.creator {
+	display: flex;
+	align-items: center;
+	margin: 6px 0;
+}
+
+.creatorIcon {
+	margin-right: 8px;
+	transform: scale(1.5);
+}
+
+.creatorName {
+	font-weight: bold;
+}
