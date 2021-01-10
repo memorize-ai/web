@@ -38,10 +38,11 @@ export const screenshotSrc = (type: ScreenshotType) => {
 	}
 }
 
-const Screenshot = ({
-	type,
-	...props
-}: { type: ScreenshotType } & HTMLAttributes<HTMLImageElement>) => {
+export interface ScreenshotProps extends HTMLAttributes<HTMLImageElement> {
+	type: ScreenshotType
+}
+
+const Screenshot = ({ type, ...props }: ScreenshotProps) => {
 	switch (type) {
 		case ScreenshotType.Cram:
 			return <Img {...props} src={cram} alt="Screenshot" webp />

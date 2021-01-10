@@ -4,7 +4,9 @@ import { Svg } from 'react-optimized-image'
 import { APP_STORE_URL } from 'lib/constants'
 import icon from 'images/app-store-download.svg'
 
-const AppStoreDownloadButton = (props: HTMLAttributes<HTMLAnchorElement>) => (
+export type AppStoreDownloadButtonProps = HTMLAttributes<HTMLAnchorElement>
+
+const AppStoreDownloadButton = (props: AppStoreDownloadButtonProps) => (
 	<a
 		{...props}
 		href={APP_STORE_URL}

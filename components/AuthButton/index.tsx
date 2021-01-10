@@ -5,14 +5,17 @@ import AuthenticationMode from 'models/AuthenticationMode'
 import { APP_STORE_URL } from 'lib/constants'
 import { isIosHandheld } from 'lib/utils'
 
+export interface AuthButtonProps
+	extends ButtonHTMLAttributes<HTMLButtonElement> {
+	signUp?: boolean
+	goToAppStoreIfHandheldIos?: boolean
+}
+
 const AuthButton = ({
 	signUp = false,
 	goToAppStoreIfHandheldIos = false,
 	...props
-}: {
-	signUp?: boolean
-	goToAppStoreIfHandheldIos?: boolean
-} & ButtonHTMLAttributes<HTMLButtonElement>) => {
+}: AuthButtonProps) => {
 	const { setIsShowing, setMode } = useAuthModal()
 
 	const onClick = useCallback(
