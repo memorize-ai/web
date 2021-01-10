@@ -6,12 +6,12 @@ import { faApple } from '@fortawesome/free-brands-svg-icons'
 import cx from 'classnames'
 
 import firebase from 'lib/firebase'
-import { DashboardNavbarSelection as Selection } from '.'
+import { DashboardNavbarSelection as Selection } from '..'
 import useLayoutAuthState from 'hooks/useLayoutAuthState'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useDecks from 'hooks/useDecks'
 import useUrlForMarket from 'hooks/useUrlForMarket'
-import Tab from './NavbarTab'
+import Tab from './Tab'
 import Dropdown, { DropdownShadow } from 'components/Dropdown'
 import AuthButton from 'components/AuthButton'
 import ApiKeyModal from 'components/Modal/ApiKey'
@@ -23,6 +23,8 @@ import cartIcon from 'images/icons/cart.svg'
 import decksIcon from 'images/icons/decks.svg'
 import topicsIcon from 'images/icons/topics.svg'
 import userIcon from 'images/icons/purple-user.svg'
+
+import styles from './index.module.scss'
 
 import 'firebase/auth'
 
@@ -71,8 +73,8 @@ const DashboardNavbar = ({
 	}, [])
 
 	return (
-		<div className={cx('dashboard-navbar', className)}>
-			<div className="tabs">
+		<div className={cx(styles.root, className)}>
+			<div className={styles.tabs}>
 				<Tab
 					href="/"
 					title="Home"
@@ -109,54 +111,59 @@ const DashboardNavbar = ({
 					<Svg src={topicsIcon} />
 				</Tab>
 			</div>
-			<div className="right">
+			<div className={styles.right}>
 				<a
-					className="download-app"
+					className={styles.download}
 					href={APP_STORE_URL}
 					target="_blank"
 					rel="nofollow noreferrer noopener"
 				>
-					<FontAwesomeIcon icon={faApple} />
+					<FontAwesomeIcon className={styles.downloadIcon} icon={faApple} />
 				</a>
 				{isSignedIn ? (
 					<Dropdown
-						className="profile-dropdown"
+						className={styles.profile}
+						triggerClassName={styles.profileTrigger}
+						contentClassName={styles.profileContent}
 						shadow={DropdownShadow.Screen}
-						trigger={<Svg src={userIcon} />}
+						trigger={
+							<Svg className={styles.profileTriggerIcon} src={userIcon} />
+						}
 						isShowing={isProfileDropdownShowing}
 						setIsShowing={setIsProfileDropdownShowing}
 					>
-						<div className="settings">
-							<label>
+						<div className={styles.settings}>
+							<label className={styles.label}>
 								Name
 								{isNullish(currentUser?.name) ? ' (LOADING)' : ''}
 							</label>
 							<input
-								className="name-input"
+								className={styles.name}
 								type="name"
 								value={currentUser?.name ?? ''}
 								onChange={({ target: { value } }) =>
 									currentUser?.updateName(value)
 								}
 							/>
-							<label>
+							<label className={styles.label}>
 								Email
 								{isNullish(currentUser?.email) ? ' (LOADING)' : ''}
 							</label>
-							<p className="email">{currentUser?.email ?? ''}</p>
+							<p className={styles.email}>{currentUser?.email ?? ''}</p>
 						</div>
 						<button
-							className="forgot-password"
+							className={styles.forgotPassword}
 							onClick={sendForgotPasswordEmail}
 						>
 							Forgot password
 						</button>
-						<button className="sign-out" onClick={signOut}>
+						<button className={styles.signOut} onClick={signOut}>
 							Sign out
 						</button>
-						<label className="footer-label">Contact</label>
-						<p className="footer-info">
+						<label className={styles.footerLabel}>Contact</label>
+						<p className={styles.footerInfo}>
 							<a
+								className={styles.footerAction}
 								href={SLACK_INVITE_URL}
 								target="_blank"
 								rel="nofollow noreferrer noopener"
@@ -165,6 +172,7 @@ const DashboardNavbar = ({
 							</a>{' '}
 							or email{' '}
 							<a
+								className={styles.footerAction}
 								href="mailto:support@memorize.ai"
 								target="_blank"
 								rel="nofollow noreferrer noopener"
@@ -172,9 +180,10 @@ const DashboardNavbar = ({
 								support@memorize.ai
 							</a>
 						</p>
-						<label className="footer-label">Develop</label>
-						<p className="footer-info">
+						<label className={styles.footerLabel}>Develop</label>
+						<p className={styles.footerInfo}>
 							<a
+								className={styles.footerAction}
 								href="https://github.com/memorize-ai"
 								target="_blank"
 								rel="noopener noreferrer nofollow"
@@ -183,6 +192,7 @@ const DashboardNavbar = ({
 							</a>{' '}
 							•{' '}
 							<a
+								className={styles.footerAction}
 								href={API_URL}
 								target="_blank"
 								rel="nofollow noreferrer noopener"
@@ -190,17 +200,20 @@ const DashboardNavbar = ({
 								API docs
 							</a>{' '}
 							•{' '}
-							<button onClick={() => setIsApiKeyModalShowing(true)}>
+							<button
+								className={styles.footerAction}
+								onClick={() => setIsApiKeyModalShowing(true)}
+							>
 								My API key
 							</button>
 						</p>
 					</Dropdown>
 				) : (
-					<AuthButton className="auth-button">
-						<p>
-							Log in <span>/</span> Sign up
-						</p>
-						<FontAwesomeIcon icon={faKey} />
+					<AuthButton className={styles.auth}>
+						<span className={styles.authText}>
+							Log in <span className={styles.authSlash}>/</span> Sign up
+						</span>
+						<FontAwesomeIcon className={styles.authIcon} icon={faKey} />
 					</AuthButton>
 				)}
 			</div>
