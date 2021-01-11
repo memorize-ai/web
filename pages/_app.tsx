@@ -18,7 +18,6 @@ import 'styles/Dashboard/AddCards.scss'
 import 'styles/Dashboard/EditDeck.scss'
 import 'styles/Dashboard/Market.scss'
 import 'styles/Dashboard/Cram.scss'
-import 'styles/Dashboard/PublishDeck.scss'
 
 config.autoAddCss = false
 
