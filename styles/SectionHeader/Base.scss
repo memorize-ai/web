@@ -40,24 +40,6 @@
 		}
 	}
 
-	> .toggle-expanded-button {
-		$dimension: 30px;
-
-		width: $dimension;
-		height: $dimension;
-		border: 1.5px solid #ddd;
-		border-radius: 50%;
-		transition: opacity 0.3s, transform 0.3s;
-
-		> svg {
-			color: #582efe;
-		}
-
-		&:hover {
-			opacity: 0.5;
-		}
-	}
-
 	> .share {
 		margin: 0 4px 0 14px;
 		transform: scale(1.3);

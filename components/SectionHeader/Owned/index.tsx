@@ -15,7 +15,7 @@ import cx from 'classnames'
 import Deck from 'models/Deck'
 import Section from 'models/Section'
 import useCurrentUser from 'hooks/useCurrentUser'
-import ToggleExpandedButton from './ToggleExpandedButton'
+import ToggleExpandedButton from '../ToggleExpandedButton'
 import Dropdown, { DropdownShadow } from 'components/Dropdown'
 import { formatNumber } from 'lib/utils'
 

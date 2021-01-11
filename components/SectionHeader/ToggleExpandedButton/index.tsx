@@ -1,21 +1,28 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 
+import styles from './index.module.scss'
+
+export interface SectionHeaderToggleExpandedButtonProps {
+	degrees: number
+	toggle?(): void
+	children: boolean
+}
+
 const SectionHeaderToggleExpandedButton = ({
 	degrees,
 	toggle,
 	children: isExpanded
-}: {
-	degrees: number
-	toggle?: () => void
-	children: boolean
-}) => (
+}: SectionHeaderToggleExpandedButtonProps) => (
 	<button
-		className="toggle-expanded-button"
+		className={styles.root}
 		onClick={toggle}
 		style={{ transform: `rotate(${degrees}deg)` }}
 	>
-		<FontAwesomeIcon icon={isExpanded ? faMinus : faPlus} />
+		<FontAwesomeIcon
+			className={styles.icon}
+			icon={isExpanded ? faMinus : faPlus}
+		/>
 	</button>
 )
 

@@ -1,0 +1,63 @@
+@use 'styles/variables' as *;
+
+$margin: 12px;
+
+.root {
+	display: flex;
+	align-items: center;
+	overflow-x: auto;
+	cursor: pointer;
+	font-size: 18px;
+
+	@media (min-width: 800px) {
+		overflow-x: unset;
+	}
+}
+
+.name {
+	font-weight: bold;
+	color: $dark-gray;
+}
+
+.divider,
+.cards,
+.share {
+	flex-shrink: 0;
+}
+
+.divider {
+	$height: 2px;
+
+	flex-grow: 1;
+	min-width: 30px;
+	height: $height;
+	margin: 0 12px;
+	background: #ddd;
+	border-radius: $height / 2;
+}
+
+.cards {
+	display: none;
+	margin-right: 12px;
+	font-weight: bold;
+	color: #582efe;
+	transform: translateY(-2px);
+
+	@media (min-width: 470px) {
+		display: block;
+	}
+}
+
+.share {
+	margin: 0 4px 0 14px;
+	transform: scale(1.3);
+
+	&:hover .shareIcon {
+		opacity: 0.5;
+	}
+}
+
+.shareIcon {
+	fill: #4355f9;
+	transition: opacity 0.3s;
+}
