@@ -21,6 +21,8 @@ import Button from 'components/Button'
 import PublishDeckContent from 'components/PublishDeckContent'
 import Loader from 'components/Loader'
 
+import styles from './index.module.scss'
+
 const EditDeck: NextPage = () => {
 	requiresAuth()
 
@@ -103,7 +105,12 @@ const EditDeck: NextPage = () => {
 	)
 
 	return (
-		<Dashboard selection={Selection.Decks} className="edit-deck publish-deck">
+		<Dashboard
+			className={styles.root}
+			sidebarClassName={styles.sidebar}
+			contentClassName={styles.content}
+			selection={Selection.Decks}
+		>
 			<Head
 				title={`Edit ${deck?.name ?? 'deck'} | memorize.ai`}
 				description={headDescription}
@@ -120,16 +127,18 @@ const EditDeck: NextPage = () => {
 					]
 				]}
 			/>
-			<div className="header">
+			<div className={styles.header}>
 				<Link href={closeUrl}>
-					<a className="close">
-						<FontAwesomeIcon icon={faTimes} />
+					<a className={styles.close}>
+						<FontAwesomeIcon className={styles.closeIcon} icon={faTimes} />
 					</a>
 				</Link>
-				<h1>
+				<h1 className={styles.title}>
 					Edit <span>{deck?.name ?? 'deck'}</span>
 				</h1>
 				<Button
+					className={styles.submit}
+					disabledClassName={styles.submitDisabled}
 					loaderSize="20px"
 					loaderThickness="4px"
 					loaderColor="#582efe"
@@ -140,8 +149,8 @@ const EditDeck: NextPage = () => {
 					Save
 				</Button>
 			</div>
-			<div className="content">
-				<div className={cx('box', { loading: !deck })}>
+			<div className={styles.main}>
+				<div className={cx(styles.box, { [styles.loading]: !deck })}>
 					{deck ? (
 						<PublishDeckContent
 							imageUrl={imageUrl}
@@ -157,12 +166,7 @@ const EditDeck: NextPage = () => {
 							setSelectedTopics={setSelectedTopics}
 						/>
 					) : (
-						<Loader
-							className="loader"
-							size="24px"
-							thickness="4px"
-							color="#582efe"
-						/>
+						<Loader size="24px" thickness="4px" color="#582efe" />
 					)}
 				</div>
 			</div>
