@@ -18,7 +18,13 @@ import user from 'images/icons/user.svg'
 import download from 'images/icons/download.svg'
 import users from 'images/icons/users.svg'
 
-const MarketDeckRow = ({ deck }: { deck: Deck }) => {
+import styles from './index.module.scss'
+
+export interface MarketDeckRowProps {
+	deck: Deck
+}
+
+const MarketDeckRow = ({ deck }: MarketDeckRowProps) => {
 	const [currentUser] = useCurrentUser()
 	const [decks] = useDecks()
 
@@ -76,36 +82,37 @@ const MarketDeckRow = ({ deck }: { deck: Deck }) => {
 	return (
 		<Link href={deck.url}>
 			<a
-				className="deck-row"
+				className={styles.root}
 				itemScope
 				itemID={deck.id}
 				itemType="https://schema.org/IndividualProduct"
 			>
 				<img
+					className={styles.image}
 					itemProp="image"
 					src={deck.imageUrl ?? defaultImage}
 					alt={deck.name}
 					loading="lazy"
 				/>
-				<span className="content">
-					<span className="name" itemProp="name">
+				<span className={styles.content}>
+					<span className={styles.name} itemProp="name">
 						{deck.name}
 					</span>
-					<span className="subtitle">{deck.subtitle}</span>
+					<span className={styles.subtitle}>{deck.subtitle}</span>
 					<span hidden itemProp="description">
 						{deck.description}
 					</span>
 					{deck.creatorName && (
-						<span className="creator">
-							<Svg src={user} />
-							<span>{deck.creatorName}</span>
+						<span className={styles.creator}>
+							<Svg className={styles.creatorIcon} src={user} />
+							<span className={styles.creatorName}>{deck.creatorName}</span>
 						</span>
 					)}
 				</span>
-				<span className="footer">
-					<span className="stats">
+				<span className={styles.footer}>
+					<span className={styles.stats}>
 						<span
-							className="rating"
+							className={styles.rating}
 							itemProp="aggregateRating"
 							itemScope
 							itemType="https://schema.org/AggregateRating"
@@ -127,26 +134,32 @@ const MarketDeckRow = ({ deck }: { deck: Deck }) => {
 								content={deck.bestRating.toString()}
 							/>
 							<Stars>{deck.averageRating}</Stars>
-							<span>({formatNumber(deck.numberOfRatings)})</span>
+							<span className={styles.statText}>
+								({formatNumber(deck.numberOfRatings)})
+							</span>
 						</span>
-						<span className="divider" />
-						<span className="downloads">
-							<Svg src={download} />
-							<span>({formatNumber(deck.numberOfDownloads)})</span>
+						<span className={styles.divider} />
+						<span className={styles.downloads}>
+							<Svg className={styles.statIcon} src={download} />
+							<span className={styles.statText}>
+								({formatNumber(deck.numberOfDownloads)})
+							</span>
 						</span>
-						<span className="divider" />
-						<span className="current-users">
-							<Svg src={users} />
-							<span>({formatNumber(deck.numberOfCurrentUsers)})</span>
+						<span className={styles.divider} />
+						<span className={styles.users}>
+							<Svg className={styles.statIcon} src={users} />
+							<span className={styles.statText}>
+								({formatNumber(deck.numberOfCurrentUsers)})
+							</span>
 						</span>
-						<span className="divider" />
-						<span className="cards">
+						<span className={styles.divider} />
+						<span className={styles.cards}>
 							{formatNumber(deck.numberOfCards)} card
 							{deck.numberOfCards === 1 ? '' : 's'}
 						</span>
 					</span>
 					<Button
-						className={hasDeck ? 'open' : 'get'}
+						className={styles[hasDeck ? 'open' : 'get']}
 						loaderSize="16px"
 						loaderThickness="3px"
 						loaderColor="white"

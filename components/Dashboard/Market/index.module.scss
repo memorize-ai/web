@@ -1,0 +1,83 @@
+@use 'styles/functions' as *;
+@use 'styles/dashboard';
+
+$header-margin: 16px;
+
+@include dashboard.sidebar-collapse(1025px);
+
+.content {
+	display: grid;
+	grid: auto 1fr / 1fr;
+	overflow-y: unset;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	margin: $header-margin var(--horizontal-padding) 0;
+}
+
+.new {
+	$dimension: 45px;
+
+	display: flex;
+	align-items: center;
+	width: $dimension;
+	height: $dimension;
+	padding: 0 14px;
+	color: white;
+	border: 1.5px solid transparentize(#eee, 0.8);
+	border-radius: 8px;
+
+	&:hover,
+	&:focus {
+		.newIcon {
+			opacity: 1;
+		}
+	}
+}
+
+.newIcon {
+	opacity: 0.7;
+	transform: scale(1.1);
+	transition: opacity 0.3s;
+}
+
+.search {
+	width: 100%;
+	margin: 0 $header-margin;
+}
+
+.searchInput {
+	padding: raw-repeat(3, 12px) 44px;
+	color: white;
+	background: transparentize(#eee, 0.8);
+	border: none;
+	border-radius: 100px;
+
+	&::placeholder {
+		color: transparentize(#eee, 0.2);
+	}
+}
+
+.searchIcon {
+	top: 16px;
+	left: 16px;
+	color: #eee !important;
+}
+
+.decks {
+	overflow-y: auto;
+	margin-top: 12px;
+	padding: 4px var(--horizontal-padding) var(--horizontal-padding);
+}
+
+.decksContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.loader {
+	margin-top: 30px;
+}

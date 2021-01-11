@@ -9,6 +9,7 @@ $divider-color: transparentize(#ddd, 0.8);
 }
 
 .root {
+	grid-area: sidebar;
 	display: grid;
 	grid: auto 1fr auto / 1fr;
 	height: 100vh;

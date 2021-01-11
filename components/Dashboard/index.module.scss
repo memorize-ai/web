@@ -6,7 +6,9 @@
 	--inner-horizontal-padding: 16px;
 
 	display: grid;
-	grid: 1fr / var(--sidebar-width) auto;
+	grid:
+		'sidebar content' 1fr /
+		var(--sidebar-width) 1fr;
 	height: 100vh;
 
 	@media (min-width: 450px) {
@@ -17,6 +19,8 @@
 
 .content {
 	@include stack;
+
+	grid-area: content;
 }
 
 .background {
