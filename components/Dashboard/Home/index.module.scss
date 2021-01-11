@@ -1,0 +1,133 @@
+@use 'styles/mixins' as *;
+@use 'styles/dashboard';
+
+@include dashboard.sidebar-collapse(780px);
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 16px var(--horizontal-padding) 0;
+}
+
+.left {
+	overflow: hidden;
+	color: white;
+}
+
+.title,
+.subtitle {
+	@include overflow-ellipsis;
+}
+
+.title {
+	font-weight: 900;
+}
+
+.subtitle {
+	opacity: 0.7;
+}
+
+.review {
+	display: inline-block;
+	margin-top: 16px;
+	padding: 8px 16px;
+	font-weight: 900;
+	text-transform: uppercase;
+	color: #582efe;
+	background: white;
+	border-radius: 8px;
+	transition: color 0.3s, background 0.3s;
+
+	&:hover {
+		color: white;
+		background: #051e34;
+	}
+}
+
+.new {
+	flex-shrink: 0;
+	display: none;
+	align-items: center;
+	margin-left: 24px;
+	padding: 10px 16px;
+	color: #582efe;
+	background: white;
+	border-radius: 8px;
+	transition: color 0.3s, background 0.3s;
+
+	@media (min-width: 450px) {
+		display: flex;
+	}
+
+	&:hover {
+		color: white;
+		background: #051e34;
+	}
+}
+
+.newIcon {
+	margin-right: 10px;
+}
+
+.newText {
+	font-weight: 900;
+	text-transform: uppercase;
+}
+
+.activityTitle,
+.decksTitle {
+	display: inline-block;
+	margin: 0 var(--horizontal-padding);
+	font-weight: 900;
+}
+
+.activity {
+	margin: 30px 0;
+}
+
+.activityTitle {
+	color: white;
+}
+
+.activityContent {
+	margin: 8px var(--horizontal-padding) 0;
+}
+
+.myDecks {
+	margin-top: 20px;
+}
+
+.recommendedDecks {
+	margin-top: 16px;
+}
+
+.decksTitle {
+	padding: 4px 12px;
+	font-size: 25px;
+	color: #4a4a4a;
+	background: transparentize(white, 0.7);
+	border-radius: 5px;
+}
+
+.decks {
+	overflow-x: auto;
+	margin: 12px 0 15px;
+	padding: 5px var(--horizontal-padding) 15px;
+}
+
+.decksRow {
+	display: flex;
+
+	&:not(:last-child) {
+		margin-bottom: 12px;
+	}
+}
+
+.deck {
+	flex-shrink: 0;
+
+	&:not(:last-of-type) {
+		margin-right: 12px;
+	}
+}

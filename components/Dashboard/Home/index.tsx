@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
+import { formatNumber } from 'lib/utils'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useDecks from 'hooks/useDecks'
 import useRecommendedDecks from 'hooks/useRecommendedDecks'
@@ -13,7 +14,8 @@ import Head from 'components/Head'
 import Activity from 'components/Activity'
 import OwnedDeckCell from 'components/DeckCell/Owned'
 import DeckCell from 'components/DeckCell'
-import { formatNumber } from 'lib/utils'
+
+import styles from './index.module.scss'
 
 export interface DashboardHomeProps {
 	expectsSignIn?: boolean | null
@@ -46,75 +48,84 @@ const DashboardHome = ({ expectsSignIn = null }: DashboardHomeProps) => {
 
 	return (
 		<Dashboard
+			className={styles.root}
+			sidebarClassName={styles.sidebar}
 			selection={Selection.Home}
 			expectsSignIn={expectsSignIn}
-			className="home"
 		>
 			<Head
 				title="memorize.ai"
 				breadcrumbs={url => [[{ name: 'Dashboard', url }]]}
 			/>
-			<div className="header">
-				<div className="left">
-					<h1 className="title">Hello, {currentUser?.name}</h1>
-					<h3 className="subtitle">
+			<div className={styles.header}>
+				<div className={styles.left}>
+					<h1 className={styles.title}>Hello, {currentUser?.name}</h1>
+					<h3 className={styles.subtitle}>
 						You have {dueCards ? formatNumber(dueCards) : 'no'} card
 						{dueCards === 1 ? '' : 's'} due
 					</h3>
 					{dueCards > 0 && (
 						<Link href="/review">
-							<a className="review-button">Review all</a>
+							<a className={styles.review}>Review all</a>
 						</Link>
 					)}
 				</div>
 				<Link href="/new">
-					<a className="create-deck-link">
-						<FontAwesomeIcon icon={faPlus} />
-						<span>Create deck</span>
+					<a className={styles.new}>
+						<FontAwesomeIcon className={styles.newIcon} icon={faPlus} />
+						<span className={styles.newText}>Create deck</span>
 					</a>
 				</Link>
 			</div>
-			<div className="activity-container">
-				<h1>Activity</h1>
-				<Activity className="activity" />
+			<div className={styles.activity}>
+				<h1 className={styles.activityTitle}>Activity</h1>
+				<Activity className={styles.activityContent} />
 			</div>
 			{decks.length === 0 || (
-				<div className="my-decks">
-					<h1>My decks</h1>
-					<div className="decks">
-						<div>
+				<div className={styles.myDecks}>
+					<h1 className={styles.decksTitle}>My decks</h1>
+					<div className={styles.decks}>
+						<div className={styles.decksRow}>
 							{decksByCardsDue
 								.filter((_, i) => !(i & 1))
 								.map(deck => (
-									<OwnedDeckCell key={deck.id} deck={deck} />
+									<OwnedDeckCell
+										key={deck.id}
+										className={styles.deck}
+										deck={deck}
+									/>
 								))}
 						</div>
-						<div>
+						<div className={styles.decksRow}>
 							{decksByCardsDue
 								.filter((_, i) => i & 1)
 								.map(deck => (
-									<OwnedDeckCell key={deck.id} deck={deck} />
+									<OwnedDeckCell
+										key={deck.id}
+										className={styles.deck}
+										deck={deck}
+									/>
 								))}
 						</div>
 					</div>
 				</div>
 			)}
 			{recommendedDecks.length === 0 || (
-				<div className="recommended-decks">
-					<h1>Recommended decks</h1>
-					<div className="decks">
-						<div>
+				<div className={styles.recommendedDecks}>
+					<h1 className={styles.decksTitle}>Recommended decks</h1>
+					<div className={styles.decks}>
+						<div className={styles.decksRow}>
 							{recommendedDecks
 								.filter((_, i) => !(i & 1))
 								.map(deck => (
-									<DeckCell key={deck.id} deck={deck} />
+									<DeckCell key={deck.id} className={styles.deck} deck={deck} />
 								))}
 						</div>
-						<div>
+						<div className={styles.decksRow}>
 							{recommendedDecks
 								.filter((_, i) => i & 1)
 								.map(deck => (
-									<DeckCell key={deck.id} deck={deck} />
+									<DeckCell key={deck.id} className={styles.deck} deck={deck} />
 								))}
 						</div>
 					</div>

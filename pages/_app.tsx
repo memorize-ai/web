@@ -11,7 +11,6 @@ import { src as favicon } from 'images/favicon.png'
 
 import 'styles/global.scss'
 import 'styles/Dashboard/Review.scss'
-import 'styles/Dashboard/Home.scss'
 import 'styles/Dashboard/Decks.scss'
 import 'styles/Dashboard/DeckPage.scss'
 import 'styles/Dashboard/EditCard.scss'
