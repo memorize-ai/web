@@ -24,7 +24,6 @@ import 'styles/Dashboard/Market.scss'
 import 'styles/Dashboard/Cram.scss'
 import 'styles/Dashboard/PublishDeck.scss'
 import 'styles/Modal/Confirmation.scss'
-import 'styles/Modal/Input.scss'
 
 config.autoAddCss = false
 

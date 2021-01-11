@@ -1,8 +1,9 @@
-import { useCallback, memo } from 'react'
+import { useCallback, FormEvent } from 'react'
 import { Svg } from 'react-optimized-image'
 import Modal, { ModalShowingProps } from 'components/Modal'
 
 import times from 'images/icons/times.svg'
+import styles from './index.module.scss'
 
 export interface InputModalProps extends ModalShowingProps {
 	title: string
@@ -10,8 +11,8 @@ export interface InputModalProps extends ModalShowingProps {
 	buttonText: string
 	buttonBackground?: string
 	value: string
-	setValue: (value: string) => void
-	onClick: () => void
+	setValue(value: string): void
+	onSubmit(): void
 	isDisabled: boolean
 }
 
@@ -22,47 +23,56 @@ const InputModal = ({
 	buttonBackground = '',
 	value,
 	setValue,
-	onClick,
+	onSubmit: finalize,
 	isDisabled,
 	isShowing,
 	setIsShowing
 }: InputModalProps) => {
 	const onInputRef = useCallback(
 		(input: HTMLInputElement | null) => {
-			if (input) input[isShowing ? 'focus' : 'blur']()
+			input?.[isShowing ? 'focus' : 'blur']()
 		},
 		[isShowing]
 	)
 
+	const onSubmit = useCallback(
+		(event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault()
+			if (!isDisabled) finalize()
+		},
+		[isDisabled, finalize]
+	)
+
 	return (
 		<Modal
-			className="input-modal"
+			className={styles.root}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>
-			<div className="header">
-				<h2 className="title">{title}</h2>
-				<button className="hide" onClick={() => setIsShowing(false)}>
+			<div className={styles.header}>
+				<h2 className={styles.title}>{title}</h2>
+				<button className={styles.hide} onClick={() => setIsShowing(false)}>
 					<Svg src={times} />
 				</button>
 			</div>
-			<div className="content">
+			<form className={styles.form} onSubmit={onSubmit}>
 				<input
 					ref={onInputRef}
+					className={styles.input}
 					placeholder={placeholder}
 					value={value}
 					onChange={({ target }) => setValue(target.value)}
 				/>
 				<button
+					className={styles.submit}
 					disabled={isDisabled}
-					onClick={onClick}
 					style={{ background: buttonBackground }}
 				>
 					{buttonText}
 				</button>
-			</div>
+			</form>
 		</Modal>
 	)
 }
 
-export default memo(InputModal)
+export default InputModal
