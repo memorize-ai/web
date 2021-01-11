@@ -1,0 +1,36 @@
+@use 'styles/mixins' as *;
+@use 'styles/dashboard';
+
+@include dashboard.sidebar-collapse(1080px);
+
+.content {
+	display: grid;
+	grid: auto 1fr / calc(100vw - var(--sidebar-width));
+	overflow: visible;
+}
+
+.main {
+	display: grid;
+	grid: 1fr / auto;
+	overflow-y: auto;
+	scroll-behavior: smooth;
+	padding: 0 var(--horizontal-padding);
+}
+
+.box {
+	@include shadow-lg;
+
+	width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2);
+	height: max-content;
+	margin-bottom: var(--horizontal-padding);
+	padding: var(--inner-horizontal-padding);
+	background: white;
+	border-radius: 8px;
+}
+
+.loading {
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	height: auto;
+}

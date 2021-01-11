@@ -11,7 +11,19 @@ import useCards from 'hooks/useCards'
 import CardCell from 'components/CardCell/Owned'
 import Loader from 'components/Loader'
 
+import styles from './index.module.scss'
+
 export type SetSelectedSectionAction = 'unlock' | 'rename' | 'delete' | 'share'
+
+export interface DecksSectionContentProps {
+	deck: Deck
+	section: Section
+	isExpanded: boolean
+	toggleExpanded(): void
+	setSelectedSection(action: SetSelectedSectionAction): void
+	numberOfSections: number
+	reorder(delta: number): void
+}
 
 const DecksSectionContent = ({
 	deck,
@@ -21,15 +33,7 @@ const DecksSectionContent = ({
 	setSelectedSection,
 	numberOfSections,
 	reorder
-}: {
-	deck: Deck
-	section: Section
-	isExpanded: boolean
-	toggleExpanded: () => void
-	setSelectedSection: (action: SetSelectedSectionAction) => void
-	numberOfSections: number
-	reorder: (delta: number) => void
-}) => {
+}: DecksSectionContentProps) => {
 	const [currentUser] = useCurrentUser()
 	const cards = useCards(deck, section, isExpanded)
 
@@ -54,7 +58,7 @@ const DecksSectionContent = ({
 	])
 
 	return (
-		<div className="section">
+		<div className={styles.root}>
 			<SectionHeader
 				deck={deck}
 				section={section}
@@ -68,13 +72,13 @@ const DecksSectionContent = ({
 				reorder={reorder}
 			/>
 			{currentUser?.id === deck.creatorId && (
-				<div className="add-cards-container">
+				<div className={styles.addCards}>
 					<Link href={addUrl}>
-						<a>
-							<FontAwesomeIcon icon={faPlus} />
-							<p>
+						<a className={styles.addCardsLink}>
+							<FontAwesomeIcon className={styles.addCardsIcon} icon={faPlus} />
+							<span className={styles.addCardsText}>
 								Add cards to <i>{section.name}</i>
-							</p>
+							</span>
 						</a>
 					</Link>
 				</div>
@@ -82,14 +86,19 @@ const DecksSectionContent = ({
 			{isExpanded &&
 				(!cards || cards.length > 0) &&
 				(cards ? (
-					<div className="cards">
+					<div className={styles.cards}>
 						{cards.map(card => (
-							<CardCell key={card.id} deck={deck} card={card} />
+							<CardCell
+								key={card.id}
+								className={styles.card}
+								deck={deck}
+								card={card}
+							/>
 						))}
 					</div>
 				) : (
 					<Loader
-						className="loader"
+						className={styles.loader}
 						size="24px"
 						thickness="4px"
 						color="#582efe"

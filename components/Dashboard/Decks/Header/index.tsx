@@ -4,7 +4,6 @@ import { Svg } from 'react-optimized-image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faBars,
-	faPrint,
 	faStar as faStarFilled,
 	faTimes,
 	faTrash
@@ -28,7 +27,13 @@ import cart from 'images/icons/cart.svg'
 import edit from 'images/icons/edit.svg'
 import decks from 'images/icons/decks.svg'
 
-const DecksHeader = ({ deck }: { deck: Deck | null }) => {
+import styles from './index.module.scss'
+
+export interface DecksHeaderProps {
+	deck: Deck | null
+}
+
+const DecksHeader = ({ deck }: DecksHeaderProps) => {
 	const [currentUser] = useCurrentUser()
 
 	const [
@@ -59,82 +64,102 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 	}, [deck, currentUser, setIsOptionsDropdownShowing, setIsDeleteModalShowing])
 
 	return (
-		<div className={cx('header', { owned: isOwner, loading: !deck })}>
-			<img src={deck?.imageUrl ?? defaultImage} alt="Deck" />
-			<h1 className="name">{deck?.name}</h1>
+		<div
+			className={cx(styles.root, {
+				[styles.owned]: isOwner,
+				[styles.loading]: !deck
+			})}
+		>
+			<img
+				className={styles.image}
+				src={deck?.imageUrl ?? defaultImage}
+				alt="Deck"
+			/>
+			<h1 className={styles.name}>{deck?.name}</h1>
 			{deck && (
 				<>
 					<Link href={deck.reviewUrl()}>
 						<a
-							className={cx('review-button', {
-								disabled: !numberOfDueCards
+							className={cx(styles.review, {
+								[styles.disabledAction]: !numberOfDueCards
 							})}
 							aria-label="The magic of memorize.ai - efficient long-term memorization"
 							data-balloon-pos="up"
 						>
-							<p>
+							<span>
 								Review
 								{numberOfDueCards > 0 && ` ${numberOfDueCardsFormatted}`}
-							</p>
-							{numberOfDueCards > 0 && <Svg src={decks} />}
+							</span>
+							{numberOfDueCards > 0 && (
+								<Svg className={styles.actionIcon} src={decks} />
+							)}
 						</a>
 					</Link>
 					<Link href={deck.cramUrl()}>
 						<a
-							className={cx('cram-button', {
-								disabled: !numberOfUnlockedCards
+							className={cx(styles.cram, {
+								[styles.disabledAction]: !numberOfUnlockedCards
 							})}
 							aria-label="Fast and easy - perfect right before an exam"
 							data-balloon-pos="up"
 						>
-							<p>
+							<span>
 								Cram
 								{numberOfUnlockedCards > 0 &&
 									` ${numberOfUnlockedCardsFormatted}`}
-							</p>
-							{numberOfUnlockedCards > 0 && <Svg src={decks} />}
+							</span>
+							{numberOfUnlockedCards > 0 && (
+								<Svg className={styles.actionIcon} src={decks} />
+							)}
 						</a>
 					</Link>
 				</>
 			)}
 			{currentUser && currentUser?.id === deck?.creatorId && (
 				<button
-					className="create-section"
+					className={styles.createSection}
 					onClick={() => setIsCreateSectionModalShowing(true)}
 				>
 					Create section
 				</button>
 			)}
-			<button className="share" onClick={() => setIsShareModalShowing(true)}>
-				<Svg src={share} />
+			<button
+				className={styles.share}
+				onClick={() => setIsShareModalShowing(true)}
+			>
+				<Svg className={styles.shareIcon} src={share} />
 			</button>
 			<Dropdown
-				className="options"
+				className={styles.options}
+				triggerClassName={styles.optionsTrigger}
+				contentClassName={styles.optionsContent}
 				shadow={DropdownShadow.Screen}
-				trigger={<FontAwesomeIcon icon={faBars} />}
+				trigger={
+					<FontAwesomeIcon
+						className={styles.optionsTriggerIcon}
+						icon={faBars}
+					/>
+				}
 				isShowing={isOptionsDropdownShowing}
 				setIsShowing={setIsOptionsDropdownShowing}
 			>
 				<button
+					className={styles.option}
 					onClick={() => currentUser && deck?.toggleFavorite(currentUser.id)}
 				>
 					<FontAwesomeIcon
+						className={cx(styles.optionIcon, styles.star)}
 						icon={isFavorite ? faStarFilled : faStarOutlined}
-						className="star"
 					/>
-					<p>
+					<span className={styles.optionName}>
 						{isFavorite ? 'Unf' : 'F'}avorite (
 						{formatNumber(deck?.numberOfFavorites ?? 0)})
-					</p>
+					</span>
 				</button>
-				<a href={deck?.printUrl} rel="noopener noreferrer" target="_blank">
-					<FontAwesomeIcon icon={faPrint} className="print" />
-					<p>Print</p>
-				</a>
 				<Link href={deck?.url ?? '/market'}>
-					<a>
-						<Svg className="cart" src={cart} />
-						<p>Visit page</p>
+					<a className={styles.option}>
+						<Svg className={cx(styles.optionIcon, styles.cart)} src={cart} />
+						<span className={styles.optionName}>Visit page</span>
 					</a>
 				</Link>
 				{isOwner && (
@@ -143,21 +168,33 @@ const DecksHeader = ({ deck }: { deck: Deck | null }) => {
 							deck ? encodeURIComponent(deck.slug) : ''
 						}`}
 					>
-						<a>
-							<Svg className="edit" src={edit} />
-							<p>Edit deck</p>
+						<a className={styles.option}>
+							<Svg className={cx(styles.optionIcon, styles.edit)} src={edit} />
+							<span className={styles.optionName}>Edit deck</span>
 						</a>
 					</Link>
 				)}
-				<div className="divider" />
-				<button onClick={() => deck && removeDeck(deck)}>
-					<FontAwesomeIcon icon={faTimes} className="destructive remove" />
-					<p>Remove from library</p>
+				<div className={styles.optionDivider} />
+				<button
+					className={styles.option}
+					onClick={() => deck && removeDeck(deck)}
+				>
+					<FontAwesomeIcon
+						className={cx(styles.optionIcon, styles.remove)}
+						icon={faTimes}
+					/>
+					<span className={styles.optionName}>Remove from library</span>
 				</button>
 				{isOwner && (
-					<button onClick={() => setIsDeleteModalShowing(true)}>
-						<FontAwesomeIcon icon={faTrash} className="destructive delete" />
-						<p>Permanently delete</p>
+					<button
+						className={styles.option}
+						onClick={() => setIsDeleteModalShowing(true)}
+					>
+						<FontAwesomeIcon
+							className={cx(styles.optionIcon, styles.delete)}
+							icon={faTrash}
+						/>
+						<span className={styles.optionName}>Permanently delete</span>
 					</button>
 				)}
 			</Dropdown>

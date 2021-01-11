@@ -1,24 +1,19 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/router'
-import { ParsedUrlQuery } from 'querystring'
 
-import Deck from 'models/Deck'
+import { DecksSectionsQuery, DecksSectionsProps } from './models'
 import Section from 'models/Section'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useSections from 'hooks/useSections'
 import useExpandedSections from 'hooks/useExpandedSections'
-import SectionContent from './SectionContent'
+import SectionContent from '../SectionContent'
 import ConfirmationModal from 'components/Modal/Confirmation'
 import RenameSectionModal from 'components/Modal/RenameSection'
 import ShareSectionModal from 'components/Modal/ShareSection'
 
 const INITIAL_SECTIONS: Section[] = []
 
-interface DecksSectionsQuery extends ParsedUrlQuery {
-	unlockSectionId?: string
-}
-
-const DecksSections = ({ deck }: { deck: Deck }) => {
+const DecksSections = ({ deck }: DecksSectionsProps) => {
 	const router = useRouter()
 	const { unlockSectionId } = router.query as DecksSectionsQuery
 
@@ -179,4 +174,5 @@ const DecksSections = ({ deck }: { deck: Deck }) => {
 	)
 }
 
+export type { DecksSectionsProps }
 export default DecksSections
