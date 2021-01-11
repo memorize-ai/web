@@ -1,4 +1,4 @@
-import { memo, useCallback, useState, FormEvent } from 'react'
+import { useCallback, useState, FormEvent } from 'react'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -7,14 +7,22 @@ import cx from 'classnames'
 import firebase from 'lib/firebase'
 import User from 'models/User'
 import LoadingState from 'models/LoadingState'
-import Modal, { ModalShowingProps } from '.'
+import Modal, { ModalShowingProps } from '..'
 import Button from 'components/Button'
 import { sleep } from 'lib/utils'
+
+import styles from './index.module.scss'
 
 import 'firebase/functions'
 
 const functions = firebase.functions()
 const contactUser = functions.httpsCallable('contactUser')
+
+export interface ContactUserModalProps extends ModalShowingProps {
+	subjectPlaceholder: string
+	bodyPlaceholder: string
+	user: User | null
+}
 
 const ContactUserModal = ({
 	subjectPlaceholder,
@@ -22,11 +30,7 @@ const ContactUserModal = ({
 	user,
 	isShowing,
 	setIsShowing
-}: {
-	subjectPlaceholder: string
-	bodyPlaceholder: string
-	user: User | null
-} & ModalShowingProps) => {
+}: ContactUserModalProps) => {
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	const [errorMessage, setErrorMessage] = useState(null as string | null)
 
@@ -90,50 +94,66 @@ const ContactUserModal = ({
 
 	return (
 		<Modal
-			className="contact-user"
+			className={styles.root}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>
-			<div className="top">
-				<h2 className="title">Chat with {user?.name ?? '...'}</h2>
-				<button className="hide" onClick={() => setIsShowing(false)}>
+			<div className={styles.top}>
+				<h2 className={styles.title}>Chat with {user?.name ?? '...'}</h2>
+				<button className={styles.hide} onClick={() => setIsShowing(false)}>
 					<FontAwesomeIcon icon={faTimes} />
 				</button>
 			</div>
-			<form onSubmit={onSubmit}>
-				<label htmlFor="contact-user-modal-subject-input">
-					Subject <span>(optional)</span>
+			<form className={styles.form} onSubmit={onSubmit}>
+				<label
+					className={styles.label}
+					htmlFor="contact-user-modal-subject-input"
+				>
+					Subject <span className={styles.labelInfo}>(optional)</span>
 				</label>
 				<input
 					id="contact-user-modal-subject-input"
+					className={styles.input}
 					placeholder={subjectPlaceholder}
 					value={subject}
 					onChange={({ target: { value } }) => setSubject(value)}
 				/>
-				<label htmlFor="contact-user-modal-body-textarea">Message</label>
+				<label
+					className={styles.label}
+					htmlFor="contact-user-modal-body-textarea"
+				>
+					Message
+				</label>
 				<textarea
 					id="contact-user-modal-body-textarea"
+					className={styles.textArea}
 					ref={onBodyRef}
 					placeholder={bodyPlaceholder}
 					value={body}
 					onChange={({ target: { value } }) => setBody(value)}
 				/>
-				<div className="footer">
+				<div className={styles.footer}>
 					<Button
-						className={cx('submit-button', { success })}
+						className={cx(styles.submit, { [styles.submitSuccess]: success })}
+						loadingClassName={styles.submitLoading}
+						disabledClassName={styles.submitDisabled}
 						loaderSize="20px"
 						loaderThickness="4px"
 						loaderColor="white"
 						loading={isLoading}
 						disabled={isDisabled}
 					>
-						{success ? <FontAwesomeIcon icon={faCheck} /> : 'Send'}
+						{success ? (
+							<FontAwesomeIcon className={styles.submitIcon} icon={faCheck} />
+						) : (
+							'Send'
+						)}
 					</Button>
-					<p className="error-message">{errorMessage}</p>
+					<p className={styles.error}>{errorMessage}</p>
 				</div>
 			</form>
 		</Modal>
 	)
 }
 
-export default memo(ContactUserModal)
+export default ContactUserModal

@@ -25,7 +25,6 @@ import 'styles/Dashboard/Cram.scss'
 import 'styles/Dashboard/PublishDeck.scss'
 import 'styles/Modal/Confirmation.scss'
 import 'styles/Modal/Input.scss'
-import 'styles/Modal/ContactUser.scss'
 
 config.autoAddCss = false
 
