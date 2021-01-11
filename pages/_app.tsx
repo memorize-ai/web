@@ -26,7 +26,6 @@ import 'styles/Dashboard/PublishDeck.scss'
 import 'styles/Modal/Confirmation.scss'
 import 'styles/Modal/Input.scss'
 import 'styles/Modal/ContactUser.scss'
-import 'styles/Modal/Copy.scss'
 
 config.autoAddCss = false
 
