@@ -23,7 +23,6 @@ import 'styles/Dashboard/EditDeck.scss'
 import 'styles/Dashboard/Market.scss'
 import 'styles/Dashboard/Cram.scss'
 import 'styles/Dashboard/PublishDeck.scss'
-import 'styles/Modal/Confirmation.scss'
 
 config.autoAddCss = false
 

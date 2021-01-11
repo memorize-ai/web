@@ -140,7 +140,7 @@ const DecksSections = ({ deck }: { deck: Deck }) => {
 				message={
 					<>
 						Are you sure you want to unlock{' '}
-						<span>{selectedSection?.name ?? '...'}</span>?
+						<b>{selectedSection?.name ?? '...'}</b>?
 					</>
 				}
 				onConfirm={onConfirmUnlock}
@@ -160,7 +160,7 @@ const DecksSections = ({ deck }: { deck: Deck }) => {
 				message={
 					<>
 						Are you sure you want to delete{' '}
-						<span>{selectedSection?.name ?? '...'}</span>?
+						<b>{selectedSection?.name ?? '...'}</b>?
 					</>
 				}
 				onConfirm={onConfirmDelete}
