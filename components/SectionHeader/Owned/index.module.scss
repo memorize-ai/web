@@ -1,0 +1,253 @@
+@use 'styles/variables' as *;
+
+$margin: 12px;
+$badge-height: 22px;
+
+.root {
+	display: flex;
+	align-items: center;
+	overflow-x: auto;
+	cursor: pointer;
+	font-size: 18px;
+
+	@media (min-width: 800px) {
+		overflow-x: unset;
+	}
+}
+
+.due {
+	padding-top: $badge-height;
+}
+
+.unlock {
+	margin-right: 16px;
+	color: $dark-gray;
+	transform: scale(1.2);
+	transition: color 0.3s;
+
+	&:hover,
+	&:focus {
+		color: #4355f9;
+	}
+}
+
+.reorder {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-right: 12px;
+}
+
+.reorderButton {
+	&:hover .reorderIcon {
+		color: #4355f9;
+		opacity: 0.5;
+	}
+
+	&:first-child {
+		margin-bottom: -5px;
+	}
+
+	&:last-child {
+		margin-top: -5px;
+	}
+}
+
+.reorderIcon {
+	color: $dark-gray;
+	transform: scale(1.2);
+	transition: color 0.3s, opacity 0.3s;
+}
+
+.name {
+	position: relative;
+	font-weight: bold;
+	color: $dark-gray;
+}
+
+.badge {
+	position: absolute;
+	top: -$badge-height;
+	left: 0;
+	height: $badge-height;
+	padding: 0 5px;
+	white-space: nowrap;
+	line-height: $badge-height;
+	font-size: 14px;
+	color: white;
+	background: transparentize(#4355f9, 0.5);
+	border-radius: 5px;
+}
+
+.divider {
+	$height: 2px;
+
+	flex-grow: 1;
+	min-width: 30px;
+	height: $height;
+	margin: 0 12px;
+	background: #ddd;
+	border-radius: $height / 2;
+}
+
+.link {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	padding: 0 6px;
+	text-transform: uppercase;
+	font-size: 16px;
+	font-weight: 900;
+	border-radius: 8px;
+
+	&::before,
+	&::after {
+		text-transform: none;
+	}
+
+	&:not(.disabledLink):hover {
+		.linkText {
+			opacity: 0.7;
+		}
+
+		.linkIcon {
+			animation: spin 0.3s ease-out;
+
+			@keyframes spin {
+				to {
+					transform: rotate(1turn);
+				}
+			}
+		}
+	}
+}
+
+.disabledLink {
+	pointer-events: none;
+	cursor: not-allowed;
+	opacity: 0.4;
+}
+
+.linkText {
+	transition: opacity 0.3s;
+}
+
+.linkIcon {
+	display: none;
+	margin-left: 10px;
+
+	@media (min-width: 750px) {
+		display: initial;
+	}
+}
+
+.review {
+	margin: 0 8px 0 2px;
+	color: #00d388;
+}
+
+.cram {
+	margin-right: 12px;
+	color: #f85ea1;
+}
+
+.cards {
+	display: none;
+	margin-right: 12px;
+	font-weight: bold;
+	color: #582efe;
+	transform: translateY(-2px);
+
+	@media (min-width: 680px) {
+		display: block;
+	}
+}
+
+.share {
+	margin: 0 4px 0 14px;
+	transform: scale(1.3);
+
+	&:hover .shareIcon {
+		opacity: 0.5;
+	}
+}
+
+.shareIcon {
+	fill: #4355f9;
+	transition: opacity 0.3s;
+}
+
+.options {
+	margin-left: 16px;
+}
+
+.optionsTrigger {
+	color: #4355f9;
+	transform: scale(1.3);
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 0.5;
+	}
+}
+
+.optionsContent {
+	padding: 20px;
+	background: white;
+	border-radius: 8px;
+}
+
+.option {
+	display: flex;
+	align-items: center;
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 0.5;
+	}
+
+	&:not(:last-child) {
+		margin-bottom: 24px;
+	}
+}
+
+.optionIcon {
+	$color: #4355f9;
+
+	color: $color;
+
+	&_unlock {
+		margin: 0 14px 0 4px;
+		transform: scale(1.15);
+	}
+
+	&_rename {
+		margin: 0 18px 0 4px;
+		fill: $color;
+		transform: scale(1.6);
+	}
+
+	&_delete {
+		margin: 0 14px 0 4px;
+		color: #e53e3e;
+		transform: scale(1.3);
+	}
+}
+
+.optionName {
+	white-space: nowrap;
+	font-size: 18px;
+	font-weight: bold;
+	color: $dark-gray;
+}
+
+.optionDivider {
+	$height: 2px;
+
+	width: 100%;
+	height: $height;
+	margin-bottom: 24px;
+	background: #ddd;
+	border-radius: $height / 2;
+}
