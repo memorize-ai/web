@@ -26,6 +26,7 @@ import ConfirmationModal from 'components/Modal/Confirmation'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from 'lib/constants'
 
 import { src as defaultImage } from 'images/logos/icon.jpg'
+import styles from './index.module.scss'
 
 const INITIAL_SECTIONS: Section[] = []
 const CONFIRM_CLOSE_MESSAGE =
@@ -137,7 +138,12 @@ const EditCard: NextPage = () => {
 	}, [setIsCloseModalShowing, close])
 
 	return (
-		<Dashboard selection={Selection.Decks} className="edit-card">
+		<Dashboard
+			className={styles.root}
+			sidebarClassName={styles.sidebar}
+			contentClassName={styles.content}
+			selection={Selection.Decks}
+		>
 			<Head
 				title={`Edit card${deck ? ` | ${deck.name}` : ''} | memorize.ai`}
 				description={headDescription}
@@ -154,10 +160,10 @@ const EditCard: NextPage = () => {
 					]
 				]}
 			/>
-			<div className="header">
+			<div className={styles.header}>
 				<Link href={closeUrl}>
 					<a
-						className="close"
+						className={styles.close}
 						onClick={event => {
 							if (isSameContent) return
 
@@ -165,13 +171,17 @@ const EditCard: NextPage = () => {
 							setIsCloseModalShowing(true)
 						}}
 					>
-						<FontAwesomeIcon icon={faTimes} />
+						<FontAwesomeIcon className={styles.closeIcon} icon={faTimes} />
 					</a>
 				</Link>
-				<img src={deck?.imageUrl ?? defaultImage} alt="Deck" />
-				<h1>Edit card</h1>
+				<img
+					className={styles.image}
+					src={deck?.imageUrl ?? defaultImage}
+					alt="Deck"
+				/>
+				<h1 className={styles.title}>Edit card</h1>
 				<button
-					className="save"
+					className={styles.save}
 					disabled={!(front && back) || isSameContent}
 					onClick={save}
 					aria-label={
@@ -186,37 +196,40 @@ const EditCard: NextPage = () => {
 					Save
 				</button>
 				<button
-					className="delete"
+					className={styles.delete}
 					onClick={() => setIsDeleteModalShowing(true)}
 				>
-					<FontAwesomeIcon icon={faTrash} />
+					<FontAwesomeIcon className={styles.deleteIcon} icon={faTrash} />
 				</button>
 			</div>
-			<div className="content">
+			<div className={styles.main}>
 				<div
-					className={cx('box', {
-						loading: !(card && didUpdateFromCard)
+					className={cx(styles.box, {
+						[styles.loading]: !(card && didUpdateFromCard)
 					})}
 				>
-					<div className="header">
-						<p className="name">{deck?.name ?? 'Loading...'}</p>
+					<div className={styles.boxHeader}>
+						<p className={styles.name}>{deck?.name ?? 'Loading...'}</p>
 						<button
-							className="row-toggle"
+							className={styles.rowToggle}
 							onClick={() => setIsEditorStacked(!isEditorStacked)}
 						>
 							<div
-								className={cx('check', {
-									on: !isEditorStacked
+								className={cx(styles.rowToggleCheck, {
+									[styles.rowToggleOn]: !isEditorStacked
 								})}
 							>
-								<FontAwesomeIcon icon={faCheck} />
+								<FontAwesomeIcon
+									className={styles.rowToggleCheckIcon}
+									icon={faCheck}
+								/>
 							</div>
-							<p>Side by side</p>
+							<span className={styles.rowToggleText}>Side by side</span>
 						</button>
 					</div>
-					<label>Choose section</label>
+					<label className={styles.sectionLabel}>Choose section</label>
 					<Select
-						className="section-select"
+						className={styles.section}
 						options={sections}
 						getOptionLabel={property('name')}
 						getOptionValue={property('id')}
@@ -226,34 +239,38 @@ const EditCard: NextPage = () => {
 						// eslint-disable-next-line
 						onChange={setSection as any}
 					/>
-					<div className={cx('sides', { row: !isEditorStacked })}>
+					<div className={cx(styles.sides, { [styles.row]: !isEditorStacked })}>
 						{card && didUpdateFromCard && uploadUrl ? (
 							<>
-								<div>
-									<div className="header">
+								<div className={styles.side}>
+									<div className={styles.sideHeader}>
 										<FontAwesomeIcon
-											className={cx({ valid: front })}
+											className={cx(styles.sideHeaderIcon, {
+												[styles.sideHeaderValid]: front
+											})}
 											icon={front ? faCheck : faTimes}
 										/>
-										<label>Front</label>
+										<label className={styles.sideHeaderLabel}>Front</label>
 									</div>
 									<CKEditor
-										className="editor"
+										className={styles.editor}
 										uploadUrl={uploadUrl}
 										data={front}
 										setData={setFront}
 									/>
 								</div>
-								<div>
-									<div className="header">
+								<div className={styles.side}>
+									<div className={styles.sideHeader}>
 										<FontAwesomeIcon
-											className={cx({ valid: back })}
+											className={cx(styles.sideHeaderIcon, {
+												[styles.sideHeaderValid]: back
+											})}
 											icon={back ? faCheck : faTimes}
 										/>
-										<label>Back</label>
+										<label className={styles.sideHeaderLabel}>Back</label>
 									</div>
 									<CKEditor
-										className="editor"
+										className={styles.editor}
 										uploadUrl={uploadUrl}
 										data={back}
 										setData={setBack}
@@ -261,12 +278,7 @@ const EditCard: NextPage = () => {
 								</div>
 							</>
 						) : (
-							<Loader
-								className="loader"
-								size="24px"
-								thickness="4px"
-								color="#582efe"
-							/>
+							<Loader size="24px" thickness="4px" color="#582efe" />
 						)}
 					</div>
 				</div>

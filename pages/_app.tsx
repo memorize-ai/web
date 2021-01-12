@@ -12,7 +12,6 @@ import { src as favicon } from 'images/favicon.png'
 import 'styles/global.scss'
 import 'styles/Dashboard/Review.scss'
 import 'styles/Dashboard/DeckPage.scss'
-import 'styles/Dashboard/EditCard.scss'
 import 'styles/Dashboard/Cram.scss'
 
 config.autoAddCss = false
