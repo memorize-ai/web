@@ -1,0 +1,48 @@
+$margin: 30px;
+$topic-dimension: 90px;
+$topic-padding: 8px;
+
+.root {
+	margin-top: 24px;
+}
+
+.description {
+	max-width: 800px;
+	margin: 0 $margin;
+	font-size: 16px;
+	color: #5c5c5c;
+}
+
+.topics {
+	display: flex;
+	overflow-x: auto;
+	margin-top: 20px;
+	padding: 0 $margin;
+}
+
+.topic {
+	flex-shrink: 0;
+	position: relative;
+	overflow: hidden;
+	width: $topic-dimension;
+	height: $topic-dimension;
+	background-size: cover;
+	background-position: center;
+	border-radius: 5px;
+
+	&:not(:last-child) {
+		margin-right: 12px;
+	}
+}
+
+.topicName {
+	position: absolute;
+	right: $topic-padding / 2;
+	bottom: $topic-padding;
+	left: $topic-padding / 2;
+	text-align: center;
+	word-wrap: break-word;
+	font-size: 12px;
+	font-weight: bold;
+	color: white;
+}

@@ -1,0 +1,31 @@
+@use 'styles/colors';
+
+.root {
+	margin: 0 var(--inner-horizontal-padding);
+}
+
+.title {
+	font-size: 24px;
+	font-weight: bold;
+	color: colors.$dark-gray;
+}
+
+.count {
+	color: #582efe;
+}
+
+.sections {
+	margin-top: 20px;
+}
+
+.section:not(:last-child) {
+	margin-bottom: 12px;
+}
+
+.cards {
+	margin-top: 12px;
+}
+
+.card:not(:last-child) {
+	margin-bottom: 16px;
+}

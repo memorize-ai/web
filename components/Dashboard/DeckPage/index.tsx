@@ -101,6 +101,7 @@ const DeckPage: NextPage<DeckPageProps> = ({
 			ref={content}
 			className={styles.root}
 			sidebarClassName={styles.sidebar}
+			contentClassName={styles.content}
 			selection={Selection.Market}
 		>
 			<Head
@@ -145,7 +146,7 @@ const DeckPage: NextPage<DeckPageProps> = ({
 				]}
 			/>
 			<Navigation numberOfDecks={numberOfDecks} />
-			<div className="box">
+			<div className={styles.box}>
 				<Header deck={deck} creator={creator} hasDeck={hasDeck} />
 				<Preview deck={deck} sections={sections} cards={cards} />
 				<Footer deck={deck} topics={topics} />

@@ -62,9 +62,7 @@ const Interests: NextPage<InterestsProps> = ({ topics: topicsData }) => {
 								currentUser?.interestIds?.includes(topic.id) ?? false
 						})}
 						onClick={() => currentUser?.toggleInterest(topic.id)}
-						style={{
-							backgroundImage: `url('${topic.imageUrl}')`
-						}}
+						style={{ backgroundImage: topic.backgroundImage }}
 						{...topic.schemaProps}
 					>
 						<meta {...topic.positionSchemaProps(i)} />

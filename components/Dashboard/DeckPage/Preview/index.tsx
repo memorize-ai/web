@@ -18,6 +18,8 @@ import toggle from 'images/icons/toggle.svg'
 import leftArrowHead from 'images/icons/gray-left-arrow-head.svg'
 import rightArrowHead from 'images/icons/gray-right-arrow-head.svg'
 
+import styles from './index.module.scss'
+
 const SHOULD_GO_LEFT_KEYS = ['ArrowLeft']
 const SHOULD_GO_RIGHT_KEYS = ['ArrowRight']
 
@@ -136,10 +138,10 @@ const DeckPagePreview = ({
 	if (!(section && card) || cardIndex === undefined) return null
 
 	return (
-		<div className="preview">
-			<div className="header">
+		<div className={styles.root}>
+			<div className={styles.header}>
 				<Select
-					className="section-select"
+					className={styles.section}
 					options={sections}
 					getOptionLabel={property('name')}
 					getOptionValue={property('id')}
@@ -150,22 +152,22 @@ const DeckPagePreview = ({
 					// eslint-disable-next-line
 					onChange={setSection as any}
 				/>
-				<h3 className="message">Preview this deck</h3>
+				<h3 className={styles.title}>Preview this deck</h3>
 			</div>
 			<div
-				className={cx('box', { loading: !card })}
+				className={styles.box}
 				onClick={toggleSide}
 				style={{ opacity: boxOpacity, transform: boxTransform }}
 			>
-				<div className="content-container">
-					<CardSide className="content">
+				<div className={styles.contentContainer}>
+					<CardSide className={styles.content}>
 						{card[isFront ? 'front' : 'back']}
 					</CardSide>
 				</div>
-				<div className="toggle">
-					<p className="side">{isFront ? 'Front' : 'Back'}</p>
+				<div className={styles.toggle}>
+					<p className={styles.toggleSide}>{isFront ? 'Front' : 'Back'}</p>
 					<Svg
-						className="icon"
+						className={styles.toggleIcon}
 						src={toggle}
 						viewBox={`0 0 ${toggle.width} ${toggle.height}`}
 						style={{
@@ -174,33 +176,35 @@ const DeckPagePreview = ({
 					/>
 				</div>
 			</div>
-			<div className="footer">
+			<div className={styles.footer}>
 				<button
-					className="left"
+					className={styles.left}
 					disabled={isLeftDisabled}
 					onClick={() => nextCard(false)}
 				>
-					<Svg src={leftArrowHead} />
+					<Svg className={styles.directionIcon} src={leftArrowHead} />
 				</button>
-				<div className="progress">
-					<div className="slider">
+				<div className={styles.progress}>
+					<div className={styles.slider}>
 						<div
+							className={styles.sliderContent}
 							style={{
 								width: `${(100 * (cardIndex + 1)) / deck.numberOfCards}%`
 							}}
 						/>
 					</div>
-					<p>
-						{formatNumber((cardIndex ?? 0) + 1)} <span>/</span>{' '}
+					<p className={styles.progressText}>
+						{formatNumber((cardIndex ?? 0) + 1)}{' '}
+						<span className={styles.progressSlash}>/</span>{' '}
 						{formatNumber(deck.numberOfCards)}
 					</p>
 				</div>
 				<button
-					className="right"
+					className={styles.right}
 					disabled={isRightDisabled}
 					onClick={() => nextCard(true)}
 				>
-					<Svg src={rightArrowHead} />
+					<Svg className={styles.directionIcon} src={rightArrowHead} />
 				</button>
 			</div>
 		</div>

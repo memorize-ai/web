@@ -127,9 +127,7 @@ const PublishDeckContent = ({
 											: [...selectedTopics, topic.id]
 									)
 								}
-								style={{
-									backgroundImage: `url('${topic.imageUrl}')`
-								}}
+								style={{ backgroundImage: topic.backgroundImage }}
 								{...topic.schemaProps}
 							>
 								<meta {...topic.positionSchemaProps(i)} />

@@ -3,28 +3,31 @@ import Link from 'next/link'
 import Deck from 'models/Deck'
 import Topic from 'models/Topic'
 
+import styles from './index.module.scss'
+
 export interface DeckPageFooterProps {
 	deck: Deck
 	topics: Topic[]
 }
 
 const DeckPageFooter = ({ deck, topics }: DeckPageFooterProps) => (
-	<div id="description" className="footer">
-		<p className="description">{deck.description}</p>
+	<div id="description" className={styles.root}>
+		<p className={styles.description}>{deck.description}</p>
 		{topics.length > 0 && (
-			<div className="topics" {...Topic.schemaProps}>
+			<div className={styles.topics} {...Topic.schemaProps}>
 				{topics.map((topic, i) => (
 					<Link key={topic.id} href={topic.marketUrl}>
 						<a
 							{...topic.schemaProps}
-							style={{
-								backgroundImage: `url('${topic.imageUrl}')`
-							}}
+							className={styles.topic}
+							style={{ backgroundImage: topic.backgroundImage }}
 						>
 							<meta {...topic.positionSchemaProps(i)} />
 							<meta {...topic.urlSchemaProps} />
 							<img {...topic.imageSchemaProps} />
-							<p {...topic.nameSchemaProps}>{topic.name}</p>
+							<span {...topic.nameSchemaProps} className={styles.topicName}>
+								{topic.name}
+							</span>
 						</a>
 					</Link>
 				))}

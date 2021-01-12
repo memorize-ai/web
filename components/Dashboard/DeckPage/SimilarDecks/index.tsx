@@ -4,6 +4,8 @@ import Deck from 'models/Deck'
 import DeckCell from 'components/DeckCell'
 import { formatNumber } from 'lib/utils'
 
+import styles from './index.module.scss'
+
 const evenFilter = (i: number) => !(i & 1)
 const oddFilter = (i: number) => !!(i & 1)
 
@@ -18,7 +20,9 @@ const DeckPageSimilarDecks = ({ similarDecks }: DeckPageSimilarDecksProps) => {
 
 			return similarDecks
 				.filter((_, i) => filter(i))
-				.map(deck => <DeckCell key={deck.id} deck={deck} />)
+				.map(deck => (
+					<DeckCell key={deck.id} className={styles.deck} deck={deck} />
+				))
 		},
 		[similarDecks]
 	)
@@ -26,14 +30,16 @@ const DeckPageSimilarDecks = ({ similarDecks }: DeckPageSimilarDecksProps) => {
 	if (!similarDecks) return null
 
 	return (
-		<div id="similar" className="similar-decks">
-			<h2 className="title">
+		<div id="similar" className={styles.root}>
+			<h2 className={styles.title}>
 				We think you'd like...{' '}
-				<span>({formatNumber(similarDecks.length)})</span>
+				<span className={styles.count}>
+					({formatNumber(similarDecks.length)})
+				</span>
 			</h2>
-			<div className="rows">
-				<div>{withFilter(evenFilter)}</div>
-				<div>{withFilter(oddFilter)}</div>
+			<div className={styles.rows}>
+				<div className={styles.row}>{withFilter(evenFilter)}</div>
+				<div className={styles.row}>{withFilter(oddFilter)}</div>
 			</div>
 		</div>
 	)

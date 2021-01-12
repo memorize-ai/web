@@ -26,6 +26,8 @@ import share from 'images/icons/share.svg'
 import download from 'images/icons/download.svg'
 import users from 'images/icons/users.svg'
 
+import styles from './index.module.scss'
+
 export interface DeckPageHeaderProps {
 	deck: Deck
 	creator: User
@@ -81,31 +83,36 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 	}, [setIsAuthModalShowing, setAuthModalCallback, currentUser, deck])
 
 	return (
-		<div className="header">
-			<img src={deck.imageUrl ?? defaultImage} alt={deck.name} />
-			<div className="content">
-				<h1 className="name">{deck.name}</h1>
-				<p className="subtitle">{deck.subtitle}</p>
-				<div className="creator">
-					<Svg src={user} />
-					<p>{creator.name}</p>
+		<div className={styles.root}>
+			<img
+				className={styles.image}
+				src={deck.imageUrl ?? defaultImage}
+				alt={deck.name}
+			/>
+			<div className={styles.content}>
+				<h1 className={styles.name}>{deck.name}</h1>
+				<p className={styles.subtitle}>{deck.subtitle}</p>
+				<div className={styles.creator}>
+					<Svg className={styles.creatorIcon} src={user} />
+					<p className={styles.creatorName}>{creator.name}</p>
 					<p
+						className={styles.creatorLevel}
 						aria-label="Earn XP by gaining popularity on your decks"
 						data-balloon-pos="up"
 					>
 						(lvl {creatorLevel})
 					</p>
 				</div>
-				<div className="buttons">
+				<div className={styles.actions}>
 					{hasDeck ? (
 						<Link
 							href={`/decks/${deck.slugId}/${encodeURIComponent(deck.slug)}`}
 						>
-							<a className="open">Open</a>
+							<a className={styles.open}>Open</a>
 						</Link>
 					) : (
 						<Button
-							className="get"
+							className={styles.get}
 							loaderSize="16px"
 							loaderThickness="3px"
 							loaderColor="white"
@@ -116,66 +123,70 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 							Get
 						</Button>
 					)}
-					<div className="secondary">
+					<div className={styles.secondaryActions}>
 						{contactLoadingState === LoadingState.Fail || (
 							<button
-								className="contact"
+								className={styles.contact}
 								disabled={contactLoadingState !== LoadingState.Success}
 								onClick={showContactUserModal}
 							>
 								{contactLoadingState === LoadingState.Loading ? (
-									<Loader
-										className="loader"
-										size="20px"
-										thickness="4px"
-										color="white"
-									/>
+									<Loader size="20px" thickness="4px" color="white" />
 								) : (
-									<FontAwesomeIcon icon={faComments} />
+									<FontAwesomeIcon
+										className={styles.contactIcon}
+										icon={faComments}
+									/>
 								)}
-								<p>Chat</p>
+								<span className={styles.contactText}>Chat</span>
 							</button>
 						)}
 						<button
-							className="share"
+							className={styles.share}
 							onClick={() => setIsShareModalShowing(true)}
 						>
-							<Svg src={share} />
+							<Svg className={styles.shareIcon} src={share} />
 						</button>
 					</div>
 				</div>
 			</div>
-			<div className="stats">
-				<a className="rating" href="#ratings">
+			<div className={styles.stats}>
+				<a className={styles.rating} href="#ratings">
 					<Stars>{deck.averageRating}</Stars>
-					<p>({formatNumber(deck.numberOfRatings)})</p>
+					<span className={styles.statText}>
+						({formatNumber(deck.numberOfRatings)})
+					</span>
 				</a>
-				<div className="divider" />
-				<a className="downloads" href="#info">
-					<Svg src={download} />
-					<p>({formatNumber(deck.numberOfDownloads)})</p>
+				<div className={styles.statDivider} />
+				<a className={styles.downloads} href="#info">
+					<Svg className={styles.statIcon} src={download} />
+					<span className={styles.statText}>
+						({formatNumber(deck.numberOfDownloads)})
+					</span>
 				</a>
-				<div className="divider" />
-				<a className="current-users" href="#info">
-					<Svg src={users} />
-					<p>({formatNumber(deck.numberOfCurrentUsers)})</p>
+				<div className={styles.statDivider} />
+				<a className={styles.users} href="#info">
+					<Svg className={styles.statIcon} src={users} />
+					<span className={styles.statText}>
+						({formatNumber(deck.numberOfCurrentUsers)})
+					</span>
 				</a>
-				<div className="divider" />
-				<a className="cards" href="#cards">
+				<div className={styles.statDivider} />
+				<a className={styles.cards} href="#cards">
 					{formatNumber(deck.numberOfCards)} card
 					{deck.numberOfCards === 1 ? '' : 's'}
 				</a>
-				<div className="divider" />
-				<a className="comments" href="#comments">
-					<FontAwesomeIcon icon={faComments} />
-					<p>
+				<div className={styles.statDivider} />
+				<a className={styles.comments} href="#comments">
+					<FontAwesomeIcon className={styles.commentsIcon} icon={faComments} />
+					<span className={styles.commentsText}>
 						(<CommentCount {...deck.disqusProps} />)
-					</p>
+					</span>
 				</a>
 			</div>
 			<ContactUserModal
 				subjectPlaceholder={`I have a question about ${deck.name}`}
-				bodyPlaceholder={`Hi ${creator?.name ?? '...'}...`}
+				bodyPlaceholder={`Hi ${creator.name}...`}
 				user={creator}
 				isShowing={isContactUserModalShowing}
 				setIsShowing={setIsContactUserModalShowing}

@@ -15,6 +15,8 @@ import Input from 'components/Input'
 import SortDropdown from 'components/SortDropdown'
 import { DropdownShadow } from 'components/Dropdown'
 
+import styles from './index.module.scss'
+
 export interface DeckPageNavigationProps {
 	numberOfDecks: number
 }
@@ -51,18 +53,20 @@ const DeckPageNavigation = ({ numberOfDecks }: DeckPageNavigationProps) => {
 	)
 
 	return (
-		<div className="header">
+		<div className={styles.root}>
 			<Link href="/new">
 				<a
-					className="create"
+					className={styles.new}
 					aria-label="Create your own deck!"
 					data-balloon-pos="right"
 				>
-					<FontAwesomeIcon icon={faPlus} />
+					<FontAwesomeIcon className={styles.newIcon} icon={faPlus} />
 				</a>
 			</Link>
 			<Input
-				className="search"
+				className={styles.search}
+				inputClassName={styles.searchInput}
+				iconClassName={styles.searchIcon}
 				icon={faSearch}
 				type="name"
 				placeholder={`Explore ${formatNumber(numberOfDecks)} decks`}

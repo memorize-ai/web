@@ -1,0 +1,21 @@
+@use 'styles/shadow';
+@use 'styles/dashboard';
+
+@include dashboard.sidebar-collapse(1150px);
+
+.content {
+	display: grid;
+	grid: auto 1fr / calc(100vw - var(--sidebar-width));
+	scroll-behavior: smooth;
+}
+
+.box {
+	@include shadow.large;
+
+	height: max-content;
+	overflow: hidden;
+	background: white;
+	border-radius: 8px;
+	margin: 0 var(--horizontal-padding) var(--horizontal-padding);
+	padding-bottom: var(--inner-horizontal-padding);
+}

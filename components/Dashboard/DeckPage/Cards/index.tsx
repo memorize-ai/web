@@ -9,6 +9,8 @@ import CardCell from 'components/CardCell'
 import ShareSectionModal from 'components/Modal/ShareSection'
 import { formatNumber } from 'lib/utils'
 
+import styles from './index.module.scss'
+
 export interface DeckPageCardsProps {
 	deck: Deck
 	sections: Section[]
@@ -41,16 +43,19 @@ const DeckPageCards = ({
 	if (!sections.length) return null
 
 	return (
-		<div id="cards" className="cards">
-			<h2 className="title">
-				Cards <span>({formatNumber(deck.numberOfCards)})</span>
+		<div id="cards" className={styles.root}>
+			<h2 className={styles.title}>
+				Cards{' '}
+				<span className={styles.count}>
+					({formatNumber(deck.numberOfCards)})
+				</span>
 			</h2>
-			<div className="sections">
+			<div className={styles.sections}>
 				{sections.map(section => {
 					const isExpanded = isSectionExpanded(section.id)
 
 					return (
-						<div key={section.id}>
+						<div key={section.id} className={styles.section}>
 							<SectionHeader
 								section={section}
 								isExpanded={isExpanded}
@@ -61,9 +66,13 @@ const DeckPageCards = ({
 								}}
 							/>
 							{isExpanded && (
-								<div className="cards">
+								<div className={styles.cards}>
 									{cards[section.id]?.map(card => (
-										<CardCell key={card.id} card={card} />
+										<CardCell
+											key={card.id}
+											className={styles.card}
+											card={card}
+										/>
 									))}
 								</div>
 							)}
