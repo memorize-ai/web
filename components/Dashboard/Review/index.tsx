@@ -12,6 +12,8 @@ import Footer from './Footer'
 import ProgressModal from './ProgressModal'
 import RecapModal from './RecapModal'
 
+import styles from './index.module.scss'
+
 interface ReviewQuery extends ParsedUrlQuery {
 	slugId?: string
 	slug?: string
@@ -49,10 +51,11 @@ const Review = () => {
 
 	return (
 		<Dashboard
+			className={styles.root}
+			sidebarClassName={styles.sidebar}
 			selection={Selection.Decks}
 			isNavbarHidden
 			hideChat
-			className="review"
 		>
 			<div className="mask" onClick={waitForRating}>
 				<Head

@@ -1,5 +1,8 @@
-@use 'styles/variables' as *;
-@use 'styles/mixins' as *;
+@use 'styles/colors';
+@use 'styles/text';
+@use 'styles/shadow';
+@use 'styles/z-index';
+@use 'styles/ck-editor';
 @use 'styles/dashboard';
 
 $min-row-width: 1350px;
@@ -58,7 +61,7 @@ $space-between-sides: 8px;
 }
 
 .title {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 
 	width: 0;
 	margin: 0 auto 0 -12px;
@@ -120,7 +123,7 @@ $space-between-sides: 8px;
 }
 
 .box {
-	@include shadow-lg;
+	@include shadow.large;
 
 	display: flex;
 	flex-direction: column;
@@ -144,7 +147,7 @@ $space-between-sides: 8px;
 .rowToggleText,
 .sectionLabel {
 	font-weight: bold;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .boxHeader {
@@ -161,7 +164,7 @@ $space-between-sides: 8px;
 }
 
 .name {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 
 	font-size: larger;
 	font-weight: 900;
@@ -190,8 +193,8 @@ $space-between-sides: 8px;
 }
 
 .rowToggleOn {
-	background: $green-400;
-	border-color: $green-400;
+	background: colors.$green-400;
+	border-color: colors.$green-400;
 
 	.rowToggleCheckIcon {
 		opacity: 1;
@@ -211,7 +214,7 @@ $space-between-sides: 8px;
 }
 
 .section {
-	z-index: $dropdown-z-index - 1;
+	z-index: z-index.$dropdown - 1;
 }
 
 .sides {
@@ -229,7 +232,7 @@ $space-between-sides: 8px;
 		}
 
 		.editor {
-			@include ck-editor-dropdown {
+			@include ck-editor.dropdown {
 				width: calc(
 					(
 							100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 -
@@ -265,25 +268,25 @@ $space-between-sides: 8px;
 
 .sideHeaderIcon {
 	margin-right: 8px;
-	color: $red-600;
+	color: colors.$red-600;
 	transform: scale(1.1);
 }
 
 .sideHeaderValid {
 	margin-right: 6px;
-	color: $green-400;
+	color: colors.$green-400;
 	transform: none;
 }
 
 .sideHeaderLabel {
 	font-weight: bold;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .editor {
 	height: 100%;
 
-	@include ck-editor-dropdown {
+	@include ck-editor.dropdown {
 		width: calc(
 			100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 -
 				var(--inner-horizontal-padding) * 2 - 20px

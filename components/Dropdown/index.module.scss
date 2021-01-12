@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/z-index';
 
 .root {
 	position: relative;
@@ -11,7 +11,7 @@
 	margin-top: 8px;
 	transform: translateX(-20px);
 	opacity: 0;
-	z-index: $dropdown-z-index;
+	z-index: z-index.$dropdown;
 	transition: transform 0.2s, opacity 0.2s;
 
 	&.right {

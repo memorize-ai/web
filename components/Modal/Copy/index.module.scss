@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 $margin: 20px;
 
@@ -76,7 +76,7 @@ $margin: 20px;
 	font-family: Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
 	font-weight: bold;
 	padding: 12px 0;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 	transform: translateY(1px);
 }
 

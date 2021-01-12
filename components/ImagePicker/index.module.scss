@@ -1,7 +1,7 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 $default-dimension: 200px;
-$dimension: #{var(--dimension, $default-dimension)};
+$dimension: var(--dimension, $default-dimension);
 
 .root {
 	display: grid;
@@ -51,7 +51,7 @@ $dimension: #{var(--dimension, $default-dimension)};
 }
 
 .removeIcon {
-	color: transparentize($red-400, 0.25);
+	color: transparentize(colors.$red-400, 0.25);
 	transform: scale(1.8);
 	transition: transform 0.3s;
 }
@@ -61,7 +61,7 @@ $dimension: #{var(--dimension, $default-dimension)};
 	font-weight: 900;
 	text-align: center;
 	text-transform: uppercase;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .icon {

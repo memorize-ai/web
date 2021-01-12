@@ -1,8 +1,8 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 .root {
 	padding: 30px;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .title {
@@ -11,5 +11,5 @@
 
 .divider {
 	margin: 30px 0;
-	background: transparentize($dark-gray, 0.8);
+	background: transparentize(colors.$dark-gray, 0.8);
 }

@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 @use 'styles/card-cell';
 
 .root {
@@ -88,13 +88,13 @@
 
 .editIcon {
 	margin-right: 8px;
-	fill: $dark-gray;
+	fill: colors.$dark-gray;
 	transform: scale(1.2);
 }
 
 .editText {
 	font-weight: bold;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .stats {

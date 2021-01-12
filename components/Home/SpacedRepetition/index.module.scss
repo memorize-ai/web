@@ -1,12 +1,12 @@
-@use 'styles/variables' as *;
-@use 'styles/trigonometry' as *;
+@use 'styles/colors';
+@use 'styles/geometry';
 
 .root {
 	display: flex;
 	flex-direction: column-reverse;
 	justify-content: center;
 	align-items: center;
-	margin-top: calc(#{tan(6deg)} * 100vw);
+	margin-top: calc(#{geometry.tan(6deg) * 100}vw);
 
 	@media (min-width: 600px) {
 		flex-direction: row;
@@ -111,7 +111,7 @@
 	margin-top: 10px;
 	font-size: 14px;
 	line-height: 24px;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 
 	@media (min-width: 730px) {
 		margin-top: 20px;

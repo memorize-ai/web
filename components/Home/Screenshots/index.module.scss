@@ -1,8 +1,8 @@
-@use 'styles/mixins' as *;
-@use 'styles/trigonometry' as *;
+@use 'styles/gradient';
+@use 'styles/geometry';
 
 $degrees: 6deg;
-$offset: tan($degrees) * 100vw;
+$offset: geometry.tan($degrees) * 100vw;
 
 $row-min-width: 1200px;
 
@@ -14,8 +14,7 @@ $transform-length: 100px;
 }
 
 .root {
-	@include stack;
-
+	display: grid;
 	position: relative;
 	margin-bottom: -$offset;
 	z-index: 1;
@@ -55,10 +54,16 @@ $transform-length: 100px;
 	}
 }
 
-.background {
-	@include top-gradient($degrees, $is-right: true);
+.background,
+.content {
+	grid-row: 1;
+	grid-column: 1;
+}
 
-	height: calc(100vh + #{tan($degrees)} * 100vw);
+.background {
+	@include gradient.top($degrees, $is-right: true);
+
+	height: calc(100vh + #{geometry.tan($degrees)} * 100vw);
 }
 
 .content {

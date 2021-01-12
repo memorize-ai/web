@@ -14,6 +14,8 @@ import Footer from './Footer'
 import ProgressModal from './ProgressModal'
 import RecapModal from './RecapModal'
 
+import styles from './index.module.scss'
+
 interface CramQuery extends ParsedUrlQuery {
 	slugId: string
 	slug: string
@@ -50,11 +52,12 @@ const Cram = () => {
 
 	return (
 		<Dashboard
+			className={styles.root}
+			sidebarClassName={styles.sidebar}
 			selection={Selection.Decks}
 			gradientStyle={GradientStyle.Green}
 			isNavbarHidden
 			hideChat
-			className="cram"
 		>
 			<div className="mask" onClick={waitForRating}>
 				<Head

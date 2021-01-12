@@ -1,11 +1,11 @@
-@use 'styles/mixins' as *;
-@use 'styles/trigonometry' as *;
+@use 'styles/gradient';
+@use 'styles/geometry';
 
 $degrees: 6deg;
 
 @mixin height($height) {
 	.root {
-		height: calc(#{$height} - #{tan($degrees)} * 100vw);
+		height: calc(#{$height} - #{geometry.tan($degrees) * 100}vw);
 	}
 
 	.background {
@@ -32,11 +32,17 @@ $degrees: 6deg;
 @include height-query(2800px, 860px);
 
 .root {
-	@include stack;
+	display: grid;
+}
+
+.background,
+.content {
+	grid-row: 1;
+	grid-column: 1;
 }
 
 .background {
-	@include top-gradient($degrees, $is-right: true);
+	@include gradient.top($degrees, $is-right: true);
 }
 
 .content {

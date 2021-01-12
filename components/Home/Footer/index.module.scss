@@ -1,5 +1,4 @@
-@use 'styles/mixins' as *;
-@use 'styles/trigonometry' as *;
+@use 'styles/geometry';
 
 $degrees: 6deg;
 
@@ -9,7 +8,13 @@ $degrees: 6deg;
 }
 
 .root {
-	@include stack;
+	display: grid;
+}
+
+.background,
+.content {
+	grid-row: 1;
+	grid-column: 1;
 }
 
 .background {
@@ -114,11 +119,16 @@ $degrees: 6deg;
 	align-items: center;
 	padding: 60px 30px;
 	background: black;
-	margin-bottom: tan($degrees) * -50vw;
+	margin-bottom: geometry.tan($degrees) * -50vw;
 }
 
 .logoLink {
-	@include raise-on-hover;
+	transition: transform 0.3s;
+
+	&:hover,
+	&:focus {
+		transform: translateY(-2px);
+	}
 }
 
 .logo {

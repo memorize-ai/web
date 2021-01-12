@@ -1,4 +1,3 @@
-@use 'styles/functions' as *;
 @use 'styles/card-cell';
 @use 'styles/card-side';
 
@@ -51,7 +50,9 @@ $horizontal-view-spacing: var(--horizontal-view-spacing, 30px * 4);
 }
 
 .text {
-	margin: auto raw-repeat(3, 8px);
+	$margin: 8px;
+
+	margin: auto $margin $margin;
 	text-align: center;
 	text-transform: uppercase;
 	color: #9b9b9b;

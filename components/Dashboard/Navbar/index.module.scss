@@ -1,5 +1,4 @@
-@use 'styles/variables' as *;
-@use 'styles/functions' as *;
+@use 'styles/colors';
 
 .root {
 	$bottom-border-width: 2px;
@@ -39,7 +38,7 @@
 
 .profile,
 .auth {
-	margin: 0 raw-repeat(3, 10px);
+	margin: 0 10px 10px 10px;
 }
 
 .profileTrigger {
@@ -106,7 +105,7 @@
 
 .name,
 .email {
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .name {
@@ -153,12 +152,12 @@
 	display: block;
 	margin-top: 16px;
 	font-weight: 900;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .footerInfo {
 	margin-top: 2px;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .footerAction {

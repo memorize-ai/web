@@ -1,8 +1,8 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 .root {
 	min-height: 100vh;
-	background: $light-gray;
+	background: colors.$light-gray;
 }
 
 .title {

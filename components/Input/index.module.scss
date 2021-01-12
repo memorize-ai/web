@@ -1,5 +1,4 @@
-@use 'styles/variables' as *;
-@use 'styles/functions' as *;
+@use 'styles/colors';
 
 .root {
 	position: relative;
@@ -7,25 +6,25 @@
 
 .input {
 	width: 100%;
-	padding: raw-repeat(3, 6px) 2.25em;
-	color: $dark-gray;
-	border: 2px solid $gray-300;
+	padding: 6px 6px 6px 2.25em;
+	color: colors.$dark-gray;
+	border: 2px solid colors.$gray-300;
 	border-radius: 0.25rem;
 	outline: none;
 
 	&:hover {
-		border-color: $gray-400;
+		border-color: colors.$gray-400;
 
 		+ .icon {
-			color: $gray-400;
+			color: colors.$gray-400;
 		}
 	}
 
 	&:focus {
-		border-color: $blue-400;
+		border-color: colors.$blue-400;
 
 		+ .icon {
-			color: $blue-400;
+			color: colors.$blue-400;
 		}
 	}
 }
@@ -35,5 +34,5 @@
 	left: 12px;
 	top: 12px;
 	pointer-events: none;
-	color: $gray-300;
+	color: colors.$gray-300;
 }

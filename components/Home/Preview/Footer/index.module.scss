@@ -1,10 +1,7 @@
-@use 'styles/mixins' as *;
-
 $vertical-offset: 100px;
 
 .root {
-	@include stack;
-
+	display: grid;
 	justify-items: center;
 	align-items: center;
 	margin-top: 40px;
@@ -34,6 +31,13 @@ $vertical-offset: 100px;
 		opacity: 1;
 		transform: none;
 	}
+}
+
+.claim,
+.message,
+.buttons {
+	grid-row: 1;
+	grid-column: 1;
 }
 
 .claim {

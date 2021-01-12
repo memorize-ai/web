@@ -1,7 +1,8 @@
-@use 'styles/variables' as *;
-@use 'styles/mixins' as *;
-@use 'styles/functions' as *;
-@use 'styles/trigonometry' as *;
+@use 'styles/raw';
+@use 'styles/colors';
+@use 'styles/text';
+@use 'styles/gradient';
+@use 'styles/geometry';
 @use 'styles/card-side';
 
 $degrees: 6deg;
@@ -16,11 +17,17 @@ $flip-animation-duration: 300ms;
 $shift-animation-duration: 300ms;
 
 .root {
-	@include stack;
+	display: grid;
+}
+
+.background,
+.content {
+	grid-row: 1;
+	grid-column: 1;
 }
 
 .background {
-	@include top-gradient($degrees, $is-right: true);
+	@include gradient.top($degrees, $is-right: true);
 }
 
 .content {
@@ -30,7 +37,7 @@ $shift-animation-duration: 300ms;
 	max-width: $max-width;
 	width: 100%;
 	margin: $vertical-margin 0
-		calc(#{$vertical-margin} + #{tan($degrees) * 100vw});
+		calc(#{$vertical-margin} + #{geometry.tan($degrees) * 100vw});
 	padding: 0 $margin;
 	z-index: 0;
 }
@@ -166,7 +173,7 @@ $shift-animation-duration: 300ms;
 }
 
 .locationDeck {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 }
 
 .locationDivider,
@@ -258,7 +265,7 @@ $shift-animation-duration: 300ms;
 	padding: $padding;
 
 	@include card-side.katex-width(
-		css-min(
+		raw.min(
 			$max-width - $padding * 2,
 			calc(100vw - var(--sidebar-width) - #{$margin * 2 + $padding * 2})
 		)
@@ -309,7 +316,7 @@ $shift-animation-duration: 300ms;
 	margin-right: 24px;
 	text-transform: uppercase;
 	font-weight: 900;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 	opacity: 0.5;
 	transform: translateY(10px);
 }
@@ -321,7 +328,7 @@ $shift-animation-duration: 300ms;
 	height: $dimension;
 	padding: 2px;
 	color: #06ba7a;
-	background: transparentize($light-gray, 0.2);
+	background: transparentize(colors.$light-gray, 0.2);
 	border-radius: 50%;
 	transition: transform 0.3s ease-out;
 }

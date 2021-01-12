@@ -1,5 +1,7 @@
-@use 'styles/variables' as *;
-@use 'styles/mixins' as *;
+@use 'styles/colors';
+@use 'styles/text';
+@use 'styles/shadow';
+@use 'styles/z-index';
 @use 'styles/dashboard';
 
 $min-row-width: 1350px;
@@ -61,7 +63,7 @@ $header-height: 42px;
 }
 
 .title {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 
 	width: 0;
 	margin: 0 auto 0 -12px;
@@ -124,7 +126,7 @@ $header-height: 42px;
 }
 
 .box {
-	@include shadow-lg;
+	@include shadow.large;
 
 	display: flex;
 	flex-direction: column;
@@ -148,7 +150,7 @@ $header-height: 42px;
 .rowToggleText,
 .sectionLabel {
 	font-weight: bold;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .boxHeader,
@@ -169,7 +171,7 @@ $header-height: 42px;
 }
 
 .name {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 
 	font-size: larger;
 	font-weight: 900;
@@ -198,8 +200,8 @@ $header-height: 42px;
 }
 
 .rowToggleCheckOn {
-	background: $green-400;
-	border-color: $green-400;
+	background: colors.$green-400;
+	border-color: colors.$green-400;
 
 	.rowToggleCheckIcon {
 		opacity: 1;
@@ -219,7 +221,7 @@ $header-height: 42px;
 }
 
 .section {
-	z-index: $dropdown-z-index - 1;
+	z-index: z-index.$dropdown - 1;
 }
 
 .boxContent {

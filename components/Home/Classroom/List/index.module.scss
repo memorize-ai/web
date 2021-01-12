@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 .root {
 	margin-top: 30px;
@@ -71,7 +71,7 @@
 .text {
 	font-size: 10px;
 	font-weight: bold;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 
 	@media (min-width: 300px) {
 		font-size: 12px;

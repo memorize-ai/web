@@ -1,4 +1,4 @@
-@use 'styles/mixins' as *;
+@use 'styles/text';
 @use 'styles/dashboard';
 
 @include dashboard.sidebar-collapse(780px);
@@ -17,7 +17,7 @@
 
 .title,
 .subtitle {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 }
 
 .title {

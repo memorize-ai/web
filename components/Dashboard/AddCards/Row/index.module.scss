@@ -1,5 +1,6 @@
-@use 'styles/variables' as *;
-@use 'styles/mixins' as *;
+@use 'styles/colors';
+@use 'styles/text';
+@use 'styles/ck-editor';
 
 $min-row-width: 1350px;
 
@@ -24,7 +25,7 @@ $min-row-width: 1350px;
 		}
 
 		.editor {
-			@include ck-editor-dropdown {
+			@include ck-editor.dropdown {
 				width: calc(
 					(
 							100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 -
@@ -46,7 +47,7 @@ $min-row-width: 1350px;
 
 .summary {
 	width: calc(100% - 65px);
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .summaryLabel {
@@ -56,7 +57,7 @@ $min-row-width: 1350px;
 }
 
 .summaryText {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 
 	margin-top: -2px;
 	font-weight: bold;
@@ -67,7 +68,7 @@ $min-row-width: 1350px;
 	width: 50px;
 	height: 30px;
 	color: white;
-	background: $red-600;
+	background: colors.$red-600;
 	border-radius: 8px;
 	transition: background 0.3s, opacity 0.3s;
 
@@ -106,25 +107,25 @@ $min-row-width: 1350px;
 
 .sideHeaderIcon {
 	margin-right: 8px;
-	color: $red-600;
+	color: colors.$red-600;
 	transform: scale(1.1);
 }
 
 .sideHeaderValid {
 	margin-right: 6px;
-	color: $green-400;
+	color: colors.$green-400;
 	transform: none;
 }
 
 .sideHeaderLabel {
 	font-weight: bold;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .editor {
 	height: 100%;
 
-	@include ck-editor-dropdown {
+	@include ck-editor.dropdown {
 		width: calc(
 			100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 -
 				var(--inner-horizontal-padding) * 2 - 20px

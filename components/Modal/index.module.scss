@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/z-index';
 
 .root {
 	display: flex;
@@ -10,7 +10,7 @@
 	bottom: 0;
 	left: 0;
 	pointer-events: none;
-	z-index: $modal-z-index;
+	z-index: z-index.$modal;
 	will-change: background;
 	transition: background 0.3s;
 

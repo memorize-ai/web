@@ -1,6 +1,6 @@
-@use 'styles/variables' as *;
-@use 'styles/mixins' as *;
-@use 'styles/functions' as *;
+@use 'styles/raw';
+@use 'styles/colors';
+@use 'styles/text';
 
 $max-width: 1200px;
 $height: 300px;
@@ -11,18 +11,17 @@ $full-width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2);
 .root {
 	--image-dimension: 150px;
 
-	@include raise-on-hover;
-
 	display: grid;
 	grid:
 		'image' auto
 		'content' auto
 		'footer' auto /
-		#{css-min($max-width, $full-width)};
+		#{raw.min($max-width, $full-width)};
 	overflow: hidden;
 	background: white;
 	border: 1px solid #eee;
 	border-radius: 8px;
+	transition: transform 0.3s;
 
 	@media (min-width: 700px) {
 		$full-width: calc(
@@ -47,7 +46,12 @@ $full-width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2);
 			'image content' auto
 			'image footer' 1fr /
 			#{$height}
-			#{css-min($max-width, $full-width)};
+			#{raw.min($max-width, $full-width)};
+	}
+
+	&:hover,
+	&:focus {
+		transform: translateY(-2px);
 	}
 
 	&:not(:last-child) {
@@ -89,11 +93,11 @@ $full-width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2);
 }
 
 .name {
-	@include line-limit(2);
+	@include text.line-limit(2);
 
 	font-size: 25px;
 	font-weight: 800;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 
 	@media (min-width: 1300px) {
 		font-size: 26px;
@@ -101,7 +105,7 @@ $full-width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2);
 }
 
 .subtitle {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 
 	margin-top: 4px;
 	font-size: 20px;
@@ -128,7 +132,7 @@ $full-width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2);
 }
 
 .creatorName {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 
 	font-size: 20px;
 	font-weight: bold;

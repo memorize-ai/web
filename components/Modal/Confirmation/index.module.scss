@@ -1,5 +1,4 @@
-@use 'styles/variables' as *;
-@use 'styles/functions' as *;
+@use 'styles/colors';
 
 $margin: 8px;
 $form-height: 50px;
@@ -43,7 +42,7 @@ $form-height: 50px;
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
-	margin: 0 raw-repeat(3, 30px);
+	margin: 0 30px 30px 30px;
 	border-radius: 8px;
 }
 
@@ -56,7 +55,7 @@ $form-height: 50px;
 	flex-grow: 1;
 	padding: 0 20px;
 	line-height: $form-height;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 	background: transparentize(#f0f1f8, 0.32);
 }
 

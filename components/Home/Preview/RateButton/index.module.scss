@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 .root {
 	width: 75px;
@@ -60,7 +60,7 @@
 	text-transform: uppercase;
 	font-size: 9px;
 	font-weight: 900;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 
 	@media (min-width: 340px) {
 		font-size: 12px;
@@ -84,7 +84,7 @@
 	text-align: center;
 	font-size: 10px;
 	font-weight: 900;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 
 	@media (min-width: 350px) {
 		width: max-content;
@@ -101,6 +101,6 @@
 
 @for $i from 0 through 2 {
 	.rating_#{$i} {
-		background: transparentize(map-get($rating-colors, $i), 0.84);
+		background: transparentize(map-get(colors.$ratings, $i), 0.84);
 	}
 }

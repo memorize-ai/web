@@ -1,4 +1,4 @@
-@use 'styles/trigonometry' as *;
+@use 'styles/geometry';
 
 $degrees: 6deg;
 $new-arrow-scale: scale(-1.2, 1.2);
@@ -86,7 +86,7 @@ $new-arrow-scale: scale(-1.2, 1.2);
 	width: max-content;
 	height: $height;
 	margin-top: 30px;
-	margin-bottom: calc(30px + #{tan($degrees) * 50vw});
+	margin-bottom: calc(30px + #{geometry.tan($degrees) * 50vw});
 	padding: 0 20px;
 	color: white;
 	background: #5a2aff;

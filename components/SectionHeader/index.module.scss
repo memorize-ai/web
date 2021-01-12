@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 $margin: 12px;
 
@@ -16,7 +16,7 @@ $margin: 12px;
 
 .name {
 	font-weight: bold;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .divider,

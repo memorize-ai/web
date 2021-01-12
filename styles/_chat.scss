@@ -1,0 +1,5 @@
+@mixin hide {
+	#hubspot-messages-iframe-container {
+		display: none !important;
+	}
+}

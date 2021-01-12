@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 .root {
 	display: flex;
@@ -35,7 +35,7 @@
 .label {
 	margin: 24px 0 12px;
 	font-weight: 900;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .example {
@@ -44,7 +44,7 @@
 
 .input,
 .textArea {
-	color: $dark-gray;
+	color: colors.$dark-gray;
 	background: transparentize(#f0f1f8, 0.18);
 	border-radius: 15px;
 }
@@ -62,7 +62,7 @@
 .noTopics {
 	margin-top: 24px;
 	font-weight: bold;
-	color: $red-600;
+	color: colors.$red-600;
 	transition: margin-top 0.3s, opacity 0.3s;
 
 	&[hidden] {

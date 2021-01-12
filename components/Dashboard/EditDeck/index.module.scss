@@ -1,4 +1,5 @@
-@use 'styles/mixins' as *;
+@use 'styles/text';
+@use 'styles/shadow';
 @use 'styles/dashboard';
 
 @include dashboard.sidebar-collapse(920px);
@@ -43,7 +44,7 @@
 }
 
 .title {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 
 	margin-right: auto;
 	font-weight: 900;
@@ -81,7 +82,7 @@
 }
 
 .box {
-	@include shadow-lg;
+	@include shadow.large;
 
 	padding: var(--inner-horizontal-padding);
 	background: white;

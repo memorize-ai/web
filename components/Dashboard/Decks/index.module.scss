@@ -1,4 +1,4 @@
-@use 'styles/mixins' as *;
+@use 'styles/shadow';
 @use 'styles/dashboard';
 
 @include dashboard.sidebar-collapse(1080px);
@@ -18,7 +18,7 @@
 }
 
 .box {
-	@include shadow-lg;
+	@include shadow.large;
 
 	width: calc(100vw - var(--sidebar-width) - var(--horizontal-padding) * 2);
 	height: max-content;

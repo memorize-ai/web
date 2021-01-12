@@ -1,5 +1,5 @@
-@use 'styles/variables' as *;
-@use 'styles/mixins' as *;
+@use 'styles/colors';
+@use 'styles/text';
 
 @mixin static {
 	overflow: visible;
@@ -48,7 +48,7 @@
 }
 
 .name {
-	@include overflow-ellipsis;
+	@include text.overflow-ellipsis;
 
 	flex-shrink: 0;
 	max-width: 400px;
@@ -231,7 +231,7 @@
 	white-space: nowrap;
 	font-size: 18px;
 	font-weight: bold;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .optionDivider {

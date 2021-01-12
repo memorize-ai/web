@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 $margin: 12px;
 $badge-height: 22px;
@@ -21,7 +21,7 @@ $badge-height: 22px;
 
 .unlock {
 	margin-right: 16px;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 	transform: scale(1.2);
 	transition: color 0.3s;
 
@@ -55,7 +55,7 @@ $badge-height: 22px;
 }
 
 .reorderIcon {
-	color: $dark-gray;
+	color: colors.$dark-gray;
 	transform: scale(1.2);
 	transition: color 0.3s, opacity 0.3s;
 }
@@ -63,7 +63,7 @@ $badge-height: 22px;
 .name {
 	position: relative;
 	font-weight: bold;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .badge {
@@ -239,7 +239,7 @@ $badge-height: 22px;
 	white-space: nowrap;
 	font-size: 18px;
 	font-weight: bold;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 }
 
 .optionDivider {

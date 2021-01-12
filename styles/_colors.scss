@@ -1,14 +1,4 @@
-$font-family: Muli, Arial, Helvetica, sans-serif;
-
-$dropdown-z-index: 100;
-$modal-z-index: 200;
-
-$screen-size-sm: 640px;
-$screen-size-md: 768px;
-$screen-size-lg: 1024px;
-$screen-size-xl: 1280px;
-
-$placeholder-color: #a0aec0;
+$placeholder: #a0aec0;
 
 $gray-300: #e2e8f0;
 $gray-400: #cbd5e0;
@@ -24,7 +14,7 @@ $green-400: #68d391;
 $blue-200: #bee3f8;
 $blue-400: #63b3ed;
 
-$rating-colors: (
+$ratings: (
 	0: #00d388,
 	1: #f5a623,
 	2: #f55d23

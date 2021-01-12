@@ -31,6 +31,8 @@ import SimilarDecks from './SimilarDecks'
 import Cards from './Cards'
 import Comments from './Comments'
 
+import styles from './index.module.scss'
+
 const DeckPage: NextPage<DeckPageProps> = ({
 	decks: initialNumberOfDecks,
 	deck: initialDeckData,
@@ -95,7 +97,12 @@ const DeckPage: NextPage<DeckPageProps> = ({
 	}, [content, slugId])
 
 	return (
-		<Dashboard ref={content} selection={Selection.Market} className="deck-page">
+		<Dashboard
+			ref={content}
+			className={styles.root}
+			sidebarClassName={styles.sidebar}
+			selection={Selection.Market}
+		>
 			<Head
 				title={`${deck.name} | memorize.ai`}
 				description={description}

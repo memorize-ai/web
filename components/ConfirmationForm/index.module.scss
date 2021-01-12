@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 $form-height: 44px;
 
@@ -38,7 +38,7 @@ $form-height: 44px;
 .submitMessage {
 	padding: 0 20px;
 	font-weight: 900;
-	color: $dark-gray;
+	color: colors.$dark-gray;
 	background: transparentize(#f0f1f8, 0.32);
 }
 

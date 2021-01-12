@@ -6,7 +6,13 @@ import styles from './index.module.scss'
 const Star = ({ fill }: { fill: number }) => (
 	<div className={styles.root}>
 		<div className={styles.background} style={{ width: `${fill}%` }} />
-		<Img src={star} alt={`Star ${fill}%`} webp original />
+		<Img
+			className={styles.image}
+			src={star}
+			alt={`Star ${fill}%`}
+			webp
+			original
+		/>
 	</div>
 )
 

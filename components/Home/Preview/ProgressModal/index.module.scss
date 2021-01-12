@@ -1,4 +1,4 @@
-@use 'styles/variables' as *;
+@use 'styles/colors';
 
 $margin: 20px;
 
@@ -38,7 +38,7 @@ $margin: 20px;
 }
 
 .xp {
-	color: $dark-gray;
+	color: colors.$dark-gray;
 	background: #ffcb6b;
 }
 
@@ -73,6 +73,6 @@ $margin: 20px;
 
 @for $i from 0 through 2 {
 	.rating_#{$i} {
-		background: transparentize(map-get($rating-colors, $i), 0.15);
+		background: transparentize(map-get(colors.$ratings, $i), 0.15);
 	}
 }
