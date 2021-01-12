@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Svg } from 'react-optimized-image'
 import Select from 'react-select'
-import cx from 'classnames'
 import keyBy from 'lodash/keyBy'
 import toPairs from 'lodash/toPairs'
 import flatten from 'lodash/flatten'
