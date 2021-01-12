@@ -237,7 +237,7 @@
 // 								padding: $content-padding;
 
 // 								@include card-side.katex-width(
-// 									css-min($max-width - $content-padding * 2, $full-katex-width)
+// 									raw.min($max-width - $content-padding * 2, $full-katex-width)
 // 								);
 // 							}
 

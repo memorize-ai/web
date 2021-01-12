@@ -1,3 +1,4 @@
+@use 'styles/raw';
 @use 'styles/colors';
 @use 'styles/text';
 @use 'styles/card-side';
@@ -100,7 +101,7 @@ $full-katex-width: calc(
 	padding: $content-padding;
 
 	@include card-side.katex-width(
-		css-min($max-width - $content-padding * 2, $full-katex-width)
+		raw.min($max-width - $content-padding * 2, $full-katex-width)
 	);
 }
 
