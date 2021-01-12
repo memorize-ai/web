@@ -24,7 +24,7 @@ export interface HeadProps {
 	description?: string
 	image?: string
 	labels?: Label[]
-	breadcrumbs(url: string): Breadcrumb[][]
+	breadcrumbs?(url: string): Breadcrumb[][]
 	schema?: Record<string, unknown>[]
 }
 
@@ -95,7 +95,7 @@ const Head = ({
 						logo: DEFAULT_OG_IMAGE,
 						sameAs: ['https://twitter.com/memorize_ai']
 					},
-					...breadcrumbs(path).map(list => ({
+					...(breadcrumbs?.(path) ?? []).map(list => ({
 						'@type': 'BreadcrumbList',
 						itemListElement: list.map(({ name, url }, i) => ({
 							'@type': 'ListItem',

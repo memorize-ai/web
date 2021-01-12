@@ -1,18 +1,17 @@
-import Row from './SliderRow'
+import Row from '../SliderRow'
 import { safeDivide } from 'lib/utils'
 
-const CramSliders = ({
-	mastered,
-	seen,
-	unseen,
-	total
-}: {
+import styles from './index.module.scss'
+
+export interface CramSlidersProps {
 	mastered: number
 	seen: number
 	unseen: number
 	total: number
-}) => (
-	<table className="sliders">
+}
+
+const CramSliders = ({ mastered, seen, unseen, total }: CramSlidersProps) => (
+	<table className={styles.root}>
 		<tbody>
 			<Row fill={safeDivide(mastered, total)}>Mastered</Row>
 			<Row fill={safeDivide(seen, total)}>Seen</Row>

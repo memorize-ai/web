@@ -60,7 +60,6 @@ const Review = () => {
 			<Head
 				title={`Review${deck ? ` | ${deck.name}` : ''} | memorize.ai`}
 				description={`Review${deck ? ` ${deck.name}` : ''} on memorize.ai`}
-				breadcrumbs={() => []}
 			/>
 			<Navbar
 				backUrl={backUrl}

@@ -2,14 +2,32 @@ import { useCallback, MouseEvent, useState, useEffect, useMemo } from 'react'
 import { Svg } from 'react-optimized-image'
 import cx from 'classnames'
 
+import { CardActions } from '../useCramState'
 import Deck from 'models/Deck'
 import Section from 'models/Section'
 import LoadingState from 'models/LoadingState'
-import { CramCard } from './useCramState'
+import { CramCard } from '../useCramState'
 import CardSide from 'components/CardSide'
 import Loader from 'components/Loader'
 
 import toggle from 'images/icons/toggle.svg'
+import styles from './index.module.scss'
+
+export const CARD_ACTIONS: CardActions = {
+	flip: styles.cardAction_flip,
+	shift: styles.cardAction_shift
+}
+
+export interface CramCardContainerProps {
+	deck: Deck | null
+	section: Section | null
+	card: CramCard | null
+	loadingState: LoadingState
+	isWaitingForRating: boolean
+	cardClassName: string | undefined
+	currentSide: 'front' | 'back'
+	flip(): void
+}
 
 const CramCardContainer = ({
 	deck,
@@ -20,16 +38,7 @@ const CramCardContainer = ({
 	cardClassName,
 	currentSide,
 	flip
-}: {
-	deck: Deck | null
-	section: Section | null
-	card: CramCard | null
-	loadingState: LoadingState
-	isWaitingForRating: boolean
-	cardClassName: string | undefined
-	currentSide: 'front' | 'back'
-	flip: () => void
-}) => {
+}: CramCardContainerProps) => {
 	const [toggleTurns, setToggleTurns] = useState(0)
 
 	const isReady = useMemo(() => card && loadingState === LoadingState.Success, [
@@ -52,42 +61,42 @@ const CramCardContainer = ({
 	}, [currentSide, setToggleTurns])
 
 	return (
-		<div className="card-container">
-			<div className="location">
+		<div className={styles.root}>
+			<div className={styles.location}>
 				{deck ? (
-					<p className="deck">{deck.name}</p>
+					<p className={styles.deck}>{deck.name}</p>
 				) : (
-					<Loader
-						className="loader"
-						size="20px"
-						thickness="4px"
-						color="white"
-					/>
+					<Loader size="20px" thickness="4px" color="white" />
 				)}
 				{section && (
 					<>
-						<div className="divider" />
-						<p className="section">{section.name}</p>
+						<div className={styles.locationDivider} />
+						<p className={styles.section}>{section.name}</p>
 					</>
 				)}
-				{card?.isNew && <p className="flag">New</p>}
+				{card?.isNew && <p className={styles.flag}>New</p>}
 			</div>
 			<div
-				className={cx('cards', { clickable: isWaitingForRating })}
+				className={cx(styles.cards, {
+					[styles.clickable]: isWaitingForRating
+				})}
 				onClick={onCardClick}
 			>
 				<div
-					className={cx('card', 'foreground', cardClassName, {
-						loading: !isReady
+					className={cx(styles.card, cardClassName, {
+						[styles.loading]: !isReady
 					})}
 				>
 					{card && isReady ? (
-						<div className="container">
-							<CardSide className="content">{card.value[currentSide]}</CardSide>
+						<div className={styles.container}>
+							<CardSide className={styles.content}>
+								{card.value[currentSide]}
+							</CardSide>
 							{isWaitingForRating && (
-								<div className="flip">
-									<p>{currentSide}</p>
+								<div className={styles.flip}>
+									<p className={styles.flipSide}>{currentSide}</p>
 									<Svg
+										className={styles.flipIcon}
 										src={toggle}
 										viewBox={`0 0 ${toggle.width} ${toggle.height}`}
 										style={{
@@ -98,16 +107,11 @@ const CramCardContainer = ({
 							)}
 						</div>
 					) : (
-						<Loader
-							className="loader"
-							size="30px"
-							thickness="5px"
-							color="#582efe"
-						/>
+						<Loader size="30px" thickness="5px" color="#582efe" />
 					)}
 				</div>
-				<div className="card background-1" />
-				<div className="card background-2" />
+				<div className={cx(styles.card, styles.background_1)} />
+				<div className={cx(styles.card, styles.background_2)} />
 			</div>
 		</div>
 	)

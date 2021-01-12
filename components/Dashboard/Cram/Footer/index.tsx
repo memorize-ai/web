@@ -1,20 +1,25 @@
 import cx from 'classnames'
 
 import PerformanceRating from 'models/PerformanceRating'
-import RateButton from './RateButton'
+import RateButton from '../RateButton'
 
-const CramFooter = ({
-	isWaitingForRating,
-	rate
-}: {
+import styles from './index.module.scss'
+
+export interface CramFooterProps {
 	isWaitingForRating: boolean
-	rate: (rating: PerformanceRating) => void
-}) => (
-	<footer className={cx({ 'waiting-for-rating': isWaitingForRating })}>
-		<p className="message" tabIndex={-1}>
+	rate(rating: PerformanceRating): void
+}
+
+const CramFooter = ({ isWaitingForRating, rate }: CramFooterProps) => (
+	<footer
+		className={cx(styles.root, {
+			[styles.waitingForRating]: isWaitingForRating
+		})}
+	>
+		<p className={styles.message} tabIndex={-1}>
 			Tap anywhere to continue
 		</p>
-		<div className="buttons" tabIndex={-1}>
+		<div className={styles.buttons} tabIndex={-1}>
 			<RateButton
 				emoji="😀"
 				title="Easy"

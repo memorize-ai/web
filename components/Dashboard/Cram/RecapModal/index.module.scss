@@ -1,0 +1,48 @@
+$margin: 20px;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	max-width: 650px;
+	width: calc(100vw - #{$margin * 2});
+	max-height: calc(100vh - #{$margin * 2});
+	overflow-y: auto;
+	margin: $margin;
+	padding: 20px;
+	background: #051e34;
+	border-radius: 15px;
+}
+
+.emoji {
+	margin-bottom: -15px;
+	text-align: center;
+	font-size: 80px;
+}
+
+.data {
+	color: white;
+}
+
+.section {
+	color: #c792ea;
+}
+
+.count {
+	color: #89ddff;
+}
+
+.done {
+	margin: 20px 0 0 auto;
+	padding: 6px 20px;
+	font-size: 20px;
+	font-weight: 900;
+	color: white;
+	background: #0288d1;
+	border-radius: 13px;
+	transition: color 0.3s, background 0.3s;
+
+	&:hover {
+		color: #0288d1;
+		background: white;
+	}
+}

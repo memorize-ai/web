@@ -1,0 +1,61 @@
+@use 'styles/colors';
+
+$margin: 20px;
+
+.root {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	align-items: center;
+	max-width: 650px;
+	width: calc(100vw - #{$margin * 2});
+	max-height: calc(100vh - #{$margin * 2});
+	overflow-y: auto;
+	margin: $margin;
+	padding: 50px;
+	background: #051e34;
+	border-radius: 15px;
+}
+
+.badges {
+	$inset: 20px;
+
+	display: flex;
+	position: absolute;
+	top: $inset;
+	left: $inset;
+}
+
+.xp,
+.streak {
+	padding: 2px 8px;
+	font-size: 18px;
+	font-weight: 900;
+	border-radius: 5px;
+
+	&:not(:last-child) {
+		margin-right: 8px;
+	}
+}
+
+.xp {
+	color: colors.$dark-gray;
+	background: #ffcb6b;
+}
+
+.streak {
+	color: white;
+	background: #06ba7a;
+}
+
+.emoji {
+	margin-bottom: 20px;
+	font-size: 80px;
+}
+
+.message {
+	text-align: center;
+	font-weight: 900;
+	font-size: 40px;
+	color: white;
+}

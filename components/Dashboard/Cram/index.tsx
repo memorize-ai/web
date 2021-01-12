@@ -54,53 +54,52 @@ const Cram = () => {
 		<Dashboard
 			className={styles.root}
 			sidebarClassName={styles.sidebar}
+			contentClassName={styles.content}
 			selection={Selection.Decks}
 			gradientStyle={GradientStyle.Green}
 			isNavbarHidden
 			hideChat
+			onClick={waitForRating}
 		>
-			<div className="mask" onClick={waitForRating}>
-				<Head
-					title={`Cram${deck ? ` | ${deck.name}` : ''} | memorize.ai`}
-					description={`Cram${deck ? ` ${deck.name}` : ''} on memorize.ai`}
-					breadcrumbs={() => []}
-				/>
-				<Navbar
-					backUrl={backUrl}
-					currentIndex={currentIndex}
-					count={count}
-					skip={skip}
-					recap={showRecap}
-				/>
-				<Sliders
-					mastered={mastered}
-					seen={seen}
-					unseen={unseen}
-					total={count ?? 0}
-				/>
-				<CardContainer
-					deck={deck}
-					section={section}
-					card={card}
-					loadingState={loadingState}
-					isWaitingForRating={isWaitingForRating}
-					cardClassName={cardClassName}
-					currentSide={currentSide}
-					flip={flip}
-				/>
-				<Footer isWaitingForRating={isWaitingForRating} rate={rate} />
-				<ProgressModal
-					data={progressData}
-					isShowing={isProgressModalShowing}
-					setIsShowing={setIsProgressModalShowing}
-				/>
-				<RecapModal
-					data={recapData}
-					backUrl={backUrl}
-					isShowing={isRecapModalShowing}
-					setIsShowing={setIsRecapModalShowing}
-				/>
-			</div>
+			<Head
+				title={`Cram${deck ? ` | ${deck.name}` : ''} | memorize.ai`}
+				description={`Cram${deck ? ` ${deck.name}` : ''} on memorize.ai`}
+			/>
+			<Navbar
+				backUrl={backUrl}
+				currentIndex={currentIndex}
+				count={count}
+				skip={skip}
+				recap={showRecap}
+			/>
+			<Sliders
+				mastered={mastered}
+				seen={seen}
+				unseen={unseen}
+				total={count ?? 0}
+			/>
+			<CardContainer
+				deck={deck}
+				section={section}
+				card={card}
+				loadingState={loadingState}
+				isWaitingForRating={isWaitingForRating}
+				cardClassName={cardClassName}
+				currentSide={currentSide}
+				flip={flip}
+			/>
+			<Footer isWaitingForRating={isWaitingForRating} rate={rate} />
+			<ProgressModal
+				data={progressData}
+				isShowing={isProgressModalShowing}
+				setIsShowing={setIsProgressModalShowing}
+			/>
+			<RecapModal
+				data={recapData}
+				backUrl={backUrl}
+				isShowing={isRecapModalShowing}
+				setIsShowing={setIsRecapModalShowing}
+			/>
 		</Dashboard>
 	)
 }

@@ -19,6 +19,7 @@ import useDecks from 'hooks/useDecks'
 import useSections from 'hooks/useSections'
 import useCurrentUser from 'hooks/useCurrentUser'
 import { sleep } from 'lib/utils'
+import { CARD_ACTIONS } from './CardContainer'
 
 import 'firebase/firestore'
 
@@ -44,6 +45,11 @@ export interface CramRecapData {
 	easiestSection: Section | null
 	hardestSection: Section | null
 	isSameSection: boolean
+}
+
+export interface CardActions {
+	flip: string
+	shift: string
 }
 
 export const CRAM_MASTERED_STREAK = 3
@@ -407,7 +413,7 @@ const useCramState = (
 
 	const transitionSetCurrentSide = useCallback(
 		async (side: SetStateAction<'front' | 'back'>) => {
-			setCardClassName('flip')
+			setCardClassName(CARD_ACTIONS.flip)
 
 			await sleep(FLIP_ANIMATION_DURATION / 2)
 			setCurrentSide(side)
@@ -423,7 +429,7 @@ const useCramState = (
 	}, [transitionSetCurrentSide])
 
 	const transitionNext = useCallback(async () => {
-		setCardClassName('shift')
+		setCardClassName(CARD_ACTIONS.shift)
 
 		await sleep(SHIFT_ANIMATION_DURATION / 2)
 
