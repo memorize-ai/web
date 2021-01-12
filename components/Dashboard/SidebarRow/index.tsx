@@ -8,7 +8,11 @@ import { formatNumber } from 'lib/utils'
 import { src as defaultImage } from 'images/logos/icon.jpg'
 import styles from './index.module.scss'
 
-const DashboardSidebarRow = ({ deck }: { deck: Deck }) => {
+export interface DashboardSidebarRowProps {
+	deck: Deck
+}
+
+const DashboardSidebarRow = ({ deck }: DashboardSidebarRowProps) => {
 	const [selectedDeck] = useSelectedDeck()
 
 	const numberOfDueCards = deck.userData?.numberOfDueCards ?? 0

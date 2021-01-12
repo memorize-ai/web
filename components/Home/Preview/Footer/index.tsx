@@ -34,17 +34,19 @@ const BUTTON_CONTENT = {
 	}
 }
 
+export interface PreviewFooterProps {
+	isFinished: boolean
+	isWaitingForRating: boolean
+	predictions: PreviewPredictions | null
+	rate(rating: PerformanceRating): void
+}
+
 const PreviewFooter = ({
 	isFinished,
 	isWaitingForRating,
 	predictions,
 	rate
-}: {
-	isFinished: boolean
-	isWaitingForRating: boolean
-	predictions: PreviewPredictions | null
-	rate: (rating: PerformanceRating) => void
-}) => (
+}: PreviewFooterProps) => (
 	<div
 		className={cx(styles.root, {
 			[styles.finished]: isFinished,

@@ -6,17 +6,19 @@ import Row from '../SidebarRow'
 
 import styles from './index.module.scss'
 
+export interface DashboardSidebarSectionProps {
+	title: string
+	decks: Deck[]
+	query: string
+	includesDivider?: boolean
+}
+
 const DashboardSidebarSection = ({
 	title,
 	decks: allDecks,
 	query,
 	includesDivider = false
-}: {
-	title: string
-	decks: Deck[]
-	query: string
-	includesDivider?: boolean
-}) => {
+}: DashboardSidebarSectionProps) => {
 	const decks = useMemo(
 		() =>
 			allDecks.filter(

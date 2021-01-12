@@ -1,15 +1,13 @@
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 
-import { ModalShowingProps } from '.'
-import CopyModal from './Copy'
+import { ModalShowingProps } from '..'
+import CopyModal from '../Copy'
 
-const ApiKeyModal = ({
-	value,
-	isShowing,
-	setIsShowing
-}: {
+export interface ApiKeyModalProps extends ModalShowingProps {
 	value: string
-} & ModalShowingProps) => (
+}
+
+const ApiKeyModal = ({ value, isShowing, setIsShowing }: ApiKeyModalProps) => (
 	<CopyModal
 		title="My API key"
 		icon={faKey}

@@ -2,18 +2,20 @@ import { useState, useEffect, useCallback } from 'react'
 
 import Deck from 'models/Deck'
 import Section from 'models/Section'
-import InputModal from './Input'
+import InputModal from '../Input'
 import useSections from 'hooks/useSections'
 import { handleError } from 'lib/utils'
-import { ModalShowingProps } from '.'
+import { ModalShowingProps } from '..'
+
+export interface CreateSectionModalProps extends ModalShowingProps {
+	deck: Deck
+}
 
 const CreateSectionModal = ({
 	deck,
 	isShowing,
 	setIsShowing
-}: {
-	deck: Deck
-} & ModalShowingProps) => {
+}: CreateSectionModalProps) => {
 	const sections = useSections(deck.id)
 	const [name, setName] = useState('')
 

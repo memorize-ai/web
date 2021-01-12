@@ -1,20 +1,22 @@
 import { useState, useEffect, useCallback } from 'react'
 
-import { ModalShowingProps } from '.'
+import { ModalShowingProps } from '..'
 import Deck from 'models/Deck'
 import Section from 'models/Section'
-import InputModal from './Input'
+import InputModal from '../Input'
 import { handleError } from 'lib/utils'
+
+export interface RenameSectionModalProps extends ModalShowingProps {
+	deck: Deck
+	section: Section | null
+}
 
 const RenameSectionModal = ({
 	deck,
 	section,
 	isShowing,
 	setIsShowing
-}: {
-	deck: Deck
-	section: Section | null
-} & ModalShowingProps) => {
+}: RenameSectionModalProps) => {
 	const [name, setName] = useState('')
 
 	useEffect(() => {

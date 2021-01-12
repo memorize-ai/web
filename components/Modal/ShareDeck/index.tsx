@@ -1,17 +1,19 @@
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 
-import { ModalShowingProps } from '.'
+import { ModalShowingProps } from '..'
 import Deck from 'models/Deck'
 import useCurrentUser from 'hooks/useCurrentUser'
-import CopyModal from './Copy'
+import CopyModal from '../Copy'
+
+export interface ShareDeckModalProps extends ModalShowingProps {
+	deck: Deck
+}
 
 const ShareDeckModal = ({
 	deck,
 	isShowing,
 	setIsShowing
-}: {
-	deck: Deck
-} & ModalShowingProps) => {
+}: ShareDeckModalProps) => {
 	const [currentUser] = useCurrentUser()
 
 	return (
