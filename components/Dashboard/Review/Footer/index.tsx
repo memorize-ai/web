@@ -2,8 +2,10 @@ import cx from 'classnames'
 
 import PerformanceRating from 'models/PerformanceRating'
 import LoadingState from 'models/LoadingState'
-import { ReviewPrediction } from './useReviewState'
-import RateButton from './RateButton'
+import { ReviewPrediction } from '../useReviewState'
+import RateButton from '../RateButton'
+
+import styles from './index.module.scss'
 
 const RATINGS = [
 	PerformanceRating.Easy,
@@ -29,22 +31,28 @@ const BUTTON_CONTENT = {
 	}
 }
 
+export interface ReviewFooterProps {
+	isWaitingForRating: boolean
+	prediction: ReviewPrediction | null
+	predictionLoadingState: LoadingState
+	rate(rating: PerformanceRating): void
+}
+
 const ReviewFooter = ({
 	isWaitingForRating,
 	prediction,
 	predictionLoadingState,
 	rate
-}: {
-	isWaitingForRating: boolean
-	prediction: ReviewPrediction | null
-	predictionLoadingState: LoadingState
-	rate: (rating: PerformanceRating) => void
-}) => (
-	<footer className={cx({ 'waiting-for-rating': isWaitingForRating })}>
-		<p className="message" tabIndex={-1}>
+}: ReviewFooterProps) => (
+	<footer
+		className={cx(styles.root, {
+			[styles.waitingForRating]: isWaitingForRating
+		})}
+	>
+		<p className={styles.message} tabIndex={-1}>
 			Tap anywhere to continue
 		</p>
-		<div className="buttons" tabIndex={-1}>
+		<div className={styles.buttons} tabIndex={-1}>
 			{RATINGS.map(rating => (
 				<RateButton
 					{...BUTTON_CONTENT[rating]}

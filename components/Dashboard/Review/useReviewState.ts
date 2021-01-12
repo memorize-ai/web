@@ -20,6 +20,7 @@ import useCurrentUser from 'hooks/useCurrentUser'
 import useDecks from 'hooks/useDecks'
 import useSections from 'hooks/useSections'
 import { sleep, handleError } from 'lib/utils'
+import { CARD_ACTIONS } from './CardContainer'
 
 import 'firebase/firestore'
 import 'firebase/functions'
@@ -64,6 +65,11 @@ export interface ReviewPrediction {
 	[PerformanceRating.Easy]: Date
 	[PerformanceRating.Struggled]: Date
 	[PerformanceRating.Forgot]: Date
+}
+
+export interface CardActions {
+	flip: string
+	shift: string
 }
 
 export const REVIEW_MASTERED_STREAK = 6
@@ -611,7 +617,7 @@ const useReviewState = (
 
 	const transitionSetCurrentSide = useCallback(
 		async (side: SetStateAction<'front' | 'back'>) => {
-			setCardClassName('flip')
+			setCardClassName(CARD_ACTIONS.flip)
 
 			await sleep(FLIP_ANIMATION_DURATION / 2)
 			setCurrentSide(side)
@@ -623,7 +629,7 @@ const useReviewState = (
 	)
 
 	const transitionNext = useCallback(async () => {
-		setCardClassName('shift')
+		setCardClassName(CARD_ACTIONS.shift)
 
 		await sleep(SHIFT_ANIMATION_DURATION / 2)
 

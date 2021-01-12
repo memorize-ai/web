@@ -16,7 +16,7 @@ const Loader = ({
 	color,
 	...props
 }: LoaderProps) => (
-	<div
+	<span
 		{...props}
 		className={cx(styles.root, className)}
 		style={{

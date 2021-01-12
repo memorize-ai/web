@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, useEffect } from 'react'
+import { HTMLAttributes, forwardRef, ReactNode, useEffect } from 'react'
 import cx from 'classnames'
 
 import hideChat from 'hooks/hideChat'
@@ -19,7 +19,7 @@ export enum DashboardGradientStyle {
 	Green = 'green'
 }
 
-export interface DashboardProps {
+export interface DashboardProps extends HTMLAttributes<HTMLDivElement> {
 	className: string
 	contentClassName?: string
 	sidebarClassName: string
@@ -42,7 +42,8 @@ const Dashboard = forwardRef<HTMLDivElement, DashboardProps>(
 			isNavbarHidden = false,
 			hideChat: shouldHideChat = false,
 			expectsSignIn = null,
-			children
+			children,
+			...props
 		},
 		ref
 	) => {
@@ -75,7 +76,11 @@ const Dashboard = forwardRef<HTMLDivElement, DashboardProps>(
 							selection={selection}
 							expectsSignIn={expectsSignIn}
 						/>
-						<div ref={ref} className={cx(styles.foreground, contentClassName)}>
+						<div
+							{...props}
+							ref={ref}
+							className={cx(styles.foreground, contentClassName)}
+						>
 							{children}
 						</div>
 					</div>

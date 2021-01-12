@@ -4,24 +4,28 @@ import TimeAgo from 'javascript-time-ago'
 import enLocale from 'javascript-time-ago/locale/en'
 import { canonical } from 'javascript-time-ago/gradation'
 
-import { ReviewRecapData } from './useReviewState'
+import { ReviewRecapData } from '../useReviewState'
 import Modal from 'components/Modal'
-import Data from './RecapModalData'
+import Data from '../RecapModalData'
+
+import styles from './index.module.scss'
 
 TimeAgo.addLocale(enLocale)
 const timeAgo = new TimeAgo('en-US')
+
+export interface ReviewRecapModalProps {
+	data: ReviewRecapData | null
+	backUrl: string
+	isShowing: boolean
+	setIsShowing(isShowing: boolean): void
+}
 
 const ReviewRecapModal = ({
 	data,
 	backUrl,
 	isShowing,
 	setIsShowing
-}: {
-	data: ReviewRecapData | null
-	backUrl: string
-	isShowing: boolean
-	setIsShowing: (isShowing: boolean) => void
-}) => {
+}: ReviewRecapModalProps) => {
 	const elapsed = useMemo(
 		() =>
 			data &&
@@ -41,9 +45,9 @@ const ReviewRecapModal = ({
 
 			return deck && section && !data.isSame ? (
 				<Data title={`${role} section`}>
-					<span className="deck-name">{deck.name}</span> -{' '}
-					<span className="section-name">{section.name}</span>{' '}
-					<span className="section-card-count">
+					<span className={styles.deck}>{deck.name}</span> -{' '}
+					<span className={styles.section}>{section.name}</span>{' '}
+					<span className={styles.count}>
 						({section.numberOfCards} card
 						{section.numberOfCards === 1 ? '' : 's'})
 					</span>
@@ -55,28 +59,29 @@ const ReviewRecapModal = ({
 
 	return (
 		<Modal
-			className="review-recap"
+			className={styles.root}
 			isShowing={isShowing}
 			setIsShowing={setIsShowing}
 		>
-			<p className="emoji" role="img">
+			<span className={styles.emoji} role="img" aria-hidden>
 				😌
-			</p>
+			</span>
 			<Data title="XP">
-				You earned <span>{data?.xpGained || 'no'}</span> xp
+				You earned <span className={styles.data}>{data?.xpGained || 'no'}</span>{' '}
+				xp
 				{data?.xpGained ? '!' : ''}
 			</Data>
 			<Data title="Time">
 				You reviewed{' '}
-				<span>
+				<span className={styles.data}>
 					{data?.reviewedCount || 'no'} card
 					{data?.reviewedCount === 1 ? '' : 's'}
 				</span>{' '}
-				in <span>{elapsed}</span>
+				in <span className={styles.data}>{elapsed}</span>
 			</Data>
 			<Data title="Mastery">
 				You mastered{' '}
-				<span>
+				<span className={styles.data}>
 					{data?.masteredCount || 'no'} card
 					{data?.masteredCount === 1 ? '' : 's'}
 				</span>
@@ -84,7 +89,7 @@ const ReviewRecapModal = ({
 			{sectionDisplay('easiest')}
 			{sectionDisplay('hardest')}
 			<Link href={backUrl}>
-				<a className="done">Done!</a>
+				<a className={styles.done}>Done!</a>
 			</Link>
 		</Modal>
 	)

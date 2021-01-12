@@ -6,8 +6,19 @@ import cx from 'classnames'
 import PerformanceRating from 'models/PerformanceRating'
 import Loader from 'components/Loader'
 
+import styles from './index.module.scss'
+
 TimeAgo.addLocale(enLocale)
 const timeAgo = new TimeAgo('en-US')
+
+export interface ReviewRateButtonProps {
+	emoji: string
+	title: string
+	subtitle: string
+	rate(rating: PerformanceRating): void
+	rating: PerformanceRating
+	prediction: Date | null
+}
 
 const ReviewRateButton = ({
 	emoji,
@@ -16,16 +27,12 @@ const ReviewRateButton = ({
 	rate,
 	rating,
 	prediction
-}: {
-	emoji: string
-	title: string
-	subtitle: string
-	rate: (rating: PerformanceRating) => void
-	rating: PerformanceRating
-	prediction: Date | null
-}) => {
+}: ReviewRateButtonProps) => {
 	const predictionClassName = useCallback(
-		(loading: boolean) => cx('prediction', `rating-${rating}`, { loading }),
+		(loading: boolean) =>
+			cx(styles.prediction, styles[`rating_${rating}`], {
+				[styles.loading]: loading
+			}),
 		[rating]
 	)
 
@@ -38,24 +45,29 @@ const ReviewRateButton = ({
 	)
 
 	return (
-		<button onClick={onClick} aria-label={subtitle} data-balloon-pos="up">
-			<div className="text">
-				<p className="emoji">{emoji}</p>
-				<p className="title">{title}</p>
-			</div>
+		<button
+			className={styles.root}
+			onClick={onClick}
+			aria-label={subtitle}
+			data-balloon-pos="up"
+		>
+			<span className={styles.text}>
+				<span className={styles.emoji}>{emoji}</span>
+				<span className={styles.title}>{title}</span>
+			</span>
 			{prediction ? (
-				<p className={predictionClassName(false)}>
+				<span className={predictionClassName(false)}>
 					+{timeAgo.format(prediction, 'time')}
-				</p>
+				</span>
 			) : (
-				<div className={predictionClassName(true)}>
+				<span className={predictionClassName(true)}>
 					<Loader
-						className="loader"
+						className={styles.loader}
 						size="14px"
 						thickness="3px"
 						color="#4a4a4a"
 					/>
-				</div>
+				</span>
 			)}
 		</button>
 	)
