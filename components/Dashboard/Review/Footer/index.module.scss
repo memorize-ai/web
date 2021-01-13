@@ -1,0 +1,43 @@
+@use 'styles/colors';
+
+$vertical-offset: 100px;
+
+.root {
+	display: grid;
+	justify-items: center;
+	align-items: center;
+	padding: 40px 0;
+}
+
+.waitingForRating {
+	.message {
+		opacity: 0;
+		transform: translateY($vertical-offset);
+	}
+
+	.buttons {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.message,
+.buttons {
+	grid-row: 1;
+	grid-column: 1;
+	transition: opacity 0.3s, transform 0.3s;
+}
+
+.message {
+	text-align: center;
+	font-size: 20px;
+	font-weight: 900;
+	color: colors.$dark-gray;
+	opacity: 0.8;
+}
+
+.buttons {
+	display: flex;
+	opacity: 0;
+	transform: translateY($vertical-offset);
+}

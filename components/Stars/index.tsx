@@ -1,9 +1,18 @@
+import cx from 'classnames'
+
 import Star from './Star'
+
+import styles from './index.module.scss'
 
 const STARS = [0, 1, 2, 3, 4] as const
 
-const Stars = ({ children: rating }: { children: number }) => (
-	<div className="stars">
+export interface StarsProps {
+	className?: string
+	children: number
+}
+
+const Stars = ({ className, children: rating }: StarsProps) => (
+	<div className={cx(styles.root, className)}>
 		{STARS.map(offset => (
 			<Star
 				key={offset}

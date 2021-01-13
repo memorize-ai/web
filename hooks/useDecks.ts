@@ -100,16 +100,20 @@ const useDecks = () => {
 							break
 						case 'removed':
 							Deck.removeSnapshotListener(userDataSnapshot.id)
-							setState(state => ({
-								...state,
-								ownedDecks: state.ownedDecks.filter(
+							setState(state => {
+								const ownedDecks = state.ownedDecks.filter(
 									({ id }) => id !== userDataSnapshot.id
-								),
-								selectedDeck:
-									state.selectedDeck?.id === userDataSnapshot.id
-										? ownedDecks[0] ?? null
-										: state.selectedDeck
-							}))
+								)
+
+								return {
+									...state,
+									ownedDecks,
+									selectedDeck:
+										state.selectedDeck?.id === userDataSnapshot.id
+											? ownedDecks[0] ?? null
+											: state.selectedDeck
+								}
+							})
 							break
 					}
 			},

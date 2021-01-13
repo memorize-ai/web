@@ -1,0 +1,11 @@
+$toolbar-height: 40.2px;
+$min-editable-height: 200px;
+
+.root {
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	height: $toolbar-height + $min-editable-height;
+	border: 1px solid #c4c4c4;
+	border-radius: 2px;
+}

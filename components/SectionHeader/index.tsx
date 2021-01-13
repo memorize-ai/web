@@ -1,23 +1,26 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, MouseEvent } from 'react'
 import { Svg } from 'react-optimized-image'
 
 import Section from 'models/Section'
-import ToggleExpandedButton from './ToggleExpandedButton'
 import { formatNumber } from 'lib/utils'
+import ToggleExpandedButton from './ToggleExpandedButton'
 
-import share from 'images/icons/share.svg'
+import shareIcon from 'images/icons/share.svg'
+import styles from './index.module.scss'
+
+export interface SectionHeaderProps {
+	section: Section
+	isExpanded: boolean
+	toggleExpanded(): void
+	onShare(): void
+}
 
 const SectionHeader = ({
 	section,
 	isExpanded,
 	toggleExpanded,
 	onShare
-}: {
-	section: Section
-	isExpanded: boolean
-	toggleExpanded: () => void
-	onShare: () => void
-}) => {
+}: SectionHeaderProps) => {
 	const [degrees, setDegrees] = useState(0)
 
 	const onClick = useCallback(() => {
@@ -25,11 +28,19 @@ const SectionHeader = ({
 		setDegrees(degrees => degrees + 180)
 	}, [toggleExpanded, setDegrees])
 
+	const share = useCallback(
+		(event: MouseEvent<HTMLButtonElement>) => {
+			event.stopPropagation()
+			onShare()
+		},
+		[onShare]
+	)
+
 	return (
-		<div className="section-header default" onClick={onClick}>
-			<p className="name">{section.name}</p>
-			<div className="divider" />
-			<p className="card-count">
+		<div className={styles.root} onClick={onClick}>
+			<p className={styles.name}>{section.name}</p>
+			<div className={styles.divider} />
+			<p className={styles.cards}>
 				({formatNumber(section.numberOfCards)} card
 				{section.numberOfCards === 1 ? '' : 's'})
 			</p>
@@ -37,14 +48,8 @@ const SectionHeader = ({
 				{isExpanded}
 			</ToggleExpandedButton>
 			{section.isUnsectioned || (
-				<button
-					className="share"
-					onClick={event => {
-						event.stopPropagation()
-						onShare()
-					}}
-				>
-					<Svg src={share} />
+				<button className={styles.share} onClick={share}>
+					<Svg className={styles.shareIcon} src={shareIcon} />
 				</button>
 			)}
 		</div>

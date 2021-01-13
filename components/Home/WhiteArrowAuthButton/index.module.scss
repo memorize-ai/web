@@ -1,0 +1,36 @@
+$icon-scale-multiplier: 1.2;
+$icon-scale: scale(-$icon-scale-multiplier, $icon-scale-multiplier);
+
+.root {
+	display: flex;
+	align-items: center;
+	margin-right: 16px;
+	padding: 8px 14px;
+	color: #051e34;
+	background: white;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px transparentize(black, 0.9);
+	transition: color 0.3s, background 0.3s, box-shadow 0.3s;
+
+	&:hover,
+	&:focus {
+		color: white;
+		background: #051e34;
+		box-shadow: none;
+
+		.icon {
+			transform: $icon-scale rotate(-1turn);
+		}
+	}
+}
+
+.text {
+	font-size: 20px;
+	font-weight: 900;
+}
+
+.icon {
+	margin: 0 2px 0 12px;
+	transform: $icon-scale;
+	transition: transform 0.3s;
+}

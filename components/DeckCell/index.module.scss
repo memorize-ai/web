@@ -1,0 +1,68 @@
+.content {
+	display: flex;
+	flex-direction: column;
+}
+
+.stats {
+	display: flex;
+	align-items: center;
+	margin-top: auto;
+}
+
+.divider {
+	width: 2px;
+	height: 25px;
+	margin: 0 20px;
+	background: transparentize(#ddd, 0.5);
+}
+
+.rating,
+.downloads,
+.users {
+	display: flex;
+	align-items: center;
+}
+
+.icon {
+	margin-right: 4px;
+	transform: scale(1.7);
+}
+
+.text {
+	margin-left: 8px;
+	font-size: 17px;
+	font-weight: 600;
+	color: #9b9b9b;
+}
+
+.action {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 30px;
+	margin-top: 18px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: white;
+	border-radius: 8px;
+	transition: color 0.3s, background 0.3s;
+}
+
+.get {
+	background: #4355f9;
+
+	&:hover,
+	&:focus {
+		background: #00d388;
+	}
+}
+
+.open {
+	background: #00d388;
+
+	&:hover,
+	&:focus {
+		background: #051e34;
+	}
+}

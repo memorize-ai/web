@@ -1,0 +1,45 @@
+@use 'styles/z-index';
+
+.root {
+	position: relative;
+}
+
+.content {
+	position: absolute;
+	pointer-events: none;
+	top: 100%;
+	margin-top: 8px;
+	transform: translateX(-20px);
+	opacity: 0;
+	z-index: z-index.$dropdown;
+	transition: transform 0.2s, opacity 0.2s;
+
+	&.right {
+		right: 0;
+	}
+
+	&:not(.right) {
+		left: 0;
+	}
+}
+
+.shadow_around {
+	border: 1px solid #eee;
+	box-shadow: 0 0 10px 2px transparentize(black, 0.9);
+}
+
+.shadow_screen {
+	box-shadow: 0 0 0 100vmax transparentize(black, 0.7);
+}
+
+.showing {
+	.trigger {
+		cursor: default;
+	}
+
+	.content {
+		pointer-events: all;
+		transform: none;
+		opacity: 1;
+	}
+}

@@ -1,0 +1,48 @@
+.root:not(:last-child) {
+	margin-bottom: 12px;
+
+	.cards {
+		margin-bottom: 20px;
+	}
+}
+
+.addCards {
+	display: flex;
+	justify-content: center;
+	margin-top: 12px;
+}
+
+.addCardsLink {
+	display: flex;
+	align-items: center;
+	padding: 8px 14px;
+	color: white;
+	background: #582efe;
+	border-radius: 8px;
+	transition: background 0.3s;
+
+	&:hover {
+		background: #051e34;
+	}
+}
+
+.addCardsIcon {
+	margin-right: 10px;
+	transform: scale(1.2);
+}
+
+.addCardsText {
+	font-weight: 900;
+}
+
+.cards {
+	margin-top: 20px;
+}
+
+.card:not(:last-child) {
+	margin-bottom: 16px;
+}
+
+.loader {
+	margin: 12px auto;
+}

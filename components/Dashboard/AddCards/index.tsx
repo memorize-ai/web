@@ -11,8 +11,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 import property from 'lodash/property'
-import { ParsedUrlQuery } from 'querystring'
 
+import { AddCardsQuery } from './models'
 import Section from 'models/Section'
 import requiresAuth from 'hooks/requiresAuth'
 import useCurrentUser from 'hooks/useCurrentUser'
@@ -24,21 +24,16 @@ import Dashboard, {
 	DashboardNavbarSelection as Selection
 } from 'components/Dashboard'
 import Head from 'components/Head'
-import CardRow from 'components/AddCardRow'
+import Row from './Row'
 import Loader from 'components/Loader'
 import ConfirmationModal from 'components/Modal/Confirmation'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from 'lib/constants'
 
 import { src as defaultImage } from 'images/logos/icon.jpg'
+import styles from './index.module.scss'
 
 const GO_BACK_MESSAGE = 'Your drafts will be kept during this session.'
 const CONFIRM_CLOSE_MESSAGE = 'Are you sure? Your drafts will be lost.'
-
-interface AddCardsQuery extends ParsedUrlQuery {
-	slugId: string
-	slug: string
-	sectionId: string
-}
 
 const AddCards = () => {
 	requiresAuth()
@@ -137,7 +132,12 @@ const AddCards = () => {
 	}, [setCards])
 
 	return (
-		<Dashboard selection={Selection.Decks} className="add-cards">
+		<Dashboard
+			className={styles.root}
+			sidebarClassName={styles.sidebar}
+			contentClassName={styles.content}
+			selection={Selection.Decks}
+		>
 			<Head
 				title={`Add cards${deck ? ` to ${deck.name}` : ''} | memorize.ai`}
 				description={headDescription}
@@ -154,10 +154,10 @@ const AddCards = () => {
 					]
 				]}
 			/>
-			<div className="header">
+			<div className={styles.header}>
 				<Link href={closeUrl}>
 					<a
-						className="close"
+						className={styles.close}
 						onClick={event => {
 							if (!hasDrafts) return
 
@@ -165,13 +165,17 @@ const AddCards = () => {
 							setIsCloseModalShowing(true)
 						}}
 					>
-						<FontAwesomeIcon icon={faTimes} />
+						<FontAwesomeIcon className={styles.closeIcon} icon={faTimes} />
 					</a>
 				</Link>
-				<img src={deck?.imageUrl ?? defaultImage} alt="Deck" />
-				<h1>Add cards</h1>
+				<img
+					className={styles.image}
+					src={deck?.imageUrl ?? defaultImage}
+					alt="Deck"
+				/>
+				<h1 className={styles.title}>Add cards</h1>
 				<button
-					className="save"
+					className={styles.save}
 					disabled={!canPublish}
 					onClick={publish}
 					aria-label={
@@ -189,34 +193,37 @@ const AddCards = () => {
 						: ''}
 				</button>
 				<button
-					className="delete"
+					className={styles.delete}
 					disabled={cards.length <= 1 && !hasDrafts}
 					onClick={() => setIsDeleteDraftsModalShowing(true)}
 				>
-					<FontAwesomeIcon icon={faTrash} />
+					<FontAwesomeIcon className={styles.deleteIcon} icon={faTrash} />
 				</button>
 			</div>
-			<div className="content">
-				<div className={cx('box', { loading: !deck })}>
-					<div className="header">
-						<p className="name">{deck?.name ?? 'Loading...'}</p>
+			<div className={styles.main}>
+				<div className={cx(styles.box, { [styles.loading]: !deck })}>
+					<div className={styles.boxHeader}>
+						<p className={styles.name}>{deck?.name ?? 'Loading...'}</p>
 						<button
-							className="row-toggle"
+							className={styles.rowToggle}
 							onClick={() => setIsEditorStacked(!isEditorStacked)}
 						>
 							<div
-								className={cx('check', {
-									on: !isEditorStacked
+								className={cx(styles.rowToggleCheck, {
+									[styles.rowToggleCheckOn]: !isEditorStacked
 								})}
 							>
-								<FontAwesomeIcon icon={faCheck} />
+								<FontAwesomeIcon
+									className={styles.rowToggleCheckIcon}
+									icon={faCheck}
+								/>
 							</div>
-							<p>Side by side</p>
+							<p className={styles.rowToggleText}>Side by side</p>
 						</button>
 					</div>
-					<label>Add cards to...</label>
+					<label className={styles.sectionLabel}>Add cards to...</label>
 					<Select
-						className="section-select"
+						className={styles.section}
 						options={sections}
 						getOptionLabel={property('name')}
 						getOptionValue={property('id')}
@@ -226,17 +233,14 @@ const AddCards = () => {
 						// eslint-disable-next-line
 						onChange={setSection as any}
 					/>
-					<div className="content">
+					<div className={styles.boxContent}>
 						{deck ? (
 							<>
-								<div
-									className={cx('cards', {
-										row: !isEditorStacked
-									})}
-								>
+								<div className={styles.cards}>
 									{cards.map(({ id, front, back }) => (
-										<CardRow
+										<Row
 											key={id}
+											isStacked={isEditorStacked}
 											uploadUrl={
 												currentUser ? deck.uploadUrl(currentUser.id) : ''
 											}
@@ -249,13 +253,18 @@ const AddCards = () => {
 										/>
 									))}
 								</div>
-								<button onClick={addCard}>
-									<FontAwesomeIcon icon={faPlus} />
-									<p>Card below</p>
+								<button className={styles.add} onClick={addCard}>
+									<FontAwesomeIcon className={styles.addIcon} icon={faPlus} />
+									<span className={styles.addText}>Card below</span>
 								</button>
 							</>
 						) : (
-							<Loader size="24px" thickness="4px" color="#582efe" />
+							<Loader
+								className="loader"
+								size="24px"
+								thickness="4px"
+								color="#582efe"
+							/>
 						)}
 					</div>
 				</div>

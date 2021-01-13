@@ -1,0 +1,31 @@
+$divider-color: transparentize(#ddd, 0.8);
+
+@mixin divider($height) {
+	height: $height;
+	background: $divider-color;
+	border-radius: $height / 2;
+}
+
+.root {
+	margin-top: 16px;
+
+	&:first-child {
+		margin-top: 4px;
+	}
+
+	&:last-child {
+		margin-bottom: 12px;
+	}
+}
+
+.title {
+	margin: 0 20px 8px 20px;
+	font-weight: bold;
+	color: white;
+}
+
+.divider {
+	@include divider(2.5px);
+
+	margin: 16px 20px 0 20px;
+}

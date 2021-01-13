@@ -1,0 +1,71 @@
+$button-height: 40px;
+
+.root {
+	display: flex;
+	align-items: center;
+	overflow-x: auto;
+	margin-top: 20px;
+}
+
+.back,
+.progress,
+.skip,
+.recap {
+	flex-shrink: 0;
+}
+
+.back,
+.skip,
+.recap {
+	height: $button-height;
+	color: white;
+	border: 2px solid transparentize(#eee, 0.8);
+	border-radius: 8px;
+	transition: opacity 0.3s, border-color 0.3s;
+
+	&:hover {
+		opacity: 0.5;
+		border-color: transparentize(#eee, 0.6);
+	}
+}
+
+.back {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: $button-height;
+	margin-right: 12px;
+
+	&:hover .backIcon {
+		transform: scale(1.7);
+	}
+}
+
+.backIcon {
+	transform: scale(1.5);
+	transition: transform 0.3s;
+}
+
+.progress,
+.skip,
+.recap {
+	font-weight: 900;
+}
+
+.progress {
+	margin-right: auto;
+	font-size: 25px;
+	color: white;
+	transform: translateY(-1px);
+}
+
+.skip,
+.recap {
+	padding: 0 12px;
+	text-transform: uppercase;
+	font-size: 18px;
+}
+
+.skip {
+	margin: 0 12px;
+}

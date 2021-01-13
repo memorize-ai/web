@@ -1,0 +1,67 @@
+@use 'styles/text';
+@use 'styles/shadow';
+@use 'styles/dashboard';
+
+@include dashboard.sidebar-collapse(920px);
+
+.content {
+	display: grid;
+	grid: auto 1fr / calc(100vw - var(--sidebar-width));
+}
+
+.header,
+.main {
+	padding: 0 var(--horizontal-padding);
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	margin: 12px 4px;
+}
+
+.title {
+	@include text.overflow-ellipsis;
+
+	margin-right: auto;
+	font-weight: 900;
+	color: white;
+}
+
+.submit {
+	height: 42px;
+	margin-left: 12px;
+	padding: 0 12px;
+	font-size: 17px;
+	font-weight: 900;
+	color: #582efe;
+	background: white;
+	text-transform: uppercase;
+	border-radius: 8px;
+	transition: color 0.3s, background 0.3s, opacity 0.3s;
+
+	&:not(:disabled) {
+		&:hover,
+		&:focus {
+			color: white;
+			background: #051e34;
+		}
+	}
+}
+
+.submitDisabled {
+	opacity: 0.8;
+}
+
+.main {
+	overflow-y: auto;
+	padding-bottom: var(--horizontal-padding);
+}
+
+.box {
+	@include shadow.large;
+
+	padding: var(--inner-horizontal-padding);
+	background: white;
+	border-radius: 8px;
+}

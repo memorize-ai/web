@@ -1,0 +1,7 @@
+$degrees: 6deg;
+
+.root {
+	height: 50px;
+	transform: skewY($degrees);
+	transform-origin: top right;
+}

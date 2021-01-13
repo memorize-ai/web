@@ -1,0 +1,18 @@
+@use 'styles/colors';
+
+.root {
+	width: 100%;
+	padding: 0.25rem 0.5rem;
+	color: colors.$dark-gray;
+	border: 2px solid colors.$gray-300;
+	border-radius: 0.25rem;
+	outline: none;
+
+	&:hover {
+		border-color: colors.$gray-400;
+	}
+
+	&:focus {
+		border-color: colors.$blue-400;
+	}
+}

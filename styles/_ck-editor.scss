@@ -1,0 +1,7 @@
+@mixin dropdown {
+	.ck.ck-dropdown__panel.ck-dropdown__panel_sw
+		> .ck.ck-toolbar
+		> .ck.ck-toolbar__items {
+		@content;
+	}
+}

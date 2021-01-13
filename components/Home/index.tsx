@@ -13,6 +13,9 @@ import Screenshots from './Screenshots'
 import Classroom from './Classroom'
 import Footer from './Footer'
 
+import 'aos/dist/aos.css'
+import styles from './index.module.scss'
+
 export interface HomeProps {
 	previewDeck: PreviewDeck | null
 }
@@ -23,14 +26,14 @@ const Home = ({ previewDeck }: HomeProps) => {
 	}, [])
 
 	return (
-		<div className="home">
+		<>
 			<Head
 				url="/"
 				title="memorize.ai: Learn Lazily"
 				breadcrumbs={url => [[{ name: 'memorize.ai', url }]]}
 			/>
-			<TopGradient>
-				<Navbar />
+			<TopGradient className={styles.header}>
+				<Navbar padding={false} />
 				<Header />
 			</TopGradient>
 			<SpacedRepetition />
@@ -39,7 +42,7 @@ const Home = ({ previewDeck }: HomeProps) => {
 			<Screenshots />
 			<Classroom />
 			<Footer />
-		</div>
+		</>
 	)
 }
 

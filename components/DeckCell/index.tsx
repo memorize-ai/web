@@ -1,6 +1,7 @@
 import { useState, useCallback, MouseEvent, useMemo } from 'react'
 import Router from 'next/router'
 import { Svg } from 'react-optimized-image'
+import cx from 'classnames'
 
 import Deck from 'models/Deck'
 import User from 'models/User'
@@ -16,7 +17,14 @@ import { formatNumber, handleError } from 'lib/utils'
 import downloads from 'images/icons/download.svg'
 import users from 'images/icons/users.svg'
 
-const DeckCell = ({ deck }: { deck: Deck }) => {
+import styles from './index.module.scss'
+
+export interface DeckCellProps {
+	className?: string
+	deck: Deck
+}
+
+const DeckCell = ({ className, deck }: DeckCellProps) => {
 	const [currentUser] = useCurrentUser()
 	const [decks] = useDecks()
 
@@ -74,16 +82,17 @@ const DeckCell = ({ deck }: { deck: Deck }) => {
 
 	return (
 		<Base
-			className="default"
+			className={className}
+			contentClassName={styles.content}
 			deck={deck}
 			href={deck.url}
 			nameProps={{
 				style: { WebkitLineClamp: deck.subtitle ? 1 : 2 }
 			}}
 		>
-			<span className="stats">
+			<span className={styles.stats}>
 				<span
-					className="rating"
+					className={styles.rating}
 					itemProp="aggregateRating"
 					itemScope
 					itemType="https://schema.org/AggregateRating"
@@ -99,21 +108,27 @@ const DeckCell = ({ deck }: { deck: Deck }) => {
 					<meta itemProp="worstRating" content={deck.worstRating.toString()} />
 					<meta itemProp="bestRating" content={deck.bestRating.toString()} />
 					<Stars>{deck.averageRating}</Stars>
-					<span>({formatNumber(deck.numberOfRatings)})</span>
+					<span className={styles.text}>
+						({formatNumber(deck.numberOfRatings)})
+					</span>
 				</span>
-				<span className="divider" />
-				<span className="downloads">
-					<Svg src={downloads} />
-					<span>({formatNumber(deck.numberOfDownloads)})</span>
+				<span className={styles.divider} />
+				<span className={styles.downloads}>
+					<Svg className={styles.icon} src={downloads} />
+					<span className={styles.text}>
+						({formatNumber(deck.numberOfDownloads)})
+					</span>
 				</span>
-				<span className="divider" />
-				<span className="current-users">
-					<Svg src={users} />
-					<span>({formatNumber(deck.numberOfCurrentUsers)})</span>
+				<span className={styles.divider} />
+				<span className={styles.users}>
+					<Svg className={styles.icon} src={users} />
+					<span className={styles.text}>
+						({formatNumber(deck.numberOfCurrentUsers)})
+					</span>
 				</span>
 			</span>
 			<Button
-				className={hasDeck ? 'open' : 'get'}
+				className={cx(styles.action, styles[hasDeck ? 'open' : 'get'])}
 				loaderSize="16px"
 				loaderThickness="3px"
 				loaderColor="white"

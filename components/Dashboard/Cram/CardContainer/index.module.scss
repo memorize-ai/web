@@ -1,0 +1,179 @@
+@use 'styles/raw';
+@use 'styles/colors';
+@use 'styles/text';
+@use 'styles/card-side';
+
+$max-width: 800px;
+$card-offset: 20px;
+$content-padding: 20px;
+
+$shift-animation-duration: 400ms;
+$flip-animation-duration: 300ms;
+
+$full-katex-width: calc(
+	100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 - #{$content-padding *
+		2}
+);
+
+.root {
+	flex-grow: 1;
+	align-self: center;
+	display: flex;
+	flex-direction: column;
+	max-width: $max-width;
+	width: 100%;
+	margin-top: 15px;
+}
+
+.location {
+	display: flex;
+	align-items: center;
+}
+
+.deck,
+.section,
+.flag {
+	font-size: 18px;
+	font-weight: 900;
+	color: white;
+}
+
+.deck {
+	@include text.overflow-ellipsis;
+}
+
+.locationDivider,
+.section {
+	flex-shrink: 0;
+}
+
+.locationDivider {
+	$width: 3px;
+
+	align-self: stretch;
+	width: $width;
+	margin: 2px 12px;
+	background: transparentize(white, 0.5);
+	border-radius: $width / 2;
+	transform: translateY(1px);
+}
+
+.flag {
+	margin-left: auto;
+	padding-left: 12px;
+	text-transform: lowercase;
+	opacity: 0.6;
+}
+
+.cards {
+	flex-grow: 1;
+	position: relative;
+	margin: 8px 0 $card-offset * 2;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.card {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: white;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px transparentize(black, 0.9);
+}
+
+.container,
+.content {
+	width: 100%;
+	height: 100%;
+}
+
+.container {
+	position: relative;
+}
+
+.content {
+	overflow-y: auto;
+	padding: $content-padding;
+
+	@include card-side.katex-width(
+		raw.min($max-width - $content-padding * 2, $full-katex-width)
+	);
+}
+
+.flip {
+	$inset: 25px;
+
+	display: flex;
+	position: absolute;
+	align-items: flex-end;
+	right: $inset;
+	bottom: $inset;
+}
+
+.flipSide {
+	margin-right: 24px;
+	text-transform: uppercase;
+	font-weight: 900;
+	color: colors.$dark-gray;
+	opacity: 0.5;
+	transform: translateY(10px);
+}
+
+.flipIcon {
+	$dimension: 13px;
+
+	width: $dimension;
+	height: $dimension;
+	padding: 2px;
+	color: #06ba7a;
+	background: transparentize(colors.$light-gray, 0.2);
+	border-radius: 50%;
+	transition: transform 0.3s ease-out;
+}
+
+.cardAction_flip .content {
+	animation: flip $flip-animation-duration ease-in-out;
+
+	@keyframes flip {
+		50% {
+			opacity: 0;
+			transform: scale(0.9);
+		}
+	}
+}
+
+.cardAction_shift {
+	animation: shift $shift-animation-duration ease-in-out;
+
+	@keyframes shift {
+		50% {
+			opacity: 0;
+			transform: translateX(calc(var(--sidebar-width) - 100vw));
+		}
+
+		50.01% {
+			opacity: 0;
+			transform: translateX(calc(100vw - var(--sidebar-width)));
+		}
+	}
+}
+
+.loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@for $layer from 1 through 2 {
+	.background_#{$layer} {
+		left: $card-offset * $layer;
+		right: $card-offset * $layer;
+		z-index: -$layer;
+		transform: translateY($card-offset * $layer);
+	}
+}

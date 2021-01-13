@@ -1,0 +1,68 @@
+@use 'styles/gradient';
+
+.root {
+	--sidebar-width: 305px;
+	--horizontal-padding: 8px;
+	--inner-horizontal-padding: 16px;
+
+	display: grid;
+	grid:
+		'sidebar content' 1fr /
+		var(--sidebar-width) 1fr;
+	height: 100vh;
+
+	@media (min-width: 450px) {
+		--horizontal-padding: 30px;
+		--inner-horizontal-padding: 30px;
+	}
+}
+
+.content {
+	grid-area: content;
+	display: grid;
+}
+
+.background,
+.container {
+	grid-row: 1;
+	grid-column: 1;
+}
+
+.background {
+	height: 500px;
+}
+
+.gradient_blue {
+	@include gradient.top(6deg, $is-right: false);
+}
+
+.gradient_green {
+	@include gradient.top(
+		6deg,
+		$is-right: false,
+		$top-color: #06ba7a,
+		$bottom-color: #73d63f
+	);
+}
+
+.container {
+	--navbar-height: 71px;
+
+	display: grid;
+	grid: var(--navbar-height) 1fr / 1fr;
+	height: 100vh;
+	z-index: 10;
+}
+
+.hiddenNavbar {
+	--navbar-height: 0;
+
+	.navbar {
+		display: none;
+	}
+}
+
+.foreground {
+	height: calc(100vh - var(--navbar-height));
+	overflow-y: auto;
+}

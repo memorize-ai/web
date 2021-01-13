@@ -1,0 +1,9 @@
+.dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+
+	&:not(:last-child) {
+		margin-bottom: 4px;
+	}
+}

@@ -1,0 +1,134 @@
+@use 'styles/colors';
+@use 'styles/text';
+@use 'styles/ck-editor';
+
+$min-row-width: 1350px;
+
+.root:not(:last-child) {
+	margin-bottom: 20px;
+}
+
+.row {
+	@media (min-width: $min-row-width) {
+		$space-between: 8px;
+
+		.sides {
+			flex-direction: row;
+		}
+
+		.side {
+			width: 50%;
+
+			&:not(:last-child) {
+				margin-right: $space-between;
+			}
+		}
+
+		.editor {
+			@include ck-editor.dropdown {
+				width: calc(
+					(
+							100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 -
+								var(--inner-horizontal-padding) * 2
+						) / 2 - #{16px + $space-between}
+				);
+			}
+		}
+	}
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 14px;
+	border-bottom: 1.5px solid #eee;
+}
+
+.summary {
+	width: calc(100% - 65px);
+	color: colors.$dark-gray;
+}
+
+.summaryLabel {
+	font-size: 11px;
+	text-transform: uppercase;
+	opacity: 0.5;
+}
+
+.summaryText {
+	@include text.overflow-ellipsis;
+
+	margin-top: -2px;
+	font-weight: bold;
+}
+
+.remove {
+	flex-shrink: 0;
+	width: 50px;
+	height: 30px;
+	color: white;
+	background: colors.$red-600;
+	border-radius: 8px;
+	transition: background 0.3s, opacity 0.3s;
+
+	&:disabled {
+		opacity: 0.5;
+	}
+
+	&:not(:disabled):hover {
+		background: #051e34;
+	}
+}
+
+.sides {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.side {
+	display: flex;
+	flex-direction: column;
+	margin-top: 18px;
+}
+
+.sideHeader {
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	margin-bottom: 4px;
+}
+
+.sideHeaderIcon,
+.sideHeaderLabel {
+	flex-shrink: 0;
+}
+
+.sideHeaderIcon {
+	margin-right: 8px;
+	color: colors.$red-600;
+	transform: scale(1.1);
+}
+
+.sideHeaderValid {
+	margin-right: 6px;
+	color: colors.$green-400;
+	transform: none;
+}
+
+.sideHeaderLabel {
+	font-weight: bold;
+	color: colors.$dark-gray;
+}
+
+.editor {
+	height: 100%;
+
+	@include ck-editor.dropdown {
+		width: calc(
+			100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 -
+				var(--inner-horizontal-padding) * 2 - 20px
+		);
+	}
+}

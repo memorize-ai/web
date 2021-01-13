@@ -1,0 +1,38 @@
+@use 'styles/colors';
+
+.root {
+	position: relative;
+}
+
+.input {
+	width: 100%;
+	padding: 6px 6px 6px 2.25em;
+	color: colors.$dark-gray;
+	border: 2px solid colors.$gray-300;
+	border-radius: 0.25rem;
+	outline: none;
+
+	&:hover {
+		border-color: colors.$gray-400;
+
+		+ .icon {
+			color: colors.$gray-400;
+		}
+	}
+
+	&:focus {
+		border-color: colors.$blue-400;
+
+		+ .icon {
+			color: colors.$blue-400;
+		}
+	}
+}
+
+.icon {
+	position: absolute;
+	left: 12px;
+	top: 12px;
+	pointer-events: none;
+	color: colors.$gray-300;
+}

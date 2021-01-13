@@ -11,6 +11,10 @@ import {
 } from './constants'
 import firebase from './firebase'
 
+export interface ErrorLike {
+	message: string
+}
+
 type HubSpotQueue = [string, Record<string, unknown>][]
 
 export const isIos = () =>
@@ -29,7 +33,7 @@ export const showSuccess = (message: string) => {
 	toast.success(message, { className: 'toast' })
 }
 
-export const handleError = (error: { message: string }) => {
+export const handleError = (error: ErrorLike | null | undefined) => {
 	toast.error(error?.message ?? 'An unknown error occurred', {
 		className: 'toast'
 	})

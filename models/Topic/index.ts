@@ -89,4 +89,8 @@ export default class Topic {
 			query: { q: this.name, s: DeckSortAlgorithm.Top }
 		}
 	}
+
+	get backgroundImage() {
+		return `url(${JSON.stringify(this.imageUrl)})`
+	}
 }

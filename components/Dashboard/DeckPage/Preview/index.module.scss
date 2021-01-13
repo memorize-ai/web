@@ -1,0 +1,159 @@
+@use 'styles/raw';
+@use 'styles/card-side';
+
+$max-width: 700px;
+$content-padding: 20px;
+$slider-height: 12px;
+$transition-duration: 150ms;
+
+.root {
+	max-width: calc(#{$max-width} + var(--inner-horizontal-padding) * 2);
+	margin: calc(var(--inner-horizontal-padding) * 2) auto
+		calc(var(--inner-horizontal-padding) * 3 / 2);
+	padding: 0 var(--inner-horizontal-padding);
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+
+.section {
+	max-width: 200px;
+	width: 100%;
+}
+
+.title {
+	display: none;
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #9b9b9b;
+	transform: translate(-8px, 4px);
+
+	@media (min-width: 500px) {
+		display: block;
+	}
+}
+
+.box {
+	position: relative;
+	height: 400px;
+	cursor: pointer;
+	margin: 12px 0;
+	background: white;
+	box-shadow: 0 0 10px 0 transparentize(black, 0.9);
+	border-radius: 8px;
+	transition: opacity $transition-duration, transform $transition-duration;
+}
+
+.contentContainer {
+	height: 100%;
+	overflow-y: auto;
+	padding: $content-padding;
+}
+
+.content {
+	min-height: 100%;
+	height: unset;
+
+	@include card-side.katex-width(
+		raw.min(
+			$max-width - $content-padding * 2,
+			calc(
+				100vw - var(--sidebar-width) - var(--horizontal-padding) * 2 -
+					var(--inner-horizontal-padding) * 2 - #{$content-padding * 2}
+			)
+		)
+	);
+}
+
+.toggle {
+	$inset: 20px;
+
+	display: flex;
+	position: absolute;
+	align-items: flex-end;
+	right: $inset;
+	bottom: $inset;
+}
+
+.toggleSide {
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+	opacity: 0.5;
+	transform: translateY(8px);
+}
+
+.toggleIcon {
+	$dimension: 18px;
+
+	width: $dimension;
+	height: $dimension;
+	margin-left: 18px;
+	padding: 3px;
+	color: #4355f9;
+	background: #eee;
+	border-radius: 50%;
+	transition: transform 0.3s ease-out;
+}
+
+.footer {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	margin-top: 20px;
+}
+
+.left,
+.right {
+	flex-shrink: 0;
+	transform: scale(2);
+
+	&:not(:disabled):hover .directionIcon {
+		fill: #4355f9;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+	}
+}
+
+.directionIcon {
+	fill: #9b9b9b;
+	transition: fill 0.3s;
+}
+
+.progress {
+	max-width: 150px;
+	width: 100%;
+	margin: 0 40px;
+}
+
+.slider,
+.sliderContent {
+	height: $slider-height;
+	border-radius: $slider-height / 2;
+}
+
+.slider {
+	background: transparentize(#4355f9, 0.5);
+}
+
+.sliderContent {
+	min-width: $slider-height;
+	background: #4355f9;
+	transition: width 0.3s;
+}
+
+.progressText {
+	margin-top: 4px;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.progressSlash {
+	opacity: 0.5;
+}

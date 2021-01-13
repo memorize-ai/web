@@ -1,0 +1,249 @@
+@use 'styles/colors';
+
+$margin: 30px;
+$spacing: 16px;
+
+@mixin show-rate-message {
+	justify-content: space-between;
+
+	.rateMessage {
+		display: block;
+	}
+}
+
+@mixin hide-rate-message {
+	justify-content: center;
+
+	.rateMessage {
+		display: none;
+	}
+}
+
+.root {
+	display: flex;
+	flex-direction: column;
+	margin: 24px var(--inner-horizontal-padding) 0;
+
+	@media (min-width: 750px) {
+		flex-direction: row;
+	}
+}
+
+.ratings,
+.info {
+	width: 100%;
+	height: max-content;
+	background: white;
+	padding: 30px 20px;
+	border: 1px solid #eee;
+	border-radius: 8px;
+}
+
+.ratingInfo {
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+
+	@media (min-width: 850px) {
+		flex-direction: row;
+	}
+}
+
+.ratingData {
+	flex-shrink: 0;
+	margin-bottom: -16px;
+}
+
+.ratingDataText {
+	display: flex;
+	align-items: flex-end;
+}
+
+.averageRating,
+.ratingCountText {
+	color: colors.$dark-gray;
+}
+
+.averageRating {
+	font-size: 45px;
+}
+
+.ratingCount {
+	margin: 0 0 10px 12px;
+	font-weight: bold;
+	color: #9b9b9b;
+}
+
+.ratingSliders {
+	flex-grow: 1;
+	margin-top: $margin;
+	border-collapse: separate;
+	border-spacing: 6px 0;
+
+	@media (min-width: 850px) {
+		margin-top: 0;
+		margin-left: $margin;
+	}
+
+	@media (min-width: 1350px) {
+		margin-left: $margin * 2;
+	}
+}
+
+.ratingStar,
+.ratingStarCount {
+	font-size: 18px;
+}
+
+.ratingStar {
+	color: #9b9b9b;
+}
+
+.ratingStarIcon {
+	transform: scale(1.5);
+}
+
+.ratingSlider {
+	width: 100%;
+	padding: 0 4px 0 6px;
+}
+
+.ratingSliderContent,
+.ratingSliderInnerContent {
+	$height: 4px;
+
+	height: $height;
+	border-radius: $height / 2;
+}
+
+.ratingSliderContent {
+	width: 100%;
+	background: transparentize(#4355f9, 0.7);
+}
+
+.ratingSliderInnerContent {
+	background: #4355f9;
+	transition: width 0.3s;
+}
+
+.ratingStarCount {
+	text-align: right;
+	color: colors.$dark-gray;
+}
+
+.ratingDivider {
+	$height: 2px;
+
+	height: $height;
+	margin: $margin 0;
+	background: transparentize(#ddd, 0.5);
+	border-radius: $height / 2;
+}
+
+.rate {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	@media (min-width: 530px) {
+		@include show-rate-message;
+	}
+
+	@media (min-width: 750px) {
+		@include hide-rate-message;
+	}
+
+	@media (min-width: 970px) {
+		@include show-rate-message;
+	}
+
+	@media (min-width: 1150px) {
+		@include hide-rate-message;
+	}
+
+	@media (min-width: 1275px) {
+		@include show-rate-message;
+	}
+}
+
+.rateMessage,
+.rateStars {
+	flex-shrink: 0;
+}
+
+.rateMessage {
+	display: none;
+	font-size: 20px;
+	font-weight: bold;
+	color: #9b9b9b;
+}
+
+.rateStars {
+	margin-left: 12px;
+}
+
+.rateStar {
+	cursor: pointer;
+	color: #00d388;
+	transform: scale(2);
+	transition: opacity 0.3s;
+
+	@media (min-width: 400px) {
+		margin-top: 20px;
+		transform: scale(2.5) translateY(-4px);
+	}
+
+	&:hover {
+		opacity: 0.5;
+	}
+
+	&:last-child {
+		margin-right: 12px;
+	}
+
+	&:not(:last-child) {
+		margin-right: 20px;
+
+		@media (min-width: 400px) {
+			margin-right: 30px;
+		}
+	}
+}
+
+.info {
+	display: flex;
+	flex-direction: column;
+	margin-top: $spacing;
+
+	@media (min-width: 750px) {
+		margin-top: 0;
+		margin-left: $spacing;
+	}
+}
+
+.infoRow {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	overflow-x: auto;
+	font-size: 18px;
+	font-weight: bold;
+
+	&:not(:last-child) {
+		padding-bottom: 20px;
+	}
+}
+
+.infoKey,
+.infoValue {
+	flex-shrink: 0;
+}
+
+.infoKey {
+	margin-right: 12px;
+	color: #9b9b9b;
+}
+
+.infoValue {
+	color: colors.$dark-gray;
+}

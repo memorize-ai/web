@@ -1,0 +1,34 @@
+$height: 44px;
+
+.root {
+	padding: 0 14px;
+	line-height: $height;
+	font-size: larger;
+	font-weight: 900;
+	color: white;
+	background: #051e34;
+	border-radius: 8px;
+	transition: color 0.3s, background 0.3s, opacity 0.3s;
+
+	&:hover,
+	&:focus {
+		color: #051e34;
+		background: white;
+	}
+}
+
+.inverted {
+	color: #051e34;
+	background: white;
+	box-shadow: 0 4px 8px transparentize(black, 0.9);
+
+	&:hover,
+	&:focus {
+		color: white;
+		background: #051e34;
+	}
+}
+
+.xp {
+	color: #03a9f4;
+}

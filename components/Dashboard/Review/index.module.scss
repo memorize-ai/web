@@ -1,0 +1,11 @@
+@use 'styles/dashboard';
+
+@include dashboard.sidebar-collapse(980px);
+
+.content {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
+	padding: 0 var(--horizontal-padding);
+}

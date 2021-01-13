@@ -2,25 +2,15 @@
 @use '~react-toastify/dist/ReactToastify';
 @use '~balloon-css/src/balloon';
 
-@use 'variables' as *;
-@use 'mixins' as *;
-
-@include dashboard-sidebar-collapse('add-cards', 842px);
-@include dashboard-sidebar-collapse('cram', 980px);
-@include dashboard-sidebar-collapse('deck-page', 1150px);
-@include dashboard-sidebar-collapse('decks', 1080px);
-@include dashboard-sidebar-collapse('edit-card', 795px);
-@include dashboard-sidebar-collapse('home', 780px);
-@include dashboard-sidebar-collapse('interests', 820px);
-@include dashboard-sidebar-collapse('market', 1025px);
-@include dashboard-sidebar-collapse('publish-deck', 920px);
-@include dashboard-sidebar-collapse('review', 980px);
+@use 'colors';
+@use 'font';
+@use 'chat';
 
 html {
 	scroll-behavior: smooth;
 	text-size-adjust: 100%;
 	line-height: 1.5;
-	background: $light-gray;
+	background: colors.$light-gray;
 }
 
 body {
@@ -29,15 +19,11 @@ body {
 	margin: 0;
 	overflow-x: hidden;
 	overscroll-behavior: none;
-
-	&,
-	.ck.ck-editor * {
-		font-family: $font-family;
-	}
+	font-family: font.$family;
 
 	::before,
 	::after {
-		font-family: $font-family !important;
+		font-family: font.$family !important;
 	}
 
 	&.clipped,
@@ -46,7 +32,7 @@ body {
 	}
 
 	&.hide-chat {
-		@include hide-chat;
+		@include chat.hide;
 	}
 
 	&,
@@ -73,7 +59,7 @@ hr {
 }
 
 .Toastify__toast {
-	font-family: $font-family !important;
+	font-family: font.$family !important;
 	font-weight: bold;
 	padding-left: 16px;
 	border-radius: 5px;

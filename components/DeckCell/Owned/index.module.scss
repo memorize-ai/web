@@ -1,0 +1,35 @@
+.content {
+	display: flex;
+	flex-direction: column;
+}
+
+.due {
+	margin-top: auto;
+	font-weight: bold;
+	color: #9b9b9b;
+}
+
+.dueEmoji {
+	display: inline-block;
+	margin-right: 2px;
+	font-size: 1.4em;
+	transform: translateY(2px);
+}
+
+.review {
+	margin-top: 10px;
+	padding: 4px 0;
+	text-align: center;
+	font-size: 18px;
+	font-weight: 900;
+	color: white;
+	background: #582efe;
+	text-transform: uppercase;
+	border-radius: 8px;
+	transition: background 0.3s;
+
+	&:hover,
+	&:focus {
+		background: #051e34;
+	}
+}

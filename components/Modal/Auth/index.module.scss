@@ -1,0 +1,209 @@
+@use 'styles/colors';
+
+$footer-height: 43px;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	max-width: 800px;
+	overflow: hidden;
+	margin: 8px;
+	background: white;
+	border-radius: 8px;
+
+	@media (min-width: 330px) {
+		margin: 20px;
+	}
+}
+
+.top {
+	padding: 20px;
+	background: linear-gradient(10deg, #5a2aff, #00e5f4);
+
+	@media (min-width: 385px) {
+		padding: 20px 25px;
+	}
+
+	@media (min-width: 400px) {
+		padding: 20px 30px;
+	}
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: white;
+}
+
+.title {
+	margin-bottom: 4px;
+	font-size: 18px;
+	font-weight: 900;
+
+	@media (min-width: 345px) {
+		font-size: 20px;
+	}
+
+	@media (min-width: 370px) {
+		font-size: 22px;
+	}
+
+	@media (min-width: 420px) {
+		margin-bottom: 0;
+		font-size: 24px;
+	}
+
+	@media (min-width: 485px) {
+		font-size: 30px;
+	}
+}
+
+.hide {
+	margin: 0 8px 0 12px;
+	transform: scale(1.7);
+	transition: opacity 0.3s;
+
+	@media (min-width: 345px) {
+		margin: 0 8px 0 20px;
+		transform: scale(2);
+	}
+
+	&:hover {
+		opacity: 0.5;
+	}
+}
+
+.tabs {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.tab {
+	padding: 0 10px 1px;
+	font-size: 16px;
+	font-weight: 900;
+	color: white;
+	opacity: 0.8;
+	border-bottom: 2px solid transparent;
+	transition: opacity 0.3s, border-color 0.3s;
+
+	@media (min-width: 350px) {
+		font-size: 18px;
+	}
+
+	@media (min-width: 370px) {
+		font-size: 20px;
+	}
+
+	&:not(.selectedTab):hover {
+		opacity: 1;
+		border-color: transparentize(white, 0.5);
+	}
+
+	&:not(:last-child) {
+		margin-right: 12px;
+	}
+}
+
+.selectedTab {
+	opacity: 1;
+	border-color: white;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	padding: 4px 24px 20px;
+	overflow-y: auto;
+
+	@media (min-height: 550px) {
+		padding: 8px 30px 30px;
+	}
+}
+
+.label {
+	display: flex;
+	align-items: flex-end;
+	margin: 12px 0 8px;
+	font-weight: 900;
+	color: colors.$dark-gray;
+}
+
+.innerLabel {
+	flex-grow: 1;
+}
+
+.forgotPassword {
+	margin-left: 8px;
+	font-size: 15px;
+	font-weight: 900;
+	color: #5a2aff;
+
+	&:disabled {
+		margin-right: 12px;
+		cursor: default;
+	}
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.input {
+	padding: 8px 16px;
+	color: colors.$dark-gray;
+	background: transparentize(#f0f1f8, 0.18);
+	border-radius: 8px;
+
+	@media (min-height: 550px) {
+		padding: 12px 20px;
+		border-radius: 15px;
+	}
+}
+
+.footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	margin-top: 16px;
+
+	@media (min-height: 550px) {
+		margin-top: 24px;
+	}
+}
+
+.submit {
+	flex-shrink: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 112px;
+	height: $footer-height;
+	font-size: 18px;
+	font-weight: 900;
+	color: white;
+	background: #5a2aff;
+	border-radius: 100px;
+	transition: width 0.3s, background 0.3s, opacity 0.3s;
+
+	&:not(:disabled):hover {
+		background: #051e34;
+	}
+}
+
+.submitLoading {
+	width: $footer-height;
+}
+
+.submitDisabled {
+	opacity: 0.5;
+}
+
+.error {
+	margin-left: 20px;
+	font-weight: 900;
+	color: colors.$red-600;
+}

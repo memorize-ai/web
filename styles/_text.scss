@@ -1,0 +1,17 @@
+@mixin overflow-ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+@mixin prepare-for-line-limit {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+@mixin line-limit($lines) {
+	@include prepare-for-line-limit;
+
+	-webkit-line-clamp: $lines;
+}

@@ -1,0 +1,23 @@
+$aspect-ratio: 26.2px / 25px;
+$default-height: 25px;
+
+.root {
+	flex-shrink: 0;
+	display: grid;
+	width: calc(#{$aspect-ratio} * var(--star-height, #{$default-height}));
+	height: var(--star-height, $default-height);
+
+	&:not(:last-child) {
+		margin-right: 2px;
+	}
+}
+
+.background,
+.image {
+	grid-row: 1;
+	grid-column: 1;
+}
+
+.background {
+	background: #00d388;
+}

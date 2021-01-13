@@ -1,0 +1,71 @@
+@use 'styles/card-cell';
+@use 'styles/card-side';
+
+$content-padding-large: 12px;
+$divider-dimension: 2px;
+$horizontal-view-spacing: var(--horizontal-view-spacing, 30px * 4);
+
+.sides {
+	display: grid;
+	grid: auto #{$divider-dimension} auto / auto;
+
+	@media (min-width: 650px) {
+		grid: auto / 1fr #{$divider-dimension} 1fr;
+	}
+}
+
+.side {
+	display: flex;
+	flex-direction: column;
+}
+
+.content {
+	@include card-side.katex-width(
+		var(
+			--katex-width-stacked,
+			calc(
+				100vw - var(--sidebar-width) - #{$horizontal-view-spacing} - #{(
+						card-cell.$border-width + $content-padding-large
+					) * 2}
+			)
+		)
+	);
+
+	padding: $content-padding-large $content-padding-large 8px
+		$content-padding-large;
+
+	@media (min-width: 650px) {
+		@include card-side.katex-width(
+			var(
+				--katex-width-stacked,
+				calc(
+					(
+							100vw - var(--sidebar-width) - #{$horizontal-view-spacing} - #{card-cell.$border-width *
+								2 + $content-padding-large * 4 + $divider-dimension}
+						) / 2
+				)
+			)
+		);
+	}
+}
+
+.text {
+	$margin: 8px;
+
+	margin: auto $margin $margin;
+	text-align: center;
+	text-transform: uppercase;
+	color: #9b9b9b;
+}
+
+.divider {
+	height: $divider-dimension;
+	margin: 0 10px 8px 10px;
+	background: #eee;
+
+	@media (min-width: 650px) {
+		width: $divider-dimension;
+		height: auto;
+		margin: 8px 0;
+	}
+}

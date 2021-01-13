@@ -1,0 +1,5 @@
+@mixin katex-width($width) {
+	:global(.katex-display) {
+		width: $width;
+	}
+}

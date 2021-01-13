@@ -1,32 +1,33 @@
-import { PropsWithChildren, useRef, useEffect, useState } from 'react'
+import { ReactNode, useRef, useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
+import cx from 'classnames'
 
 import useKeyPress from 'hooks/useKeyPress'
+
+import styles from './index.module.scss'
 
 const HIDE_KEYS = ['Escape']
 
 export interface ModalShowingProps {
 	isShowing: boolean
-	setIsShowing: (isShowing: boolean) => void
+	setIsShowing(isShowing: boolean): void
 }
 
 export interface ModalProps extends ModalShowingProps {
 	className?: string
-	isLazy: boolean
+	children?: ReactNode
 }
 
 const Modal = ({
 	className,
-	isLazy,
 	isShowing,
 	setIsShowing,
 	children
-}: PropsWithChildren<ModalProps>) => {
+}: ModalProps) => {
 	const [element, setElement] = useState(null as HTMLDivElement | null)
 	const content = useRef(null as HTMLDivElement | null)
 
 	const shouldHide = useKeyPress(HIDE_KEYS)
-	const [shouldShowContent, setShouldShowContent] = useState(!isLazy)
 
 	useEffect(() => {
 		setElement(document.createElement('div'))
@@ -35,29 +36,22 @@ const Modal = ({
 	useEffect(() => {
 		if (!element) return
 
-		const { body } = document
-
-		element.classList.add('modal')
+		element.classList.add(styles.root)
 		element.setAttribute('role', 'presentation')
 
-		if (className) element.classList.add(className)
-
+		const { body } = document
 		body.appendChild(element)
 
 		return () => {
 			body.removeChild(element)
 		}
-	}, [element, className])
+	}, [element])
 
 	useEffect(() => {
 		if (!element) return
-
-		element.classList[isShowing ? 'add' : 'remove']('showing')
 		element.setAttribute('aria-hidden', (!isShowing).toString())
 
 		if (!isShowing) return
-
-		setShouldShowContent(true)
 
 		const { body } = document
 
@@ -90,8 +84,8 @@ const Modal = ({
 	return (
 		element &&
 		createPortal(
-			<div ref={content} className="content">
-				{shouldShowContent && children}
+			<div ref={content} className={cx(styles.content, className)}>
+				{children}
 			</div>,
 			element
 		)

@@ -1,0 +1,115 @@
+$item-height: 44px;
+
+.root {
+	display: flex;
+	align-items: center;
+	padding: 30px 30px 0;
+
+	@media (min-width: 1010px) {
+		padding-left: 135px;
+		padding-right: 135px;
+	}
+}
+
+.noPadding {
+	padding-left: 0;
+	padding-right: 0;
+
+	.auth {
+		@media (max-width: 685px) {
+			margin-right: 0;
+		}
+	}
+}
+
+.logoLink {
+	margin-right: 12px;
+}
+
+.logo {
+	max-height: 60px;
+	transition: transform 0.3s;
+
+	&:hover,
+	&:focus {
+		transform: translateY(-2px);
+	}
+}
+
+.items {
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+}
+
+.item {
+	flex-shrink: 0;
+	height: $item-height;
+}
+
+.marketSearchLink {
+	display: none;
+
+	@media (min-width: 800px) {
+		display: block;
+	}
+}
+
+.marketLink {
+	line-height: $item-height;
+	font-size: larger;
+	background: transparentize(#eee, 0.8);
+	border-radius: 8px;
+
+	@media (min-width: 800px) {
+		display: none;
+	}
+
+	&:hover .marketLinkIcon {
+		color: white;
+		transform: translateY(-2px);
+	}
+}
+
+.marketLinkIcon {
+	width: $item-height !important;
+	color: #eee;
+	transition: color 0.3s, transform 0.3s;
+}
+
+.dashboard,
+.auth {
+	margin: 0 12px;
+	padding: 0 14px;
+	line-height: $item-height;
+	font-size: larger;
+	font-weight: 900;
+	color: white;
+	background: #051e34;
+	border-radius: 8px;
+	transition: color 0.3s, background 0.3s;
+
+	&:hover,
+	&:focus {
+		color: #051e34;
+		background: white;
+	}
+}
+
+.authText {
+	display: none;
+
+	@media (min-width: 585px) {
+		display: block;
+	}
+}
+
+.authSlash {
+	opacity: 0.7;
+}
+
+.authIcon {
+	@media (min-width: 585px) {
+		display: none;
+	}
+}

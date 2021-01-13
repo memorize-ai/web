@@ -1,8 +1,8 @@
 import { useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import cx from 'classnames'
-import { ParsedUrlQuery } from 'querystring'
 
+import { DecksQuery } from './models'
 import LoadingState from 'models/LoadingState'
 import requiresAuth from 'hooks/requiresAuth'
 import useSelectedDeck from 'hooks/useSelectedDeck'
@@ -15,11 +15,7 @@ import Header from './Header'
 import Sections from './Sections'
 import Loader from 'components/Loader'
 
-interface DecksQuery extends ParsedUrlQuery {
-	slugId?: string
-	slug?: string
-	unlockSectionId?: string
-}
+import styles from './index.module.scss'
 
 const Decks = () => {
 	const content = useRef<HTMLDivElement | null>(null)
@@ -68,7 +64,12 @@ const Decks = () => {
 	}, [content, selectedDeck])
 
 	return (
-		<Dashboard selection={Selection.Decks} className="decks">
+		<Dashboard
+			className={styles.root}
+			sidebarClassName={styles.sidebar}
+			contentClassName={styles.content}
+			selection={Selection.Decks}
+		>
 			<Head
 				title={`${
 					selectedDeck ? `${selectedDeck.name} | ` : ''
@@ -79,8 +80,8 @@ const Decks = () => {
 				breadcrumbs={url => [[{ name: 'Decks', url }]]}
 			/>
 			<Header deck={selectedDeck} />
-			<div ref={content} className="content">
-				<div className={cx('box', { loading: !selectedDeck })}>
+			<div ref={content} className={styles.main}>
+				<div className={cx(styles.box, { [styles.loading]: !selectedDeck })}>
 					{selectedDeck ? (
 						<Sections deck={selectedDeck} />
 					) : (

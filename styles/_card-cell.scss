@@ -1,0 +1,9 @@
+$border-width: 2px;
+
+@mixin root {
+	display: block;
+	color: inherit;
+	background: white;
+	border: $border-width solid #eee;
+	border-radius: 5px;
+}

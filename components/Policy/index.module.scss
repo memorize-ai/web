@@ -1,0 +1,15 @@
+@use 'styles/colors';
+
+.root {
+	padding: 30px;
+	color: colors.$dark-gray;
+}
+
+.title {
+	text-align: center;
+}
+
+.divider {
+	margin: 30px 0;
+	background: transparentize(colors.$dark-gray, 0.8);
+}

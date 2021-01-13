@@ -1,15 +1,17 @@
-import { forwardRef, ReactNode, useEffect } from 'react'
+import { HTMLAttributes, forwardRef, ReactNode, useEffect } from 'react'
 import cx from 'classnames'
 
 import hideChat from 'hooks/hideChat'
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
 
+import styles from './index.module.scss'
+
 export enum DashboardNavbarSelection {
-	Home = 'Home',
-	Market = 'Market',
-	Decks = 'Decks',
-	Interests = 'Interests'
+	Home,
+	Market,
+	Decks,
+	Interests
 }
 
 export enum DashboardGradientStyle {
@@ -17,26 +19,31 @@ export enum DashboardGradientStyle {
 	Green = 'green'
 }
 
-export interface DashboardProps {
+export interface DashboardProps extends HTMLAttributes<HTMLDivElement> {
+	className: string
+	contentClassName?: string
+	sidebarClassName: string
 	selection: DashboardNavbarSelection
 	gradientStyle?: DashboardGradientStyle
 	isNavbarHidden?: boolean
 	hideChat?: boolean
-	expectsSignIn?: boolean
-	className: string
+	expectsSignIn?: boolean | null
 	children?: ReactNode
 }
 
 const Dashboard = forwardRef<HTMLDivElement, DashboardProps>(
 	(
 		{
+			className,
+			contentClassName,
+			sidebarClassName,
 			selection,
 			gradientStyle = DashboardGradientStyle.Blue,
 			isNavbarHidden = false,
 			hideChat: shouldHideChat = false,
-			expectsSignIn,
-			className,
-			children
+			expectsSignIn = null,
+			children,
+			...props
 		},
 		ref
 	) => {
@@ -50,17 +57,30 @@ const Dashboard = forwardRef<HTMLDivElement, DashboardProps>(
 		}, [])
 
 		return (
-			<div className={cx('dashboard', className)}>
-				<Sidebar expectsSignIn={expectsSignIn} />
-				<div className="content">
-					<div className={`background ${gradientStyle}-gradient`} />
+			<div className={cx(styles.root, className)}>
+				<Sidebar className={sidebarClassName} expectsSignIn={expectsSignIn} />
+				<div className={styles.content}>
 					<div
-						className={cx('container', {
-							'navbar-hidden': isNavbarHidden
+						className={cx(
+							styles.background,
+							styles[`gradient_${gradientStyle}`]
+						)}
+					/>
+					<div
+						className={cx(styles.container, {
+							[styles.hiddenNavbar]: isNavbarHidden
 						})}
 					>
-						<Navbar selection={selection} expectsSignIn={expectsSignIn} />
-						<div ref={ref} className="foreground">
+						<Navbar
+							className={styles.navbar}
+							selection={selection}
+							expectsSignIn={expectsSignIn}
+						/>
+						<div
+							{...props}
+							ref={ref}
+							className={cx(styles.foreground, contentClassName)}
+						>
 							{children}
 						</div>
 					</div>
