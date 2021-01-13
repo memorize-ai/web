@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil'
 import PreviewDeck, { PreviewCard } from 'models/PreviewDeck'
 import state from 'state/previewDeck'
 import firebase from 'lib/firebase'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 
 import 'firebase/firestore'
 

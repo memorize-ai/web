@@ -7,7 +7,7 @@ import UserData from './UserData'
 import Section from 'models/Section'
 import SnapshotLike from 'models/SnapshotLike'
 import { DisqusProps } from 'components/Disqus'
-import { slugify } from 'lib/utils'
+import slugify from 'lib/slugify'
 import { BASE_URL } from 'lib/constants'
 import firebase from 'lib/firebase'
 

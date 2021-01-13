@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import Deck from 'models/Deck'
 import DeckCell from 'components/DeckCell'
-import { formatNumber } from 'lib/utils'
+import formatNumber from 'lib/formatNumber'
 
 import styles from './index.module.scss'
 

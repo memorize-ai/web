@@ -7,7 +7,7 @@ import useExpandedSections from 'hooks/useExpandedSections'
 import SectionHeader from 'components/SectionHeader'
 import CardCell from 'components/CardCell'
 import ShareSectionModal from 'components/Modal/ShareSection'
-import { formatNumber } from 'lib/utils'
+import formatNumber from 'lib/formatNumber'
 
 import styles from './index.module.scss'
 

@@ -18,7 +18,8 @@ import DeckSearch, {
 import Counters, { Counter } from 'models/Counters'
 import LoadingState from 'models/LoadingState'
 import searchState from 'state/search'
-import { formatNumber, flattenQuery } from 'lib/utils'
+import formatNumber from 'lib/formatNumber'
+import flattenQuery from 'lib/flattenQuery'
 import useCurrentUser from 'hooks/useCurrentUser'
 import Dashboard, {
 	DashboardNavbarSelection as Selection

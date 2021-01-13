@@ -19,7 +19,7 @@ import ShareDeckModal from 'components/Modal/ShareDeck'
 import ConfirmationModal from 'components/Modal/Confirmation'
 import Dropdown, { DropdownShadow } from 'components/Dropdown'
 import RemoveDeckModal from 'components/Modal/RemoveDeck'
-import { formatNumber } from 'lib/utils'
+import formatNumber from 'lib/formatNumber'
 
 import { src as defaultImage } from 'images/logos/icon.jpg'
 import share from 'images/icons/share.svg'

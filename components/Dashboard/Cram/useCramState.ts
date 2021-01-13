@@ -18,7 +18,7 @@ import PerformanceRating from 'models/PerformanceRating'
 import useDecks from 'hooks/useDecks'
 import useSections from 'hooks/useSections'
 import useCurrentUser from 'hooks/useCurrentUser'
-import { sleep } from 'lib/utils'
+import sleep from 'lib/sleep'
 import { CARD_ACTIONS } from './CardContainer'
 
 import 'firebase/firestore'

@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil'
 import Deck from 'models/Deck'
 import state from 'state/decks'
 import firebase from 'lib/firebase'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 
 import 'firebase/firestore'
 

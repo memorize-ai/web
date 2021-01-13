@@ -11,7 +11,7 @@ import Footer from './Footer'
 import ProgressModal from './ProgressModal'
 import ClaimXPButton from './ClaimXPButton'
 import Loader from 'components/Loader'
-import { rankingToString } from 'lib/utils'
+import rankingToString from 'lib/rankingToString'
 
 import toggle from 'images/icons/toggle.svg'
 import styles from './index.module.scss'

@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 
 import { ScreenshotType } from 'components/Screenshot'
 import useKeyPress from 'hooks/useKeyPress'
-import { sleep } from 'lib/utils'
+import sleep from 'lib/sleep'
 
 const SHOULD_GO_LEFT_KEYS = ['ArrowLeft']
 const SHOULD_GO_RIGHT_KEYS = ['ArrowRight']

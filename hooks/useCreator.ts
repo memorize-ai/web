@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil'
 import User from 'models/User'
 import state from 'state/creators'
 import firebase from 'lib/firebase'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 
 import 'firebase/firestore'
 

@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import Deck from 'models/Deck'
-import { includesNormalized } from 'lib/utils'
+import includesNormalized from 'lib/includesNormalized'
 import Row from '../SidebarRow'
 
 import styles from './index.module.scss'

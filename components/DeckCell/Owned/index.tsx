@@ -3,7 +3,7 @@ import Router from 'next/router'
 
 import Deck from 'models/Deck'
 import Base from '../Base'
-import { randomEmoji } from 'lib/utils'
+import randomEmoji from 'lib/randomEmoji'
 
 import styles from './index.module.scss'
 

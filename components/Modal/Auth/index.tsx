@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import cx from 'classnames'
 
 import firebase from 'lib/firebase'
+import User from 'models/User'
 import LoadingState from 'models/LoadingState'
 import AuthenticationMode from 'models/AuthenticationMode'
 import useAuthModal from 'hooks/useAuthModal'
@@ -14,16 +15,13 @@ import Modal from '..'
 import Button from 'components/Button'
 import Providers from './Providers'
 import { EMAIL_REGEX, APP_STORE_URL } from 'lib/constants'
-import { isIosHandheld } from 'lib/utils'
+import { isIosHandheld } from 'lib/ios'
 
 import styles from './index.module.scss'
 
 import 'firebase/auth'
-import 'firebase/firestore'
 
 const auth = firebase.auth()
-const firestore = firebase.firestore()
-
 auth.useDeviceLanguage()
 
 const AuthModal = () => {
@@ -80,13 +78,12 @@ const AuthModal = () => {
 						if (!user)
 							throw new Error('An unknown error occurred. Please try again')
 
-						await firestore.doc(`users/${user.uid}`).set({
+						await User.create({
+							id: user.uid,
 							name,
 							email,
-							source: 'web',
 							method: 'email',
-							xp: initialXp,
-							joined: firebase.firestore.FieldValue.serverTimestamp()
+							xp: initialXp
 						})
 
 						user.updateProfile({ displayName: name })

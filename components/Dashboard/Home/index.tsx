@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
-import { formatNumber } from 'lib/utils'
+import formatNumber from 'lib/formatNumber'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useDecks from 'hooks/useDecks'
 import useRecommendedDecks from 'hooks/useRecommendedDecks'

@@ -9,7 +9,7 @@ import User from 'models/User'
 import LoadingState from 'models/LoadingState'
 import Modal, { ModalShowingProps } from '..'
 import Button from 'components/Button'
-import { sleep } from 'lib/utils'
+import sleep from 'lib/sleep'
 
 import styles from './index.module.scss'
 

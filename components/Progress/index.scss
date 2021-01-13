@@ -7,50 +7,47 @@ $color: white;
 	position: relative;
 	pointer-events: none;
 	z-index: z-index.$progress;
-}
 
-#nprogress .bar {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: $height;
-	background: white;
-}
-
-#nprogress .peg {
-	display: block;
-	position: absolute;
-	right: 0px;
-	width: 100px;
-	height: 100%;
-	box-shadow: 0 0 10px $color, 0 0 5px $color;
-	opacity: 1;
-	transform: rotate(3deg) translate(0px, -4px);
-}
-
-#nprogress .spinner {
-	display: block;
-	position: fixed;
-	top: 15px;
-	right: 15px;
-}
-
-#nprogress .spinner-icon {
-	width: 18px;
-	height: 18px;
-	border: solid 2px transparent;
-	border-top-color: $color;
-	border-left-color: $color;
-	border-radius: 50%;
-	animation: nprogress-spinner 400ms linear infinite;
-}
-
-@keyframes nprogress-spinner {
-	0% {
-		transform: rotate(0deg);
+	.bar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: $height;
+		background: white;
 	}
-	100% {
-		transform: rotate(360deg);
+
+	.peg {
+		display: block;
+		position: absolute;
+		right: 0px;
+		width: 100px;
+		height: 100%;
+		box-shadow: 0 0 10px $color, 0 0 5px $color;
+		opacity: 1;
+		transform: rotate(3deg) translate(0px, -4px);
+	}
+
+	.spinner {
+		display: block;
+		position: fixed;
+		top: 15px;
+		right: 15px;
+	}
+
+	.spinner-icon {
+		width: 18px;
+		height: 18px;
+		border: solid 2px transparent;
+		border-top-color: $color;
+		border-left-color: $color;
+		border-radius: 50%;
+		animation: nprogress-spinner 400ms linear infinite;
+
+		@keyframes nprogress-spinner {
+			to {
+				transform: rotate(1turn);
+			}
+		}
 	}
 }

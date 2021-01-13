@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil'
 import { UrlObject } from 'url'
 
 import searchState from 'state/search'
-import { flattenQuery } from 'lib/utils'
+import flattenQuery from 'lib/flattenQuery'
 
 const useUrlForMarket = (): UrlObject => {
 	const { query, sortAlgorithm } = useRecoilValue(searchState)

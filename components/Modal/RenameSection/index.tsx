@@ -4,7 +4,7 @@ import { ModalShowingProps } from '..'
 import Deck from 'models/Deck'
 import Section from 'models/Section'
 import InputModal from '../Input'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 
 export interface RenameSectionModalProps extends ModalShowingProps {
 	deck: Deck

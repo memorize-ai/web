@@ -6,15 +6,13 @@ import LoadingState from 'models/LoadingState'
 export interface CurrentUserState {
 	value: User | null
 	loadingState: LoadingState
-	isObserving: boolean
 }
 
 const currentUserState = atom<CurrentUserState>({
 	key: 'currentUser',
 	default: {
 		value: null,
-		loadingState: LoadingState.None,
-		isObserving: false
+		loadingState: LoadingState.Loading
 	},
 	dangerouslyAllowMutability: true
 })

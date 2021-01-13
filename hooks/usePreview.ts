@@ -13,7 +13,8 @@ import firebase from 'lib/firebase'
 import { PreviewSection, PreviewCard } from 'models/PreviewDeck'
 import PerformanceRating from 'models/PerformanceRating'
 import useAuthModal from 'hooks/useAuthModal'
-import { sleep, handleError } from 'lib/utils'
+import sleep from 'lib/sleep'
+import handleError from 'lib/handleError'
 
 import 'firebase/firestore'
 

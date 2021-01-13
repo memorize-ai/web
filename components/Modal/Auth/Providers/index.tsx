@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState, useCallback } from 'react'
 import Router from 'next/router'
 import { Svg } from 'react-optimized-image'
 
@@ -7,7 +7,7 @@ import User from 'models/User'
 import LoadingState from 'models/LoadingState'
 import Button from 'components/Button'
 import { APP_STORE_URL } from 'lib/constants'
-import { isIosHandheld } from 'lib/utils'
+import { isIosHandheld } from 'lib/ios'
 
 import apple from 'images/icons/apple.svg'
 import google from 'images/icons/google.svg'
@@ -15,10 +15,8 @@ import google from 'images/icons/google.svg'
 import styles from './index.module.scss'
 
 import 'firebase/auth'
-import 'firebase/firestore'
 
 const auth = firebase.auth()
-const firestore = firebase.firestore()
 
 const appleAuthProvider = new firebase.auth.OAuthProvider('apple.com')
 appleAuthProvider.addScope('name')
@@ -74,13 +72,12 @@ const AuthModalProviders = ({
 
 				setLoadingState(LoadingState.Loading)
 
-				await firestore.doc(`users/${user.uid}`).set({
+				await User.create({
+					id: user.uid,
 					name: user.displayName ?? 'Anonymous',
 					email: user.email,
-					source: 'web',
 					method,
-					xp: initialXp,
-					joined: firebase.firestore.FieldValue.serverTimestamp()
+					xp: initialXp
 				})
 
 				setIsDisabled(false)
@@ -132,7 +129,7 @@ const AuthModalProviders = ({
 				onClick={logInWithApple}
 			>
 				<Svg className={styles.icon} src={apple} />
-				<p className={styles.text}>Log in</p>
+				<span className={styles.text}>Log in</span>
 			</Button>
 			<Button
 				type="button"
@@ -145,7 +142,7 @@ const AuthModalProviders = ({
 				onClick={logInWithGoogle}
 			>
 				<Svg className={styles.icon} src={google} />
-				<p className={styles.text}>Log in</p>
+				<span className={styles.text}>Log in</span>
 			</Button>
 		</div>
 	)

@@ -10,6 +10,7 @@ import getCards from 'lib/getCards'
 import getTopics from 'lib/getTopics'
 
 const INITIAL_DECK_COUNT = 1000
+const REVALIDATE = 1
 
 class DeckPageError extends Error {
 	constructor(public result: GetStaticPropsResult<DeckPageProps>) {
@@ -17,10 +18,9 @@ class DeckPageError extends Error {
 	}
 }
 
-const throwIfNull = <Result>(result: Result | null | undefined): Result => {
-	if (!result) throw new DeckPageError({ notFound: true })
-
-	return result
+const throwIfNull = <Result>(result: Result | null): Result => {
+	if (result) return result
+	throw new DeckPageError({ notFound: true })
 }
 
 const getDeckDependentData = async (slugId: string, slug: string) => {
@@ -44,8 +44,8 @@ const getDeckDependentData = async (slugId: string, slug: string) => {
 }
 
 export const getStaticPaths: GetStaticPaths<DeckPageQuery> = async () => ({
-	paths: (await getDecks(INITIAL_DECK_COUNT)).map(deck => ({
-		params: { slugId: deck.slugId, slug: deck.slug }
+	paths: (await getDecks(INITIAL_DECK_COUNT)).map(({ slugId, slug }) => ({
+		params: { slugId, slug }
 	})),
 	fallback: 'blocking'
 })
@@ -56,7 +56,6 @@ export const getStaticProps: GetStaticProps<
 > = async ({ params }) => {
 	try {
 		if (!params) return { notFound: true }
-
 		const { slugId, slug } = params
 
 		const [deckDependentData, decks, allTopics] = await Promise.all([
@@ -73,11 +72,10 @@ export const getStaticProps: GetStaticProps<
 				decks,
 				topics: allTopics.filter(({ id }) => topics.includes(id))
 			},
-			revalidate: 1
+			revalidate: REVALIDATE
 		}
 	} catch (error) {
 		if (error instanceof DeckPageError) return error.result
-
 		throw error
 	}
 }
