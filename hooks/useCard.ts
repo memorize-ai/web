@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil'
 import Card from 'models/Card'
 import cardsState, { CardsState } from 'state/cards'
 import firebase from 'lib/firebase'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 
 import 'firebase/firestore'
 

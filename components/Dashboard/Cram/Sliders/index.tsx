@@ -1,5 +1,4 @@
 import Row from '../SliderRow'
-import { safeDivide } from 'lib/utils'
 
 import styles from './index.module.scss'
 
@@ -13,9 +12,9 @@ export interface CramSlidersProps {
 const CramSliders = ({ mastered, seen, unseen, total }: CramSlidersProps) => (
 	<table className={styles.root}>
 		<tbody>
-			<Row fill={safeDivide(mastered, total)}>Mastered</Row>
-			<Row fill={safeDivide(seen, total)}>Seen</Row>
-			<Row fill={safeDivide(unseen, total)}>Unseen</Row>
+			<Row fill={mastered / (total || 1)}>Mastered</Row>
+			<Row fill={seen / (total || 1)}>Seen</Row>
+			<Row fill={unseen / (total || 1)}>Unseen</Row>
 		</tbody>
 	</table>
 )

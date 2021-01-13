@@ -7,7 +7,7 @@ import User from 'models/User'
 import LoadingState from 'models/LoadingState'
 import Button from 'components/Button'
 import { APP_STORE_URL } from 'lib/constants'
-import { isIosHandheld } from 'lib/utils'
+import { isIosHandheld } from 'lib/ios'
 
 import apple from 'images/icons/apple.svg'
 import google from 'images/icons/google.svg'

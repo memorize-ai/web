@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { Svg } from 'react-optimized-image'
+import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
@@ -15,7 +16,7 @@ import Tab from './Tab'
 import Dropdown, { DropdownShadow } from 'components/Dropdown'
 import AuthButton from 'components/AuthButton'
 import ApiKeyModal from 'components/Modal/ApiKey'
-import { isNullish, showSuccess, handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 import { APP_STORE_URL, SLACK_INVITE_URL, API_URL } from 'lib/constants'
 
 import homeIcon from 'images/icons/home.svg'
@@ -57,7 +58,7 @@ const DashboardNavbar = ({
 
 		try {
 			await auth.sendPasswordResetEmail(email)
-			showSuccess('Sent password reset email.')
+			toast.success('Sent password reset email.')
 		} catch (error) {
 			handleError(error)
 		}
@@ -135,7 +136,7 @@ const DashboardNavbar = ({
 						<div className={styles.settings}>
 							<label className={styles.label}>
 								Name
-								{isNullish(currentUser?.name) ? ' (LOADING)' : ''}
+								{currentUser?.name ? '' : ' (LOADING)'}
 							</label>
 							<input
 								className={styles.name}
@@ -147,7 +148,7 @@ const DashboardNavbar = ({
 							/>
 							<label className={styles.label}>
 								Email
-								{isNullish(currentUser?.email) ? ' (LOADING)' : ''}
+								{currentUser?.email ? '' : ' (LOADING)'}
 							</label>
 							<p className={styles.email}>{currentUser?.email ?? ''}</p>
 						</div>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { RestrictContactQuery } from './models'
 import LoadingState from 'models/LoadingState'
 import firebase from 'lib/firebase'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 import ConfirmationForm from 'components/ConfirmationForm'
 
 import 'firebase/firestore'

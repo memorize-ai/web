@@ -9,7 +9,8 @@ import enLocale from 'javascript-time-ago/locale/en'
 import Deck from 'models/Deck'
 import useCurrentUser from 'hooks/useCurrentUser'
 import Stars from 'components/Stars'
-import { formatNumber, formatLongDate } from 'lib/utils'
+import formatNumber from 'lib/formatNumber'
+import formatDate from 'lib/formatDate'
 
 import star from 'images/icons/gray-star.svg'
 import styles from './index.module.scss'
@@ -136,7 +137,7 @@ const DeckPageControls = ({ deck, hasDeck }: DeckPageControlsProps) => {
 				</div>
 				<div className={styles.infoRow}>
 					<p className={styles.infoKey}>Date created</p>
-					<p className={styles.infoValue}>{formatLongDate(deck.created)}</p>
+					<p className={styles.infoValue}>{formatDate(deck.created)}</p>
 				</div>
 			</div>
 		</div>

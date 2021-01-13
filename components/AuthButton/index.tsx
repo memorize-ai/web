@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, useCallback, MouseEvent } from 'react'
 import useAuthModal from 'hooks/useAuthModal'
 import AuthenticationMode from 'models/AuthenticationMode'
 import { APP_STORE_URL } from 'lib/constants'
-import { isIosHandheld } from 'lib/utils'
+import { isIosHandheld } from 'lib/ios'
 
 export interface AuthButtonProps
 	extends ButtonHTMLAttributes<HTMLButtonElement> {

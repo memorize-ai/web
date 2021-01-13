@@ -7,7 +7,7 @@ import LoadingState from 'models/LoadingState'
 import { ReportMessageQuery, ReportMessageProps } from './models'
 import ConfirmationForm from 'components/ConfirmationForm'
 import TextArea from 'components/TextArea'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 
 import styles from './index.module.scss'
 

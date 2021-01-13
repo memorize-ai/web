@@ -17,7 +17,7 @@ import Section from 'models/Section'
 import useCurrentUser from 'hooks/useCurrentUser'
 import ToggleExpandedButton from '../ToggleExpandedButton'
 import Dropdown, { DropdownShadow } from 'components/Dropdown'
-import { formatNumber } from 'lib/utils'
+import formatNumber from 'lib/formatNumber'
 
 import shareIcon from 'images/icons/share.svg'
 import pencilIcon from 'images/icons/pencil.svg'

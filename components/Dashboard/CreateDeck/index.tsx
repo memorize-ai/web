@@ -12,7 +12,7 @@ import Deck from 'models/Deck'
 import Topic from 'models/Topic'
 import LoadingState from 'models/LoadingState'
 import state, { initialState } from 'state/createDeck'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 import Dashboard, {
 	DashboardNavbarSelection as Selection
 } from 'components/Dashboard'

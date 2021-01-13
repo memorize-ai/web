@@ -4,7 +4,7 @@ import { faApple } from '@fortawesome/free-brands-svg-icons'
 import AuthButton from '../WhiteArrowAuthButton'
 import Screenshot, { ScreenshotType } from 'components/Screenshot'
 import { APP_STORE_URL } from 'lib/constants'
-import { isIosHandheld } from 'lib/utils'
+import { isIosHandheld } from 'lib/ios'
 
 import styles from './index.module.scss'
 

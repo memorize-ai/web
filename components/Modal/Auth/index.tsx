@@ -14,7 +14,7 @@ import Modal from '..'
 import Button from 'components/Button'
 import Providers from './Providers'
 import { EMAIL_REGEX, APP_STORE_URL } from 'lib/constants'
-import { isIosHandheld } from 'lib/utils'
+import { isIosHandheld } from 'lib/ios'
 
 import styles from './index.module.scss'
 

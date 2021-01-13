@@ -10,7 +10,7 @@ import useDecks from 'hooks/useDecks'
 import useCurrentUser from 'hooks/useCurrentUser'
 import Input from 'components/Input'
 import Section from '../SidebarSection'
-import { isNullish, formatNumber, formatNumberAsInt } from 'lib/utils'
+import formatNumber, { formatNumberAsInt } from 'lib/formatNumber'
 
 import logo from 'images/logos/capital.jpg'
 import styles from './index.module.scss'
@@ -31,7 +31,9 @@ const DashboardSidebar = ({
 
 	const [query, setQuery] = useState('')
 
-	const isLevelLoading = (isSignedIn ?? false) && isNullish(currentUser?.level)
+	const isLevelLoading =
+		(isSignedIn ?? false) &&
+		(currentUser?.level === null || currentUser?.level === undefined)
 
 	const level = isLevelLoading
 		? '...'
@@ -40,7 +42,7 @@ const DashboardSidebar = ({
 		? '...'
 		: formatNumberAsInt((currentUser?.level ?? 0) + 1)
 	const xp =
-		isSignedIn && isNullish(currentUser?.xp)
+		isSignedIn && (currentUser?.xp === null || currentUser?.xp === undefined)
 			? '...'
 			: formatNumber(currentUser?.xp ?? 0)
 

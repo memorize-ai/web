@@ -8,7 +8,7 @@ import cx from 'classnames'
 
 import { EditDeckQuery } from './models'
 import LoadingState from 'models/LoadingState'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 import requiresAuth from 'hooks/requiresAuth'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useCreatedDeck from 'hooks/useCreatedDeck'

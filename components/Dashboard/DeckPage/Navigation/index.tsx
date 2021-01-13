@@ -10,7 +10,8 @@ import {
 	DEFAULT_DECK_SORT_ALGORITHM
 } from 'models/Deck/Search'
 import searchState from 'state/search'
-import { flattenQuery, formatNumber } from 'lib/utils'
+import flattenQuery from 'lib/flattenQuery'
+import formatNumber from 'lib/formatNumber'
 import Input from 'components/Input'
 import SortDropdown from 'components/SortDropdown'
 import { DropdownShadow } from 'components/Dropdown'

@@ -4,7 +4,7 @@ import Deck from 'models/Deck'
 import Section from 'models/Section'
 import InputModal from '../Input'
 import useSections from 'hooks/useSections'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 import { ModalShowingProps } from '..'
 
 export interface CreateSectionModalProps extends ModalShowingProps {

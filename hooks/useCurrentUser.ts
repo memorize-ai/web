@@ -6,7 +6,8 @@ import LoadingState from 'models/LoadingState'
 import state from 'state/currentUser'
 import firebase from 'lib/firebase'
 import { setExpectsSignIn } from 'lib/expectsSignIn'
-import { handleError, hubSpotIdentifyUser } from 'lib/utils'
+import identify from 'lib/identify'
+import handleError from 'lib/handleError'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -15,55 +16,44 @@ const auth = firebase.auth()
 const firestore = firebase.firestore()
 
 const useCurrentUser = () => {
-	const [
-		{ value: currentUser, loadingState, isObserving },
-		setState
-	] = useRecoilState(state)
-
-	const isLoading = loadingState !== LoadingState.None
+	const [{ value: currentUser, loadingState }, setState] = useRecoilState(state)
 
 	useEffect(() => {
-		if (isLoading || User.didInitialize) return
-
+		if (User.didInitialize) return
 		User.didInitialize = true
-
-		setState(state => ({ ...state, loadingState: LoadingState.Loading }))
 
 		auth.onAuthStateChanged(
 			user => {
-				setState(state => ({
-					...state,
+				setState({
 					value: user && User.fromFirebaseUser(user),
 					loadingState: LoadingState.Success
-				}))
-
-				setExpectsSignIn(Boolean(user))
-				if (user) hubSpotIdentifyUser(user)
+				})
 			},
 			error => {
-				setState(state => ({
-					...state,
-					value: null,
-					loadingState: LoadingState.Fail
-				}))
+				setState({ value: null, loadingState: LoadingState.Fail })
 				handleError(error)
 			}
 		)
-	}, [isLoading, setState])
+	}, [setState])
 
 	useEffect(() => {
-		if (!currentUser || currentUser.isObserving || isObserving) return
-
+		if (!currentUser || currentUser.isObserving) return
 		currentUser.isObserving = true
-		setState(state => ({ ...state, isObserving: true }))
 
 		firestore.doc(`users/${currentUser.id}`).onSnapshot(snapshot => {
-			setState(state => ({
-				...state,
-				value: state.value && state.value.updateFromSnapshot(snapshot)
+			setState(({ value, loadingState }) => ({
+				value: value && value.updateFromSnapshot(snapshot),
+				loadingState
 			}))
 		}, handleError)
-	}, [currentUser, isObserving, setState])
+	}, [currentUser, setState])
+
+	useEffect(() => {
+		if (loadingState === LoadingState.Loading) return
+
+		setExpectsSignIn(Boolean(currentUser))
+		if (currentUser) identify(currentUser)
+	}, [currentUser, loadingState])
 
 	return [currentUser, loadingState] as const
 }

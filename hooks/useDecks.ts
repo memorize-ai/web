@@ -2,14 +2,14 @@ import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 
 import Deck from 'models/Deck'
+import DeckUserData from 'models/Deck/UserData'
 import LoadingState from 'models/LoadingState'
 import state from 'state/decks'
 import useCurrentUser from './useCurrentUser'
 import firebase from 'lib/firebase'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 
 import 'firebase/firestore'
-import DeckUserData from 'models/Deck/UserData'
 
 const firestore = firebase.firestore()
 

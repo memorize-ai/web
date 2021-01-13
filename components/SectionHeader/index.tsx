@@ -2,7 +2,7 @@ import { useState, useCallback, MouseEvent } from 'react'
 import { Svg } from 'react-optimized-image'
 
 import Section from 'models/Section'
-import { formatNumber } from 'lib/utils'
+import formatNumber from 'lib/formatNumber'
 import ToggleExpandedButton from './ToggleExpandedButton'
 
 import shareIcon from 'images/icons/share.svg'

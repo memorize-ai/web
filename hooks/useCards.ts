@@ -7,7 +7,7 @@ import Section from 'models/Section'
 import Card from 'models/Card'
 import useCurrentUser from './useCurrentUser'
 import firebase from 'lib/firebase'
-import { handleError } from 'lib/utils'
+import handleError from 'lib/handleError'
 
 import 'firebase/firestore'
 

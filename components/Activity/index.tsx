@@ -12,7 +12,8 @@ import ActivityNode, {
 } from 'models/ActivityNode'
 import useCurrentUser from 'hooks/useCurrentUser'
 import activityState from 'state/activity'
-import { handleError, formatLongDate } from 'lib/utils'
+import handleError from 'lib/handleError'
+import formatDate from 'lib/formatDate'
 
 import styles from './index.module.scss'
 
@@ -28,7 +29,7 @@ interface ActivityCellProps {
 const ActivityCell = ({ node, popUpDirection }: ActivityCellProps) => (
 	<span
 		className={cx(styles.cell, styles[`intensity_${node.intensity}`])}
-		aria-label={`${formatLongDate(node.date)} - ${node.value} card${
+		aria-label={`${formatDate(node.date)} - ${node.value} card${
 			node.value === 1 ? '' : 's'
 		}`}
 		data-balloon-pos={popUpDirection}
