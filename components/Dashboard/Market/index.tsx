@@ -141,32 +141,41 @@ const Market: NextPage<MarketProps> = ({ decks: initialNumberOfDecks }) => {
 
 	const setQuery = useCallback(
 		(newQuery: string) => {
-			router.replace({
-				pathname: '/market',
-				query: flattenQuery({
-					q: newQuery,
-					s: newQuery
-						? sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
-							? DeckSortAlgorithm.Relevance
+			router.replace(
+				{
+					pathname: '/market',
+					query: flattenQuery({
+						q: newQuery,
+						s: newQuery
+							? sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM
+								? DeckSortAlgorithm.Relevance
+								: sortAlgorithm
+							: sortAlgorithm === DeckSortAlgorithm.Relevance
+							? null
 							: sortAlgorithm
-						: sortAlgorithm === DeckSortAlgorithm.Relevance
-						? null
-						: sortAlgorithm
-				})
-			})
+					})
+				},
+				undefined,
+				{ shallow: true }
+			)
 		},
 		[router, sortAlgorithm]
 	)
 
 	const setSortAlgorithm = useCallback(
 		(newAlgorithm: DeckSortAlgorithm) => {
-			router.replace({
-				pathname: '/market',
-				query: flattenQuery({
-					q: query,
-					s: newAlgorithm === DEFAULT_DECK_SORT_ALGORITHM ? null : newAlgorithm
-				})
-			})
+			router.replace(
+				{
+					pathname: '/market',
+					query: flattenQuery({
+						q: query,
+						s:
+							newAlgorithm === DEFAULT_DECK_SORT_ALGORITHM ? null : newAlgorithm
+					})
+				},
+				undefined,
+				{ shallow: true }
+			)
 		},
 		[router, query]
 	)

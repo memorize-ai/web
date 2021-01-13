@@ -7,13 +7,8 @@ const requiresAuth = (assertion = true) => {
 	const isSignedIn = useAuthState()
 
 	useEffect(() => {
-		if (isSignedIn === false && assertion)
-			Router.replace({
-				pathname: '/',
-				query: {
-					next: `${window.location.pathname}${window.location.search}`
-				}
-			})
+		if (isSignedIn || !assertion) return
+		Router.replace('/')
 	}, [isSignedIn, assertion])
 }
 
