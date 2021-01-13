@@ -132,7 +132,7 @@ const AuthModalProviders = ({
 				onClick={logInWithApple}
 			>
 				<Svg className={styles.icon} src={apple} />
-				<p className={styles.text}>Log in</p>
+				<span className={styles.text}>Log in</span>
 			</Button>
 			<Button
 				type="button"
@@ -145,7 +145,7 @@ const AuthModalProviders = ({
 				onClick={logInWithGoogle}
 			>
 				<Svg className={styles.icon} src={google} />
-				<p className={styles.text}>Log in</p>
+				<span className={styles.text}>Log in</span>
 			</Button>
 		</div>
 	)
