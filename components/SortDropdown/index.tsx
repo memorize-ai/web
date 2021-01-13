@@ -17,7 +17,7 @@ export const algorithms = Object.values(DeckSortAlgorithm).map(type => ({
 const SortDropdownTrigger = () => (
 	<>
 		<Svg className={styles.triggerIcon} src={sort} />
-		<p className={styles.triggerText}>Sort</p>
+		<span className={styles.triggerText}>Sort</span>
 	</>
 )
 
@@ -58,7 +58,7 @@ const SortDropdown = ({
 					{isSelected && (
 						<FontAwesomeIcon className={styles.algorithmIcon} icon={faCheck} />
 					)}
-					<p>{title}</p>
+					<span>{title}</span>
 				</button>
 			)
 		})}
