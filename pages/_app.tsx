@@ -6,10 +6,13 @@ import { RecoilRoot } from 'recoil'
 import { ToastContainer } from 'react-toastify'
 import { config } from '@fortawesome/fontawesome-svg-core'
 
+import Progress from 'components/Progress'
 import AuthModal from 'components/Modal/Auth'
+
 import { src as favicon } from 'images/favicon.png'
 
-import 'styles/global.scss'
+import 'components/App/index.scss'
+import 'components/Progress/index.scss'
 
 config.autoAddCss = false
 
@@ -45,7 +48,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 					rel="stylesheet"
 					href="https://fonts.googleapis.com/css2?family=Muli:wght@200;300;400;500;600;700;800;900&display=swap"
 				/>
-				<meta key="theme-color" name="theme-color" content="#ffffff" />
+				<meta key="theme-color" name="theme-color" content="#fff" />
 				<meta
 					key="keywords"
 					name="keywords"
@@ -62,11 +65,12 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 					href="/sitemap.xml"
 				/>
 			</Head>
+			<Progress />
+			<ToastContainer />
 			<RecoilRoot>
 				<Component {...pageProps} />
 				<AuthModal />
 			</RecoilRoot>
-			<ToastContainer />
 		</>
 	)
 }

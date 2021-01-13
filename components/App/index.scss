@@ -2,9 +2,9 @@
 @use '~react-toastify/dist/ReactToastify';
 @use '~balloon-css/src/balloon';
 
-@use 'colors';
-@use 'font';
-@use 'chat';
+@use 'styles/colors';
+@use 'styles/font';
+@use 'styles/chat';
 
 html {
 	scroll-behavior: smooth;
