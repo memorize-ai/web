@@ -128,6 +128,7 @@ $divider-color: transparentize(#ddd, 0.8);
 
 .slider {
 	width: 100%;
+	overflow: hidden;
 	margin-right: 20px;
 	background: transparentize(white, 0.9);
 }
