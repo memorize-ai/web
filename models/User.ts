@@ -1,5 +1,8 @@
+import { nanoid } from 'nanoid'
+
 import SnapshotLike from './SnapshotLike'
 import firebase from 'lib/firebase'
+import slugify from 'lib/slugify'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -9,6 +12,8 @@ const firestore = firebase.firestore()
 
 export interface UserData {
 	id: string
+	slugId: string | null
+	slug: string | null
 	name: string | null
 	email: string | null
 	contact: boolean | null
@@ -20,13 +25,25 @@ export interface UserData {
 	allDecks: string[] | null
 }
 
+export interface CreateUserOptions {
+	id: string
+	name: string
+	email: string
+	method: 'email' | 'apple' | 'google'
+	xp: number
+}
+
 export default class User {
+	static readonly SLUG_ID_LENGTH = 10
+
 	static didInitialize = false
 	static creatorObservers: Record<string, boolean> = {}
 
 	isObserving = false
 
 	id: string
+	slugId: string | null
+	slug: string | null
 	name: string | null
 	email: string | null
 	allowContact: boolean | null
@@ -40,6 +57,8 @@ export default class User {
 
 	constructor(data: UserData) {
 		this.id = data.id
+		this.slugId = data.slugId
+		this.slug = data.slug
 		this.name = data.name
 		this.email = data.email
 		this.allowContact = data.contact
@@ -54,6 +73,8 @@ export default class User {
 	static fromFirebaseUser = (user: firebase.User) =>
 		new User({
 			id: user.uid,
+			slugId: null,
+			slug: null,
 			name: user.displayName,
 			email: user.email,
 			contact: null,
@@ -73,6 +94,8 @@ export default class User {
 		fromServer = false
 	): UserData => ({
 		id: snapshot.id,
+		slugId: snapshot.get('slugId') ?? null,
+		slug: snapshot.get('slug') ?? null,
 		name: snapshot.get('name') ?? '(error)',
 		email: fromServer ? null : snapshot.get('email') ?? '(error)',
 		contact: snapshot.get('allowContact') ?? true,
@@ -83,6 +106,25 @@ export default class User {
 		interests: snapshot.get('topics') ?? [],
 		allDecks: fromServer ? null : snapshot.get('allDecks') ?? []
 	})
+
+	static create = async ({
+		id,
+		name,
+		email,
+		method,
+		xp
+	}: CreateUserOptions) => {
+		await firestore.doc(`users/${id}`).set({
+			slugId: nanoid(User.SLUG_ID_LENGTH),
+			slug: slugify(name),
+			name,
+			email,
+			source: 'web',
+			method,
+			xp,
+			joined: firebase.firestore.FieldValue.serverTimestamp()
+		})
+	}
 
 	static xpNeededForLevel = (level: number): number => {
 		switch (level) {
@@ -122,6 +164,9 @@ export default class User {
 	}
 
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
+		this.slugId = snapshot.get('slugId') ?? null
+		this.slug = snapshot.get('slug') ?? null
+
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
 		this.allowContact = snapshot.get('allowContact') ?? true
