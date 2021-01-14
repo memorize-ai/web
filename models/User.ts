@@ -7,6 +7,8 @@ import slugify from 'lib/slugify'
 import 'firebase/auth'
 import 'firebase/firestore'
 
+const { FieldValue } = firebase.firestore
+
 const auth = firebase.auth()
 const firestore = firebase.firestore()
 
@@ -16,6 +18,7 @@ export interface UserData {
 	slug: string | null
 	name: string | null
 	email: string | null
+	bio: string | null
 	contact: boolean | null
 	muted: boolean | null
 	apiKey: string | null
@@ -46,6 +49,7 @@ export default class User {
 	slug: string | null
 	name: string | null
 	email: string | null
+	bio: string | null
 	allowContact: boolean | null
 	isMuted: boolean | null
 	apiKey: string | null
@@ -61,6 +65,7 @@ export default class User {
 		this.slug = data.slug
 		this.name = data.name
 		this.email = data.email
+		this.bio = data.bio
 		this.allowContact = data.contact
 		this.isMuted = data.muted
 		this.apiKey = data.apiKey
@@ -77,6 +82,7 @@ export default class User {
 			slug: null,
 			name: user.displayName,
 			email: user.email,
+			bio: null,
 			contact: null,
 			muted: null,
 			apiKey: null,
@@ -98,6 +104,7 @@ export default class User {
 		slug: snapshot.get('slug') ?? null,
 		name: snapshot.get('name') ?? '(error)',
 		email: fromServer ? null : snapshot.get('email') ?? '(error)',
+		bio: snapshot.get('bio') ?? null,
 		contact: snapshot.get('allowContact') ?? true,
 		muted: snapshot.get('muted') ?? false,
 		apiKey: fromServer ? null : snapshot.get('apiKey') ?? null,
@@ -119,10 +126,11 @@ export default class User {
 			slug: slugify(name),
 			name,
 			email,
+			bio: '',
 			source: 'web',
 			method,
 			xp,
-			joined: firebase.firestore.FieldValue.serverTimestamp()
+			joined: FieldValue.serverTimestamp()
 		})
 	}
 
@@ -181,21 +189,22 @@ export default class User {
 		return this
 	}
 
-	updateName = (name: string) =>
-		Promise.all(
-			[
-				firestore.doc(`users/${this.id}`).update({ name }),
-				auth.currentUser?.updateProfile({ displayName: name })
-			].filter(Boolean)
-		)
+	updateName = async (name: string) => {
+		const promises = [firestore.doc(`users/${this.id}`).update({ name })]
+
+		if (auth.currentUser)
+			promises.push(auth.currentUser.updateProfile({ displayName: name }))
+
+		await Promise.all(promises)
+	}
 
 	toggleInterest = (id: string) => {
 		if (!this.interestIds) return this
 
 		firestore.doc(`users/${this.id}`).update({
 			topics: this.interestIds.includes(id)
-				? firebase.firestore.FieldValue.arrayRemove(id)
-				: firebase.firestore.FieldValue.arrayUnion(id)
+				? FieldValue.arrayRemove(id)
+				: FieldValue.arrayUnion(id)
 		})
 
 		return this
