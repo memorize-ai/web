@@ -1,0 +1,17 @@
+@use 'styles/colors';
+
+.root {
+	flex-shrink: 0;
+}
+
+.value {
+	font-size: 24px;
+	font-weight: 900;
+	color: colors.$dark-gray;
+}
+
+.name {
+	text-transform: uppercase;
+	font-weight: 900;
+	color: #00d388;
+}

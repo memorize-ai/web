@@ -1,0 +1,12 @@
+.root {
+	display: flex;
+	align-items: center;
+}
+
+.item + .item {
+	$spacing: 20px;
+
+	margin-left: $spacing;
+	padding-left: $spacing;
+	border-left: 2px solid #eee;
+}

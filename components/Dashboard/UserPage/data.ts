@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { UserPageQuery, UserPageProps, UserPagePath } from './models'
 import getUsers from 'lib/getUsers'
 import getUserFromSlugId from 'lib/getUserFromSlugId'
+import getCreatedDecks from 'lib/getCreatedDecks'
 
 const INITIAL_USER_COUNT = 1000
 const REVALIDATE = 1
@@ -37,7 +38,10 @@ export const getStaticProps: GetStaticProps<
 		}
 
 	return {
-		props: { user },
+		props: {
+			user,
+			decks: await getCreatedDecks(user.id)
+		},
 		revalidate: REVALIDATE
 	}
 }
