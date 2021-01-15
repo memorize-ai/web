@@ -1,4 +1,5 @@
 import { MouseEvent, useState, useCallback } from 'react'
+import { useRecoilState } from 'recoil'
 import Head from 'next/head'
 import { useDropzone } from 'react-dropzone'
 import { Svg } from 'react-optimized-image'
@@ -10,6 +11,7 @@ import User from 'models/User'
 import uploadUserImage from 'lib/uploadUserImage'
 import resetUserImage from 'lib/resetUserImage'
 import handleError from 'lib/handleError'
+import newUserImageUrlState from 'state/newUserImageUrl'
 import useCurrentUser from 'hooks/useCurrentUser'
 import ConfirmationModal from 'components/Modal/Confirmation'
 
@@ -21,7 +23,7 @@ export interface UserPageImageProps {
 }
 
 const UserPageImage = ({ user }: UserPageImageProps) => {
-	const [newImageUrl, setNewImageUrl] = useState<string | null | undefined>()
+	const [newImageUrl, setNewImageUrl] = useRecoilState(newUserImageUrlState)
 
 	const onDrop = useCallback(
 		async (files: File[]) => {
@@ -41,16 +43,18 @@ const UserPageImage = ({ user }: UserPageImageProps) => {
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		multiple: false,
+		accept: ['image/png', 'image/jpeg', 'image/webp'],
 		onDrop
 	})
-
-	const imageUrl = newImageUrl === undefined ? user.imageUrl : newImageUrl
 
 	const [currentUser] = useCurrentUser()
 	const [isConfirmResetShowing, setIsConfirmResetShowing] = useState(false)
 
 	const isSelf = currentUser?.id === user.id
 	const canUpload = isSelf && !isConfirmResetShowing
+
+	const imageUrl =
+		isSelf && newImageUrl !== undefined ? newImageUrl : user.imageUrl
 
 	const confirmReset = useCallback(
 		(event: MouseEvent<HTMLButtonElement>) => {
@@ -70,7 +74,7 @@ const UserPageImage = ({ user }: UserPageImageProps) => {
 			setNewImageUrl(newImageUrl)
 			handleError(error)
 		}
-	}, [user.id, setNewImageUrl, setIsConfirmResetShowing])
+	}, [user.id, newImageUrl, setNewImageUrl, setIsConfirmResetShowing])
 
 	return (
 		<div

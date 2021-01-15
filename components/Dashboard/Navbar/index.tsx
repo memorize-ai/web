@@ -11,6 +11,7 @@ import firebase from 'lib/firebase'
 import { DashboardNavbarSelection as Selection } from '..'
 import useLayoutAuthState from 'hooks/useLayoutAuthState'
 import useCurrentUser from 'hooks/useCurrentUser'
+import useUserImageUrl from 'hooks/useUserImageUrl'
 import useDecks from 'hooks/useDecks'
 import useUrlForMarket from 'hooks/useUrlForMarket'
 import Tab from './Tab'
@@ -44,7 +45,10 @@ const DashboardNavbar = ({
 	expectsSignIn = null
 }: DashboardNavbarProps) => {
 	const isSignedIn = useLayoutAuthState() ?? expectsSignIn
+
 	const [currentUser] = useCurrentUser()
+	const imageUrl = useUserImageUrl()
+
 	const [decks] = useDecks()
 
 	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(
@@ -130,17 +134,17 @@ const DashboardNavbar = ({
 					<Dropdown
 						className={styles.profile}
 						triggerClassName={cx({
-							[styles.customProfileTrigger]: currentUser?.imageUrl,
-							[styles.resetProfileTrigger]: !currentUser?.imageUrl
+							[styles.customProfileTrigger]: imageUrl,
+							[styles.resetProfileTrigger]: !imageUrl
 						})}
 						contentClassName={styles.profileContent}
 						shadow={DropdownShadow.Screen}
 						trigger={
-							currentUser?.imageUrl ? (
+							imageUrl ? (
 								<img
 									className={styles.profileTriggerImage}
-									src={currentUser.imageUrl}
-									alt={currentUser.name ?? 'Profile picture'}
+									src={imageUrl}
+									alt={currentUser?.name ?? 'Profile picture'}
 								/>
 							) : (
 								<Svg
@@ -156,10 +160,10 @@ const DashboardNavbar = ({
 						{currentUser && currentUser.slugId && currentUser.slug && (
 							<Link href={`/u/${currentUser.slugId}/${currentUser.slug}`}>
 								<a className={styles.profileLink} onClick={hideProfileDropdown}>
-									{currentUser.imageUrl ? (
+									{imageUrl ? (
 										<img
 											className={styles.profileLinkImage}
-											src={currentUser.imageUrl}
+											src={imageUrl}
 											alt={currentUser.name ?? 'Profile picture'}
 										/>
 									) : (
