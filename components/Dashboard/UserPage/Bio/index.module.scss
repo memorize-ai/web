@@ -1,12 +1,13 @@
 @use 'styles/colors';
-@use 'styles/text';
+
+.root {
+	margin: 20px var(--inner-horizontal-padding) 0;
+}
 
 .title {
-	@include text.line-limit(2);
-
 	margin: 0 12px 4px 0;
 	font-size: 24px;
-	font-weight: 800;
+	font-weight: 900;
 	color: colors.$dark-gray;
 	border-bottom: 1px solid #eee;
 }

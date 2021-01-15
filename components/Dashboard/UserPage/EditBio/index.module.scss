@@ -1,5 +1,8 @@
 @use 'styles/colors';
-@use 'styles/text';
+
+.root {
+	margin: 0 var(--inner-horizontal-padding);
+}
 
 .header {
 	display: flex;
@@ -9,11 +12,9 @@
 }
 
 .title {
-	@include text.line-limit(2);
-
 	margin: 0 12px -8px 0;
 	font-size: 24px;
-	font-weight: 800;
+	font-weight: 900;
 	color: colors.$dark-gray;
 }
 

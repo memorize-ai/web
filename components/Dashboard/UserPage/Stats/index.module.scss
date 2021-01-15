@@ -1,6 +1,8 @@
 .root {
 	display: flex;
+	justify-content: center;
 	align-items: center;
+	margin: 30px var(--inner-horizontal-padding) 0;
 }
 
 .item + .item {

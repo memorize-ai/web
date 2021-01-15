@@ -1,4 +1,4 @@
-import firebase from 'lib/firebase'
+import SnapshotLike from './SnapshotLike'
 
 const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24
 
@@ -27,24 +27,34 @@ export const getCurrentCount = () => new Date().getDay() + 1
 export const getBeforeFirstVisibleDay = () =>
 	getDay() - ActivityNode.PAST_COUNT - getCurrentCount()
 
+export interface ActivityNodeData {
+	day: number
+	value: number
+}
+
 export default class ActivityNode {
-	static PAST_COUNT = 52 * 7
+	static readonly PAST_COUNT = 52 * 7
+	static readonly observers = new Set<string>()
 
-	static isObserving = false
-
+	day: number
+	value: number
 	date: Date
 
-	constructor(public day: number, public value: number) {
-		this.date = new Date(day * MILLISECONDS_IN_DAY)
+	constructor(data: ActivityNodeData) {
+		this.day = data.day
+		this.value = data.value
+		this.date = new Date(this.day * MILLISECONDS_IN_DAY)
 	}
 
-	static fromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) =>
-		new ActivityNode(snapshot.get('day') ?? 0, snapshot.get('value') ?? 0)
+	static fromSnapshot = (snapshot: SnapshotLike) =>
+		new ActivityNode(ActivityNode.dataFromSnapshot(snapshot))
 
-	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
-		this.value = snapshot.get('value')
-		return this
-	}
+	static dataFromSnapshot = (snapshot: SnapshotLike): ActivityNodeData => ({
+		day: snapshot.get('day') ?? 0,
+		value: snapshot.get('value') ?? 0
+	})
+
+	static dataFromDay = (day: number): ActivityNodeData => ({ day, value: 0 })
 
 	get intensity() {
 		const { value } = this

@@ -1,0 +1,22 @@
+@use 'styles/colors';
+
+.root {
+	margin: 20px var(--inner-horizontal-padding) 0;
+}
+
+.title {
+	font-size: 24px;
+	font-weight: 900;
+	color: colors.$dark-gray;
+}
+
+.content {
+	display: flex;
+	justify-content: flex-end;
+	max-width: max-content;
+	overflow: hidden;
+	margin-top: 8px;
+	padding: 12px 20px 20px 12px;
+	border: 1px solid #eee;
+	border-radius: 8px;
+}

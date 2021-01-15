@@ -1,0 +1,50 @@
+@use 'styles/colors';
+
+.root {
+	margin: 20px 0 14px;
+}
+
+.title {
+	margin: 0 var(--inner-horizontal-padding);
+	font-size: 20px;
+	font-weight: 900;
+	color: colors.$dark-gray;
+
+	@media (min-width: 425px) {
+		font-size: 24px;
+	}
+}
+
+.count {
+	display: none;
+	color: #582efe;
+
+	@media (min-width: 365px) {
+		display: inline;
+	}
+}
+
+.rows {
+	$margin-top: 12px;
+	$padding-top: 4px;
+
+	overflow-x: auto;
+	margin-top: $margin-top - $padding-top;
+	padding: $padding-top var(--inner-horizontal-padding) 16px;
+}
+
+.row {
+	display: flex;
+
+	&:not(:last-child) {
+		margin-bottom: 12px;
+	}
+}
+
+.deck {
+	flex-shrink: 0;
+
+	&:not(:last-child) {
+		margin-right: 12px;
+	}
+}

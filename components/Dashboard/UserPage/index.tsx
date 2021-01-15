@@ -13,11 +13,14 @@ import Head from 'components/Head'
 import Stats from './Stats'
 import EditBio from './EditBio'
 import Bio from './Bio'
+import Activity from './Activity'
+import Decks from './Decks'
 
 import styles from './index.module.scss'
 
 const UserPage: NextPage<UserPageProps> = ({
 	user: userData,
+	activity,
 	decks: deckData
 }) => {
 	const [currentUser] = useCurrentUser()
@@ -28,7 +31,7 @@ const UserPage: NextPage<UserPageProps> = ({
 	const initialDecks = useMemo(() => deckData.map(data => new Deck(data)), [
 		deckData
 	])
-	const decks = useCreatedDecks(initialDecks)
+	const decks = useCreatedDecks(user.id, initialDecks)
 
 	const name = user.name ?? 'Anonymous'
 	const bioString = useMemo(() => user.bio && stripHtml(user.bio).result, [
@@ -55,6 +58,8 @@ const UserPage: NextPage<UserPageProps> = ({
 				) : (
 					<Bio user={user} />
 				)}
+				<Activity user={user} activity={activity} />
+				<Decks user={user} decks={decks} />
 			</div>
 		</Dashboard>
 	)

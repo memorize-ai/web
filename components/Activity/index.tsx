@@ -8,9 +8,9 @@ import ActivityNode, {
 	MONTHS,
 	getDay,
 	getCurrentCount,
-	getBeforeFirstVisibleDay
+	getBeforeFirstVisibleDay,
+	ActivityNodeData
 } from 'models/ActivityNode'
-import useCurrentUser from 'hooks/useCurrentUser'
 import activityState from 'state/activity'
 import handleError from 'lib/handleError'
 import formatDate from 'lib/formatDate'
@@ -38,11 +38,12 @@ const ActivityCell = ({ node, popUpDirection }: ActivityCellProps) => (
 
 export interface ActivityProps {
 	className?: string
+	id: string | null
+	nodes?: Record<number, ActivityNodeData>
 }
 
-const Activity = ({ className }: ActivityProps) => {
-	const [state, setState] = useRecoilState(activityState)
-	const [currentUser] = useCurrentUser()
+const Activity = ({ className, id, nodes: initialNodes }: ActivityProps) => {
+	const [state, setState] = useRecoilState(activityState(id))
 
 	const nodes = useMemo(() => {
 		const count = ActivityNode.PAST_COUNT + getCurrentCount()
@@ -51,19 +52,34 @@ const Activity = ({ className }: ActivityProps) => {
 		// The first node
 		const offset = getDay() - count + 1
 
-		for (let i = 0; i < count; i++)
-			acc[i] = state[offset + i] ?? new ActivityNode(offset + i, 0)
+		for (let i = 0; i < count; i++) {
+			const day = offset + i
+
+			const fromState = state[day]
+			if (fromState) {
+				acc[i] = fromState
+				continue
+			}
+
+			const fromInitialNodes = initialNodes?.[day]
+			if (fromInitialNodes) {
+				acc[i] = new ActivityNode(fromInitialNodes)
+				continue
+			}
+
+			acc[i] = new ActivityNode(ActivityNode.dataFromDay(day))
+		}
 
 		return acc
-	}, [state])
+	}, [state, initialNodes])
 
 	useEffect(() => {
-		if (!currentUser || ActivityNode.isObserving) return
+		if (!id || ActivityNode.observers.has(id)) return
 
-		ActivityNode.isObserving = true
+		ActivityNode.observers.add(id)
 
 		firestore
-			.collection(`users/${currentUser.id}/activity`)
+			.collection(`users/${id}/activity`)
 			.where('day', '>', getBeforeFirstVisibleDay())
 			.onSnapshot(snapshot => {
 				for (const { type, doc } of snapshot.docChanges()) {
@@ -73,36 +89,34 @@ const Activity = ({ className }: ActivityProps) => {
 					setState(state => ({ ...state, [node.day]: node }))
 				}
 			}, handleError)
-	}, [currentUser, setState])
+	}, [id, setState])
 
 	return (
 		<div className={cx(styles.root, className)}>
-			<div className={styles.content}>
-				<div className={styles.days}>
-					{DAYS.map(day => (
-						<p key={day}>{day}</p>
-					))}
-				</div>
-				<div className={styles.months}>
-					{MONTHS.map(month => (
-						<p key={month}>{month}</p>
-					))}
-				</div>
-				<div className={styles.cells}>
-					{nodes.map((node, i) => (
-						<ActivityCell
-							key={node.day}
-							node={node}
-							popUpDirection={
-								i < 14
-									? 'right'
-									: i >= nodes.length - getCurrentCount() - 14
-									? 'left'
-									: 'up'
-							}
-						/>
-					))}
-				</div>
+			<div className={styles.days}>
+				{DAYS.map(day => (
+					<p key={day}>{day}</p>
+				))}
+			</div>
+			<div className={styles.months}>
+				{MONTHS.map(month => (
+					<p key={month}>{month}</p>
+				))}
+			</div>
+			<div className={styles.cells}>
+				{nodes.map((node, i) => (
+					<ActivityCell
+						key={node.day}
+						node={node}
+						popUpDirection={
+							i < 14
+								? 'right'
+								: i >= nodes.length - getCurrentCount() - 14
+								? 'left'
+								: 'up'
+						}
+					/>
+				))}
 			</div>
 		</div>
 	)

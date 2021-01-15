@@ -12,7 +12,7 @@ export interface UserPageStatsProps {
 }
 
 const UserPageStats = ({ user, decks }: UserPageStatsProps) => (
-	<div className={styles.root}>
+	<div id="stats" className={styles.root}>
 		<Level className={styles.item} user={user} />
 		<Section
 			className={styles.item}

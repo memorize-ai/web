@@ -3,7 +3,7 @@
 @use 'styles/shadow';
 @use 'styles/dashboard';
 
-@include dashboard.sidebar-collapse(1150px);
+@include dashboard.sidebar-collapse(1000px);
 
 .container {
 	scroll-behavior: smooth;
@@ -13,8 +13,7 @@
 	@include shadow.large;
 
 	overflow: hidden;
-	margin: var(--horizontal-padding);
-	padding: 20px var(--inner-horizontal-padding) var(--inner-horizontal-padding);
+	margin: 20px var(--horizontal-padding) var(--horizontal-padding);
 	background: white;
 	border-radius: 8px;
 }
@@ -22,7 +21,7 @@
 .name {
 	@include text.line-limit(2);
 
-	margin-bottom: 12px;
+	margin: 20px var(--inner-horizontal-padding) 12px;
 	font-size: 30px;
 	font-weight: 800;
 	color: colors.$dark-gray;

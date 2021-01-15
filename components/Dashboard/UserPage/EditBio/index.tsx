@@ -42,7 +42,7 @@ const UserPageEditBio = ({ user }: UserPageEditBioProps) => {
 	)
 
 	return (
-		<form onSubmit={save}>
+		<form id="about" className={styles.root} onSubmit={save}>
 			<div className={styles.header}>
 				<h2 className={styles.title}>About</h2>
 				<Button

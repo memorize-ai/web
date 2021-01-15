@@ -1,10 +1,10 @@
-import { atom } from 'recoil'
+import { atomFamily } from 'recoil'
 
 import ActivityNode from 'models/ActivityNode'
 
 export type ActivityState = Record<number, ActivityNode>
 
-const activityState = atom<ActivityState>({
+const activityState = atomFamily<ActivityState, string | null>({
 	key: 'activity',
 	default: {}
 })
