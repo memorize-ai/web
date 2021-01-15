@@ -89,7 +89,11 @@ const UserPageImage = ({ user }: UserPageImageProps) => {
 			</Head>
 			{canUpload && <input {...getInputProps()} />}
 			{imageUrl ? (
-				<img className={styles.image} src={imageUrl} />
+				<img
+					className={styles.image}
+					src={imageUrl}
+					alt={user.name ?? 'Profile picture'}
+				/>
 			) : (
 				<Svg
 					className={styles.defaultImage}

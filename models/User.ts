@@ -186,6 +186,7 @@ export default class User {
 		this.slugId = snapshot.get('slugId') ?? null
 		this.slug = snapshot.get('slug') ?? null
 
+		this.hasImage = snapshot.get('hasImage') ?? false
 		this.name = snapshot.get('name')
 		this.email = snapshot.get('email')
 		this.allowContact = snapshot.get('allowContact') ?? true

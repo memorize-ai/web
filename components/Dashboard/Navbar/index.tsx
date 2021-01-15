@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react'
+import Link from 'next/link'
 import { Svg } from 'react-optimized-image'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faKey } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faKey } from '@fortawesome/free-solid-svg-icons'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 import cx from 'classnames'
 
@@ -50,6 +51,10 @@ const DashboardNavbar = ({
 		false
 	)
 	const [isApiKeyModalShowing, setIsApiKeyModalShowing] = useState(false)
+
+	const hideProfileDropdown = useCallback(() => {
+		setIsProfileDropdownShowing(false)
+	}, [setIsProfileDropdownShowing])
 
 	const sendForgotPasswordEmail = useCallback(async () => {
 		const email = currentUser?.email
@@ -124,15 +129,54 @@ const DashboardNavbar = ({
 				{isSignedIn === null ? null : isSignedIn ? (
 					<Dropdown
 						className={styles.profile}
-						triggerClassName={styles.profileTrigger}
+						triggerClassName={cx({
+							[styles.customProfileTrigger]: currentUser?.imageUrl,
+							[styles.resetProfileTrigger]: !currentUser?.imageUrl
+						})}
 						contentClassName={styles.profileContent}
 						shadow={DropdownShadow.Screen}
 						trigger={
-							<Svg className={styles.profileTriggerIcon} src={userIcon} />
+							currentUser?.imageUrl ? (
+								<img
+									className={styles.profileTriggerImage}
+									src={currentUser.imageUrl}
+									alt={currentUser.name ?? 'Profile picture'}
+								/>
+							) : (
+								<Svg
+									className={styles.profileTriggerIcon}
+									src={userIcon}
+									viewBox={`0 0 ${userIcon.width} ${userIcon.height}`}
+								/>
+							)
 						}
 						isShowing={isProfileDropdownShowing}
 						setIsShowing={setIsProfileDropdownShowing}
 					>
+						{currentUser && currentUser.slugId && currentUser.slug && (
+							<Link href={`/u/${currentUser.slugId}/${currentUser.slug}`}>
+								<a className={styles.profileLink} onClick={hideProfileDropdown}>
+									{currentUser.imageUrl ? (
+										<img
+											className={styles.profileLinkImage}
+											src={currentUser.imageUrl}
+											alt={currentUser.name ?? 'Profile picture'}
+										/>
+									) : (
+										<Svg
+											className={styles.profileLinkDefaultImage}
+											src={userIcon}
+											viewBox={`0 0 ${userIcon.width} ${userIcon.height}`}
+										/>
+									)}
+									My profile
+									<FontAwesomeIcon
+										className={styles.profileLinkIcon}
+										icon={faChevronRight}
+									/>
+								</a>
+							</Link>
+						)}
 						<div className={styles.settings}>
 							<label className={styles.label}>
 								Name
