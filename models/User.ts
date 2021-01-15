@@ -14,6 +14,7 @@ const firestore = firebase.firestore()
 
 export interface UserData {
 	id: string
+	image: boolean | null
 	slugId: string | null
 	slug: string | null
 	name: string | null
@@ -40,11 +41,12 @@ export default class User {
 	static readonly SLUG_ID_LENGTH = 10
 
 	static didInitialize = false
-	static creatorObservers: Record<string, boolean> = {}
+	static readonly creatorObservers = new Set<string>()
 
 	isObserving = false
 
 	id: string
+	hasImage: boolean | null
 	slugId: string | null
 	slug: string | null
 	name: string | null
@@ -61,6 +63,7 @@ export default class User {
 
 	constructor(data: UserData) {
 		this.id = data.id
+		this.hasImage = data.image
 		this.slugId = data.slugId
 		this.slug = data.slug
 		this.name = data.name
@@ -78,6 +81,7 @@ export default class User {
 	static fromFirebaseUser = (user: firebase.User) =>
 		new User({
 			id: user.uid,
+			image: null,
 			slugId: null,
 			slug: null,
 			name: user.displayName,
@@ -100,11 +104,12 @@ export default class User {
 		fromServer = false
 	): UserData => ({
 		id: snapshot.id,
+		image: snapshot.get('hasImage') ?? false,
 		slugId: snapshot.get('slugId') ?? null,
 		slug: snapshot.get('slug') ?? null,
 		name: snapshot.get('name') ?? '(error)',
 		email: fromServer ? null : snapshot.get('email') ?? '(error)',
-		bio: snapshot.get('bio') ?? null,
+		bio: snapshot.get('bio') ?? '',
 		contact: snapshot.get('allowContact') ?? true,
 		muted: snapshot.get('muted') ?? false,
 		apiKey: fromServer ? null : snapshot.get('apiKey') ?? null,
@@ -169,6 +174,12 @@ export default class User {
 			(this.xp - xpNeededForCurrentLevel) /
 			(User.xpNeededForLevel(this.level + 1) - xpNeededForCurrentLevel)
 		)
+	}
+
+	get imageUrl() {
+		return this.hasImage
+			? `https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/users%2F${this.id}?alt=media`
+			: null
 	}
 
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {

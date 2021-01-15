@@ -9,9 +9,9 @@ const useSimilarDecks = (deck: Deck, chunkSize: number) => {
 	const didLoad = Boolean(similarDecks)
 
 	useEffect(() => {
-		if (didLoad || Deck.similarDeckObservers[deck.id]) return
+		if (didLoad || Deck.similarDeckObservers.has(deck.id)) return
 
-		Deck.similarDeckObservers[deck.id] = true
+		Deck.similarDeckObservers.add(deck.id)
 		deck.loadSimilarDecks(chunkSize).then(setSimilarDecks)
 	}, [didLoad, deck, chunkSize, setSimilarDecks])
 

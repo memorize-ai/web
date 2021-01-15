@@ -10,7 +10,7 @@ export interface UserPageActivityProps {
 }
 
 const UserPageActivity = ({ user, activity }: UserPageActivityProps) => (
-	<div id="activity" className={styles.root}>
+	<div id="activity">
 		<h2 className={styles.title}>Activity</h2>
 		<div className={styles.content}>
 			<Activity id={user.id} nodes={activity} />

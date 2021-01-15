@@ -1,11 +1,11 @@
 @use 'styles/colors';
 
 .root {
-	margin: 20px var(--inner-horizontal-padding) 0;
+	margin-bottom: 20px;
 }
 
 .title {
-	margin: 0 12px 4px 0;
+	margin: 0 12px 8px 0;
 	font-size: 24px;
 	font-weight: 900;
 	color: colors.$dark-gray;

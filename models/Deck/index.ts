@@ -59,17 +59,13 @@ export default class Deck {
 	static USELESS_WORDS_REGEX = /^(.|from|to|and|by|at|why|in)$/i
 	static SLUG_ID_LENGTH = 10
 
-	/** Key is a user ID */
-	static isObservingOwned: Record<string, boolean> = {}
-
-	/** Key is a deck slug ID */
-	static isObserving: Record<string, boolean> = {}
+	static readonly observers = new Set<string>()
 
 	/** Key is a deck ID */
-	static similarDeckObservers: Record<string, boolean> = {}
+	static readonly similarDeckObservers = new Set<string>()
 
 	/** Key is a deck ID */
-	static snapshotListeners: Record<string, () => void> = {}
+	static readonly snapshotListeners: Record<string, () => void> = {}
 
 	id: string
 	slugId: string

@@ -35,9 +35,8 @@ export interface CardData {
 }
 
 export default class Card {
-	static isObserving: Record<string, boolean> = {}
-	static snapshotListeners: Record<string, () => void> = {}
-	static observers: Record<string, boolean> = {}
+	static readonly snapshotListeners: Record<string, () => void> = {}
+	static readonly observers = new Set<string>()
 
 	id: string
 	sectionId: string

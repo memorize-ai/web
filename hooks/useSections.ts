@@ -15,9 +15,9 @@ const useSections = (deckId: string | undefined) => {
 	const didLoad = Boolean(sections)
 
 	useEffect(() => {
-		if (!deckId || didLoad || Section.observers[deckId]) return
+		if (!deckId || didLoad || Section.observers.has(deckId)) return
 
-		Section.observers[deckId] = true
+		Section.observers.add(deckId)
 
 		firestore.collection(`decks/${deckId}/sections`).onSnapshot(snapshot => {
 			const snapshots: firebase.firestore.DocumentSnapshot[] = []

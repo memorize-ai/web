@@ -25,9 +25,9 @@ const useDeck = (slugId: string | undefined) => {
 	const hasDeck = Boolean(deck)
 
 	useEffect(() => {
-		if (hasDeck || !slugId || Deck.isObserving[slugId]) return
+		if (hasDeck || !slugId || Deck.observers.has(slugId)) return
 
-		Deck.isObserving[slugId] = true
+		Deck.observers.add(slugId)
 
 		firestore
 			.collection('decks')

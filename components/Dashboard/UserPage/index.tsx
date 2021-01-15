@@ -10,7 +10,7 @@ import useUser from 'hooks/useUser'
 import useCreatedDecks from 'hooks/useCreatedDecks'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import Head from 'components/Head'
-import Stats from './Stats'
+import Level from './Level'
 import EditBio from './EditBio'
 import Bio from './Bio'
 import Activity from './Activity'
@@ -51,15 +51,25 @@ const UserPage: NextPage<UserPageProps> = ({
 				breadcrumbs={url => [[{ name, url }]]}
 			/>
 			<div className={styles.content}>
-				<h1 className={styles.name}>{name}</h1>
-				<Stats user={user} decks={decks} />
-				{currentUser?.id === user.id ? (
-					<EditBio user={user} />
-				) : (
-					<Bio user={user} />
-				)}
-				<Activity user={user} activity={activity} />
-				<Decks user={user} decks={decks} />
+				<div className={styles.top}>
+					<aside className={styles.meta}>
+						<img
+							className={styles.image}
+							src="https://storage.googleapis.com/u.filein.io/X-gAR3vRG5.jpg"
+						/>
+						<h1 className={styles.name}>{name}</h1>
+						<Level user={user} />
+					</aside>
+					<div className={styles.main}>
+						{currentUser?.id === user.id ? (
+							<EditBio user={user} />
+						) : user.bio ? (
+							<Bio user={user} />
+						) : null}
+						<Activity user={user} activity={activity} />
+					</div>
+				</div>
+				{decks.length > 0 && <Decks user={user} decks={decks} />}
 			</div>
 		</Dashboard>
 	)

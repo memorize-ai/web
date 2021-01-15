@@ -25,9 +25,10 @@ const useCards = (deck: Deck, section: Section, shouldLoadCards: boolean) => {
 	const cards = state[section.id] as Entry
 
 	useEffect(() => {
-		if (!shouldLoadCards || !uid || Card.observers[sectionId] || cards) return
+		if (!shouldLoadCards || !uid || Card.observers.has(sectionId) || cards)
+			return
 
-		Card.observers[section.id] = true
+		Card.observers.add(section.id)
 
 		firestore
 			.collection(`decks/${deck.id}/cards`)

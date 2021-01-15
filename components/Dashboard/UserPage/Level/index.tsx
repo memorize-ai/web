@@ -1,17 +1,14 @@
-import cx from 'classnames'
-
 import User from 'models/User'
 import formatNumber, { formatNumberAsInt } from 'lib/formatNumber'
 
 import styles from './index.module.scss'
 
 export interface UserPageLevelProps {
-	className?: string
 	user: User
 }
 
-const UserPageLevel = ({ className, user }: UserPageLevelProps) => (
-	<div className={cx(styles.root, className)}>
+const UserPageLevel = ({ user }: UserPageLevelProps) => (
+	<div>
 		<p className={styles.stats}>
 			<span className={styles.level}>
 				lvl {formatNumberAsInt(user.level ?? 0)}
