@@ -3,12 +3,16 @@ import { useState, useCallback, FormEvent } from 'react'
 import User from 'models/User'
 import firebase from 'lib/firebase'
 import handleError from 'lib/handleError'
+import useCloseMessage from 'hooks/useCloseMessage'
 import Button from 'components/Button'
 import CKEditor from 'components/CKEditor'
 
 import styles from './index.module.scss'
 
 import 'firebase/firestore'
+
+const CONFIRM_CLOSE_MESSAGE =
+	'Are you sure? You have unsaved changes that will be lost.'
 
 const firestore = firebase.firestore()
 
@@ -23,6 +27,7 @@ const UserPageEditBio = ({ user }: UserPageEditBioProps) => {
 	const [isLoading, setIsLoading] = useState(false)
 
 	const isDisabled = bio === originalBio
+	useCloseMessage(isDisabled ? null : CONFIRM_CLOSE_MESSAGE)
 
 	const save = useCallback(
 		async (event: FormEvent<HTMLFormElement>) => {
@@ -57,7 +62,7 @@ const UserPageEditBio = ({ user }: UserPageEditBioProps) => {
 					Save
 				</Button>
 			</div>
-			<CKEditor uploadUrl="" data={bio} setData={setBio} />
+			<CKEditor uploadUrl={user.uploadUrl} data={bio} setData={setBio} />
 		</form>
 	)
 }

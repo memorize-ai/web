@@ -9,7 +9,6 @@ const storage = firebase.storage().bucket()
 
 interface Query {
 	user: string
-	deck: string
 }
 
 type Response = void | { url: string } | { error: { message: string } }
@@ -28,10 +27,10 @@ const handler: NextApiHandler<Response> = async (
 		if (method === 'OPTIONS') return res.send()
 		if (method !== 'POST') return error(400, 'Invalid method')
 
-		const { user: uid, deck: deckId } = (query as unknown) as Query
+		const { user: uid } = (query as unknown) as Query
 
-		if (!(typeof uid === 'string' && typeof deckId === 'string'))
-			return error(400, 'Invalid query parameters. Required: "user", "deck"')
+		if (typeof uid !== 'string')
+			return error(400, 'Invalid query parameters. Required: "user"')
 
 		if (typeof body !== 'string')
 			return error(400, 'You must send a base64 encoded string as a body')
@@ -40,24 +39,21 @@ const handler: NextApiHandler<Response> = async (
 		if (!contentTypeMatch) return error(400, 'Invalid image data')
 
 		const token = uuid()
-		const { id } = firestore.collection('deck-assets').doc()
+		const { id } = firestore.collection('user-assets').doc()
 
 		await storage
-			.file(`deck-assets/${deckId}/${id}`)
+			.file(`user-assets/${uid}/${id}`)
 			.save(Buffer.from(body.replace(contentTypeMatch[0], ''), 'base64'), {
 				public: true,
 				gzip: true,
 				metadata: {
 					contentType: contentTypeMatch[1],
-					metadata: {
-						firebaseStorageDownloadTokens: token,
-						owner: uid
-					}
+					metadata: { firebaseStorageDownloadTokens: token }
 				}
 			})
 
 		res.send({
-			url: getStorageUrl(['deck-assets', deckId, id], token)
+			url: getStorageUrl(['user-assets', uid, id], token)
 		})
 	} catch ({ message }) {
 		error(500, message)

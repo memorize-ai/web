@@ -220,4 +220,8 @@ export default class User {
 
 		return this
 	}
+
+	get uploadUrl() {
+		return `/_api/upload-user-asset?user=${this.id}`
+	}
 }

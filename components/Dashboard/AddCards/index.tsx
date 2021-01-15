@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Select from 'react-select'
@@ -15,6 +15,7 @@ import property from 'lodash/property'
 import { AddCardsQuery } from './models'
 import Section from 'models/Section'
 import requiresAuth from 'hooks/requiresAuth'
+import useCloseMessage from 'hooks/useCloseMessage'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useCreatedDeck from 'hooks/useCreatedDeck'
 import useSections from 'hooks/useSections'
@@ -87,16 +88,7 @@ const AddCards = () => {
 	const headDescription = `Add cards to ${deck?.name ?? 'your deck'}.`
 
 	const canPublish = numberOfValidCards > 0
-
-	useEffect(() => {
-		if (!canPublish) return
-
-		window.onbeforeunload = () => CONFIRM_CLOSE_MESSAGE
-
-		return () => {
-			window.onbeforeunload = null
-		}
-	}, [canPublish])
+	useCloseMessage(canPublish ? CONFIRM_CLOSE_MESSAGE : null)
 
 	const close = useCallback(() => router.push(closeUrl), [router, closeUrl])
 

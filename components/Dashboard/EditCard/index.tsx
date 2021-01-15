@@ -11,6 +11,7 @@ import property from 'lodash/property'
 import { EditCardQuery } from './models'
 import Section from 'models/Section'
 import requiresAuth from 'hooks/requiresAuth'
+import useCloseMessage from 'hooks/useCloseMessage'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useCreatedDeck from 'hooks/useCreatedDeck'
 import useSections from 'hooks/useSections'
@@ -79,6 +80,8 @@ const EditCard: NextPage = () => {
 		front === card?.front &&
 		back === card?.back
 
+	useCloseMessage(isSameContent ? null : CONFIRM_CLOSE_MESSAGE)
+
 	useEffect(() => {
 		if (!card) return
 
@@ -95,16 +98,6 @@ const EditCard: NextPage = () => {
 			if (newSection) setSection(newSection)
 		}
 	}, [card, didUpdateFromCard, section, sections])
-
-	useEffect(() => {
-		if (isSameContent) return
-
-		window.onbeforeunload = () => CONFIRM_CLOSE_MESSAGE
-
-		return () => {
-			window.onbeforeunload = null
-		}
-	}, [isSameContent])
 
 	const close = useCallback(() => {
 		router.push(closeUrl)
