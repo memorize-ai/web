@@ -10,6 +10,7 @@ import useUser from 'hooks/useUser'
 import useCreatedDecks from 'hooks/useCreatedDecks'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import Head from 'components/Head'
+import Image from './Image'
 import Level from './Level'
 import EditBio from './EditBio'
 import Bio from './Bio'
@@ -52,11 +53,8 @@ const UserPage: NextPage<UserPageProps> = ({
 			/>
 			<div className={styles.content}>
 				<div className={styles.top}>
-					<aside className={styles.meta}>
-						<img
-							className={styles.image}
-							src="https://storage.googleapis.com/u.filein.io/X-gAR3vRG5.jpg"
-						/>
+					<aside>
+						<Image user={user} />
 						<h1 className={styles.name}>{name}</h1>
 						<Level user={user} />
 					</aside>

@@ -1,0 +1,84 @@
+@use 'styles/colors';
+
+$dimension: 300px;
+
+.root,
+.overlay {
+	border-radius: 50%;
+}
+
+.root {
+	position: relative;
+	width: $dimension;
+	height: $dimension;
+	overflow: hidden;
+	border: 1px solid #eee;
+}
+
+.root:hover,
+.dragging {
+	.overlay {
+		pointer-events: all;
+		opacity: 1;
+	}
+}
+
+.image,
+.defaultImage {
+	width: 100%;
+	height: 100%;
+}
+
+.image {
+	object-fit: cover;
+}
+
+.defaultImage {
+	padding: 25%;
+	fill: #582efe;
+}
+
+.overlay {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	cursor: pointer;
+	color: colors.$dark-gray;
+	background: #f0f1f8;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.uploadIcon {
+	transform: scale(2.5);
+}
+
+.uploadMessage {
+	margin-top: 12px;
+	text-transform: uppercase;
+	font-weight: 900;
+}
+
+.reset {
+	padding: 4px 10px;
+	text-transform: uppercase;
+	font-weight: 900;
+	color: white;
+	background: colors.$red-400;
+	border: 2px solid colors.$red-400;
+	border-radius: 8px;
+	transform: translateY(12px);
+	transition: color 0.3s, background 0.3s;
+
+	&:hover {
+		color: colors.$red-400;
+		background: white;
+	}
+}

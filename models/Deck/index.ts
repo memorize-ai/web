@@ -216,7 +216,7 @@ export default class Deck {
 		})
 
 		if (data.image)
-			await storage.child(`/decks/${deckId}`).put(data.image, {
+			await storage.child(`decks/${deckId}`).put(data.image, {
 				contentType: data.image.type,
 				customMetadata: { owner: uid }
 			})
@@ -449,7 +449,7 @@ export default class Deck {
 		}
 	) => {
 		const storageChild =
-			image === undefined ? undefined : storage.child(`/decks/${this.id}`)
+			image === undefined ? undefined : storage.child(`decks/${this.id}`)
 
 		const updateData: Record<string, unknown> = {
 			topics,
