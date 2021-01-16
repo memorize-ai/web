@@ -22,8 +22,9 @@
 	display: grid;
 	grid: auto / auto 1fr;
 	gap: 30px;
-	margin-bottom: 30px;
-	padding: var(--inner-horizontal-padding) var(--inner-horizontal-padding) 0;
+	margin: var(--inner-horizontal-padding) var(--inner-horizontal-padding) 20px;
+	padding-bottom: 30px;
+	border-bottom: 1px solid #eee;
 }
 
 .name {
