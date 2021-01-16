@@ -1,18 +1,32 @@
 @use 'styles/colors';
 
-$dimension: 300px;
-
 .root,
 .overlay {
 	border-radius: 50%;
 }
 
 .root {
+	--dimension: 150px;
+
+	grid-area: image;
 	position: relative;
-	width: $dimension;
-	height: $dimension;
+	width: var(--dimension);
+	height: var(--dimension);
 	overflow: hidden;
+	margin: 0 auto;
 	border: 1px solid #eee;
+
+	@media (min-width: 250px) {
+		--dimension: 200px;
+	}
+
+	@media (min-width: 400px) {
+		--dimension: 250px;
+	}
+
+	@media (min-width: 450px) {
+		--dimension: 300px;
+	}
 }
 
 .root:hover,

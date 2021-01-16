@@ -76,12 +76,12 @@ const UserPage: NextPage<UserPageProps> = ({
 			/>
 			<div className={styles.content}>
 				<div className={styles.top}>
-					<aside>
-						<Image user={user} />
+					<Image user={user} />
+					<div className={styles.meta}>
 						<h1 className={styles.name}>{name}</h1>
 						<Level user={user} />
 						<Contact user={user} />
-					</aside>
+					</div>
 					<div className={styles.main}>
 						{currentUser?.id === user.id ? (
 							<EditBio user={user} />
