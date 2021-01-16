@@ -2,6 +2,19 @@
 
 .root {
 	position: relative;
+
+	&::before {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: z-index.$dropdown;
+	}
+}
+
+.showing::before {
+	content: '';
 }
 
 .content {
@@ -13,6 +26,12 @@
 	opacity: 0;
 	z-index: z-index.$dropdown;
 	transition: transform 0.2s, opacity 0.2s;
+
+	&[aria-hidden='false'] {
+		pointer-events: all;
+		transform: none;
+		opacity: 1;
+	}
 
 	&.right {
 		right: 0;
@@ -30,16 +49,4 @@
 
 .shadow_screen {
 	box-shadow: 0 0 0 100vmax transparentize(black, 0.7);
-}
-
-.showing {
-	.trigger {
-		cursor: default;
-	}
-
-	.content {
-		pointer-events: all;
-		transform: none;
-		opacity: 1;
-	}
 }

@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil'
 import Deck from 'models/Deck'
 import firebase from 'lib/firebase'
 import handleError from 'lib/handleError'
+import { VIEWABLE_CREATED_DECK_LIMIT } from 'lib/constants'
 import createdDecksState from 'state/createdDecks'
 import useDecks from './useDecks'
 
@@ -21,6 +22,8 @@ const useCreatedDecks = (uid: string, initialDecks: Deck[]) => {
 		firestore
 			.collection('decks')
 			.where('creator', '==', uid)
+			.orderBy('currentUserCount', 'desc')
+			.limit(VIEWABLE_CREATED_DECK_LIMIT)
 			.onSnapshot(snapshot => {
 				setCreatedDecks(decks => decks ?? [])
 

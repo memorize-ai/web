@@ -67,25 +67,27 @@ const Dropdown = ({
 
 	return (
 		<div
-			ref={ref}
-			className={cx(styles.root, className, { [styles.showing]: isShowing })}
-			onClick={event => event.stopPropagation()}
+			className={cx(styles.root, className, {
+				[styles.showing]: isShowing
+			})}
 		>
-			<button
-				className={cx(styles.trigger, triggerClassName)}
-				onClick={toggleIsShowing}
-				aria-haspopup="menu"
-			>
-				{trigger}
-			</button>
-			<div
-				className={cx(styles.content, contentClassName, {
-					[styles[`shadow_${shadow}`]]: shadow !== DropdownShadow.None,
-					[styles.right]: isRightAligned
-				})}
-				aria-hidden={!isShowing}
-			>
-				{children}
+			<div ref={ref}>
+				<button
+					className={triggerClassName}
+					onClick={toggleIsShowing}
+					aria-haspopup="menu"
+				>
+					{trigger}
+				</button>
+				<div
+					className={cx(styles.content, contentClassName, {
+						[styles[`shadow_${shadow}`]]: shadow !== DropdownShadow.None,
+						[styles.right]: isRightAligned
+					})}
+					aria-hidden={!isShowing}
+				>
+					{children}
+				</div>
 			</div>
 		</div>
 	)

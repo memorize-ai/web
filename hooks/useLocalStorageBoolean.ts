@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
-import { toast } from 'react-toastify'
+
+import handleError from 'lib/handleError'
 
 const useLocalStorageBoolean = (key: string) => {
 	const [isOn, setIsOn] = useState(false)
@@ -7,8 +8,8 @@ const useLocalStorageBoolean = (key: string) => {
 	useEffect(() => {
 		try {
 			setIsOn(localStorage.getItem(key) !== null)
-		} catch ({ message }) {
-			toast.error(message)
+		} catch (error) {
+			handleError(error)
 		}
 	}, [setIsOn])
 
@@ -20,8 +21,8 @@ const useLocalStorageBoolean = (key: string) => {
 
 				try {
 					isOn ? localStorage.setItem(key, '1') : localStorage.removeItem(key)
-				} catch ({ message }) {
-					toast.error(message)
+				} catch (error) {
+					handleError(error)
 				}
 			},
 			[key, setIsOn]

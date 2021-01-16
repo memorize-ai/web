@@ -22,3 +22,5 @@ export const FIRESTORE_BATCH_LIMIT = 500
 export const SIMILAR_DECKS_CHUNK_SIZE = 10
 
 export const EMAIL_REGEX = /^.+?@.+?\..{2,}$/
+
+export const VIEWABLE_CREATED_DECK_LIMIT = 40

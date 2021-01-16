@@ -7,8 +7,10 @@ import DeckCell from 'components/DeckCell'
 
 import styles from './index.module.scss'
 
-const evenFilter = (i: number) => !(i & 1)
-const oddFilter = (i: number) => !!(i & 1)
+type Filter = (i: number) => boolean
+
+const evenFilter: Filter = i => !(i & 1)
+const oddFilter: Filter = i => !!(i & 1)
 
 export interface DecksProps {
 	user: User
@@ -17,7 +19,7 @@ export interface DecksProps {
 
 const Decks = ({ user, decks }: DecksProps) => {
 	const withFilter = useCallback(
-		(filter: (i: number) => boolean) =>
+		(filter: Filter) =>
 			decks
 				.filter((_, i) => filter(i))
 				.map(deck => (
@@ -30,7 +32,9 @@ const Decks = ({ user, decks }: DecksProps) => {
 		<div id="decks" className={styles.root}>
 			<h2 className={styles.title}>
 				Decks by {user.name ?? 'Anonymous'}{' '}
-				<span className={styles.count}>({formatNumber(decks.length)})</span>
+				<span className={styles.count}>
+					({formatNumber(user.numberOfCreatedDecks ?? 0)})
+				</span>
 			</h2>
 			<div className={styles.rows}>
 				<div className={styles.row}>{withFilter(evenFilter)}</div>
