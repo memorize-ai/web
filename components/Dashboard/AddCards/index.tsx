@@ -30,7 +30,7 @@ import Loader from 'components/Loader'
 import ConfirmationModal from 'components/Modal/Confirmation'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from 'lib/constants'
 
-import { src as defaultImage } from 'images/logos/icon.jpg'
+import { src as defaultImage } from 'images/defaults/deck.jpg'
 import styles from './index.module.scss'
 
 const GO_BACK_MESSAGE = 'Your drafts will be kept during this session.'

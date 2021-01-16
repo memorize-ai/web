@@ -15,7 +15,7 @@ import newUserImageUrlState from 'state/newUserImageUrl'
 import useCurrentUser from 'hooks/useCurrentUser'
 import ConfirmationModal from 'components/Modal/Confirmation'
 
-import defaultImage from 'images/icons/user.svg'
+import defaultImage from 'images/defaults/user.svg'
 import styles from './index.module.scss'
 
 export interface UserPageImageProps {

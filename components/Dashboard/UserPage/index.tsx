@@ -5,6 +5,8 @@ import stripHtml from 'string-strip-html'
 import { UserPageProps } from './models'
 import User from 'models/User'
 import Deck from 'models/Deck'
+import formatNumber, { formatNumberAsInt } from 'lib/formatNumber'
+import { BASE_URL } from 'lib/constants'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useUser from 'hooks/useUser'
 import useCreatedDecks from 'hooks/useCreatedDecks'
@@ -17,6 +19,7 @@ import Bio from './Bio'
 import Activity from './Activity'
 import Decks from './Decks'
 
+import { src as defaultImage } from 'images/defaults/user.jpg'
 import styles from './index.module.scss'
 
 const UserPage: NextPage<UserPageProps> = ({
@@ -49,7 +52,26 @@ const UserPage: NextPage<UserPageProps> = ({
 			<Head
 				title={`${name} | memorize.ai`}
 				description={bioString || `View ${name}'s profile on memorize.ai`}
+				image={user.imageUrl ?? defaultImage}
+				labels={[
+					{ name: 'Level', value: formatNumberAsInt(user.level ?? 0) },
+					{ name: 'XP', value: formatNumber(user.xp ?? 0) },
+					{ name: 'Decks created', value: formatNumber(decks.length) }
+				]}
 				breadcrumbs={url => [[{ name, url }]]}
+				schema={[
+					{
+						'@type': 'ProfilePage',
+						mainEntity: {
+							'@type': 'Person',
+							name: user.name ?? 'Anonymous',
+							image: user.imageUrl ?? defaultImage,
+							url: `${BASE_URL}/u/${user.slugId ?? 'error'}/${
+								user.slug ?? 'error'
+							}`
+						}
+					}
+				]}
 			/>
 			<div className={styles.content}>
 				<div className={styles.top}>

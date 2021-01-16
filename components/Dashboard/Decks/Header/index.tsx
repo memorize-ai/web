@@ -21,7 +21,7 @@ import Dropdown, { DropdownShadow } from 'components/Dropdown'
 import RemoveDeckModal from 'components/Modal/RemoveDeck'
 import formatNumber from 'lib/formatNumber'
 
-import { src as defaultImage } from 'images/logos/icon.jpg'
+import { src as defaultImage } from 'images/defaults/deck.jpg'
 import share from 'images/icons/share.svg'
 import cart from 'images/icons/cart.svg'
 import edit from 'images/icons/edit.svg'

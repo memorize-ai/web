@@ -25,7 +25,7 @@ import homeIcon from 'images/icons/home.svg'
 import cartIcon from 'images/icons/cart.svg'
 import decksIcon from 'images/icons/decks.svg'
 import topicsIcon from 'images/icons/topics.svg'
-import userIcon from 'images/icons/user.svg'
+import defaultUserImage from 'images/defaults/user.svg'
 
 import styles from './index.module.scss'
 
@@ -149,8 +149,8 @@ const DashboardNavbar = ({
 							) : (
 								<Svg
 									className={styles.profileTriggerIcon}
-									src={userIcon}
-									viewBox={`0 0 ${userIcon.width} ${userIcon.height}`}
+									src={defaultUserImage}
+									viewBox={`0 0 ${defaultUserImage.width} ${defaultUserImage.height}`}
 								/>
 							)
 						}
@@ -169,8 +169,8 @@ const DashboardNavbar = ({
 									) : (
 										<Svg
 											className={styles.profileLinkDefaultImage}
-											src={userIcon}
-											viewBox={`0 0 ${userIcon.width} ${userIcon.height}`}
+											src={defaultUserImage}
+											viewBox={`0 0 ${defaultUserImage.width} ${defaultUserImage.height}`}
 										/>
 									)}
 									My profile

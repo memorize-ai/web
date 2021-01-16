@@ -8,8 +8,8 @@ import cx from 'classnames'
 
 import Deck from 'models/Deck'
 
-import { src as defaultImage } from 'images/logos/icon.jpg'
-import defaultUserImage from 'images/icons/user.svg'
+import { src as defaultImage } from 'images/defaults/deck.jpg'
+import defaultUserImage from 'images/defaults/user.svg'
 
 import styles from './index.module.scss'
 

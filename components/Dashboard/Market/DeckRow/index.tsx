@@ -16,8 +16,8 @@ import Button from 'components/Button'
 import formatNumber from 'lib/formatNumber'
 import handleError from 'lib/handleError'
 
-import { src as defaultImage } from 'images/logos/icon.jpg'
-import defaultUserImage from 'images/icons/user.svg'
+import { src as defaultImage } from 'images/defaults/deck.jpg'
+import defaultUserImage from 'images/defaults/user.svg'
 import download from 'images/icons/download.svg'
 import users from 'images/icons/users.svg'
 
