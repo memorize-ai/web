@@ -1,4 +1,4 @@
-import { useState, useCallback, FormEvent } from 'react'
+import { useState, useCallback, FormEvent, useEffect } from 'react'
 
 import User from 'models/User'
 import firebase from 'lib/firebase'
@@ -45,6 +45,10 @@ const UserPageEditBio = ({ user }: UserPageEditBioProps) => {
 		},
 		[isDisabled, user.id, bio, setIsLoading]
 	)
+
+	useEffect(() => {
+		setBio(originalBio)
+	}, [originalBio, setBio])
 
 	return (
 		<form id="about" className={styles.root} onSubmit={save}>
