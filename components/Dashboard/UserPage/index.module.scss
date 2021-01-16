@@ -20,22 +20,50 @@
 
 .top {
 	display: grid;
-	grid: auto / auto 1fr;
-	gap: 30px;
+	grid:
+		'image image' auto
+		'meta meta' auto
+		'main main' auto /
+		auto auto;
+	gap: 20px 30px;
 	margin: var(--inner-horizontal-padding) var(--inner-horizontal-padding) 20px;
 	padding-bottom: 30px;
 	border-bottom: 1px solid #eee;
+
+	@media (min-width: 700px) {
+		grid:
+			'image meta' auto
+			'main main' auto /
+			auto 1fr;
+	}
+
+	@media (min-width: 800px) {
+		grid:
+			'image main' auto
+			'meta main' 1fr /
+			auto 1fr;
+	}
+}
+
+.meta {
+	grid-area: meta;
 }
 
 .name {
 	@include text.line-limit(2);
 
-	margin: 20px 0 12px;
+	margin-bottom: 12px;
 	font-size: 30px;
 	font-weight: 800;
 	color: colors.$dark-gray;
 }
 
 .main {
+	grid-area: main;
 	overflow: hidden;
+	margin-top: 10px;
+
+	@media (min-width: 800px) {
+		margin-top: 0;
+	}
 }
