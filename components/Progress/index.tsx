@@ -1,10 +1,10 @@
 import { useRef, useCallback, useEffect } from 'react'
 import Router from 'next/router'
 import NProgress from 'nprogress'
-import { toast } from 'react-toastify'
 
 import { RouterErrorEventHandler, RouterEventHandler } from 'models/Router'
 import { START_POSITION, DELAY } from './constants'
+import handleError from 'lib/handleError'
 
 const Progress = () => {
 	const timer = useRef<number | null>(null)
@@ -33,7 +33,7 @@ const Progress = () => {
 			success(url, options)
 
 			if (error.cancelled) return
-			toast.error(error.message)
+			handleError(error)
 		},
 		[success]
 	)

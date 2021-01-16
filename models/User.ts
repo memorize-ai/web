@@ -4,12 +4,9 @@ import SnapshotLike from './SnapshotLike'
 import firebase from 'lib/firebase'
 import slugify from 'lib/slugify'
 
-import 'firebase/auth'
 import 'firebase/firestore'
 
 const { FieldValue } = firebase.firestore
-
-const auth = firebase.auth()
 const firestore = firebase.firestore()
 
 export interface UserData {
@@ -206,14 +203,8 @@ export default class User {
 		return this
 	}
 
-	updateName = async (name: string) => {
-		const promises = [firestore.doc(`users/${this.id}`).update({ name })]
-
-		if (auth.currentUser)
-			promises.push(auth.currentUser.updateProfile({ displayName: name }))
-
-		await Promise.all(promises)
-	}
+	updateName = (name: string) =>
+		firestore.doc(`users/${this.id}`).update({ name })
 
 	toggleInterest = (id: string) => {
 		if (!this.interestIds) return this
