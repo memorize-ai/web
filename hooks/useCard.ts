@@ -27,9 +27,9 @@ const useCard = (deckId: string | undefined, cardId: string | undefined) => {
 	const card = cardId ? cardFromState(cardId, state) : null
 
 	useEffect(() => {
-		if (card || !(deckId && cardId) || Card.isObserving[cardId]) return
+		if (card || !(deckId && cardId) || Card.observers.has(cardId)) return
 
-		Card.isObserving[cardId] = true
+		Card.observers.add(cardId)
 
 		firestore.doc(`decks/${deckId}/cards/${cardId}`).onSnapshot(snapshot => {
 			const card = Card.fromSnapshot(snapshot)

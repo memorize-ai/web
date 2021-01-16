@@ -25,7 +25,7 @@ const useExpandedSections = (
 	return [
 		useCallback(
 			(sectionId: string) => {
-				const isExpanded = sections?.[sectionId]
+				const isExpanded = sections?.has(sectionId)
 
 				return isExpanded === undefined
 					? defaultExpanded
@@ -38,17 +38,12 @@ const useExpandedSections = (
 		useCallback(
 			(sectionId: string) => {
 				setState(state => {
-					const sections = state[key][deck.id] ?? {}
+					const sections = state[key][deck.id] ?? new Set<string>()
+					sections[sections.has(sectionId) ? 'delete' : 'add'](sectionId)
 
 					return {
 						...state,
-						[key]: {
-							...state[key],
-							[deck.id]: {
-								...sections,
-								[sectionId]: !sections[sectionId]
-							}
-						}
+						[key]: { ...state[key], [deck.id]: sections }
 					}
 				})
 			},

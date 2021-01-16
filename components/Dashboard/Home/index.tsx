@@ -11,7 +11,7 @@ import Dashboard, {
 	DashboardNavbarSelection as Selection
 } from 'components/Dashboard'
 import Head from 'components/Head'
-import Activity from 'components/Activity'
+import Activity from 'components/Activity/CurrentUser'
 import OwnedDeckCell from 'components/DeckCell/Owned'
 import DeckCell from 'components/DeckCell'
 
@@ -79,7 +79,9 @@ const DashboardHome = ({ expectsSignIn = null }: DashboardHomeProps) => {
 			</div>
 			<div className={styles.activity}>
 				<h1 className={styles.activityTitle}>Activity</h1>
-				<Activity className={styles.activityContent} />
+				<div className={styles.activityContent}>
+					<Activity />
+				</div>
 			</div>
 			{decks.length === 0 || (
 				<div className={styles.myDecks}>

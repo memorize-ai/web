@@ -14,9 +14,9 @@ const useCreator = (uid: string) => {
 	const [creator, setCreator] = useRecoilState(state(uid))
 
 	useEffect(() => {
-		if (!uid || creator || User.creatorObservers[uid]) return
+		if (!uid || creator || User.creatorObservers.has(uid)) return
 
-		User.creatorObservers[uid] = true
+		User.creatorObservers.add(uid)
 
 		firestore.doc(`users/${uid}`).onSnapshot(snapshot => {
 			setCreator(snapshot.exists ? User.fromSnapshot(snapshot) : null)

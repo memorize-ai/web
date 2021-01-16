@@ -17,6 +17,13 @@ import 'firebase/storage'
 const firestore = firebase.firestore()
 const storage = firebase.storage().ref()
 
+export interface DeckCreator {
+	slugId: string
+	slug: string
+	hasImage: boolean
+	name: string
+}
+
 export interface DeckData {
 	id: string
 	slugId: string
@@ -42,7 +49,7 @@ export interface DeckData {
 	allTimeUsers: number
 	favorites: number
 	creatorId: string
-	creatorName: string | null
+	creator: DeckCreator | null
 	created: number
 	updated: number
 }
@@ -59,17 +66,13 @@ export default class Deck {
 	static USELESS_WORDS_REGEX = /^(.|from|to|and|by|at|why|in)$/i
 	static SLUG_ID_LENGTH = 10
 
-	/** Key is a user ID */
-	static isObservingOwned: Record<string, boolean> = {}
-
-	/** Key is a deck slug ID */
-	static isObserving: Record<string, boolean> = {}
+	static readonly observers = new Set<string>()
 
 	/** Key is a deck ID */
-	static similarDeckObservers: Record<string, boolean> = {}
+	static readonly similarDeckObservers = new Set<string>()
 
 	/** Key is a deck ID */
-	static snapshotListeners: Record<string, () => void> = {}
+	static readonly snapshotListeners: Record<string, () => void> = {}
 
 	id: string
 	slugId: string
@@ -96,7 +99,7 @@ export default class Deck {
 	numberOfFavorites: number
 	creatorId: string
 	/** Only available if the deck was retrieved from search */
-	creatorName: string | null
+	creator: DeckCreator | null
 	created: Date
 	lastUpdated: Date
 
@@ -128,7 +131,7 @@ export default class Deck {
 		this.numberOfAllTimeUsers = data.allTimeUsers
 		this.numberOfFavorites = data.favorites
 		this.creatorId = data.creatorId
-		this.creatorName = data.creatorName
+		this.creator = data.creator
 		this.created = new Date(data.created)
 		this.lastUpdated = new Date(data.updated)
 
@@ -145,8 +148,8 @@ export default class Deck {
 
 	static dataFromSnapshot = (snapshot: SnapshotLike): DeckData => ({
 		id: snapshot.id,
-		slugId: snapshot.get('slugId') ?? '...',
-		slug: snapshot.get('slug') ?? '...',
+		slugId: snapshot.get('slugId') ?? 'error',
+		slug: snapshot.get('slug') ?? 'error',
 		topics: snapshot.get('topics') ?? [],
 		image: snapshot.get('hasImage') ?? false,
 		name: snapshot.get('name') ?? '(error)',
@@ -167,10 +170,10 @@ export default class Deck {
 		currentUsers: snapshot.get('currentUserCount') ?? 0,
 		allTimeUsers: snapshot.get('allTimeUserCount') ?? 0,
 		favorites: snapshot.get('favoriteCount') ?? 0,
-		creatorId: snapshot.get('creator') ?? '...',
-		creatorName: null,
-		created: snapshot.get('created')?.toMillis() ?? Date.now(),
-		updated: snapshot.get('updated')?.toMillis() ?? Date.now()
+		creatorId: snapshot.get('creator') ?? 'error',
+		creator: null,
+		created: snapshot.get('created')?.toMillis?.() ?? Date.now(),
+		updated: snapshot.get('updated')?.toMillis?.() ?? Date.now()
 	})
 
 	static addSnapshotListener = (id: string, value: () => void) =>
@@ -220,7 +223,7 @@ export default class Deck {
 		})
 
 		if (data.image)
-			await storage.child(`/decks/${deckId}`).put(data.image, {
+			await storage.child(`decks/${deckId}`).put(data.image, {
 				contentType: data.image.type,
 				customMetadata: { owner: uid }
 			})
@@ -232,12 +235,14 @@ export default class Deck {
 		return slugParts
 	}
 
-	get url() {
-		return `/d/${this.slugId}/${encodeURIComponent(this.slug)}`
+	get creatorImage() {
+		return this.creator?.hasImage
+			? `https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/users%2F${this.creatorId}?alt=media`
+			: null
 	}
 
-	get printUrl() {
-		return `/print/${this.slugId}/${encodeURIComponent(this.slug)}`
+	get url() {
+		return `/d/${this.slugId}/${encodeURIComponent(this.slug)}`
 	}
 
 	get urlWithOrigin() {
@@ -453,7 +458,7 @@ export default class Deck {
 		}
 	) => {
 		const storageChild =
-			image === undefined ? undefined : storage.child(`/decks/${this.id}`)
+			image === undefined ? undefined : storage.child(`decks/${this.id}`)
 
 		const updateData: Record<string, unknown> = {
 			topics,

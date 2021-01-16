@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react'
+import Link from 'next/link'
 import { Svg } from 'react-optimized-image'
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faKey } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faKey } from '@fortawesome/free-solid-svg-icons'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
 import cx from 'classnames'
 
@@ -10,6 +11,7 @@ import firebase from 'lib/firebase'
 import { DashboardNavbarSelection as Selection } from '..'
 import useLayoutAuthState from 'hooks/useLayoutAuthState'
 import useCurrentUser from 'hooks/useCurrentUser'
+import useUserImageUrl from 'hooks/useUserImageUrl'
 import useDecks from 'hooks/useDecks'
 import useUrlForMarket from 'hooks/useUrlForMarket'
 import Tab from './Tab'
@@ -23,7 +25,7 @@ import homeIcon from 'images/icons/home.svg'
 import cartIcon from 'images/icons/cart.svg'
 import decksIcon from 'images/icons/decks.svg'
 import topicsIcon from 'images/icons/topics.svg'
-import userIcon from 'images/icons/purple-user.svg'
+import defaultUserImage from 'images/defaults/user.svg'
 
 import styles from './index.module.scss'
 
@@ -43,13 +45,20 @@ const DashboardNavbar = ({
 	expectsSignIn = null
 }: DashboardNavbarProps) => {
 	const isSignedIn = useLayoutAuthState() ?? expectsSignIn
+
 	const [currentUser] = useCurrentUser()
+	const imageUrl = useUserImageUrl()
+
 	const [decks] = useDecks()
 
 	const [isProfileDropdownShowing, setIsProfileDropdownShowing] = useState(
 		false
 	)
 	const [isApiKeyModalShowing, setIsApiKeyModalShowing] = useState(false)
+
+	const hideProfileDropdown = useCallback(() => {
+		setIsProfileDropdownShowing(false)
+	}, [setIsProfileDropdownShowing])
 
 	const sendForgotPasswordEmail = useCallback(async () => {
 		const email = currentUser?.email
@@ -124,15 +133,54 @@ const DashboardNavbar = ({
 				{isSignedIn === null ? null : isSignedIn ? (
 					<Dropdown
 						className={styles.profile}
-						triggerClassName={styles.profileTrigger}
+						triggerClassName={cx({
+							[styles.customProfileTrigger]: imageUrl,
+							[styles.resetProfileTrigger]: !imageUrl
+						})}
 						contentClassName={styles.profileContent}
 						shadow={DropdownShadow.Screen}
 						trigger={
-							<Svg className={styles.profileTriggerIcon} src={userIcon} />
+							imageUrl ? (
+								<img
+									className={styles.profileTriggerImage}
+									src={imageUrl}
+									alt={currentUser?.name ?? 'Profile picture'}
+								/>
+							) : (
+								<Svg
+									className={styles.profileTriggerIcon}
+									src={defaultUserImage}
+									viewBox={`0 0 ${defaultUserImage.width} ${defaultUserImage.height}`}
+								/>
+							)
 						}
 						isShowing={isProfileDropdownShowing}
 						setIsShowing={setIsProfileDropdownShowing}
 					>
+						{currentUser && currentUser.slugId && currentUser.slug && (
+							<Link href={`/u/${currentUser.slugId}/${currentUser.slug}`}>
+								<a className={styles.profileLink} onClick={hideProfileDropdown}>
+									{imageUrl ? (
+										<img
+											className={styles.profileLinkImage}
+											src={imageUrl}
+											alt={currentUser.name ?? 'Profile picture'}
+										/>
+									) : (
+										<Svg
+											className={styles.profileLinkDefaultImage}
+											src={defaultUserImage}
+											viewBox={`0 0 ${defaultUserImage.width} ${defaultUserImage.height}`}
+										/>
+									)}
+									My profile
+									<FontAwesomeIcon
+										className={styles.profileLinkIcon}
+										icon={faChevronRight}
+									/>
+								</a>
+							</Link>
+						)}
 						<div className={styles.settings}>
 							<label className={styles.label}>
 								Name

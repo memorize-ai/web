@@ -9,6 +9,10 @@ module.exports = require('next-optimized-images')({
 			destination: '/api/uploadDeckAsset'
 		},
 		{
+			source: '/_api/upload-user-asset',
+			destination: '/api/uploadUserAsset'
+		},
+		{
 			source: '/api/:method',
 			destination:
 				'https://us-central1-memorize-ai.cloudfunctions.net/api/:method'

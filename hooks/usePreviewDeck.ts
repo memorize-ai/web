@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 
-import PreviewDeck, { PreviewCard } from 'models/PreviewDeck'
+import PreviewDeck, { PreviewCard, PreviewSection } from 'models/PreviewDeck'
 import state from 'state/previewDeck'
 import firebase from 'lib/firebase'
 import handleError from 'lib/handleError'
@@ -53,19 +53,16 @@ const getPreviewDeck = async (): Promise<PreviewDeck> => {
 		slugId: deck.get('slugId'),
 		name: deck.get('name'),
 		sections: sections.reduce(
-			(acc, section) => ({
-				...acc,
-				[section.id]: section
-			}),
+			(acc: Record<string, PreviewSection>, section) => {
+				acc[section.id] = section
+				return acc
+			},
 			{}
 		),
-		cards: sections.reduce(
-			(acc: PreviewCard[], section) => [
-				...acc,
-				...cards.filter(card => card.sectionId === section.id)
-			],
-			[]
-		)
+		cards: sections.reduce((acc: PreviewCard[], section) => {
+			acc.push(...cards.filter(card => card.sectionId === section.id))
+			return acc
+		}, [])
 	}
 }
 

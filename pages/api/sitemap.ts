@@ -1,12 +1,27 @@
 import { NextApiHandler } from 'next'
 import { create as xml } from 'xmlbuilder2'
 
+import { UserData } from 'models/User'
 import { DeckData } from 'models/Deck'
+import getUsers from 'lib/getUsers'
 import getDecks from 'lib/getDecks'
 import { BASE_URL } from 'lib/constants'
 
+const userToPath = ({ slugId, slug }: UserData) =>
+	slugId && slug ? `/u/${slugId}/${slug}` : null
+
+const getUserPaths = async () =>
+	(await getUsers()).reduce((paths: string[], user) => {
+		const path = userToPath(user)
+		if (path) paths.push(path)
+
+		return paths
+	}, [])
+
 const deckToPath = (deck: DeckData) =>
 	`/d/${deck.slugId}/${encodeURIComponent(deck.slug)}`
+
+const getDeckPaths = async () => (await getDecks()).map(deckToPath)
 
 const getPaths = async () => [
 	'',
@@ -15,7 +30,8 @@ const getPaths = async () => [
 	'/new',
 	'/privacy',
 	'/support',
-	...(await getDecks()).map(deckToPath)
+	...(await getUserPaths()),
+	...(await getDeckPaths())
 ]
 
 const handler: NextApiHandler<string> = async ({ method }, res) => {

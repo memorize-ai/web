@@ -20,7 +20,7 @@ export interface SectionData {
 }
 
 export default class Section {
-	static observers: Record<string, boolean> = {}
+	static readonly observers = new Set<string>()
 
 	id: string
 	name: string

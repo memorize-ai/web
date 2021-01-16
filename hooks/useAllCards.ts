@@ -12,9 +12,9 @@ const useAllCards = (deckId: string) => {
 	const didLoad = Boolean(sections)
 
 	useEffect(() => {
-		if (Card.observers[deckId] || didLoad) return
+		if (Card.observers.has(deckId) || didLoad) return
 
-		Card.observers[deckId] = true
+		Card.observers.add(deckId)
 		Card.getAllForDeck(deckId).then(sections => {
 			setCards(state => ({ ...state, [deckId]: sections }))
 		})

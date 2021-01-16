@@ -24,7 +24,7 @@ const ShareSectionModal = ({
 			</>
 		}
 		icon={faLink}
-		text={`${deck.urlWithOrigin}/u/${section?.id ?? '...'}`}
+		text={`${deck.urlWithOrigin}/u/${section?.id ?? 'error'}`}
 		isShowing={isShowing}
 		setIsShowing={setIsShowing}
 	/>

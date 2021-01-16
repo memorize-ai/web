@@ -119,8 +119,8 @@ const EditDeck: NextPage = () => {
 						{ name: 'Decks', url: '/decks' },
 						{
 							name: deck?.name ?? 'Deck',
-							url: `/decks/${deck?.slugId ?? '...'}/${
-								deck ? encodeURIComponent(deck.slug) : '...'
+							url: `/decks/${deck?.slugId ?? 'error'}/${
+								deck ? encodeURIComponent(deck.slug) : 'error'
 							}`
 						},
 						{ name: 'Edit', url }

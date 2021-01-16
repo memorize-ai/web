@@ -118,6 +118,7 @@ $space-between-sides: 8px;
 }
 
 .main {
+	overflow-x: hidden;
 	overflow-y: auto;
 	padding: 0 var(--horizontal-padding) var(--horizontal-padding);
 }
@@ -229,6 +230,10 @@ $space-between-sides: 8px;
 
 		.side {
 			width: 50%;
+
+			&:not(:last-child) {
+				margin-right: $space-between-sides;
+			}
 		}
 
 		.editor {
@@ -240,10 +245,6 @@ $space-between-sides: 8px;
 						) / 2 - #{16px + $space-between-sides}
 				);
 			}
-		}
-
-		&:not(:last-child) {
-			margin-right: $space-between-sides;
 		}
 	}
 }

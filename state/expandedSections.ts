@@ -1,6 +1,6 @@
 import { atom } from 'recoil'
 
-export type ExpandedSectionsEntry = Record<string, Record<string, boolean>>
+export type ExpandedSectionsEntry = Record<string, Set<string>>
 
 export interface ExpandedSectionsState {
 	decks: ExpandedSectionsEntry

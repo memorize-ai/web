@@ -260,17 +260,15 @@ const useReviewState = (
 			const hardAttempts =
 				sectionId === undefined
 					? Object.entries(
-							cards.reduce(
-								(acc, card) => ({
-									...acc,
-									[card.value.sectionId]:
-										(acc[card.value.sectionId] ?? 0) +
-										(card.rating === null
-											? 0
-											: performanceRatingToHardMultiplier(card.rating))
-								}),
-								{} as Record<string, number>
-							)
+							cards.reduce((acc: Record<string, number>, card) => {
+								acc[card.value.sectionId] =
+									(acc[card.value.sectionId] ?? 0) +
+									(card.rating === null
+										? 0
+										: performanceRatingToHardMultiplier(card.rating))
+
+								return acc
+							}, {})
 					  )
 					: []
 

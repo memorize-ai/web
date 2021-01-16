@@ -1,0 +1,40 @@
+@use 'styles/colors';
+@use 'styles/text';
+@use 'styles/shadow';
+@use 'styles/dashboard';
+
+@include dashboard.sidebar-collapse(1200px);
+
+.container {
+	scroll-behavior: smooth;
+}
+
+.content {
+	@include shadow.large;
+
+	overflow: hidden;
+	margin: 20px var(--horizontal-padding) var(--horizontal-padding);
+	background: white;
+	border-radius: 8px;
+}
+
+.top {
+	display: grid;
+	grid: auto / auto 1fr;
+	gap: 30px;
+	margin-bottom: 30px;
+	padding: var(--inner-horizontal-padding) var(--inner-horizontal-padding) 0;
+}
+
+.name {
+	@include text.line-limit(2);
+
+	margin: 20px 0 12px;
+	font-size: 30px;
+	font-weight: 800;
+	color: colors.$dark-gray;
+}
+
+.main {
+	overflow: hidden;
+}

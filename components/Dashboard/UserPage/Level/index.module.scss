@@ -1,0 +1,50 @@
+@use 'styles/colors';
+
+.stats {
+	margin-bottom: 4px;
+}
+
+.level {
+	font-weight: bold;
+	color: colors.$dark-gray;
+}
+
+.bullet,
+.xp {
+	color: transparentize(colors.$dark-gray, 0.5);
+}
+
+.bullet {
+	opacity: 0.7;
+}
+
+.sliderContainer {
+	display: flex;
+	align-items: center;
+}
+
+.slider,
+.sliderContent {
+	$height: 12px;
+
+	height: $height;
+	border-radius: $height / 2;
+}
+
+.slider {
+	width: 100%;
+	overflow: hidden;
+	margin-right: 20px;
+	background: transparentize(colors.$dark-gray, 0.9);
+}
+
+.sliderContent {
+	background: #00d388;
+	transition: width 0.3s ease-in-out;
+}
+
+.sliderValue {
+	white-space: nowrap;
+	font-weight: bold;
+	color: colors.$dark-gray;
+}

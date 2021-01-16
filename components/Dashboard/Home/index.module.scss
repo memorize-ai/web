@@ -91,7 +91,15 @@
 }
 
 .activityContent {
+	display: flex;
+	justify-content: flex-end;
+	max-width: max-content;
+	overflow: hidden;
 	margin: 8px var(--horizontal-padding) 0;
+	padding: 20px 30px 30px 20px;
+	background: white;
+	border: 1px solid #eee;
+	border-radius: 8px;
 }
 
 .myDecks {

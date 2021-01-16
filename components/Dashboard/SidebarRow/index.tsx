@@ -5,7 +5,7 @@ import Deck from 'models/Deck'
 import useSelectedDeck from 'hooks/useSelectedDeck'
 import formatNumber from 'lib/formatNumber'
 
-import { src as defaultImage } from 'images/logos/icon.jpg'
+import { src as defaultImage } from 'images/defaults/deck.jpg'
 import styles from './index.module.scss'
 
 export interface DashboardSidebarRowProps {

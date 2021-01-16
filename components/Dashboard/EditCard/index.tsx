@@ -11,6 +11,7 @@ import property from 'lodash/property'
 import { EditCardQuery } from './models'
 import Section from 'models/Section'
 import requiresAuth from 'hooks/requiresAuth'
+import useCloseMessage from 'hooks/useCloseMessage'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useCreatedDeck from 'hooks/useCreatedDeck'
 import useSections from 'hooks/useSections'
@@ -25,7 +26,7 @@ import Loader from 'components/Loader'
 import ConfirmationModal from 'components/Modal/Confirmation'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from 'lib/constants'
 
-import { src as defaultImage } from 'images/logos/icon.jpg'
+import { src as defaultImage } from 'images/defaults/deck.jpg'
 import styles from './index.module.scss'
 
 const INITIAL_SECTIONS: Section[] = []
@@ -69,8 +70,8 @@ const EditCard: NextPage = () => {
 		[deck, currentUser]
 	)
 
-	const closeUrl = `/decks/${slugId ?? '...'}/${
-		slug ? encodeURIComponent(slug) : '...'
+	const closeUrl = `/decks/${slugId ?? 'error'}/${
+		slug ? encodeURIComponent(slug) : 'error'
 	}`
 	const headDescription = `Edit a card in ${deck?.name ?? 'your deck'}.`
 
@@ -78,6 +79,8 @@ const EditCard: NextPage = () => {
 		section?.id === card?.sectionId &&
 		front === card?.front &&
 		back === card?.back
+
+	useCloseMessage(isSameContent ? null : CONFIRM_CLOSE_MESSAGE)
 
 	useEffect(() => {
 		if (!card) return
@@ -95,16 +98,6 @@ const EditCard: NextPage = () => {
 			if (newSection) setSection(newSection)
 		}
 	}, [card, didUpdateFromCard, section, sections])
-
-	useEffect(() => {
-		if (isSameContent) return
-
-		window.onbeforeunload = () => CONFIRM_CLOSE_MESSAGE
-
-		return () => {
-			window.onbeforeunload = null
-		}
-	}, [isSameContent])
 
 	const close = useCallback(() => {
 		router.push(closeUrl)
@@ -152,8 +145,8 @@ const EditCard: NextPage = () => {
 						{ name: 'Decks', url: '/decks' },
 						{
 							name: deck?.name ?? 'Deck',
-							url: `/decks/${deck?.slugId ?? '...'}/${
-								deck ? encodeURIComponent(deck.slug) : '...'
+							url: `/decks/${deck?.slugId ?? 'error'}/${
+								deck ? encodeURIComponent(deck.slug) : 'error'
 							}`
 						},
 						{ name: 'Edit card', url }

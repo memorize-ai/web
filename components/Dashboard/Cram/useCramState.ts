@@ -275,19 +275,17 @@ const useCramState = (
 			const nonEasyAttempts =
 				sectionId === undefined
 					? Object.entries(
-							cards.reduce(
-								(acc, card) => ({
-									...acc,
-									[card.value.sectionId]:
-										(acc[card.value.sectionId] ?? 0) +
-										card.ratings.reduce(
-											(acc, rating) =>
-												acc + (rating === PerformanceRating.Easy ? 0 : 1),
-											0
-										)
-								}),
-								{} as Record<string, number>
-							)
+							cards.reduce((acc: Record<string, number>, card) => {
+								acc[card.value.sectionId] =
+									(acc[card.value.sectionId] ?? 0) +
+									card.ratings.reduce(
+										(acc, rating) =>
+											acc + (rating === PerformanceRating.Easy ? 0 : 1),
+										0
+									)
+
+								return acc
+							}, {})
 					  )
 					: []
 

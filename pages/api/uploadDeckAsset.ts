@@ -26,7 +26,6 @@ const handler: NextApiHandler<Response> = async (
 
 	try {
 		if (method === 'OPTIONS') return res.send()
-
 		if (method !== 'POST') return error(400, 'Invalid method')
 
 		const { user: uid, deck: deckId } = (query as unknown) as Query
@@ -38,7 +37,6 @@ const handler: NextApiHandler<Response> = async (
 			return error(400, 'You must send a base64 encoded string as a body')
 
 		const contentTypeMatch = body.match(/^data:(.+?);base64,/)
-
 		if (!contentTypeMatch) return error(400, 'Invalid image data')
 
 		const token = uuid()

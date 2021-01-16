@@ -11,22 +11,12 @@ $colors: (
 );
 
 .root {
-	display: flex;
-	justify-content: flex-end;
-	max-width: max-content;
-	overflow: hidden;
-	padding: 20px 30px 30px 20px;
-	background: white;
-	border: 1px solid #eee;
-	border-radius: 8px;
-}
-
-.content {
 	display: grid;
 	grid:
-		'empty dates' auto
+		'_ dates' auto
 		'days cells' auto /
 		auto auto;
+	max-width: max-content;
 }
 
 .days,

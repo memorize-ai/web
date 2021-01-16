@@ -20,10 +20,9 @@ const useDecks = () => {
 	const uid = currentUser?.id
 
 	useEffect(() => {
-		if (!uid || Deck.isObservingOwned[uid]) return
+		if (!uid || Deck.observers.has(uid)) return
 
-		Deck.isObservingOwned[uid] = true
-
+		Deck.observers.add(uid)
 		setState(state => ({ ...state, loadingState: LoadingState.Loading }))
 
 		firestore.collection(`users/${uid}/decks`).onSnapshot(

@@ -10,16 +10,15 @@
 }
 
 .tabs {
-	align-self: stretch;
 	display: flex;
 	align-items: flex-end;
 	overflow-x: auto;
 }
 
 .right {
-	align-self: end;
 	display: flex;
 	align-items: center;
+	margin-bottom: -6px;
 }
 
 .download {
@@ -32,16 +31,33 @@
 
 .downloadIcon {
 	color: white;
-	transform: scale(2.7) translateY(-2px);
+	transform: scale(2.7);
 	transition: opacity 0.3s;
 }
 
 .profile,
 .auth {
-	margin: 0 10px 10px 10px;
+	margin: 0 10px;
 }
 
-.profileTrigger {
+.customProfileTrigger {
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 0.5;
+	}
+}
+
+.profileTriggerImage {
+	$dimension: 42px;
+
+	width: $dimension;
+	height: $dimension;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+.resetProfileTrigger {
 	padding: 10px;
 	background: white;
 	border-radius: 50%;
@@ -75,6 +91,47 @@
 	background: white;
 }
 
+.profileLink {
+	display: flex;
+	align-items: center;
+	max-width: max-content;
+	font-weight: 900;
+	color: #007aff;
+
+	&:hover {
+		text-decoration: underline;
+
+		.profileLinkIcon {
+			transform: translateX(4px);
+		}
+	}
+}
+
+.profileLinkImage,
+.profileLinkDefaultImage {
+	$dimension: 25px;
+
+	width: $dimension;
+	height: $dimension;
+	margin-right: 8px;
+	border-radius: 50%;
+}
+
+.profileLinkImage {
+	object-fit: cover;
+}
+
+.profileLinkDefaultImage {
+	padding: 2px;
+	fill: #007aff;
+	border: 1px solid #eee;
+}
+
+.profileLinkIcon {
+	margin-left: 4px;
+	transition: transform 0.3s;
+}
+
 .settings,
 .forgotPassword,
 .signOut {
@@ -89,6 +146,7 @@
 .settings {
 	display: flex;
 	flex-direction: column;
+	margin-top: 12px;
 	padding: 20px 16px;
 }
 

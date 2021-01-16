@@ -3,6 +3,8 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { UserPageQuery, UserPageProps, UserPagePath } from './models'
 import getUsers from 'lib/getUsers'
 import getUserFromSlugId from 'lib/getUserFromSlugId'
+import getActivity from 'lib/getActivity'
+import getCreatedDecks from 'lib/getCreatedDecks'
 
 const INITIAL_USER_COUNT = 1000
 const REVALIDATE = 1
@@ -36,8 +38,13 @@ export const getStaticProps: GetStaticProps<
 			}
 		}
 
+	const [activity, decks] = await Promise.all([
+		getActivity(user.id),
+		getCreatedDecks(user.id)
+	])
+
 	return {
-		props: { user },
+		props: { user, activity, decks },
 		revalidate: REVALIDATE
 	}
 }

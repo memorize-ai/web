@@ -125,8 +125,8 @@ const DashboardSidebar = ({
 				<div className={styles.bottomDivider} />
 				<div className={styles.bottomContent}>
 					<p className={styles.stats}>
-						<span className={styles.level}>lvl {level}</span>&nbsp;
-						<span className={styles.statsBullet}>&bull;</span>&nbsp;
+						<span className={styles.level}>lvl {level}</span>{' '}
+						<span className={styles.statsBullet}>&bull;</span>{' '}
 						<span className={styles.xp}>{xp} xp</span>
 					</p>
 					<div className={styles.sliderContainer}>

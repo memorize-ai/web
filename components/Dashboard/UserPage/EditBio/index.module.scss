@@ -1,0 +1,45 @@
+@use 'styles/colors';
+
+.root {
+	margin-bottom: 20px;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	margin-bottom: 12px;
+}
+
+.title {
+	margin: 0 12px -4px 0;
+	font-size: 24px;
+	font-weight: 900;
+	color: colors.$dark-gray;
+}
+
+.save {
+	display: grid;
+	justify-items: center;
+	align-items: center;
+	width: 80px;
+	height: 40px;
+	font-size: 17px;
+	font-weight: 900;
+	color: white;
+	background: #582efe;
+	text-transform: uppercase;
+	border-radius: 8px;
+	transition: background 0.3s, opacity 0.3s;
+
+	&:not(:disabled) {
+		&:hover,
+		&:focus {
+			background: #051e34;
+		}
+	}
+}
+
+.saveDisabled {
+	opacity: 0.5;
+}

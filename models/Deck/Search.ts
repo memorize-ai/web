@@ -65,7 +65,7 @@ export const nameForDeckSortAlgorithm = (algorithm: DeckSortAlgorithm) => {
 }
 
 // eslint-disable-next-line
-type RawSearchResultItemData = Record<string, { raw: any }>
+type RawSearchResultItemData = Record<string, { raw: any } | undefined>
 type RawSearchResultItemDataWrapper = { data: RawSearchResultItemData }
 
 interface SearchFunctionOptions {
@@ -112,9 +112,9 @@ export default class Search {
 	private static deckDataFromRawData = ({
 		data
 	}: RawSearchResultItemDataWrapper): DeckData => ({
-		id: data.id.raw,
-		slugId: data.slug_id?.raw ?? '...',
-		slug: data.slug?.raw ?? '...',
+		id: data.id?.raw ?? 'error',
+		slugId: data.slug_id?.raw ?? 'error',
+		slug: data.slug?.raw ?? 'error',
 		topics: data.topics?.raw ?? [],
 		image: data.has_image?.raw === 'true',
 		name: data.name?.raw ?? '(error)',
@@ -135,8 +135,13 @@ export default class Search {
 		currentUsers: data.current_user_count?.raw ?? 0,
 		allTimeUsers: data.all_time_user_count?.raw ?? 0,
 		favorites: data.favorite_count?.raw ?? 0,
-		creatorId: data.creator_id?.raw ?? '...',
-		creatorName: data.creator_name?.raw ?? '(error)',
+		creatorId: data.creator_id?.raw ?? 'error',
+		creator: {
+			slugId: data.creator_slug_id?.raw ?? 'error',
+			slug: data.creator_slug?.raw ?? 'error',
+			hasImage: data.creator_has_image?.raw === 'true',
+			name: data.creator_name?.raw ?? '(error)'
+		},
 		created: new Date(data.created?.raw).getTime(),
 		updated: new Date(data.updated?.raw).getTime()
 	})

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Select from 'react-select'
@@ -15,6 +15,7 @@ import property from 'lodash/property'
 import { AddCardsQuery } from './models'
 import Section from 'models/Section'
 import requiresAuth from 'hooks/requiresAuth'
+import useCloseMessage from 'hooks/useCloseMessage'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useCreatedDeck from 'hooks/useCreatedDeck'
 import useSections from 'hooks/useSections'
@@ -29,7 +30,7 @@ import Loader from 'components/Loader'
 import ConfirmationModal from 'components/Modal/Confirmation'
 import { LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY } from 'lib/constants'
 
-import { src as defaultImage } from 'images/logos/icon.jpg'
+import { src as defaultImage } from 'images/defaults/deck.jpg'
 import styles from './index.module.scss'
 
 const GO_BACK_MESSAGE = 'Your drafts will be kept during this session.'
@@ -87,16 +88,7 @@ const AddCards = () => {
 	const headDescription = `Add cards to ${deck?.name ?? 'your deck'}.`
 
 	const canPublish = numberOfValidCards > 0
-
-	useEffect(() => {
-		if (!canPublish) return
-
-		window.onbeforeunload = () => CONFIRM_CLOSE_MESSAGE
-
-		return () => {
-			window.onbeforeunload = null
-		}
-	}, [canPublish])
+	useCloseMessage(canPublish ? CONFIRM_CLOSE_MESSAGE : null)
 
 	const close = useCallback(() => router.push(closeUrl), [router, closeUrl])
 
@@ -146,8 +138,8 @@ const AddCards = () => {
 						{ name: 'Decks', url: '/decks' },
 						{
 							name: deck?.name ?? 'Deck',
-							url: `/decks/${deck?.slugId ?? '...'}/${
-								deck ? encodeURIComponent(deck.slug) : '...'
+							url: `/decks/${deck?.slugId ?? 'error'}/${
+								deck ? encodeURIComponent(deck.slug) : 'error'
 							}`
 						},
 						{ name: 'Add cards', url }
@@ -259,12 +251,7 @@ const AddCards = () => {
 								</button>
 							</>
 						) : (
-							<Loader
-								className="loader"
-								size="24px"
-								thickness="4px"
-								color="#582efe"
-							/>
+							<Loader size="24px" thickness="4px" color="#582efe" />
 						)}
 					</div>
 				</div>
