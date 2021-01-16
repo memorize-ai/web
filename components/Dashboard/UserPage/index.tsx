@@ -14,6 +14,7 @@ import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import Head from 'components/Head'
 import Image from './Image'
 import Level from './Level'
+import Contact from './Contact'
 import EditBio from './EditBio'
 import Bio from './Bio'
 import Activity from './Activity'
@@ -79,6 +80,7 @@ const UserPage: NextPage<UserPageProps> = ({
 						<Image user={user} />
 						<h1 className={styles.name}>{name}</h1>
 						<Level user={user} />
+						<Contact user={user} />
 					</aside>
 					<div className={styles.main}>
 						{currentUser?.id === user.id ? (
