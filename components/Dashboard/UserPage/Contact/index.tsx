@@ -7,6 +7,7 @@ import LoadingState from 'models/LoadingState'
 import useLayoutAuthState from 'hooks/useLayoutAuthState'
 import useContactUserState from 'hooks/useContactUserState'
 import useAuthModal from 'hooks/useAuthModal'
+import Loader from 'components/Loader'
 import ContactUserModal from 'components/Modal/ContactUser'
 
 import styles from './index.module.scss'
@@ -22,13 +23,25 @@ const UserPageContact = ({ user }: UserPageContactProps) => {
 	const [isShowing, setIsShowing] = useState(false)
 	const { setIsShowing: setIsAuthModalShowing } = useAuthModal()
 
+	const didFail = loadingState === LoadingState.Fail
+	const isLoading = loadingState === LoadingState.Loading
+
 	const show = useCallback(() => {
 		isSignedIn ? setIsShowing(true) : setIsAuthModalShowing(true)
 	}, [isSignedIn, setIsShowing, setIsAuthModalShowing])
 
-	return loadingState === LoadingState.Success ? (
-		<button className={styles.root} onClick={show}>
-			<FontAwesomeIcon className={styles.icon} icon={faComments} />
+	return didFail ? null : (
+		<button className={styles.root} onClick={show} disabled={isLoading}>
+			{isLoading ? (
+				<Loader
+					className={styles.loader}
+					size="20px"
+					thickness="4px"
+					color="white"
+				/>
+			) : (
+				<FontAwesomeIcon className={styles.icon} icon={faComments} />
+			)}
 			Chat
 			<ContactUserModal
 				subjectPlaceholder="What an amazing profile!"
@@ -38,7 +51,7 @@ const UserPageContact = ({ user }: UserPageContactProps) => {
 				setIsShowing={setIsShowing}
 			/>
 		</button>
-	) : null
+	)
 }
 
 export default UserPageContact
