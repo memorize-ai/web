@@ -25,7 +25,7 @@ import homeIcon from 'images/icons/home.svg'
 import cartIcon from 'images/icons/cart.svg'
 import decksIcon from 'images/icons/decks.svg'
 import topicsIcon from 'images/icons/topics.svg'
-import userIcon from 'images/icons/purple-user.svg'
+import userIcon from 'images/icons/user.svg'
 
 import styles from './index.module.scss'
 

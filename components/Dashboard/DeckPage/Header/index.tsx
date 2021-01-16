@@ -3,7 +3,7 @@ import Router from 'next/router'
 import Link from 'next/link'
 import { Svg } from 'react-optimized-image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComments } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faComments } from '@fortawesome/free-solid-svg-icons'
 
 import User from 'models/User'
 import Deck from 'models/Deck'
@@ -22,7 +22,7 @@ import formatNumber from 'lib/formatNumber'
 import handleError from 'lib/handleError'
 
 import { src as defaultImage } from 'images/logos/icon.jpg'
-import user from 'images/icons/user.svg'
+import defaultUserImage from 'images/icons/user.svg'
 import share from 'images/icons/share.svg'
 import download from 'images/icons/download.svg'
 import users from 'images/icons/users.svg'
@@ -93,17 +93,39 @@ const DeckPageHeader = ({ deck, creator, hasDeck }: DeckPageHeaderProps) => {
 			<div className={styles.content}>
 				<h1 className={styles.name}>{deck.name}</h1>
 				<p className={styles.subtitle}>{deck.subtitle}</p>
-				<div className={styles.creator}>
-					<Svg className={styles.creatorIcon} src={user} />
-					<p className={styles.creatorName}>{creator.name}</p>
-					<p
-						className={styles.creatorLevel}
-						aria-label="Earn XP by gaining popularity on your decks"
-						data-balloon-pos="up"
-					>
-						(lvl {creatorLevel})
-					</p>
-				</div>
+				<Link
+					href={`/u/${creator.slugId ?? 'error'}/${creator.slug ?? 'error'}`}
+				>
+					<a className={styles.creator}>
+						{creator.imageUrl ? (
+							<img
+								className={styles.creatorImage}
+								src={creator.imageUrl}
+								alt={creator.name ?? 'Creator'}
+							/>
+						) : (
+							<Svg
+								className={styles.creatorDefaultImage}
+								src={defaultUserImage}
+								viewBox={`0 0 ${defaultUserImage.width} ${defaultUserImage.height}`}
+							/>
+						)}
+						<span className={styles.creatorName}>
+							{creator.name ?? 'Creator'}{' '}
+							<span
+								className={styles.creatorLevel}
+								aria-label="Earn XP by gaining popularity on your decks"
+								data-balloon-pos="up"
+							>
+								(lvl {creatorLevel})
+							</span>
+						</span>
+						<FontAwesomeIcon
+							className={styles.creatorIcon}
+							icon={faChevronRight}
+						/>
+					</a>
+				</Link>
 				<div className={styles.actions}>
 					{hasDeck ? (
 						<Link

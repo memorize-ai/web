@@ -2,6 +2,8 @@ import { useState, useCallback, MouseEvent, useMemo } from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
 import { Svg } from 'react-optimized-image'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 import User from 'models/User'
 import Deck from 'models/Deck'
@@ -15,7 +17,7 @@ import formatNumber from 'lib/formatNumber'
 import handleError from 'lib/handleError'
 
 import { src as defaultImage } from 'images/logos/icon.jpg'
-import user from 'images/icons/user.svg'
+import defaultUserImage from 'images/icons/user.svg'
 import download from 'images/icons/download.svg'
 import users from 'images/icons/users.svg'
 
@@ -40,6 +42,18 @@ const MarketDeckRow = ({ deck }: MarketDeckRowProps) => {
 		decks,
 		deck
 	])
+
+	const viewCreator = useCallback(
+		(event: MouseEvent<HTMLButtonElement>) => {
+			event.preventDefault()
+
+			if (!deck.creator) return
+			const { slugId, slug } = deck.creator
+
+			Router.push(`/u/${slugId}/${slug}`)
+		},
+		[deck.creator]
+	)
 
 	const get = useCallback(async () => {
 		const callback = async (user: User) => {
@@ -103,11 +117,27 @@ const MarketDeckRow = ({ deck }: MarketDeckRowProps) => {
 					<span hidden itemProp="description">
 						{deck.description}
 					</span>
-					{deck.creatorName && (
-						<span className={styles.creator}>
-							<Svg className={styles.creatorIcon} src={user} />
-							<span className={styles.creatorName}>{deck.creatorName}</span>
-						</span>
+					{deck.creator && (
+						<button className={styles.creator} onClick={viewCreator}>
+							{deck.creatorImage ? (
+								<img
+									className={styles.creatorImage}
+									src={deck.creatorImage}
+									alt={deck.creator.name}
+								/>
+							) : (
+								<Svg
+									className={styles.creatorDefaultImage}
+									src={defaultUserImage}
+									viewBox={`0 0 ${defaultUserImage.width} ${defaultUserImage.height}`}
+								/>
+							)}
+							<span className={styles.creatorName}>{deck.creator.name}</span>
+							<FontAwesomeIcon
+								className={styles.creatorIcon}
+								icon={faChevronRight}
+							/>
+						</button>
 					)}
 				</span>
 				<span className={styles.footer}>

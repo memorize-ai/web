@@ -138,8 +138,8 @@ const AddCards = () => {
 						{ name: 'Decks', url: '/decks' },
 						{
 							name: deck?.name ?? 'Deck',
-							url: `/decks/${deck?.slugId ?? '...'}/${
-								deck ? encodeURIComponent(deck.slug) : '...'
+							url: `/decks/${deck?.slugId ?? 'error'}/${
+								deck ? encodeURIComponent(deck.slug) : 'error'
 							}`
 						},
 						{ name: 'Add cards', url }
@@ -251,12 +251,7 @@ const AddCards = () => {
 								</button>
 							</>
 						) : (
-							<Loader
-								className="loader"
-								size="24px"
-								thickness="4px"
-								color="#582efe"
-							/>
+							<Loader size="24px" thickness="4px" color="#582efe" />
 						)}
 					</div>
 				</div>

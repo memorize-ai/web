@@ -17,6 +17,13 @@ import 'firebase/storage'
 const firestore = firebase.firestore()
 const storage = firebase.storage().ref()
 
+export interface DeckCreator {
+	slugId: string
+	slug: string
+	hasImage: boolean
+	name: string
+}
+
 export interface DeckData {
 	id: string
 	slugId: string
@@ -42,7 +49,7 @@ export interface DeckData {
 	allTimeUsers: number
 	favorites: number
 	creatorId: string
-	creatorName: string | null
+	creator: DeckCreator | null
 	created: number
 	updated: number
 }
@@ -92,7 +99,7 @@ export default class Deck {
 	numberOfFavorites: number
 	creatorId: string
 	/** Only available if the deck was retrieved from search */
-	creatorName: string | null
+	creator: DeckCreator | null
 	created: Date
 	lastUpdated: Date
 
@@ -124,7 +131,7 @@ export default class Deck {
 		this.numberOfAllTimeUsers = data.allTimeUsers
 		this.numberOfFavorites = data.favorites
 		this.creatorId = data.creatorId
-		this.creatorName = data.creatorName
+		this.creator = data.creator
 		this.created = new Date(data.created)
 		this.lastUpdated = new Date(data.updated)
 
@@ -141,8 +148,8 @@ export default class Deck {
 
 	static dataFromSnapshot = (snapshot: SnapshotLike): DeckData => ({
 		id: snapshot.id,
-		slugId: snapshot.get('slugId') ?? '...',
-		slug: snapshot.get('slug') ?? '...',
+		slugId: snapshot.get('slugId') ?? 'error',
+		slug: snapshot.get('slug') ?? 'error',
 		topics: snapshot.get('topics') ?? [],
 		image: snapshot.get('hasImage') ?? false,
 		name: snapshot.get('name') ?? '(error)',
@@ -163,10 +170,10 @@ export default class Deck {
 		currentUsers: snapshot.get('currentUserCount') ?? 0,
 		allTimeUsers: snapshot.get('allTimeUserCount') ?? 0,
 		favorites: snapshot.get('favoriteCount') ?? 0,
-		creatorId: snapshot.get('creator') ?? '...',
-		creatorName: null,
-		created: snapshot.get('created')?.toMillis() ?? Date.now(),
-		updated: snapshot.get('updated')?.toMillis() ?? Date.now()
+		creatorId: snapshot.get('creator') ?? 'error',
+		creator: null,
+		created: snapshot.get('created')?.toMillis?.() ?? Date.now(),
+		updated: snapshot.get('updated')?.toMillis?.() ?? Date.now()
 	})
 
 	static addSnapshotListener = (id: string, value: () => void) =>
@@ -228,12 +235,14 @@ export default class Deck {
 		return slugParts
 	}
 
-	get url() {
-		return `/d/${this.slugId}/${encodeURIComponent(this.slug)}`
+	get creatorImage() {
+		return this.creator?.hasImage
+			? `https://firebasestorage.googleapis.com/v0/b/memorize-ai.appspot.com/o/users%2F${this.creatorId}?alt=media`
+			: null
 	}
 
-	get printUrl() {
-		return `/print/${this.slugId}/${encodeURIComponent(this.slug)}`
+	get url() {
+		return `/d/${this.slugId}/${encodeURIComponent(this.slug)}`
 	}
 
 	get urlWithOrigin() {
