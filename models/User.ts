@@ -24,6 +24,7 @@ export interface UserData {
 	muted: boolean | null
 	apiKey: string | null
 	decks: number | null
+	createdDecks: number | null
 	xp: number | null
 	interests: string[] | null
 	allDecks: string[] | null
@@ -57,6 +58,7 @@ export default class User {
 	apiKey: string | null
 
 	numberOfDecks: number | null
+	numberOfCreatedDecks: number | null
 	xp: number | null
 	interestIds: string[] | null
 	allDecks: string[] | null
@@ -73,6 +75,7 @@ export default class User {
 		this.isMuted = data.muted
 		this.apiKey = data.apiKey
 		this.numberOfDecks = data.decks
+		this.numberOfCreatedDecks = data.createdDecks
 		this.xp = data.xp
 		this.interestIds = data.interests
 		this.allDecks = data.allDecks
@@ -91,6 +94,7 @@ export default class User {
 			muted: null,
 			apiKey: null,
 			decks: null,
+			createdDecks: null,
 			xp: null,
 			interests: null,
 			allDecks: null
@@ -114,6 +118,7 @@ export default class User {
 		muted: snapshot.get('muted') ?? false,
 		apiKey: fromServer ? null : snapshot.get('apiKey') ?? null,
 		decks: snapshot.get('deckCount') ?? 0,
+		createdDecks: snapshot.get('createdDeckCount') ?? 0,
 		xp: snapshot.get('xp') ?? 0,
 		interests: snapshot.get('topics') ?? [],
 		allDecks: fromServer ? null : snapshot.get('allDecks') ?? []

@@ -5,6 +5,7 @@ import getUsers from 'lib/getUsers'
 import getUserFromSlugId from 'lib/getUserFromSlugId'
 import getActivity from 'lib/getActivity'
 import getCreatedDecks from 'lib/getCreatedDecks'
+import { VIEWABLE_CREATED_DECK_LIMIT } from 'lib/constants'
 
 const INITIAL_USER_COUNT = 1000
 const REVALIDATE = 1
@@ -40,7 +41,7 @@ export const getStaticProps: GetStaticProps<
 
 	const [activity, decks] = await Promise.all([
 		getActivity(user.id),
-		getCreatedDecks(user.id)
+		getCreatedDecks(user.id, VIEWABLE_CREATED_DECK_LIMIT)
 	])
 
 	return {
