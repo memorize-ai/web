@@ -12,6 +12,7 @@ const STORAGE_BUCKET = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
 if (!(PROJECT_ID && STORAGE_BUCKET))
 	throw new Error('Missing Firebase credentials')
 
+const CLOUD_FUNCTIONS_BASE_URL = `https://us-central1-${PROJECT_ID}.cloudfunctions.net`
 const STORAGE_BASE_URL = `https://firebasestorage.googleapis.com/v0/b/${STORAGE_BUCKET}/o/`
 
 const SEARCH_HOST = 'host-fig55q'
@@ -87,6 +88,7 @@ const config = {
 							'connect-src': [
 								SELF,
 								...GOOGLE_ANALYTICS,
+								CLOUD_FUNCTIONS_BASE_URL,
 								'https://*.googleapis.com',
 								`https://${SEARCH_HOST}.api.swiftype.com/api/as/v1/engines/${SEARCH_ENGINE_NAME}/search.json`,
 								'https://links.services.disqus.com',
@@ -122,7 +124,7 @@ const config = {
 		},
 		{
 			source: '/api/:method',
-			destination: `https://us-central1-${PROJECT_ID}.cloudfunctions.net/api/:method`
+			destination: `${CLOUD_FUNCTIONS_BASE_URL}/api/:method`
 		}
 	],
 	redirects: () => [{ source: '/d', destination: '/market', permanent: true }]
