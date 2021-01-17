@@ -51,6 +51,12 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => (
 				type="application/xml"
 				href="/sitemap.xml"
 			/>
+			<link
+				key="analytics-preload"
+				rel="preload"
+				href="https://www.googletagmanager.com/gtag/js?l=dataLayer"
+				as="script"
+			/>
 		</Head>
 		<Analytics />
 		<Chat />

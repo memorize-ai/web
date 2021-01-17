@@ -23,6 +23,7 @@
 		"ckeditor5-memorize.ai": "^1.0.3",
 		"classnames": "^2.2.6",
 		"copy-to-clipboard": "^3.3.1",
+		"csp-header": "^2.1.1",
 		"disqus-react": "^1.0.10",
 		"firebase": "^8.2.2",
 		"firebase-admin": "^9.4.2",

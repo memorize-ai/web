@@ -1,0 +1,28 @@
+@use 'styles/shadow';
+@use 'styles/dashboard';
+
+@include dashboard.sidebar-collapse(1200px);
+
+.container {
+	scroll-behavior: smooth;
+	padding: 0 var(--horizontal-padding) var(--horizontal-padding);
+}
+
+.titleIcon {
+	margin-right: 12px;
+}
+
+.title {
+	margin: 12px 0 16px;
+	font-weight: 900;
+	color: white;
+}
+
+.content {
+	@include shadow.large;
+
+	overflow: hidden;
+	padding: 20px var(--inner-horizontal-padding);
+	background: white;
+	border-radius: 8px;
+}

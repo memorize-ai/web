@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import useCurrentUser from './useCurrentUser'
 import Deck from 'models/Deck'
 import DeckSearch from 'models/Deck/Search'
+import handleError from 'lib/handleError'
 
 const useRecommendedDecks = (pageSize: number) => {
 	const [currentUser] = useCurrentUser()
@@ -13,7 +14,9 @@ const useRecommendedDecks = (pageSize: number) => {
 	useEffect(() => {
 		if (!interestIds) return
 
-		DeckSearch.recommendedDecks(pageSize, interestIds).then(setDecks)
+		DeckSearch.recommendedDecks(pageSize, interestIds)
+			.then(setDecks)
+			.catch(handleError)
 	}, [interestIds, pageSize])
 
 	return decks
