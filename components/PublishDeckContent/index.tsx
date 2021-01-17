@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -38,16 +38,19 @@ const PublishDeckContent = ({
 	setDescription,
 	setSelectedTopics
 }: PublishDeckContentProps) => {
-	const {
-		getRootProps,
-		getInputProps,
-		isDragActive,
-		acceptedFiles
-	} = useDropzone()
+	const onDrop = useCallback(
+		(files: File[]) => {
+			const file = files[0]
+			if (file) setImage(file)
+		},
+		[setImage]
+	)
 
-	useEffect(() => {
-		if (acceptedFiles.length) setImage(acceptedFiles[0])
-	}, [acceptedFiles, setImage])
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({
+		multiple: false,
+		accept: ['image/png', 'image/jpeg', 'image/webp'],
+		onDrop
+	})
 
 	const onNameInputRef = useCallback((input: HTMLInputElement | null) => {
 		input?.focus()
