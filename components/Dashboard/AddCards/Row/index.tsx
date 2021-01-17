@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
+import stripHtml from 'string-strip-html'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import Card from 'models/Card'
 import CKEditor from 'components/CKEditor'
 
 import styles from './index.module.scss'
@@ -29,7 +29,7 @@ const AddCardsRow = ({
 	updateFront,
 	updateBack
 }: AddCardsRowProps) => {
-	const summary = useMemo(() => Card.getSummary(front) || 'New card', [front])
+	const summary = useMemo(() => stripHtml(front).result || 'New card', [front])
 
 	return (
 		<div className={cx(styles.root, { [styles.row]: !isStacked })}>
