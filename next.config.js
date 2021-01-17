@@ -75,7 +75,8 @@ const config = {
 								'https://js.hs-analytics.net',
 								'https://js.hs-banner.com',
 								'https://js.usemessages.com',
-								'https://js.hscollectedforms.net'
+								'https://js.hscollectedforms.net',
+								"'sha256-Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg='" // Empty script
 							],
 							'style-src': [
 								SELF,
