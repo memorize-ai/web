@@ -1,5 +1,5 @@
 const sleep = (ms: number) =>
-	new Promise(resolve => {
+	new Promise<void>(resolve => {
 		setTimeout(resolve, ms)
 	})
 
