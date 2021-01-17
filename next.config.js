@@ -1,7 +1,12 @@
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-module.exports = require('next-optimized-images')({
+const plugins = [
+	[require('next-optimized-images')],
+	[require('@next/bundle-analyzer')({ enabled: process.env.ANALYZE === '1' })]
+]
+
+const config = {
 	rewrites: () => [
 		{ source: '/sitemap.xml', destination: '/api/sitemap' },
 		{
@@ -19,4 +24,6 @@ module.exports = require('next-optimized-images')({
 		}
 	],
 	redirects: () => [{ source: '/d', destination: '/market', permanent: true }]
-})
+}
+
+module.exports = require('next-compose-plugins')(plugins, config)

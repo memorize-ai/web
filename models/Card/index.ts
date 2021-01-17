@@ -1,4 +1,3 @@
-import stripHtml from 'string-strip-html'
 import groupBy from 'lodash/groupBy'
 
 import User from 'models/User'
@@ -111,8 +110,6 @@ export default class Card {
 				skipCount: 0
 			})
 		).id
-
-	static getSummary = (text: string) => stripHtml(text).result
 
 	get isUnsectioned() {
 		return this.sectionId === ''

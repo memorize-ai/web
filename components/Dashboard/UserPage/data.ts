@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
+import stripHtml from 'string-strip-html'
 
 import { UserPageQuery, UserPageProps, UserPagePath } from './models'
 import getUsers from 'lib/getUsers'
@@ -45,7 +46,12 @@ export const getStaticProps: GetStaticProps<
 	])
 
 	return {
-		props: { user, activity, decks },
+		props: {
+			user,
+			activity,
+			decks,
+			bio: stripHtml(user.bio ?? '').result
+		},
 		revalidate: REVALIDATE
 	}
 }

@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { NextPage } from 'next'
-import stripHtml from 'string-strip-html'
 
 import { UserPageProps } from './models'
 import User from 'models/User'
@@ -26,7 +25,8 @@ import styles from './index.module.scss'
 const UserPage: NextPage<UserPageProps> = ({
 	user: userData,
 	activity,
-	decks: deckData
+	decks: deckData,
+	bio
 }) => {
 	const [currentUser] = useCurrentUser()
 
@@ -39,9 +39,6 @@ const UserPage: NextPage<UserPageProps> = ({
 	const decks = useCreatedDecks(user.id, initialDecks)
 
 	const name = user.name ?? 'Anonymous'
-	const bioString = useMemo(() => user.bio && stripHtml(user.bio).result, [
-		user.bio
-	])
 
 	return (
 		<Dashboard
@@ -52,7 +49,7 @@ const UserPage: NextPage<UserPageProps> = ({
 		>
 			<Head
 				title={`${name} | memorize.ai`}
-				description={bioString || `View ${name}'s profile on memorize.ai`}
+				description={bio || `View ${name}'s profile on memorize.ai`}
 				image={user.imageUrl ?? defaultImage}
 				labels={[
 					{ name: 'Level', value: formatNumberAsInt(user.level ?? 0) },

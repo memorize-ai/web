@@ -8,7 +8,7 @@ import Section from 'models/Section'
 import SnapshotLike from 'models/SnapshotLike'
 import { DisqusProps } from 'components/Disqus'
 import slugify from 'lib/slugify'
-import { BASE_URL } from 'lib/constants'
+import { BASE_URL, IMAGE_CACHE_CONTROL } from 'lib/constants'
 import firebase from 'lib/firebase'
 
 import 'firebase/firestore'
@@ -225,7 +225,8 @@ export default class Deck {
 		if (data.image)
 			await storage.child(`decks/${deckId}`).put(data.image, {
 				contentType: data.image.type,
-				customMetadata: { owner: uid }
+				cacheControl: IMAGE_CACHE_CONTROL,
+				customMetadata: { name: data.image.name, owner: uid }
 			})
 
 		await firestore.doc(`users/${uid}/decks/${deckId}`).set({
@@ -478,7 +479,8 @@ export default class Deck {
 				image
 					? storageChild.put(image, {
 							contentType: image.type,
-							customMetadata: { owner: uid }
+							cacheControl: IMAGE_CACHE_CONTROL,
+							customMetadata: { name: image.name, owner: uid }
 					  })
 					: storageChild.delete()
 			)

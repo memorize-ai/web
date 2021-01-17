@@ -13,6 +13,7 @@ export interface UserPageProps {
 	user: UserData
 	activity: Record<number, ActivityNodeData>
 	decks: DeckData[]
+	bio: string
 }
 
 export interface UserPagePath {
