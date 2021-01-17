@@ -28,7 +28,8 @@ interface ActivityCellProps {
 
 const ActivityCell = ({ node, popUpDirection }: ActivityCellProps) => (
 	<span
-		className={cx(styles.cell, styles[`intensity_${node.intensity}`])}
+		className={styles.cell}
+		data-intensity={node.intensity}
 		aria-label={`${formatDate(node.date)} - ${node.value} card${
 			node.value === 1 ? '' : 's'
 		}`}
