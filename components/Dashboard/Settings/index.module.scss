@@ -1,6 +1,8 @@
 @use 'styles/shadow';
 @use 'styles/dashboard';
 
+$padding: 20px;
+
 @include dashboard.sidebar-collapse(1200px);
 
 .container {
@@ -21,8 +23,16 @@
 .content {
 	@include shadow.large;
 
+	display: grid;
+	grid: 1fr / 200px 1fr;
 	overflow: hidden;
-	padding: 20px var(--inner-horizontal-padding);
+	padding: $padding;
 	background: white;
 	border-radius: 8px;
+}
+
+.main {
+	margin-left: $padding;
+	padding-left: $padding;
+	border-left: 1px solid #eee;
 }
