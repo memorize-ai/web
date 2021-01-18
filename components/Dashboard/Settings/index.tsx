@@ -12,7 +12,7 @@ import styles from './index.module.scss'
 export interface SettingsProps {
 	title: string
 	description: string
-	children: ReactNode
+	children?: ReactNode
 }
 
 const Settings = ({ title, description, children }: SettingsProps) => {
@@ -32,7 +32,10 @@ const Settings = ({ title, description, children }: SettingsProps) => {
 			</h1>
 			<div className={styles.content}>
 				<Navigation />
-				<main className={styles.main}>{children}</main>
+				<main className={styles.main}>
+					<h2 className={styles.name}>{title}</h2>
+					{children}
+				</main>
 			</div>
 		</Dashboard>
 	)

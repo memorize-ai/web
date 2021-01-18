@@ -10,7 +10,7 @@ export interface SettingsNavigationLinkProps {
 	current: string
 	href: string
 	icon: IconDefinition
-	children: ReactNode
+	children?: ReactNode
 }
 
 const SettingsNavigationLink = ({

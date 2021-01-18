@@ -1,3 +1,4 @@
+@use 'styles/colors';
 @use 'styles/shadow';
 @use 'styles/dashboard';
 
@@ -35,4 +36,9 @@ $padding: 20px;
 	margin-left: $padding;
 	padding-left: $padding;
 	border-left: 1px solid #eee;
+}
+
+.name {
+	font-weight: 900;
+	color: colors.$dark-gray;
 }
