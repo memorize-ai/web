@@ -1,8 +1,14 @@
 @use 'styles/colors';
 
 .root {
+	margin-top: 14px;
+	padding-top: 14px;
+	border-top: 1px solid #eee;
+}
+
+.header,
+.input {
 	max-width: 300px;
-	margin-top: 12px;
 }
 
 .header {
