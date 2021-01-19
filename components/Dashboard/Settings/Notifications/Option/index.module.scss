@@ -1,7 +1,11 @@
 @use 'styles/colors';
 
 .root {
-	display: flex;
+	display: grid;
+	grid:
+		'input label' auto
+		'_ data' auto /
+		auto 1fr;
 
 	& + & {
 		margin-top: 12px;
@@ -9,24 +13,31 @@
 }
 
 .input {
+	grid-area: input;
 	margin: 6px 8px 0 0;
 }
 
 .label {
-	width: 100%;
+	grid-area: label;
 	color: colors.$dark-gray;
 }
 
 .name,
-.description {
+.info {
 	display: block;
-	max-width: 450px;
+	max-width: 480px;
 }
 
 .name {
 	font-weight: 900;
 }
 
-.description {
+.info {
 	font-size: 14px;
+}
+
+.data {
+	grid-area: data;
+	display: flex;
+	margin-top: 8px;
 }

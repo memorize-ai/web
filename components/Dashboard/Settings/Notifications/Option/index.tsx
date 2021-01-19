@@ -5,13 +5,15 @@ import styles from './index.module.scss'
 export interface NotificationSettingsOptionProps {
 	id: string
 	name: string
+	info: ReactNode
 	children?: ReactNode
 }
 
 const NotificationSettingsOption = ({
 	id: value,
 	name,
-	children: description
+	info,
+	children: data
 }: NotificationSettingsOptionProps) => {
 	const id = `notification-settings-option-${value}`
 
@@ -26,8 +28,9 @@ const NotificationSettingsOption = ({
 			/>
 			<label className={styles.label} htmlFor={id}>
 				<span className={styles.name}>{name}</span>
-				<span className={styles.description}>{description}</span>
+				<span className={styles.info}>{info}</span>
 			</label>
+			{data ? <div className={styles.data}>{data}</div> : null}
 		</div>
 	)
 }
