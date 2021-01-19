@@ -1,6 +1,9 @@
 import { nanoid } from 'nanoid'
 
-import SnapshotLike from './SnapshotLike'
+import Data from './Data'
+import Notifications, { DEFAULT_USER_NOTIFICATIONS } from './Notifications'
+import CreateOptions from './CreateOptions'
+import SnapshotLike from '../SnapshotLike'
 import firebase from 'lib/firebase'
 import slugify from 'lib/slugify'
 
@@ -8,32 +11,6 @@ import 'firebase/firestore'
 
 const { FieldValue } = firebase.firestore
 const firestore = firebase.firestore()
-
-export interface UserData {
-	id: string
-	image: boolean | null
-	slugId: string | null
-	slug: string | null
-	name: string | null
-	email: string | null
-	bio: string | null
-	contact: boolean | null
-	muted: boolean | null
-	apiKey: string | null
-	decks: number | null
-	createdDecks: number | null
-	xp: number | null
-	interests: string[] | null
-	allDecks: string[] | null
-}
-
-export interface CreateUserOptions {
-	id: string
-	name: string
-	email: string
-	method: 'email' | 'apple' | 'google'
-	xp: number
-}
 
 export default class User {
 	static readonly SLUG_ID_LENGTH = 10
@@ -59,8 +36,9 @@ export default class User {
 	xp: number | null
 	interestIds: string[] | null
 	allDecks: string[] | null
+	notifications: Notifications | null
 
-	constructor(data: UserData) {
+	constructor(data: Data) {
 		this.id = data.id
 		this.hasImage = data.image
 		this.slugId = data.slugId
@@ -76,6 +54,7 @@ export default class User {
 		this.xp = data.xp
 		this.interestIds = data.interests
 		this.allDecks = data.allDecks
+		this.notifications = data.notifications
 	}
 
 	static fromFirebaseUser = (user: firebase.User) =>
@@ -94,7 +73,8 @@ export default class User {
 			createdDecks: null,
 			xp: null,
 			interests: null,
-			allDecks: null
+			allDecks: null,
+			notifications: null
 		})
 
 	static fromSnapshot = (snapshot: SnapshotLike) =>
@@ -103,7 +83,7 @@ export default class User {
 	static dataFromSnapshot = (
 		snapshot: SnapshotLike,
 		fromServer = false
-	): UserData => ({
+	): Data => ({
 		id: snapshot.id,
 		image: snapshot.get('hasImage') ?? false,
 		slugId: snapshot.get('slugId') ?? null,
@@ -118,16 +98,13 @@ export default class User {
 		createdDecks: snapshot.get('createdDeckCount') ?? 0,
 		xp: snapshot.get('xp') ?? 0,
 		interests: snapshot.get('topics') ?? [],
-		allDecks: fromServer ? null : snapshot.get('allDecks') ?? []
+		allDecks: fromServer ? null : snapshot.get('allDecks') ?? [],
+		notifications: fromServer
+			? null
+			: snapshot.get('notifications') ?? DEFAULT_USER_NOTIFICATIONS
 	})
 
-	static create = async ({
-		id,
-		name,
-		email,
-		method,
-		xp
-	}: CreateUserOptions) => {
+	static create = async ({ id, name, email, method, xp }: CreateOptions) => {
 		await firestore.doc(`users/${id}`).set({
 			slugId: nanoid(User.SLUG_ID_LENGTH),
 			slug: slugify(name),
@@ -199,6 +176,8 @@ export default class User {
 		this.xp = snapshot.get('xp') ?? 0
 		this.interestIds = snapshot.get('topics') ?? []
 		this.allDecks = snapshot.get('allDecks') ?? []
+		this.notifications =
+			snapshot.get('notifications') ?? DEFAULT_USER_NOTIFICATIONS
 
 		return this
 	}

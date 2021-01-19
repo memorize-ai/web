@@ -40,4 +40,10 @@
 	grid-area: data;
 	display: flex;
 	margin-top: 8px;
+	transition: opacity 0.3s;
+
+	&[aria-disabled='true'] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
 }

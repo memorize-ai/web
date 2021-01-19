@@ -1,7 +1,7 @@
 import { NextApiHandler } from 'next'
 import { create as xml } from 'xmlbuilder2'
 
-import { UserData } from 'models/User'
+import UserData from 'models/User/Data'
 import { DeckData } from 'models/Deck'
 import getUsers from 'lib/getUsers'
 import getDecks from 'lib/getDecks'

@@ -1,32 +1,120 @@
-import { useState, useCallback } from 'react'
+import { FormEvent, ChangeEvent, useState, useCallback, useEffect } from 'react'
 
+import {
+	UserNotificationsType,
+	FixedUserNotificationsDay,
+	DEFAULT_USER_NOTIFICATIONS,
+	fixedUserNotificationsTimeToString,
+	stringToFixedUserNotificationsTime
+} from 'models/User/Notifications'
+import firebase from 'lib/firebase'
+import handleError from 'lib/handleError'
+import useCurrentUser from 'hooks/useCurrentUser'
 import Settings from '..'
 import Option from './Option'
 
 import styles from './index.module.scss'
 
+import 'firebase/firestore'
+
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const
 
+const { FieldValue } = firebase.firestore
+const firestore = firebase.firestore()
+
 const NotificationSettings = () => {
-	const [days, setDays] = useState<number[]>([])
+	const [currentUser] = useCurrentUser()
+
+	const id = currentUser?.id
+	const notifications = currentUser?.notifications
+
+	const [type, setType] = useState(
+		() => notifications?.type ?? DEFAULT_USER_NOTIFICATIONS.type
+	)
+	const [days, setDays] = useState(
+		() => notifications?.fixed?.days ?? DEFAULT_USER_NOTIFICATIONS.fixed.days
+	)
+	const [time, setTime] = useState(
+		() => notifications?.fixed?.time ?? DEFAULT_USER_NOTIFICATIONS.fixed.time
+	)
+
+	const onTypeChange = useCallback(
+		async ({ target }: FormEvent<HTMLFormElement>) => {
+			if (!(id && target instanceof HTMLInputElement && target.name === 'type'))
+				return
+
+			try {
+				const { value } = target
+
+				if (!(value === 'all' || value === 'fixed' || value === 'none')) return
+				const type: UserNotificationsType = value
+
+				await firestore.doc(`users/${id}`).update({
+					'notifications.type': type
+				})
+			} catch (error) {
+				handleError(error)
+			}
+		},
+		[id]
+	)
 
 	const toggleDay = useCallback(
-		(day: number) => {
-			setDays(days =>
-				days.includes(day) ? days.filter(_day => _day !== day) : [...days, day]
-			)
+		async (day: FixedUserNotificationsDay) => {
+			if (!id) return
+
+			try {
+				await firestore.doc(`users/${id}`).update({
+					'notifications.fixed.days': days.includes(day)
+						? FieldValue.arrayRemove(day)
+						: FieldValue.arrayUnion(day)
+				})
+			} catch (error) {
+				handleError(error)
+			}
 		},
-		[setDays]
+		[id, days]
 	)
+
+	const onTimeChange = useCallback(
+		async ({ target }: ChangeEvent<HTMLInputElement>) => {
+			if (!id) return
+
+			try {
+				const time = stringToFixedUserNotificationsTime(target.value)
+				if (!time) throw new Error('Invalid time')
+
+				await firestore.doc(`users/${id}`).update({
+					'notifications.fixed.time': time
+				})
+			} catch (error) {
+				handleError(error)
+			}
+		},
+		[id]
+	)
+
+	useEffect(() => {
+		if (!notifications) return
+
+		setType(notifications.type)
+		setDays(notifications.fixed?.days ?? DEFAULT_USER_NOTIFICATIONS.fixed.days)
+		setTime(notifications.fixed?.time ?? DEFAULT_USER_NOTIFICATIONS.fixed.time)
+	}, [notifications, setType, setDays, setTime])
 
 	return (
 		<Settings
 			title="Notifications"
 			description="Edit your notification settings"
 		>
-			<form className={styles.root}>
+			<form
+				className={styles.root}
+				onChange={onTypeChange}
+				aria-disabled={!notifications}
+			>
 				<Option
-					id="all"
+					current={type}
+					type="all"
 					name="Every card"
 					info={
 						<>
@@ -36,7 +124,8 @@ const NotificationSettings = () => {
 					}
 				/>
 				<Option
-					id="fixed"
+					current={type}
+					type="fixed"
 					name="Fixed"
 					info="You'll be reminded on these days to review any due cards."
 				>
@@ -46,17 +135,26 @@ const NotificationSettings = () => {
 								key={day}
 								type="button"
 								className={styles.day}
-								onClick={() => toggleDay(day)}
-								aria-selected={days.includes(day)}
+								onClick={() => toggleDay(day as FixedUserNotificationsDay)}
+								aria-selected={days.includes(day as FixedUserNotificationsDay)}
 							>
 								{name}
 							</button>
 						))}
 					</div>
-					<input className={styles.time} type="time" defaultValue="12:00" />
+					<input
+						className={styles.time}
+						type="time"
+						placeholder={fixedUserNotificationsTimeToString(
+							DEFAULT_USER_NOTIFICATIONS.fixed.time
+						)}
+						value={fixedUserNotificationsTimeToString(time)}
+						onChange={onTimeChange}
+					/>
 				</Option>
 				<Option
-					id="none"
+					current={type}
+					type="none"
 					name="None"
 					info={
 						<>

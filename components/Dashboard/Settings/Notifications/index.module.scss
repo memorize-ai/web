@@ -2,6 +2,12 @@
 
 .root {
 	margin-top: 12px;
+	transition: opacity 0.3s;
+
+	&[aria-disabled='true'] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
 }
 
 .day {
@@ -47,5 +53,6 @@
 
 	&::-webkit-calendar-picker-indicator {
 		cursor: pointer;
+		outline: none;
 	}
 }
