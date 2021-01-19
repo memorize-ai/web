@@ -1,0 +1,32 @@
+@use 'styles/colors';
+
+.root {
+	display: flex;
+
+	& + & {
+		margin-top: 12px;
+	}
+}
+
+.input {
+	margin: 6px 8px 0 0;
+}
+
+.label {
+	width: 100%;
+	color: colors.$dark-gray;
+}
+
+.name,
+.description {
+	display: block;
+	max-width: 450px;
+}
+
+.name {
+	font-weight: 900;
+}
+
+.description {
+	font-size: 14px;
+}
