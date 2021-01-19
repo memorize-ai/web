@@ -80,6 +80,8 @@ const FLIP_ANIMATION_DURATION = 300
 const PROGRESS_MODAL_SHOW_DURATION = 1000
 const XP_CHANCE = 0.4
 
+const { FieldValue } = firebase.firestore
+
 const firestore = firebase.firestore()
 const functions = firebase.functions()
 
@@ -90,7 +92,7 @@ export const gainXpWithChance = (user: User, ref: MutableRefObject<number>) => {
 	if (Math.random() > XP_CHANCE) return 0
 
 	firestore.doc(`users/${user.id}`).update({
-		xp: firebase.firestore.FieldValue.increment(1)
+		xp: FieldValue.increment(1)
 	})
 
 	ref.current++

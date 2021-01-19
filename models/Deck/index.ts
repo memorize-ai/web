@@ -14,6 +14,8 @@ import firebase from 'lib/firebase'
 import 'firebase/firestore'
 import 'firebase/storage'
 
+const { FieldValue } = firebase.firestore
+
 const firestore = firebase.firestore()
 const storage = firebase.storage().ref()
 
@@ -218,8 +220,8 @@ export default class Deck {
 			allTimeUserCount: 0,
 			favoriteCount: 0,
 			creator: uid,
-			created: firebase.firestore.FieldValue.serverTimestamp(),
-			updated: firebase.firestore.FieldValue.serverTimestamp()
+			created: FieldValue.serverTimestamp(),
+			updated: FieldValue.serverTimestamp()
 		})
 
 		if (data.image)
@@ -230,7 +232,7 @@ export default class Deck {
 			})
 
 		await firestore.doc(`users/${uid}/decks/${deckId}`).set({
-			added: firebase.firestore.FieldValue.serverTimestamp()
+			added: FieldValue.serverTimestamp()
 		})
 
 		return slugParts
@@ -337,7 +339,7 @@ export default class Deck {
 			this.numberOfUnsectionedCards + numberOfSectionedCards
 
 		const data: Record<string, unknown> = {
-			added: firebase.firestore.FieldValue.serverTimestamp(),
+			added: FieldValue.serverTimestamp(),
 			dueCardCount: numberOfUnlockedCards,
 			unsectionedDueCardCount: this.numberOfUnsectionedCards,
 			unlockedCardCount: numberOfUnlockedCards
@@ -358,8 +360,8 @@ export default class Deck {
 		const { numberOfCards } = section
 
 		await firestore.doc(`users/${uid}/decks/${this.id}`).update({
-			dueCardCount: firebase.firestore.FieldValue.increment(numberOfCards),
-			unlockedCardCount: firebase.firestore.FieldValue.increment(numberOfCards),
+			dueCardCount: FieldValue.increment(numberOfCards),
+			unlockedCardCount: FieldValue.increment(numberOfCards),
 			[`sections.${section.id}`]: numberOfCards
 		})
 
@@ -378,7 +380,7 @@ export default class Deck {
 
 	rate = (uid: string, rating: 1 | 2 | 3 | 4 | 5 | null) =>
 		firestore.doc(`users/${uid}/decks/${this.id}`).update({
-			rating: rating ?? firebase.firestore.FieldValue.delete()
+			rating: rating ?? FieldValue.delete()
 		})
 
 	loadSimilarDecks = async (chunkSize: number) => {
