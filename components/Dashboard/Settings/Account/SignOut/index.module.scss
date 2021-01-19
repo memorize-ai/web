@@ -1,0 +1,25 @@
+$margin: 20px;
+
+.root {
+	margin-top: $margin;
+	padding-top: $margin;
+	border-top: 1px solid #eee;
+}
+
+.button {
+	display: block;
+	max-width: 360px;
+	width: 100%;
+	height: 40px;
+	margin: 0 auto;
+	font-weight: bold;
+	color: white;
+	background: #f55d23;
+	border-radius: 8px;
+	transition: background 0.3s;
+
+	&:hover,
+	&:hover {
+		background: #051e34;
+	}
+}

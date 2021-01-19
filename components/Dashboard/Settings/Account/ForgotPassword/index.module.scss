@@ -1,0 +1,29 @@
+.root {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 300px;
+	width: 100%;
+	height: 40px;
+	margin-top: 20px;
+	font-weight: bold;
+	color: #4355f9;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	transition: color 0.3s, background 0.3s, border-color 0.3s;
+
+	&:disabled {
+		cursor: default;
+	}
+
+	&:not(:disabled) {
+		&:hover,
+		&:focus {
+			$background: #051e34;
+
+			color: white;
+			background: $background;
+			border-color: $background;
+		}
+	}
+}

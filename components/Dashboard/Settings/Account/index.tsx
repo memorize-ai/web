@@ -1,14 +1,14 @@
 import Settings from '..'
 import Name from './Name'
+import ForgotPassword from './ForgotPassword'
+import SignOut from './SignOut'
 
-import styles from './index.module.scss'
-
-const AccountSettings = () => {
-	return (
-		<Settings title="Account" description="Edit your account">
-			<Name />
-		</Settings>
-	)
-}
+const AccountSettings = () => (
+	<Settings title="Account" description="Edit your account">
+		<Name />
+		<ForgotPassword />
+		<SignOut />
+	</Settings>
+)
 
 export default AccountSettings
