@@ -1,7 +1,7 @@
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const { getCSP, SELF, DATA, INLINE } = require('csp-header')
+const { getCSP, SELF, DATA, BLOB, INLINE } = require('csp-header')
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 const ORIGIN = IS_PRODUCTION ? 'https://memorize.ai' : 'http://localhost:3000'
@@ -55,6 +55,7 @@ const config = {
 							'img-src': [
 								SELF,
 								DATA,
+								BLOB,
 								...GOOGLE_ANALYTICS,
 								STORAGE_BASE_URL,
 								'https://links.services.disqus.com',
@@ -71,6 +72,7 @@ const config = {
 								...GOOGLE_ANALYTICS,
 								'https://apis.google.com',
 								'https://memorize-ai.disqus.com',
+								'https://www.gstatic.com/firebasejs/',
 								'https://c.disquscdn.com',
 								'https://js.hs-scripts.com',
 								'https://js.hs-analytics.net',
