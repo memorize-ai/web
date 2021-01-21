@@ -21,6 +21,7 @@ import useDecks from 'hooks/useDecks'
 import useSections from 'hooks/useSections'
 import sleep from 'lib/sleep'
 import handleError from 'lib/handleError'
+import cardCache from 'lib/cache/cards'
 import { CARD_ACTIONS } from './CardContainer'
 
 import 'firebase/firestore'
@@ -327,11 +328,7 @@ const useReviewState = (
 	}, [setCurrentIndex, count, setCount])
 
 	const getCard = useCallback(
-		async (deckId: string, cardId: string) =>
-			Card.fromSnapshot(
-				await firestore.doc(`decks/${deckId}/cards/${cardId}`).get(),
-				null
-			),
+		(deckId: string, cardId: string) => cardCache.get(cardId, deckId),
 		[]
 	)
 

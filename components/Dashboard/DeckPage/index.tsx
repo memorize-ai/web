@@ -8,15 +8,10 @@ import Deck from 'models/Deck'
 import Section from 'models/Section'
 import Card from 'models/Card'
 import Topic from 'models/Topic'
-import Counters, { Counter } from 'models/Counters'
 import { DeckPageQuery, DeckPageProps } from './models'
 import formatNumber from 'lib/formatNumber'
 import { BASE_URL, SIMILAR_DECKS_CHUNK_SIZE } from 'lib/constants'
 import useDeck from 'hooks/useDeck'
-import useCreator from 'hooks/useCreator'
-import useSections from 'hooks/useSections'
-import useAllCards from 'hooks/useAllCards'
-import useTopicsForDeck from 'hooks/useTopicsForDeck'
 import useSimilarDecks from 'hooks/useSimilarDecks'
 import Dashboard, {
 	DashboardNavbarSelection as Selection
@@ -34,37 +29,33 @@ import Comments from './Comments'
 import styles from './index.module.scss'
 
 const DeckPage: NextPage<DeckPageProps> = ({
-	decks: initialNumberOfDecks,
+	decks: numberOfDecks,
 	deck: initialDeckData,
-	creator: initialCreatorData,
-	sections: initialSectionData,
-	cards: initialCardData,
-	topics: initialTopicData
+	creator: creatorData,
+	sections: sectionData,
+	cards: cardData,
+	topics: topicData
 }) => {
 	const content = useRef<HTMLDivElement | null>(null)
 
 	const initialDeck = useMemo(() => new Deck(initialDeckData), [
 		initialDeckData
 	])
-	const initialCreator = useMemo(() => new User(initialCreatorData), [
-		initialCreatorData
+	const creator = useMemo(() => new User(creatorData), [creatorData])
+	const sections = useMemo(() => sectionData.map(data => new Section(data)), [
+		sectionData
 	])
-	const initialSections = useMemo(
-		() => initialSectionData.map(data => new Section(data)),
-		[initialSectionData]
-	)
-	const initialCards: Record<string, Card[]> = useMemo(
+	const cards: Record<string, Card[]> = useMemo(
 		() =>
 			groupBy(
-				initialCardData.map(data => new Card(data)),
+				cardData.map(data => new Card(data)),
 				'sectionId'
 			),
-		[initialCardData]
+		[cardData]
 	)
-	const initialTopics = useMemo(
-		() => initialTopicData.map(data => new Topic(data)),
-		[initialTopicData]
-	)
+	const allTopics = useMemo(() => topicData.map(data => new Topic(data)), [
+		topicData
+	])
 
 	const { query, asPath: path } = useRouter()
 	const { slugId } = query as DeckPageQuery
@@ -73,12 +64,11 @@ const DeckPage: NextPage<DeckPageProps> = ({
 	const deck = nextDeck ?? initialDeck
 
 	const image = deck.imageUrl ?? DEFAULT_OG_IMAGE
-	const numberOfDecks = Counters.get(Counter.Decks) ?? initialNumberOfDecks
 
-	const creator = useCreator(deck.creatorId) ?? initialCreator
-	const sections = useSections(deck.id) ?? initialSections
-	const cards = useAllCards(deck.id) ?? initialCards
-	const topics = useTopicsForDeck(deck) ?? initialTopics
+	const topics = useMemo(
+		() => allTopics.filter(({ id }) => deck.topics.includes(id)),
+		[allTopics, deck]
+	)
 	const similarDecks = useSimilarDecks(deck, SIMILAR_DECKS_CHUNK_SIZE)
 
 	const description =

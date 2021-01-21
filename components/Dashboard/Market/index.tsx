@@ -15,7 +15,6 @@ import DeckSearch, {
 	nameForDeckSortAlgorithm,
 	DeckSortAlgorithm
 } from 'models/Deck/Search'
-import Counters, { Counter } from 'models/Counters'
 import LoadingState from 'models/LoadingState'
 import searchState from 'state/search'
 import formatNumber from 'lib/formatNumber'
@@ -33,7 +32,7 @@ import Loader from 'components/Loader'
 
 import styles from './index.module.scss'
 
-const Market: NextPage<MarketProps> = ({ decks: initialNumberOfDecks }) => {
+const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 	const isLoading = useRef(true)
 	const scrollingContainerRef = useRef(null as HTMLDivElement | null)
 
@@ -50,8 +49,6 @@ const Market: NextPage<MarketProps> = ({ decks: initialNumberOfDecks }) => {
 	const [decks, setDecks] = useState([] as Deck[])
 	const [isLastPage, setIsLastPage] = useState(false)
 	const [isSortDropdownShowing, setIsSortDropdownShowing] = useState(false)
-
-	const numberOfDecks = Counters.get(Counter.Decks) ?? initialNumberOfDecks
 
 	const shouldHideSortAlgorithm =
 		sortAlgorithm === DEFAULT_DECK_SORT_ALGORITHM ||

@@ -2,11 +2,14 @@ import PreviewDeck, { PreviewCard, PreviewSection } from 'models/PreviewDeck'
 import firebase from './firebase/admin'
 
 const deckId = process.env.NEXT_PUBLIC_PREVIEW_DECK_ID
-const firestore = firebase.firestore()
-
 if (!deckId) throw new Error('Missing preview deck ID')
 
+const firestore = firebase.firestore()
+let previewDeck: PreviewDeck | null = null
+
 const getPreviewDeck = async (): Promise<PreviewDeck> => {
+	if (previewDeck) return previewDeck
+
 	const doc = firestore.doc(`decks/${deckId}`)
 
 	const [deck, { docs: _sections }, { docs: _cards }] = await Promise.all([
@@ -41,7 +44,7 @@ const getPreviewDeck = async (): Promise<PreviewDeck> => {
 		back: card.get('back')
 	}))
 
-	return {
+	return (previewDeck = {
 		id: deck.id,
 		slugId: deck.get('slugId'),
 		name: deck.get('name'),
@@ -56,7 +59,7 @@ const getPreviewDeck = async (): Promise<PreviewDeck> => {
 			acc.push(...cards.filter(card => card.sectionId === section.id))
 			return acc
 		}, [])
-	}
+	})
 }
 
 export default getPreviewDeck

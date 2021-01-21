@@ -56,14 +56,15 @@ export default class Section {
 		deck: Deck,
 		name: string,
 		numberOfSections: number
-	) =>
-		(
-			await firestore.collection(`decks/${deck.id}/sections`).add({
-				name,
-				index: numberOfSections,
-				cardCount: 0
-			})
-		).id
+	) => {
+		const { id } = await firestore.collection(`decks/${deck.id}/sections`).add({
+			name,
+			index: numberOfSections,
+			cardCount: 0
+		})
+
+		return id
+	}
 
 	static sort = (sections: Section[]) =>
 		sections.sort(({ index: a }, { index: b }) => a - b)
@@ -86,7 +87,7 @@ export default class Section {
 	delete = (deck: Deck) =>
 		firestore.doc(`decks/${deck.id}/sections/${this.id}`).delete()
 
-	publishCards = (user: User, deck: Deck, cards: CardDraft[]) => {
+	publishCards = async (user: User, deck: Deck, cards: CardDraft[]) => {
 		const chunks = chunk(cards, FIRESTORE_BATCH_LIMIT)
 
 		const promises = chunks.map(chunk => {
@@ -115,6 +116,6 @@ export default class Section {
 				})
 			)
 
-		return Promise.all(promises)
+		await Promise.all(promises)
 	}
 }

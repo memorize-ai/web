@@ -101,20 +101,11 @@ export const gainXpWithChance = (user: User, ref: MutableRefObject<number>) => {
 export const getProgressDataForRating = (rating: PerformanceRating) => {
 	switch (rating) {
 		case PerformanceRating.Easy:
-			return {
-				emoji: '🥳',
-				message: "You're doing great!"
-			}
+			return { emoji: '🥳', message: "You're doing great!" }
 		case PerformanceRating.Struggled:
-			return {
-				emoji: '🧐',
-				message: "You'll see this again soon!"
-			}
+			return { emoji: '🧐', message: "You'll see this again soon!" }
 		case PerformanceRating.Forgot:
-			return {
-				emoji: '🤕',
-				message: 'Better luck next time!'
-			}
+			return { emoji: '🤕', message: 'Better luck next time!' }
 	}
 }
 

@@ -4,13 +4,13 @@ import { DeckPageQuery, DeckPageProps } from './models'
 import getDecks from 'lib/getDecks'
 import getNumberOfDecks from 'lib/getNumberOfDecks'
 import getDeck from 'lib/getDeck'
-import getUser from 'lib/getUser'
 import getSections from 'lib/getSections'
 import getCards from 'lib/getCards'
 import getTopics from 'lib/getTopics'
+import users from 'lib/cache/users'
 
 const INITIAL_DECK_COUNT = 1000
-const REVALIDATE = 1
+const REVALIDATE = 60 // 1 minute
 
 class DeckPageError extends Error {
 	constructor(public result: GetStaticPropsResult<DeckPageProps>) {
@@ -35,7 +35,7 @@ const getDeckDependentData = async (slugId: string, slug: string) => {
 		})
 
 	const [creator, sections, cards] = await Promise.all([
-		getUser(deck.creatorId).then(throwIfNull),
+		users.get(deck.creatorId).then(throwIfNull),
 		getSections(deck.id),
 		getCards(deck.id)
 	])
@@ -58,20 +58,14 @@ export const getStaticProps: GetStaticProps<
 		if (!params) return { notFound: true }
 		const { slugId, slug } = params
 
-		const [deckDependentData, decks, allTopics] = await Promise.all([
+		const [deckDependentData, decks, topics] = await Promise.all([
 			getDeckDependentData(slugId, slug),
 			getNumberOfDecks(),
 			getTopics()
 		])
 
-		const { topics } = deckDependentData.deck
-
 		return {
-			props: {
-				...deckDependentData,
-				decks,
-				topics: allTopics.filter(({ id }) => topics.includes(id))
-			},
+			props: { ...deckDependentData, decks, topics },
 			revalidate: REVALIDATE
 		}
 	} catch (error) {

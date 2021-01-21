@@ -83,13 +83,14 @@ export default class Card {
 
 	static getAllForDeck = async (
 		deckId: string
-	): Promise<Record<string, Card[]>> =>
-		groupBy(
-			(
-				await firestore.collection(`decks/${deckId}/cards`).get()
-			).docs.map(snapshot => Card.fromSnapshot(snapshot)),
+	): Promise<Record<string, Card[]>> => {
+		const { docs } = await firestore.collection(`decks/${deckId}/cards`).get()
+
+		return groupBy(
+			docs.map(snapshot => Card.fromSnapshot(snapshot)),
 			'sectionId'
 		)
+	}
 
 	static create = async ({
 		deck,
@@ -100,16 +101,17 @@ export default class Card {
 		section: Section
 		front: string
 		back: string
-	}) =>
-		(
-			await firestore.collection(`decks/${deck.id}/cards`).add({
-				...data,
-				section: section.id,
-				viewCount: 0,
-				reviewCount: 0,
-				skipCount: 0
-			})
-		).id
+	}) => {
+		const { id } = await firestore.collection(`decks/${deck.id}/cards`).add({
+			...data,
+			section: section.id,
+			viewCount: 0,
+			reviewCount: 0,
+			skipCount: 0
+		})
+
+		return id
+	}
 
 	get isUnsectioned() {
 		return this.sectionId === ''
@@ -163,21 +165,19 @@ export default class Card {
 		return firestore.doc(`decks/${deck.id}/cards/${this.id}`).update(data)
 	}
 
-	delete = (user: User, deck: Deck) => {
-		const promises = [
-			firestore.doc(`decks/${deck.id}/cards/${this.id}`).delete()
-		]
+	delete = async (user: User, deck: Deck) => {
+		const batch = firestore.batch()
+
+		batch.delete(firestore.doc(`decks/${deck.id}/cards/${this.id}`))
 
 		if (this.isDue)
-			promises.push(
-				firestore.doc(`users/${user.id}/decks/${deck.id}`).update({
-					dueCardCount: FieldValue.increment(-1),
-					[this.isUnsectioned
-						? 'unsectionedDueCardCount'
-						: `sections.${this.sectionId}`]: FieldValue.increment(-1)
-				})
-			)
+			batch.update(firestore.doc(`users/${user.id}/decks/${deck.id}`), {
+				dueCardCount: FieldValue.increment(-1),
+				[this.isUnsectioned
+					? 'unsectionedDueCardCount'
+					: `sections.${this.sectionId}`]: FieldValue.increment(-1)
+			})
 
-		return Promise.all(promises)
+		await batch.commit()
 	}
 }

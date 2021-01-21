@@ -9,9 +9,9 @@ import handleError from 'lib/handleError'
 import 'firebase/firestore'
 
 const deckId = process.env.NEXT_PUBLIC_PREVIEW_DECK_ID
-const firestore = firebase.firestore()
-
 if (!deckId) throw new Error('Missing preview deck ID')
+
+const firestore = firebase.firestore()
 
 const getPreviewDeck = async (): Promise<PreviewDeck> => {
 	const doc = firestore.doc(`decks/${deckId}`)
