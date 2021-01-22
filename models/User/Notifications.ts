@@ -1,5 +1,3 @@
-import padStart from 'lodash/padStart'
-
 export type UserNotificationsType = 'all' | 'fixed' | 'none'
 export type FixedUserNotificationsDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
@@ -33,11 +31,9 @@ export const DEFAULT_USER_NOTIFICATIONS: DefaultUserNotifications = {
 export const fixedUserNotificationsTimeToString = (
 	time: FixedUserNotificationsTime
 ) =>
-	`${padStart(time.hours.toString(), 2, '0')}:${padStart(
-		time.minutes.toString(),
-		2,
-		'0'
-	)}`
+	`${time.hours.toString().padStart(2, '0')}:${time.minutes
+		.toString()
+		.padStart(2, '0')}`
 
 export const stringToFixedUserNotificationsTime = (
 	time: string
