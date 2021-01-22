@@ -13,7 +13,7 @@ $default-height: 25px;
 }
 
 .background,
-.image {
+.root > picture {
 	grid-row: 1;
 	grid-column: 1;
 }
