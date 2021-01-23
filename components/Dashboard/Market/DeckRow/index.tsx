@@ -124,6 +124,7 @@ const MarketDeckRow = ({ deck }: MarketDeckRowProps) => {
 									className={styles.creatorImage}
 									src={deck.creatorImage}
 									alt={deck.creator.name}
+									loading="lazy"
 								/>
 							) : (
 								<Svg
