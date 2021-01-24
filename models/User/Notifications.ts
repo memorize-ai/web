@@ -28,30 +28,4 @@ export const DEFAULT_USER_NOTIFICATIONS: DefaultUserNotifications = {
 	}
 }
 
-export const fixedUserNotificationsTimeToString = (
-	time: FixedUserNotificationsTime
-) =>
-	`${time.hours.toString().padStart(2, '0')}:${time.minutes
-		.toString()
-		.padStart(2, '0')}`
-
-export const stringToFixedUserNotificationsTime = (
-	time: string
-): FixedUserNotificationsTime | null => {
-	const match = time.match(/^(\d\d):(\d\d)$/)
-	if (!match) return null
-
-	const [, hoursString, minutesString] = match
-
-	const hours = Number(hoursString)
-	const minutes = Number(minutesString)
-
-	const invalid =
-		!(Number.isInteger(hours) && Number.isInteger(minutes)) ||
-		hours < 0 ||
-		hours >= 24 ||
-		minutes < 0 ||
-		minutes >= 60
-
-	return invalid ? null : { hours, minutes }
-}
+export const FIXED_TIME_MINUTE_STEP = 5

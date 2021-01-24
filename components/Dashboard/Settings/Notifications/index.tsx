@@ -1,17 +1,18 @@
-import { FormEvent, ChangeEvent, useState, useCallback, useEffect } from 'react'
+import { FormEvent, useState, useCallback, useEffect } from 'react'
 
 import {
 	UserNotificationsType,
 	FixedUserNotificationsDay,
+	FixedUserNotificationsTime,
 	DEFAULT_USER_NOTIFICATIONS,
-	fixedUserNotificationsTimeToString,
-	stringToFixedUserNotificationsTime
+	FIXED_TIME_MINUTE_STEP
 } from 'models/User/Notifications'
 import firebase from 'lib/firebase'
 import handleError from 'lib/handleError'
 import useCurrentUser from 'hooks/useCurrentUser'
 import Settings from '..'
 import Option from './Option'
+import TimePicker from 'components/TimePicker'
 
 import styles from './index.module.scss'
 
@@ -77,13 +78,10 @@ const NotificationSettings = () => {
 	)
 
 	const onTimeChange = useCallback(
-		async ({ target }: ChangeEvent<HTMLInputElement>) => {
+		async (time: FixedUserNotificationsTime) => {
 			if (!id) return
 
 			try {
-				const time = stringToFixedUserNotificationsTime(target.value)
-				if (!time) throw new Error('Invalid time')
-
 				await firestore.doc(`users/${id}`).update({
 					'notifications.fixed.time': time
 				})
@@ -142,14 +140,12 @@ const NotificationSettings = () => {
 							</button>
 						))}
 					</div>
-					<input
+					<TimePicker
 						className={styles.time}
-						type="time"
-						placeholder={fixedUserNotificationsTimeToString(
-							DEFAULT_USER_NOTIFICATIONS.fixed.time
-						)}
-						value={fixedUserNotificationsTimeToString(time)}
-						onChange={onTimeChange}
+						triggerClassName={styles.timeTrigger}
+						step={FIXED_TIME_MINUTE_STEP}
+						value={time}
+						setValue={onTimeChange}
 					/>
 				</Option>
 				<Option

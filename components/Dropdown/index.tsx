@@ -74,6 +74,7 @@ const Dropdown = ({
 			<div ref={ref}>
 				<button
 					className={triggerClassName}
+					type="button"
 					onClick={toggleIsShowing}
 					aria-haspopup="menu"
 				>

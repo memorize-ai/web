@@ -43,16 +43,11 @@
 }
 
 .time {
-	cursor: text;
 	margin-left: 8px;
-	padding: 0 8px;
-	font-weight: bold;
-	color: colors.$dark-gray;
 	border: 1px solid #eee;
 	border-radius: 8px;
+}
 
-	&::-webkit-calendar-picker-indicator {
-		cursor: pointer;
-		outline: none;
-	}
+.timeTrigger {
+	padding: 0 8px;
 }

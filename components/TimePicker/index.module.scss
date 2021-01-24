@@ -1,0 +1,52 @@
+@use 'styles/colors';
+
+$gap: 8px;
+$border-radius: 8px;
+
+.trigger {
+	font-weight: 900;
+	color: colors.$dark-gray;
+}
+
+.triggerIcon {
+	margin-left: 8px;
+}
+
+.content {
+	display: grid;
+	grid: 1fr / 1fr 1fr 1fr;
+	gap: $gap;
+	width: 200px;
+	height: 300px;
+	padding: 0 $gap;
+	overflow: hidden;
+	background: white;
+	border-radius: $border-radius;
+}
+
+.column {
+	overflow-y: auto;
+	padding: $gap 0;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+.option {
+	display: block;
+	width: 100%;
+	font-weight: 900;
+	color: colors.$dark-gray;
+	border-radius: $border-radius;
+	transition: color 0.3s, background 0.3s;
+
+	&[aria-selected='true'] {
+		color: white;
+		background: #007aff;
+	}
+
+	& + & {
+		margin-top: $gap;
+	}
+}
