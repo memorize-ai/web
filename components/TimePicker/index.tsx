@@ -30,6 +30,7 @@ const TimePickerTrigger = ({ value }: TimePickerTriggerProps) => (
 export interface TimePickerProps {
 	className?: string
 	triggerClassName?: string
+	contentClassName?: string
 	step?: number
 	value: Time
 	setValue(value: Time): void
@@ -38,6 +39,7 @@ export interface TimePickerProps {
 const TimePicker = ({
 	className,
 	triggerClassName,
+	contentClassName,
 	step = 1,
 	value,
 	setValue
@@ -51,7 +53,7 @@ const TimePicker = ({
 		<Dropdown
 			className={className}
 			triggerClassName={cx(styles.trigger, triggerClassName)}
-			contentClassName={styles.content}
+			contentClassName={cx(styles.content, contentClassName)}
 			shadow={DropdownShadow.Around}
 			trigger={<TimePickerTrigger value={value} />}
 			isShowing={isShowing}

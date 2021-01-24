@@ -143,6 +143,7 @@ const NotificationSettings = () => {
 					<TimePicker
 						className={styles.time}
 						triggerClassName={styles.timeTrigger}
+						contentClassName={styles.timeContent}
 						step={FIXED_TIME_MINUTE_STEP}
 						value={time}
 						setValue={onTimeChange}
