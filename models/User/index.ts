@@ -5,6 +5,8 @@ import Notifications, { DEFAULT_USER_NOTIFICATIONS } from './Notifications'
 import CreateOptions from './CreateOptions'
 import SnapshotLike from '../SnapshotLike'
 import firebase from 'lib/firebase'
+import identify from 'lib/identify'
+import setToken from 'lib/setToken'
 import slugify from 'lib/slugify'
 
 import 'firebase/firestore'
@@ -38,7 +40,7 @@ export default class User {
 	allDecks: string[] | null
 	notifications: Notifications | null
 
-	constructor(data: Data) {
+	constructor(data: Data, public readonly isCurrent = false) {
 		this.id = data.id
 		this.hasImage = data.image
 		this.slugId = data.slugId
@@ -57,25 +59,35 @@ export default class User {
 		this.notifications = data.notifications
 	}
 
-	static fromFirebaseUser = (user: firebase.User) =>
-		new User({
-			id: user.uid,
-			image: null,
-			slugId: null,
-			slug: null,
-			name: user.displayName,
-			email: user.email,
-			bio: null,
-			contact: null,
-			muted: null,
-			apiKey: null,
-			decks: null,
-			createdDecks: null,
-			xp: null,
-			interests: null,
-			allDecks: null,
-			notifications: null
-		})
+	static fromFirebaseUser = (user: firebase.User) => {
+		const id = user.uid
+		const name = user.displayName
+		const email = user.email
+
+		if (name && email) identify({ id, name, email })
+
+		return new User(
+			{
+				id,
+				image: null,
+				slugId: null,
+				slug: null,
+				name,
+				email,
+				bio: null,
+				contact: null,
+				muted: null,
+				apiKey: null,
+				decks: null,
+				createdDecks: null,
+				xp: null,
+				interests: null,
+				allDecks: null,
+				notifications: null
+			},
+			true
+		)
+	}
 
 	static fromSnapshot = (snapshot: SnapshotLike) =>
 		new User(User.dataFromSnapshot(snapshot))
@@ -162,12 +174,18 @@ export default class User {
 	}
 
 	updateFromSnapshot = (snapshot: firebase.firestore.DocumentSnapshot) => {
+		const newName: string = snapshot.get('name')
+		const newEmail: string = snapshot.get('email')
+
+		if (this.isCurrent && !(this.name === newName && this.email === newEmail))
+			identify({ id: this.id, name: newName, email: newEmail })
+
 		this.slugId = snapshot.get('slugId') ?? null
 		this.slug = snapshot.get('slug') ?? null
 
 		this.hasImage = snapshot.get('hasImage') ?? false
-		this.name = snapshot.get('name')
-		this.email = snapshot.get('email')
+		this.name = newName
+		this.email = newEmail
 		this.allowContact = snapshot.get('allowContact') ?? true
 		this.isMuted = snapshot.get('muted') ?? false
 		this.apiKey = snapshot.get('apiKey') ?? null
@@ -176,8 +194,24 @@ export default class User {
 		this.xp = snapshot.get('xp') ?? 0
 		this.interestIds = snapshot.get('topics') ?? []
 		this.allDecks = snapshot.get('allDecks') ?? []
-		this.notifications =
+
+		const newNotifications: Notifications =
 			snapshot.get('notifications') ?? DEFAULT_USER_NOTIFICATIONS
+
+		newNotifications.type ??= DEFAULT_USER_NOTIFICATIONS.type
+		newNotifications.fixed ??= DEFAULT_USER_NOTIFICATIONS.fixed
+		newNotifications.fixed.days ??= DEFAULT_USER_NOTIFICATIONS.fixed.days
+		newNotifications.fixed.time ??= DEFAULT_USER_NOTIFICATIONS.fixed.time
+
+		const shouldSetToken =
+			this.isCurrent &&
+			!(
+				this.notifications?.type === newNotifications.type ||
+				newNotifications.type === 'none'
+			)
+
+		if (shouldSetToken) setToken(this.id)
+		this.notifications = newNotifications
 
 		return this
 	}

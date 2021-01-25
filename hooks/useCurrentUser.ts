@@ -6,8 +6,6 @@ import LoadingState from 'models/LoadingState'
 import state from 'state/currentUser'
 import firebase from 'lib/firebase'
 import { setExpectsSignIn } from 'lib/expectsSignIn'
-import identify from 'lib/identify'
-import setToken from 'lib/setToken'
 import handleError from 'lib/handleError'
 
 import 'firebase/auth'
@@ -19,9 +17,6 @@ const firestore = firebase.firestore()
 const useCurrentUser = () => {
 	const [{ value: currentUser, loadingState }, setState] = useRecoilState(state)
 
-	const id = currentUser?.id
-	const notificationsType = currentUser?.notifications?.type
-
 	useEffect(() => {
 		if (User.didInitialize) return
 		User.didInitialize = true
@@ -32,9 +27,12 @@ const useCurrentUser = () => {
 					value: user && User.fromFirebaseUser(user),
 					loadingState: LoadingState.Success
 				})
+				setExpectsSignIn(Boolean(user))
 			},
 			error => {
 				setState({ value: null, loadingState: LoadingState.Fail })
+				setExpectsSignIn(false)
+
 				handleError(error)
 			}
 		)
@@ -51,21 +49,6 @@ const useCurrentUser = () => {
 			}))
 		}, handleError)
 	}, [currentUser, setState])
-
-	useEffect(() => {
-		if (loadingState === LoadingState.Loading) return
-		console.log(Boolean(currentUser))
-		setExpectsSignIn(Boolean(currentUser))
-		if (currentUser) identify(currentUser)
-	}, [currentUser, loadingState])
-
-	useEffect(() => {
-		if (!id || notificationsType === undefined || notificationsType === 'none')
-			return
-
-		console.log(id, notificationsType)
-		// setToken(id)
-	}, [id, notificationsType])
 
 	return [currentUser, loadingState] as const
 }

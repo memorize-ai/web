@@ -43,10 +43,10 @@ const Notifications = ({
 		() => notifications?.type ?? DEFAULT_USER_NOTIFICATIONS.type
 	)
 	const [days, setDays] = useState(
-		() => notifications?.fixed?.days ?? DEFAULT_USER_NOTIFICATIONS.fixed.days
+		() => notifications?.fixed.days ?? DEFAULT_USER_NOTIFICATIONS.fixed.days
 	)
 	const [time, setTime] = useState(
-		() => notifications?.fixed?.time ?? DEFAULT_USER_NOTIFICATIONS.fixed.time
+		() => notifications?.fixed.time ?? DEFAULT_USER_NOTIFICATIONS.fixed.time
 	)
 
 	const onTypeChange = useCallback(
@@ -106,8 +106,8 @@ const Notifications = ({
 		if (!notifications) return
 
 		setType(notifications.type)
-		setDays(notifications.fixed?.days ?? DEFAULT_USER_NOTIFICATIONS.fixed.days)
-		setTime(notifications.fixed?.time ?? DEFAULT_USER_NOTIFICATIONS.fixed.time)
+		setDays(notifications.fixed.days)
+		setTime(notifications.fixed.time)
 	}, [notifications, setType, setDays, setTime])
 
 	return (

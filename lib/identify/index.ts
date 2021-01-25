@@ -1,4 +1,3 @@
-import User from 'models/User'
 import identifyWithAnalytics from './analytics'
 import identifyWithHubSpot from './hubspot'
 
@@ -8,13 +7,10 @@ export interface IdentificationData {
 	email: string
 }
 
-const identifyFromData = (data: IdentificationData) => {
+const identify = (data: IdentificationData) => {
+	console.log('identify')
 	identifyWithAnalytics(data)
 	identifyWithHubSpot(data)
-}
-
-const identify = ({ id, name, email }: User) => {
-	if (name && email) identifyFromData({ id, name, email })
 }
 
 export default identify

@@ -32,7 +32,8 @@ const NotificationsOption = ({
 				type="radio"
 				name="type"
 				value={type}
-				defaultChecked={isCurrent}
+				checked={isCurrent}
+				readOnly
 			/>
 			<label className={styles.label} htmlFor={id}>
 				<span className={styles.name}>{name}</span>

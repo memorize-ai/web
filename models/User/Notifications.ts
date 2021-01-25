@@ -13,14 +13,10 @@ export interface FixedUserNotificationsTime {
 
 export default interface UserNotifications {
 	type: UserNotificationsType
-	fixed?: FixedUserNotifications
-}
-
-export interface DefaultUserNotifications extends UserNotifications {
 	fixed: FixedUserNotifications
 }
 
-export const DEFAULT_USER_NOTIFICATIONS: DefaultUserNotifications = {
+export const DEFAULT_USER_NOTIFICATIONS: UserNotifications = {
 	type: 'fixed',
 	fixed: {
 		days: [],
