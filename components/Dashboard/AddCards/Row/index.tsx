@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import stripHtml from 'string-strip-html'
+import { stripHtml } from 'string-strip-html'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'

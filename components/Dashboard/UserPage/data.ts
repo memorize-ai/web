@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import stripHtml from 'string-strip-html'
+import { stripHtml } from 'string-strip-html'
 
 import { UserPageQuery, UserPageProps, UserPagePath } from './models'
 import getUsers from 'lib/getUsers'
