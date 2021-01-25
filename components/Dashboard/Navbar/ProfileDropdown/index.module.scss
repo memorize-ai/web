@@ -41,39 +41,39 @@
 	transition: fill 0.3s;
 }
 
-.content,
-.settings,
-.name,
-.forgotPassword,
-.signOut {
-	border-radius: 4px;
-}
-
 .content {
 	width: 400px;
-	padding: 20px;
+	padding: 18px 20px;
 	background: white;
+	border-radius: 8px;
 }
 
-.profileLink {
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 12px;
+	border-bottom: 1px solid #eee;
+}
+
+.profile {
 	display: flex;
 	align-items: center;
-	max-width: max-content;
-	margin-bottom: 12px;
+	margin-right: 12px;
 	font-weight: 900;
 	color: #007aff;
 
 	&:hover {
 		text-decoration: underline;
 
-		.profileLinkIcon {
+		.profileIcon {
 			transform: translateX(4px);
 		}
 	}
 }
 
-.profileLinkImage,
-.profileLinkDefaultImage {
+.profileImage,
+.profileDefaultImage {
 	$dimension: 25px;
 
 	width: $dimension;
@@ -82,138 +82,66 @@
 	border-radius: 50%;
 }
 
-.profileLinkImage {
+.profileImage {
 	object-fit: cover;
 }
 
-.profileLinkDefaultImage {
+.profileDefaultImage {
 	padding: 2px;
 	fill: #007aff;
 	border: 1px solid #eee;
 }
 
-.profileLinkIcon {
+.profileIcon {
 	margin-left: 4px;
 	transition: transform 0.3s;
 }
 
-.settings,
-.forgotPassword,
-.signOut {
-	width: 100%;
-}
-
-.settings,
-.forgotPassword {
-	border: 1px solid #ddd;
-}
-
 .settings {
 	display: flex;
-	flex-direction: column;
-	padding: 20px 16px;
-}
-
-.nameFormHeader {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 4px;
-	font-size: 14px;
-}
-
-.nameLabel {
-	font-weight: bold;
-	color: #9b9b9b;
-}
-
-.saveName {
-	font-weight: bold;
+	font-size: 22px;
 	color: #007aff;
-	transition: opacity 0.3s;
+	transition: transform 0.3s;
 
-	&:disabled {
-		cursor: default;
-		opacity: 0.5;
-	}
-
-	&:not(:disabled):hover {
-		opacity: 0.5;
+	&:hover {
+		transform: rotate(30deg);
 	}
 }
 
-.saveNameLoader {
-	margin-right: 8px;
-}
-
-.name {
-	width: 100%;
-	padding: 8px 10px;
-	color: colors.$dark-gray;
-	background: transparentize(#f0f1f8, 1 / 3);
-}
-
-.emailLabel {
-	margin-top: 14px;
+.label {
+	display: block;
+	margin-top: 12px;
 	font-size: 14px;
 	font-weight: bold;
 	color: #9b9b9b;
 }
 
-.email {
+.value {
 	font-size: 17px;
 	color: colors.$dark-gray;
 }
 
-.forgotPassword,
-.signOut {
-	height: 40px;
-	margin-top: 12px;
-	font-weight: bold;
+.divider {
+	height: 1px;
+	margin: 14px 0;
+	background: #eee;
 }
 
-.forgotPassword {
-	color: #4355f9;
-	transition: color 0.3s, background 0.3s, border 0.3s;
-
-	&:hover,
-	&:focus {
-		color: white;
-		background: #051e34;
-		border: none;
-	}
-}
-
-.signOut {
-	color: white;
-	background: #f55d23;
-	transition: background 0.3s;
-
-	&:hover,
-	&:hover {
-		background: #051e34;
-	}
-}
-
-.footerLabel {
-	display: block;
-	margin-top: 16px;
+.notifications {
+	display: flex;
+	align-items: center;
+	max-width: max-content;
+	margin: 0 auto;
 	font-weight: 900;
-	color: colors.$dark-gray;
-}
-
-.footerInfo {
-	margin-top: 2px;
-	color: colors.$dark-gray;
-}
-
-.footerAction {
-	vertical-align: initial;
-	font-weight: bold;
 	color: #007aff;
 	transition: opacity 0.3s;
 
 	&:hover {
-		opacity: 0.5;
+		opacity: 0.7;
 	}
+}
+
+.notificationsIcon {
+	margin-right: 8px;
+	font-size: 20px;
 }
