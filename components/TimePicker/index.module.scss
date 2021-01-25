@@ -40,6 +40,7 @@ $border-radius: 8px;
 	border-radius: $border-radius;
 	transition: color 0.3s, background 0.3s;
 
+	&:hover,
 	&[aria-selected='true'] {
 		color: white;
 		background: #007aff;
