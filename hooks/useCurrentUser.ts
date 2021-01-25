@@ -7,8 +7,8 @@ import state from 'state/currentUser'
 import firebase from 'lib/firebase'
 import { setExpectsSignIn } from 'lib/expectsSignIn'
 import identify from 'lib/identify'
+import setToken from 'lib/setToken'
 import handleError from 'lib/handleError'
-import getToken from 'lib/getToken'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -18,7 +18,9 @@ const firestore = firebase.firestore()
 
 const useCurrentUser = () => {
 	const [{ value: currentUser, loadingState }, setState] = useRecoilState(state)
-	const currentUserId = currentUser?.id
+
+	const id = currentUser?.id
+	const notificationsType = currentUser?.notifications?.type
 
 	useEffect(() => {
 		if (User.didInitialize) return
@@ -52,19 +54,18 @@ const useCurrentUser = () => {
 
 	useEffect(() => {
 		if (loadingState === LoadingState.Loading) return
-
+		console.log(Boolean(currentUser))
 		setExpectsSignIn(Boolean(currentUser))
 		if (currentUser) identify(currentUser)
 	}, [currentUser, loadingState])
 
 	useEffect(() => {
-		if (!currentUserId) return
+		if (!id || notificationsType === undefined || notificationsType === 'none')
+			return
 
-		getToken().then(async token => {
-			if (!token) return
-			await firestore.doc(`users/${currentUserId}/tokens/${token}`).set({})
-		})
-	}, [currentUserId])
+		console.log(id, notificationsType)
+		// setToken(id)
+	}, [id, notificationsType])
 
 	return [currentUser, loadingState] as const
 }

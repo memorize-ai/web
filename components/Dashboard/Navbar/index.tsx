@@ -86,12 +86,6 @@ const DashboardNavbar = ({
 					/>
 				) : (
 					<>
-						<AuthButton className={styles.auth}>
-							<span className={styles.authText}>
-								Log in <span className={styles.authSlash}>/</span> Sign up
-							</span>
-							<FontAwesomeIcon className={styles.authIcon} icon={faKey} />
-						</AuthButton>
 						<a
 							className={styles.download}
 							href={APP_STORE_URL}
@@ -100,6 +94,12 @@ const DashboardNavbar = ({
 						>
 							<FontAwesomeIcon className={styles.downloadIcon} icon={faApple} />
 						</a>
+						<AuthButton className={styles.auth}>
+							<span className={styles.authText}>
+								Log in <span className={styles.authSlash}>/</span> Sign up
+							</span>
+							<FontAwesomeIcon className={styles.authIcon} icon={faKey} />
+						</AuthButton>
 					</>
 				)}
 			</div>
