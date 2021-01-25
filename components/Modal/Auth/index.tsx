@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect, FormEvent } from 'react'
-import Router from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
@@ -11,11 +10,11 @@ import LoadingState from 'models/LoadingState'
 import AuthenticationMode from 'models/AuthenticationMode'
 import useAuthModal from 'hooks/useAuthModal'
 import useCurrentUser from 'hooks/useCurrentUser'
+import useOnSignUp from 'hooks/useOnSignUp'
 import Modal from '..'
 import Button from 'components/Button'
 import Providers from './Providers'
-import { EMAIL_REGEX, APP_STORE_URL } from 'lib/constants'
-import { isIosHandheld } from 'lib/ios'
+import { EMAIL_REGEX } from 'lib/constants'
 
 import styles from './index.module.scss'
 
@@ -35,6 +34,8 @@ const AuthModal = () => {
 		setMode,
 		initialXp
 	} = useAuthModal()
+
+	const onSignUp = useOnSignUp()
 
 	const [loadingState, setLoadingState] = useState(LoadingState.None)
 	const [forgotPasswordLoadingState, setForgotPasswordLoadingState] = useState(
@@ -89,10 +90,7 @@ const AuthModal = () => {
 						user.updateProfile({ displayName: name })
 
 						setIsDisabled(false)
-
-						if (!callback)
-							if (isIosHandheld()) window.location.href = APP_STORE_URL
-							else Router.push('/interests')
+						onSignUp()
 
 						break
 					}
@@ -106,7 +104,7 @@ const AuthModal = () => {
 				setErrorMessage(error.message)
 			}
 		},
-		[mode, name, email, password, callback, initialXp]
+		[mode, name, email, password, callback, initialXp, onSignUp]
 	)
 
 	const onNameRef = useCallback(

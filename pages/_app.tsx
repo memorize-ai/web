@@ -9,6 +9,7 @@ import Analytics from 'components/Analytics'
 import Chat from 'components/Chat'
 import Progress from 'components/Progress'
 import AuthModal from 'components/Modal/Auth'
+import IntroModal from 'components/Modal/Intro'
 
 import { src as favicon } from 'images/favicon.png'
 
@@ -65,6 +66,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => (
 		<RecoilRoot>
 			<Component {...pageProps} />
 			<AuthModal />
+			<IntroModal />
 		</RecoilRoot>
 	</>
 )

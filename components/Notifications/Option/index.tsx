@@ -4,7 +4,8 @@ import { UserNotificationsType } from 'models/User/Notifications'
 
 import styles from './index.module.scss'
 
-export interface NotificationSettingsOptionProps {
+export interface NotificationsOptionProps {
+	idPrefix: string
 	current: string
 	type: UserNotificationsType
 	name: string
@@ -12,14 +13,15 @@ export interface NotificationSettingsOptionProps {
 	children?: ReactNode
 }
 
-const NotificationSettingsOption = ({
+const NotificationsOption = ({
+	idPrefix,
 	current,
 	type,
 	name,
 	info,
 	children: data
-}: NotificationSettingsOptionProps) => {
-	const id = `notification-settings-option-${type}`
+}: NotificationsOptionProps) => {
+	const id = `${idPrefix}-${type}`
 	const isCurrent = current === type
 
 	return (
@@ -45,4 +47,4 @@ const NotificationSettingsOption = ({
 	)
 }
 
-export default NotificationSettingsOption
+export default NotificationsOption

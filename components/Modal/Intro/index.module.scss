@@ -1,0 +1,103 @@
+$border-radius: 8px;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	max-width: 800px;
+	width: 100vw;
+	margin: 8px;
+	background: white;
+	border-radius: $border-radius;
+
+	@media (min-width: 330px) {
+		margin: 20px;
+	}
+}
+
+.top {
+	padding: 20px;
+	color: white;
+	background: linear-gradient(10deg, #5a2aff, #00e5f4);
+	border-radius: $border-radius $border-radius 0 0;
+
+	@media (min-width: 385px) {
+		padding: 20px 25px;
+	}
+
+	@media (min-width: 400px) {
+		padding: 20px 30px;
+	}
+}
+
+.title {
+	margin-bottom: 4px;
+	font-size: 18px;
+	font-weight: 900;
+
+	@media (min-width: 345px) {
+		font-size: 20px;
+	}
+
+	@media (min-width: 370px) {
+		font-size: 22px;
+	}
+
+	@media (min-width: 420px) {
+		margin-bottom: 0;
+		font-size: 24px;
+	}
+
+	@media (min-width: 485px) {
+		font-size: 30px;
+	}
+}
+
+.subtitle {
+	font-weight: 900;
+	opacity: 0.7;
+}
+
+.content {
+	margin: 20px;
+}
+
+.time {
+	max-height: calc(50vh - 115px);
+}
+
+.footer {
+	display: flex;
+	justify-content: flex-end;
+	padding: 16px 20px;
+	border-top: 1px solid #eee;
+}
+
+.next {
+	$color: white;
+	$background: #007aff;
+
+	display: flex;
+	align-items: center;
+	padding: 4px 18px;
+	font-size: 18px;
+	font-weight: 900;
+	color: $color;
+	background: $background;
+	border: 2px solid $background;
+	border-radius: 13px;
+	transition: color 0.3s, background 0.3s;
+
+	&:hover {
+		color: $background;
+		background: $color;
+
+		.nextIcon {
+			transform: translateX(4px);
+		}
+	}
+}
+
+.nextIcon {
+	margin-left: 8px;
+	transition: transform 0.3s;
+}

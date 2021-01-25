@@ -21,6 +21,7 @@
 	position: absolute;
 	pointer-events: none;
 	top: 100%;
+	left: 0;
 	margin-top: 8px;
 	transform: translateX(-20px);
 	opacity: 0;
@@ -32,14 +33,11 @@
 		transform: none;
 		opacity: 1;
 	}
+}
 
-	&.right {
-		right: 0;
-	}
-
-	&:not(.right) {
-		left: 0;
-	}
+.right {
+	left: unset;
+	right: 0;
 }
 
 .shadow_around {
