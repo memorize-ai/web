@@ -8,6 +8,7 @@ import firebase from 'lib/firebase'
 import { setExpectsSignIn } from 'lib/expectsSignIn'
 import identify from 'lib/identify'
 import handleError from 'lib/handleError'
+import getToken from 'lib/getToken'
 
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -17,6 +18,7 @@ const firestore = firebase.firestore()
 
 const useCurrentUser = () => {
 	const [{ value: currentUser, loadingState }, setState] = useRecoilState(state)
+	const currentUserId = currentUser?.id
 
 	useEffect(() => {
 		if (User.didInitialize) return
@@ -54,6 +56,15 @@ const useCurrentUser = () => {
 		setExpectsSignIn(Boolean(currentUser))
 		if (currentUser) identify(currentUser)
 	}, [currentUser, loadingState])
+
+	useEffect(() => {
+		if (!currentUserId) return
+
+		getToken().then(async token => {
+			if (!token) return
+			await firestore.doc(`users/${currentUserId}/tokens/${token}`).set({})
+		})
+	}, [currentUserId])
 
 	return [currentUser, loadingState] as const
 }

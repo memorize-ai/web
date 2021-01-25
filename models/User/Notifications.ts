@@ -28,4 +28,4 @@ export const DEFAULT_USER_NOTIFICATIONS: DefaultUserNotifications = {
 	}
 }
 
-export const FIXED_TIME_MINUTE_STEP = 5
+export const FIXED_TIME_MINUTE_STEP = 15
