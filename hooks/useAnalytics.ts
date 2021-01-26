@@ -6,7 +6,7 @@ import firebase from 'lib/firebase'
 
 import 'firebase/analytics'
 
-const Analytics = () => {
+const useAnalytics = () => {
 	const onChange: RouterEventHandler = useCallback(url => {
 		const analytics = firebase.analytics()
 
@@ -29,8 +29,6 @@ const Analytics = () => {
 			Router.events.off('routeChangeComplete', onChange)
 		}
 	}, [onChange])
-
-	return null
 }
 
-export default Analytics
+export default useAnalytics

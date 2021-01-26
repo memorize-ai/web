@@ -3,10 +3,10 @@ import Router from 'next/router'
 import NProgress from 'nprogress'
 
 import { RouterErrorEventHandler, RouterEventHandler } from 'models/Router'
-import { START_POSITION, DELAY } from './constants'
+import { START_POSITION, DELAY } from 'components/Progress/constants'
 import handleError from 'lib/handleError'
 
-const Progress = () => {
+const useProgress = () => {
 	const timer = useRef<number | null>(null)
 
 	const start: RouterEventHandler = useCallback((_url, { shallow }) => {
@@ -57,8 +57,6 @@ const Progress = () => {
 			Router.events.off('routeChangeError', error)
 		}
 	}, [start, success, error])
-
-	return null
 }
 
-export default Progress
+export default useProgress

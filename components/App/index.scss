@@ -63,6 +63,10 @@ hr {
 	font-weight: bold;
 	padding-left: 16px;
 	border-radius: 5px;
+
+	&--dark {
+		background: #051e34;
+	}
 }
 
 button:disabled {

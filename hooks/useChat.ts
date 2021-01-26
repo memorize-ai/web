@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 const hubspotUrl = process.env.NEXT_PUBLIC_HUBSPOT_URL
 if (!hubspotUrl) throw new Error('Missing HubSpot URL')
 
-const Chat = () => {
+const useChat = () => {
 	useEffect(() => {
 		const script = document.createElement('script')
 
@@ -13,8 +13,6 @@ const Chat = () => {
 
 		document.body.append(script)
 	}, [])
-
-	return null
 }
 
-export default Chat
+export default useChat
