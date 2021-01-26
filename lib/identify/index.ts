@@ -8,7 +8,6 @@ export interface IdentificationData {
 }
 
 const identify = (data: IdentificationData) => {
-	console.log('identify')
 	identifyWithAnalytics(data)
 	identifyWithHubSpot(data)
 }
