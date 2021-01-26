@@ -36,12 +36,13 @@ const useNotifications = () => {
 			)
 				return
 
-			Router.prefetch(url)
 			toast.dark(<Notification title={title} body={body} />, {
 				onClick: () => {
 					Router.push(url)
 				}
 			})
+
+			Router.prefetch(url)
 		}, handleError)
 	}, [])
 }
