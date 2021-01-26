@@ -6,8 +6,7 @@ import firebase from 'lib/firebase'
 import setToken from 'lib/setToken'
 import handleError from 'lib/handleError'
 import useCurrentUser from './useCurrentUser'
-
-import styles from 'components/Notification/index.module.scss'
+import Notification from 'components/Notification'
 
 import 'firebase/messaging'
 
@@ -22,7 +21,9 @@ const useNotifications = () => {
 	}, [id, notifications])
 
 	useEffect(() => {
-		firebase.messaging().onMessage(({ data }) => {
+		const messaging = firebase.messaging()
+
+		return messaging.onMessage(({ data }) => {
 			if (typeof data !== 'object') return
 			const { url, title, body } = data
 
@@ -36,13 +37,11 @@ const useNotifications = () => {
 				return
 
 			Router.prefetch(url)
-			toast.dark(
-				<>
-					<p className={styles.title}>{title}</p>
-					<p className={styles.body}>{body}</p>
-				</>,
-				{ onClick: () => Router.push(url) }
-			)
+			toast.dark(<Notification title={title} body={body} />, {
+				onClick: () => {
+					Router.push(url)
+				}
+			})
 		}, handleError)
 	}, [])
 }
