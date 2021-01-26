@@ -42,10 +42,18 @@
 }
 
 .content {
-	width: 400px;
+	width: 250px;
 	padding: 18px 20px;
 	background: white;
 	border-radius: 8px;
+
+	@media (min-width: 330px) {
+		width: 300px;
+	}
+
+	@media (min-width: 480px) {
+		width: 400px;
+	}
 }
 
 .header {

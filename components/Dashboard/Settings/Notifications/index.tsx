@@ -7,7 +7,13 @@ const ID_PREFIX = 'notification-settings'
 
 const NotificationSettings = () => (
 	<Settings title="Notifications" description="Edit your notification settings">
-		<Notifications idPrefix={ID_PREFIX} timeClassName={styles.time} />
+		<Notifications
+			fixedClassName={styles.fixed}
+			dayClassName={styles.day}
+			timeTriggerClassName={styles.timeTrigger}
+			timeContentClassName={styles.timeContent}
+			idPrefix={ID_PREFIX}
+		/>
 	</Settings>
 )
 

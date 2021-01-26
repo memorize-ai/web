@@ -10,11 +10,22 @@
 	}
 }
 
+.fixed {
+	display: grid;
+	grid: auto / auto 1fr;
+	gap: 8px;
+}
+
+.day,
+.timeTrigger {
+	height: 30px;
+}
+
 .day {
 	$background: #007aff;
 	$border-radius: 8px;
 
-	padding: 6px 12px;
+	padding: 0 12px;
 	text-transform: uppercase;
 	line-height: 1.15;
 	font-size: 14px;
@@ -43,11 +54,11 @@
 }
 
 .time {
-	margin-left: 8px;
-	border: 1px solid #eee;
-	border-radius: 8px;
+	max-width: max-content;
 }
 
 .timeTrigger {
 	padding: 0 8px;
+	border: 1px solid #eee;
+	border-radius: 8px;
 }

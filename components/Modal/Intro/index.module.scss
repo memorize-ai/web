@@ -58,11 +58,57 @@ $border-radius: 8px;
 }
 
 .content {
-	margin: 20px;
+	margin: 16px;
+
+	@media (min-width: 475px) {
+		margin: 20px;
+	}
 }
 
-.time {
-	max-height: calc(50vh - 115px);
+.fixed {
+	grid: auto auto / auto;
+
+	@media (min-width: 610px) {
+		grid: auto / auto 1fr;
+	}
+}
+
+.day {
+	padding: 0 6px;
+	font-size: 12px;
+
+	@media (min-width: 400px) {
+		padding: 0 8px;
+	}
+
+	@media (min-width: 490px) {
+		padding: 0 12px;
+		font-size: 14px;
+	}
+}
+
+.timeTrigger {
+	font-size: 14px;
+
+	@media (min-width: 490px) {
+		font-size: 16px;
+	}
+}
+
+.timeContent {
+	max-height: calc(50vh - 120px);
+	left: 0;
+	right: unset;
+
+	@media (min-width: 400px) {
+		max-height: calc(50vh - 97px);
+	}
+
+	@media (min-width: 610px) {
+		max-height: calc(50vh - 80px);
+		left: unset;
+		right: 0;
+	}
 }
 
 .footer {

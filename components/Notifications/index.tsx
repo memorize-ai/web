@@ -25,13 +25,19 @@ const firestore = firebase.firestore()
 
 export interface NotificationsProps {
 	className?: string
-	timeClassName?: string
+	fixedClassName?: string
+	dayClassName?: string
+	timeTriggerClassName?: string
+	timeContentClassName?: string
 	idPrefix: string
 }
 
 const Notifications = ({
 	className,
-	timeClassName,
+	fixedClassName,
+	dayClassName,
+	timeTriggerClassName,
+	timeContentClassName,
 	idPrefix
 }: NotificationsProps) => {
 	const [currentUser] = useCurrentUser()
@@ -129,18 +135,19 @@ const Notifications = ({
 				}
 			/>
 			<Option
+				className={cx(styles.fixed, fixedClassName)}
 				idPrefix={idPrefix}
 				current={type}
 				type="fixed"
 				name="Fixed"
 				info="You'll be reminded on these days to review any due cards."
 			>
-				<div className={styles.days}>
+				<div>
 					{DAYS.map((name, day) => (
 						<button
 							key={day}
 							type="button"
-							className={styles.day}
+							className={cx(styles.day, dayClassName)}
 							onClick={() => toggleDay(day as FixedUserNotificationsDay)}
 							aria-selected={days.includes(day as FixedUserNotificationsDay)}
 						>
@@ -150,8 +157,8 @@ const Notifications = ({
 				</div>
 				<TimePicker
 					className={styles.time}
-					triggerClassName={styles.timeTrigger}
-					contentClassName={timeClassName}
+					triggerClassName={cx(styles.timeTrigger, timeTriggerClassName)}
+					contentClassName={timeContentClassName}
 					step={FIXED_TIME_MINUTE_STEP}
 					value={time}
 					setValue={onTimeChange}

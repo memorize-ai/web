@@ -40,6 +40,7 @@ const config = {
 						directives: {
 							'default-src': [
 								SELF,
+								DATA,
 								'https://disqus.com',
 								'https://c.disquscdn.com'
 							],

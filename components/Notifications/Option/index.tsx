@@ -1,10 +1,12 @@
 import { ReactNode } from 'react'
+import cx from 'classnames'
 
 import { UserNotificationsType } from 'models/User/Notifications'
 
 import styles from './index.module.scss'
 
 export interface NotificationsOptionProps {
+	className?: string
 	idPrefix: string
 	current: string
 	type: UserNotificationsType
@@ -14,6 +16,7 @@ export interface NotificationsOptionProps {
 }
 
 const NotificationsOption = ({
+	className,
 	idPrefix,
 	current,
 	type,
@@ -40,7 +43,7 @@ const NotificationsOption = ({
 				<span className={styles.info}>{info}</span>
 			</label>
 			{data ? (
-				<div className={styles.data} aria-disabled={!isCurrent}>
+				<div className={cx(styles.data, className)} aria-disabled={!isCurrent}>
 					{data}
 				</div>
 			) : null}

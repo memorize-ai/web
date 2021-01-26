@@ -40,8 +40,11 @@ const IntroModal = () => {
 			</div>
 			<Notifications
 				className={styles.content}
+				fixedClassName={styles.fixed}
+				dayClassName={styles.day}
+				timeTriggerClassName={styles.timeTrigger}
+				timeContentClassName={styles.timeContent}
 				idPrefix={NOTIFICATIONS_ID_PREFIX}
-				timeClassName={styles.time}
 			/>
 			<div className={styles.footer}>
 				<Link href="/interests">

@@ -14,6 +14,7 @@
 
 .input {
 	grid-area: input;
+	height: max-content;
 	margin: 6px 8px 0 0;
 }
 
@@ -38,7 +39,6 @@
 
 .data {
 	grid-area: data;
-	display: flex;
 	margin-top: 8px;
 	transition: opacity 0.3s;
 
