@@ -74,6 +74,7 @@ const Dropdown = ({
 			<div ref={ref}>
 				<button
 					className={triggerClassName}
+					type="button"
 					onClick={toggleIsShowing}
 					aria-haspopup="menu"
 				>
@@ -81,8 +82,8 @@ const Dropdown = ({
 				</button>
 				<div
 					className={cx(styles.content, contentClassName, {
-						[styles[`shadow_${shadow}`]]: shadow !== DropdownShadow.None,
-						[styles.right]: isRightAligned
+						[styles.right]: isRightAligned,
+						[styles[`shadow_${shadow}`]]: shadow !== DropdownShadow.None
 					})}
 					aria-hidden={!isShowing}
 				>

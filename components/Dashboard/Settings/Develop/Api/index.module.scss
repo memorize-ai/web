@@ -1,0 +1,47 @@
+@use 'styles/colors';
+
+.root {
+	margin-top: 20px;
+	padding-top: 12px;
+	border-top: 1px solid #eee;
+}
+
+.title {
+	font-weight: 900;
+	color: colors.$dark-gray;
+}
+
+.subtitle {
+	margin-bottom: 12px;
+	font-size: 14px;
+	color: colors.$dark-gray;
+
+	@media (min-width: 300px) {
+		font-size: 16px;
+	}
+}
+
+.action {
+	display: block;
+	max-width: max-content;
+	font-weight: 900;
+	color: #007aff;
+
+	&:hover .arrow {
+		transform: translateX(4px);
+	}
+
+	& + & {
+		margin-top: 8px;
+	}
+}
+
+.icon {
+	width: 18px !important;
+	margin-right: 6px;
+}
+
+.arrow {
+	margin-left: 4px;
+	transition: transform 0.3s;
+}

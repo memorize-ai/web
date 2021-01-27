@@ -21,6 +21,7 @@ import useDecks from 'hooks/useDecks'
 import useSections from 'hooks/useSections'
 import sleep from 'lib/sleep'
 import handleError from 'lib/handleError'
+import cardCache from 'lib/cache/cards'
 import { CARD_ACTIONS } from './CardContainer'
 
 import 'firebase/firestore'
@@ -80,6 +81,8 @@ const FLIP_ANIMATION_DURATION = 300
 const PROGRESS_MODAL_SHOW_DURATION = 1000
 const XP_CHANCE = 0.4
 
+const { FieldValue } = firebase.firestore
+
 const firestore = firebase.firestore()
 const functions = firebase.functions()
 
@@ -90,7 +93,7 @@ export const gainXpWithChance = (user: User, ref: MutableRefObject<number>) => {
 	if (Math.random() > XP_CHANCE) return 0
 
 	firestore.doc(`users/${user.id}`).update({
-		xp: firebase.firestore.FieldValue.increment(1)
+		xp: FieldValue.increment(1)
 	})
 
 	ref.current++
@@ -325,11 +328,7 @@ const useReviewState = (
 	}, [setCurrentIndex, count, setCount])
 
 	const getCard = useCallback(
-		async (deckId: string, cardId: string) =>
-			Card.fromSnapshot(
-				await firestore.doc(`decks/${deckId}/cards/${cardId}`).get(),
-				null
-			),
+		(deckId: string, cardId: string) => cardCache.get(cardId, deckId),
 		[]
 	)
 

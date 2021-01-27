@@ -1,10 +1,7 @@
 import { GetServerSideProps } from 'next'
 
 import { BlockUserQuery, BlockUserProps } from './models'
-import User from 'models/User'
-import firebase from 'lib/firebase/admin'
-
-const firestore = firebase.firestore()
+import users from 'lib/cache/users'
 
 export const getServerSideProps: GetServerSideProps<
 	BlockUserProps,
@@ -18,14 +15,10 @@ export const getServerSideProps: GetServerSideProps<
 			redirect: { permanent: true, destination: '/' }
 		}
 
-	const [from, to] = await Promise.all([
-		firestore.doc(`users/${fromId}`).get(),
-		firestore.doc(`users/${toId}`).get()
-	])
-
-	if (!(from.exists && to.exists)) return { notFound: true }
+	const [from, to] = await Promise.all([users.get(fromId), users.get(toId)])
+	if (!(from && to)) return { notFound: true }
 
 	return {
-		props: { from: User.dataFromSnapshot(from) }
+		props: { from }
 	}
 }

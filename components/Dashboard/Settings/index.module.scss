@@ -1,3 +1,4 @@
+@use 'styles/colors';
 @use 'styles/shadow';
 @use 'styles/dashboard';
 
@@ -19,10 +20,45 @@
 }
 
 .content {
+	--padding: 16px;
+
 	@include shadow.large;
 
-	overflow: hidden;
-	padding: 20px var(--inner-horizontal-padding);
+	display: grid;
+	grid: auto 1fr / 1fr;
+	padding: var(--padding);
 	background: white;
 	border-radius: 8px;
+
+	@media (min-width: 450px) {
+		--padding: 20px;
+	}
+
+	@media (min-width: 600px) {
+		--padding: 16px;
+
+		grid: 1fr / 180px 1fr;
+	}
+
+	@media (min-width: 660px) {
+		--padding: 20px;
+
+		grid: 1fr / 200px 1fr;
+	}
+}
+
+.main {
+	margin-top: var(--padding);
+
+	@media (min-width: 600px) {
+		margin-top: 0;
+		margin-left: var(--padding);
+		padding-left: var(--padding);
+		border-left: 1px solid #eee;
+	}
+}
+
+.name {
+	font-weight: 900;
+	color: colors.$dark-gray;
 }

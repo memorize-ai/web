@@ -26,9 +26,7 @@
 		'main main' auto /
 		auto auto;
 	gap: 20px 30px;
-	margin: var(--inner-horizontal-padding) var(--inner-horizontal-padding) 20px;
-	padding-bottom: 30px;
-	border-bottom: 1px solid #eee;
+	margin: var(--inner-horizontal-padding);
 
 	@media (min-width: 700px) {
 		grid:

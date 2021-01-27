@@ -1,13 +1,11 @@
 import { useState, useCallback } from 'react'
-import Router from 'next/router'
 import { Svg } from 'react-optimized-image'
 
-import firebase from 'lib/firebase'
 import User from 'models/User'
 import LoadingState from 'models/LoadingState'
+import firebase from 'lib/firebase'
+import useOnSignUp from 'hooks/useOnSignUp'
 import Button from 'components/Button'
-import { APP_STORE_URL } from 'lib/constants'
-import { isIosHandheld } from 'lib/ios'
 
 import apple from 'images/icons/apple.svg'
 import google from 'images/icons/google.svg'
@@ -40,6 +38,8 @@ const AuthModalProviders = ({
 	setIsDisabled,
 	setErrorMessage
 }: AuthModalProvidersProps) => {
+	const onSignUp = useOnSignUp()
+
 	const [appleAuthLoadingState, setAppleAuthLoadingState] = useState(
 		LoadingState.None
 	)
@@ -81,12 +81,9 @@ const AuthModalProviders = ({
 				})
 
 				setIsDisabled(false)
-
-				if (!callback)
-					if (isIosHandheld()) window.location.href = APP_STORE_URL
-					else Router.push('/interests')
-
 				setLoadingState(LoadingState.Success)
+
+				onSignUp()
 			} catch (error) {
 				setIsDisabled(false)
 
@@ -105,7 +102,7 @@ const AuthModalProviders = ({
 				setErrorMessage(error.message)
 			}
 		},
-		[setIsDisabled, setErrorMessage, initialXp, callback]
+		[setIsDisabled, setErrorMessage, initialXp, callback, onSignUp]
 	)
 
 	const logInWithApple = useCallback(async () => {

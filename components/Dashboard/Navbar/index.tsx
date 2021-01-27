@@ -79,26 +79,28 @@ const DashboardNavbar = ({
 				</Tab>
 			</div>
 			<div className={styles.right}>
-				<a
-					className={styles.download}
-					href={APP_STORE_URL}
-					target="_blank"
-					rel="nofollow noreferrer noopener"
-				>
-					<FontAwesomeIcon className={styles.downloadIcon} icon={faApple} />
-				</a>
 				{isSignedIn === null ? null : isSignedIn ? (
 					<ProfileDropdown
 						isShowing={isProfileDropdownShowing}
 						setIsShowing={setIsProfileDropdownShowing}
 					/>
 				) : (
-					<AuthButton className={styles.auth}>
-						<span className={styles.authText}>
-							Log in <span className={styles.authSlash}>/</span> Sign up
-						</span>
-						<FontAwesomeIcon className={styles.authIcon} icon={faKey} />
-					</AuthButton>
+					<>
+						<a
+							className={styles.download}
+							href={APP_STORE_URL}
+							target="_blank"
+							rel="nofollow noreferrer noopener"
+						>
+							<FontAwesomeIcon className={styles.downloadIcon} icon={faApple} />
+						</a>
+						<AuthButton className={styles.auth}>
+							<span className={styles.authText}>
+								Log in <span className={styles.authSlash}>/</span> Sign up
+							</span>
+							<FontAwesomeIcon className={styles.authIcon} icon={faKey} />
+						</AuthButton>
+					</>
 				)}
 			</div>
 		</div>

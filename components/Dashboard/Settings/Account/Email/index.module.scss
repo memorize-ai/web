@@ -1,0 +1,23 @@
+@use 'styles/colors';
+
+.root {
+	margin-top: 14px;
+}
+
+.label {
+	font-weight: bold;
+	color: colors.$dark-gray;
+}
+
+.text {
+	max-width: 300px;
+	overflow: hidden;
+	margin-top: 4px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: colors.$dark-gray;
+
+	&[aria-busy='true'] {
+		opacity: 0.5;
+	}
+}

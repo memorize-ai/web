@@ -8,7 +8,6 @@ import formatNumber, { formatNumberAsInt } from 'lib/formatNumber'
 import { BASE_URL } from 'lib/constants'
 import useCurrentUser from 'hooks/useCurrentUser'
 import useUser from 'hooks/useUser'
-import useCreatedDecks from 'hooks/useCreatedDecks'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import Head from 'components/Head'
 import Image from './Image'
@@ -33,10 +32,7 @@ const UserPage: NextPage<UserPageProps> = ({
 	const initialUser = useMemo(() => new User(userData), [userData])
 	const user = useUser(initialUser.id) ?? initialUser
 
-	const initialDecks = useMemo(() => deckData.map(data => new Deck(data)), [
-		deckData
-	])
-	const decks = useCreatedDecks(user.id, initialDecks)
+	const decks = useMemo(() => deckData.map(data => new Deck(data)), [deckData])
 
 	const name = user.name ?? 'Anonymous'
 

@@ -1,10 +1,8 @@
 import { GetServerSideProps } from 'next'
 
 import { ReportMessageQuery, ReportMessageProps } from './models'
-import User from 'models/User'
-import firebase from 'lib/firebase/admin'
-
-const firestore = firebase.firestore()
+import users from 'lib/cache/users'
+import messages from 'lib/cache/messages'
 
 export const getServerSideProps: GetServerSideProps<
 	ReportMessageProps,
@@ -19,19 +17,19 @@ export const getServerSideProps: GetServerSideProps<
 		}
 
 	const [from, to, message] = await Promise.all([
-		firestore.doc(`users/${fromId}`).get(),
-		firestore.doc(`users/${toId}`).get(),
-		firestore.doc(`messages/${messageId}`).get()
+		users.get(fromId),
+		users.get(toId),
+		messages.get(messageId)
 	])
 
-	if (!(from.exists && to.exists && message.exists)) return { notFound: true }
+	if (!(from && to && message)) return { notFound: true }
 
-	if (!(message.get('from') === from.id && message.get('to') === to.id))
+	if (!(message.from === from.id && message.to === to.id))
 		return {
 			redirect: { permanent: true, destination: '/' }
 		}
 
 	return {
-		props: { from: User.dataFromSnapshot(from) }
+		props: { from }
 	}
 }

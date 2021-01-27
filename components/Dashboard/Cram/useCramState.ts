@@ -59,6 +59,7 @@ const FLIP_ANIMATION_DURATION = 300
 const PROGRESS_MODAL_SHOW_DURATION = 1000
 const XP_CHANCE = 0.2
 
+const { FieldValue } = firebase.firestore
 const firestore = firebase.firestore()
 
 export const isCardMastered = ({ ratings }: CramCard) => {
@@ -89,7 +90,7 @@ export const gainXpWithChance = (user: User, ref: MutableRefObject<number>) => {
 	if (Math.random() > XP_CHANCE) return 0
 
 	firestore.doc(`users/${user.id}`).update({
-		xp: firebase.firestore.FieldValue.increment(1)
+		xp: FieldValue.increment(1)
 	})
 
 	ref.current++
@@ -100,20 +101,11 @@ export const gainXpWithChance = (user: User, ref: MutableRefObject<number>) => {
 export const getProgressDataForRating = (rating: PerformanceRating) => {
 	switch (rating) {
 		case PerformanceRating.Easy:
-			return {
-				emoji: '🥳',
-				message: "You're doing great!"
-			}
+			return { emoji: '🥳', message: "You're doing great!" }
 		case PerformanceRating.Struggled:
-			return {
-				emoji: '🧐',
-				message: "You'll see this again soon!"
-			}
+			return { emoji: '🧐', message: "You'll see this again soon!" }
 		case PerformanceRating.Forgot:
-			return {
-				emoji: '🤕',
-				message: 'Better luck next time!'
-			}
+			return { emoji: '🤕', message: 'Better luck next time!' }
 	}
 }
 

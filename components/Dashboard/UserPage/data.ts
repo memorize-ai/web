@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import stripHtml from 'string-strip-html'
+import { stripHtml } from 'string-strip-html'
 
 import { UserPageQuery, UserPageProps, UserPagePath } from './models'
 import getUsers from 'lib/getUsers'
@@ -9,7 +9,7 @@ import getCreatedDecks from 'lib/getCreatedDecks'
 import { VIEWABLE_CREATED_DECK_LIMIT } from 'lib/constants'
 
 const INITIAL_USER_COUNT = 1000
-const REVALIDATE = 1
+const REVALIDATE = 60 // 1 minute
 
 export const getStaticPaths: GetStaticPaths<UserPageQuery> = async () => ({
 	paths: (await getUsers(INITIAL_USER_COUNT)).reduce(

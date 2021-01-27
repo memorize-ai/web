@@ -1,9 +1,11 @@
 import { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 
 import expectsSignIn from 'lib/expectsSignIn'
 import useLayoutAuthState from 'hooks/useLayoutAuthState'
-import Dashboard from 'components/Dashboard/Home'
-import Landing from 'components/Home'
+
+const Dashboard = dynamic(() => import('components/Dashboard/Home'))
+const Landing = dynamic(() => import('components/Home'))
 
 interface RootProps {
 	auth: boolean

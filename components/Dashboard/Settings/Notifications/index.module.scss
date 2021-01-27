@@ -1,0 +1,53 @@
+.fixed {
+	grid: auto auto / auto;
+
+	@media (min-width: 870px) {
+		grid: auto / auto 1fr;
+	}
+}
+
+.day {
+	padding: 0 6px;
+	font-size: 12px;
+
+	@media (min-width: 665px) {
+		padding: 0 8px;
+	}
+
+	@media (min-width: 750px) {
+		padding: 0 12px;
+		font-size: 14px;
+	}
+}
+
+.timeTrigger {
+	font-size: 14px;
+
+	@media (min-width: 750px) {
+		font-size: 16px;
+	}
+}
+
+.timeContent {
+	max-height: 300px;
+	left: 0;
+	right: unset;
+
+	@media (min-width: 600px) {
+		max-height: calc(100vh - 480px);
+	}
+
+	@media (min-width: 610px) {
+		max-height: calc(100vh - 460px);
+	}
+
+	@media (min-width: 735px) {
+		max-height: calc(100vh - 440px);
+	}
+
+	@media (min-width: 870px) {
+		max-height: calc(100vh - 400px);
+		left: unset;
+		right: 0;
+	}
+}

@@ -1,0 +1,55 @@
+$color: #007aff;
+
+.root {
+	display: flex;
+	align-items: center;
+	padding: 4px 8px;
+	font-size: 16px;
+	font-weight: bold;
+	color: $color;
+	border-radius: 8px;
+	transition: font-weight 0.3s, background 0.3s;
+
+	@media (min-width: 360px) {
+		font-size: 18px;
+	}
+
+	@media (min-width: 600px) {
+		font-size: 16px;
+	}
+
+	@media (min-width: 660px) {
+		font-size: 18px;
+	}
+
+	&:hover {
+		background: transparentize($color, 0.95);
+
+		.arrow {
+			opacity: 1;
+			transform: translateX(4px);
+		}
+	}
+
+	&[aria-current='page'] {
+		pointer-events: none;
+		font-weight: 900;
+		background: transparentize($color, 0.9);
+	}
+
+	& + & {
+		margin-top: 8px;
+	}
+}
+
+.icon {
+	width: 25px !important;
+	height: 20px;
+	margin-right: 8px;
+}
+
+.arrow {
+	margin: 0 8px 0 auto;
+	opacity: 0;
+	transition: opacity 0.1s, transform 0.3s;
+}

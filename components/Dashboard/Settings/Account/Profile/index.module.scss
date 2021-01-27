@@ -1,0 +1,45 @@
+.root {
+	display: flex;
+	align-items: center;
+	max-width: max-content;
+	margin-top: 12px;
+	font-weight: 900;
+	color: #007aff;
+
+	&:hover {
+		text-decoration: underline;
+
+		.icon {
+			transform: translateX(4px);
+		}
+	}
+}
+
+.image,
+.defaultImage {
+	$dimension: 30px;
+
+	width: $dimension;
+	height: $dimension;
+	margin-right: 8px;
+	border-radius: 50%;
+}
+
+.image {
+	object-fit: cover;
+}
+
+.defaultImage {
+	padding: 2px;
+	fill: #007aff;
+	border: 1px solid #eee;
+}
+
+.icon {
+	margin-left: 4px;
+	transition: transform 0.3s;
+}
+
+.loader {
+	margin-left: 6px;
+}

@@ -1,0 +1,49 @@
+@use 'styles/colors';
+
+.root {
+	display: grid;
+	grid:
+		'input label' auto
+		'_ data' auto /
+		auto 1fr;
+
+	& + & {
+		margin-top: 12px;
+	}
+}
+
+.input {
+	grid-area: input;
+	height: max-content;
+	margin: 6px 8px 0 0;
+}
+
+.label {
+	grid-area: label;
+	color: colors.$dark-gray;
+}
+
+.name,
+.info {
+	display: block;
+	max-width: 480px;
+}
+
+.name {
+	font-weight: 900;
+}
+
+.info {
+	font-size: 14px;
+}
+
+.data {
+	grid-area: data;
+	margin-top: 8px;
+	transition: opacity 0.3s;
+
+	&[aria-disabled='true'] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+}

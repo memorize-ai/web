@@ -10,13 +10,7 @@ export interface StarProps {
 const Star = ({ fill }: StarProps) => (
 	<div className={styles.root}>
 		<div className={styles.background} style={{ width: `${fill}%` }} />
-		<Img
-			className={styles.image}
-			src={star}
-			alt={`Star ${fill}%`}
-			webp
-			original
-		/>
+		<Img src={star} alt={`Star ${fill}%`} webp original />
 	</div>
 )
 

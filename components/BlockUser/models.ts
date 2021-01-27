@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring'
 
-import { UserData } from 'models/User'
+import UserData from 'models/User/Data'
 
 export interface BlockUserQuery extends ParsedUrlQuery {
 	fromId: string

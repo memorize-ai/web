@@ -1,0 +1,36 @@
+@use 'styles/colors';
+
+.root {
+	margin-top: 16px;
+	color: colors.$dark-gray;
+}
+
+.title {
+	font-weight: 900;
+}
+
+.description {
+	margin-top: 4px;
+	font-size: 15px;
+
+	@media (min-width: 360px) {
+		font-size: 16px;
+	}
+
+	@media (min-width: 600px) {
+		font-size: 15px;
+	}
+
+	@media (min-width: 630px) {
+		font-size: 16px;
+	}
+}
+
+.action {
+	font-weight: bold;
+	color: #007aff;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

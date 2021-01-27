@@ -1,11 +1,23 @@
+import { ReactNode } from 'react'
 import Dashboard, { DashboardNavbarSelection as Selection } from '..'
 import Head from 'components/Head'
-
-import styles from './index.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCog } from '@fortawesome/free-solid-svg-icons'
 
-const Settings = () => {
+import requiresAuth from 'hooks/requiresAuth'
+import Navigation from './Navigation'
+
+import styles from './index.module.scss'
+
+export interface SettingsProps {
+	title: string
+	description: string
+	children?: ReactNode
+}
+
+const Settings = ({ title, description, children }: SettingsProps) => {
+	requiresAuth()
+
 	return (
 		<Dashboard
 			className={styles.root}
@@ -13,16 +25,17 @@ const Settings = () => {
 			contentClassName={styles.container}
 			selection={Selection.Home}
 		>
-			<Head
-				title="Settings | memorize.ai"
-				description="Edit your settings on memorize.ai"
-			/>
+			<Head title={`${title} | memorize.ai`} description={description} />
 			<h1 className={styles.title}>
 				<FontAwesomeIcon className={styles.titleIcon} icon={faCog} />
 				Settings
 			</h1>
 			<div className={styles.content}>
-				<h2 className={styles.section}>Notifications</h2>
+				<Navigation />
+				<main className={styles.main}>
+					<h2 className={styles.name}>{title}</h2>
+					{children}
+				</main>
 			</div>
 		</Dashboard>
 	)
