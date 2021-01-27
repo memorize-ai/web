@@ -92,6 +92,7 @@ const config = {
 								SELF,
 								...GOOGLE_ANALYTICS,
 								CLOUD_FUNCTIONS_BASE_URL,
+								'https://vitals.vercel-insights.com',
 								'https://*.googleapis.com',
 								`https://${SEARCH_HOST}.api.swiftype.com/api/as/v1/engines/${SEARCH_ENGINE_NAME}/search.json`,
 								'https://links.services.disqus.com',
