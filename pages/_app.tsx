@@ -47,6 +47,11 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 					content="memorize,ai,spaced,repetition,learn,remember,cram,study,quiz,flash,card,flashcards,master,language"
 				/>
 				<meta key="author" name="author" content="Ken Mueller" />
+				<meta
+					key="app"
+					name="apple-itunes-app"
+					content={`app-id=${process.env.NEXT_PUBLIC_APP_ID}`}
+				/>
 				<link key="icon" rel="icon" href={favicon} />
 				<link key="apple-touch-icon" rel="apple-touch-icon" href={favicon} />
 				<link key="manifest" rel="manifest" href="/manifest.webmanifest" />
