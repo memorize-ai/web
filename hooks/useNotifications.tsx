@@ -21,6 +21,7 @@ const useNotifications = () => {
 	}, [id, notifications])
 
 	useEffect(() => {
+		if (!firebase.messaging.isSupported()) return
 		const messaging = firebase.messaging()
 
 		return messaging.onMessage(({ data }) => {

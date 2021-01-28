@@ -11,6 +11,14 @@ class CustomPushEvent extends Event {
 	}
 }
 
+const showNotification = ({ title, body, icon, url }) => {
+	self.registration.showNotification(title, {
+		body,
+		icon,
+		data: { url }
+	})
+}
+
 self.addEventListener('push', event => {
 	if (event.custom) return
 
@@ -53,12 +61,5 @@ firebase.initializeApp({
 	measurementId: 'G-N98QHH5MJ8'
 })
 
-const messaging = firebase.messaging()
-
-messaging.onBackgroundMessage(({ data: { title, body, icon, url } }) => {
-	self.registration.showNotification(title, {
-		body,
-		icon,
-		data: { url }
-	})
-})
+if (firebase.messaging.isSupported())
+	firebase.messaging().onBackgroundMessage(({ data }) => showNotification(data))
