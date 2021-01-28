@@ -64,8 +64,12 @@ hr {
 	padding-left: 16px;
 	border-radius: 5px;
 
+	&-body {
+		padding: 0 !important;
+	}
+
 	&--dark {
-		background: #051e34;
+		background: #051e34 !important;
 	}
 }
 
