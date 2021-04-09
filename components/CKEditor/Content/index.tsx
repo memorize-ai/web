@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react'
-import Base from '@ckeditor/ckeditor5-react'
+import { CKEditor as Base } from '@ckeditor/ckeditor5-react'
 import Editor from 'ckeditor5-memorize.ai'
 import cx from 'classnames'
 
