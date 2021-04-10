@@ -64,7 +64,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 				<link
 					key="analytics-preload"
 					rel="preload"
-					href="https://www.googletagmanager.com/gtag/js?l=dataLayer"
+					href={`https://www.googletagmanager.com/gtag/js?l=dataLayer&id=${process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID}`}
 					as="script"
 				/>
 			</Head>
