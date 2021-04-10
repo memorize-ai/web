@@ -6,11 +6,8 @@
 		"eslint:recommended",
 		"plugin:@typescript-eslint/eslint-recommended",
 		"plugin:@typescript-eslint/recommended",
-		"prettier/@typescript-eslint",
 		"prettier",
-		"prettier/prettier",
-		"prettier/standard",
-		"prettier/react"
+		"prettier/prettier"
 	],
 	"rules": {
 		"@typescript-eslint/explicit-module-boundary-types": 0,

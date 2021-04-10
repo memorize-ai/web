@@ -48,14 +48,14 @@ $header-margin: 16px;
 }
 
 .searchInput {
-	padding: 12px 12px 12px 44px;
-	color: white;
-	background: transparentize(#eee, 0.8);
-	border: none;
-	border-radius: 100px;
+	padding: 12px 12px 12px 44px !important;
+	color: white !important;
+	background: transparentize(#eee, 0.8) !important;
+	border: none !important;
+	border-radius: 100px !important;
 
 	&::placeholder {
-		color: transparentize(#eee, 0.2);
+		color: transparentize(#eee, 0.2) !important;
 	}
 }
 
