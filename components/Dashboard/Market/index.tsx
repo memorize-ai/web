@@ -1,11 +1,13 @@
-import { useRef, useState, useEffect, useCallback } from 'react'
+import { useRef, useState, useCallback, useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import NextHead from 'next/head'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroller'
+import cx from 'classnames'
 
 import { MarketQuery, MarketProps } from './models'
 import Deck from 'models/Deck'
@@ -178,6 +180,14 @@ const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 		[router, query]
 	)
 
+	useEffect(() => {
+		interface Ad {
+			adsbygoogle: unknown[]
+		}
+
+		;(((window as unknown) as Ad).adsbygoogle ||= []).push({})
+	}, [])
+
 	return (
 		<Dashboard
 			className={styles.root}
@@ -194,6 +204,13 @@ const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 				description="Search the Marketplace on memorize.ai. Unlock your true potential by using Artificial Intelligence to help you learn."
 				breadcrumbs={url => [[{ name: 'Market', url }]]}
 			/>
+			<NextHead>
+				<script
+					key="ad"
+					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+					async
+				/>
+			</NextHead>
 			<div className={styles.header}>
 				<Link href="/new">
 					<a
@@ -227,6 +244,13 @@ const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 				/>
 			</div>
 			<div ref={scrollingContainerRef} className={styles.decks}>
+				<ins
+					className={cx(styles.ad, 'adsbygoogle')}
+					data-ad-format="fluid"
+					data-ad-layout-key="-h1-3+19-8f+ek"
+					data-ad-client="ca-pub-1238100512909667"
+					data-ad-slot="4119250740"
+				/>
 				<InfiniteScroll
 					className={styles.decksContent}
 					loadMore={loadMoreDecks}

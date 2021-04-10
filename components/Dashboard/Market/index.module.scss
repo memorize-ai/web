@@ -69,6 +69,16 @@ $header-margin: 16px;
 	overflow-y: auto;
 	margin-top: 12px;
 	padding: 4px var(--horizontal-padding) var(--horizontal-padding);
+
+	@media (min-width: 700px) and (max-width: 1300px) {
+		padding: 4px calc(var(--horizontal-padding) - 16px)
+			var(--horizontal-padding);
+	}
+}
+
+.ad {
+	display: block;
+	margin-bottom: 16px;
 }
 
 .decksContent {
