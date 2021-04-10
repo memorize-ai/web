@@ -24,6 +24,7 @@ const GOOGLE_ANALYTICS = [
 ]
 
 const plugins = [
+	[require('next-optimized-classnames')],
 	[require('next-optimized-images')],
 	[require('@next/bundle-analyzer')({ enabled: process.env.ANALYZE === '1' })]
 ]
