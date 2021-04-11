@@ -34,6 +34,9 @@ import Loader from 'components/Loader'
 
 import styles from './index.module.scss'
 
+const adClient = process.env.NEXT_PUBLIC_AD_CLIENT
+if (!adClient) throw new Error('Missing ad client')
+
 const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 	const isLoading = useRef(true)
 	const scrollingContainerRef = useRef(null as HTMLDivElement | null)
@@ -247,8 +250,8 @@ const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 				<ins
 					className={cx(styles.ad, 'adsbygoogle')}
 					data-ad-format="fluid"
-					data-ad-layout-key="-h1-3+19-8f+ek"
-					data-ad-client="ca-pub-1238100512909667"
+					data-ad-layout-key="-g5-9+54-k3+ms"
+					data-ad-client={adClient}
 					data-ad-slot="4119250740"
 				/>
 				<InfiniteScroll

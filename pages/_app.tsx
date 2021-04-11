@@ -18,6 +18,12 @@ import 'components/Progress/index.scss'
 
 config.autoAddCss = false
 
+const appId = process.env.NEXT_PUBLIC_APP_ID
+if (!appId) throw new Error('Missing app ID')
+
+const measurementId = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+if (!measurementId) throw new Error('Missing Firebase measurement ID')
+
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 	useProgress()
 	useChat()
@@ -47,11 +53,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 					content="memorize,ai,spaced,repetition,learn,remember,cram,study,quiz,flash,card,flashcards,master,language"
 				/>
 				<meta key="author" name="author" content="Ken Mueller" />
-				<meta
-					key="app"
-					name="apple-itunes-app"
-					content={`app-id=${process.env.NEXT_PUBLIC_APP_ID}`}
-				/>
+				<meta key="app" name="apple-itunes-app" content={`app-id=${appId}`} />
 				<link key="icon" rel="icon" href={favicon} />
 				<link key="apple-touch-icon" rel="apple-touch-icon" href={favicon} />
 				<link key="manifest" rel="manifest" href="/manifest.webmanifest" />
@@ -64,7 +66,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 				<link
 					key="analytics-preload"
 					rel="preload"
-					href={`https://www.googletagmanager.com/gtag/js?l=dataLayer&id=${process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID}`}
+					href={`https://www.googletagmanager.com/gtag/js?l=dataLayer&id=${measurementId}`}
 					as="script"
 				/>
 			</Head>
