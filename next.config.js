@@ -3,8 +3,8 @@
 
 const { getCSP, SELF, DATA, BLOB, INLINE } = require('csp-header')
 
-const IS_PRODUCTION = process.env.NODE_ENV === 'production'
-const ORIGIN = IS_PRODUCTION ? 'https://memorize.ai' : 'http://localhost:3000'
+const DEV = process.env.NODE_ENV === 'development'
+const ORIGIN = DEV ? 'http://localhost:3000' : 'https://memorize.ai'
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
 const STORAGE_BUCKET = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
@@ -73,7 +73,7 @@ const config = {
 							'media-src': [SELF, DATA, STORAGE_BASE_URL],
 							'script-src': [
 								SELF,
-								...(IS_PRODUCTION ? [] : ["'unsafe-eval'"]),
+								...(DEV ? ["'unsafe-eval'"] : []),
 								...GOOGLE_ANALYTICS,
 								'https://apis.google.com',
 								'https://memorize-ai.disqus.com',

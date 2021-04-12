@@ -1,13 +1,11 @@
-import { useRef, useState, useCallback, useEffect } from 'react'
+import { useRef, useState, useCallback, useEffect, Fragment } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import NextHead from 'next/head'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroller'
-import cx from 'classnames'
 
 import { MarketQuery, MarketProps } from './models'
 import Deck from 'models/Deck'
@@ -30,12 +28,12 @@ import Input from 'components/Input'
 import SortDropdown from 'components/SortDropdown'
 import { DropdownShadow } from 'components/Dropdown'
 import DeckRow from './DeckRow'
+import Ad from 'components/Ad'
 import Loader from 'components/Loader'
 
 import styles from './index.module.scss'
 
-const adClient = process.env.NEXT_PUBLIC_AD_CLIENT
-if (!adClient) throw new Error('Missing ad client')
+const AD_INTERVAL = 5
 
 const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 	const isLoading = useRef(true)
@@ -183,14 +181,6 @@ const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 		[router, query]
 	)
 
-	useEffect(() => {
-		interface Ad {
-			adsbygoogle: unknown[]
-		}
-
-		;(((window as unknown) as Ad).adsbygoogle ||= []).push({})
-	}, [])
-
 	return (
 		<Dashboard
 			className={styles.root}
@@ -207,13 +197,6 @@ const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 				description="Search the Marketplace on memorize.ai. Unlock your true potential by using Artificial Intelligence to help you learn."
 				breadcrumbs={url => [[{ name: 'Market', url }]]}
 			/>
-			<NextHead>
-				<script
-					key="ad"
-					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-					async
-				/>
-			</NextHead>
 			<div className={styles.header}>
 				<Link href="/new">
 					<a
@@ -247,13 +230,6 @@ const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 				/>
 			</div>
 			<div ref={scrollingContainerRef} className={styles.decks}>
-				<ins
-					className={cx(styles.ad, 'adsbygoogle')}
-					data-ad-format="fluid"
-					data-ad-layout-key="-g5-9+54-k3+ms"
-					data-ad-client={adClient}
-					data-ad-slot="4119250740"
-				/>
 				<InfiniteScroll
 					className={styles.decksContent}
 					loadMore={loadMoreDecks}
@@ -269,8 +245,18 @@ const Market: NextPage<MarketProps> = ({ decks: numberOfDecks }) => {
 					}
 					useWindow={false}
 				>
-					{decks.map(deck => (
-						<DeckRow key={deck.id} deck={deck} />
+					{decks.map((deck, index) => (
+						<Fragment key={deck.id}>
+							<DeckRow deck={deck} />
+							{!((index + 1) % AD_INTERVAL) && (
+								<Ad
+									className={styles.ad}
+									format="fluid"
+									layout="-ex+7+7g-qs+mc"
+									slot="4119250740"
+								/>
+							)}
+						</Fragment>
 					))}
 				</InfiniteScroll>
 			</div>

@@ -1,4 +1,5 @@
-export const BASE_URL = 'https://memorize.ai'
+export const DEV = process.env.NODE_ENV === 'development'
+export const BASE_URL = DEV ? 'http://localhost:3000' : 'https://memorize.ai'
 
 export const LOCAL_STORAGE_IS_CARD_EDITOR_STACKED_KEY =
 	'ai.memorize.isCardEditorStacked'
