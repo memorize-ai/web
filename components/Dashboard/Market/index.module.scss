@@ -77,9 +77,14 @@ $header-margin: 16px;
 }
 
 .ad {
-	width: 100%;
-	display: block;
-	margin: 0 auto 16px;
+	width: 100% !important;
+	display: block !important;
+	margin: 0 auto 16px !important;
+
+	> ins {
+		display: block !important;
+		margin: 0 auto !important;
+	}
 }
 
 .decksContent {
