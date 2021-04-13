@@ -43,6 +43,17 @@
 	margin-bottom: 16px;
 }
 
+.ad {
+	width: 100% !important;
+	display: block !important;
+	margin: 0 auto 16px !important;
+
+	> ins {
+		display: block !important;
+		margin: 0 auto !important;
+	}
+}
+
 .loader {
 	margin: 12px auto;
 }

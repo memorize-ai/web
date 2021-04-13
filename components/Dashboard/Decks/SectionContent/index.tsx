@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, Fragment } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -9,9 +9,12 @@ import useCurrentUser from 'hooks/useCurrentUser'
 import SectionHeader from 'components/SectionHeader/Owned'
 import useCards from 'hooks/useCards'
 import CardCell from 'components/CardCell/Owned'
+import Ad from 'components/Ad'
 import Loader from 'components/Loader'
 
 import styles from './index.module.scss'
+
+const AD_INTERVAL = 5
 
 export type SetSelectedSectionAction = 'unlock' | 'rename' | 'delete' | 'share'
 
@@ -87,13 +90,18 @@ const DecksSectionContent = ({
 				(!cards || cards.length > 0) &&
 				(cards ? (
 					<div className={styles.cards}>
-						{cards.map(card => (
-							<CardCell
-								key={card.id}
-								className={styles.card}
-								deck={deck}
-								card={card}
-							/>
+						{cards.map((card, index) => (
+							<Fragment key={card.id}>
+								<CardCell className={styles.card} deck={deck} card={card} />
+								{!((index + 1) % AD_INTERVAL) && (
+									<Ad
+										className={styles.ad}
+										format="fluid"
+										layout="-ex+7+7g-qs+mc"
+										slot="4119250740"
+									/>
+								)}
+							</Fragment>
 						))}
 					</div>
 				) : (
